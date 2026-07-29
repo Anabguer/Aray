@@ -1,25 +1,80 @@
 import { Link, useNavigate } from 'react-router-dom'
+import { modeArtUrl, type ModeArtId } from '@/assets/modes'
 import { AppShell } from '@/components/AppShell'
 import { IconReview } from '@/components/Icons'
-import { ModeIcon } from '@/components/ModeIcon'
 import { MuteToggle } from '@/components/quiz/QuizWidgets'
 import { challengeModeConfig } from '@/config/playConfig'
 import { hasSavedMisses, pickRandomMission } from '@/math/randomMission'
 import { buildMissesQueue, buildTrainQueue } from '@/math/selector'
 import { tableStatus } from '@/math/tableMastery'
-import { usePlaySession } from '@/progress/PlayContext'
+import { usePlaySession, type TablesSelection } from '@/progress/PlayContext'
 import { useProgress } from '@/progress/ProgressContext'
+
+function selectionSubtitle(selection: TablesSelection): string {
+  if (selection.mix) return 'Tablas mezcladas'
+  const tables = selection.tables
+  if (tables.length <= 1) return `Tabla del ${tables[0] ?? 7}`
+  if (tables.length === 2) return `Tablas del ${tables[0]} y del ${tables[1]}`
+  const head = tables.slice(0, -1).map((n) => `del ${n}`).join(', ')
+  return `Tablas ${head} y del ${tables[tables.length - 1]}`
+}
+
+function ModePoster({
+  art,
+  title,
+  text,
+  className,
+  onClick,
+  to,
+}: {
+  art: ModeArtId
+  title: string
+  text: string
+  className: string
+  onClick?: () => void
+  to?: string
+}) {
+  const body = (
+    <span className="mode-poster__art">
+      <img
+        src={modeArtUrl(art)}
+        alt=""
+        className="mode-poster__img"
+        width={512}
+        height={512}
+        draggable={false}
+        decoding="async"
+      />
+      <span className="mode-poster__overlay">
+        <span className="mode-poster__title">{title}</span>
+        <span className="mode-poster__text">{text}</span>
+      </span>
+    </span>
+  )
+
+  const label = `${title}. ${text}`
+
+  if (to) {
+    return (
+      <Link to={to} className={`mode-poster ${className}`} aria-label={label}>
+        {body}
+      </Link>
+    )
+  }
+
+  return (
+    <button type="button" className={`mode-poster ${className}`} onClick={onClick} aria-label={label}>
+      {body}
+    </button>
+  )
+}
 
 export function ModeSelectScreen() {
   const navigate = useNavigate()
   const { progress, setSoundMuted } = useProgress()
   const { selection, setSelection, setPendingQueue, setActiveMode, setLastResult } = usePlaySession()
 
-  const label = selection.mix
-    ? 'Mezcla 2–9'
-    : selection.tables.length === 1
-      ? `Tabla del ${selection.tables[0]}`
-      : `${selection.tables.length} niveles`
+  const subtitle = selectionSubtitle(selection)
 
   const canPracticeMisses = hasSavedMisses(progress)
   const reviewTables = selection.tables.filter((n) => {
@@ -86,68 +141,70 @@ export function ModeSelectScreen() {
 
   return (
     <AppShell
-      title="Modo"
+      title="ELIGE TU MODO"
       showBack
       backTo="/missions/mates/tables"
       trailing={
         <MuteToggle muted={progress.soundMuted} onToggle={() => setSoundMuted(!progress.soundMuted)} />
       }
     >
-      <section className="mode-select mode-select--lobby">
-        <p className="mode-select__badge">{label}</p>
+      <section className="mode-select mode-select--lobby" aria-label="ELIGE TU MODO">
+        <header className="mode-select__head">
+          <p className="mode-select__tables">{subtitle}</p>
+        </header>
+
         {reviewHint ? (
           <p className="review-notice" role="status">
             <IconReview className="review-notice__icon" />
             <span>{reviewHint}</span>
           </p>
         ) : null}
-        <div className="mode-cards mode-cards--posters">
-          <Link to="/missions/mates/tables/learn" className="mode-card mode-card--learn">
-            <ModeIcon mode="aprende" />
-            <span className="mode-card__body">
-              <span className="mode-card__title">Aprende</span>
-              <span className="mode-card__eyebrow">Sin tiempo · Con pistas</span>
-            </span>
-          </Link>
-          <button type="button" className="mode-card mode-card--train" onClick={startTrain}>
-            <ModeIcon mode="entrena" />
-            <span className="mode-card__body">
-              <span className="mode-card__title">Entrena</span>
-              <span className="mode-card__eyebrow">10 preguntas · +energía</span>
-            </span>
-          </button>
-          <button type="button" className="mode-card mode-card--challenge" onClick={startChallenge}>
-            <ModeIcon mode="reto-rapido" />
-            <span className="mode-card__body">
-              <span className="mode-card__title">Reto rápido</span>
-              <span className="mode-card__eyebrow">
-                {challengeModeConfig.durationSec}s · XP ×{challengeModeConfig.xpMultiplier}
-              </span>
-            </span>
-          </button>
-          <button type="button" className="mode-card mode-card--match" onClick={startMatch}>
-            <ModeIcon mode="empareja" />
-            <span className="mode-card__body">
-              <span className="mode-card__title">Empareja</span>
-              <span className="mode-card__eyebrow">Une las piezas · +energía</span>
-            </span>
-          </button>
+
+        <div className="mode-posters">
+          <ModePoster
+            art="aprende"
+            title="APRENDE"
+            text="Sin reloj · Con ayuda"
+            className="mode-poster--learn"
+            to="/missions/mates/tables/learn"
+          />
+          <ModePoster
+            art="entrena"
+            title="ENTRENA"
+            text="10 preguntas · Gana energía"
+            className="mode-poster--train"
+            onClick={startTrain}
+          />
+          <ModePoster
+            art="reto-rapido"
+            title="RETO RÁPIDO"
+            text={`${challengeModeConfig.durationSec} segundos · XP x${challengeModeConfig.xpMultiplier}`}
+            className="mode-poster--challenge"
+            onClick={startChallenge}
+          />
+          <ModePoster
+            art="empareja"
+            title="EMPAREJA"
+            text="Une y completa"
+            className="mode-poster--match"
+            onClick={startMatch}
+          />
           {canPracticeMisses ? (
-            <button type="button" className="mode-card mode-card--misses" onClick={startMisses}>
-              <ModeIcon mode="mis-fallos" />
-              <span className="mode-card__body">
-                <span className="mode-card__title">Mis fallos</span>
-                <span className="mode-card__eyebrow">Refuerza lo difícil</span>
-              </span>
-            </button>
+            <ModePoster
+              art="mis-fallos"
+              title="MIS FALLOS"
+              text="Refuerza lo difícil"
+              className="mode-poster--misses"
+              onClick={startMisses}
+            />
           ) : null}
-          <button type="button" className="mode-card mode-card--random mode-card--featured" onClick={startRandom}>
-            <ModeIcon mode="mision-random" />
-            <span className="mode-card__body">
-              <span className="mode-card__title">Misión random</span>
-              <span className="mode-card__eyebrow">Sorpresa</span>
-            </span>
-          </button>
+          <ModePoster
+            art="sorpresa"
+            title="SORPRESA"
+            text="Lumo elige por ti"
+            className="mode-poster--random mode-poster--featured"
+            onClick={startRandom}
+          />
         </div>
       </section>
     </AppShell>

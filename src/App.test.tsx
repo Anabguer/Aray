@@ -1,10 +1,18 @@
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
-import { describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import App from '@/App'
+import { AuthProvider } from '@/auth/AuthContext'
 import { PlayProvider } from '@/progress/PlayContext'
 import { ProgressProvider } from '@/progress/ProgressContext'
 import { createInitialProgress, createLocalStorageProgressStore } from '@/progress/repository'
+
+beforeEach(() => {
+  vi.stubGlobal(
+    'fetch',
+    vi.fn(() => Promise.reject(new Error('network disabled in tests'))),
+  )
+})
 
 function memoryStorage(): Storage {
   const map = new Map<string, string>()
@@ -35,11 +43,22 @@ function renderAt(path: string) {
   store.save(createInitialProgress())
   return render(
     <MemoryRouter initialEntries={[path]}>
-      <ProgressProvider store={store}>
-        <PlayProvider>
-          <App />
-        </PlayProvider>
-      </ProgressProvider>
+      <AuthProvider
+        initialSession={{
+          role: 'child',
+          account: null,
+          player: { id: 1, slug: 'aray', displayName: 'Aray' },
+          deviceAuthorized: true,
+          csrf: 'test-csrf',
+          players: [{ id: 1, slug: 'aray', displayName: 'Aray' }],
+        }}
+      >
+        <ProgressProvider store={store}>
+          <PlayProvider>
+            <App />
+          </PlayProvider>
+        </ProgressProvider>
+      </AuthProvider>
     </MemoryRouter>,
   )
 }
@@ -50,14 +69,14 @@ describe('ARAY navigation shell', () => {
     expect(screen.getByText('LOBBY')).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: /¡hola, aray!/i })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /^jugar$/i })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: /misión de hoy|tu misión de hoy/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /aprende la tabla|tu misión de hoy|entrena la tabla/i })).toBeInTheDocument()
     expect(screen.queryByText(/¿jugamos, aray\?/i)).not.toBeInTheDocument()
     expect(screen.queryByText(/tu espacio para misiones/i)).not.toBeInTheDocument()
   })
 
   it('abre la pantalla de misiones con matemáticas jugable', () => {
     renderAt('/missions')
-    expect(screen.getByRole('heading', { name: /^misiones$/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /^mis mundos$/i })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /^matemáticas$/i })).toBeInTheDocument()
   })
 
@@ -68,10 +87,10 @@ describe('ARAY navigation shell', () => {
     expect(screen.getByRole('group', { name: /tablas del 2 al 9/i })).toBeInTheDocument()
   })
 
-  it('muestra modos con Empareja y Misión random', () => {
+  it('muestra modos con Empareja y misión sorpresa', () => {
     renderAt('/missions/mates/tables/modes')
     expect(screen.getByRole('button', { name: /empareja/i })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /misión random/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /sorpresa/i })).toBeInTheDocument()
   })
 
   it('abre la colección de logros', () => {

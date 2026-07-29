@@ -2,8 +2,8 @@ import aprende from './aprende.png'
 import empareja from './empareja.png'
 import entrena from './entrena.png'
 import misFallos from './mis-fallos.png'
-import misionRandom from './mision-random.png'
 import retoRapido from './reto-rapido.png'
+import sorpresa from './sorpresa.png'
 
 export type ModeArtId =
   | 'aprende'
@@ -20,9 +20,9 @@ export const modeArt: Record<ModeArtId, string> = {
   entrena,
   'reto-rapido': retoRapido,
   empareja,
-  sorpresa: misionRandom,
+  sorpresa,
   'mis-fallos': misFallos,
-  'mision-random': misionRandom,
+  'mision-random': sorpresa,
 }
 
 export function modeArtUrl(id: ModeArtId): string {
