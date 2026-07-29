@@ -1,19 +1,15 @@
 ---
-description: Commit y push a GitHub al cerrar fases o cambios importantes estables
+description: Commit y push a GitHub al cerrar fases estables; nunca secretos
 alwaysApply: true
 ---
 
-# Git: commit y push al cerrar fases
+# Git: fases estables → commit + push
 
 Al terminar cada **fase** o **cambio importante** que esté **probado y estable**:
 
 1. Haz **commit** y **push** a GitHub.
-2. Indica al usuario el **hash del commit**.
-3. No hace falta un commit por cada ajuste pequeño.
-
-## Secretos (nunca en Git)
-
-- No subir contraseñas, tokens, `.env`, `database.local.php`, ni archivos locales de configuración con secretos.
-- Revisar `git status` / diff antes del commit para confirmar que no entren.
-- No modificar `git config` salvo petición explícita.
-- No `--force` en `main`/`master` ni `--no-verify` salvo petición explícita.
+2. Comunica al usuario el **hash del commit**.
+3. No crees un commit por cada ajuste pequeño; agrupa cuando la fase esté lista.
+4. Nunca subas contraseñas, tokens, archivos locales de configuración ni secretos (`.env`, `*.local.php`, credenciales, claves API).
+5. No actualices `git config` salvo petición explícita; si hace falta `safe.directory` en el repo de red, pásalo solo con `-c` en el comando.
+6. No force push a `main`/`master` ni `--no-verify` salvo petición explícita.
