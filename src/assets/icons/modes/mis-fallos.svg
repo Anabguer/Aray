@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
-  <title id="title">Practicar mis fallos</title>
-  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#53E7FF"/><stop offset="1" stop-color="#8D72FF"/></linearGradient></defs>
-  <rect x="8" y="11" width="43" height="42" rx="9" fill="#F7FBFF" stroke="#3156B8" stroke-width="3"/>
-  <path d="M17 23h23M17 32h17M17 41h12" stroke="url(#g)" stroke-width="4" stroke-linecap="round"/>
-  <path d="m39 38 15 15M54 38 39 53" stroke="#FF6F91" stroke-width="8" stroke-linecap="round"/>
-  <path d="m39 38 15 15M54 38 39 53" stroke="#F7FBFF" stroke-width="3" stroke-linecap="round"/>
-  <path d="m45 18 4 4 8-9" fill="none" stroke="#43D5A5" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>

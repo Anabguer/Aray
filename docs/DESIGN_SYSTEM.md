@@ -66,7 +66,7 @@ No es: campus escolar, web corporativa, mascota bebé, ni copia de Roblox/Minecr
 - `BrandLogo` — marca oficial PNG (`src/assets/brand/aray-logo.png`).
 - `btn` / `btn-primary` / `btn-secondary` / `btn-ghost` / `btn-block`.
 - `zone-card`, `subject-card`, `table-chip`, `mode-card`.
-- `ModeIcon` — iconos SVG de modos (`src/components/ModeIcon.tsx`).
+- `ModeIcon` / `modeArtUrl` — iconos PNG de modos (`src/assets/modes/`).
 - `answer-btn` + `answer-grid`.
 - `goal-card` (barra de energía / drop).
 - `Lumo` — estados documentados en `src/lumo/`.
@@ -121,54 +121,36 @@ No sustituir por emojis ni iconos genéricos. Lumo es el compañero, no el icono
 
 ## Iconos de modos (tablas)
 
-Familia SVG propia de ARAY. Ubicación: `src/assets/icons/modes/`.
+Familia PNG propia de ARAY (arte gamer 512×512, fondo transparente). Ubicación: `src/assets/modes/`.
 
-| Archivo | Modo | Componente |
-|---------|------|------------|
-| `aprende.svg` | Aprende | `<ModeIcon mode="aprende" />` |
-| `entrena.svg` | Entrena | `<ModeIcon mode="entrena" />` |
-| `reto-rapido.svg` | Reto rápido | `<ModeIcon mode="reto-rapido" />` |
-| `mis-fallos.svg` | Practicar mis fallos | `<ModeIcon mode="mis-fallos" />` |
-| `empareja.svg` | Empareja la tabla | `<ModeIcon mode="empareja" />` |
-| `mision-random.svg` | Misión random | `<ModeIcon mode="mision-random" />` |
+| Archivo | Modo | Uso |
+|---------|------|-----|
+| `aprende.png` | Aprende | `ModeIcon` / `modeArtUrl('aprende')` |
+| `entrena.png` | Entrena | idem |
+| `reto-rapido.png` | Reto rápido | idem |
+| `mis-fallos.png` | Practicar mis fallos | idem |
+| `empareja.png` | Empareja la tabla | idem |
+| `mision-random.png` | Misión random / Sorpresa | `ModeIcon mode="mision-random"` / `modeArtUrl('sorpresa')` |
 
 ### Uso
 
-- Un solo componente reutilizable: `ModeIcon`. No incrustar el SVG en cada tarjeta ni duplicar variantes.
-- El icono va a la izquierda del título/descripción (`.mode-card`) o del label (`.mode-action`).
-- Decorativo: `aria-hidden="true"` en el contenedor; el nombre accesible lo aporta la tarjeta/botón.
-- `reto-rapido.svg` ya incluye el distintivo `×2`. No añadir otra insignia grande que repita eso; el texto de la tarjeta sí puede indicar “XP ×2”.
+- Miniportadas de selección de modo: `modeArtUrl` en `ModeSelectScreen` (`.mode-poster`).
+- Icono compacto en cabeceras de juego: `ModeIcon`.
+- Decorativo: `aria-hidden="true"`; el nombre accesible lo aporta la tarjeta/botón.
+- El copy de la tarjeta indica “XP ×2” en Reto rápido; no duplicar insignias encima del arte.
 
 ### Tamaños
 
-| Viewport | Tamaño |
+| Contexto | Tamaño |
 |----------|--------|
-| Móvil | 44–50 px (actual: 46 px / `2.875rem`) |
-| Tablet y escritorio (≥768px) | 52–60 px (actual: 56 px / `3.5rem`) |
-| Tope absoluto | 60 px (`max-width` / `max-height: 3.75rem`) |
-
-Nunca deben crecer para rellenar el espacio disponible. En acciones inferiores (`.mode-action`) se usa un tamaño ligeramente menor para no hinchar el botón.
-
-### Estados
-
-| Estado | Icono | Tarjeta / acción |
-|--------|-------|------------------|
-| Normal | sin transform | borde estándar |
-| Hover | `translateY(-2px) scale(1.04)` + halo suave (`--mode-accent`) | brillo de borde existente |
-| Focus (`:focus-visible`) | igual que hover | `outline: 2px solid var(--cyan)` + offset |
-| Seleccionado (`.is-selected` / `[aria-pressed="true"]`) | igual que hover | borde cian + anillo; no solo color |
-
-Sin giros, rebotes ni animaciones en bucle.
-
-### Movimiento reducido
-
-Con `prefers-reduced-motion: reduce` se elimina la elevación y la escala del icono (el halo/filtro puede permanecer; las transitions globales ya se anulan).
+| `ModeIcon` (cabecera) | ~46–56 px |
+| Poster de modo | área de la tarjeta (cover) |
 
 ### Prohibiciones
 
-- No sustituir estos SVG por emojis.
+- No sustituir estos PNG por emojis.
 - No mezclar iconos genéricos de otra librería en las tarjetas de modo.
-- No redibujar ni recolorear trazo a trazo: mantener la familia visual del paquete.
+- No recolorear el arte: mantener la familia visual del paquete.
 
 ## Lumo
 

@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
-  <title id="title">Empareja la tabla</title>
-  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#53E7FF"/><stop offset="1" stop-color="#8D72FF"/></linearGradient></defs>
-  <path d="M7 13a6 6 0 0 1 6-6h16v13a6 6 0 1 1 0 12v13H16a9 9 0 0 1-9-9V13Z" fill="url(#g)" stroke="#3156B8" stroke-width="3" stroke-linejoin="round"/>
-  <path d="M57 51a6 6 0 0 1-6 6H35V44a6 6 0 1 1 0-12V19h13a9 9 0 0 1 9 9v23Z" fill="#FFE45C" stroke="#3156B8" stroke-width="3" stroke-linejoin="round"/>
-  <path d="M15 20h8M15 28h8M41 41h8M41 49h8" stroke="#F7FBFF" stroke-width="3" stroke-linecap="round"/>
-  <path d="M40 41h9M40 49h9" stroke="#3156B8" stroke-width="3" stroke-linecap="round"/>
-</svg>

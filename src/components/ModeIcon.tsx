@@ -1,9 +1,9 @@
-import aprendeUrl from '@/assets/icons/modes/aprende.svg'
-import emparejaUrl from '@/assets/icons/modes/empareja.svg'
-import entrenaUrl from '@/assets/icons/modes/entrena.svg'
-import misFallosUrl from '@/assets/icons/modes/mis-fallos.svg'
-import misionRandomUrl from '@/assets/icons/modes/mision-random.svg'
-import retoRapidoUrl from '@/assets/icons/modes/reto-rapido.svg'
+import aprendeUrl from '@/assets/modes/aprende.png'
+import emparejaUrl from '@/assets/modes/empareja.png'
+import entrenaUrl from '@/assets/modes/entrena.png'
+import misFallosUrl from '@/assets/modes/mis-fallos.png'
+import sorpresaUrl from '@/assets/modes/sorpresa.png'
+import retoRapidoUrl from '@/assets/modes/reto-rapido.png'
 
 export type ModeIconId =
   | 'aprende'
@@ -19,7 +19,7 @@ const MODE_ICON_URLS: Record<ModeIconId, string> = {
   'reto-rapido': retoRapidoUrl,
   'mis-fallos': misFallosUrl,
   empareja: emparejaUrl,
-  'mision-random': misionRandomUrl,
+  'mision-random': sorpresaUrl,
 }
 
 type ModeIconProps = {

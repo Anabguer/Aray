@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
-  <title id="title">Entrena</title>
-  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#53E7FF"/><stop offset="1" stop-color="#776BFF"/></linearGradient></defs>
-  <circle cx="30" cy="34" r="23" fill="#F7FBFF" stroke="#3156B8" stroke-width="3"/>
-  <circle cx="30" cy="34" r="15" fill="none" stroke="#8E7CFF" stroke-width="5"/>
-  <circle cx="30" cy="34" r="6" fill="url(#g)" stroke="#3156B8" stroke-width="2.5"/>
-  <path d="m35 29 16-16M44 13h8v8" fill="none" stroke="#FF6F91" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="m50 14 7-7M52 7h5v5" fill="none" stroke="#3156B8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
