@@ -44,57 +44,6 @@ export function HomeScreen() {
     >
       <section className="lobby" aria-labelledby="home-greeting">
         <header className="lobby__header">
-          <div className="hero__logo-wrap lobby__logo">
-            <BrandLogo variant="hero" />
-          </div>
-
-          <div className="lobby-hud" aria-label="Progreso">
-            <div className="lobby-hud__xp">
-              <div className="lobby-hud__xp-top">
-                <span className="lobby-hud__level">Nv. {level}</span>
-                <span className="lobby-hud__xp-label">XP</span>
-              </div>
-              <div
-                className="lobby-hud__bar lobby-hud__bar--xp"
-                role="progressbar"
-                aria-valuemin={0}
-                aria-valuemax={XP_PER_LEVEL}
-                aria-valuenow={xpIntoLevel}
-                aria-label={`Nivel ${level}: ${xpIntoLevel} de ${XP_PER_LEVEL} XP`}
-              >
-                <span style={{ width: `${xpPct}%` }} />
-              </div>
-              <p className="lobby-hud__bar-text">
-                {xpIntoLevel} / {XP_PER_LEVEL} XP
-              </p>
-            </div>
-
-            <div className="lobby-hud__energy">
-              <div className="lobby-hud__energy-top">
-                <IconBolt className="lobby-hud__bolt" aria-hidden />
-                <span>Energía</span>
-              </div>
-              <div
-                className="lobby-hud__bar lobby-hud__bar--energy"
-                role="progressbar"
-                aria-valuemin={0}
-                aria-valuemax={rewardGoalConfig.dailyCap}
-                aria-valuenow={energyToday}
-                aria-label={`Energía: ${energyToday} de ${rewardGoalConfig.dailyCap}`}
-              >
-                <span style={{ width: `${energyPct}%` }} />
-              </div>
-              <p className="lobby-hud__bar-text">
-                {energyToday} / {rewardGoalConfig.dailyCap}
-              </p>
-            </div>
-
-            <div className="lobby-hud__coins" aria-label={`${progress.coins} monedas`}>
-              <IconCoin className="lobby-hud__coin-icon" aria-hidden />
-              <strong className="lobby-hud__coin-value">{progress.coins}</strong>
-            </div>
-          </div>
-
           <div className="lobby__welcome">
             <Lumo state={lumoState} intensity={lumoState === 'idle' ? 0 : 2} size="md" />
             <div className="lobby__welcome-text">
@@ -104,6 +53,60 @@ export function HomeScreen() {
               <p className="lobby__bubble" role="status">
                 ¿Jugamos, Aray?
               </p>
+            </div>
+          </div>
+
+          <div className="lobby-hud" aria-label="Progreso">
+            <div className="lobby-hud__bars">
+              <div className="lobby-hud__xp">
+                <div className="lobby-hud__xp-top">
+                  <span className="lobby-hud__level">Nv. {level}</span>
+                  <span className="lobby-hud__xp-label">XP</span>
+                </div>
+                <div
+                  className="lobby-hud__bar lobby-hud__bar--xp"
+                  role="progressbar"
+                  aria-valuemin={0}
+                  aria-valuemax={XP_PER_LEVEL}
+                  aria-valuenow={xpIntoLevel}
+                  aria-label={`Nivel ${level}: ${xpIntoLevel} de ${XP_PER_LEVEL} XP`}
+                >
+                  <span style={{ width: `${xpPct}%` }} />
+                </div>
+                <p className="lobby-hud__bar-text">
+                  {xpIntoLevel} / {XP_PER_LEVEL} XP
+                </p>
+              </div>
+
+              <div className="lobby-hud__energy">
+                <div className="lobby-hud__energy-top">
+                  <IconBolt className="lobby-hud__bolt" aria-hidden />
+                  <span>Energía</span>
+                </div>
+                <div
+                  className="lobby-hud__bar lobby-hud__bar--energy"
+                  role="progressbar"
+                  aria-valuemin={0}
+                  aria-valuemax={rewardGoalConfig.dailyCap}
+                  aria-valuenow={energyToday}
+                  aria-label={`Energía: ${energyToday} de ${rewardGoalConfig.dailyCap}`}
+                >
+                  <span style={{ width: `${energyPct}%` }} />
+                </div>
+                <p className="lobby-hud__bar-text">
+                  {energyToday} / {rewardGoalConfig.dailyCap}
+                </p>
+              </div>
+            </div>
+
+            <div className="lobby-hud__profile">
+              <div className="lobby-hud__coins" aria-label={`${progress.coins} monedas`}>
+                <IconCoin className="lobby-hud__coin-icon" aria-hidden />
+                <strong className="lobby-hud__coin-value">{progress.coins}</strong>
+              </div>
+              <div className="hero__logo-wrap lobby__logo">
+                <BrandLogo variant="hero" />
+              </div>
             </div>
           </div>
         </header>

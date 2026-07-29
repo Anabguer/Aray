@@ -1,7 +1,7 @@
 import arayLogoUrl from '@/assets/brand/aray-logo.png'
 
 type BrandLogoProps = {
-  /** Variante visual: hero (inicio), compact (topbar), mark (solo marca pequeña). */
+  /** Variante visual: hero (lobby), compact (topbar), mark (solo marca pequeña). */
   variant?: 'hero' | 'compact' | 'mark'
   className?: string
   alt?: string

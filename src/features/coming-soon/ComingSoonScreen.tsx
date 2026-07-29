@@ -22,7 +22,7 @@ export function ComingSoonScreen({
           </p>
           <p className="coming-soon__body">{copy.body}</p>
           <Link to="/" className="btn btn-secondary">
-            Volver al inicio
+            Volver al Lobby
           </Link>
         </div>
       </section>

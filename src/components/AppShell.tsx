@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom'
 import type { ReactNode } from 'react'
 import { BrandLogo } from '@/components/BrandLogo'
-import { IconChevronLeft, IconHome } from '@/components/Icons'
+import { IconChevronLeft, IconGamepad, IconHome } from '@/components/Icons'
 
 export function AppShell({
   children,
@@ -31,19 +31,26 @@ export function AppShell({
           ) : isHome ? (
             <span className="topbar__spacer" aria-hidden="true" />
           ) : (
-            <Link to="/" className="brand" aria-label="ARAY — inicio">
+            <Link to="/" className="brand" aria-label="ARAY — Lobby">
               <BrandLogo variant="compact" alt="" />
               <span className="brand__wordmark">ARAY</span>
             </Link>
           )}
         </div>
         <div className="topbar__center">
-          {title ? <h1 className="topbar__title">{title}</h1> : null}
+          {isHome ? (
+            <p className="topbar__location" aria-current="page">
+              <IconGamepad className="topbar__location-icon" aria-hidden />
+              <span>LOBBY</span>
+            </p>
+          ) : title ? (
+            <h1 className="topbar__title">{title}</h1>
+          ) : null}
         </div>
         <div className="topbar__right topbar__right--actions">
           {trailing}
           {!isHome ? (
-            <Link to="/" className="icon-btn" aria-label="Ir al inicio">
+            <Link to="/" className="icon-btn" aria-label="Ir al Lobby">
               <IconHome />
             </Link>
           ) : !trailing ? (

@@ -42,7 +42,7 @@ export function SubjectPreviewScreen() {
               Volver a Misiones
             </Link>
             <Link to="/" className="btn btn-ghost">
-              Inicio
+              Lobby
             </Link>
           </div>
         </div>

@@ -47,6 +47,7 @@ function renderAt(path: string) {
 describe('ARAY navigation shell', () => {
   it('muestra la portada lobby', () => {
     renderAt('/')
+    expect(screen.getByText('LOBBY')).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: /¡hola, aray!/i })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /^jugar$/i })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: /misión de hoy|tu misión de hoy/i })).toBeInTheDocument()

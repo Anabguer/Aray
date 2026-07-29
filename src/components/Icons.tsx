@@ -130,6 +130,17 @@ export function IconHome(props: IconProps) {
   )
 }
 
+export function IconGamepad(props: IconProps) {
+  return (
+    <BaseIcon {...props}>
+      <path d="M7.5 9.5h9a4 4 0 0 1 3.85 5.1l-.55 2.1A2.75 2.75 0 0 1 17.15 19H6.85a2.75 2.75 0 0 1-2.65-2.3l-.55-2.1A4 4 0 0 1 7.5 9.5z" />
+      <path d="M9 13v3M7.5 14.5h3" />
+      <circle cx="15.2" cy="13.2" r="0.85" fill="currentColor" stroke="none" />
+      <circle cx="17.1" cy="15.1" r="0.85" fill="currentColor" stroke="none" />
+    </BaseIcon>
+  )
+}
+
 export function IconChevronLeft(props: IconProps) {
   return (
     <BaseIcon {...props}>
