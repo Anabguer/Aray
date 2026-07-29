@@ -83,6 +83,27 @@ Valores a rellenar:
 | POST | `/api/v1/auth/child-enter.php` | Entrar con cookie de dispositivo |
 | GET | `/api/v1/players/progress.php?playerId=` | Snapshot oficial |
 
+## Endpoints Fase 2
+
+| Método | Ruta | Descripción |
+|--------|------|-------------|
+| POST | `/api/v1/players/session-submit.php` | Enviar partida: recálculo servidor (XP/monedas/dominio/stats) + idempotencia por `sessionId` |
+
+### Reglas de recálculo (servidor)
+
+- XP base: 10 por respuesta correcta.
+- Bonus de racha: +5 XP cada 5 correctas seguidas.
+- Monedas: `floor(xpEarned / 10)`.
+- Score: `round(100 * correct / total)`.
+- `fact_stats`: attempts/correct/wrong + peso adaptativo.
+- `table_mastery`: practiced, mastery_score, best/last round, ever_mastered (≥80), consecutive_low_rounds (<50).
+- No se confía en XP/monedas/score enviados por React.
+- Idempotencia: reenviar el mismo `sessionId` devuelve el resultado original sin sumar de nuevo.
+
+### Hard-abort de `install_once.php`
+
+Si `SchemaInstaller::isInstalled()` es true (tablas + Neni/Aray), el script sale inmediatamente con código 0 **sin validar el token** ni ejecutar semilla/migración.
+
 ## Cookies
 
 | Nombre | Uso |

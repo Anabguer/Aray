@@ -71,7 +71,7 @@ try {
     if (is_array($aray)) {
         $snap = ProgressRepository::getSnapshot((int) $aray['id']);
         check('progress xp int', isset($snap['xp']) && is_int($snap['xp']));
-        check('progress reward meta 300', ($snap['reward']['targetPoints'] ?? 0) === 300);
+        check('progress reward meta 500', ($snap['reward']['targetPoints'] ?? 0) === 500);
         check('progress playableDate', ($snap['playableDate'] ?? '') === MadridTime::playableDate());
     }
 

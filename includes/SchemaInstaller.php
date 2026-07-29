@@ -226,6 +226,21 @@ final class SchemaInstaller
         }
     }
 
+    /**
+     * True si la instalación ya está completa (tablas + Neni/Aray).
+     * Usado por install_once.php para hard-abort sin revalidar token ni reseeding.
+     */
+    public static function isInstalled(?PDO $pdo = null): bool
+    {
+        try {
+            $pdo = $pdo ?? Database::pdo();
+            $verify = self::verifyStructure($pdo);
+            return !empty($verify['ok']);
+        } catch (Throwable $e) {
+            return false;
+        }
+    }
+
     /** @return list<string> */
     public static function listArayTables(PDO $pdo): array
     {

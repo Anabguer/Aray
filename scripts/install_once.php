@@ -5,8 +5,14 @@ declare(strict_types=1);
 /**
  * Instalación idempotente: crea BD (si procede), tablas IF NOT EXISTS y semilla Neni/Aray.
  *
+ * HARD-ABORT: si la instalación ya consta como completada (tablas + Neni/Aray),
+ * el script finaliza inmediatamente sin validar el token, sembrar datos ni
+ * ejecutar ningún paso de instalación.
+ *
  * CLI:
  *   php scripts/install_once.php --token=TU_TOKEN
+ *
+ * Protección web: responde 403 y sale si no se ejecuta por CLI.
  */
 
 $root = dirname(__DIR__);
@@ -27,6 +33,18 @@ function cli_fail(string $msg): void
 
 if (!defined('DB_USER') || DB_USER === 'CHANGE_ME') {
     cli_fail('Configura includes/database.local.php (DB_*).');
+}
+
+// ── HARD-ABORT: instalación ya completada ──────────────────────────────────
+// Se comprueba ANTES de validar el token. No re-sembrar, no re-aplicar pasos.
+try {
+    if (SchemaInstaller::isInstalled()) {
+        echo "Instalación ya completada. Abortando (hard-abort).\n";
+        echo "No se ha validado el token ni se ha ejecutado ningún paso de instalación.\n";
+        exit(0);
+    }
+} catch (Throwable $e) {
+    // Si la BD no es accesible todavía, continuar con el flujo normal de instalación.
 }
 
 if (!defined('ARAY_INSTALL_TOKEN') || ARAY_INSTALL_TOKEN === 'CHANGE_INSTALL_TOKEN') {
