@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { AppShell } from '@/components/AppShell'
 import { ArayHubIcon } from '@/components/ArayHubIcon'
@@ -11,7 +12,7 @@ import { MuteToggle } from '@/components/quiz/QuizWidgets'
 import { rewardGoalConfig } from '@/config/rewardGoal'
 import { buildLobbyMissions, courseLabel } from '@/curriculum'
 import { zoneLinks } from '@/data/demo'
-import { useAuth } from '@/auth/AuthContext'
+import { AdultPinModal } from '@/features/access/AdultPinModal'
 import { Lumo } from '@/lumo/Lumo'
 import { usePlaySession } from '@/progress/PlayContext'
 import { useProgress } from '@/progress/ProgressContext'
@@ -21,8 +22,8 @@ const XP_PER_LEVEL = 100
 
 export function HomeScreen() {
   const { progress, setSoundMuted, chooseCrate, openCrate, collectCrate } = useProgress()
-  const { logout } = useAuth()
   const { selection } = usePlaySession()
+  const [adultPinOpen, setAdultPinOpen] = useState(false)
   const missionTable = selection.tables[0] ?? 7
   const lobby = buildLobbyMissions(progress, 4)
   const primaryMission =
@@ -48,8 +49,14 @@ export function HomeScreen() {
       trailing={
         <div className="lobby__trailing">
           <MuteToggle muted={progress.soundMuted} onToggle={() => setSoundMuted(!progress.soundMuted)} />
-          <button type="button" className="btn btn-ghost lobby__logout" onClick={() => void logout()}>
-            Cambiar perfil
+          <button
+            type="button"
+            className="lobby__adult-btn"
+            aria-label="Acceso adulto"
+            title="Adultos"
+            onClick={() => setAdultPinOpen(true)}
+          >
+            <span aria-hidden="true">⚙</span>
           </button>
         </div>
       }
@@ -237,13 +244,10 @@ export function HomeScreen() {
             Estás en repaso de {courseLabel(progress.school.currentCourseId)}. El curso lo cambia un
             adulto.
           </p>
-          <p>
-            <Link to="/adult" className="lobby-help__adult-link">
-              Zona de adultos
-            </Link>
-          </p>
         </details>
       </section>
+
+      <AdultPinModal open={adultPinOpen} onClose={() => setAdultPinOpen(false)} />
 
       {import.meta.env.DEV ? (
         <section className="home-tools home-tools--dev" aria-label="Herramientas de desarrollo">

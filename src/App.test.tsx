@@ -45,12 +45,10 @@ function renderAt(path: string) {
     <MemoryRouter initialEntries={[path]}>
       <AuthProvider
         initialSession={{
-          role: 'child',
+          role: null,
           account: null,
-          player: { id: 1, slug: 'aray', displayName: 'Aray' },
-          deviceAuthorized: true,
           csrf: 'test-csrf',
-          players: [{ id: 1, slug: 'aray', displayName: 'Aray' }],
+          players: [],
         }}
       >
         <ProgressProvider store={store}>
@@ -89,14 +87,20 @@ describe('ARAY navigation shell', () => {
 
   it('muestra modos con Empareja y misión sorpresa', () => {
     renderAt('/missions/mates/tables/modes')
+    expect(screen.getByRole('heading', { name: /elige tu modo/i })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /ir al lobby/i })).toHaveTextContent(/lobby/i)
     expect(screen.getByRole('button', { name: /empareja/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /sorpresa/i })).toBeInTheDocument()
   })
 
-  it('abre la colección de logros', () => {
-    renderAt('/collection')
-    expect(screen.getAllByRole('heading', { name: /^mi colección$/i })).toHaveLength(2)
-    expect(screen.getByText(/sala de trofeos/i)).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /despegue completado/i })).toBeInTheDocument()
+  it('muestra botón discreto de adultos en el lobby', () => {
+    renderAt('/')
+    expect(screen.getByRole('button', { name: /acceso adulto/i })).toBeInTheDocument()
+  })
+
+  it('redirige /adult al lobby sin sesión adulta', () => {
+    renderAt('/adult')
+    expect(screen.getByRole('heading', { name: /¡hola, aray!/i })).toBeInTheDocument()
+    expect(screen.queryByText(/panel familiar/i)).not.toBeInTheDocument()
   })
 })

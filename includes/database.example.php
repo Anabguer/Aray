@@ -57,6 +57,5 @@ define('ARAY_SEED_ADULT_DISPLAY', 'Neni');
 define('ARAY_SEED_PLAYER_SLUG', 'aray');
 define('ARAY_SEED_PLAYER_DISPLAY', 'Aray');
 /** PIN de 4 dígitos solo para sembrar hashes (nunca en el frontend ni en Git con valores reales). */
-define('ARAY_SEED_CHILD_PIN', 'CHANGE_CHILD_PIN');
 define('ARAY_SEED_ADULT_PIN', 'CHANGE_ADULT_PIN');
 define('ARAY_REWARD_TARGET_POINTS', 500);

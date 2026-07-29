@@ -9,7 +9,7 @@ import {
 } from 'react'
 import { apiGet, apiPost, peekCsrf, setCsrf } from '@/api/client'
 
-export type AuthRole = 'child' | 'adult' | null
+export type AuthRole = 'adult' | null
 
 export type AuthAccount = {
   id: number
@@ -26,60 +26,30 @@ export type AuthPlayer = {
 export type AuthSessionSeed = {
   role: AuthRole
   account: AuthAccount | null
-  player: AuthPlayer | null
-  deviceAuthorized: boolean
-  csrf: string
   players?: AuthPlayer[]
+  csrf: string
 }
 
 type MeResponse = {
   authenticated?: boolean
-  role?: AuthRole
+  role?: AuthRole | 'child' | null
   account?: AuthAccount
-  player?: AuthPlayer
   players?: AuthPlayer[]
   csrf?: string
-  device?: {
-    authorized?: boolean
-    deviceId?: number
-    deviceLabel?: string
-    player?: AuthPlayer
-  }
 }
 
 type AuthContextValue = {
   loading: boolean
   role: AuthRole
   account: AuthAccount | null
-  player: AuthPlayer | null
   players: AuthPlayer[]
-  deviceAuthorized: boolean
   csrf: string | null
   refreshMe: () => Promise<void>
-  loginPin: (pin: string) => Promise<void>
-  adultLogin: (login: string, password: string) => Promise<AuthPlayer[]>
+  loginAdultPin: (pin: string) => Promise<void>
   logout: () => Promise<void>
-  authorizeDevice: (playerId: number, deviceLabel?: string) => Promise<void>
-  redeemTempCode: (code: string, playerSlug?: string, deviceLabel?: string) => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null)
-
-function applyMe(data: MeResponse, setters: {
-  setRole: (r: AuthRole) => void
-  setAccount: (a: AuthAccount | null) => void
-  setPlayer: (p: AuthPlayer | null) => void
-  setPlayers: (p: AuthPlayer[]) => void
-  setDeviceAuthorized: (v: boolean) => void
-}) {
-  const role = data.role ?? null
-  setters.setRole(role)
-  setters.setAccount(data.account ?? null)
-  setters.setPlayer(data.player ?? null)
-  setters.setPlayers(Array.isArray(data.players) ? data.players : [])
-  setters.setDeviceAuthorized(Boolean(data.device?.authorized))
-  if (typeof data.csrf === 'string') setCsrf(data.csrf)
-}
 
 export function AuthProvider({
   children,
@@ -92,11 +62,7 @@ export function AuthProvider({
   const [loading, setLoading] = useState(!initialSession)
   const [role, setRole] = useState<AuthRole>(initialSession?.role ?? null)
   const [account, setAccount] = useState<AuthAccount | null>(initialSession?.account ?? null)
-  const [player, setPlayer] = useState<AuthPlayer | null>(initialSession?.player ?? null)
   const [players, setPlayers] = useState<AuthPlayer[]>(initialSession?.players ?? [])
-  const [deviceAuthorized, setDeviceAuthorized] = useState(
-    initialSession?.deviceAuthorized ?? false,
-  )
   const [csrf, setCsrfState] = useState<string | null>(() => {
     if (initialSession?.csrf) {
       setCsrf(initialSession.csrf)
@@ -115,7 +81,11 @@ export function AuthProvider({
 
   const refreshMe = useCallback(async () => {
     const data = await apiGet<MeResponse>('/auth/me.php')
-    applyMe(data, { setRole, setAccount, setPlayer, setPlayers, setDeviceAuthorized })
+    const nextRole = data.role === 'adult' ? 'adult' : null
+    setRole(nextRole)
+    setAccount(nextRole === 'adult' ? (data.account ?? null) : null)
+    setPlayers(nextRole === 'adult' && Array.isArray(data.players) ? data.players : [])
+    if (typeof data.csrf === 'string') setCsrf(data.csrf)
     syncCsrfState()
   }, [syncCsrfState])
 
@@ -129,9 +99,7 @@ export function AuthProvider({
         if (!cancelled) {
           setRole(null)
           setAccount(null)
-          setPlayer(null)
           setPlayers([])
-          setDeviceAuthorized(false)
         }
       } finally {
         if (!cancelled) setLoading(false)
@@ -142,44 +110,17 @@ export function AuthProvider({
     }
   }, [initialSession, refreshMe])
 
-  const loginPin = useCallback(
+  const loginAdultPin = useCallback(
     async (pin: string) => {
       const data = await apiPost<MeResponse>('/auth/pin-login.php', { pin })
-      applyMe(
-        {
-          ...data,
-          device: { authorized: true },
-          authenticated: true,
-        },
-        { setRole, setAccount, setPlayer, setPlayers, setDeviceAuthorized },
-      )
-      if (data.role === 'child' && data.player) {
-        setPlayer(data.player)
-        setAccount(null)
+      if (data.role !== 'adult') {
+        throw new Error('PIN incorrecto')
       }
-      if (data.role === 'adult' && data.account) {
-        setAccount(data.account)
-        setPlayer(null)
-      }
-      setDeviceAuthorized(true)
-      syncCsrfState()
-    },
-    [syncCsrfState],
-  )
-
-  const adultLogin = useCallback(
-    async (login: string, password: string) => {
-      const data = await apiPost<MeResponse & { players?: AuthPlayer[] }>('/auth/adult-login.php', {
-        login,
-        password,
-      })
-      const list = Array.isArray(data.players) ? data.players : []
       setRole('adult')
       setAccount(data.account ?? null)
-      setPlayer(null)
-      setPlayers(list)
+      setPlayers(Array.isArray(data.players) ? data.players : [])
+      if (typeof data.csrf === 'string') setCsrf(data.csrf)
       syncCsrfState()
-      return list
     },
     [syncCsrfState],
   )
@@ -192,78 +133,22 @@ export function AuthProvider({
     }
     setRole(null)
     setAccount(null)
-    setPlayer(null)
     setPlayers([])
     syncCsrfState()
-    try {
-      await refreshMe()
-    } catch {
-      /* ignore */
-    }
-  }, [refreshMe, syncCsrfState])
-
-  const authorizeDevice = useCallback(
-    async (playerId: number, deviceLabel = 'Este dispositivo') => {
-      const data = await apiPost<{
-        player?: AuthPlayer
-        csrf?: string
-      }>('/auth/device-authorize.php', { playerId, deviceLabel })
-      setDeviceAuthorized(true)
-      setRole('child')
-      setPlayer(data.player ?? null)
-      setAccount(null)
-      syncCsrfState()
-    },
-    [syncCsrfState],
-  )
-
-  const redeemTempCode = useCallback(
-    async (code: string, playerSlug = 'aray', deviceLabel = 'Este dispositivo') => {
-      const data = await apiPost<{ player?: AuthPlayer }>('/auth/temp-code-redeem.php', {
-        code,
-        playerSlug,
-        deviceLabel,
-      })
-      setDeviceAuthorized(true)
-      setRole('child')
-      setPlayer(data.player ?? null)
-      setAccount(null)
-      syncCsrfState()
-    },
-    [syncCsrfState],
-  )
+  }, [syncCsrfState])
 
   const value = useMemo<AuthContextValue>(
     () => ({
       loading,
       role,
       account,
-      player,
       players,
-      deviceAuthorized,
       csrf,
       refreshMe,
-      loginPin,
-      adultLogin,
+      loginAdultPin,
       logout,
-      authorizeDevice,
-      redeemTempCode,
     }),
-    [
-      loading,
-      role,
-      account,
-      player,
-      players,
-      deviceAuthorized,
-      csrf,
-      refreshMe,
-      loginPin,
-      adultLogin,
-      logout,
-      authorizeDevice,
-      redeemTempCode,
-    ],
+    [loading, role, account, players, csrf, refreshMe, loginAdultPin, logout],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

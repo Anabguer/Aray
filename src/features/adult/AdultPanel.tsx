@@ -11,7 +11,6 @@ import {
 } from '@/features/adult/format'
 import type {
   ActivityDay,
-  AdultDevice,
   AdultOverview,
   RewardCycle,
   TableMasteryItem,
@@ -43,7 +42,7 @@ function masteryClass(label: string): string {
 }
 
 export function AdultPanel() {
-  const { account, players, logout, csrf } = useAuth()
+  const { account, players, logout } = useAuth()
   const { progress, updateSchool, setActivityAssignments } = useProgress()
   const navigate = useNavigate()
   const [resolvedPlayerId, setResolvedPlayerId] = useState<number | null>(
@@ -68,8 +67,6 @@ export function AdultPanel() {
   const [voidCycle, setVoidCycle] = useState<RewardCycle | null>(null)
   const [voidReason, setVoidReason] = useState('')
 
-  const [tempCodeFlash, setTempCodeFlash] = useState<string | null>(null)
-  const [revokeDevice, setRevokeDevice] = useState<AdultDevice | null>(null)
   const [confirmCourseId, setConfirmCourseId] = useState<CourseId | null>(null)
   const [reportCourse, setReportCourse] = useState<string>('all')
   const [reportSubject, setReportSubject] = useState<string>('all')
@@ -134,7 +131,6 @@ export function AdultPanel() {
     setBusy(true)
     try {
       await apiPost('/adult/reward-deliver.php', {
-        csrf,
         playerId,
         cycleId: deliverCycle.id,
         robuxAmount,
@@ -156,7 +152,6 @@ export function AdultPanel() {
     setBusy(true)
     try {
       await apiPost('/adult/reward-void.php', {
-        csrf,
         playerId,
         cycleId: voidCycle.id,
         reason: voidReason,
@@ -171,52 +166,12 @@ export function AdultPanel() {
     }
   }
 
-  async function confirmRevoke() {
-    if (!revokeDevice || playerId == null) return
-    setBusy(true)
-    try {
-      await apiPost('/auth/device-revoke.php', {
-        csrf,
-        playerId,
-        deviceId: revokeDevice.id,
-      })
-      setRevokeDevice(null)
-      await refreshAll()
-    } catch (err) {
-      setError(err instanceof ApiError ? err.message : 'No se pudo quitar el dispositivo.')
-    } finally {
-      setBusy(false)
-    }
-  }
-
-  async function createTempCode() {
-    if (playerId == null) return
-    setBusy(true)
-    setTempCodeFlash(null)
-    try {
-      const data = await apiPost<{ code?: string; expiresAt?: string }>(
-        '/auth/temp-code-create.php',
-        { csrf, playerId },
-      )
-      setTempCodeFlash(
-        typeof data.code === 'string'
-          ? data.code
-          : 'Código creado (revisa la respuesta del servidor).',
-      )
-    } catch (err) {
-      setError(err instanceof ApiError ? err.message : 'No se pudo crear el código.')
-    } finally {
-      setBusy(false)
-    }
-  }
-
   async function confirmCourseChange() {
     if (!confirmCourseId || playerId == null) return
     const mode: CourseMode = confirmCourseId === 'primary-3' ? 'review' : 'standard'
     setBusy(true)
     try {
       await apiPost('/adult/course-set.php', {
-        csrf,
         playerId,
         courseId: confirmCourseId,
         courseMode: mode,
@@ -239,7 +194,6 @@ export function AdultPanel() {
         [activityId]: role === '' ? null : role,
       }
       await apiPost('/adult/activity-assignments.php', {
-        csrf,
         playerId,
         assignments: payload,
       })
@@ -294,7 +248,7 @@ export function AdultPanel() {
             className="btn btn-ghost"
             onClick={() => void onLogout()}
           >
-            Cambiar perfil
+            Cerrar
           </button>
           <button
             type="button"
@@ -542,14 +496,6 @@ export function AdultPanel() {
               <p className="adult-block__empty">Pulsa Filtrar para ver el informe curricular.</p>
             )}
           </section>
-
-          <DevicesSection
-            devices={overview.devices}
-            tempCode={tempCodeFlash}
-            busy={busy}
-            onCreateCode={() => void createTempCode()}
-            onRevoke={setRevokeDevice}
-          />
         </>
       )}
 
@@ -629,20 +575,6 @@ export function AdultPanel() {
           ¿Pasar a {confirmCourseId ? courseLabel(confirmCourseId) : ''}? No se reinician XP,
           monedas, Robux, premios, logros, tablas ni colección. Los ejercicios de cursos
           anteriores pueden seguir como repaso.
-        </p>
-      </ConfirmDialog>
-
-      <ConfirmDialog
-        open={revokeDevice != null}
-        title="Quitar dispositivo"
-        confirmLabel="Quitar acceso"
-        busy={busy}
-        onCancel={() => setRevokeDevice(null)}
-        onConfirm={() => void confirmRevoke()}
-      >
-        <p>
-          ¿Quitar el acceso de «{revokeDevice?.deviceLabel}»? Después hará falta
-          autorizarlo de nuevo.
         </p>
       </ConfirmDialog>
     </div>
@@ -866,79 +798,6 @@ function EducationSection({ tables }: { tables: TableMasteryItem[] }) {
           ))}
         </ul>
       )}
-    </section>
-  )
-}
-
-function DevicesSection({
-  devices,
-  tempCode,
-  busy,
-  onCreateCode,
-  onRevoke,
-}: {
-  devices: AdultDevice[]
-  tempCode: string | null
-  busy: boolean
-  onCreateCode: () => void
-  onRevoke: (d: AdultDevice) => void
-}) {
-  const active = devices.filter((d) => d.active)
-  const inactive = devices.filter((d) => !d.active)
-
-  return (
-    <section className="adult-block" aria-labelledby="adult-devices">
-      <div className="adult-block__head">
-        <h2 id="adult-devices" className="adult-block__title">
-          Dispositivos autorizados
-        </h2>
-        <button
-          type="button"
-          className="btn btn-ghost"
-          onClick={onCreateCode}
-          disabled={busy}
-        >
-          Crear código temporal
-        </button>
-      </div>
-      <p className="adult-block__lead">
-        Solo estos aparatos pueden pedir el PIN. Si pierdes una tablet, quítala de la
-        lista.
-      </p>
-      {tempCode ? (
-        <p className="adult-temp-code" role="status">
-          Código para otro dispositivo: <strong>{tempCode}</strong>
-        </p>
-      ) : null}
-      {active.length === 0 ? (
-        <p className="adult-block__empty">Ningún dispositivo activo ahora mismo.</p>
-      ) : (
-        <ul className="adult-devices">
-          {active.map((d) => (
-            <li key={d.id} className="adult-devices__item">
-              <div>
-                <p className="adult-devices__name">{d.deviceLabel}</p>
-                <p className="adult-devices__meta">
-                  Último uso: {formatMadridDateTime(d.lastUsedAt)}
-                </p>
-              </div>
-              <button
-                type="button"
-                className="btn btn-ghost"
-                onClick={() => onRevoke(d)}
-              >
-                Quitar
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
-      {inactive.length > 0 ? (
-        <p className="adult-devices__inactive">
-          {inactive.length} dispositivo{inactive.length === 1 ? '' : 's'} antiguo
-          {inactive.length === 1 ? '' : 's'} (revocado o caducado).
-        </p>
-      ) : null}
     </section>
   )
 }

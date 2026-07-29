@@ -13,8 +13,8 @@ Csrf::requireValid(Csrf::fromRequest($body));
 
 $pin = isset($body['pin']) && is_string($body['pin']) ? $body['pin'] : '';
 if (strlen($pin) > 16) {
-    Http::error(400, 'invalid_pin', 'Ese PIN no es correcto.');
+    Http::error(401, 'invalid_pin', 'PIN incorrecto');
 }
 
-$result = PinAuthService::loginWithPin($pin);
+$result = PinAuthService::loginWithAdultPin($pin);
 Http::ok($result);

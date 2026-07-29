@@ -1,13 +1,15 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from '@/auth/AuthContext'
-import { usePlayHeartbeat } from '@/auth/usePlayHeartbeat'
-import { DeviceSetupScreen } from '@/features/access/DeviceSetupScreen'
-import { PinScreen } from '@/features/access/PinScreen'
 
+/** El Lobby y el juego son libres. Solo /adult exige sesión adulta. */
 export function AuthGate() {
-  const { loading, role, deviceAuthorized } = useAuth()
+  const { loading, role } = useAuth()
   const location = useLocation()
-  usePlayHeartbeat()
+  const isAdultPath = location.pathname === '/adult' || location.pathname.startsWith('/adult/')
+
+  if (!isAdultPath) {
+    return <Outlet />
+  }
 
   if (loading) {
     return (
@@ -18,21 +20,7 @@ export function AuthGate() {
     )
   }
 
-  if (!deviceAuthorized) {
-    return <DeviceSetupScreen />
-  }
-
-  if (!role) {
-    return <PinScreen />
-  }
-
-  const isAdultPath = location.pathname === '/adult' || location.pathname.startsWith('/adult/')
-
-  if (role === 'adult' && !isAdultPath) {
-    return <Navigate to="/adult" replace />
-  }
-
-  if (role === 'child' && isAdultPath) {
+  if (role !== 'adult') {
     return <Navigate to="/" replace />
   }
 
