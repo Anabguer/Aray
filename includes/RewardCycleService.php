@@ -342,7 +342,9 @@ final class RewardCycleService
         string $deliveryDateLocal,
         string $note = ''
     ): array {
-        AuthService::requireAdultLinkedToPlayer($playerId);
+        if (!AuthService::accountOwnsPlayer($accountId, $playerId)) {
+            Http::error(403, 'forbidden', 'No tienes permiso sobre este perfil.');
+        }
         $pdo = Database::pdo();
         $cycles = Database::table('reward_cycles');
         $now = MadridTime::utcNowString();
@@ -410,7 +412,9 @@ final class RewardCycleService
         int $cycleId,
         string $reason
     ): array {
-        AuthService::requireAdultLinkedToPlayer($playerId);
+        if (!AuthService::accountOwnsPlayer($accountId, $playerId)) {
+            Http::error(403, 'forbidden', 'No tienes permiso sobre este perfil.');
+        }
         $reason = trim($reason);
         if ($reason === '' || mb_strlen($reason) < 3) {
             Http::error(400, 'reason_required', 'Indica un motivo para anular la entrega.');
