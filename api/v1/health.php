@@ -26,6 +26,8 @@ if ($payload['dbConfigured']) {
         $mig = Database::table('schema_migrations');
         $stmt = $pdo->query("SELECT version FROM {$mig} ORDER BY version");
         $payload['migrations'] = $stmt ? $stmt->fetchAll(PDO::FETCH_COLUMN) : [];
+        $payload['arayTableCount'] = count(SchemaInstaller::listArayTables($pdo));
+        $payload['accounts'] = SchemaInstaller::countAccounts($pdo);
     } catch (Throwable $e) {
         $payload['dbOk'] = false;
         $payload['dbError'] = 'connection_failed';

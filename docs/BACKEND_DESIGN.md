@@ -53,11 +53,18 @@ Crear en el servidor (fuera del repo o ignorado):
 
 `includes/database.local.php` — ver `includes/database.example.php`.
 
+Referencia Anabel (adaptada, sin copiar secretos):
+- Local: BD propia `aray_db` + `ARAY_CREATE_DATABASE=true` + `CREATE TABLE IF NOT EXISTS` vía `SchemaInstaller`.
+- Hostalia: BD compartida del hosting + prefijo `arayapp_` (como Anabel usa `anabel_` en la BD compartida). No hace falta crear una BD nueva en el panel.
+- **No** hardcodear contraseñas de producción en PHP versionado (Anabel lo hace en `database.php`; ARAY no debe repetirlo).
+
 Valores a rellenar:
 - `DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_CHARSET`
 - `ARAY_ENV=production`
 - `ARAY_COOKIE_SECURE=true`
-- Semilla Neni: login/password solo en script de instalación de un solo uso (CLI o token de instalación), nunca en el frontend.
+- `ARAY_CREATE_DATABASE=false` en Hostalia (la BD ya existe)
+- `ARAY_AUTO_ENSURE_SCHEMA=true` (tablas IF NOT EXISTS al conectar)
+- Semilla Neni: solo vía `install_once.php` + token, nunca en el frontend.
 
 ## Endpoints Fase 1
 

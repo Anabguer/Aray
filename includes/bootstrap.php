@@ -22,6 +22,7 @@ if (is_file($localConfig)) {
 
 require_once __DIR__ . '/Http.php';
 require_once __DIR__ . '/MadridTime.php';
+require_once __DIR__ . '/SchemaInstaller.php';
 require_once __DIR__ . '/Database.php';
 require_once __DIR__ . '/Session.php';
 require_once __DIR__ . '/Csrf.php';
@@ -29,9 +30,28 @@ require_once __DIR__ . '/RateLimit.php';
 require_once __DIR__ . '/AuthService.php';
 require_once __DIR__ . '/ProgressRepository.php';
 require_once __DIR__ . '/AdultAudit.php';
-
 if (!defined('DB_PREFIX')) {
     define('DB_PREFIX', 'arayapp_');
+}
+
+/** Compatibilidad CLI Windows sin extensión mbstring */
+if (!function_exists('mb_strlen')) {
+    function mb_strlen(string $string, ?string $encoding = null): int
+    {
+        return strlen($string);
+    }
+}
+if (!function_exists('mb_strtolower')) {
+    function mb_strtolower(string $string, ?string $encoding = null): string
+    {
+        return strtolower($string);
+    }
+}
+if (!function_exists('mb_substr')) {
+    function mb_substr(string $string, int $start, ?int $length = null, ?string $encoding = null): string
+    {
+        return $length === null ? substr($string, $start) : substr($string, $start, $length);
+    }
 }
 
 function arayapp_table(string $name): string

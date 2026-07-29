@@ -27,15 +27,20 @@ SELECT VERSION();
 
 y revisa `GET /aray/api/v1/health.php` (devuelve `phpVersion` y, si hay BD, `dbVersion`).
 
-## Configuración local
+## Configuración local (como Anabel, adaptado)
 
-1. Copia `includes/database.example.php` → `includes/database.local.php`
-2. Rellena `DB_*`, `ARAY_INSTALL_TOKEN`, `ARAY_SEED_ADULT_PASSWORD`
-3. Crea la base vacía en MySQL
-4. `php scripts/install_once.php --token=TU_TOKEN`
-5. `php scripts/phase1_smoke.php`
+Anabel crea tablas con `CREATE TABLE IF NOT EXISTS` en PHP (`*_ensure_schema`) y siembra auth solo si la tabla está vacía. ARAY hace lo mismo vía `SchemaInstaller`:
 
-`database.local.php` **no** debe ir a Git.
+1. `php scripts/setup_local_config.php --db-password=... --seed-password=...`
+2. `php scripts/install_once.php --token=...` (idempotente)
+3. `php scripts/phase1_smoke.php`
+4. `php scripts/phase1_integration.php`
+
+Flags útiles en `database.local.php`:
+- `ARAY_CREATE_DATABASE` — crea `aray_db` si no existe (local)
+- `ARAY_AUTO_ENSURE_SCHEMA` — aplica migraciones IF NOT EXISTS al conectar
+
+`database.local.php` **no** debe ir a Git (`.gitignore`: `includes/*.local.php`).
 
 ## Migraciones
 

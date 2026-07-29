@@ -5,13 +5,16 @@
  * Nunca subas contraseñas ni este archivo con secretos al repositorio.
  *
  * Prefijo de tablas: arayapp_ (no usar aray_)
+ *
+ * Local (patrón Anabel, adaptado): BD propia aray_db, prefijo arayapp_.
+ * Hostalia: BD compartida del hosting + mismo prefijo arayapp_ (sin crear BD en panel).
  */
 
 declare(strict_types=1);
 
 define('DB_HOST', 'localhost');
-define('DB_USER', 'CHANGE_ME');
-define('DB_PASSWORD', 'CHANGE_ME');
+define('DB_USER', 'root');
+define('DB_PASSWORD', ''); // local: rellena si MySQL exige contraseña
 define('DB_NAME', 'aray_db');
 define('DB_CHARSET', 'utf8mb4');
 define('DB_PREFIX', 'arayapp_');
@@ -19,11 +22,16 @@ define('DB_PREFIX', 'arayapp_');
 /** local | production */
 define('ARAY_ENV', 'local');
 
+/** Crear BD automáticamente (solo local / usuario con privilegio CREATE) */
+define('ARAY_CREATE_DATABASE', true);
+/** Aplicar CREATE TABLE IF NOT EXISTS al conectar (idempotente, estilo Anabel) */
+define('ARAY_AUTO_ENSURE_SCHEMA', true);
+
 define('ARAY_SESSION_NAME', 'ARAYSESSID');
 define('ARAY_DEVICE_COOKIE', 'ARAYDEVICE');
 define('ARAY_COOKIE_SECURE', false); // true en Hostalia (HTTPS)
 define('ARAY_COOKIE_SAMESITE', 'Lax');
-define('ARAY_COOKIE_PATH', '/aray');
+define('ARAY_COOKIE_PATH', '/'); // en Hostalia bajo /aray/ usar '/aray'
 
 define('ARAY_TIMEZONE_PLAYABLE', 'Europe/Madrid');
 define('ARAY_DEVICE_TOKEN_BYTES', 32);
