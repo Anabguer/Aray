@@ -8,10 +8,11 @@ Documento vivo tras la aprobación y ajustes obligatorios. La fuente oficial es 
 - Cuenta adulta inicial: **Neni**.
 - Perfil infantil: **Aray** (relación cuenta → N perfiles vía `arayapp_account_players`).
 - Flujo preferido: adulto inicia sesión → autoriza dispositivo → siguientes visitas “JUGAR COMO ARAY”.
-- Autorización: token aleatorio largo, **solo hash en servidor**, cookie HttpOnly/Secure/SameSite.
+- Autorización: token aleatorio largo, **solo hash en servidor**, cookie `ARAYDEVICE` HttpOnly/Secure/SameSite.
+- Tablas: `arayapp_authorized_devices`, `arayapp_device_temp_codes`, `arayapp_auth_attempts`.
 - Adulto puede listar/revocar dispositivos.
 - Dispositivo nuevo sin sesión adulta: código temporal de un solo uso y caducidad corta.
-- PIN infantil (si existe) es **alternativa local**, no única barrera pública.
+- PIN infantil (columna opcional) es **alternativa local**, no única barrera pública.
 - Rate limiting + errores genéricos + bloqueo temporal en login adulto / PIN / código.
 - No mostrar ≈€ en zona infantil.
 
