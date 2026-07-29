@@ -172,71 +172,56 @@ Con `prefers-reduced-motion: reduce` se elimina la elevación y la escala del ic
 
 ## Lumo
 
-Compañero de luz de ARAY. SVG/CSS editable (`src/lumo/`), nunca imagen fija ni GIF. Las partes se animan por clase CSS; el estado lo gobierna `useLumoController` (un solo temporizador).
+Compañero gamer de ARAY: pequeño dron/robot futurista (no mascota bebé). Recurso principal: PNG con fondo transparente `src/assets/lumo.png`. El componente `Lumo` envuelve el arte con aura, núcleo de energía y animaciones CSS; el estado lo gobierna `useLumoController` (un solo temporizador).
 
-### Anatomía (viewBox 120×120)
+### Identidad visual
+
+- Paleta: azul oscuro / negro + luces cian (alineada al Lobby).
+- Silueta compacta y algo angular; antenas tech / cuernos geométricos.
+- Ojos cian pequeños y picaros; auricular/visor hacker; núcleo hexagonal en el pecho (energía).
+- Travieso y cómplice; nunca armas, agresividad u horror.
+
+### Capas del componente
 
 | Parte | Clase | Rol |
 |-------|-------|-----|
+| Arte | `.lumo__art` | PNG del personaje |
+| Núcleo | `.lumo__core` | Halo sobre el pecho; brilla / pulsa según estado |
 | Sombra | `.lumo__shadow` | Elipse inferior; se comprime al saltar |
-| Orejitas | `.lumo__ear--l` / `--r` | Extensiones cortas redondeadas, inclinadas ~32°, mismo degradado del cuerpo |
-| Cuerpo | `.lumo__body` | Cápsula redondeada, degradado `#7dd3fc → #38bdf8 → #6366f1` |
-| Brazo izq./der. | `.lumo__arm--l` / `--r` | Muñones ovalados a los lados; animables por separado |
-| Barriga | `.lumo__belly` | Óvalo de energía en la **mitad inferior** |
-| Pulso barriga | `.lumo__belly-glow` | Anillo que se expande una vez al ganar energía |
-| Patita izq./der. | `.lumo__leg--l` / `--r` | Óvalos bajos; no ensanchan mucho la silueta en reposo |
-| Ojos / pupilas | `.lumo__eye*` / `.lumo__pupils` | Parpadeo y mirada vía CSS (sin re-render de pantalla) |
-| Boca | `.lumo__mouth` / `.lumo__mouth-oops` | Trazo pequeño independiente, **por encima** de la barriga |
 | Aura / sparks | `.lumo__aura` / `.lumo__spark` | Brillo ambiental y partículas puntuales |
-
-Orden de pintura: orejitas → brazos → cuerpo → barriga → patitas → cara.
-
-### Proporciones
-
-- Centro del cuerpo ≈ `(60, 58)`; base del cuerpo ≈ `y=100`.
-- Ojos ≈ `y=46`; boca ≈ `y=58` (sonrisa corta).
-- Barriga: centro `(60, 84)`, `rx≈16`, `ry≈12` — **no invade** la zona de ojos; separación clara respecto a la boca (~y=57).
-- Orejitas: picos ~`y=6–12`, cortas; deben leerse también en `sm`.
-- Extremidades: brazos ~`y=70`, patitas ~`y=102`; formas blandas sin dedos.
-- Tono barriga en idle: azulado (`#a8d8f0 → #6bc4e8`), **nunca blanco puro** (evitar aspecto de hocico/barba).
 
 ### Tamaños recomendados
 
 | Token | CSS | Uso |
 |-------|-----|-----|
-| `sm` (mín. recomendado) | `3.75rem` (60px) | GoalCard, Empareja |
-| `md` | `5.5rem` (88px) | Entrena, Reto |
-| `lg` (máx. habitual) | `7rem` (112px) | Hero portada, resumen |
+| `sm` (mín. recomendado) | `3.75rem` (60px) | GoalCard, Empareja, cabecera compacta |
+| `md` | `5.5rem` (88px) | Lobby, Entrena, Reto |
+| `lg` (máx. habitual) | `7rem` (112px) | Galería / resumen |
 
-No subir la altura del topbar ni del hero para “hacer caber” a Lumo: el viewBox ya incluye orejitas y patitas.
+Debe reconocerse en `sm` dentro del lobby/cabecera. No subir la altura del topbar para “hacerlo caber”.
 
-Galería de QA visual (desarrollo): ruta `/dev/lumo` (`LumoGallery`).
+Galería de QA: `/dev/lumo` (`LumoGallery`).
 
 ### Estados visuales y animaciones
 
 | Estado | Situación | Qué se mueve | Duración aprox. |
 |--------|-----------|--------------|-----------------|
-| `idle` | Reposo | Respiración suave; parpadeo; mirada ocasional al lado y vuelta | Continuo (breathe 3.6s, blink 5.5s, glance 8s) |
-| `thinking` | Esperando respuesta | Mirada rápida L↔R; manitas y patitas fidget **pocas repeticiones** luego quietas; squish 1 vez | Fidget ~1.6s; mirada continúa mientras espera |
-| `correct` | Acierto | Saltito; manitas arriba; ojos alegres (entrecerrados); pulso barriga | **700ms** (`lumoDurations.correct`) |
-| `incorrect` | Fallo + reintento | Cabeza inclinada; mirada hacia la zona de respuestas; una manita cerca de la cara; boca “hmm” | **900ms** → vuelve a `thinking` |
-| `streak` | Energía / racha 3–5 | Hop + brillo barriga + un pulso expandible + sparks **una vez** | **1100ms** |
-| `celebration` | Racha 10 / récord / meta | Celebrate + brazos + ojos alegres + pulso; sparks limitados (no loop eterno) | **1800ms** |
+| `idle` | Reposo | Respiración suave; brillo del núcleo on/off | Continuo (breathe 3.6s, core 2.8s) |
+| `thinking` | Esperando respuesta | Squish breve; núcleo sigue brillando | Squish ~1.1s |
+| `correct` | Acierto | Saltito + pulso de núcleo | **700ms** |
+| `incorrect` | Fallo + reintento | Inclina la figura (pensativo) | **900ms** → `thinking` |
+| `streak` | Energía / racha 3–5 | Hop + pulso + sparks una vez | **1100ms** |
+| `celebration` | Racha 10 / récord / meta | Celebrate + pulso; sparks limitados | **1800ms** |
 
-Intensidad (`0–4`): escala el brillo de la barriga y, en `i3`/`i4`, el aura. Umbrales de reacción: racha 3 / 5 / 10 en `reactionFromAnswer`.
+Intensidad (`0–4`): refuerza núcleo y aura. Umbrales: racha 3 / 5 / 10 en `reactionFromAnswer`.
 
-Reglas de tono:
-
-- Error: nunca llanto, enfado ni rojo agresivo; inclinación pensativa y vuelta a atención.
-- Thinking: gracioso, no ansiedad.
-- Energía: pulso puntual, sin destellos constantes.
-- Feedback textual (`lumo-caption` / mensajes) obligatorio además de la animación.
+Reglas de tono: error pensativo (nunca enfado); energía con pulso puntual; feedback textual obligatorio.
 
 ### Movimiento reducido (`prefers-reduced-motion: reduce`)
 
-- Se anulan las animaciones ornamentales.
-- Sustitución: expresión estática (ojos alegres / cabeza inclinada / manita pensativa) y mayor luminosidad de barriga/aura.
-- El controller acorta reacciones a ≤200ms.
+- Sin animaciones ornamentales.
+- Núcleo/aura con luminosidad estática según estado.
+- Controller acorta reacciones a ≤200ms.
 
 ### API
 
