@@ -10,7 +10,9 @@ Portada con **Lumo**, barra de meta **500 Robux** (puntos de recompensa independ
 
 **Sistemas separados:** XP · monedas · dominio · puntos de recompensa.
 
-**No incluye todavía:** Mi colección, personalización completa de Lumo, otras materias, backend, MySQL, login, PWA, Capacitor, Roblox ni despliegue.
+Incluye **Mi colección** con insignias, tablas domadas, pistas de desbloqueo y premios reclamables.
+
+**No incluye todavía:** personalización completa de Lumo, otras materias, backend, MySQL, login, PWA, Capacitor, Roblox ni despliegue.
 
 ## Material anterior
 

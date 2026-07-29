@@ -50,7 +50,7 @@ export interface RewardProgress {
 }
 
 export interface ProgressState {
-  version: 2
+  version: 3
   xp: number
   coins: number
   bestStreak: number
@@ -61,6 +61,9 @@ export interface ProgressState {
   soundMuted: boolean
   reward: RewardProgress
   crates: import('@/crates/engine').CratesState
+  achievements: {
+    claimedIds: string[]
+  }
 }
 
 export interface SessionAnswer {

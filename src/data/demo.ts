@@ -27,8 +27,8 @@ export const zoneLinks: ZoneLink[] = [
   {
     id: 'collection',
     title: 'Mi colección',
-    description: 'Tus premios',
-    status: 'coming-soon',
+    description: 'Logros y premios',
+    status: 'active',
     path: '/collection',
   },
 ]

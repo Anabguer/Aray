@@ -23,7 +23,7 @@ export const PROGRESS_STORAGE_KEY = 'aray.progress.v1'
 
 export function createInitialProgress(): ProgressState {
   return {
-    version: 2,
+    version: 3,
     xp: 0,
     coins: 0,
     bestStreak: 0,
@@ -34,6 +34,7 @@ export function createInitialProgress(): ProgressState {
     soundMuted: false,
     reward: createInitialRewardProgress(),
     crates: createInitialCratesState(),
+    achievements: { claimedIds: [] },
   }
 }
 
@@ -64,7 +65,14 @@ export function normalizeProgress(raw: unknown, today: string = localDateString(
     soundMuted: Boolean(parsed.soundMuted),
     reward: syncRewardDay(reward, today),
     crates: normalizeCratesState((parsed as { crates?: unknown }).crates),
-    version: 2,
+    achievements: {
+      claimedIds: Array.isArray((parsed as Partial<ProgressState>).achievements?.claimedIds)
+        ? (parsed as Partial<ProgressState>).achievements!.claimedIds.filter(
+            (id): id is string => typeof id === 'string',
+          )
+        : [],
+    },
+    version: 3,
   }
 
   // No convertir monedas en puntos de recompensa
@@ -111,7 +119,7 @@ export function createLocalStorageProgressStore(
       }
     },
     save(state) {
-      storage.setItem(key, JSON.stringify({ ...state, version: 2 }))
+      storage.setItem(key, JSON.stringify({ ...state, version: 3 }))
     },
     clear() {
       storage.removeItem(key)
@@ -265,7 +273,7 @@ export function applySessionToProgress(
 
   const next: ProgressState = {
     ...progress,
-    version: 2,
+    version: 3,
     facts: { ...progress.facts },
     tables: { ...progress.tables },
     xp: progress.xp + rewards.xpEarned,

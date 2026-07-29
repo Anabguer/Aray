@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
-import { ComingSoonScreen } from '@/features/coming-soon/ComingSoonScreen'
+import { CollectionScreen } from '@/features/collection/CollectionScreen'
 import { HomeScreen } from '@/features/home/HomeScreen'
 import { ChallengeScreen } from '@/features/maths/ChallengeScreen'
 import { LearnScreen } from '@/features/maths/LearnScreen'
@@ -28,7 +28,7 @@ export default function App() {
       <Route path="/missions/mates/tables/match" element={<MatchScreen />} />
       <Route path="/missions/mates/tables/summary" element={<SessionSummaryScreen />} />
       <Route path="/missions/:subjectId" element={<SubjectPreviewScreen />} />
-      <Route path="/collection" element={<ComingSoonScreen zoneKey="collection" />} />
+      <Route path="/collection" element={<CollectionScreen />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )

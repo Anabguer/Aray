@@ -24,6 +24,7 @@ import {
   type ProgressStore,
 } from '@/progress/repository'
 import { soundEngine } from '@/sound/soundEngine'
+import { achievementCatalog, achievementIsUnlocked } from '@/achievements/catalog'
 
 interface ProgressContextValue {
   progress: ProgressState
@@ -54,6 +55,7 @@ interface ProgressContextValue {
   chooseCrate: (index: number) => void
   openCrate: () => void
   collectCrate: () => string | null
+  claimAchievement: (achievementId: string) => boolean
 }
 
 const ProgressContext = createContext<ProgressContextValue | null>(null)
@@ -205,6 +207,25 @@ export function ProgressProvider({
     return applied.adjustmentNote
   }, [persist, progress])
 
+  const claimAchievement = useCallback(
+    (achievementId: string) => {
+      const achievement = achievementCatalog.find((item) => item.id === achievementId)
+      if (!achievement || !achievementIsUnlocked(achievement, progress)) return false
+      if (progress.achievements.claimedIds.includes(achievementId)) return false
+
+      persist({
+        ...progress,
+        xp: progress.xp + (achievement.reward.xp ?? 0),
+        coins: progress.coins + (achievement.reward.coins ?? 0),
+        achievements: {
+          claimedIds: [...progress.achievements.claimedIds, achievementId],
+        },
+      })
+      return true
+    },
+    [persist, progress],
+  )
+
   const value = useMemo(
     () => ({
       progress,
@@ -216,6 +237,7 @@ export function ProgressProvider({
       chooseCrate,
       openCrate,
       collectCrate,
+      claimAchievement,
     }),
     [
       progress,
@@ -227,6 +249,7 @@ export function ProgressProvider({
       chooseCrate,
       openCrate,
       collectCrate,
+      claimAchievement,
     ],
   )
 

@@ -54,5 +54,6 @@ export default defineConfig({
     pool: 'threads',
     fileParallelism: false,
     testTimeout: 15000,
+    include: ['src/**/*.{test,spec}.{ts,tsx}'],
   },
 })

@@ -74,9 +74,10 @@ describe('ARAY navigation shell', () => {
     expect(screen.getByRole('button', { name: /misión random/i })).toBeInTheDocument()
   })
 
-  it('muestra próximamente en colección', () => {
+  it('abre la colección de logros', () => {
     renderAt('/collection')
-    expect(screen.getAllByText(/^próximamente$/i).length).toBeGreaterThan(0)
-    expect(screen.getByRole('heading', { name: /^mi colección$/i })).toBeInTheDocument()
+    expect(screen.getAllByRole('heading', { name: /^mi colección$/i })).toHaveLength(2)
+    expect(screen.getByText(/sala de trofeos/i)).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /despegue completado/i })).toBeInTheDocument()
   })
 })
