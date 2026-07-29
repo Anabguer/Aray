@@ -46,11 +46,20 @@ export interface RewardProgress {
   dailyDate: string | null
   dailyPoints: number
   goalStatus: RewardGoalStatus
+  /** Ciclo activo actual (Premio N). */
+  currentCycleNumber: number
+  /** Premios conseguidos pendientes de entrega adulta. */
+  pendingCycleNumbers: number[]
+  /** Premios ya entregados (historial / vitrina). */
+  deliveredCycleNumbers: number[]
+  /** Celebraciones ya mostradas (no repetir al reabrir). */
+  celebratedPendingCycles: number[]
   appliedSessionIds: string[]
 }
 
 export interface ProgressState {
-  version: 3
+  /** v4: perfil escolar + asignaciones adultas (sin romper XP/tablas). */
+  version: 4
   xp: number
   coins: number
   bestStreak: number
@@ -64,6 +73,10 @@ export interface ProgressState {
   achievements: {
     claimedIds: string[]
   }
+  /** Curso activo e historial; el cambio de curso no reinicia recompensas ni dominio. */
+  school: import('@/curriculum/types').SchoolProfile
+  /** Overrides del panel adulto por activityId. */
+  activityAssignments: import('@/curriculum/types').ActivityAssignmentMap
 }
 
 export interface SessionAnswer {

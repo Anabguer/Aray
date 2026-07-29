@@ -23,13 +23,19 @@ if (is_file($localConfig)) {
 require_once __DIR__ . '/Http.php';
 require_once __DIR__ . '/MadridTime.php';
 require_once __DIR__ . '/SchemaInstaller.php';
-require_once __DIR__ . '/Database.php';
+require_once __DIR__ . '/AdultAudit.php';
 require_once __DIR__ . '/Session.php';
 require_once __DIR__ . '/Csrf.php';
 require_once __DIR__ . '/RateLimit.php';
 require_once __DIR__ . '/AuthService.php';
+require_once __DIR__ . '/PinAuthService.php';
+require_once __DIR__ . '/CurriculumCatalogService.php';
+require_once __DIR__ . '/PlayerCourseService.php';
+require_once __DIR__ . '/RewardCycleService.php';
+require_once __DIR__ . '/ActivityService.php';
+require_once __DIR__ . '/AdultDashboardService.php';
 require_once __DIR__ . '/ProgressRepository.php';
-require_once __DIR__ . '/AdultAudit.php';
+require_once __DIR__ . '/Database.php';
 if (!defined('DB_PREFIX')) {
     define('DB_PREFIX', 'arayapp_');
 }

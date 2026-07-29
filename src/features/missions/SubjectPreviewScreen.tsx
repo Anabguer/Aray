@@ -1,22 +1,33 @@
 import { Link, useParams } from 'react-router-dom'
 import { AppShell } from '@/components/AppShell'
 import { SubjectIcon } from '@/components/ZoneIcons'
+import { blocksForSubject, getSubject } from '@/curriculum'
 import { comingSoonCopy, subjectPreviews } from '@/data/demo'
 import type { SubjectId } from '@/data/types'
 
+const CURRICULUM_ROUTE_MAP: Record<string, 'languages' | 'english'> = {
+  languages: 'languages',
+  english: 'english',
+  catala: 'languages',
+  castellano: 'languages',
+  angles: 'english',
+}
+
 export function SubjectPreviewScreen() {
   const { subjectId } = useParams<{ subjectId: string }>()
-  const subject = subjectPreviews.find((item) => item.id === subjectId)
+  const curriculumId = subjectId ? CURRICULUM_ROUTE_MAP[subjectId] : undefined
+  const curriculumSubject = curriculumId ? getSubject(curriculumId) : undefined
+  const legacySubject = subjectPreviews.find((item) => item.id === subjectId)
 
-  if (!subject) {
+  if (!curriculumSubject && !legacySubject) {
     return (
-      <AppShell title="Misiones" showBack>
+      <AppShell title="Mis mundos" showBack>
         <section className="coming-soon">
           <div className="coming-soon__panel">
-            <h2 className="coming-soon__title">Asignatura no encontrada</h2>
-            <p className="coming-soon__body">Vuelve a Misiones y elige otra opción.</p>
+            <h2 className="coming-soon__title">Mundo no encontrado</h2>
+            <p className="coming-soon__body">Vuelve a Mis mundos y elige otra opción.</p>
             <Link to="/missions" className="btn btn-secondary">
-              Ir a Misiones
+              Ir a Mis mundos
             </Link>
           </div>
         </section>
@@ -24,22 +35,43 @@ export function SubjectPreviewScreen() {
     )
   }
 
+  const title = curriculumSubject?.title ?? legacySubject!.title
+  const description = curriculumSubject?.description ?? legacySubject!.description
+  const accent = curriculumSubject?.legacyHubId ?? legacySubject!.accent
+  const iconId = (curriculumSubject?.legacyHubId ?? legacySubject!.id) as SubjectId
+  const preparedBlocks = curriculumSubject
+    ? blocksForSubject(curriculumSubject.id).filter((b) => b.status !== 'hidden')
+    : []
+
   return (
-    <AppShell title={subject.title} showBack>
+    <AppShell title={title} showBack>
       <section className="subject-preview" aria-labelledby="subject-preview-title">
-        <div className={`subject-preview__panel subject-preview__panel--${subject.accent}`}>
+        <div className={`subject-preview__panel subject-preview__panel--${accent}`}>
           <div className="subject-preview__icon">
-            <SubjectIcon id={subject.id as SubjectId} />
+            <SubjectIcon id={iconId} />
           </div>
-          <p className="coming-soon__badge">Vista previa</p>
+          <p className="coming-soon__badge">Entrenamiento</p>
           <p id="subject-preview-title" className="coming-soon__title">
-            {subject.title}
+            {title}
           </p>
-          <p className="coming-soon__body">{subject.description}</p>
-          <p className="coming-soon__body">{comingSoonCopy.subject.body}</p>
+          <p className="coming-soon__body">{description}</p>
+          {preparedBlocks.length > 0 ? (
+            <ul className="subject-preview__blocks">
+              {preparedBlocks.map((block) => (
+                <li key={block.id}>
+                  <strong>{block.title}</strong>
+                  <span>
+                    {block.status === 'active' ? ' · disponible' : ' · pronto'}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="coming-soon__body">{comingSoonCopy.subject.body}</p>
+          )}
           <div className="subject-preview__actions">
             <Link to="/missions" className="btn btn-secondary">
-              Volver a Misiones
+              Volver a Mis mundos
             </Link>
             <Link to="/" className="btn btn-ghost">
               Lobby

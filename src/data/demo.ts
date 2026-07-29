@@ -19,8 +19,8 @@ export const demoMissionOfDay: DemoMissionOfDay = {
 export const zoneLinks: ZoneLink[] = [
   {
     id: 'missions',
-    title: 'Misiones',
-    description: 'Elige una aventura',
+    title: 'Mis mundos',
+    description: 'Entrena por asignaturas',
     status: 'active',
     path: '/missions',
   },

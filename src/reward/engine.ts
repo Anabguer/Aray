@@ -15,6 +15,10 @@ export function createInitialRewardProgress(): RewardProgress {
     dailyDate: null,
     dailyPoints: 0,
     goalStatus: 'active',
+    currentCycleNumber: 1,
+    pendingCycleNumbers: [],
+    deliveredCycleNumbers: [],
+    celebratedPendingCycles: [],
     appliedSessionIds: [],
   }
 }
@@ -30,10 +34,9 @@ export function syncRewardDay(reward: RewardProgress, today: string): RewardProg
 
 export function remainingDailyCapacity(reward: RewardProgress, today: string): number {
   const synced = syncRewardDay(reward, today)
-  if (synced.goalStatus === 'completed' || synced.goalStatus === 'validated') return 0
-  const toGoal = Math.max(0, rewardGoalConfig.targetPoints - synced.pointsTotal)
+  // Los premios pendientes NO bloquean seguir ganando puntos para el siguiente ciclo.
   const toDaily = Math.max(0, rewardGoalConfig.dailyCap - synced.dailyPoints)
-  return Math.min(toGoal, toDaily)
+  return toDaily
 }
 
 export function maxLoadableForSession(
@@ -56,59 +59,74 @@ export interface GrantRewardResult {
   requested: number
   dailyComplete: boolean
   goalJustCompleted: boolean
+  cyclesJustCompleted: number[]
   skippedDuplicateSession: boolean
 }
 
 /**
- * Concede puntos de recompensa respetando tope diario, tope total y anti-duplicado de sesión.
- * Los puntos sobrantes del request NO se arrastran al día siguiente.
+ * Concede puntos de recompensa respetando tope diario.
+ * Al alcanzar el objetivo del ciclo, el sobrante pasa al siguiente (no se pierde).
  */
 export function grantRewardPoints(
   reward: RewardProgress,
   input: GrantRewardInput,
   today: string = localDateString(),
 ): GrantRewardResult {
-  let next = syncRewardDay(reward, today)
+  let next = normalizeRewardCycles(syncRewardDay(reward, today))
+  const target = rewardGoalConfig.targetPoints
 
   if (next.appliedSessionIds.includes(input.sessionId)) {
     return {
       reward: next,
       granted: 0,
       requested: input.requestedPoints,
-      dailyComplete: next.dailyPoints >= rewardGoalConfig.dailyCap || next.goalStatus !== 'active',
+      dailyComplete: next.dailyPoints >= rewardGoalConfig.dailyCap,
       goalJustCompleted: false,
+      cyclesJustCompleted: [],
       skippedDuplicateSession: true,
-    }
-  }
-
-  if (next.goalStatus === 'completed' || next.goalStatus === 'validated') {
-    return {
-      reward: {
-        ...next,
-        appliedSessionIds: trimIds([...next.appliedSessionIds, input.sessionId]),
-      },
-      granted: 0,
-      requested: input.requestedPoints,
-      dailyComplete: true,
-      goalJustCompleted: false,
-      skippedDuplicateSession: false,
     }
   }
 
   const capacity = remainingDailyCapacity(next, today)
   const granted = Math.max(0, Math.min(input.requestedPoints, capacity))
-  const pointsTotal = Math.min(rewardGoalConfig.targetPoints, next.pointsTotal + granted)
-  const dailyPoints = next.dailyPoints + granted
-  const goalJustCompleted =
-    pointsTotal >= rewardGoalConfig.targetPoints && next.pointsTotal < rewardGoalConfig.targetPoints
-  const goalStatus: RewardGoalStatus = goalJustCompleted ? 'completed' : next.goalStatus
+  let remaining = granted
+  let points = next.pointsTotal
+  let cycleNumber = next.currentCycleNumber
+  const pending = [...next.pendingCycleNumbers]
+  const cyclesJustCompleted: number[] = []
+
+  while (remaining > 0) {
+    const need = Math.max(0, target - points)
+    if (need === 0) {
+      // Ciclo ya lleno: abrir siguiente
+      if (!pending.includes(cycleNumber)) pending.push(cycleNumber)
+      cyclesJustCompleted.push(cycleNumber)
+      cycleNumber += 1
+      points = 0
+      continue
+    }
+    const add = Math.min(remaining, need)
+    points += add
+    remaining -= add
+    if (points >= target) {
+      if (!pending.includes(cycleNumber)) pending.push(cycleNumber)
+      cyclesJustCompleted.push(cycleNumber)
+      cycleNumber += 1
+      points = 0
+    }
+  }
+
+  const goalJustCompleted = cyclesJustCompleted.length > 0
+  const goalStatus: RewardGoalStatus = pending.length > 0 ? 'completed' : 'active'
 
   next = {
     ...next,
-    pointsTotal,
-    dailyPoints,
+    pointsTotal: points,
+    dailyPoints: next.dailyPoints + granted,
     dailyDate: today,
     goalStatus,
+    currentCycleNumber: cycleNumber,
+    pendingCycleNumbers: pending,
     appliedSessionIds: trimIds([...next.appliedSessionIds, input.sessionId]),
   }
 
@@ -116,9 +134,9 @@ export function grantRewardPoints(
     reward: next,
     granted,
     requested: input.requestedPoints,
-    dailyComplete:
-      next.dailyPoints >= rewardGoalConfig.dailyCap || next.goalStatus !== 'active',
+    dailyComplete: next.dailyPoints >= rewardGoalConfig.dailyCap,
     goalJustCompleted,
+    cyclesJustCompleted,
     skippedDuplicateSession: false,
   }
 }
@@ -127,19 +145,80 @@ function trimIds(ids: string[], max = 40): string[] {
   return ids.length <= max ? ids : ids.slice(ids.length - max)
 }
 
-export function confirmAdultGoal(
+/** Marca un premio pendiente como entregado (solo UI local; el servidor es la fuente). */
+export function markPrizeDeliveredLocal(
   reward: RewardProgress,
+  cycleNumber: number,
 ): RewardProgress {
-  if (reward.goalStatus !== 'completed') return reward
-  return { ...reward, goalStatus: 'validated' }
+  const next = normalizeRewardCycles(reward)
+  if (!next.pendingCycleNumbers.includes(cycleNumber)) return next
+  return {
+    ...next,
+    pendingCycleNumbers: next.pendingCycleNumbers.filter((n) => n !== cycleNumber),
+    deliveredCycleNumbers: next.deliveredCycleNumbers.includes(cycleNumber)
+      ? next.deliveredCycleNumbers
+      : [...next.deliveredCycleNumbers, cycleNumber].sort((a, b) => a - b),
+    goalStatus:
+      next.pendingCycleNumbers.filter((n) => n !== cycleNumber).length > 0
+        ? 'completed'
+        : 'active',
+  }
+}
+
+/** Compat: validación adulta antigua → entrega del primer pendiente. */
+export function confirmAdultGoal(reward: RewardProgress): RewardProgress {
+  const next = normalizeRewardCycles(reward)
+  const first = next.pendingCycleNumbers[0]
+  if (first == null) return next
+  return markPrizeDeliveredLocal(next, first)
 }
 
 export function resetRewardGoal(reward: RewardProgress, today: string = localDateString()): RewardProgress {
   return {
     ...createInitialRewardProgress(),
     dailyDate: today,
-    dailyPoints: 0,
+    deliveredCycleNumbers: normalizeRewardCycles(reward).deliveredCycleNumbers,
+    celebratedPendingCycles: normalizeRewardCycles(reward).celebratedPendingCycles,
     appliedSessionIds: reward.appliedSessionIds,
+  }
+}
+
+export function markPendingCelebrated(reward: RewardProgress, cycleNumber: number): RewardProgress {
+  const next = normalizeRewardCycles(reward)
+  if (next.celebratedPendingCycles.includes(cycleNumber)) return next
+  return {
+    ...next,
+    celebratedPendingCycles: [...next.celebratedPendingCycles, cycleNumber],
+  }
+}
+
+export function normalizeRewardCycles(reward: RewardProgress): RewardProgress {
+  const currentCycleNumber = Math.max(1, reward.currentCycleNumber ?? 1)
+  let pendingCycleNumbers = Array.isArray(reward.pendingCycleNumbers)
+    ? [...reward.pendingCycleNumbers]
+    : []
+  let deliveredCycleNumbers = Array.isArray(reward.deliveredCycleNumbers)
+    ? [...reward.deliveredCycleNumbers]
+    : []
+  const celebratedPendingCycles = Array.isArray(reward.celebratedPendingCycles)
+    ? [...reward.celebratedPendingCycles]
+    : []
+
+  // Migración desde meta única v1 (completed/validated sin ciclos).
+  if (pendingCycleNumbers.length === 0 && reward.goalStatus === 'completed') {
+    pendingCycleNumbers = [Math.max(1, currentCycleNumber)]
+  }
+  if (deliveredCycleNumbers.length === 0 && reward.goalStatus === 'validated') {
+    deliveredCycleNumbers = [1]
+  }
+
+  return {
+    ...reward,
+    currentCycleNumber,
+    pendingCycleNumbers,
+    deliveredCycleNumbers,
+    celebratedPendingCycles,
+    goalStatus: pendingCycleNumbers.length > 0 ? 'completed' : reward.goalStatus === 'validated' ? 'active' : reward.goalStatus,
   }
 }
 

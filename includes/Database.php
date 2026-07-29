@@ -61,8 +61,10 @@ final class Database
             && ARAY_AUTO_ENSURE_SCHEMA
         ) {
             self::$schemaEnsured = true;
-            // Solo tablas; la semilla Neni requiere install_once / ensure(allowSeed)
             SchemaInstaller::applyMigrations(self::$pdo);
+            if (class_exists('PinAuthService')) {
+                PinAuthService::ensurePinHashes(self::$pdo);
+            }
         }
 
         return self::$pdo;

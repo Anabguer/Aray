@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { AppShell } from '@/components/AppShell'
-import { ModeIcon } from '@/components/ModeIcon'
-import { FeedbackBanner, MuteToggle } from '@/components/quiz/QuizWidgets'
-import { energyCopy, matchSessionMeta } from '@/config/rewardGoal'
+import { MuteToggle } from '@/components/quiz/QuizWidgets'
+import { matchSessionMeta } from '@/config/rewardGoal'
 import { Lumo } from '@/lumo/Lumo'
 import { useLumoController } from '@/lumo/useLumoController'
 import {
@@ -15,7 +14,7 @@ import {
   matchHintForAttempt,
   shuffleProductsNotAligned,
 } from '@/math/match'
-import type { SessionAnswer } from '@/math/types'
+import type { SessionAnswer, SessionResult } from '@/math/types'
 import { usePlaySession } from '@/progress/PlayContext'
 import { useProgress } from '@/progress/ProgressContext'
 import { newId } from '@/progress/repository'
@@ -23,15 +22,14 @@ import { previewSessionLoad } from '@/reward/engine'
 import { soundEngine } from '@/sound/soundEngine'
 
 type Assignment = Record<string, number | null>
-type Phase = 'playing' | 'roundComplete' | 'tableComplete'
+type Phase = 'playing' | 'roundComplete' | 'tableComplete' | 'victory'
 
 const OP_COLORS = ['cyan', 'violet', 'lime', 'orange', 'coral'] as const
 const PRODUCT_COLORS = ['sky', 'violet', 'lime', 'amber', 'coral'] as const
-const WRONG_LOCK_MS = 400
-const POP_ANIM_MS = 420
+const WRONG_LOCK_MS = 420
+const POP_ANIM_MS = 480
 
 export function MatchScreen() {
-  const navigate = useNavigate()
   const { progress, applySession, setSoundMuted } = useProgress()
   const { selection, setLastResult, setActiveMode } = usePlaySession()
   const table = selection.tables[0] ?? 7
@@ -52,26 +50,21 @@ export function MatchScreen() {
   const [assignment, setAssignment] = useState<Assignment>({})
   const [lockedIds, setLockedIds] = useState<Set<string>>(new Set())
   const [selectedProduct, setSelectedProduct] = useState<number | null>(null)
+  const [selectedOpId, setSelectedOpId] = useState<string | null>(null)
   const [feedback, setFeedback] = useState<string | null>(null)
   const [missedIds, setMissedIds] = useState<Set<string>>(new Set())
   const [busy, setBusy] = useState(false)
   const [poppingOpId, setPoppingOpId] = useState<string | null>(null)
   const [wrongOpId, setWrongOpId] = useState<string | null>(null)
   const [bounceProduct, setBounceProduct] = useState<number | null>(null)
-  const [showHelp, setShowHelp] = useState(true)
-  const [roundMissed, setRoundMissed] = useState<Set<string>>(new Set())
-  const [roundAttempts, setRoundAttempts] = useState(0)
+  const [, setRoundMissed] = useState<Set<string>>(new Set())
+  const [streak, setStreak] = useState(0)
+  const [bestStreak, setBestStreak] = useState(0)
+  const [victory, setVictory] = useState<SessionResult | null>(null)
 
-  // Anti-duplicación: los refs reflejan el estado de forma síncrona para evitar
-  // dobles asignaciones cuando llegan eventos casi simultáneos (drop + click, doble tap…).
   const busyRef = useRef(false)
   const lockedRef = useRef<Set<string>>(new Set())
   const attemptCountsRef = useRef<Record<string, number>>({})
-
-  useEffect(() => {
-    const t = window.setTimeout(() => setShowHelp(false), 4000)
-    return () => window.clearTimeout(t)
-  }, [])
 
   useEffect(() => {
     const pairs = rounds[roundIndex] ?? []
@@ -81,6 +74,7 @@ export function MatchScreen() {
     setLockedIds(new Set())
     attemptCountsRef.current = {}
     setSelectedProduct(null)
+    setSelectedOpId(null)
     setFeedback(null)
     setPhase('playing')
     busyRef.current = false
@@ -89,7 +83,6 @@ export function MatchScreen() {
     setWrongOpId(null)
     setBounceProduct(null)
     setRoundMissed(new Set())
-    setRoundAttempts(0)
     lumo.setThinking()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roundIndex, table])
@@ -107,10 +100,13 @@ export function MatchScreen() {
   )
   const poolProducts = products.filter((p) => !usedProducts.has(p))
   const lockedCount = lockedIds.size
+  const remaining = Math.max(0, roundPairs.length - lockedCount)
+  const foundGlobal =
+    rounds.slice(0, roundIndex).reduce((n, r) => n + r.length, 0) + lockedCount
 
   const finishAll = useCallback(
     (finalMissed: Set<string>) => {
-      if (rewardedRef.current) return
+      if (rewardedRef.current) return null
       rewardedRef.current = true
       setActiveMode('match')
       const answers: SessionAnswer[] = []
@@ -140,14 +136,14 @@ export function MatchScreen() {
         tables: [table],
         answers,
         score: allPairs.length - finalMissed.size,
-        bestStreak: 0,
+        bestStreak,
         sessionId: sessionIdRef.current,
         missedFacts: allPairs.filter((p) => finalMissed.has(p.id)).map((p) => p.fact),
       })
       setLastResult(result)
-      navigate('/missions/mates/tables/summary')
+      return result
     },
-    [allPairs, applySession, navigate, setActiveMode, setLastResult, table],
+    [allPairs, applySession, bestStreak, setActiveMode, setLastResult, table],
   )
 
   const tryAssign = useCallback(
@@ -164,8 +160,14 @@ export function MatchScreen() {
         setLockedIds(nextLocked)
         setAssignment((prev) => ({ ...prev, [opId]: product }))
         setSelectedProduct(null)
-        setFeedback('¡Encaja!')
+        setSelectedOpId(null)
+        setFeedback('¡Pareja!')
         setPoppingOpId(opId)
+        setStreak((s) => {
+          const next = s + 1
+          setBestStreak((b) => Math.max(b, next))
+          return next
+        })
         soundEngine.play('correct')
         window.setTimeout(() => {
           setPoppingOpId((id) => (id === opId ? null : id))
@@ -178,7 +180,6 @@ export function MatchScreen() {
             soundEngine.play('reward')
             setPhase('tableComplete')
           } else {
-            soundEngine.play('correct')
             setPhase('roundComplete')
           }
         } else {
@@ -189,7 +190,6 @@ export function MatchScreen() {
 
       const fails = (attemptCountsRef.current[opId] ?? 0) + 1
       attemptCountsRef.current = { ...attemptCountsRef.current, [opId]: fails }
-      setRoundAttempts((n) => n + 1)
       setRoundMissed((prev) => new Set(prev).add(opId))
       setMissedIds((prev) => {
         const next = new Set(prev)
@@ -197,6 +197,8 @@ export function MatchScreen() {
         return next
       })
       setSelectedProduct(null)
+      setSelectedOpId(null)
+      setStreak(0)
       const hint = matchHintForAttempt(table, pair.product, fails)
       setFeedback(hint ? `${MATCH_WRONG_MESSAGE} ${hint}.` : MATCH_WRONG_MESSAGE)
       setWrongOpId(opId)
@@ -222,202 +224,211 @@ export function MatchScreen() {
 
   function onFinish() {
     if (phase !== 'tableComplete' || rewardedRef.current) return
-    finishAll(missedIds)
+    const result = finishAll(missedIds)
+    if (result) {
+      setVictory(result)
+      setPhase('victory')
+    }
   }
 
   function onProductClick(product: number) {
     if (busy || phase !== 'playing') return
+    if (selectedOpId) {
+      tryAssign(selectedOpId, product)
+      return
+    }
     setSelectedProduct((prev) => (prev === product ? null : product))
   }
 
   function onOpClick(opId: string) {
     if (lockedRef.current.has(opId) || busy || phase !== 'playing') return
-    if (selectedProduct === null) return
-    tryAssign(opId, selectedProduct)
+    if (selectedProduct !== null) {
+      tryAssign(opId, selectedProduct)
+      return
+    }
+    setSelectedOpId((prev) => (prev === opId ? null : opId))
   }
 
-  const correctedLabels = roundPairs
-    .filter((p) => roundMissed.has(p.id))
-    .map((p) => p.label)
-    .join(', ')
+  function replay() {
+    rewardedRef.current = false
+    sessionIdRef.current = newId('match')
+    setRoundIndex(0)
+    setMissedIds(new Set())
+    setStreak(0)
+    setBestStreak(0)
+    setVictory(null)
+    setPhase('playing')
+  }
+
+  const progressPct = Math.round((foundGlobal / Math.max(1, allPairs.length)) * 100)
 
   return (
     <AppShell
-      title="Empareja"
+      title="EMPAREJA"
       showBack
       backTo="/missions/mates/tables/modes"
       trailing={
         <MuteToggle muted={progress.soundMuted} onToggle={() => setSoundMuted(!progress.soundMuted)} />
       }
     >
-      <section className="match-screen">
-        <header className="match-header">
-          <ModeIcon mode="empareja" className="match-header__icon" />
-          <div>
-            <h1 className="match-header__title">Tabla del {table}</h1>
-            <p className="match-header__meta" aria-live="polite">
-              {`Ronda ${roundIndex + 1} de ${rounds.length} · ${lockedCount}/${roundPairs.length} parejas`}
+      <section className="match-arena" aria-label="Minijuego Empareja">
+        {phase === 'victory' && victory ? (
+          <div className="match-victory" role="status">
+            <Lumo state="celebration" intensity={4} size="md" />
+            <h2 className="match-victory__title">¡Tabla emparejada!</h2>
+            <p className="match-victory__summary">
+              {allPairs.length - missedIds.size}/{allPairs.length} a la primera
+              {bestStreak > 1 ? ` · Racha ${bestStreak}` : ''}
             </p>
-            <p className="match-header__energy">{energyCopy.sessionMax(maxLoad)}</p>
-          </div>
-        </header>
-
-        <div className="play-stage match-stage">
-          <Lumo state={lumo.state} intensity={lumo.intensity} size="sm" />
-          <p className="match-guide" aria-live="polite">
-            {showHelp
-              ? 'Arrastra, toca o usa teclado para encajar cada resultado.'
-              : selectedProduct !== null
-                ? 'Elige la operación correcta.'
-                : 'Elige un resultado y encájalo.'}
-          </p>
-        </div>
-
-        {selectedProduct !== null && phase === 'playing' ? (
-          <p className="match-selection" aria-live="polite">
-            Resultado seleccionado: <strong>{selectedProduct}</strong>
-          </p>
-        ) : null}
-
-        <div className="match-board">
-          <ul className="match-ops" role="list" aria-label="Operaciones">
-            {roundPairs.map((pair, i) => {
-              const locked = lockedIds.has(pair.id)
-              const value = assignment[pair.id]
-              const isTarget = phase === 'playing' && selectedProduct !== null && !locked
-              const color = OP_COLORS[i % OP_COLORS.length]
-              const classes = ['match-op', `match-op--${color}`]
-              if (locked) classes.push('is-locked')
-              if (isTarget) classes.push('is-target')
-              if (poppingOpId === pair.id) classes.push('is-pop')
-              if (wrongOpId === pair.id) classes.push('is-wrong')
-
-              return (
-                <li key={pair.id}>
-                  <button
-                    type="button"
-                    className={classes.join(' ')}
-                    disabled={locked || busy || phase !== 'playing'}
-                    aria-label={
-                      locked
-                        ? `${pair.label} = ${value}, correcta`
-                        : value !== null
-                          ? `${pair.label}, asociado ${value}`
-                          : `${pair.label}, vacío. Arrastra aquí`
-                    }
-                    onClick={() => onOpClick(pair.id)}
-                    onDragOver={(e) => {
-                      if (!locked && phase === 'playing') e.preventDefault()
-                    }}
-                    onDrop={(e) => {
-                      e.preventDefault()
-                      const product = Number(e.dataTransfer.getData('text/plain'))
-                      if (!Number.isNaN(product)) tryAssign(pair.id, product)
-                    }}
-                  >
-                    <span className="match-op__label">{pair.label}</span>
-                    <span className={`match-op__slot${locked ? '' : ' match-op__slot--empty'}`}>
-                      {locked ? (
-                        <>
-                          <span className="match-op__value">{value}</span>
-                          <span className="match-op__check" aria-hidden="true">
-                            ✓
-                          </span>
-                        </>
-                      ) : (
-                        <span className="match-op__placeholder">Arrastra aquí</span>
-                      )}
-                    </span>
-                  </button>
-                </li>
-              )
-            })}
-          </ul>
-
-          {phase === 'playing' ? (
-            <ul className="match-products" role="list" aria-label="Resultados disponibles">
-              {poolProducts.map((product) => {
-                const color = productColorByValue.get(product) ?? PRODUCT_COLORS[0]
-                const classes = ['match-product', `match-product--${color}`]
-                if (selectedProduct === product) classes.push('is-selected')
-                if (bounceProduct === product) classes.push('is-bounce')
-
-                return (
-                  <li key={`pool-${product}`}>
-                    <button
-                      type="button"
-                      draggable={!busy}
-                      className={classes.join(' ')}
-                      aria-pressed={selectedProduct === product}
-                      aria-label={
-                        selectedProduct === product
-                          ? `Resultado ${product} seleccionado`
-                          : `Resultado ${product}`
-                      }
-                      disabled={busy}
-                      onClick={() => onProductClick(product)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                          e.preventDefault()
-                          onProductClick(product)
-                        }
-                      }}
-                      onDragStart={(e) => {
-                        e.dataTransfer.setData('text/plain', String(product))
-                        setSelectedProduct(product)
-                      }}
-                    >
-                      {product}
-                    </button>
-                  </li>
-                )
-              })}
+            <ul className="match-victory__rewards">
+              <li>+{victory.xpEarned} XP</li>
+              <li>+{victory.coinsEarned} monedas</li>
+              <li>+{victory.rewardPointsEarned} energía</li>
             </ul>
-          ) : null}
-        </div>
-
-        <div aria-live="assertive">
-          {feedback ? (
-            <FeedbackBanner
-              tone={feedback.startsWith('¡') ? 'ok' : feedback.startsWith('Ahí') ? 'bad' : 'info'}
-              message={feedback}
-            />
-          ) : null}
-        </div>
-
-        {phase === 'roundComplete' ? (
-          <div className="match-round-end" role="status" aria-live="polite">
-            <p className="match-round-end__title">
-              ¡Ronda completada! {lockedCount}/{roundPairs.length}
-            </p>
-            <p className="match-round-end__stats">
-              Intentos fallidos: {roundAttempts}
-              {correctedLabels ? ` · Con corrección: ${correctedLabels}` : ' · Sin correcciones'}
-            </p>
-            <button type="button" className="btn btn-primary btn-block" onClick={goNextRound}>
-              Siguiente ronda
-            </button>
+            <div className="match-victory__actions">
+              <button type="button" className="btn btn-primary btn-block" onClick={replay}>
+                JUGAR OTRA VEZ
+              </button>
+              <Link to="/missions/mates/tables/modes" className="btn btn-secondary btn-block">
+                ELEGIR OTRO MODO
+              </Link>
+              <Link to="/" className="btn btn-ghost btn-block">
+                LOBBY
+              </Link>
+            </div>
           </div>
-        ) : null}
+        ) : (
+          <>
+            <header className="match-hud">
+              <div className="match-hud__row">
+                <p className="match-hud__table">Tabla del {table}</p>
+                <p className="match-hud__round">
+                  Ronda {roundIndex + 1}/{rounds.length}
+                </p>
+              </div>
+              <div
+                className="match-hud__bar"
+                role="progressbar"
+                aria-valuemin={0}
+                aria-valuemax={allPairs.length}
+                aria-valuenow={foundGlobal}
+                aria-label={`Parejas: ${foundGlobal} de ${allPairs.length}`}
+              >
+                <span style={{ width: `${Math.max(8, progressPct)}%` }} />
+              </div>
+              <div className="match-hud__stats">
+                <span>
+                  Encontradas <strong>{lockedCount}</strong>
+                </span>
+                <span>
+                  Restan <strong>{remaining}</strong>
+                </span>
+                {streak > 0 ? (
+                  <span className="match-hud__streak">
+                    Racha <strong>{streak}</strong>
+                  </span>
+                ) : (
+                  <span className="match-hud__energy">Hasta ⚡{maxLoad}</span>
+                )}
+              </div>
+            </header>
 
-        {phase === 'tableComplete' ? (
-          <div className="match-round-end" role="status" aria-live="polite">
-            <p className="match-round-end__title">
-              ¡Tabla emparejada! {allPairs.length}/{allPairs.length}
-            </p>
-            <p className="match-round-end__stats">
-              Intentos fallidos: {roundAttempts}
-              {correctedLabels ? ` · Con corrección: ${correctedLabels}` : ' · Sin correcciones'}
-            </p>
-            <button type="button" className="btn btn-primary btn-block" onClick={onFinish}>
-              Ver resumen
-            </button>
-          </div>
-        ) : null}
+            <div className="match-arena__guide" aria-live="polite">
+              <Lumo state={lumo.state} intensity={lumo.intensity} size="sm" />
+              <p>
+                {selectedProduct !== null || selectedOpId
+                  ? 'Toca la pareja'
+                  : 'Elige una ficha y su pareja'}
+              </p>
+            </div>
 
-        <Link to="/missions/mates/tables/modes" className="btn btn-ghost btn-block">
-          Salir
-        </Link>
+            <div className="match-board match-board--arena">
+              <ul className="match-ops" role="list" aria-label="Operaciones">
+                {roundPairs.map((pair, i) => {
+                  const locked = lockedIds.has(pair.id)
+                  const value = assignment[pair.id]
+                  const color = OP_COLORS[i % OP_COLORS.length]
+                  const classes = ['match-tile', 'match-tile--op', `match-tile--${color}`]
+                  if (locked) classes.push('is-locked')
+                  if (selectedOpId === pair.id) classes.push('is-selected')
+                  if (selectedProduct !== null && !locked) classes.push('is-target')
+                  if (poppingOpId === pair.id) classes.push('is-pop')
+                  if (wrongOpId === pair.id) classes.push('is-wrong')
+
+                  return (
+                    <li key={pair.id}>
+                      <button
+                        type="button"
+                        className={classes.join(' ')}
+                        disabled={locked || busy || phase !== 'playing'}
+                        aria-pressed={selectedOpId === pair.id}
+                        aria-label={
+                          locked
+                            ? `${pair.label} = ${value}, resuelta`
+                            : `${pair.label}`
+                        }
+                        onClick={() => onOpClick(pair.id)}
+                      >
+                        <span className="match-tile__kind">Op</span>
+                        <span className="match-tile__value">{pair.label}</span>
+                        {locked ? <span className="match-tile__ok" aria-hidden="true" /> : null}
+                      </button>
+                    </li>
+                  )
+                })}
+              </ul>
+
+              {phase === 'playing' ? (
+                <ul className="match-products" role="list" aria-label="Resultados">
+                  {poolProducts.map((product) => {
+                    const color = productColorByValue.get(product) ?? PRODUCT_COLORS[0]
+                    const classes = ['match-tile', 'match-tile--result', `match-tile--${color}`]
+                    if (selectedProduct === product) classes.push('is-selected')
+                    if (bounceProduct === product) classes.push('is-bounce')
+
+                    return (
+                      <li key={`pool-${product}`}>
+                        <button
+                          type="button"
+                          className={classes.join(' ')}
+                          aria-pressed={selectedProduct === product}
+                          aria-label={`Resultado ${product}`}
+                          disabled={busy}
+                          onClick={() => onProductClick(product)}
+                        >
+                          <span className="match-tile__kind">=</span>
+                          <span className="match-tile__value">{product}</span>
+                        </button>
+                      </li>
+                    )
+                  })}
+                </ul>
+              ) : null}
+            </div>
+
+            <div className="match-arena__live" aria-live="assertive">
+              {feedback ? <p className={`match-toast${feedback.startsWith('¡') ? ' is-ok' : ' is-bad'}`}>{feedback}</p> : null}
+            </div>
+
+            {phase === 'roundComplete' ? (
+              <div className="match-panel" role="status">
+                <p className="match-panel__title">Ronda lista</p>
+                <button type="button" className="btn btn-primary btn-block" onClick={goNextRound}>
+                  Siguiente ronda
+                </button>
+              </div>
+            ) : null}
+
+            {phase === 'tableComplete' ? (
+              <div className="match-panel" role="status">
+                <p className="match-panel__title">¡Todas las parejas!</p>
+                <button type="button" className="btn btn-primary btn-block" onClick={onFinish}>
+                  Ver recompensas
+                </button>
+              </div>
+            ) : null}
+          </>
+        )}
       </section>
     </AppShell>
   )

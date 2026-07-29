@@ -48,32 +48,21 @@ final class ProgressRepository
             ];
         }
 
-        $goalTable = Database::table('reward_goals');
-        $gstmt = $pdo->prepare(
-            "SELECT * FROM {$goalTable} WHERE player_id = :p AND goal_code = 'robux-500' LIMIT 1"
-        );
-        $gstmt->execute([':p' => $playerId]);
-        $goal = $gstmt->fetch();
-
-        $dailyDate = is_array($goal) ? $goal['daily_date'] : null;
-        $dailyPoints = is_array($goal) ? (int) $goal['daily_points'] : 0;
-        $playableToday = MadridTime::playableDate();
-        if ($dailyDate !== $playableToday) {
-            // Vista: el día jugable ya cambió en Madrid; no persistimos aquí en GET.
-            $dailyPoints = 0;
-            $dailyDate = $playableToday;
-        }
-
+        $rewardState = RewardCycleService::publicRewardState($playerId);
         $reward = [
-            'goalCode' => is_array($goal) ? (string) $goal['goal_code'] : 'robux-500',
-            'rewardLabel' => is_array($goal) ? (string) $goal['reward_label'] : '500 Robux',
-            'targetPoints' => is_array($goal) ? (int) $goal['target_points'] : 300,
-            'dailyCap' => is_array($goal) ? (int) $goal['daily_cap'] : 10,
-            'pointsTotal' => is_array($goal) ? (int) $goal['points_total'] : 0,
-            'dailyDate' => $dailyDate,
-            'dailyPoints' => $dailyPoints,
-            'goalStatus' => is_array($goal) ? (string) $goal['goal_status'] : 'active',
-            'validatedAt' => is_array($goal) ? $goal['validated_at'] : null,
+            'goalCode' => $rewardState['goalCode'],
+            'rewardLabel' => $rewardState['rewardLabel'],
+            'targetPoints' => $rewardState['targetPoints'],
+            'dailyCap' => $rewardState['dailyCap'],
+            'pointsTotal' => $rewardState['pointsTotal'],
+            'dailyDate' => $rewardState['dailyDate'],
+            'dailyPoints' => $rewardState['dailyPoints'],
+            'goalStatus' => $rewardState['goalStatus'],
+            'currentCycleNumber' => $rewardState['currentCycleNumber'],
+            'pendingPrize' => $rewardState['pendingPrize'],
+            'deliveredPrizes' => $rewardState['deliveredPrizes'],
+            'activeCycle' => $rewardState['activeCycle'],
+            'validatedAt' => null,
         ];
 
         $crateTable = Database::table('crates');
@@ -116,7 +105,8 @@ final class ProgressRepository
             'tables' => (object) $tables,
             'reward' => $reward,
             'crates' => $crates,
-            'playableDate' => $playableToday,
+            'school' => PlayerCourseService::getSchoolProfile($playerId),
+            'playableDate' => MadridTime::playableDate(),
             'serverTimeUtc' => MadridTime::utcNowString(),
         ];
     }

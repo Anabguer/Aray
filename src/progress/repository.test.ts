@@ -85,10 +85,11 @@ describe('XP, monedas y progreso', () => {
       tables: {},
       soundMuted: false,
     })
-    expect(migrated.version).toBe(3)
+    expect(migrated.version).toBe(4)
     expect(migrated.coins).toBe(80)
     expect(migrated.reward.pointsTotal).toBe(0)
     expect(migrated.xp).toBe(20)
+    expect(migrated.school.currentCourseId).toBe('primary-3')
   })
 
   it('aplica sesión y sube el peso de los fallos', () => {

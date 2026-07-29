@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App.tsx'
+import { AuthProvider } from '@/auth/AuthContext'
 import { PlayProvider } from '@/progress/PlayContext'
 import { ProgressProvider } from '@/progress/ProgressContext'
 import './index.css'
@@ -16,11 +17,13 @@ function routerBasename(): string | undefined {
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter basename={routerBasename()}>
-      <ProgressProvider>
-        <PlayProvider>
-          <App />
-        </PlayProvider>
-      </ProgressProvider>
+      <AuthProvider>
+        <ProgressProvider>
+          <PlayProvider>
+            <App />
+          </PlayProvider>
+        </ProgressProvider>
+      </AuthProvider>
     </BrowserRouter>
   </StrictMode>,
 )

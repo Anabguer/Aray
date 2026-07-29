@@ -12,23 +12,23 @@ export type ActivityWeightTier = keyof typeof activityWeightDefaults
 /** Meta / drop independiente de monedas/XP (validación adulta). */
 export const rewardGoalConfig = {
   id: 'robux-500',
-  title: 'Próximo drop: 500 Robux',
+  title: 'Premio Robux',
   adultNoteApproxEuro: 'Valor orientativo ≈ 6 € (solo para el adulto).',
-  childNote: 'El drop lo valida un adulto. La energía no son monedas de ARAY.',
-  targetPoints: 300,
+  childNote: 'Cuando llegues al premio, avísale a Neni para recogerlo.',
+  targetPoints: 500,
   dailyCap: 10,
   dailyHint: 10,
   rewardLabel: '500 Robux',
 } as const
 
-/** Textos visibles para Aray (energía / drop). */
+/** Textos visibles para Aray (energía / premio). */
 export const energyCopy = {
   today: (n: number, cap: number) => `Energía de hoy: ${n}/${cap}`,
-  total: (n: number, target: number) => `Energía total: ${n}/${target}`,
+  total: (n: number, target: number) => `${n} / ${target} puntos`,
   farmed: (n: number) => `¡Has farmeado +${n} de energía!`,
   sessionMax: (n: number) =>
     n > 0 ? `Esta partida puede cargar hasta +${n} de energía` : 'Hoy ya está completa la carga diaria',
-  dropUnlocked: '¡Drop desbloqueado! Pendiente de validar por un adulto',
+  dropUnlocked: '¡Premio conseguido! Avísale a Neni para recogerlo',
   dailyComplete: '¡Carga diaria completa!',
   streakOnFire: 'Tu racha está on fire',
 } as const

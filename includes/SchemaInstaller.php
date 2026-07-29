@@ -43,6 +43,16 @@ final class SchemaInstaller
         if ($allowSeed) {
             $seeded = self::seedIfEmpty($pdo);
         }
+        if (class_exists('PinAuthService')) {
+            PinAuthService::ensurePinHashes($pdo);
+        }
+        if (class_exists('RewardCycleService') && self::countAccounts($pdo) > 0) {
+            $players = Database::table('player_profiles');
+            $row = $pdo->query("SELECT id FROM {$players} WHERE slug = 'aray' LIMIT 1")->fetch();
+            if (is_array($row)) {
+                RewardCycleService::ensureGoalAndCycle((int) $row['id']);
+            }
+        }
 
         return [
             'migrationsApplied' => $applied,
@@ -124,14 +134,24 @@ final class SchemaInstaller
         $goals = Database::table('reward_goals');
         $audit = Database::table('adult_actions');
 
+        $childPin = defined('ARAY_SEED_CHILD_PIN') ? (string) ARAY_SEED_CHILD_PIN : '';
+        $adultPin = defined('ARAY_SEED_ADULT_PIN') ? (string) ARAY_SEED_ADULT_PIN : '';
+        $childPinHash = preg_match('/^\d{4}$/', $childPin) === 1
+            ? password_hash($childPin, PASSWORD_DEFAULT)
+            : null;
+        $adultPinHash = preg_match('/^\d{4}$/', $adultPin) === 1
+            ? password_hash($adultPin, PASSWORD_DEFAULT)
+            : null;
+
         $pdo->beginTransaction();
         try {
             $pdo->prepare(
-                "INSERT INTO {$accounts} (login, password_hash, display_name, is_active, created_at, updated_at)
-                 VALUES (:l, :h, :d, 1, :c, :u)"
+                "INSERT INTO {$accounts} (login, password_hash, adult_pin_hash, display_name, is_active, created_at, updated_at)
+                 VALUES (:l, :h, :pin, :d, 1, :c, :u)"
             )->execute([
                 ':l' => $loginNorm,
                 ':h' => $hash,
+                ':pin' => $adultPinHash,
                 ':d' => $seedDisplay,
                 ':c' => $now,
                 ':u' => $now,
@@ -139,11 +159,13 @@ final class SchemaInstaller
             $accountId = (int) $pdo->lastInsertId();
 
             $pdo->prepare(
-                "INSERT INTO {$players} (slug, display_name, is_active, created_at, updated_at)
-                 VALUES (:s, :d, 1, :c, :u)"
+                "INSERT INTO {$players} (slug, display_name, child_pin_hash, current_course_id, course_mode, course_started_at, is_active, created_at, updated_at)
+                 VALUES (:s, :d, :pin, 'primary-3', 'review', :cs, 1, :c, :u)"
             )->execute([
                 ':s' => mb_strtolower($playerSlug),
                 ':d' => $playerDisplay,
+                ':pin' => $childPinHash,
+                ':cs' => $now,
                 ':c' => $now,
                 ':u' => $now,
             ]);
@@ -161,8 +183,16 @@ final class SchemaInstaller
 
             $pdo->prepare(
                 "INSERT INTO {$goals}
-                 (player_id, goal_code, reward_label, target_points, daily_cap, points_total, goal_status, created_at, updated_at)
-                 VALUES (:p, 'robux-500', '500 Robux', 300, 10, 0, 'active', :c, :u)"
+                 (player_id, goal_code, reward_label, target_points, daily_cap, points_total,
+                  goal_status, current_cycle_number, created_at, updated_at)
+                 VALUES (:p, 'robux-500', '500 Robux', 500, 10, 0, 'active', 1, :c, :u)"
+            )->execute([':p' => $playerId, ':c' => $now, ':u' => $now]);
+
+            $cycles = Database::table('reward_cycles');
+            $pdo->prepare(
+                "INSERT INTO {$cycles}
+                 (player_id, cycle_number, target_points, points_toward, status, created_at, updated_at)
+                 VALUES (:p, 1, 500, 0, 'active', :c, :u)"
             )->execute([':p' => $playerId, ':c' => $now, ':u' => $now]);
 
             $pdo->prepare(
@@ -232,6 +262,17 @@ final class SchemaInstaller
             'authorized_devices',
             'device_temp_codes',
             'auth_attempts',
+            'reward_cycles',
+            'daily_activity',
+            'play_presence',
+            'courses',
+            'subjects',
+            'edu_blocks',
+            'skills',
+            'activities',
+            'course_activity_map',
+            'player_course_history',
+            'player_activity_assignments',
         ];
         $tables = self::listArayTables($pdo);
         $missing = [];

@@ -1,7 +1,12 @@
 import { challengeModeConfig } from '@/config/playConfig'
-import { matchSessionMeta } from '@/config/rewardGoal'
+import { matchSessionMeta, rewardGoalConfig } from '@/config/rewardGoal'
 import { rewardRules } from '@/config/rewards'
 import { createInitialCratesState, normalizeCratesState } from '@/crates/engine'
+import {
+  createDefaultSchoolProfile,
+  normalizeActivityAssignments,
+  normalizeSchoolProfile,
+} from '@/curriculum/school'
 import { computeMasteryScore, emptyFactStats, emptyTableProgress } from '@/math/selector'
 import {
   applyEvaluableRound,
@@ -15,6 +20,7 @@ import {
   createInitialRewardProgress,
   grantRewardPoints,
   localDateString,
+  normalizeRewardCycles,
   syncRewardDay,
 } from '@/reward/engine'
 import { computeTablesRewardRequest } from '@/reward/tablesReward'
@@ -23,7 +29,7 @@ export const PROGRESS_STORAGE_KEY = 'aray.progress.v1'
 
 export function createInitialProgress(): ProgressState {
   return {
-    version: 3,
+    version: 4,
     xp: 0,
     coins: 0,
     bestStreak: 0,
@@ -35,10 +41,12 @@ export function createInitialProgress(): ProgressState {
     reward: createInitialRewardProgress(),
     crates: createInitialCratesState(),
     achievements: { claimedIds: [] },
+    school: createDefaultSchoolProfile(),
+    activityAssignments: {},
   }
 }
 
-/** Normaliza / migra cualquier progreso guardado (v1 sin reward → v2). */
+/** Normaliza / migra cualquier progreso guardado (v1…v3 → v4 con curso escolar). */
 export function normalizeProgress(raw: unknown, today: string = localDateString()): ProgressState {
   const base = createInitialProgress()
   if (!raw || typeof raw !== 'object') return base
@@ -72,18 +80,23 @@ export function normalizeProgress(raw: unknown, today: string = localDateString(
           )
         : [],
     },
-    version: 3,
+    school: normalizeSchoolProfile((parsed as { school?: unknown }).school),
+    activityAssignments: normalizeActivityAssignments(
+      (parsed as { activityAssignments?: unknown }).activityAssignments,
+    ),
+    version: 4,
   }
 
   // No convertir monedas en puntos de recompensa
   merged.reward.pointsTotal = Math.min(
-    300,
+    rewardGoalConfig.targetPoints,
     Math.max(0, typeof parsed.reward?.pointsTotal === 'number' ? parsed.reward.pointsTotal : 0),
   )
   merged.reward.dailyPoints = Math.min(
-    10,
+    rewardGoalConfig.dailyCap,
     Math.max(0, typeof parsed.reward?.dailyPoints === 'number' ? parsed.reward.dailyPoints : 0),
   )
+  merged.reward = normalizeRewardCycles(merged.reward)
 
   return merged
 }
@@ -119,7 +132,7 @@ export function createLocalStorageProgressStore(
       }
     },
     save(state) {
-      storage.setItem(key, JSON.stringify({ ...state, version: 3 }))
+      storage.setItem(key, JSON.stringify({ ...state, version: 4 }))
     },
     clear() {
       storage.removeItem(key)
@@ -273,9 +286,11 @@ export function applySessionToProgress(
 
   const next: ProgressState = {
     ...progress,
-    version: 3,
+    version: 4,
     facts: { ...progress.facts },
     tables: { ...progress.tables },
+    school: progress.school ?? createDefaultSchoolProfile(),
+    activityAssignments: progress.activityAssignments ?? {},
     xp: progress.xp + rewards.xpEarned,
     coins: progress.coins + rewards.coinsEarned,
     bestStreak: Math.max(progress.bestStreak, rewards.bestStreak),

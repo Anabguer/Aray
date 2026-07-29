@@ -164,7 +164,7 @@ export function ModeSelectScreen() {
           <ModePoster
             art="aprende"
             title="APRENDE"
-            text="Sin reloj · Con ayuda"
+            text="Mira, toca y descubre"
             className="mode-poster--learn"
             to="/missions/mates/tables/learn"
           />
@@ -178,14 +178,14 @@ export function ModeSelectScreen() {
           <ModePoster
             art="reto-rapido"
             title="RETO RÁPIDO"
-            text={`${challengeModeConfig.durationSec} segundos · XP x${challengeModeConfig.xpMultiplier}`}
+            text={`${challengeModeConfig.durationSec} segundos · XP extra`}
             className="mode-poster--challenge"
             onClick={startChallenge}
           />
           <ModePoster
             art="empareja"
             title="EMPAREJA"
-            text="Une y completa"
+            text="Encuentra las parejas"
             className="mode-poster--match"
             onClick={startMatch}
           />
@@ -202,7 +202,7 @@ export function ModeSelectScreen() {
             art="sorpresa"
             title="SORPRESA"
             text="Lumo elige por ti"
-            className="mode-poster--random mode-poster--featured"
+            className="mode-poster--random"
             onClick={startRandom}
           />
         </div>

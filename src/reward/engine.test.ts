@@ -64,17 +64,19 @@ describe('puntos de recompensa', () => {
     expect(grant.dailyComplete).toBe(true)
   })
 
-  it('no supera 300 totales ni arrastra sobrante', () => {
+  it('al llegar a 500 marca premio y el sobrante pasa al siguiente ciclo', () => {
     const reward = createInitialRewardProgress()
-    reward.pointsTotal = 298
+    reward.pointsTotal = 495
     reward.dailyDate = '2026-07-29'
     const grant = grantRewardPoints(
       reward,
       { requestedPoints: 10, sessionId: 's2', attemptIds: [] },
       '2026-07-29',
     )
-    expect(grant.granted).toBe(2)
-    expect(grant.reward.pointsTotal).toBe(300)
+    expect(grant.granted).toBe(10)
+    expect(grant.reward.pendingCycleNumbers).toContain(1)
+    expect(grant.reward.currentCycleNumber).toBe(2)
+    expect(grant.reward.pointsTotal).toBe(5)
     expect(grant.goalJustCompleted).toBe(true)
     expect(grant.reward.goalStatus).toBe('completed')
   })
@@ -96,9 +98,11 @@ describe('puntos de recompensa', () => {
     expect(resolveActivityWeight('special', 9)).toBe(9)
   })
 
-  it('meta completada no concede más puntos', () => {
+  it('con premio pendiente sigue concediendo al ciclo siguiente', () => {
     const reward = createInitialRewardProgress()
-    reward.pointsTotal = 300
+    reward.pointsTotal = 10
+    reward.currentCycleNumber = 2
+    reward.pendingCycleNumbers = [1]
     reward.goalStatus = 'completed'
     reward.dailyDate = '2026-07-29'
     const grant = grantRewardPoints(
@@ -106,6 +110,8 @@ describe('puntos de recompensa', () => {
       { requestedPoints: 5, sessionId: 's3', attemptIds: [] },
       '2026-07-29',
     )
-    expect(grant.granted).toBe(0)
+    expect(grant.granted).toBe(5)
+    expect(grant.reward.pointsTotal).toBe(15)
+    expect(grant.reward.pendingCycleNumbers).toEqual([1])
   })
 })

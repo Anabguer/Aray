@@ -1,21 +1,43 @@
 import { AppShell } from '@/components/AppShell'
 import { SubjectCard } from '@/components/SubjectCard'
-import { subjectPreviews } from '@/data/demo'
+import { blocksForSubject, visibleWorlds } from '@/curriculum'
+import { useProgress } from '@/progress/ProgressContext'
 
 export function MissionsScreen() {
+  const { progress } = useProgress()
+  const worlds = visibleWorlds(progress)
+
   return (
-    <AppShell title="Misiones" showBack>
+    <AppShell title="Mis mundos" showBack>
       <section className="page-intro">
         <p className="page-intro__lead">
-          Elige una asignatura. Cada una es un mundo jugable: ahora Matemáticas ya está activa; el resto
-          muestra una vista previa.
+          Elige un mundo para entrenar. Matemáticas ya tiene misiones; Lenguas e Inglés están
+          preparados para cuando lleguen nuevas aventuras.
         </p>
       </section>
-      <section className="subjects" aria-label="Asignaturas">
+      <section className="subjects" aria-label="Mundos de entrenamiento">
         <div className="subjects__grid">
-          {subjectPreviews.map((subject) => (
-            <SubjectCard key={subject.id} subject={subject} />
-          ))}
+          {worlds.map((world) => {
+            const blockTitles = blocksForSubject(world.id)
+              .filter((b) => b.status !== 'hidden')
+              .map((b) => b.title)
+            return (
+              <SubjectCard
+                key={world.id}
+                subject={{
+                  id: world.legacyHubId,
+                  title: world.title,
+                  shortLabel: world.shortTitle,
+                  description: world.hasPlayable
+                    ? world.description
+                    : `Pronto: ${blockTitles.slice(0, 2).join(', ')}`,
+                  accent: world.legacyHubId,
+                }}
+                path={world.worldPath}
+                playable={world.hasPlayable}
+              />
+            )
+          })}
         </div>
       </section>
     </AppShell>

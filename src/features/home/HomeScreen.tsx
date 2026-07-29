@@ -9,37 +9,49 @@ import { ResetProgressControl } from '@/components/ResetProgressControl'
 import { ZoneCard } from '@/components/ZoneCard'
 import { MuteToggle } from '@/components/quiz/QuizWidgets'
 import { rewardGoalConfig } from '@/config/rewardGoal'
-import { demoMissionOfDay, demoProfile, zoneLinks } from '@/data/demo'
+import { buildLobbyMissions, courseLabel } from '@/curriculum'
+import { zoneLinks } from '@/data/demo'
+import { useAuth } from '@/auth/AuthContext'
 import { Lumo } from '@/lumo/Lumo'
 import { usePlaySession } from '@/progress/PlayContext'
 import { useProgress } from '@/progress/ProgressContext'
-import { previewSessionLoad } from '@/reward/engine'
+import { normalizeRewardCycles, previewSessionLoad } from '@/reward/engine'
 
 const XP_PER_LEVEL = 100
 
 export function HomeScreen() {
   const { progress, setSoundMuted, chooseCrate, openCrate, collectCrate } = useProgress()
+  const { logout } = useAuth()
   const { selection } = usePlaySession()
   const missionTable = selection.tables[0] ?? 7
+  const lobby = buildLobbyMissions(progress, 4)
+  const primaryMission =
+    lobby.mandatory[0] ?? lobby.review[0] ?? lobby.recommended[0] ?? null
+  const reward = normalizeRewardCycles(progress.reward)
   const lumoState =
-    progress.reward.goalStatus === 'completed' || progress.reward.goalStatus === 'validated'
+    reward.pendingCycleNumbers.length > 0 || reward.goalStatus === 'completed'
       ? 'celebration'
-      : progress.reward.dailyPoints >= 10
+      : reward.dailyPoints >= 10
         ? 'streak'
         : 'idle'
 
   const pendingCrate = progress.crates.pending
-  const energyToday = Math.min(progress.reward.dailyPoints, rewardGoalConfig.dailyCap)
+  const energyToday = Math.min(reward.dailyPoints, rewardGoalConfig.dailyCap)
   const sessionEnergy = previewSessionLoad(progress, rewardGoalConfig.dailyCap)
   const level = Math.floor(progress.xp / XP_PER_LEVEL) + 1
   const xpIntoLevel = progress.xp % XP_PER_LEVEL
   const xpPct = Math.min(100, Math.round((xpIntoLevel / XP_PER_LEVEL) * 100))
-  const energyPct = Math.min(100, Math.round((energyToday / rewardGoalConfig.dailyCap) * 100))
+  const energyBarPct = Math.min(100, Math.round((energyToday / rewardGoalConfig.dailyCap) * 100))
 
   return (
     <AppShell
       trailing={
-        <MuteToggle muted={progress.soundMuted} onToggle={() => setSoundMuted(!progress.soundMuted)} />
+        <div className="lobby__trailing">
+          <MuteToggle muted={progress.soundMuted} onToggle={() => setSoundMuted(!progress.soundMuted)} />
+          <button type="button" className="btn btn-ghost lobby__logout" onClick={() => void logout()}>
+            Cambiar perfil
+          </button>
+        </div>
       }
     >
       <section className="lobby" aria-labelledby="home-greeting">
@@ -52,7 +64,7 @@ export function HomeScreen() {
               size="md"
             />
             <h1 id="home-greeting" className="lobby__greeting">
-              {demoProfile.greeting}
+              ¡Hola, Aray!
             </h1>
           </div>
 
@@ -91,7 +103,7 @@ export function HomeScreen() {
                   aria-valuenow={energyToday}
                   aria-label={`Energía: ${energyToday} de ${rewardGoalConfig.dailyCap}`}
                 >
-                  <span style={{ width: `${energyPct}%` }} />
+                  <span style={{ width: `${energyBarPct}%` }} />
                 </div>
                 <p className="lobby-hud__bar-text">
                   {energyToday} / {rewardGoalConfig.dailyCap}
@@ -129,15 +141,25 @@ export function HomeScreen() {
             </div>
             <div className="lobby-mission__body">
               <p className="lobby-mission__eyebrow">
-                {demoMissionOfDay.subjectLabel} · Tabla del {missionTable}
+                {primaryMission
+                  ? primaryMission.reason === 'review'
+                    ? 'Para repasar'
+                    : primaryMission.reason === 'mandatory'
+                      ? 'Pendiente'
+                      : 'Misión recomendada'
+                  : `Matemáticas · Tabla del ${missionTable}`}
               </p>
               <h2 id="mission-today-title" className="lobby-mission__title">
-                {demoMissionOfDay.title}
+                {primaryMission?.title ?? 'Tu misión de hoy'}
               </h2>
               <p className="lobby-mission__rewards">
-                Practica y gana hasta <span aria-hidden="true">⚡</span> {sessionEnergy}
+                {primaryMission?.description ??
+                  `Practica y gana hasta ⚡ ${sessionEnergy}`}
               </p>
-              <Link to="/missions/mates/tables" className="btn btn-primary lobby-mission__cta">
+              <Link
+                to={primaryMission?.path ?? '/missions/mates/tables'}
+                className="btn btn-primary lobby-mission__cta"
+              >
                 <span className="lobby-mission__play" aria-hidden="true">
                   ▶
                 </span>
@@ -148,6 +170,50 @@ export function HomeScreen() {
 
           <GoalCard compact />
         </div>
+
+        {(lobby.mandatory.length > 0 ||
+          lobby.review.length > 0 ||
+          lobby.recommended.length > 1 ||
+          lobby.free.length > 0) && (
+          <section className="lobby-quests" aria-label="Actividades para ti">
+            {lobby.mandatory.length > 0 ? (
+              <div className="lobby-quests__group">
+                <h3 className="lobby-quests__title">Pendientes</h3>
+                <ul className="lobby-quests__list">
+                  {lobby.mandatory.map((m) => (
+                    <li key={m.activityId}>
+                      <Link to={m.path}>{m.title}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+            {lobby.review.length > 0 ? (
+              <div className="lobby-quests__group">
+                <h3 className="lobby-quests__title">Para repasar</h3>
+                <ul className="lobby-quests__list">
+                  {lobby.review.slice(0, 3).map((m) => (
+                    <li key={m.activityId}>
+                      <Link to={m.path}>{m.title}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+            {lobby.free.length > 0 ? (
+              <div className="lobby-quests__group">
+                <h3 className="lobby-quests__title">Libres</h3>
+                <ul className="lobby-quests__list">
+                  {lobby.free.slice(0, 3).map((m) => (
+                    <li key={m.activityId}>
+                      <Link to={m.path}>{m.title}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+          </section>
+        )}
 
         <section className="lobby-zones" aria-label="Zonas">
           <div className="zones__grid lobby-zones__grid">
@@ -166,6 +232,15 @@ export function HomeScreen() {
           <p>
             XP y monedas son para jugar. El drop de Robux se carga con energía (aparte de las monedas).
             Las cajas son sorpresas extra al completar actividades.
+          </p>
+          <p className="lobby-help__course">
+            Estás en repaso de {courseLabel(progress.school.currentCourseId)}. El curso lo cambia un
+            adulto.
+          </p>
+          <p>
+            <Link to="/adult" className="lobby-help__adult-link">
+              Zona de adultos
+            </Link>
           </p>
         </details>
       </section>

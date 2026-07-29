@@ -1,30 +1,42 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArayHubIcon } from '@/components/ArayHubIcon'
-import { ConfirmDialog } from '@/components/quiz/QuizWidgets'
 import { energyCopy, rewardGoalConfig } from '@/config/rewardGoal'
 import { useProgress } from '@/progress/ProgressContext'
-import { confirmAdultGoal, resetRewardGoal } from '@/reward/engine'
+import { markPendingCelebrated, normalizeRewardCycles } from '@/reward/engine'
 
 export function GoalCard({ compact = false }: { compact?: boolean }) {
   const { progress, updateReward } = useProgress()
-  const reward = progress.reward
+  const reward = normalizeRewardCycles(progress.reward)
   const target = rewardGoalConfig.targetPoints
   const current = reward.pointsTotal
+  const cycleNumber = reward.currentCycleNumber
+  const pendingFirst = reward.pendingCycleNumbers[0] ?? null
   const pct = Math.min(100, Math.round((current / target) * 100))
+  const remaining = Math.max(0, target - current)
   const daily = reward.dailyPoints
   const dailyCap = rewardGoalConfig.dailyCap
-  const completed = reward.goalStatus === 'completed' || reward.goalStatus === 'validated'
-  const nearDrop = !completed && pct >= 70
   const [pulse, setPulse] = useState(false)
-  const [confirmReset, setConfirmReset] = useState(false)
-  const [confirmValidate, setConfirmValidate] = useState(false)
+  const [showCelebrate, setShowCelebrate] = useState(false)
 
   useEffect(() => {
     setPulse(true)
     const t = window.setTimeout(() => setPulse(false), 500)
     return () => window.clearTimeout(t)
-  }, [current, daily])
+  }, [current, daily, pendingFirst])
+
+  useEffect(() => {
+    if (pendingFirst == null) return
+    if (reward.celebratedPendingCycles.includes(pendingFirst)) return
+    setShowCelebrate(true)
+    updateReward(markPendingCelebrated(reward, pendingFirst))
+    const t = window.setTimeout(() => setShowCelebrate(false), 2800)
+    return () => window.clearTimeout(t)
+    // Solo al aparecer un pendiente nuevo
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pendingFirst])
+
+  const delivered = reward.deliveredCycleNumbers
 
   return (
     <section
@@ -32,7 +44,8 @@ export function GoalCard({ compact = false }: { compact?: boolean }) {
         'goal-card',
         compact ? 'goal-card--compact' : '',
         pulse ? 'goal-card--pulse' : '',
-        nearDrop ? 'goal-card--near' : '',
+        pendingFirst != null ? 'goal-card--near' : '',
+        showCelebrate ? 'goal-card--celebrate' : '',
       ]
         .filter(Boolean)
         .join(' ')}
@@ -43,31 +56,36 @@ export function GoalCard({ compact = false }: { compact?: boolean }) {
           <ArayHubIcon id="drop_robot" className="goal-card__robot-img" />
         </div>
         <div className="goal-card__head">
-          {compact ? (
+          {pendingFirst != null ? (
             <>
-              <p className="goal-card__eyebrow">Próximo drop</p>
+              <p className="goal-card__eyebrow">¡Premio conseguido!</p>
+              <h2 id="goal-title" className="goal-card__prize">
+                ¡PREMIO {pendingFirst} CONSEGUIDO!
+              </h2>
+              <p className="goal-card__sub">Avísale a Neni para recogerlo</p>
+            </>
+          ) : delivered.length > 0 && current === 0 && cycleNumber > 1 ? (
+            <>
+              <p className="goal-card__eyebrow">PREMIO {cycleNumber - 1} ENTREGADO ✓</p>
+              <h2 id="goal-title" className="goal-card__prize">
+                ¡Vamos a por el PREMIO {cycleNumber}!
+              </h2>
+              <p className="goal-card__sub">
+                {current} / {target} puntos
+              </p>
+            </>
+          ) : (
+            <>
+              <p className="goal-card__eyebrow">PREMIO {cycleNumber}</p>
               <h2 id="goal-title" className="goal-card__prize">
                 {rewardGoalConfig.rewardLabel}
               </h2>
+              <p className="goal-card__sub">
+                {energyCopy.total(current, target)}
+                {remaining > 0 ? ` · Te faltan ${remaining} puntos` : ''}
+              </p>
             </>
-          ) : (
-            <h2 id="goal-title" className="goal-card__title">
-              {rewardGoalConfig.title}
-            </h2>
           )}
-          {!compact ? (
-            <p className="goal-card__sub">
-              {completed
-                ? reward.goalStatus === 'validated'
-                  ? 'Drop validado por el adulto'
-                  : energyCopy.dropUnlocked
-                : energyCopy.total(current, target)}
-            </p>
-          ) : completed ? (
-            <p className="goal-card__sub">
-              {reward.goalStatus === 'validated' ? 'Drop validado' : energyCopy.dropUnlocked}
-            </p>
-          ) : null}
         </div>
       </div>
 
@@ -76,13 +94,13 @@ export function GoalCard({ compact = false }: { compact?: boolean }) {
         role="progressbar"
         aria-valuemin={0}
         aria-valuemax={target}
-        aria-valuenow={current}
-        aria-label={`Energía del drop: ${current} de ${target}`}
+        aria-valuenow={pendingFirst != null ? target : current}
+        aria-label={`Premio ${cycleNumber}: ${current} de ${target}`}
       >
-        <span style={{ width: `${pct}%` }} />
+        <span style={{ width: `${pendingFirst != null ? 100 : pct}%` }} />
       </div>
       <p className="goal-card__meter-label">
-        {current} / {target}
+        {pendingFirst != null ? `${target} / ${target}` : `${current} / ${target} puntos`}
       </p>
 
       {!compact ? (
@@ -91,45 +109,20 @@ export function GoalCard({ compact = false }: { compact?: boolean }) {
           {daily >= dailyCap ? ` · ${energyCopy.dailyComplete}` : ''}
         </p>
       ) : null}
-      {!compact ? <p className="goal-card__note">{rewardGoalConfig.childNote}</p> : null}
 
-      {reward.goalStatus === 'completed' ? (
-        <div className="goal-card__adult-actions">
-          <button type="button" className="btn btn-secondary btn-block" onClick={() => setConfirmValidate(true)}>
-            Confirmar validación adulta
-          </button>
-          <button type="button" className="btn btn-ghost btn-block" onClick={() => setConfirmReset(true)}>
-            Reiniciar meta
-          </button>
-        </div>
-      ) : (
+      {delivered.length > 0 ? (
+        <ul className="goal-card__vitrine" aria-label="Premios anteriores">
+          {delivered.map((n) => (
+            <li key={n}>PREMIO {n} ENTREGADO ✓</li>
+          ))}
+        </ul>
+      ) : null}
+
+      {pendingFirst == null ? (
         <Link to="/missions/mates/tables" className="btn btn-ghost btn-block goal-card__cta">
           Cargar energía
         </Link>
-      )}
-
-      <ConfirmDialog
-        open={confirmValidate}
-        title="¿Confirmar validación?"
-        body="Marca el drop como validado por el adulto. No compra ni entrega Robux automáticamente."
-        confirmLabel="Sí, validar"
-        onCancel={() => setConfirmValidate(false)}
-        onConfirm={() => {
-          updateReward(confirmAdultGoal(reward))
-          setConfirmValidate(false)
-        }}
-      />
-      <ConfirmDialog
-        open={confirmReset}
-        title="¿Reiniciar la meta?"
-        body="La energía de este drop volverá a 0. XP, monedas y dominio no se borran."
-        confirmLabel="Sí, reiniciar meta"
-        onCancel={() => setConfirmReset(false)}
-        onConfirm={() => {
-          updateReward(resetRewardGoal(reward))
-          setConfirmReset(false)
-        }}
-      />
+      ) : null}
     </section>
   )
 }

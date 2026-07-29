@@ -2,14 +2,23 @@ import { Link } from 'react-router-dom'
 import { SubjectIcon } from '@/components/ZoneIcons'
 import type { SubjectPreview } from '@/data/types'
 
-export function SubjectCard({ subject }: { subject: SubjectPreview }) {
-  const path = subject.id === 'mates' ? '/missions/mates' : `/missions/${subject.id}`
-  const isPlayable = subject.id === 'mates'
+export function SubjectCard({
+  subject,
+  path,
+  playable,
+}: {
+  subject: SubjectPreview
+  path?: string
+  playable?: boolean
+}) {
+  const resolvedPath =
+    path ?? (subject.id === 'mates' ? '/missions/mates' : `/missions/${subject.id}`)
+  const isPlayable = playable ?? subject.id === 'mates'
   const progressPct = isPlayable ? 28 : 0
 
   return (
     <Link
-      to={path}
+      to={resolvedPath}
       className={`subject-card subject-card--${subject.accent} subject-card--hub`}
       aria-label={isPlayable ? subject.title : `${subject.title}: vista previa`}
     >

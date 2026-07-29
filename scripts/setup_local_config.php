@@ -34,6 +34,8 @@ $dbUser = arg_value($argv, '--db-user', 'root');
 $dbPassword = arg_value($argv, '--db-password', null);
 $dbName = arg_value($argv, '--db-name', 'aray_db');
 $seedPassword = arg_value($argv, '--seed-password', null);
+$childPin = arg_value($argv, '--child-pin', null);
+$adultPin = arg_value($argv, '--adult-pin', null);
 
 if ($dbPassword === null) {
     fwrite(STDERR, "Falta --db-password= (contraseña MySQL local). Usa \"\" vacío si aplica: --db-password=\n");
@@ -41,6 +43,14 @@ if ($dbPassword === null) {
 }
 if ($seedPassword === null || strlen($seedPassword) < 10) {
     fwrite(STDERR, "Falta --seed-password= con al menos 10 caracteres (contraseña de Neni en local).\n");
+    exit(1);
+}
+if ($childPin === null || preg_match('/^\d{4}$/', $childPin) !== 1) {
+    fwrite(STDERR, "Falta --child-pin= con exactamente 4 dígitos (solo local; se guarda hasheado).\n");
+    exit(1);
+}
+if ($adultPin === null || preg_match('/^\d{4}$/', $adultPin) !== 1) {
+    fwrite(STDERR, "Falta --adult-pin= con exactamente 4 dígitos (solo local; se guarda hasheado).\n");
     exit(1);
 }
 
@@ -92,6 +102,9 @@ define('ARAY_SEED_ADULT_PASSWORD', {$export($seedPassword)});
 define('ARAY_SEED_ADULT_DISPLAY', 'Neni');
 define('ARAY_SEED_PLAYER_SLUG', 'aray');
 define('ARAY_SEED_PLAYER_DISPLAY', 'Aray');
+define('ARAY_SEED_CHILD_PIN', {$export($childPin)});
+define('ARAY_SEED_ADULT_PIN', {$export($adultPin)});
+define('ARAY_REWARD_TARGET_POINTS', 500);
 
 PHP;
 

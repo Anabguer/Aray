@@ -16,6 +16,7 @@ import {
   type CratesState,
 } from '@/crates/engine'
 import { applyCrateRewardToProgress } from '@/crates/apply'
+import type { ActivityAssignmentMap, SchoolProfile } from '@/curriculum/types'
 import type { ProgressState, RewardProgress, SessionResult } from '@/math/types'
 import {
   applySessionToProgress,
@@ -52,6 +53,8 @@ interface ProgressContextValue {
   setSoundMuted: (muted: boolean) => void
   updateReward: (reward: RewardProgress) => void
   updateCrates: (crates: CratesState) => void
+  updateSchool: (school: SchoolProfile) => void
+  setActivityAssignments: (assignments: ActivityAssignmentMap) => void
   chooseCrate: (index: number) => void
   openCrate: () => void
   collectCrate: () => string | null
@@ -182,6 +185,20 @@ export function ProgressProvider({
     [persist, progress],
   )
 
+  const updateSchool = useCallback(
+    (school: SchoolProfile) => {
+      persist({ ...progress, school })
+    },
+    [persist, progress],
+  )
+
+  const setActivityAssignments = useCallback(
+    (activityAssignments: ActivityAssignmentMap) => {
+      persist({ ...progress, activityAssignments })
+    },
+    [persist, progress],
+  )
+
   const chooseCrate = useCallback(
     (index: number) => {
       persist({ ...progress, crates: chooseCrateOption(progress.crates, index) })
@@ -234,6 +251,8 @@ export function ProgressProvider({
       setSoundMuted,
       updateReward,
       updateCrates,
+      updateSchool,
+      setActivityAssignments,
       chooseCrate,
       openCrate,
       collectCrate,
@@ -246,6 +265,8 @@ export function ProgressProvider({
       setSoundMuted,
       updateReward,
       updateCrates,
+      updateSchool,
+      setActivityAssignments,
       chooseCrate,
       openCrate,
       collectCrate,
