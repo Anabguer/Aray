@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <title>Fitxes · Matemàtiques</title>
+  <style>
+    @page { size: A4; margin: 8mm; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #edf2fb; color: #1f2530; font-family: Arial, Helvetica, sans-serif; }
+    .page { width: 196mm; min-height: 279mm; margin: 6mm auto; padding: 8mm 9mm; background: #fff; border: 1px solid #d5ddec; border-radius: 12px; page-break-after: always; }
+    .hero, .panel, .story-panel { border-radius: 12px; border: 1px solid #d7e1f8; padding: 12px; margin-bottom: 10px; }
+    .hero { background: linear-gradient(180deg, #eef3ff 0%, #fff7ea 100%); }
+    .story-panel { background: #f8fbff; }
+    .support-panel { background: #fffdfa; border-color: #eadfb6; }
+    .decoder-panel { background: #f5fff2; border-color: #d6e8cc; }
+    .bonus-panel { background: #fffdf4; border-color: #eadfb6; }
+    .chapter-pill { display: inline-block; padding: 6px 10px; background: #e8efff; color: #1e4db7; border-radius: 999px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; }
+    .section-badge { display: inline-block; margin-bottom: 8px; padding: 4px 9px; background: #eef2ff; color: #314f98; border-radius: 999px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+    h1 { margin: 8px 0 6px 0; font-size: 28px; }
+    h3 { margin: 0 0 8px 0; font-size: 17px; }
+    p, li, td, th { font-size: 13.6px; line-height: 1.42; }
+    .subtitle { margin: 0; color: #4b5871; }
+    .cover-art { width: 100%; height: auto; margin-top: 10px; }
+    .suspect-table, .solution-table, .vf-table { width: 100%; border-collapse: collapse; }
+    .suspect-table th, .suspect-table td, .solution-table th, .solution-table td, .vf-table th, .vf-table td { border: 1px solid #c9d2e5; padding: 6px; text-align: left; vertical-align: top; }
+    .vf-cell { width: 34px; text-align: center; }
+    .vf-cell::before { content: ""; display: inline-block; width: 16px; height: 16px; border: 2px solid #7d90ba; border-radius: 4px; }
+    .task-card { display: grid; grid-template-columns: 48px 1fr; gap: 10px; margin-bottom: 9px; }
+    .task-code { background: #1e4db7; color: #fff; border-radius: 10px; text-align: center; padding: 8px 0; font-size: 14px; font-weight: 700; }
+    .task-prompt { margin: 0 0 6px 0; }
+    .section-intro { margin: 0 0 8px 0; color: #5a6882; }
+    .response-boxes { display: flex; flex-wrap: wrap; gap: 4px; }
+    .box { display: inline-block; height: 28px; border: 2px solid #93a7d4; border-radius: 6px; background: #fff; }
+    .write-line { height: 24px; border-bottom: 2px solid #aeb9cf; margin-top: 5px; }
+    .choice-group { display: grid; gap: 5px; }
+    .choice-option { display: flex; align-items: center; gap: 8px; min-height: 24px; }
+    .choice-mark { width: 16px; height: 16px; border: 2px solid #8396be; border-radius: 4px; display: inline-block; }
+    .story-lines { margin-top: 6px; }
+    .story-line-row { display: grid; grid-template-columns: 26px 1fr; gap: 6px; margin: 3px 0; font-size: 14px; }
+    .story-line-num { font-weight: 700; color: #1e4db7; }
+    .support-lines p { margin: 0 0 6px 0; }
+    .decoder-word { margin-top: 10px; padding: 10px; background: #fff; border: 1px dashed #88a370; border-radius: 10px; }
+    .decoder-steps { margin: 8px 0 10px 20px; padding: 0; }
+    .evidence-box { margin-top: 10px; padding: 10px; background: #fff; border: 1px dashed #88a370; border-radius: 10px; }
+    .wordsearch-box { margin-top: 8px; padding: 10px; border: 2px solid #9bb0da; border-radius: 10px; background: #fff; }
+    .wordsearch-row { font-family: "Courier New", monospace; font-size: 20px; letter-spacing: 4px; line-height: 1.25; }
+    .footer-line { margin-top: 10px; color: #55627a; font-size: 13px; }
+    @media print {
+      body { background: #fff; }
+      .page { width: auto; margin: 0; border: none; border-radius: 0; }
+    }
+    
+    @page { size: A4; margin: 8mm; }
+    .page.fitxa-page {
+      width: 196mm;
+      min-height: 279mm;
+      margin: 0 auto;
+      padding: 7mm 9mm 5mm 9mm;
+      page-break-after: always;
+      page-break-inside: avoid;
+      display: flex;
+      flex-direction: column;
+    }
+    .fitxa-body {
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+    .fitxa-body > :first-child { margin-top: 0; }
+    .fitxa-meta {
+      margin: 0 0 8px 0;
+      padding: 0;
+      color: #55627a;
+      font-size: 11.5px;
+      line-height: 1.35;
+    }
+    .fitxa-header-bar {
+      display: flex;
+      align-items: flex-end;
+      gap: 12px;
+      margin: 0 0 10px 0;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #c9d2e5;
+    }
+    .fitxa-header-bar img.aray-avatar {
+      width: 60px !important;
+      height: auto !important;
+      max-height: 60px;
+      flex-shrink: 0;
+    }
+    .fitxa-fields {
+      flex: 1;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      gap: 10px 18px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .field-group {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .field-line {
+      display: inline-block;
+      border-bottom: 2.5px solid #1f2530;
+      height: 24px;
+      vertical-align: bottom;
+    }
+    .field-nom { width: 72mm; min-width: 72mm; }
+    .field-date { width: 36mm; min-width: 36mm; }
+    .fitxa-num {
+      margin-left: auto;
+      color: #1e4db7;
+      font-size: 15px;
+      white-space: nowrap;
+    }
+    .fitxa-body h1 {
+      font-size: 21px;
+      margin: 0 0 8px 0;
+      line-height: 1.2;
+    }
+    .fitxa-body h2 {
+      font-size: 16px;
+      margin: 14px 0 8px 0;
+      color: #1e4db7;
+      line-height: 1.3;
+    }
+    .fitxa-body p,
+    .fitxa-body li,
+    .fitxa-body td,
+    .fitxa-body th {
+      font-size: 14px;
+      line-height: 1.45;
+      margin: 4px 0;
+    }
+    .fitxa-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0;
+    }
+    .fitxa-body th,
+    .fitxa-body td {
+      border: 1px solid #c9d2e5;
+      padding: 8px 9px;
+      font-size: 13.5px;
+      vertical-align: top;
+      min-height: 32px;
+    }
+    .fitxa-body th { background: #eef3ff; }
+    .fitxa-body blockquote {
+      margin: 8px 0;
+      padding: 8px 12px;
+      background: #f8fbff;
+      border-left: 3px solid #1e4db7;
+      color: #44506a;
+      font-size: 13px;
+    }
+    .fitxa-body img.fitxa-illustration {
+      width: auto !important;
+      height: auto !important;
+      max-height: 48mm !important;
+      max-width: 52% !important;
+      float: right;
+      margin: 0 0 8px 10px;
+      object-fit: contain;
+    }
+    .fitxa-body img.fitxa-illustration-small {
+      max-height: 24mm !important;
+      max-width: 28% !important;
+    }
+  /* Imatge principal sola: més gran i centrada */
+    .fitxa-body h2 + p > img.fitxa-illustration:only-child,
+    .fitxa-body p > img.fitxa-illustration:only-child {
+      max-height: 55mm !important;
+      max-width: 75% !important;
+      float: none;
+      display: block;
+      margin: 8px auto 12px auto;
+    }
+    .fitxa-body pre {
+      font-family: "Courier New", monospace;
+      font-size: 14px;
+      line-height: 1.35;
+      background: #f8faff;
+      border: 1px solid #d5ddec;
+      border-radius: 8px;
+      padding: 10px;
+      margin: 8px 0;
+      white-space: pre-wrap;
+      min-height: 55mm;
+    }
+    .fitxa-body ul,
+    .fitxa-body ol {
+      margin: 8px 0;
+      padding-left: 22px;
+    }
+    .fitxa-body li {
+      margin: 6px 0 14px 0;
+    }
+    .fitxa-body li p { margin: 0 0 6px 0; }
+    .fitxa-body li + .write-line { margin-top: 4px; margin-bottom: 8px; }
+    .write-line {
+      height: 28px;
+      border-bottom: 2px solid #7d90ba;
+      margin: 6px 0 12px 0;
+    }
+    .write-line.tall {
+      height: 34px;
+      margin-bottom: 14px;
+    }
+    .inline-blank {
+      display: inline-block;
+      min-width: 65mm;
+      border-bottom: 2px solid #7d90ba;
+      height: 22px;
+      vertical-align: bottom;
+    }
+    .fitxa-body p:has(strong:first-child) { margin-top: 10px; }
+    .fitxa-recorda {
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: #fffdf4;
+      border: 1px solid #eadfb6;
+      border-radius: 8px;
+      font-size: 13px;
+    }
+    .fitxa-body .reading-text {
+      font-size: 14px;
+      line-height: 1.5;
+      margin: 6px 0 12px 0;
+    }
+    .footer-line {
+      flex-shrink: 0;
+      margin-top: 8px;
+      padding-top: 5px;
+      border-top: 1px solid #e2e8f4;
+      color: #7a869e;
+      font-size: 11px;
+    }
+    .area-cover {
+      text-align: center;
+      padding: 30mm 10mm;
+      height: 281mm;
+    }
+    .area-cover h1 { font-size: 32px; }
+    .area-cover p { color: #55627a; font-size: 16px; }
+    @media print {
+      body { background: #fff; }
+      .page { border: none; border-radius: 0; box-shadow: none; }
+      .page.fitxa-page { width: auto; margin: 0; }
+    }
+    </style>
+</head>
+<body>
+
+    <article class="page area-cover">
+      <div class="chapter-pill">Fichas de repaso</div>
+      <h1>Matemàtiques</h1>
+      <p>3r primària · Escola Sant Jordi · Temàtica Roblox</p>
+      <p><strong>01_mates</strong></p>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 1 · Càlcul mental</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 1</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Matemàtiques · Idioma: català · 3r primària · BEX: MAT-TIP-001 · Dificultat: ⭐</p>
+
+<h2>Monedes i punts de l'arena</h2>
+<p>Calcula de cap. Escriu el resultat a cada casella.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;"></th>
+<th style="text-align: center;"></th>
+<th style="text-align: center;"></th>
+<th style="text-align: center;"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">45 + 23 = ______</td>
+<td style="text-align: center;">67 − 18 = ______</td>
+<td style="text-align: center;">38 + 41 = ______</td>
+<td style="text-align: center;">90 − 35 = ______</td>
+</tr>
+<tr>
+<td style="text-align: center;">56 + 27 = ______</td>
+<td style="text-align: center;">84 − 29 = ______</td>
+<td style="text-align: center;">72 + 15 = ______</td>
+<td style="text-align: center;">100 − 47 = ______</td>
+</tr>
+<tr>
+<td style="text-align: center;">33 + 48 = ______</td>
+<td style="text-align: center;">95 − 56 = ______</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h2>Repàs ràpid</h2>
+<p>Aray guanya punts a l'<strong>Arena de Cuchillos</strong>. Resol sense paper auxiliar:</p>
+<ol>
+<li>
+<p>Té <strong>120</strong> monedes i en guanya <strong>35</strong> més. Quantes té ara? ______ monedes</p>
+</li>
+<li>
+<p>Gastes <strong>48</strong> punts en una skin i en tenies <strong>75</strong>. Quants et queden? ______ punts</p>
+</li>
+</ol>
+<p class="fitxa-recorda"><strong>Recorda:</strong> Pensa primer les desenes i després les unitats. Si cal, fes el salt en dos passos.</p>
+      </div>
+      <footer class="footer-line">Matemàtiques · Fitxa 1 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 2 · Compara nombres</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 2</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Matemàtiques · Idioma: català · 3r primària · BEX: MAT-001 · Dificultat: ⭐⭐</p>
+
+<h2>Puntuacions de l'arena</h2>
+<p>A l'<strong>Arena de Cuchillos</strong>, cada jugador acumula punts en diferents rondes. Compara els nombres i escriu <strong><code>&gt;</code></strong>, <strong><code>&lt;</code></strong> o <strong><code>=</code></strong> al mig.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;"></th>
+<th style="text-align: center;"></th>
+<th style="text-align: center;"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">3.456</td>
+<td style="text-align: center;">______</td>
+<td style="text-align: center;">3.465</td>
+</tr>
+<tr>
+<td style="text-align: center;">2.890</td>
+<td style="text-align: center;">______</td>
+<td style="text-align: center;">2.809</td>
+</tr>
+<tr>
+<td style="text-align: center;">5.001</td>
+<td style="text-align: center;">______</td>
+<td style="text-align: center;">5.010</td>
+</tr>
+<tr>
+<td style="text-align: center;">4.720</td>
+<td style="text-align: center;">______</td>
+<td style="text-align: center;">4.702</td>
+</tr>
+<tr>
+<td style="text-align: center;">6.999</td>
+<td style="text-align: center;">______</td>
+<td style="text-align: center;">7.000</td>
+</tr>
+<tr>
+<td style="text-align: center;">1.350</td>
+<td style="text-align: center;">______</td>
+<td style="text-align: center;">1.305</td>
+</tr>
+</tbody>
+</table>
+<h2>Qui ha fet més punts?</h2>
+<ol>
+<li>La <strong>Sara</strong> ha fet <strong>2.847</strong> punts i l'<strong>Eric</strong> ha fet <strong>2.874</strong> punts. Qui n'ha fet més?</li>
+</ol>
+<div class=\"write-line\"></div>
+<ol start="2">
+<li>L'<strong>Axel</strong> ha fet <strong>3.205</strong> punts i la <strong>Maria</strong> ha fet <strong>3.250</strong> punts. Qui n'ha fet menys?</li>
+</ol>
+<div class=\"write-line\"></div>
+<ol start="3">
+<li>Ordena de <strong>menor a major</strong> (escriu els tres nombres): <strong>1.980</strong> · <strong>1.908</strong> · <strong>1.899</strong></li>
+</ol>
+<p><strong><em>_</em></strong><strong><em>_</em>_  &lt;  </strong><strong><em>_</em></strong><strong><em>_  &lt;  </em></strong><strong><em>_</em></strong>___</p>
+<p class="fitxa-recorda"><strong>Recorda:</strong> Compara primer les milers, després les centenes, després les desenes i les unitats.</p>
+      </div>
+      <footer class="footer-line">Matemàtiques · Fitxa 2 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 3 · Doble i triple</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 3</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Matemàtiques · Idioma: català · 3r primària · BEX: MAT-008 · Dificultat: ⭐⭐</p>
+
+<p><img alt="Botiga de l'arena" src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/mat_07_botiga.png" class="fitxa-illustration"></p>
+<h2>Taula del doble i el triple</h2>
+<p>Completa la taula. El <strong>doble</strong> és sumar el nombre dues vegades. El <strong>triple</strong> és sumar-lo tres vegades.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nombre</th>
+<th style="text-align: center;">Doble</th>
+<th style="text-align: center;">Triple</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>4</strong></td>
+<td style="text-align: center;">______</td>
+<td style="text-align: center;">______</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>6</strong></td>
+<td style="text-align: center;">______</td>
+<td style="text-align: center;">______</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>9</strong></td>
+<td style="text-align: center;">______</td>
+<td style="text-align: center;">______</td>
+</tr>
+</tbody>
+</table>
+<h2>Monedes a la botiga</h2>
+<p>A la botiga del joc, un cofre costa <strong>6</strong> monedes.</p>
+<ol>
+<li>
+<p>Quantes monedes costen <strong>2</strong> cofres? (és el doble de 6) ______ monedes</p>
+</li>
+<li>
+<p>Quantes monedes costen <strong>3</strong> cofres? (és el triple de 6) ______ monedes</p>
+</li>
+<li>
+<p>Aray té <strong>20</strong> monedes. Vol comprar <strong>3</strong> cofres. En té prou? Explica amb una frase curta.</p>
+</li>
+</ol>
+<div class="write-line"></div>
+<p class="fitxa-recorda"><strong>Recorda:</strong> El doble de 6 és 6 + 6. El triple de 6 és 6 + 6 + 6.</p>
+      </div>
+      <footer class="footer-line">Matemàtiques · Fitxa 3 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 4 · Valor posicional</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 4</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Matemàtiques · Idioma: català · 3r primària · BEX: MAT-003 · Dificultat: ⭐⭐</p>
+
+<p><img alt="Blocs de valor posicional" src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/mat_04_valor_posicional.png" class="fitxa-illustration"></p>
+<h2>Descomposició d'un nombre</h2>
+<p>Descompon cada nombre en <strong>unitats de millar (UM) + centenes (C) + desenes (D) + unitats (U)</strong>.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nombre</th>
+<th style="text-align: left;">Descomposició</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>3.472</strong></td>
+<td style="text-align: left;"><strong><em>_</em>_ UM + </strong><strong><em>_ C + </em></strong><strong><em> D + </em></strong>___ U</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>5.806</strong></td>
+<td style="text-align: left;"><strong><em>_</em>_ UM + </strong><strong><em>_ C + </em></strong><strong><em> D + </em></strong>___ U</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>2.095</strong></td>
+<td style="text-align: left;"><strong><em>_</em>_ UM + </strong><strong><em>_ C + </em></strong><strong><em> D + </em></strong>___ U</td>
+</tr>
+</tbody>
+</table>
+<h2>Què val cada bloc?</h2>
+<ol>
+<li>Al nombre <strong>4.318</strong>, quantes <strong>centenes</strong> hi ha?</li>
+</ol>
+<div class=\"write-line\"></div>
+<ol start="2">
+<li>Al nombre <strong>4.318</strong>, quantes <strong>unitats</strong> hi ha?</li>
+</ol>
+<div class=\"write-line\"></div>
+<ol start="3">
+<li>Escriu amb xifres el nombre que té <strong>2</strong> milers, <strong>0</strong> centenes, <strong>7</strong> desenes i <strong>4</strong> unitats: <span class=\"inline-blank\"></span></li>
+</ol>
+<p class="fitxa-recorda"><strong>Recorda:</strong> Cada xifra val el que indica la seva posició: UM, C, D o U.</p>
+      </div>
+      <footer class="footer-line">Matemàtiques · Fitxa 4 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 5 · La xifra val…</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 5</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Matemàtiques · Idioma: català · 3r primària · BEX: MAT-011 · Dificultat: ⭐</p>
+
+<h2>Quin valor té la xifra en negreta?</h2>
+<p>A cada nombre, la xifra marcada en <strong>negreta</strong> no val el que sembla. Escriu el <strong>valor</strong> que té (no la xifra sola).</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nombre</th>
+<th style="text-align: center;">La xifra en negreta val…</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">2.<strong>7</strong>45</td>
+<td style="text-align: center;">______</td>
+</tr>
+<tr>
+<td style="text-align: center;">3.<strong>8</strong>12</td>
+<td style="text-align: center;">______</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>5</strong>.094</td>
+<td style="text-align: center;">______</td>
+</tr>
+<tr>
+<td style="text-align: center;">6.2<strong>3</strong>0</td>
+<td style="text-align: center;">______</td>
+</tr>
+<tr>
+<td style="text-align: center;">1.<strong>4</strong>67</td>
+<td style="text-align: center;">______</td>
+</tr>
+<tr>
+<td style="text-align: center;">9.<strong>0</strong>58</td>
+<td style="text-align: center;">______</td>
+</tr>
+</tbody>
+</table>
+<h2>Pensa-ho bé</h2>
+<ol>
+<li>
+<p>Al nombre <strong>7.502</strong>, quina xifra val <strong>500</strong>? Escriu-la: <span class=\"inline-blank\"></span></p>
+</li>
+<li>
+<p>Al nombre <strong>7.502</strong>, quina xifra val <strong>7</strong>? Escriu-la: <span class=\"inline-blank\"></span></p>
+</li>
+</ol>
+<p class="fitxa-recorda"><strong>Recorda:</strong> La xifra <strong>8</strong> a <strong>3.812</strong> val <strong>800</strong> perquè està a la posició de les centenes.</p>
+      </div>
+      <footer class="footer-line">Matemàtiques · Fitxa 5 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 6 · Ordinals</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 6</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Matemàtiques · Idioma: català · 3r primària · BEX: MAT-002 · Dificultat: ⭐⭐</p>
+
+<p><img alt="Carrera de l'arena" src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/mat_06_ordinals.png" class="fitxa-illustration"></p>
+<h2>Carrera de l'arena</h2>
+<p>A l'<strong>Arena de Cuchillos</strong> hi ha una cursa entre tres jugadors. L'ordre d'arribada és:</p>
+<ol>
+<li><strong>Eric</strong> (primer)</li>
+<li><strong>Sara</strong> (segon)</li>
+<li><strong>Axel</strong> (tercer)</li>
+</ol>
+<p>Respon amb la paraula ordinal (<strong>primer</strong>, <strong>segon</strong>, <strong>tercer</strong>, <strong>quart</strong>…):</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Pregunta</th>
+<th style="text-align: left;">Resposta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Qui ha arribat en <strong>primer</strong> lloc?</td>
+<td style="text-align: left;"><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>__</td>
+</tr>
+<tr>
+<td style="text-align: left;">Qui ha arribat en <strong>segon</strong> lloc?</td>
+<td style="text-align: left;"><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>__</td>
+</tr>
+<tr>
+<td style="text-align: left;">Qui ha arribat en <strong>tercer</strong> lloc?</td>
+<td style="text-align: left;"><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>__</td>
+</tr>
+<tr>
+<td style="text-align: left;">En quin lloc ha arribat l'<strong>Axel</strong>?</td>
+<td style="text-align: left;"><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>__</td>
+</tr>
+</tbody>
+</table>
+<h2>La fila d'entrada</h2>
+<p>Quatre jugadors esperen per entrar a l'arena. De dreta a esquerra: <strong>Maria</strong> (1a), <strong>Joan</strong> (2n), <strong>Laura</strong> (3a), <strong>Pau</strong> (4t).</p>
+<ol>
+<li>Qui és el <strong>tercer</strong> de la fila?</li>
+</ol>
+<div class=\"write-line\"></div>
+<ol start="2">
+<li>Qui és el <strong>primer</strong> de la fila?</li>
+</ol>
+<div class=\"write-line\"></div>
+<h2>El rellotge del vestíbul</h2>
+<p>Aray mira el rellotge de la sala abans de jugar. La <strong>petita</strong> agulla apunta al <strong>9</strong> i la <strong>gran</strong> apunta al <strong>12</strong>.</p>
+<ol>
+<li>
+<p>Quina hora és? ______ en punt</p>
+</li>
+<li>
+<p>Si el partit comença una hora després, a quina hora comença? ______ en punt</p>
+</li>
+</ol>
+<p class="fitxa-recorda"><strong>Recorda:</strong> Els ordinals indiquen la posició: 1r, 2n, 3r, 4t… No confonguis «tercer» amb el nombre 3.</p>
+      </div>
+      <footer class="footer-line">Matemàtiques · Fitxa 6 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 7 · Propietats de la suma</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 7</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Matemàtiques · Idioma: català · 3r primària · BEX: MAT-004 · Dificultat: ⭐</p>
+
+<h2>La suma és commutativa</h2>
+<p>Pots sumar en qualsevol ordre i el resultat és el mateix: <strong>a + b = b + a</strong>.</p>
+<p>Completa cada igualtat:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;"></th>
+<th style="text-align: center;"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">23 + 45 = 45 + ______</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">______ + 17 = 17 + 38</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">56 + ______ = 72 + 56</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">9 + 34 = ______ + 9</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">125 + 48 = 48 + ______</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h2>Punts de dos equips</h2>
+<p>L'equip <strong>Roig</strong> fa <strong>34</strong> punts i l'equip <strong>Blau</strong> fa <strong>28</strong> punts.</p>
+<ol>
+<li>
+<p>Escriu les dues sumes possibles (canviant l'ordre): <span class=\"inline-blank\"></span> + <strong><em>_</em>_ = </strong>____</p>
+</li>
+<li>
+<p>Quants punts fan els dos equips junts? ______ punts</p>
+</li>
+</ol>
+<p class="fitxa-recorda"><strong>Recorda:</strong> Canviar l'ordre dels sumands no canvia el resultat. 34 + 28 = 28 + 34.</p>
+      </div>
+      <footer class="footer-line">Matemàtiques · Fitxa 7 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 8 · Multiplicació</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 8</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Matemàtiques · Idioma: català · 3r primària · BEX: MAT-006 · Dificultat: ⭐⭐</p>
+
+<h2>Torneig de l'arena</h2>
+<p>A l'<strong>Arena de Cuchillos</strong> hi ha un torneig amb <strong>4 equips</strong>. Cada equip té <strong>9</strong> jugadors.</p>
+<ol>
+<li>
+<p>Quants jugadors hi ha en total? Escriu la multiplicació i el resultat: <span class=\"inline-blank\"></span> × <strong><em>_</em>_ = </strong>____ jugadors</p>
+</li>
+<li>
+<p>Si cada jugador porta <strong>2</strong> espases, quants espases hi ha en total? (pista: primer calcula els jugadors)</p>
+</li>
+</ol>
+<p>______ espases</p>
+<h2>Multiplicacions directes</h2>
+<p>Calcula i escriu el resultat:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;"></th>
+<th style="text-align: center;"></th>
+<th style="text-align: center;"></th>
+<th style="text-align: center;"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">4 × 7 = ______</td>
+<td style="text-align: center;">6 × 8 = ______</td>
+<td style="text-align: center;">9 × 5 = ______</td>
+<td style="text-align: center;">3 × 9 = ______</td>
+</tr>
+</tbody>
+</table>
+<h2>Reparteix mentalment</h2>
+<p>Un cofre dóna <strong>5</strong> monedes per ronda. Si jugues <strong>6</strong> rondes, quantes monedes guanyes?</p>
+<p><strong><em>_</em>_ × </strong><strong><em>_ = </em></strong>___ monedes</p>
+<p class="fitxa-recorda"><strong>Recorda:</strong> La multiplicació és una suma repetida: 4 × 9 = 9 + 9 + 9 + 9.</p>
+      </div>
+      <footer class="footer-line">Matemàtiques · Fitxa 8 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 9 · Divisió i resta</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 9</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Matemàtiques · Idioma: català · 3r primària · BEX: MAT-006 (adaptat) · Dificultat: ⭐⭐⭐</p>
+
+<h2>Quocient i resta</h2>
+<p>Quan dividim, de vegades sobra una part que no es pot repartir igual. Escriu el <strong>quocient</strong> i la <strong>resta</strong>.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Divisió</th>
+<th style="text-align: center;">Quocient</th>
+<th style="text-align: center;">Resta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">17 ÷ 5</td>
+<td style="text-align: center;">______</td>
+<td style="text-align: center;">______</td>
+</tr>
+<tr>
+<td style="text-align: center;">23 ÷ 4</td>
+<td style="text-align: center;">______</td>
+<td style="text-align: center;">______</td>
+</tr>
+<tr>
+<td style="text-align: center;">35 ÷ 6</td>
+<td style="text-align: center;">______</td>
+<td style="text-align: center;">______</td>
+</tr>
+<tr>
+<td style="text-align: center;">29 ÷ 7</td>
+<td style="text-align: center;">______</td>
+<td style="text-align: center;">______</td>
+</tr>
+</tbody>
+</table>
+<h2>Repartiment de gemes</h2>
+<p>L'<strong>Eric</strong> ha guanyat <strong>48</strong> gemes a l'arena i les vol repartir <strong>igual</strong> entre <strong>5</strong> jugadors de l'equip.</p>
+<ol>
+<li>
+<p>Quantes gemes rep cada jugador com a mínim? ______ gemes</p>
+</li>
+<li>
+<p>Quantes gemes sobren sense repartir? ______ gemes</p>
+</li>
+<li>
+<p>Escriu la divisió completa: 48 ÷ 5 = <strong><em>_</em>_ amb una resta de </strong>____</p>
+</li>
+</ol>
+<h2>Comprova</h2>
+<p>Si cada jugador rep el que has calculat i les que sobren es queden a l'<strong>Eric</strong>, suma per veure si arribes a 48:</p>
+<p>(<strong><em>_</em>_ × </strong><strong><em>_) + </em></strong><strong><em> = </em></strong>___</p>
+<p class="fitxa-recorda"><strong>Recorda:</strong> Quocient × divisor + resta = dividend. La resta sempre ha de ser més petita que el divisor.</p>
+      </div>
+      <footer class="footer-line">Matemàtiques · Fitxa 9 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 10 · Problema llarg (mates)</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 10</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Matemàtiques · Idioma: català · 3r primària · BEX: MAT-M16-006 (adaptat) · Dificultat: ⭐⭐⭐</p>
+
+<p><img alt="Aparcament de l'arena" src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/mat_10_aparcament.png" class="fitxa-illustration"></p>
+<h2>Llegeix i comprèn</h2>
+<p>A l'entrada de l'<strong>Arena de Cuchillos</strong> hi ha un aparcament.</p>
+<ul>
+<li>A les <strong>onze</strong> del matí hi ha <strong>142</strong> cotxes.  </li>
+<li>Marxa <strong>28</strong> cotxes.  </li>
+<li>Entren <strong>15</strong> cotxes nous.</li>
+</ul>
+<p>Completa la taula. Pensa cada pas abans de passar al següent.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Dades</th>
+<th>Operació</th>
+<th>Resposta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1.</strong> Quants cotxes queden després que marxin 28?</td>
+<td>142 − 28</td>
+<td></td>
+<td><strong><em>_</em></strong>__ cotxes</td>
+</tr>
+<tr>
+<td><strong>2.</strong> Quants cotxes hi ha quan entren 15 nous?</td>
+<td></td>
+<td></td>
+<td><strong><em>_</em></strong>__ cotxes</td>
+</tr>
+<tr>
+<td><strong>3.</strong> Si cada cotxe porta <strong>4</strong> persones, quantes persones com a màxim?</td>
+<td></td>
+<td></td>
+<td><strong><em>_</em></strong>__ persones</td>
+</tr>
+<tr>
+<td><strong>4.</strong> La Maria diu: «Ara hi ha menys cotxes que al principi». Té raó? Explica amb una frase.</td>
+<td>Compara 142 i el resultat</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p class="fitxa-recorda"><strong>Recorda:</strong> Llegeix tot el problema · Escriu la operació · Comprova si té sentit la resposta.</p>
+      </div>
+      <footer class="footer-line">Matemàtiques · Fitxa 10 · Repàs verano Aray</footer>
+    </article>
+    
+</body>
+</html>

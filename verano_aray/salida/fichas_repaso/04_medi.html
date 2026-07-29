@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <title>Fitxes · Medi</title>
+  <style>
+    @page { size: A4; margin: 8mm; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #edf2fb; color: #1f2530; font-family: Arial, Helvetica, sans-serif; }
+    .page { width: 196mm; min-height: 279mm; margin: 6mm auto; padding: 8mm 9mm; background: #fff; border: 1px solid #d5ddec; border-radius: 12px; page-break-after: always; }
+    .hero, .panel, .story-panel { border-radius: 12px; border: 1px solid #d7e1f8; padding: 12px; margin-bottom: 10px; }
+    .hero { background: linear-gradient(180deg, #eef3ff 0%, #fff7ea 100%); }
+    .story-panel { background: #f8fbff; }
+    .support-panel { background: #fffdfa; border-color: #eadfb6; }
+    .decoder-panel { background: #f5fff2; border-color: #d6e8cc; }
+    .bonus-panel { background: #fffdf4; border-color: #eadfb6; }
+    .chapter-pill { display: inline-block; padding: 6px 10px; background: #e8efff; color: #1e4db7; border-radius: 999px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; }
+    .section-badge { display: inline-block; margin-bottom: 8px; padding: 4px 9px; background: #eef2ff; color: #314f98; border-radius: 999px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+    h1 { margin: 8px 0 6px 0; font-size: 28px; }
+    h3 { margin: 0 0 8px 0; font-size: 17px; }
+    p, li, td, th { font-size: 13.6px; line-height: 1.42; }
+    .subtitle { margin: 0; color: #4b5871; }
+    .cover-art { width: 100%; height: auto; margin-top: 10px; }
+    .suspect-table, .solution-table, .vf-table { width: 100%; border-collapse: collapse; }
+    .suspect-table th, .suspect-table td, .solution-table th, .solution-table td, .vf-table th, .vf-table td { border: 1px solid #c9d2e5; padding: 6px; text-align: left; vertical-align: top; }
+    .vf-cell { width: 34px; text-align: center; }
+    .vf-cell::before { content: ""; display: inline-block; width: 16px; height: 16px; border: 2px solid #7d90ba; border-radius: 4px; }
+    .task-card { display: grid; grid-template-columns: 48px 1fr; gap: 10px; margin-bottom: 9px; }
+    .task-code { background: #1e4db7; color: #fff; border-radius: 10px; text-align: center; padding: 8px 0; font-size: 14px; font-weight: 700; }
+    .task-prompt { margin: 0 0 6px 0; }
+    .section-intro { margin: 0 0 8px 0; color: #5a6882; }
+    .response-boxes { display: flex; flex-wrap: wrap; gap: 4px; }
+    .box { display: inline-block; height: 28px; border: 2px solid #93a7d4; border-radius: 6px; background: #fff; }
+    .write-line { height: 24px; border-bottom: 2px solid #aeb9cf; margin-top: 5px; }
+    .choice-group { display: grid; gap: 5px; }
+    .choice-option { display: flex; align-items: center; gap: 8px; min-height: 24px; }
+    .choice-mark { width: 16px; height: 16px; border: 2px solid #8396be; border-radius: 4px; display: inline-block; }
+    .story-lines { margin-top: 6px; }
+    .story-line-row { display: grid; grid-template-columns: 26px 1fr; gap: 6px; margin: 3px 0; font-size: 14px; }
+    .story-line-num { font-weight: 700; color: #1e4db7; }
+    .support-lines p { margin: 0 0 6px 0; }
+    .decoder-word { margin-top: 10px; padding: 10px; background: #fff; border: 1px dashed #88a370; border-radius: 10px; }
+    .decoder-steps { margin: 8px 0 10px 20px; padding: 0; }
+    .evidence-box { margin-top: 10px; padding: 10px; background: #fff; border: 1px dashed #88a370; border-radius: 10px; }
+    .wordsearch-box { margin-top: 8px; padding: 10px; border: 2px solid #9bb0da; border-radius: 10px; background: #fff; }
+    .wordsearch-row { font-family: "Courier New", monospace; font-size: 20px; letter-spacing: 4px; line-height: 1.25; }
+    .footer-line { margin-top: 10px; color: #55627a; font-size: 13px; }
+    @media print {
+      body { background: #fff; }
+      .page { width: auto; margin: 0; border: none; border-radius: 0; }
+    }
+    
+    @page { size: A4; margin: 8mm; }
+    .page.fitxa-page {
+      width: 196mm;
+      min-height: 279mm;
+      margin: 0 auto;
+      padding: 7mm 9mm 5mm 9mm;
+      page-break-after: always;
+      page-break-inside: avoid;
+      display: flex;
+      flex-direction: column;
+    }
+    .fitxa-body {
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+    .fitxa-body > :first-child { margin-top: 0; }
+    .fitxa-meta {
+      margin: 0 0 8px 0;
+      padding: 0;
+      color: #55627a;
+      font-size: 11.5px;
+      line-height: 1.35;
+    }
+    .fitxa-header-bar {
+      display: flex;
+      align-items: flex-end;
+      gap: 12px;
+      margin: 0 0 10px 0;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #c9d2e5;
+    }
+    .fitxa-header-bar img.aray-avatar {
+      width: 60px !important;
+      height: auto !important;
+      max-height: 60px;
+      flex-shrink: 0;
+    }
+    .fitxa-fields {
+      flex: 1;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      gap: 10px 18px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .field-group {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .field-line {
+      display: inline-block;
+      border-bottom: 2.5px solid #1f2530;
+      height: 24px;
+      vertical-align: bottom;
+    }
+    .field-nom { width: 72mm; min-width: 72mm; }
+    .field-date { width: 36mm; min-width: 36mm; }
+    .fitxa-num {
+      margin-left: auto;
+      color: #1e4db7;
+      font-size: 15px;
+      white-space: nowrap;
+    }
+    .fitxa-body h1 {
+      font-size: 21px;
+      margin: 0 0 8px 0;
+      line-height: 1.2;
+    }
+    .fitxa-body h2 {
+      font-size: 16px;
+      margin: 14px 0 8px 0;
+      color: #1e4db7;
+      line-height: 1.3;
+    }
+    .fitxa-body p,
+    .fitxa-body li,
+    .fitxa-body td,
+    .fitxa-body th {
+      font-size: 14px;
+      line-height: 1.45;
+      margin: 4px 0;
+    }
+    .fitxa-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0;
+    }
+    .fitxa-body th,
+    .fitxa-body td {
+      border: 1px solid #c9d2e5;
+      padding: 8px 9px;
+      font-size: 13.5px;
+      vertical-align: top;
+      min-height: 32px;
+    }
+    .fitxa-body th { background: #eef3ff; }
+    .fitxa-body blockquote {
+      margin: 8px 0;
+      padding: 8px 12px;
+      background: #f8fbff;
+      border-left: 3px solid #1e4db7;
+      color: #44506a;
+      font-size: 13px;
+    }
+    .fitxa-body img.fitxa-illustration {
+      width: auto !important;
+      height: auto !important;
+      max-height: 48mm !important;
+      max-width: 52% !important;
+      float: right;
+      margin: 0 0 8px 10px;
+      object-fit: contain;
+    }
+    .fitxa-body img.fitxa-illustration-small {
+      max-height: 24mm !important;
+      max-width: 28% !important;
+    }
+  /* Imatge principal sola: més gran i centrada */
+    .fitxa-body h2 + p > img.fitxa-illustration:only-child,
+    .fitxa-body p > img.fitxa-illustration:only-child {
+      max-height: 55mm !important;
+      max-width: 75% !important;
+      float: none;
+      display: block;
+      margin: 8px auto 12px auto;
+    }
+    .fitxa-body pre {
+      font-family: "Courier New", monospace;
+      font-size: 14px;
+      line-height: 1.35;
+      background: #f8faff;
+      border: 1px solid #d5ddec;
+      border-radius: 8px;
+      padding: 10px;
+      margin: 8px 0;
+      white-space: pre-wrap;
+      min-height: 55mm;
+    }
+    .fitxa-body ul,
+    .fitxa-body ol {
+      margin: 8px 0;
+      padding-left: 22px;
+    }
+    .fitxa-body li {
+      margin: 6px 0 14px 0;
+    }
+    .fitxa-body li p { margin: 0 0 6px 0; }
+    .fitxa-body li + .write-line { margin-top: 4px; margin-bottom: 8px; }
+    .write-line {
+      height: 28px;
+      border-bottom: 2px solid #7d90ba;
+      margin: 6px 0 12px 0;
+    }
+    .write-line.tall {
+      height: 34px;
+      margin-bottom: 14px;
+    }
+    .inline-blank {
+      display: inline-block;
+      min-width: 65mm;
+      border-bottom: 2px solid #7d90ba;
+      height: 22px;
+      vertical-align: bottom;
+    }
+    .fitxa-body p:has(strong:first-child) { margin-top: 10px; }
+    .fitxa-recorda {
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: #fffdf4;
+      border: 1px solid #eadfb6;
+      border-radius: 8px;
+      font-size: 13px;
+    }
+    .fitxa-body .reading-text {
+      font-size: 14px;
+      line-height: 1.5;
+      margin: 6px 0 12px 0;
+    }
+    .footer-line {
+      flex-shrink: 0;
+      margin-top: 8px;
+      padding-top: 5px;
+      border-top: 1px solid #e2e8f4;
+      color: #7a869e;
+      font-size: 11px;
+    }
+    .area-cover {
+      text-align: center;
+      padding: 30mm 10mm;
+      height: 281mm;
+    }
+    .area-cover h1 { font-size: 32px; }
+    .area-cover p { color: #55627a; font-size: 16px; }
+    @media print {
+      body { background: #fff; }
+      .page { border: none; border-radius: 0; box-shadow: none; }
+      .page.fitxa-page { width: auto; margin: 0; }
+    }
+    </style>
+</head>
+<body>
+
+    <article class="page area-cover">
+      <div class="chapter-pill">Fichas de repaso</div>
+      <h1>Medi</h1>
+      <p>3r primària · Escola Sant Jordi · Temàtica Roblox</p>
+      <p><strong>04_medi</strong></p>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 01 · Materials</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 1</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Coneixement del medi · Idioma: català · 3r primària · BEX: MED-008 · Dificultat: ⭐⭐</p>
+
+<p><img alt="Materials de construcció del joc" src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/med_01_materials.png" class="fitxa-illustration"></p>
+
+<h2>A) De què està fet?</h2>
+<p>Completa amb les paraules del quadre:</p>
+<blockquote>
+<p>vidre · maó · fusta · metall · paper</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Objecte de l'arena</th>
+<th>Material</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Finestra</td>
+<td>___</td>
+</tr>
+<tr>
+<td>2. Paret gruixuda</td>
+<td>___</td>
+</tr>
+<tr>
+<td>3. Cadira del control</td>
+<td>___</td>
+</tr>
+<tr>
+<td>4. Clau daurada</td>
+<td>___</td>
+</tr>
+<tr>
+<td>5. Cartell del mapa</td>
+<td>___</td>
+</tr>
+</tbody>
+</table>
+<h2>B) Propietats dels materials</h2>
+<p>Relaciona cada material amb la seva propietat principal. Escriu la lletra.</p>
+<table>
+<thead>
+<tr>
+<th>Material</th>
+<th>Propietat</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Vidre</td>
+<td>A) Opac i molt dur</td>
+</tr>
+<tr>
+<td>Maó</td>
+<td>B) Transparent</td>
+</tr>
+<tr>
+<td>Paper</td>
+<td>C) Es pot doblegar amb facilitat</td>
+</tr>
+</tbody>
+</table>
+<p>Vidre ___ · Maó ___ · Paper ___</p>
+<p class="fitxa-recorda"><strong>Recorda:</strong> Mira l'objecte abans de respondre · Un material pot tenir més d'una propietat, però tria la principal.</p>
+      </div>
+      <footer class="footer-line">Medi · Fitxa 1 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 02 · Transparent, opac i flexible</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 2</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Coneixement del medi · Idioma: català · 3r primària · BEX: cap03 m03 (adaptat) · Dificultat: ⭐⭐</p>
+
+<h2>Classifica els blocs de construcció</h2>
+<p>Observa cada objecte del joc i escriu <strong>T</strong> (transparent), <strong>O</strong> (opac) o <strong>F</strong> (flexible).</p>
+<table>
+<thead>
+<tr>
+<th>Objecte</th>
+<th>T / O / F</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Finestra de vidre</td>
+<td>___</td>
+</tr>
+<tr>
+<td>2. Paret de maons</td>
+<td>___</td>
+</tr>
+<tr>
+<td>3. Full de paper</td>
+<td>___</td>
+</tr>
+<tr>
+<td>4. Cinta elàstica del botí</td>
+<td>___</td>
+</tr>
+<tr>
+<td>5. Plàstic transparent del escut</td>
+<td>___</td>
+</tr>
+<tr>
+<td>6. Porta de fusta</td>
+<td>___</td>
+</tr>
+<tr>
+<td>7. Teulada de metall</td>
+<td>___</td>
+</tr>
+<tr>
+<td>8. Glob de goma del personatge</td>
+<td>___</td>
+</tr>
+</tbody>
+</table>
+<h2>Pregunta curta</h2>
+<p>Cita un objecte <strong>transparent</strong> i un objecte <strong>opac</strong> de la taula.</p>
+<p>Transparent: <span class=\"inline-blank\"></span></p>
+<p>Opac: <span class=\"inline-blank\"></span></p>
+<p class="fitxa-recorda"><strong>Recorda:</strong> Transparent deixa passar la llum · Opac no la deixa passar · Flexible es pot doblegar sense trencar-se.</p>
+      </div>
+      <footer class="footer-line">Medi · Fitxa 2 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 03 · Vertebrats i invertebrats</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 3</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Coneixement del medi · Idioma: català · 3r primària · BEX: MED-009 · Dificultat: ⭐⭐</p>
+
+<p><img alt="Mascotes del joc" src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/med_06_animals.png" class="fitxa-illustration"></p>
+
+<h2>Classifica els animals</h2>
+<p>Escriu <strong>V</strong> si és vertebrat o <strong>I</strong> si és invertebrat.</p>
+<table>
+<thead>
+<tr>
+<th>Animal</th>
+<th>V / I</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Serp</td>
+<td>___</td>
+</tr>
+<tr>
+<td>2. Papallona</td>
+<td>___</td>
+</tr>
+<tr>
+<td>3. Peix</td>
+<td>___</td>
+</tr>
+<tr>
+<td>4. Escarabat</td>
+<td>___</td>
+</tr>
+<tr>
+<td>5. Granota</td>
+<td>___</td>
+</tr>
+<tr>
+<td>6. Medusa</td>
+<td>___</td>
+</tr>
+</tbody>
+</table>
+<h2>Pregunta curta</h2>
+<p>Cita un animal <strong>invertebrat</strong> de la taula i explica per què ho és (una frase).</p>
+<div class="write-line"></div>
+<div class="write-line"></div>
+<p class="fitxa-recorda"><strong>Recorda:</strong> Els vertebrats tenen <strong>columna vertebral</strong> (esquelet intern amb ossos).</p>
+      </div>
+      <footer class="footer-line">Medi · Fitxa 3 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 04 · L'aparell locomotor</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 4</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Coneixement del medi · Idioma: català · 3r primària · BEX: MED-002 · Dificultat: ⭐⭐</p>
+
+<p><img alt="Esquelet del personatge" src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/med_03_esquelet.png" class="fitxa-illustration"></p>
+
+<h2>A) Marca amb una X</h2>
+<p>Quines paraules pertanyen a l'<strong>aparell locomotor</strong>?</p>
+<ul>
+<li>[ ] ossos  </li>
+<li>[ ] músculs  </li>
+<li>[ ] articulacions  </li>
+<li>[ ] estómac  </li>
+<li>[ ] orelles  </li>
+<li>[ ] columna vertebral  </li>
+</ul>
+<h2>B) Verdader o fals</h2>
+<p>Escriu <strong>V</strong> o <strong>F</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Afirmació</th>
+<th>V / F</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Els músculs permeten moure el cos.</td>
+<td>___</td>
+</tr>
+<tr>
+<td>2. L'estómac és un os del braç.</td>
+<td>___</td>
+</tr>
+<tr>
+<td>3. Les articulacions uneixen els ossos.</td>
+<td>___</td>
+</tr>
+<tr>
+<td>4. Els ossos donen suport al cos.</td>
+<td>___</td>
+</tr>
+</tbody>
+</table>
+<p class="fitxa-recorda"><strong>Recorda:</strong> L'aparell locomotor està format per <strong>ossos</strong>, <strong>músculs</strong>, <strong>articulacions</strong> i <strong>columna vertebral</strong>.</p>
+      </div>
+      <footer class="footer-line">Medi · Fitxa 4 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 05 · El cos humà</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 5</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Coneixement del medi · Idioma: català · 3r primària · BEX: MED-001 · Dificultat: ⭐⭐</p>
+
+<h2>Respon amb una frase curta</h2>
+<ol>
+<li>Què ens permet <strong>pensar</strong> i aprendre coses noves?</li>
+</ol>
+<div class="write-line"></div>
+<ol start="2">
+<li>Quina part del cos ens permet <strong>parlar</strong>?</li>
+</ol>
+<div class="write-line"></div>
+<ol start="3">
+<li>Quan som nadons, el cos encara no està del tot format. Com es diu la fase següent de la vida, quan ja som grans com tu?</li>
+</ol>
+<div class="write-line"></div>
+<ol start="4">
+<li>Quins dos òrgans ens permeten <strong>veure</strong>?</li>
+</ol>
+<div class="write-line"></div>
+<ol start="5">
+<li>Quin òrgan batega i envia la sang per tot el cos?</li>
+</ol>
+<div class="write-line"></div>
+<p class="fitxa-recorda"><strong>Recorda:</strong> Llegeix cada pregunta sencer · Respon amb una paraula o una frase curta.</p>
+      </div>
+      <footer class="footer-line">Medi · Fitxa 5 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 06 · Els ossos</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 6</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Coneixement del medi · Idioma: català · 3r primària · BEX: MED-003 · Dificultat: ⭐⭐</p>
+
+<p><img alt="Esquelet per etiquetar" src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/med_03_esquelet.png" class="fitxa-illustration"></p>
+
+<h2>Relaciona l'os amb la zona del cos</h2>
+<p>Escriu la lletra correcta.</p>
+<table>
+<thead>
+<tr>
+<th>Os</th>
+<th>Zona del cos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Crani</td>
+<td>A) Cama</td>
+</tr>
+<tr>
+<td>2. Fèmur</td>
+<td>B) Cap</td>
+</tr>
+<tr>
+<td>3. Húmer</td>
+<td>C) Espatlla</td>
+</tr>
+<tr>
+<td>4. Omòplat</td>
+<td>D) Braç</td>
+</tr>
+<tr>
+<td>5. Costelles</td>
+<td>E) Tronc</td>
+</tr>
+<tr>
+<td>6. Tíbia</td>
+<td>F) Cama</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>___ · 2. ___ · 3. ___ · 4. ___ · 5. ___ · 6. ___</li>
+</ol>
+<h2>Pregunta curta</h2>
+<p>Quin os protegeix el cervell?</p>
+<div class="write-line"></div>
+<p class="fitxa-recorda"><strong>Recorda:</strong> Mira el dibuix de l'esquelet abans de relacionar · El <strong>fèmur</strong> és l'os més llarg de la cama.</p>
+      </div>
+      <footer class="footer-line">Medi · Fitxa 6 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 07 · Verdader o fals</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 7</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Coneixement del medi · Idioma: català · 3r primària · BEX: MED-005 · Dificultat: ⭐⭐</p>
+
+<h2>Escriu V o F</h2>
+<table>
+<thead>
+<tr>
+<th>Afirmació</th>
+<th>V / F</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. El vidre és un material transparent.</td>
+<td>___</td>
+</tr>
+<tr>
+<td>2. Els músculs del braç ens permeten aixecar pes.</td>
+<td>___</td>
+</tr>
+<tr>
+<td>3. Una medusa és un animal vertebrat.</td>
+<td>___</td>
+</tr>
+<tr>
+<td>4. El paper es pot doblegar amb facilitat.</td>
+<td>___</td>
+</tr>
+<tr>
+<td>5. El crani protegeix el cervell.</td>
+<td>___</td>
+</tr>
+<tr>
+<td>6. Una paret de maó deixa passar la llum com una finestra.</td>
+<td>___</td>
+</tr>
+</tbody>
+</table>
+<p class="fitxa-recorda"><strong>Recorda:</strong> Llegeix cada frase amb calma · Si no estàs segur, pensa en un exemple del dia a dia.</p>
+      </div>
+      <footer class="footer-line">Medi · Fitxa 7 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 08 · El cicle de l'aigua</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 8</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Coneixement del medi · Idioma: català · 3r primària · BEX: MED-010 · Dificultat: ⭐⭐</p>
+
+<p><img alt="Cicle de l'aigua" src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/med_08_aigua.png" class="fitxa-illustration"></p>
+
+<h2>A) Ordena les etapes</h2>
+<p>Escriu del <strong>1</strong> al <strong>4</strong>.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Etapa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>___</td>
+<td>La aigua cau en forma de pluja o neu</td>
+</tr>
+<tr>
+<td>___</td>
+<td>La aigua de rius i mars s'evapora pel sol</td>
+</tr>
+<tr>
+<td>___</td>
+<td>L'aigua recollida forma rius i llacs</td>
+</tr>
+<tr>
+<td>___</td>
+<td>El vapor forma núvols</td>
+</tr>
+</tbody>
+</table>
+<h2>B) Relaciona paraula i etapa</h2>
+<table>
+<thead>
+<tr>
+<th>Paraula</th>
+<th>Etapa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Evaporació</td>
+<td>A) Formació de núvols</td>
+</tr>
+<tr>
+<td>Precipitació</td>
+<td>B) L'aigua torna al mar o al riu</td>
+</tr>
+<tr>
+<td>Condensació</td>
+<td>C) El sol escalfa l'aigua</td>
+</tr>
+<tr>
+<td>Acumulació</td>
+<td>D) Pluja o neu</td>
+</tr>
+</tbody>
+</table>
+<p>Evaporació ___ · Precipitació ___ · Condensació ___ · Acumulació ___</p>
+<p class="fitxa-recorda"><strong>Recorda:</strong> El sol escalfa l'aigua → es forma vapor → núvols → pluja → torna als rius i mars.</p>
+      </div>
+      <footer class="footer-line">Medi · Fitxa 8 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 09 · Paisatge natural i humanitzat</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 9</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Coneixement del medi · Idioma: català · 3r primària · BEX: MED-006 · Dificultat: ⭐⭐</p>
+
+<h2>Classifica els elements del paisatge</h2>
+<p>Escriu <strong>N</strong> si és natural o <strong>H</strong> si és humanitzat (fet per les persones).</p>
+<table>
+<thead>
+<tr>
+<th>Element del paisatge</th>
+<th>N / H</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Un riu entre muntanyes</td>
+<td>___</td>
+</tr>
+<tr>
+<td>2. Una carretera amb cotxes</td>
+<td>___</td>
+</tr>
+<tr>
+<td>3. Un bosc amb pins</td>
+<td>___</td>
+</tr>
+<tr>
+<td>4. Un pont de formigó</td>
+<td>___</td>
+</tr>
+<tr>
+<td>5. Un camp de blat</td>
+<td>___</td>
+</tr>
+<tr>
+<td>6. Una ciutat amb edificis</td>
+<td>___</td>
+</tr>
+<tr>
+<td>7. Una platja amb sorra</td>
+<td>___</td>
+</tr>
+<tr>
+<td>8. Un parc amb bancs i jocs</td>
+<td>___</td>
+</tr>
+</tbody>
+</table>
+<h2>Pregunta curta</h2>
+<p>Cita un element <strong>natural</strong> i un element <strong>humanitzat</strong> de la taula.</p>
+<p>Natural: <span class=\"inline-blank\"></span></p>
+<p>Humanitzat: <span class=\"inline-blank\"></span></p>
+<p class="fitxa-recorda"><strong>Recorda:</strong> Natural = creat per la natura · Humanitzat = construït o modificat per les persones.</p>
+      </div>
+      <footer class="footer-line">Medi · Fitxa 9 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 10 · Mapa i símbols</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 10</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Coneixement del medi · Idioma: català · 3r primària · BEX: MED-007 · Dificultat: ⭐⭐⭐</p>
+
+<p><img alt="Mapa del poble del joc" src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/med_07_mapa.png" class="fitxa-illustration"></p>
+
+<h2>A) Completa la llegenda</h2>
+<p>Relaciona cada símbol amb el seu significat. Escriu la lletra.</p>
+<table>
+<thead>
+<tr>
+<th>Símbol al mapa</th>
+<th>Significat</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Creu vermella</td>
+<td>A) Parc</td>
+</tr>
+<tr>
+<td>2. Autobús</td>
+<td>B) Hospital</td>
+</tr>
+<tr>
+<td>3. Arbre verd</td>
+<td>C) Parada d'autobús</td>
+</tr>
+<tr>
+<td>4. Edifici amb campana</td>
+<td>D) Escola</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>___ · 2. ___ · 3. ___ · 4. ___</li>
+</ol>
+<h2>B) Ruta pel mapa</h2>
+<p>Respon amb una paraula o una frase curta.</p>
+<ol>
+<li>Si surts de l'<strong>escola</strong> i vols anar a l'<strong>hospital</strong>, quin edifici passes primer?</li>
+</ol>
+<div class="write-line"></div>
+<ol start="2">
+<li>On esperaries un autobús per sortir del poble?</li>
+</ol>
+<div class="write-line"></div>
+<ol start="3">
+<li>Quin lloc del mapa és millor per jugar a l'aire lliure?</li>
+</ol>
+<div class="write-line"></div>
+<p class="fitxa-recorda"><strong>Recorda:</strong> Mira la llegenda abans de respondre · Els mapes fan servir <strong>símbols</strong> per representar llocs.</p>
+      </div>
+      <footer class="footer-line">Medi · Fitxa 10 · Repàs verano Aray</footer>
+    </article>
+    
+</body>
+</html>

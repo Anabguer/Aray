@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <title>Fitxes · Català</title>
+  <style>
+    @page { size: A4; margin: 8mm; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #edf2fb; color: #1f2530; font-family: Arial, Helvetica, sans-serif; }
+    .page { width: 196mm; min-height: 279mm; margin: 6mm auto; padding: 8mm 9mm; background: #fff; border: 1px solid #d5ddec; border-radius: 12px; page-break-after: always; }
+    .hero, .panel, .story-panel { border-radius: 12px; border: 1px solid #d7e1f8; padding: 12px; margin-bottom: 10px; }
+    .hero { background: linear-gradient(180deg, #eef3ff 0%, #fff7ea 100%); }
+    .story-panel { background: #f8fbff; }
+    .support-panel { background: #fffdfa; border-color: #eadfb6; }
+    .decoder-panel { background: #f5fff2; border-color: #d6e8cc; }
+    .bonus-panel { background: #fffdf4; border-color: #eadfb6; }
+    .chapter-pill { display: inline-block; padding: 6px 10px; background: #e8efff; color: #1e4db7; border-radius: 999px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; }
+    .section-badge { display: inline-block; margin-bottom: 8px; padding: 4px 9px; background: #eef2ff; color: #314f98; border-radius: 999px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+    h1 { margin: 8px 0 6px 0; font-size: 28px; }
+    h3 { margin: 0 0 8px 0; font-size: 17px; }
+    p, li, td, th { font-size: 13.6px; line-height: 1.42; }
+    .subtitle { margin: 0; color: #4b5871; }
+    .cover-art { width: 100%; height: auto; margin-top: 10px; }
+    .suspect-table, .solution-table, .vf-table { width: 100%; border-collapse: collapse; }
+    .suspect-table th, .suspect-table td, .solution-table th, .solution-table td, .vf-table th, .vf-table td { border: 1px solid #c9d2e5; padding: 6px; text-align: left; vertical-align: top; }
+    .vf-cell { width: 34px; text-align: center; }
+    .vf-cell::before { content: ""; display: inline-block; width: 16px; height: 16px; border: 2px solid #7d90ba; border-radius: 4px; }
+    .task-card { display: grid; grid-template-columns: 48px 1fr; gap: 10px; margin-bottom: 9px; }
+    .task-code { background: #1e4db7; color: #fff; border-radius: 10px; text-align: center; padding: 8px 0; font-size: 14px; font-weight: 700; }
+    .task-prompt { margin: 0 0 6px 0; }
+    .section-intro { margin: 0 0 8px 0; color: #5a6882; }
+    .response-boxes { display: flex; flex-wrap: wrap; gap: 4px; }
+    .box { display: inline-block; height: 28px; border: 2px solid #93a7d4; border-radius: 6px; background: #fff; }
+    .write-line { height: 24px; border-bottom: 2px solid #aeb9cf; margin-top: 5px; }
+    .choice-group { display: grid; gap: 5px; }
+    .choice-option { display: flex; align-items: center; gap: 8px; min-height: 24px; }
+    .choice-mark { width: 16px; height: 16px; border: 2px solid #8396be; border-radius: 4px; display: inline-block; }
+    .story-lines { margin-top: 6px; }
+    .story-line-row { display: grid; grid-template-columns: 26px 1fr; gap: 6px; margin: 3px 0; font-size: 14px; }
+    .story-line-num { font-weight: 700; color: #1e4db7; }
+    .support-lines p { margin: 0 0 6px 0; }
+    .decoder-word { margin-top: 10px; padding: 10px; background: #fff; border: 1px dashed #88a370; border-radius: 10px; }
+    .decoder-steps { margin: 8px 0 10px 20px; padding: 0; }
+    .evidence-box { margin-top: 10px; padding: 10px; background: #fff; border: 1px dashed #88a370; border-radius: 10px; }
+    .wordsearch-box { margin-top: 8px; padding: 10px; border: 2px solid #9bb0da; border-radius: 10px; background: #fff; }
+    .wordsearch-row { font-family: "Courier New", monospace; font-size: 20px; letter-spacing: 4px; line-height: 1.25; }
+    .footer-line { margin-top: 10px; color: #55627a; font-size: 13px; }
+    @media print {
+      body { background: #fff; }
+      .page { width: auto; margin: 0; border: none; border-radius: 0; }
+    }
+    
+    @page { size: A4; margin: 8mm; }
+    .page.fitxa-page {
+      width: 196mm;
+      min-height: 279mm;
+      margin: 0 auto;
+      padding: 7mm 9mm 5mm 9mm;
+      page-break-after: always;
+      page-break-inside: avoid;
+      display: flex;
+      flex-direction: column;
+    }
+    .fitxa-body {
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+    .fitxa-body > :first-child { margin-top: 0; }
+    .fitxa-meta {
+      margin: 0 0 8px 0;
+      padding: 0;
+      color: #55627a;
+      font-size: 11.5px;
+      line-height: 1.35;
+    }
+    .fitxa-header-bar {
+      display: flex;
+      align-items: flex-end;
+      gap: 12px;
+      margin: 0 0 10px 0;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #c9d2e5;
+    }
+    .fitxa-header-bar img.aray-avatar {
+      width: 60px !important;
+      height: auto !important;
+      max-height: 60px;
+      flex-shrink: 0;
+    }
+    .fitxa-fields {
+      flex: 1;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      gap: 10px 18px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .field-group {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .field-line {
+      display: inline-block;
+      border-bottom: 2.5px solid #1f2530;
+      height: 24px;
+      vertical-align: bottom;
+    }
+    .field-nom { width: 72mm; min-width: 72mm; }
+    .field-date { width: 36mm; min-width: 36mm; }
+    .fitxa-num {
+      margin-left: auto;
+      color: #1e4db7;
+      font-size: 15px;
+      white-space: nowrap;
+    }
+    .fitxa-body h1 {
+      font-size: 21px;
+      margin: 0 0 8px 0;
+      line-height: 1.2;
+    }
+    .fitxa-body h2 {
+      font-size: 16px;
+      margin: 14px 0 8px 0;
+      color: #1e4db7;
+      line-height: 1.3;
+    }
+    .fitxa-body p,
+    .fitxa-body li,
+    .fitxa-body td,
+    .fitxa-body th {
+      font-size: 14px;
+      line-height: 1.45;
+      margin: 4px 0;
+    }
+    .fitxa-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0;
+    }
+    .fitxa-body th,
+    .fitxa-body td {
+      border: 1px solid #c9d2e5;
+      padding: 8px 9px;
+      font-size: 13.5px;
+      vertical-align: top;
+      min-height: 32px;
+    }
+    .fitxa-body th { background: #eef3ff; }
+    .fitxa-body blockquote {
+      margin: 8px 0;
+      padding: 8px 12px;
+      background: #f8fbff;
+      border-left: 3px solid #1e4db7;
+      color: #44506a;
+      font-size: 13px;
+    }
+    .fitxa-body img.fitxa-illustration {
+      width: auto !important;
+      height: auto !important;
+      max-height: 48mm !important;
+      max-width: 52% !important;
+      float: right;
+      margin: 0 0 8px 10px;
+      object-fit: contain;
+    }
+    .fitxa-body img.fitxa-illustration-small {
+      max-height: 24mm !important;
+      max-width: 28% !important;
+    }
+  /* Imatge principal sola: més gran i centrada */
+    .fitxa-body h2 + p > img.fitxa-illustration:only-child,
+    .fitxa-body p > img.fitxa-illustration:only-child {
+      max-height: 55mm !important;
+      max-width: 75% !important;
+      float: none;
+      display: block;
+      margin: 8px auto 12px auto;
+    }
+    .fitxa-body pre {
+      font-family: "Courier New", monospace;
+      font-size: 14px;
+      line-height: 1.35;
+      background: #f8faff;
+      border: 1px solid #d5ddec;
+      border-radius: 8px;
+      padding: 10px;
+      margin: 8px 0;
+      white-space: pre-wrap;
+      min-height: 55mm;
+    }
+    .fitxa-body ul,
+    .fitxa-body ol {
+      margin: 8px 0;
+      padding-left: 22px;
+    }
+    .fitxa-body li {
+      margin: 6px 0 14px 0;
+    }
+    .fitxa-body li p { margin: 0 0 6px 0; }
+    .fitxa-body li + .write-line { margin-top: 4px; margin-bottom: 8px; }
+    .write-line {
+      height: 28px;
+      border-bottom: 2px solid #7d90ba;
+      margin: 6px 0 12px 0;
+    }
+    .write-line.tall {
+      height: 34px;
+      margin-bottom: 14px;
+    }
+    .inline-blank {
+      display: inline-block;
+      min-width: 65mm;
+      border-bottom: 2px solid #7d90ba;
+      height: 22px;
+      vertical-align: bottom;
+    }
+    .fitxa-body p:has(strong:first-child) { margin-top: 10px; }
+    .fitxa-recorda {
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: #fffdf4;
+      border: 1px solid #eadfb6;
+      border-radius: 8px;
+      font-size: 13px;
+    }
+    .fitxa-body .reading-text {
+      font-size: 14px;
+      line-height: 1.5;
+      margin: 6px 0 12px 0;
+    }
+    .footer-line {
+      flex-shrink: 0;
+      margin-top: 8px;
+      padding-top: 5px;
+      border-top: 1px solid #e2e8f4;
+      color: #7a869e;
+      font-size: 11px;
+    }
+    .area-cover {
+      text-align: center;
+      padding: 30mm 10mm;
+      height: 281mm;
+    }
+    .area-cover h1 { font-size: 32px; }
+    .area-cover p { color: #55627a; font-size: 16px; }
+    @media print {
+      body { background: #fff; }
+      .page { border: none; border-radius: 0; box-shadow: none; }
+      .page.fitxa-page { width: auto; margin: 0; }
+    }
+    </style>
+</head>
+<body>
+
+    <article class="page area-cover">
+      <div class="chapter-pill">Fichas de repaso</div>
+      <h1>Català</h1>
+      <p>3r primària · Escola Sant Jordi · Temàtica Roblox</p>
+      <p><strong>03_catala</strong></p>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 01 · Els articles</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 1</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Llengua catalana · Idioma: català · 3r primària · BEX: CAT-001 · Dificultat: ⭐</p>
+
+<h2>A) Escriu l'article: el, la, l', els, les</h2>
+<ol>
+<li>___ arena del joc  </li>
+<li>___ mapa secret  </li>
+<li>___ aigua de la font  </li>
+<li>___ monedes daurades  </li>
+<li>___ equip guanyador  </li>
+<li>___ insignies del capítol  </li>
+</ol>
+<h2>B) Completa el text amb articles</h2>
+<blockquote>
+<p>___ matí, ___ jugadors van entrar a ___ <strong>Arena de Cuchillos</strong>. ___ nena va obrir ___ porta verda i ___ nois van seguir el camí. ___ monedes brillaven a ___ botiga del vestíbul.</p>
+</blockquote>
+<p class="fitxa-recorda"><strong>Recorda:</strong> Davant de vocal (a, e, i, o, u) fem servir <strong>l'</strong> (l'arena, l'equip). El plural és <strong>els</strong> o <strong>les</strong>.</p>
+      </div>
+      <footer class="footer-line">Català · Fitxa 1 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 02 · La c i la q · La g i la gu</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 2</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Llengua catalana · Idioma: català · 3r primària · BEX: CAT-016, CAT-017 · Dificultat: ⭐</p>
+
+<h2>Completa els buits amb <strong>c</strong>, <strong>qu</strong>, <strong>g</strong> o <strong>gu</strong></h2>
+<ol>
+<li>El __amí secret del bosc era difícil.  </li>
+<li>__è costa aquest cofre a la botiga?  </li>
+<li>Vaig __uardar les monedes al campament.  </li>
+<li>L'__ran de la pantalla era enorme.  </li>
+<li>Hem de __ancar la porta del refugi.  </li>
+<li>La __estió de l'equip era bona.  </li>
+<li>Vaig __estionar el temps abans de la nit.  </li>
+<li>El __ofre del mapa era petit.</li>
+</ol>
+<p class="fitxa-recorda"><strong>Recorda:</strong> Davant de <strong>a, o, u</strong> → <strong>c</strong> o <strong>g</strong> · Davant de <strong>e, i</strong> → <strong>qu</strong> o <strong>gu</strong>.</p>
+      </div>
+      <footer class="footer-line">Català · Fitxa 2 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 03 · La r i la rr</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 3</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Llengua catalana · Idioma: català · 3r primària · BEX: CAT-008 · Dificultat: ⭐⭐</p>
+
+<p><img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/cat_08_rr.png" class="fitxa-illustration fitxa-illustration-small" alt=""></p>
+<blockquote>
+<p><em>(Decoració opcional a la cantonada.)</em></p>
+</blockquote>
+<h2>Completa amb <strong>r</strong> o <strong>rr</strong></h2>
+<ol>
+<li>Ha__ia un esqui__ol al bosc del joc.  </li>
+<li>Fe__ co__e pel camí de l'arena.  </li>
+<li>La ma__xa del cofre era ve__ella.  </li>
+<li>El pe__ot va pe__seguir la pilota.  </li>
+<li>La ca__e__a del mapa era llarga.  </li>
+<li>El jugado__ va guanya__ la medalla.  </li>
+<li>Va__em cap al campament abans de la pluja.  </li>
+<li>El ti__e va cau__e a terra.</li>
+</ol>
+<p class="fitxa-recorda"><strong>Recorda:</strong> Entre dues vocals sovint cal <strong>rr</strong> (pe<strong>rr</strong>ot, ca<strong>rr</strong>era). Escolta el so abans d'escriure.</p>
+      </div>
+      <footer class="footer-line">Català · Fitxa 3 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 04 · Paraules i oracions</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 4</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Llengua catalana · Idioma: català · 3r primària · BEX: CAT-003 · Dificultat: ⭐⭐</p>
+
+<h2>A) Marca amb una <strong>X</strong> les frases que <strong>sí</strong> són oracions correctes</h2>
+<ul>
+<li>[ ] L'Aray juga a l'arena cada dia.  </li>
+<li>[ ] El mapa és gran.  </li>
+<li>[ ] Obre porta la el.  </li>
+<li>[ ] Diumenge anem al campament.</li>
+</ul>
+<h2>B) Ordena les paraules i escriu la frase</h2>
+<p><strong>Frase 1:</strong> EQUIP / L' / Guanya / La / Partida<br>
+→ <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+<p><strong>Frase 2:</strong> FOC / El / Està / Apagat<br>
+→ <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+<p class="fitxa-recorda"><strong>Recorda:</strong> Una oració té sentit complet: qui fa què? Llegeix-la en veu alta abans d'escriure.</p>
+      </div>
+      <footer class="footer-line">Català · Fitxa 4 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 05 · Gènere dels substantius</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 5</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Llengua catalana · Idioma: català · 3r primària · BEX: CAT-004 · Dificultat: ⭐⭐</p>
+
+<p><img alt="Menú del menjador de l'arena" src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/cat_05_menjador.png" class="fitxa-illustration"></p>
+
+<h2>A) Escriu: <strong>masc.</strong> o <strong>fem.</strong></h2>
+<table>
+<thead>
+<tr>
+<th>Paraula</th>
+<th>Gènere</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>consomé</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>ensalada</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>carn</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>iogurt</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>pa</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>sopa</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+</tbody>
+</table>
+<h2>B) Escriu el femení</h2>
+<ol>
+<li>jugador → <strong><em>_</em></strong><strong><em>_</em></strong>_  </li>
+<li>guanyador → <strong><em>_</em></strong><strong><em>_</em></strong>_  </li>
+<li>pobre → <strong><em>_</em></strong><strong><em>_</em></strong>_  </li>
+</ol>
+<p class="fitxa-recorda"><strong>Recorda:</strong> Molts substantius en <strong>-a</strong> són femenins (ensalada, sopa). Però no tots: «el mapa», «el problema».</p>
+      </div>
+      <footer class="footer-line">Català · Fitxa 5 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 06 · Singular i plural</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 6</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Llengua catalana · Idioma: català · 3r primària · BEX: CAT-005 · Dificultat: ⭐⭐</p>
+
+<h2>A) Escriu: <strong>sing.</strong> o <strong>pl.</strong></h2>
+<table>
+<thead>
+<tr>
+<th>Paraula</th>
+<th>Nombre</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>moneda</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>monedes</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>tronc</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>troncs</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>cofre</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>cofres</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+</tbody>
+</table>
+<h2>B) Escriu el plural</h2>
+<ol>
+<li>lleó → <strong><em>_</em></strong><strong><em>_</em></strong>_  </li>
+<li>peix → <strong><em>_</em></strong><strong><em>_</em></strong>_  </li>
+<li>motxilla → <strong><em>_</em></strong><strong><em>_</em></strong>_  </li>
+<li>pedra → <strong><em>_</em></strong><strong><em>_</em></strong>_  </li>
+</ol>
+<p class="fitxa-recorda"><strong>Recorda:</strong> Molts plurals acaben en <strong>-s</strong>. Alguns canvien la vocal (peix → peixos, pa → pans).</p>
+      </div>
+      <footer class="footer-line">Català · Fitxa 6 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 07 · Concordància</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 7</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Llengua catalana · Idioma: català · 3r primària · BEX: CAT-006 · Dificultat: ⭐⭐⭐</p>
+
+<h2>Hi ha un error en cada frase. Reescriu-la bé.</h2>
+<ol>
+<li>
+<p>Els mapa és gran.<br>
+   → <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+</li>
+<li>
+<p>La monedes brillen al cofre.<br>
+   → <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+</li>
+<li>
+<p>El insignia és daurada.<br>
+   → <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+</li>
+<li>
+<p>Les foc està apagat.<br>
+   → <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+</li>
+</ol>
+<p class="fitxa-recorda"><strong>Recorda:</strong> L'article ha de concordar en <strong>gènere</strong> i <strong>nombre</strong> amb el substantiu (el mapa / els mapes / la moneda / les monedes).</p>
+      </div>
+      <footer class="footer-line">Català · Fitxa 7 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 08 · Els adjectius</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 8</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Llengua catalana · Idioma: català · 3r primària · BEX: CAT-007 · Dificultat: ⭐⭐</p>
+
+<h2>A) Escriu el tipus d'adjectiu: <strong>qualitat</strong>, <strong>color</strong> o <strong>nombre</strong></h2>
+<table>
+<thead>
+<tr>
+<th>Adjectiu</th>
+<th>Tipus</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>vermell</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>divertit</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>tres</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>petit</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>blau</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+</tbody>
+</table>
+<h2>B) Completa amb l'adjectiu en la forma correcta</h2>
+<ol>
+<li>L'arena és <strong><em>_</em></strong><strong><em>_</em></strong>_ (gran).  </li>
+<li>Les monedes són <strong><em>_</em></strong><strong><em>_</em></strong>_ (daurat).  </li>
+<li>El cofre està <strong><em>_</em></strong><strong><em>_</em></strong>_ (obert).  </li>
+<li>Les portes verdes són <strong><em>_</em></strong><strong><em>_</em></strong>_ (secret).</li>
+</ol>
+<p class="fitxa-recorda"><strong>Recorda:</strong> L'adjectiu concorda amb el substantiu: el cofre obert · la porta oberta · els cofres oberts.</p>
+      </div>
+      <footer class="footer-line">Català · Fitxa 8 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 09 · Puntuació i majúscules</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 9</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Llengua catalana · Idioma: català · 3r primària · BEX: CAT-010, CAT-011 · Dificultat: ⭐⭐</p>
+
+<h2>Afegeix punts, majúscules i signes (<strong>?</strong> o <strong>!</strong>) on calgui</h2>
+<p>Escriu les tres frases corregides a continuació.</p>
+<p><strong>1.</strong><br>
+aray i eric van entrar a l'arena de cuchillos era la primera vegada</p>
+<p>→ <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____  </p>
+<div class="write-line"></div>
+<p><strong>2.</strong><br>
+quan guanyarem la partida tots vam cridar hurra</p>
+<p>→ <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____  </p>
+<div class="write-line"></div>
+<p><strong>3.</strong><br>
+saps on és la porta secreta del mapa</p>
+<p>→ <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____  </p>
+<div class="write-line"></div>
+<p class="fitxa-recorda"><strong>Recorda:</strong> Després d'un punt, la següent paraula va amb majúscula. Les preguntes acaben amb <strong>?</strong> i les exclamacions amb <strong>!</strong>.</p>
+      </div>
+      <footer class="footer-line">Català · Fitxa 9 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 10 · Text amb buits</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 10</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Llengua catalana · Idioma: català · 3r primària · BEX: CAT-015 · Dificultat: ⭐⭐</p>
+
+<h2>Llegeix i completa els buits</h2>
+<blockquote>
+<p>Aquest matí, ___ cinc amics van arribar al campament del bosc. ___ foc estava apagat i feia ___ al voltant. Luca va portar ___ sac de carbó i Erika va ajudar a encendre la primera flama. Abans de la nit, ___ equip va recollir llenya per ___ hoguera.</p>
+</blockquote>
+<p><strong>Paraules útils:</strong> el · la · els · fred · un · l'</p>
+<p><em>(Pots repetir paraules o triar la forma que encaixi millor.)</em></p>
+<h2>Pregunta curta</h2>
+<p>Quants amics hi ha a l'equip?</p>
+<div class=\"write-line\"></div>
+<p class="fitxa-recorda"><strong>Recorda:</strong> Llegeix tot el text abans d'escriure. Comprova que cada buit tingui sentit dins la frase.</p>
+      </div>
+      <footer class="footer-line">Català · Fitxa 10 · Repàs verano Aray</footer>
+    </article>
+    
+</body>
+</html>

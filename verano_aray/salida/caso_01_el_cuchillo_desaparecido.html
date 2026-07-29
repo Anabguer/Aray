@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>caso 01 el cuchillo desaparecido</title>
+  <style>
+    @page { size: A4; margin: 8mm; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #edf2fb; color: #1f2530; font-family: Arial, Helvetica, sans-serif; }
+    .page { width: 196mm; min-height: 279mm; margin: 6mm auto; padding: 8mm 9mm; background: #fff; border: 1px solid #d5ddec; border-radius: 12px; page-break-after: always; }
+    .hero, .panel, .story-panel { border-radius: 12px; border: 1px solid #d7e1f8; padding: 12px; margin-bottom: 10px; }
+    .hero { background: linear-gradient(180deg, #eef3ff 0%, #fff7ea 100%); }
+    .story-panel { background: #f8fbff; }
+    .support-panel { background: #fffdfa; border-color: #eadfb6; }
+    .decoder-panel { background: #f5fff2; border-color: #d6e8cc; }
+    .bonus-panel { background: #fffdf4; border-color: #eadfb6; }
+    .chapter-pill { display: inline-block; padding: 6px 10px; background: #e8efff; color: #1e4db7; border-radius: 999px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; }
+    .section-badge { display: inline-block; margin-bottom: 8px; padding: 4px 9px; background: #eef2ff; color: #314f98; border-radius: 999px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+    h1 { margin: 8px 0 6px 0; font-size: 28px; }
+    h3 { margin: 0 0 8px 0; font-size: 17px; }
+    p, li, td, th { font-size: 13.6px; line-height: 1.42; }
+    .subtitle { margin: 0; color: #4b5871; }
+    .cover-art { width: 100%; height: auto; margin-top: 10px; }
+    .suspect-table, .solution-table, .vf-table { width: 100%; border-collapse: collapse; }
+    .suspect-table th, .suspect-table td, .solution-table th, .solution-table td, .vf-table th, .vf-table td { border: 1px solid #c9d2e5; padding: 6px; text-align: left; vertical-align: top; }
+    .vf-cell { width: 34px; text-align: center; }
+    .vf-cell::before { content: ""; display: inline-block; width: 16px; height: 16px; border: 2px solid #7d90ba; border-radius: 4px; }
+    .task-card { display: grid; grid-template-columns: 48px 1fr; gap: 10px; margin-bottom: 9px; }
+    .task-code { background: #1e4db7; color: #fff; border-radius: 10px; text-align: center; padding: 8px 0; font-size: 14px; font-weight: 700; }
+    .task-prompt { margin: 0 0 6px 0; }
+    .section-intro { margin: 0 0 8px 0; color: #5a6882; }
+    .response-boxes { display: flex; flex-wrap: wrap; gap: 4px; }
+    .box { display: inline-block; height: 28px; border: 2px solid #93a7d4; border-radius: 6px; background: #fff; }
+    .write-line { height: 24px; border-bottom: 2px solid #aeb9cf; margin-top: 5px; }
+    .choice-group { display: grid; gap: 5px; }
+    .choice-option { display: flex; align-items: center; gap: 8px; min-height: 24px; }
+    .choice-mark { width: 16px; height: 16px; border: 2px solid #8396be; border-radius: 4px; display: inline-block; }
+    .story-lines { margin-top: 6px; }
+    .story-line-row { display: grid; grid-template-columns: 26px 1fr; gap: 6px; margin: 3px 0; font-size: 14px; }
+    .story-line-num { font-weight: 700; color: #1e4db7; }
+    .support-lines p { margin: 0 0 6px 0; }
+    .decoder-word { margin-top: 10px; padding: 10px; background: #fff; border: 1px dashed #88a370; border-radius: 10px; }
+    .decoder-steps { margin: 8px 0 10px 20px; padding: 0; }
+    .evidence-box { margin-top: 10px; padding: 10px; background: #fff; border: 1px dashed #88a370; border-radius: 10px; }
+    .wordsearch-box { margin-top: 8px; padding: 10px; border: 2px solid #9bb0da; border-radius: 10px; background: #fff; }
+    .wordsearch-row { font-family: "Courier New", monospace; font-size: 20px; letter-spacing: 4px; line-height: 1.25; }
+    .footer-line { margin-top: 10px; color: #55627a; font-size: 13px; }
+    @media print {
+      body { background: #fff; }
+      .page { width: auto; margin: 0; border: none; border-radius: 0; }
+    }
+    </style>
+</head>
+<body>
+
+    <article class="page cover-page">
+      <section class="hero">
+        <div class="chapter-pill">Semana 1 especial</div>
+        <h1>Operacion Nebula Blade</h1>
+        <p class="subtitle">La historia engancha (~10%). Las actividades son del cole (~80%) dentro del caso. Las pistas cierran cada episodio (~10%).</p>
+        
+    <svg viewBox="0 0 920 260" class="cover-art" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <linearGradient id="bg" x1="0" x2="1">
+          <stop offset="0%" stop-color="#dfe8ff"/>
+          <stop offset="100%" stop-color="#fff0d8"/>
+        </linearGradient>
+      </defs>
+      <rect x="0" y="0" width="920" height="260" rx="24" fill="url(#bg)"/>
+      <rect x="48" y="58" width="190" height="150" rx="22" fill="#1e4db7"/>
+      <rect x="82" y="90" width="120" height="14" rx="7" fill="#8fb1ff"/>
+      <rect x="82" y="118" width="88" height="14" rx="7" fill="#8fb1ff"/>
+      <rect x="314" y="50" width="170" height="182" rx="26" fill="#24355a"/>
+      <circle cx="399" cy="100" r="34" fill="#ffd7b5"/>
+      <path d="M365 94 Q399 40 433 94" fill="#1a2440"/>
+      <rect x="369" y="136" width="60" height="78" rx="16" fill="#3f74ff"/>
+      <path d="M342 134 L368 214 L348 228 L316 162" fill="#5a77df"/>
+      <path d="M456 134 L430 214 L450 228 L482 162" fill="#5a77df"/>
+      <circle cx="620" cy="214" r="24" fill="#f0d0ac"/>
+      <circle cx="678" cy="214" r="24" fill="#f0d0ac"/>
+      <circle cx="613" cy="206" r="5" fill="#202020"/>
+      <circle cx="627" cy="206" r="5" fill="#202020"/>
+      <circle cx="671" cy="206" r="5" fill="#202020"/>
+      <circle cx="685" cy="206" r="5" fill="#202020"/>
+      <rect x="603" y="226" width="34" height="14" rx="7" fill="#c88f62"/>
+      <rect x="661" y="226" width="34" height="14" rx="7" fill="#c88f62"/>
+      <rect x="712" y="46" width="150" height="82" rx="18" fill="#fff"/>
+      <text x="734" y="78" font-size="25" font-family="Arial" fill="#1f2530">Caso 0</text>
+      <text x="734" y="108" font-size="18" font-family="Arial" fill="#55627a">Operacion Nebula Blade</text>
+    </svg>
+    
+      </section>
+      <section class="panel">
+        <h3>Pagina 0 · Inicio de la mision</h3>
+        <p>Aray tiene una coleccion de cuchillos en Roblox y su favorito se llama <strong>Frost Fang</strong>. Anoche estaba en su inventario y hoy ha desaparecido. Antes de acusar a nadie, quiere revisar datos, leer con calma y conectar pistas de varias asignaturas.</p>
+      </section>
+      <section class="panel">
+        <h3>Lo que sabemos al empezar</h3>
+        <ul>
+          <li>Anoche Aray tenia 18 cuchillos en el inventario.</li>
+          <li>Hoy solo aparecen 17.</li>
+          <li>El cuchillo que falta es azul.</li>
+          <li>Hay cuatro sospechosos iniciales: Axel, Eric, Luca y Emma.</li>
+        </ul>
+      </section>
+      <section class="panel">
+        <h3>Como funciona cada capitulo</h3>
+        <ol>
+          <li>Portada del caso con historia breve, sospechosos y pista inicial.</li>
+          <li>Comprension, mates, lengua, catala, medi o ingles: formato del cole, contenido del caso.</li>
+          <li>Actividades especiales de investigacion de vez en cuando.</li>
+          <li>Prueba final con una pista clara para el siguiente capitulo.</li>
+        </ol>
+      </section>
+      <section class="panel">
+        <h3>Tablero de sospechosos</h3>
+        <table class="suspect-table">
+          <thead><tr><th>Nombre</th><th>Capa</th><th>Le gusta</th><th>Tachar</th></tr></thead>
+          <tbody><tr><td>Axel</td><td>roja</td><td>escudos de fuego y jugadas rapidas</td><td class='vf-cell'></td></tr><tr><td>Eric</td><td>azul clara</td><td>mascotas raras y cuidar a Cuba y Penny</td><td class='vf-cell'></td></tr><tr><td>Luca</td><td>azul oscura</td><td>cuchillos, skins raras y protecciones de sombra</td><td class='vf-cell'></td></tr><tr><td>Emma</td><td>violeta</td><td>alas, gemas y acertijos</td><td class='vf-cell'></td></tr></tbody>
+        </table>
+      </section>
+    </article>
+    
+    <article class="page cover-page">
+      <header class="page-head">
+        <div class="chapter-pill">Capitulo 1</div>
+        <h1>CASO 1: El cuchillo desaparecido</h1>
+        <p class="subtitle">Historia breve · sospechosos · pista inicial. Luego investigas con fichas del cole.</p>
+      </header>
+      
+    <svg viewBox="0 0 920 260" class="cover-art" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <linearGradient id="bg" x1="0" x2="1">
+          <stop offset="0%" stop-color="#dfe8ff"/>
+          <stop offset="100%" stop-color="#fff0d8"/>
+        </linearGradient>
+      </defs>
+      <rect x="0" y="0" width="920" height="260" rx="24" fill="url(#bg)"/>
+      <rect x="48" y="58" width="190" height="150" rx="22" fill="#1e4db7"/>
+      <rect x="82" y="90" width="120" height="14" rx="7" fill="#8fb1ff"/>
+      <rect x="82" y="118" width="88" height="14" rx="7" fill="#8fb1ff"/>
+      <rect x="314" y="50" width="170" height="182" rx="26" fill="#24355a"/>
+      <circle cx="399" cy="100" r="34" fill="#ffd7b5"/>
+      <path d="M365 94 Q399 40 433 94" fill="#1a2440"/>
+      <rect x="369" y="136" width="60" height="78" rx="16" fill="#3f74ff"/>
+      <path d="M342 134 L368 214 L348 228 L316 162" fill="#5a77df"/>
+      <path d="M456 134 L430 214 L450 228 L482 162" fill="#5a77df"/>
+      <circle cx="620" cy="214" r="24" fill="#f0d0ac"/>
+      <circle cx="678" cy="214" r="24" fill="#f0d0ac"/>
+      <circle cx="613" cy="206" r="5" fill="#202020"/>
+      <circle cx="627" cy="206" r="5" fill="#202020"/>
+      <circle cx="671" cy="206" r="5" fill="#202020"/>
+      <circle cx="685" cy="206" r="5" fill="#202020"/>
+      <rect x="603" y="226" width="34" height="14" rx="7" fill="#c88f62"/>
+      <rect x="661" y="226" width="34" height="14" rx="7" fill="#c88f62"/>
+      <rect x="712" y="46" width="150" height="82" rx="18" fill="#fff"/>
+      <text x="734" y="78" font-size="25" font-family="Arial" fill="#1f2530">Caso 1</text>
+      <text x="734" y="108" font-size="18" font-family="Arial" fill="#55627a">Operacion Nebula Blade</text>
+    </svg>
+    
+      <section class="hero">
+        <h3>El cuchillo desaparecido</h3>
+        <p>Aray abrio su inventario de Roblox y vio que faltaba Frost Fang, su cuchillo azul favorito. No quiso acusar todavia. Solo anoto lo esencial: el robo parece haber pasado el domingo por la noche y en el chat alguien pregunto por un cuchillo azul.</p>
+      </section>
+      <section class="panel">
+        <h3>Sospechosos</h3>
+        <table class="suspect-table">
+          <thead><tr><th>Nombre</th><th>Capa</th><th>Le gusta</th><th>Tachar</th></tr></thead>
+          <tbody><tr><td>Axel</td><td>roja</td><td>escudos de fuego y jugadas rapidas</td><td class='vf-cell'></td></tr><tr><td>Eric</td><td>azul clara</td><td>mascotas raras y cuidar a Cuba y Penny</td><td class='vf-cell'></td></tr><tr><td>Luca</td><td>azul oscura</td><td>cuchillos, skins raras y protecciones de sombra</td><td class='vf-cell'></td></tr><tr><td>Emma</td><td>violeta</td><td>alas, gemas y acertijos</td><td class='vf-cell'></td></tr></tbody>
+        </table>
+      </section>
+      <section class="panel decoder-panel">
+        <h3>Pista inicial</h3>
+        <p>Pista inicial: el cuchillo desaparecido era azul.</p>
+      </section>
+      <footer class="footer-line">Pagina 1 · Marco del caso (~10%) · Avance: ★☆☆☆☆</footer>
+    </article>
+    
+    <article class="page">
+      <header class="page-head">
+        <div class="chapter-pill">Capitulo 1</div>
+        <h1>Comprension lectora</h1>
+        <p class="subtitle">Documento del caso. Lee el texto y responde como en el cole; las respuestas estan en la pagina.</p>
+      </header>
+      <section class="story-panel">
+        <h3>Informe del lunes · lo que paso por la manana</h3>
+        <div class='story-lines'><div class='story-line-row'><span class='story-line-num'>1.</span><span>El lunes, Aray se desperto a las 8:10.</span></div><div class='story-line-row'><span class='story-line-num'>2.</span><span>Desayuno rapido y a las 8:25 encendio la tablet.</span></div><div class='story-line-row'><span class='story-line-num'>3.</span><span>Abrio su inventario de Roblox con mucha ilusion.</span></div><div class='story-line-row'><span class='story-line-num'>4.</span><span>El domingo por la noche tenia 18 cuchillos guardados.</span></div><div class='story-line-row'><span class='story-line-num'>5.</span><span>Aquella manana solo le aparecian 17 en pantalla.</span></div><div class='story-line-row'><span class='story-line-num'>6.</span><span>El que faltaba era su favorito, Frost Fang.</span></div><div class='story-line-row'><span class='story-line-num'>7.</span><span>Era un cuchillo azul con brillo de hielo.</span></div><div class='story-line-row'><span class='story-line-num'>8.</span><span>Aray decidio no acusar a nadie todavia.</span></div><div class='story-line-row'><span class='story-line-num'>9.</span><span>Primero reviso el historial y los mensajes del chat.</span></div><div class='story-line-row'><span class='story-line-num'>10.</span><span>En el chat aparecia una pregunta: Sigues teniendo el azul.</span></div></div>
+      </section>
+      
+    <section class="panel">
+      <div class="section-badge">Castellano</div>
+      <h3>Actividades</h3>
+      <p class="section-intro">Este es el informe que Aray escribio despues de revisar su inventario. Lee el texto y responde como en una ficha de comprension.</p>
+      
+    <div class="task-card">
+      <div class="task-code">C1</div>
+      <div class="task-body">
+        <p class="task-prompt">¿Que descubrio Aray al abrir su inventario?</p>
+        <div class="write-line"></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">C2</div>
+      <div class="task-body">
+        <p class="task-prompt">Marca la opcion correcta. ¿A que hora encendio la tablet?</p>
+        <div class="choice-group"><div class="choice-option"><span class="choice-mark"></span><span>8:10</span></div><div class="choice-option"><span class="choice-mark"></span><span>8:25</span></div><div class="choice-option"><span class="choice-mark"></span><span>8:40</span></div></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">C3</div>
+      <div class="task-body">
+        <p class="task-prompt">Verdadero o falso.</p>
+        
+        <table class="vf-table">
+          <thead><tr><th>Enunciado</th><th>V</th><th>F</th></tr></thead>
+          <tbody><tr><td>Frost Fang era azul.</td><td class='vf-cell'></td><td class='vf-cell'></td></tr><tr><td>Aray reviso pruebas antes de acusar.</td><td class='vf-cell'></td><td class='vf-cell'></td></tr><tr><td>El domingo tenia 17 cuchillos.</td><td class='vf-cell'></td><td class='vf-cell'></td></tr></tbody>
+        </table>
+        
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">C4</div>
+      <div class="task-body">
+        <p class="task-prompt">Numera del 1 al 3 estas acciones segun pasan en el texto: revisa el historial, desayuna, mira el inventario.</p>
+        <div class="write-line"></div><div class="write-line"></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">C5</div>
+      <div class="task-body">
+        <p class="task-prompt">En este texto, inventario significa...</p>
+        <div class="choice-group"><div class="choice-option"><span class="choice-mark"></span><span>la lista de objetos que tiene en el juego</span></div><div class="choice-option"><span class="choice-mark"></span><span>el nombre del servidor</span></div><div class="choice-option"><span class="choice-mark"></span><span>una skin de capa</span></div></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">C6</div>
+      <div class="task-body">
+        <p class="task-prompt">¿Por que crees que Aray revisa el historial antes de hablar con sus amigos?</p>
+        <div class="write-line"></div><div class="write-line"></div>
+      </div>
+    </div>
+    
+    </section>
+    
+      <footer class="footer-line">Pagina 2 · Actividades escolares · Avance: ★☆☆☆☆</footer>
+    </article>
+    
+    <article class="page">
+      <header class="page-head">
+        <div class="chapter-pill">Capitulo 1</div>
+        <h1>Matematicas</h1>
+        <p class="subtitle">Problemas del caso: monedas, gemas, horas y repartos. Mismo formato que en clase.</p>
+      </header>
+      
+    <section class="panel">
+      <div class="section-badge">Matematicas</div>
+      <h3>Problemas del caso</h3>
+      <p class="section-intro">Lee el enunciado, elige la operacion y calcula. Todo ocurre dentro de la investigacion.</p>
+      
+    <div class="task-card">
+      <div class="task-code">M1</div>
+      <div class="task-body">
+        <p class="task-prompt">Del informe: Aray se desperto a las 8:10 y encendio la tablet a las 8:25. ¿Cuantos minutos pasaron?</p>
+        <div class="response-boxes"><span class="box" style="width:22px"></span><span class="box" style="width:22px"></span></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">M2</div>
+      <div class="task-body">
+        <p class="task-prompt">El domingo tenia 18 cuchillos y esa manana ve 17. Marca la operacion para saber cuantos faltan.</p>
+        <div class="choice-group"><div class="choice-option"><span class="choice-mark"></span><span>18 + 17</span></div><div class="choice-option"><span class="choice-mark"></span><span>18 - 17</span></div><div class="choice-option"><span class="choice-mark"></span><span>17 - 18</span></div></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">M3</div>
+      <div class="task-body">
+        <p class="task-prompt">Resuelve la operacion anterior. ¿Cuantos cuchillos faltan?</p>
+        <div class="response-boxes"><span class="box" style="width:22px"></span></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">M4</div>
+      <div class="task-body">
+        <p class="task-prompt">Calcula mentalmente: 24 + 35 + 42 (tres ofertas que aparecen en el chat).</p>
+        <div class="response-boxes"><span class="box" style="width:22px"></span><span class="box" style="width:22px"></span><span class="box" style="width:22px"></span></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">M5</div>
+      <div class="task-body">
+        <p class="task-prompt">Aray tiene 150 monedas. Una mejora de seguridad cuesta 45. Marca la operacion correcta.</p>
+        <div class="choice-group"><div class="choice-option"><span class="choice-mark"></span><span>150 + 45</span></div><div class="choice-option"><span class="choice-mark"></span><span>150 - 45</span></div><div class="choice-option"><span class="choice-mark"></span><span>45 - 150</span></div></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">M6</div>
+      <div class="task-body">
+        <p class="task-prompt">Resuelve la operacion anterior. ¿Cuantas monedas le quedarian?</p>
+        <div class="response-boxes"><span class="box" style="width:22px"></span><span class="box" style="width:22px"></span><span class="box" style="width:22px"></span></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">M7</div>
+      <div class="task-body">
+        <p class="task-prompt">Aray reparte 15 monedas iguales en 3 montones para comparar ofertas. Marca la operacion.</p>
+        <div class="choice-group"><div class="choice-option"><span class="choice-mark"></span><span>15 + 3</span></div><div class="choice-option"><span class="choice-mark"></span><span>15 - 3</span></div><div class="choice-option"><span class="choice-mark"></span><span>15 : 3</span></div></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">M8</div>
+      <div class="task-body">
+        <p class="task-prompt">Resuelve la operacion anterior. ¿Cuantas monedas hay en cada monton?</p>
+        <div class="response-boxes"><span class="box" style="width:22px"></span></div>
+      </div>
+    </div>
+    
+    </section>
+    
+      <footer class="footer-line">Pagina 3 · Actividades escolares · Avance: ★☆☆☆☆</footer>
+    </article>
+    
+    <article class="page">
+      <header class="page-head">
+        <div class="chapter-pill">Capitulo 1</div>
+        <h1>Otras asignaturas</h1>
+        <p class="subtitle">Lengua, catala, medi o ingles con pruebas y pistas del caso.</p>
+      </header>
+      
+    <section class="panel">
+      <div class="section-badge">Lengua</div>
+      <h3>Lengua</h3>
+      <p class="section-intro">Trabaja como en clase, pero con documentos y datos de la investigacion.</p>
+      
+    <div class="task-card">
+      <div class="task-code">L1</div>
+      <div class="task-body">
+        <p class="task-prompt">Copia del informe una palabra que nombre un color.</p>
+        <div class="response-boxes"><span class="box" style="width:22px"></span><span class="box" style="width:22px"></span><span class="box" style="width:22px"></span><span class="box" style="width:22px"></span></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">L2</div>
+      <div class="task-body">
+        <p class="task-prompt">Escribe el singular de cuchillos.</p>
+        <div class="write-line"></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">L3</div>
+      <div class="task-body">
+        <p class="task-prompt">Escribe el plural de mensaje.</p>
+        <div class="write-line"></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">L4</div>
+      <div class="task-body">
+        <p class="task-prompt">Escribe en orden alfabetico: Luca, Axel, Emma.</p>
+        <div class="write-line"></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">L5</div>
+      <div class="task-body">
+        <p class="task-prompt">Completa la frase del informe: Aray ______ el historial antes de acusar.</p>
+        <div class="choice-group"><div class="choice-option"><span class="choice-mark"></span><span>reviso</span></div><div class="choice-option"><span class="choice-mark"></span><span>vendio</span></div><div class="choice-option"><span class="choice-mark"></span><span>olvidó</span></div></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">L6</div>
+      <div class="task-body">
+        <p class="task-prompt">Marca la opcion correcta. La palabra favorito se parece mas a...</p>
+        <div class="choice-group"><div class="choice-option"><span class="choice-mark"></span><span>preferido</span></div><div class="choice-option"><span class="choice-mark"></span><span>escondido</span></div><div class="choice-option"><span class="choice-mark"></span><span>barato</span></div></div>
+      </div>
+    </div>
+    
+    </section>
+    
+      
+        
+    <section class="story-panel support-panel">
+      <h3>Recuerda</h3>
+      <div class='support-lines'><p>Los vertebrados tienen columna vertebral o espinazo.</p><p>Los mamiferos son vertebrados y tienen pelo.</p><p>Cuba y Penny son perras de Aray.</p></div>
+    </section>
+    
+        
+    <section class="panel">
+      <div class="section-badge">Medi</div>
+      <h3>Medi · Cuba y Penny en la investigacion</h3>
+      <p class="section-intro">Eric dice que le gustan las mascotas raras. Aray recuerda que sus perras Cuba y Penny son mamiferos. Clasifica como en clase.</p>
+      
+    <div class="task-card">
+      <div class="task-code">ME1</div>
+      <div class="task-body">
+        <p class="task-prompt">Marca la opcion correcta. Una perra como Penny es...</p>
+        <div class="choice-group"><div class="choice-option"><span class="choice-mark"></span><span>un vertebrado</span></div><div class="choice-option"><span class="choice-mark"></span><span>un invertebrado</span></div><div class="choice-option"><span class="choice-mark"></span><span>un mineral</span></div></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">ME2</div>
+      <div class="task-body">
+        <p class="task-prompt">Verdadero o falso.</p>
+        
+        <table class="vf-table">
+          <thead><tr><th>Enunciado</th><th>V</th><th>F</th></tr></thead>
+          <tbody><tr><td>Cuba y Penny tienen espinazo.</td><td class='vf-cell'></td><td class='vf-cell'></td></tr><tr><td>Los insectos son mamiferos.</td><td class='vf-cell'></td><td class='vf-cell'></td></tr><tr><td>Eric en el tablero dice que le gustan las mascotas.</td><td class='vf-cell'></td><td class='vf-cell'></td></tr></tbody>
+        </table>
+        
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">ME3</div>
+      <div class="task-body">
+        <p class="task-prompt">¿Que animal vertebrado aparece en la vida real de Aray segun el recuadro?</p>
+        <div class="write-line"></div>
+      </div>
+    </div>
+    
+    </section>
+    
+        
+      
+    <section class="panel bonus-panel">
+      <h3>Actividad especial · Sopa de letras</h3>
+      <p class="section-intro">Busca estas palabras del caso: AZUL, AXEL, CUCHILLO, ROBLOX.</p>
+      <div class='wordsearch-box'><div class='wordsearch-row'>AZULXKTR</div><div class='wordsearch-row'>XAXELQMC</div><div class='wordsearch-row'>BLUEROBO</div><div class='wordsearch-row'>UCUCHILO</div><div class='wordsearch-row'>CHILLOXZ</div><div class='wordsearch-row'>ROBLOXAB</div></div>
+    </section>
+    
+      <footer class="footer-line">Pagina 4 · Actividades escolares · Avance: ★☆☆☆☆</footer>
+    </article>
+    
+    <article class="page">
+      <header class="page-head">
+        <div class="chapter-pill">Capitulo 1</div>
+        <h1>Prueba final del caso</h1>
+        <p class="subtitle">Cierra el episodio con pistas claras. Solo aqui conectas con la investigacion.</p>
+      </header>
+      
+    <section class="panel">
+      <div class="section-badge">Investigacion</div>
+      <h3>Prueba final</h3>
+      <p class="section-intro">Responde y escribe la pista del caso.</p>
+      
+    <div class="task-card">
+      <div class="task-code">P1</div>
+      <div class="task-body">
+        <p class="task-prompt">Segun la pista inicial del caso, ¿de que color era el cuchillo desaparecido?</p>
+        <div class="response-boxes"><span class="box" style="width:22px"></span><span class="box" style="width:22px"></span><span class="box" style="width:22px"></span><span class="box" style="width:22px"></span></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">P2</div>
+      <div class="task-body">
+        <p class="task-prompt">Mira el tablero de sospechosos. ¿Quien lleva capa roja?</p>
+        <div class="response-boxes"><span class="box" style="width:22px"></span><span class="box" style="width:22px"></span><span class="box" style="width:22px"></span><span class="box" style="width:22px"></span></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">P3</div>
+      <div class="task-body">
+        <p class="task-prompt">Copia la pista del caso que acabas de descubrir.</p>
+        <div class="write-line"></div><div class="write-line"></div>
+      </div>
+    </div>
+    
+    </section>
+    
+      
+    <section class="panel decoder-panel">
+      <h3>Resolucion del caso</h3>
+      <p class="section-intro">Cuando termines las actividades, escribe aqui la pista clara del capitulo.</p>
+      <ol class='decoder-steps'><li>1. Recuerda la pista inicial: el cuchillo era azul.</li><li>2. Mira quien lleva capa roja en el tablero.</li><li>3. Escribe la conclusion del caso.</li></ol>
+      <div class="decoder-word">
+        <p><strong>Escribe la pista del caso:</strong></p>
+        <div class="write-line"></div><div class="write-line"></div>
+      </div>
+    </section>
+    
+      <section class="panel decoder-panel">
+        <h3>Pista del caso</h3>
+        <p><strong>El culpable no llevaba capa roja.</strong></p>
+      </section>
+      <section class="panel">
+        <h3>Siguiente capitulo</h3>
+        <p>Nueva pista para el CASO 2: alguien pregunto por cuchillos azules en el mercado de skins.</p>
+      </section>
+      <footer class="footer-line">Pagina 5 · Pistas y resolucion (~10%) · Avance: ★☆☆☆☆</footer>
+    </article>
+    
+</body>
+</html>

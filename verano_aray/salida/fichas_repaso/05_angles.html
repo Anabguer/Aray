@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <title>Fitxes · Anglès</title>
+  <style>
+    @page { size: A4; margin: 8mm; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #edf2fb; color: #1f2530; font-family: Arial, Helvetica, sans-serif; }
+    .page { width: 196mm; min-height: 279mm; margin: 6mm auto; padding: 8mm 9mm; background: #fff; border: 1px solid #d5ddec; border-radius: 12px; page-break-after: always; }
+    .hero, .panel, .story-panel { border-radius: 12px; border: 1px solid #d7e1f8; padding: 12px; margin-bottom: 10px; }
+    .hero { background: linear-gradient(180deg, #eef3ff 0%, #fff7ea 100%); }
+    .story-panel { background: #f8fbff; }
+    .support-panel { background: #fffdfa; border-color: #eadfb6; }
+    .decoder-panel { background: #f5fff2; border-color: #d6e8cc; }
+    .bonus-panel { background: #fffdf4; border-color: #eadfb6; }
+    .chapter-pill { display: inline-block; padding: 6px 10px; background: #e8efff; color: #1e4db7; border-radius: 999px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; }
+    .section-badge { display: inline-block; margin-bottom: 8px; padding: 4px 9px; background: #eef2ff; color: #314f98; border-radius: 999px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+    h1 { margin: 8px 0 6px 0; font-size: 28px; }
+    h3 { margin: 0 0 8px 0; font-size: 17px; }
+    p, li, td, th { font-size: 13.6px; line-height: 1.42; }
+    .subtitle { margin: 0; color: #4b5871; }
+    .cover-art { width: 100%; height: auto; margin-top: 10px; }
+    .suspect-table, .solution-table, .vf-table { width: 100%; border-collapse: collapse; }
+    .suspect-table th, .suspect-table td, .solution-table th, .solution-table td, .vf-table th, .vf-table td { border: 1px solid #c9d2e5; padding: 6px; text-align: left; vertical-align: top; }
+    .vf-cell { width: 34px; text-align: center; }
+    .vf-cell::before { content: ""; display: inline-block; width: 16px; height: 16px; border: 2px solid #7d90ba; border-radius: 4px; }
+    .task-card { display: grid; grid-template-columns: 48px 1fr; gap: 10px; margin-bottom: 9px; }
+    .task-code { background: #1e4db7; color: #fff; border-radius: 10px; text-align: center; padding: 8px 0; font-size: 14px; font-weight: 700; }
+    .task-prompt { margin: 0 0 6px 0; }
+    .section-intro { margin: 0 0 8px 0; color: #5a6882; }
+    .response-boxes { display: flex; flex-wrap: wrap; gap: 4px; }
+    .box { display: inline-block; height: 28px; border: 2px solid #93a7d4; border-radius: 6px; background: #fff; }
+    .write-line { height: 24px; border-bottom: 2px solid #aeb9cf; margin-top: 5px; }
+    .choice-group { display: grid; gap: 5px; }
+    .choice-option { display: flex; align-items: center; gap: 8px; min-height: 24px; }
+    .choice-mark { width: 16px; height: 16px; border: 2px solid #8396be; border-radius: 4px; display: inline-block; }
+    .story-lines { margin-top: 6px; }
+    .story-line-row { display: grid; grid-template-columns: 26px 1fr; gap: 6px; margin: 3px 0; font-size: 14px; }
+    .story-line-num { font-weight: 700; color: #1e4db7; }
+    .support-lines p { margin: 0 0 6px 0; }
+    .decoder-word { margin-top: 10px; padding: 10px; background: #fff; border: 1px dashed #88a370; border-radius: 10px; }
+    .decoder-steps { margin: 8px 0 10px 20px; padding: 0; }
+    .evidence-box { margin-top: 10px; padding: 10px; background: #fff; border: 1px dashed #88a370; border-radius: 10px; }
+    .wordsearch-box { margin-top: 8px; padding: 10px; border: 2px solid #9bb0da; border-radius: 10px; background: #fff; }
+    .wordsearch-row { font-family: "Courier New", monospace; font-size: 20px; letter-spacing: 4px; line-height: 1.25; }
+    .footer-line { margin-top: 10px; color: #55627a; font-size: 13px; }
+    @media print {
+      body { background: #fff; }
+      .page { width: auto; margin: 0; border: none; border-radius: 0; }
+    }
+    
+    @page { size: A4; margin: 8mm; }
+    .page.fitxa-page {
+      width: 196mm;
+      min-height: 279mm;
+      margin: 0 auto;
+      padding: 7mm 9mm 5mm 9mm;
+      page-break-after: always;
+      page-break-inside: avoid;
+      display: flex;
+      flex-direction: column;
+    }
+    .fitxa-body {
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+    .fitxa-body > :first-child { margin-top: 0; }
+    .fitxa-meta {
+      margin: 0 0 8px 0;
+      padding: 0;
+      color: #55627a;
+      font-size: 11.5px;
+      line-height: 1.35;
+    }
+    .fitxa-header-bar {
+      display: flex;
+      align-items: flex-end;
+      gap: 12px;
+      margin: 0 0 10px 0;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #c9d2e5;
+    }
+    .fitxa-header-bar img.aray-avatar {
+      width: 60px !important;
+      height: auto !important;
+      max-height: 60px;
+      flex-shrink: 0;
+    }
+    .fitxa-fields {
+      flex: 1;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      gap: 10px 18px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .field-group {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .field-line {
+      display: inline-block;
+      border-bottom: 2.5px solid #1f2530;
+      height: 24px;
+      vertical-align: bottom;
+    }
+    .field-nom { width: 72mm; min-width: 72mm; }
+    .field-date { width: 36mm; min-width: 36mm; }
+    .fitxa-num {
+      margin-left: auto;
+      color: #1e4db7;
+      font-size: 15px;
+      white-space: nowrap;
+    }
+    .fitxa-body h1 {
+      font-size: 21px;
+      margin: 0 0 8px 0;
+      line-height: 1.2;
+    }
+    .fitxa-body h2 {
+      font-size: 16px;
+      margin: 14px 0 8px 0;
+      color: #1e4db7;
+      line-height: 1.3;
+    }
+    .fitxa-body p,
+    .fitxa-body li,
+    .fitxa-body td,
+    .fitxa-body th {
+      font-size: 14px;
+      line-height: 1.45;
+      margin: 4px 0;
+    }
+    .fitxa-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0;
+    }
+    .fitxa-body th,
+    .fitxa-body td {
+      border: 1px solid #c9d2e5;
+      padding: 8px 9px;
+      font-size: 13.5px;
+      vertical-align: top;
+      min-height: 32px;
+    }
+    .fitxa-body th { background: #eef3ff; }
+    .fitxa-body blockquote {
+      margin: 8px 0;
+      padding: 8px 12px;
+      background: #f8fbff;
+      border-left: 3px solid #1e4db7;
+      color: #44506a;
+      font-size: 13px;
+    }
+    .fitxa-body img.fitxa-illustration {
+      width: auto !important;
+      height: auto !important;
+      max-height: 48mm !important;
+      max-width: 52% !important;
+      float: right;
+      margin: 0 0 8px 10px;
+      object-fit: contain;
+    }
+    .fitxa-body img.fitxa-illustration-small {
+      max-height: 24mm !important;
+      max-width: 28% !important;
+    }
+  /* Imatge principal sola: més gran i centrada */
+    .fitxa-body h2 + p > img.fitxa-illustration:only-child,
+    .fitxa-body p > img.fitxa-illustration:only-child {
+      max-height: 55mm !important;
+      max-width: 75% !important;
+      float: none;
+      display: block;
+      margin: 8px auto 12px auto;
+    }
+    .fitxa-body pre {
+      font-family: "Courier New", monospace;
+      font-size: 14px;
+      line-height: 1.35;
+      background: #f8faff;
+      border: 1px solid #d5ddec;
+      border-radius: 8px;
+      padding: 10px;
+      margin: 8px 0;
+      white-space: pre-wrap;
+      min-height: 55mm;
+    }
+    .fitxa-body ul,
+    .fitxa-body ol {
+      margin: 8px 0;
+      padding-left: 22px;
+    }
+    .fitxa-body li {
+      margin: 6px 0 14px 0;
+    }
+    .fitxa-body li p { margin: 0 0 6px 0; }
+    .fitxa-body li + .write-line { margin-top: 4px; margin-bottom: 8px; }
+    .write-line {
+      height: 28px;
+      border-bottom: 2px solid #7d90ba;
+      margin: 6px 0 12px 0;
+    }
+    .write-line.tall {
+      height: 34px;
+      margin-bottom: 14px;
+    }
+    .inline-blank {
+      display: inline-block;
+      min-width: 65mm;
+      border-bottom: 2px solid #7d90ba;
+      height: 22px;
+      vertical-align: bottom;
+    }
+    .fitxa-body p:has(strong:first-child) { margin-top: 10px; }
+    .fitxa-recorda {
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: #fffdf4;
+      border: 1px solid #eadfb6;
+      border-radius: 8px;
+      font-size: 13px;
+    }
+    .fitxa-body .reading-text {
+      font-size: 14px;
+      line-height: 1.5;
+      margin: 6px 0 12px 0;
+    }
+    .footer-line {
+      flex-shrink: 0;
+      margin-top: 8px;
+      padding-top: 5px;
+      border-top: 1px solid #e2e8f4;
+      color: #7a869e;
+      font-size: 11px;
+    }
+    .area-cover {
+      text-align: center;
+      padding: 30mm 10mm;
+      height: 281mm;
+    }
+    .area-cover h1 { font-size: 32px; }
+    .area-cover p { color: #55627a; font-size: 16px; }
+    @media print {
+      body { background: #fff; }
+      .page { border: none; border-radius: 0; box-shadow: none; }
+      .page.fitxa-page { width: auto; margin: 0; }
+    }
+    </style>
+</head>
+<body>
+
+    <article class="page area-cover">
+      <div class="chapter-pill">Fichas de repaso</div>
+      <h1>Anglès</h1>
+      <p>3r primària · Escola Sant Jordi · Temàtica Roblox</p>
+      <p><strong>05_angles</strong></p>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Worksheet 01 · Colours</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Name:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Date:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Worksheet 1</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Llengua estrangera · Idioma: anglès · 3r primària · BEX: EN-007 · Difficulty: ⭐</p>
+
+<p><img alt="Game colour palette" src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/en_07_colours.png" class="fitxa-illustration"></p>
+
+<h2>A) Match the colour with the word</h2>
+<p>Write the letter.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Colour blob</th>
+<th></th>
+<th>Word</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>🔴</td>
+<td>—</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>🟡</td>
+<td>—</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>🔵</td>
+<td>—</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>🟢</td>
+<td>—</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>🟠</td>
+<td>—</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>🩷</td>
+<td>—</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>___ · 2. ___ · 3. ___ · 4. ___ · 5. ___ · 6. ___</li>
+</ol>
+<h2>B) Wordsearch · Find 6 colours</h2>
+<p>Circle the words in the grid. Words can go <strong>across</strong> or <strong>down</strong>.</p>
+<p><code>O R A N G E
+Y B L U E R
+E D G P I N
+G R E E N K
+P I N K Y G
+G R E Y X X</code></p>
+<p>Colours to find: <strong>RED</strong> · <strong>BLUE</strong> · <strong>GREEN</strong> · <strong>PINK</strong> · <strong>GREY</strong> · <strong>ORANGE</strong></p>
+<p class="fitxa-recorda"><strong>Remember:</strong> Read the word carefully before you write · Colour names in English do not change (no plural <em>s</em>).</p>
+      </div>
+      <footer class="footer-line">Anglès · Fitxa 1 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Worksheet 02 · Yes / No questions</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Name:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Date:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Worksheet 2</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Llengua estrangera · Idioma: anglès · 3r primària · BEX: EN-002 · Difficulty: ⭐</p>
+
+<h2>Answer yes or no</h2>
+<p>Write <strong>yes</strong> or <strong>no</strong>. Use short answers where you can.</p>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Is a banana yellow?</td>
+<td>___</td>
+</tr>
+<tr>
+<td>2. Is your ruler white?</td>
+<td>___</td>
+</tr>
+<tr>
+<td>3. Is the grass grey?</td>
+<td>___</td>
+</tr>
+<tr>
+<td>4. Is snow hot?</td>
+<td>___</td>
+</tr>
+<tr>
+<td>5. Does a teacher work in a school?</td>
+<td>___</td>
+</tr>
+<tr>
+<td>6. Is the sky blue on a sunny day?</td>
+<td>___</td>
+</tr>
+<tr>
+<td>7. Do fish live in the desert?</td>
+<td>___</td>
+</tr>
+<tr>
+<td>8. Can you play Roblox on a computer?</td>
+<td>___</td>
+</tr>
+</tbody>
+</table>
+<p class="fitxa-recorda"><strong>Remember:</strong> Yes/No questions start with <strong>Is</strong>, <strong>Are</strong>, <strong>Do</strong> or <strong>Can</strong> · Answer with <strong>yes</strong> or <strong>no</strong> (and a short phrase if you want).</p>
+      </div>
+      <footer class="footer-line">Anglès · Fitxa 2 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Worksheet 03 · School places</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Name:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Date:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Worksheet 3</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Llengua estrangera · Idioma: anglès · 3r primària · BEX: EN-003 · Difficulty: ⭐⭐</p>
+
+<p><img alt="Game map zones" src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/en_03_school.png" class="fitxa-illustration"></p>
+
+<h2>Match the sentence with the place</h2>
+<p>Write the letter.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Sentence</th>
+<th></th>
+<th>Place</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>We eat lunch here.</td>
+<td>—</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>We run and play here.</td>
+<td>—</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>We read books in this room.</td>
+<td>—</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>We do experiments with water.</td>
+<td>—</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>___ · 2. ___ · 3. ___ · 4. ___</li>
+</ol>
+<h2>Write the place</h2>
+<ol start="5">
+<li>Where do you sit at a desk and listen to the teacher?</li>
+</ol>
+<div class=\"write-line\"></div>
+<ol start="6">
+<li>Where do children play football outside?</li>
+</ol>
+<div class=\"write-line\"></div>
+<p class="fitxa-recorda"><strong>Remember:</strong> Read the <strong>whole sentence</strong> before you choose · Think: what do people <strong>do</strong> in each place?</p>
+      </div>
+      <footer class="footer-line">Anglès · Fitxa 3 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Worksheet 04 · Materials</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Name:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Date:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Worksheet 4</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Llengua estrangera · Idioma: anglès · 3r primària · BEX: EN-005 · Difficulty: ⭐⭐</p>
+
+<h2>A) What is it made of?</h2>
+<p>Complete with: <strong>glass</strong> · <strong>wood</strong> · <strong>metal</strong> · <strong>brick</strong></p>
+<table>
+<thead>
+<tr>
+<th>Object</th>
+<th>Material</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. A window is made of <strong><em>_</em></strong>___.</td>
+<td></td>
+</tr>
+<tr>
+<td>2. A wall can be made of <strong><em>_</em></strong>___.</td>
+<td></td>
+</tr>
+<tr>
+<td>3. A door can be made of <strong><em>_</em></strong>___.</td>
+<td></td>
+</tr>
+<tr>
+<td>4. A key is made of <strong><em>_</em></strong>___.</td>
+<td></td>
+</tr>
+<tr>
+<td>5. A chair is often made of <strong><em>_</em></strong>___.</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>B) Choose the best material</h2>
+<p>Circle the best word.</p>
+<ol>
+<li>The arena <strong>window</strong> is made of: glass / paper / water  </li>
+<li>The thick <strong>wall</strong> is made of: brick / air / cotton  </li>
+<li>The <strong>door</strong> of the control room is made of: metal / juice / sand  </li>
+</ol>
+<p class="fitxa-recorda"><strong>Remember:</strong> Use <strong>made of</strong> + material · Look at the real object before you answer.</p>
+      </div>
+      <footer class="footer-line">Anglès · Fitxa 4 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Worksheet 05 · Family</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Name:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Date:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Worksheet 5</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Llengua estrangera · Idioma: anglès · 3r primària · BEX: EN-006 · Difficulty: ⭐⭐</p>
+
+<h2>Complete the family word</h2>
+<table>
+<thead>
+<tr>
+<th>Sentence</th>
+<th>Your answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. He's the father of my mother. He's my <strong><em>_</em></strong>___.</td>
+<td></td>
+</tr>
+<tr>
+<td>2. She's the daughter of my aunt. She's my <strong><em>_</em></strong>___.</td>
+<td></td>
+</tr>
+<tr>
+<td>3. He's the son of my uncle. He's my <strong><em>_</em></strong>___.</td>
+<td></td>
+</tr>
+<tr>
+<td>4. She's my mother's sister. She's my <strong><em>_</em></strong>___.</td>
+<td></td>
+</tr>
+<tr>
+<td>5. He's my father's brother. He's my <strong><em>_</em></strong>___.</td>
+<td></td>
+</tr>
+<tr>
+<td>6. They are my parents' parents. They are my <strong><em>_</em></strong>___.</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p class="fitxa-recorda"><strong>Remember:</strong> Family words describe <strong>how people are related</strong> · Read <em>mother</em>, <em>father</em>, <em>sister</em>, <em>brother</em> in each sentence.</p>
+      </div>
+      <footer class="footer-line">Anglès · Fitxa 5 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Worksheet 06 · Days of the week</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Name:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Date:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Worksheet 6</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Llengua estrangera · Idioma: anglès · 3r primària · BEX: EN-008 · Difficulty: ⭐⭐</p>
+
+<h2>A) Unscramble the letters</h2>
+<p>Write the correct day.</p>
+<table>
+<thead>
+<tr>
+<th>Scrambled</th>
+<th>Day</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Modayn</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>2. dyTuessa</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>3. Wednasdy</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>4. irFady</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>5. Thrusyda</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+</tbody>
+</table>
+<h2>B) Order the week</h2>
+<p>Write the days from <strong>Monday</strong> to <strong>Friday</strong> in the correct order.</p>
+<ol>
+<li>
+
+</li>
+<li>
+
+</li>
+<li>
+
+</li>
+<li>
+
+</li>
+<li>
+
+</li>
+</ol>
+<h2>C) Short answer</h2>
+<p>Which day comes after Wednesday?</p>
+<div class=\"write-line\"></div>
+<p class="fitxa-recorda"><strong>Remember:</strong> Days of the week always start with a <strong>capital letter</strong> · Monday is the first day of the school week in many countries.</p>
+      </div>
+      <footer class="footer-line">Anglès · Fitxa 6 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Worksheet 07 · Read and draw</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Name:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Date:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Worksheet 7</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Llengua estrangera · Idioma: anglès · 3r primària · BEX: EN-004 · Difficulty: ⭐⭐⭐</p>
+
+<p><img alt="Living room scene" src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/en_04_room.png" class="fitxa-illustration"></p>
+
+<h2>Read the description</h2>
+<blockquote>
+<p>This is a game living room.<br>
+There is a <strong>sofa</strong> next to the <strong>window</strong>.<br>
+There is a <strong>table</strong> in the middle of the room.<br>
+There are <strong>six chairs</strong> around the table.<br>
+There is a <strong>kite</strong> on the wall.<br>
+The sofa is <strong>blue</strong>. The table is <strong>brown</strong>.</p>
+</blockquote>
+<h2>Draw and colour</h2>
+<p>In the box below, draw the room with all the objects. Colour the sofa blue and the table brown.</p>
+<p><code>┌─────────────────────────────────────────────────────────┐
+│                                                         │
+│                                                         │
+│                                                         │
+│                                                         │
+│                                                         │
+│                                                         │
+│                                                         │
+│                                                         │
+│                                                         │
+│                                                         │
+└─────────────────────────────────────────────────────────┘</code></p>
+<h2>Check your drawing</h2>
+<p>Tick (✓) when you have drawn each thing:</p>
+<ul>
+<li>[ ] sofa  </li>
+<li>[ ] window  </li>
+<li>[ ] table  </li>
+<li>[ ] six chairs  </li>
+<li>[ ] kite on the wall  </li>
+</ul>
+<p class="fitxa-recorda"><strong>Remember:</strong> Read the text <strong>twice</strong> before you draw · <strong>There is</strong> = one thing · <strong>There are</strong> = more than one.</p>
+      </div>
+      <footer class="footer-line">Anglès · Fitxa 7 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Worksheet 08 · Survey</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Name:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Date:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Worksheet 8</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Llengua estrangera · Idioma: anglès · 3r primària · BEX: EN-001 · Difficulty: ⭐⭐</p>
+
+<h2>Ask three friends</h2>
+<p>Interview <strong>3 friends</strong> (or family members). Write their answers in the table.</p>
+<p><strong>Questions to ask:</strong></p>
+<ol>
+<li>What is your name?  </li>
+<li>How old are you?  </li>
+<li>What is your favourite colour?  </li>
+<li>Who is your best friend?  </li>
+<li>What colour is your rucksack?</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Friend 1</th>
+<th>Friend 2</th>
+<th>Friend 3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Age</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Favourite colour</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Best friend</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Rucksack colour</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>Write one sentence about your survey</h2>
+<p>Example: <em>My friend Luca is eight years old.</em></p>
+<div class="write-line"></div>
+<div class="write-line"></div>
+<p class="fitxa-recorda"><strong>Remember:</strong> Ask politely: <strong>What is…?</strong> · <strong>How old…?</strong> · Write the answers in <strong>English</strong> where you can.</p>
+      </div>
+      <footer class="footer-line">Anglès · Fitxa 8 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Worksheet 09 · Body · Face</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Name:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Date:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Worksheet 9</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Llengua estrangera · Idioma: anglès · 3r primària · BEX: EN-009 · Difficulty: ⭐</p>
+
+<p><img alt="Avatar face template" src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/en_09_face.png" class="fitxa-illustration"></p>
+
+<h2>Label the face</h2>
+<p>Write the English word on each line. Use the word bank.</p>
+<blockquote>
+<p>eyes · nose · mouth · ears · hair · teeth</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Number on face</th>
+<th>Word</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+</tbody>
+</table>
+<h2>Write two sentences</h2>
+<ol>
+<li>We see with our <strong><em>_</em></strong><strong><em>_</em></strong>_.  </li>
+<li>We smell with our <strong><em>_</em></strong><strong><em>_</em></strong>_.</li>
+</ol>
+<p class="fitxa-recorda"><strong>Remember:</strong> <strong>Eyes</strong> and <strong>ears</strong> are usually plural (two) · Point to your own face while you label.</p>
+      </div>
+      <footer class="footer-line">Anglès · Fitxa 9 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Worksheet 10 · Reading</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Name:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Date:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Worksheet 10</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Llengua estrangera · Idioma: anglès · 3r primària · BEX: cap03 m05 (adaptat) · Difficulty: ⭐⭐</p>
+
+<h2>Read the text</h2>
+<blockquote>
+<p>Aray loves playing <strong>Roblox</strong> on Saturday mornings.<br>
+His favourite game is <strong>Arena de Cuchillos</strong>.<br>
+There is a big <strong>event</strong> with five special knives.<br>
+Aray and his friend <strong>Eric</strong> complete missions together.<br>
+They need to pass five <strong>tests</strong> to win the Legendary Pack.</p>
+</blockquote>
+<h2>True or false?</h2>
+<p>Write <strong>T</strong> (true) or <strong>F</strong> (false).</p>
+<table>
+<thead>
+<tr>
+<th>Sentence</th>
+<th>T / F</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Aray plays Roblox on Saturday.</td>
+<td>___</td>
+</tr>
+<tr>
+<td>2. His favourite game is about cooking.</td>
+<td>___</td>
+</tr>
+<tr>
+<td>3. There are five special knives in the event.</td>
+<td>___</td>
+</tr>
+<tr>
+<td>4. Eric plays alone without Aray.</td>
+<td>___</td>
+</tr>
+</tbody>
+</table>
+<h2>One short answer</h2>
+<p>What do Aray and Eric want to win?</p>
+<div class=\"write-line\"></div>
+<p class="fitxa-recorda"><strong>Remember:</strong> Read the whole text before you answer · For True/False, find the exact words in the text.</p>
+      </div>
+      <footer class="footer-line">Anglès · Fitxa 10 · Repàs verano Aray</footer>
+    </article>
+    
+</body>
+</html>

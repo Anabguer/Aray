@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <title>Solucionari adults · Fichas repaso</title>
+  <style>
+    @page { size: A4; margin: 8mm; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #edf2fb; color: #1f2530; font-family: Arial, Helvetica, sans-serif; }
+    .page { width: 196mm; min-height: 279mm; margin: 6mm auto; padding: 8mm 9mm; background: #fff; border: 1px solid #d5ddec; border-radius: 12px; page-break-after: always; }
+    .hero, .panel, .story-panel { border-radius: 12px; border: 1px solid #d7e1f8; padding: 12px; margin-bottom: 10px; }
+    .hero { background: linear-gradient(180deg, #eef3ff 0%, #fff7ea 100%); }
+    .story-panel { background: #f8fbff; }
+    .support-panel { background: #fffdfa; border-color: #eadfb6; }
+    .decoder-panel { background: #f5fff2; border-color: #d6e8cc; }
+    .bonus-panel { background: #fffdf4; border-color: #eadfb6; }
+    .chapter-pill { display: inline-block; padding: 6px 10px; background: #e8efff; color: #1e4db7; border-radius: 999px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; }
+    .section-badge { display: inline-block; margin-bottom: 8px; padding: 4px 9px; background: #eef2ff; color: #314f98; border-radius: 999px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+    h1 { margin: 8px 0 6px 0; font-size: 28px; }
+    h3 { margin: 0 0 8px 0; font-size: 17px; }
+    p, li, td, th { font-size: 13.6px; line-height: 1.42; }
+    .subtitle { margin: 0; color: #4b5871; }
+    .cover-art { width: 100%; height: auto; margin-top: 10px; }
+    .suspect-table, .solution-table, .vf-table { width: 100%; border-collapse: collapse; }
+    .suspect-table th, .suspect-table td, .solution-table th, .solution-table td, .vf-table th, .vf-table td { border: 1px solid #c9d2e5; padding: 6px; text-align: left; vertical-align: top; }
+    .vf-cell { width: 34px; text-align: center; }
+    .vf-cell::before { content: ""; display: inline-block; width: 16px; height: 16px; border: 2px solid #7d90ba; border-radius: 4px; }
+    .task-card { display: grid; grid-template-columns: 48px 1fr; gap: 10px; margin-bottom: 9px; }
+    .task-code { background: #1e4db7; color: #fff; border-radius: 10px; text-align: center; padding: 8px 0; font-size: 14px; font-weight: 700; }
+    .task-prompt { margin: 0 0 6px 0; }
+    .section-intro { margin: 0 0 8px 0; color: #5a6882; }
+    .response-boxes { display: flex; flex-wrap: wrap; gap: 4px; }
+    .box { display: inline-block; height: 28px; border: 2px solid #93a7d4; border-radius: 6px; background: #fff; }
+    .write-line { height: 24px; border-bottom: 2px solid #aeb9cf; margin-top: 5px; }
+    .choice-group { display: grid; gap: 5px; }
+    .choice-option { display: flex; align-items: center; gap: 8px; min-height: 24px; }
+    .choice-mark { width: 16px; height: 16px; border: 2px solid #8396be; border-radius: 4px; display: inline-block; }
+    .story-lines { margin-top: 6px; }
+    .story-line-row { display: grid; grid-template-columns: 26px 1fr; gap: 6px; margin: 3px 0; font-size: 14px; }
+    .story-line-num { font-weight: 700; color: #1e4db7; }
+    .support-lines p { margin: 0 0 6px 0; }
+    .decoder-word { margin-top: 10px; padding: 10px; background: #fff; border: 1px dashed #88a370; border-radius: 10px; }
+    .decoder-steps { margin: 8px 0 10px 20px; padding: 0; }
+    .evidence-box { margin-top: 10px; padding: 10px; background: #fff; border: 1px dashed #88a370; border-radius: 10px; }
+    .wordsearch-box { margin-top: 8px; padding: 10px; border: 2px solid #9bb0da; border-radius: 10px; background: #fff; }
+    .wordsearch-row { font-family: "Courier New", monospace; font-size: 20px; letter-spacing: 4px; line-height: 1.25; }
+    .footer-line { margin-top: 10px; color: #55627a; font-size: 13px; }
+    @media print {
+      body { background: #fff; }
+      .page { width: auto; margin: 0; border: none; border-radius: 0; }
+    }
+    
+    @page { size: A4; margin: 8mm; }
+    .page.fitxa-page {
+      width: 196mm;
+      min-height: 279mm;
+      margin: 0 auto;
+      padding: 7mm 9mm 5mm 9mm;
+      page-break-after: always;
+      page-break-inside: avoid;
+      display: flex;
+      flex-direction: column;
+    }
+    .fitxa-body {
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+    .fitxa-body > :first-child { margin-top: 0; }
+    .fitxa-meta {
+      margin: 0 0 8px 0;
+      padding: 0;
+      color: #55627a;
+      font-size: 11.5px;
+      line-height: 1.35;
+    }
+    .fitxa-header-bar {
+      display: flex;
+      align-items: flex-end;
+      gap: 12px;
+      margin: 0 0 10px 0;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #c9d2e5;
+    }
+    .fitxa-header-bar img.aray-avatar {
+      width: 60px !important;
+      height: auto !important;
+      max-height: 60px;
+      flex-shrink: 0;
+    }
+    .fitxa-fields {
+      flex: 1;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      gap: 10px 18px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .field-group {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .field-line {
+      display: inline-block;
+      border-bottom: 2.5px solid #1f2530;
+      height: 24px;
+      vertical-align: bottom;
+    }
+    .field-nom { width: 72mm; min-width: 72mm; }
+    .field-date { width: 36mm; min-width: 36mm; }
+    .fitxa-num {
+      margin-left: auto;
+      color: #1e4db7;
+      font-size: 15px;
+      white-space: nowrap;
+    }
+    .fitxa-body h1 {
+      font-size: 21px;
+      margin: 0 0 8px 0;
+      line-height: 1.2;
+    }
+    .fitxa-body h2 {
+      font-size: 16px;
+      margin: 14px 0 8px 0;
+      color: #1e4db7;
+      line-height: 1.3;
+    }
+    .fitxa-body p,
+    .fitxa-body li,
+    .fitxa-body td,
+    .fitxa-body th {
+      font-size: 14px;
+      line-height: 1.45;
+      margin: 4px 0;
+    }
+    .fitxa-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0;
+    }
+    .fitxa-body th,
+    .fitxa-body td {
+      border: 1px solid #c9d2e5;
+      padding: 8px 9px;
+      font-size: 13.5px;
+      vertical-align: top;
+      min-height: 32px;
+    }
+    .fitxa-body th { background: #eef3ff; }
+    .fitxa-body blockquote {
+      margin: 8px 0;
+      padding: 8px 12px;
+      background: #f8fbff;
+      border-left: 3px solid #1e4db7;
+      color: #44506a;
+      font-size: 13px;
+    }
+    .fitxa-body img.fitxa-illustration {
+      width: auto !important;
+      height: auto !important;
+      max-height: 48mm !important;
+      max-width: 52% !important;
+      float: right;
+      margin: 0 0 8px 10px;
+      object-fit: contain;
+    }
+    .fitxa-body img.fitxa-illustration-small {
+      max-height: 24mm !important;
+      max-width: 28% !important;
+    }
+  /* Imatge principal sola: més gran i centrada */
+    .fitxa-body h2 + p > img.fitxa-illustration:only-child,
+    .fitxa-body p > img.fitxa-illustration:only-child {
+      max-height: 55mm !important;
+      max-width: 75% !important;
+      float: none;
+      display: block;
+      margin: 8px auto 12px auto;
+    }
+    .fitxa-body pre {
+      font-family: "Courier New", monospace;
+      font-size: 14px;
+      line-height: 1.35;
+      background: #f8faff;
+      border: 1px solid #d5ddec;
+      border-radius: 8px;
+      padding: 10px;
+      margin: 8px 0;
+      white-space: pre-wrap;
+      min-height: 55mm;
+    }
+    .fitxa-body ul,
+    .fitxa-body ol {
+      margin: 8px 0;
+      padding-left: 22px;
+    }
+    .fitxa-body li {
+      margin: 6px 0 14px 0;
+    }
+    .fitxa-body li p { margin: 0 0 6px 0; }
+    .fitxa-body li + .write-line { margin-top: 4px; margin-bottom: 8px; }
+    .write-line {
+      height: 28px;
+      border-bottom: 2px solid #7d90ba;
+      margin: 6px 0 12px 0;
+    }
+    .write-line.tall {
+      height: 34px;
+      margin-bottom: 14px;
+    }
+    .inline-blank {
+      display: inline-block;
+      min-width: 65mm;
+      border-bottom: 2px solid #7d90ba;
+      height: 22px;
+      vertical-align: bottom;
+    }
+    .fitxa-body p:has(strong:first-child) { margin-top: 10px; }
+    .fitxa-recorda {
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: #fffdf4;
+      border: 1px solid #eadfb6;
+      border-radius: 8px;
+      font-size: 13px;
+    }
+    .fitxa-body .reading-text {
+      font-size: 14px;
+      line-height: 1.5;
+      margin: 6px 0 12px 0;
+    }
+    .footer-line {
+      flex-shrink: 0;
+      margin-top: 8px;
+      padding-top: 5px;
+      border-top: 1px solid #e2e8f4;
+      color: #7a869e;
+      font-size: 11px;
+    }
+    .area-cover {
+      text-align: center;
+      padding: 30mm 10mm;
+      height: 281mm;
+    }
+    .area-cover h1 { font-size: 32px; }
+    .area-cover p { color: #55627a; font-size: 16px; }
+    @media print {
+      body { background: #fff; }
+      .page { border: none; border-radius: 0; box-shadow: none; }
+      .page.fitxa-page { width: auto; margin: 0; }
+    }
+    </style>
+</head>
+<body>
+
+    <article class="page fitxa-page" style="height:auto;max-height:none;overflow:visible;">
+      <div class="chapter-pill">Només adults</div>
+      <div class="fitxa-body"><h1>Solucionari per adults · Fichas de repaso Aray</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa ?</span>
+  </div>
+</div>
+
+<p><strong>Per a:</strong> pares, tiets, avis… quan Aray pregunti <em>«Per què?»</em><br>
+<strong>No imprimir amb les fitxes</strong> — guarda aquest fitxer al mòbil o imprimeix-lo a part.</p>
+<p>Les respostes obertes (frases, dibuixos, enquesta) admeten variants correctes si tenen sentit i segueixen la consigna.</p>
+<h2>01 · Matemàtiques (català)</h2>
+<h3>Fitxa 01 · Càlcul mental</h3>
+<table>
+<thead>
+<tr>
+<th>Exercici</th>
+<th>Resposta</th>
+<th>Per què</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Graella</td>
+<td>68, 49, 79, 55, 83, 55, 87, 53, 81, 39</td>
+<td>Suma/resta de cap: primer desenes, després unitats.</td>
+</tr>
+<tr>
+<td>1</td>
+<td><strong>155</strong> monedes</td>
+<td>120 + 35 = 155.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>27</strong> punts</td>
+<td>75 − 48 = 27.</td>
+</tr>
+</tbody>
+</table>
+<h3>Fitxa 02 · Compara nombres</h3>
+<table>
+<thead>
+<tr>
+<th>Exercici</th>
+<th>Resposta</th>
+<th>Per què</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Comparacions</td>
+<td>&lt;, &gt;, &lt;, &gt;, &lt;, &gt;</td>
+<td>Es compara d'esquerra a dreta: milers → centenes → desenes → unitats.</td>
+</tr>
+<tr>
+<td>1</td>
+<td><strong>Eric</strong> (2.874 &gt; 2.847)</td>
+<td>El nombre més gran té més punts.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Axel</strong> (3.205 &lt; 3.250)</td>
+<td>Qui té menys és el nombre més petit.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Ordre</td>
+<td><strong>1.899</strong> &lt; <strong>1.908</strong> &lt; <strong>1.980</strong></td>
+</tr>
+</tbody>
+</table>
+<h3>Fitxa 03 · Doble i triple</h3>
+<table>
+<thead>
+<tr>
+<th>Exercici</th>
+<th>Resposta</th>
+<th>Per què</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Taula 4</td>
+<td>8 / 12</td>
+<td>Doble = ×2; triple = ×3.</td>
+</tr>
+<tr>
+<td>Taula 6</td>
+<td>12 / 18</td>
+<td>6+6=12; 6+6+6=18.</td>
+</tr>
+<tr>
+<td>Taula 9</td>
+<td>18 / 27</td>
+<td></td>
+</tr>
+<tr>
+<td>2 cofres</td>
+<td><strong>12</strong> monedes</td>
+<td>Doble de 6.</td>
+</tr>
+<tr>
+<td>3 cofres</td>
+<td><strong>18</strong> monedes</td>
+<td>Triple de 6.</td>
+</tr>
+<tr>
+<td>Té prou?</td>
+<td><strong>Sí</strong> (20 ≥ 18)</td>
+<td>3×6=18; en té 20.</td>
+</tr>
+</tbody>
+</table>
+<h3>Fitxa 04 · Valor posicional</h3>
+<table>
+<thead>
+<tr>
+<th>Exercici</th>
+<th>Resposta</th>
+<th>Per què</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3.472</td>
+<td>3 UM + 4 C + 7 D + 2 U</td>
+<td>Cada xifra ocupa un lloc.</td>
+</tr>
+<tr>
+<td>5.806</td>
+<td>5 UM + 8 C + 0 D + 6 U</td>
+<td>El 0 indica «cap desena».</td>
+</tr>
+<tr>
+<td>2.095</td>
+<td>2 UM + 0 C + 9 D + 5 U</td>
+<td></td>
+</tr>
+<tr>
+<td>Centenes a 4.318</td>
+<td><strong>3</strong></td>
+<td>La xifra de les centenes és el 3.</td>
+</tr>
+<tr>
+<td>Unitats a 4.318</td>
+<td><strong>8</strong></td>
+<td>L'última xifra són les unitats.</td>
+</tr>
+<tr>
+<td>Nombre</td>
+<td><strong>2.074</strong></td>
+<td>2 milers + 7 desenes + 4 unitats.</td>
+</tr>
+</tbody>
+</table>
+<h3>Fitxa 05 · La xifra val…</h3>
+<table>
+<thead>
+<tr>
+<th>Nombre</th>
+<th>Valor</th>
+<th>Per què</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2.<strong>7</strong>45</td>
+<td><strong>700</strong></td>
+<td>Està a les centenes.</td>
+</tr>
+<tr>
+<td>3.<strong>8</strong>12</td>
+<td><strong>800</strong></td>
+<td>Centenes.</td>
+</tr>
+<tr>
+<td><strong>5</strong>.094</td>
+<td><strong>5000</strong></td>
+<td>Unitats de millar.</td>
+</tr>
+<tr>
+<td>6.2<strong>3</strong>0</td>
+<td><strong>30</strong></td>
+<td>Desenes.</td>
+</tr>
+<tr>
+<td>1.<strong>4</strong>67</td>
+<td><strong>400</strong></td>
+<td>Centenes.</td>
+</tr>
+<tr>
+<td>9.<strong>0</strong>58</td>
+<td><strong>0</strong></td>
+<td>Les desenes valen 0.</td>
+</tr>
+<tr>
+<td>Val 500 a 7.502</td>
+<td>xifra <strong>5</strong></td>
+<td>5 × 100 = 500.</td>
+</tr>
+<tr>
+<td>Val 7000 a 7.502</td>
+<td>xifra <strong>7</strong></td>
+<td>7 × 1000 = 7000.</td>
+</tr>
+</tbody>
+</table>
+<h3>Fitxa 06 · Ordinals</h3>
+<table>
+<thead>
+<tr>
+<th>Pregunta</th>
+<th>Resposta</th>
+<th>Per què</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1r lloc</td>
+<td>Eric</td>
+<td>Ve indicat a l'enunciat.</td>
+</tr>
+<tr>
+<td>2n lloc</td>
+<td>Sara</td>
+<td></td>
+</tr>
+<tr>
+<td>3r lloc</td>
+<td>Axel</td>
+<td></td>
+</tr>
+<tr>
+<td>Lloc d'Axel</td>
+<td><strong>tercer</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>3r de la fila</td>
+<td><strong>Laura</strong></td>
+<td>Maria 1a, Joan 2n, Laura 3a, Pau 4t.</td>
+</tr>
+<tr>
+<td>1r de la fila</td>
+<td><strong>Maria</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>Hora rellotge</td>
+<td><strong>9</strong> en punt</td>
+<td>Petita al 9, gran al 12.</td>
+</tr>
+<tr>
+<td>Una hora després</td>
+<td><strong>10</strong> en punt</td>
+<td>9 + 1 = 10.</td>
+</tr>
+</tbody>
+</table>
+<h3>Fitxa 07 · Propietats de la suma</h3>
+<table>
+<thead>
+<tr>
+<th>Exercici</th>
+<th>Resposta</th>
+<th>Per què</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>23+45</td>
+<td><strong>23</strong></td>
+<td>Propietat commutativa: l'ordre no importa.</td>
+</tr>
+<tr>
+<td>?+17</td>
+<td><strong>38</strong></td>
+<td>38+17 = 17+38.</td>
+</tr>
+<tr>
+<td>56+?</td>
+<td><strong>72</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>9+34</td>
+<td><strong>34</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>125+48</td>
+<td><strong>125</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>Punts junts</td>
+<td><strong>62</strong></td>
+<td>34 + 28 = 62.</td>
+</tr>
+</tbody>
+</table>
+<h3>Fitxa 08 · Multiplicació</h3>
+<table>
+<thead>
+<tr>
+<th>Exercici</th>
+<th>Resposta</th>
+<th>Per què</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Torneig</td>
+<td>4 × 9 = <strong>36</strong></td>
+<td>4 grups de 9 jugadors.</td>
+</tr>
+<tr>
+<td>Espases</td>
+<td><strong>72</strong></td>
+<td>36 jugadors × 2 espases = 72.</td>
+</tr>
+<tr>
+<td>4×7, 6×8…</td>
+<td>28, 48, 45, 27</td>
+<td>Taules de multiplicar.</td>
+</tr>
+<tr>
+<td>Monedes</td>
+<td>5 × 6 = <strong>30</strong></td>
+<td>5 monedes per ronda, 6 rondes.</td>
+</tr>
+</tbody>
+</table>
+<h3>Fitxa 09 · Divisió i resta</h3>
+<table>
+<thead>
+<tr>
+<th>Divisió</th>
+<th>Quocient</th>
+<th>Resta</th>
+<th>Per què</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>17÷5</td>
+<td>3</td>
+<td>2</td>
+<td>3×5=15; sobran 2.</td>
+</tr>
+<tr>
+<td>23÷4</td>
+<td>5</td>
+<td>3</td>
+<td>5×4=20; sobran 3.</td>
+</tr>
+<tr>
+<td>35÷6</td>
+<td>5</td>
+<td>5</td>
+<td></td>
+</tr>
+<tr>
+<td>29÷7</td>
+<td>4</td>
+<td>1</td>
+<td></td>
+</tr>
+<tr>
+<td>Gemes/jugador</td>
+<td><strong>9</strong></td>
+<td></td>
+<td>48÷5 = 9 i sobran 3.</td>
+</tr>
+<tr>
+<td>Sobren</td>
+<td><strong>3</strong></td>
+<td></td>
+<td>La resta ha de ser &lt; 5.</td>
+</tr>
+<tr>
+<td>Comprovació</td>
+<td>(9×5)+3 = <strong>48</strong></td>
+<td></td>
+<td>quocient×divisor+resta = dividend.</td>
+</tr>
+</tbody>
+</table>
+<h3>Fitxa 10 · Problema aparcament</h3>
+<table>
+<thead>
+<tr>
+<th>Pas</th>
+<th>Resposta</th>
+<th>Per què</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>114</strong> cotxes</td>
+<td>142 − 28 = 114.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>129</strong> cotxes</td>
+<td>114 + 15 = 129.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>516</strong> persones</td>
+<td>129 × 4 = 516 (màxim si tots plens).</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Sí, té raó</strong></td>
+<td>129 &lt; 142: queden menys cotxes que al principi.</td>
+</tr>
+</tbody>
+</table>
+<h2>02 · Llengua castellana (castellano)</h2>
+<h3>Fitxa 01 · Comprensión</h3>
+<table>
+<thead>
+<tr>
+<th>Pregunta</th>
+<th>Resposta acceptada</th>
+<th>Per què</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>sábado</strong></td>
+<td>El texto lo dice al inicio.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Ordenó su habitación (después de desayunar)</td>
+<td>Está en el párrafo.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Arena de Cuchillos</strong></td>
+<td>Nombre del juego en Roblox.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Luca</strong></td>
+<td>«Llamó a Luca».</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Que entren juntos al evento / jugar juntos</td>
+<td>Idea de la frase entre comillas.</td>
+</tr>
+</tbody>
+</table>
+<h3>Fitxa 02 · Ordenar acontecimientos</h3>
+<p><strong>Orden:</strong> 2 → 3 → 5 → 1 → 4 → 6</p>
+<table>
+<thead>
+<tr>
+<th>Nº</th>
+<th>Acontecimiento</th>
+<th>Per què</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Despertar</td>
+<td>Primero de la mañana.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Desayuno</td>
+<td>Después de levantarse.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Tareas casa</td>
+<td>Antes del ordenador.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Ordenador y aviso</td>
+<td>Al terminar tareas.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Llamar y entrar</td>
+<td>Después de ver el evento.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Mapa en pantalla</td>
+<td>Al entrar al evento.</td>
+</tr>
+</tbody>
+</table>
+<h3>Fitxa 03 · Sinónimos</h3>
+<p>Exemples vàlids: comercio/negocio, feliz/alegre, adquirir, enorme/inmenso, sitio/zona. <strong>Per què:</strong> sinónimo = palabra parecida que no cambia el sentido de la frase.</p>
+<h3>Fitxa 04 · Sinónimos y definición</h3>
+<table>
+<thead>
+<tr>
+<th>Paraula</th>
+<th>Sinónimo</th>
+<th>Definición</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>alzar</td>
+<td>B) levantar</td>
+<td>1</td>
+</tr>
+<tr>
+<td>sanar</td>
+<td>A) curar</td>
+<td>2</td>
+</tr>
+<tr>
+<td>aroma</td>
+<td>C) perfume</td>
+<td>3</td>
+</tr>
+<tr>
+<td>bonito</td>
+<td>D) hermoso</td>
+<td>4</td>
+</tr>
+</tbody>
+</table>
+<h3>Fitxa 05 · Ordenar palabras</h3>
+<ol>
+<li><strong>El verano es la estación más calurosa.</strong>  </li>
+<li><strong>La cola del zorro es larga.</strong>  </li>
+<li><strong>El juego Roblox es divertido.</strong><br>
+<strong>Per què:</strong> sujeto + verbo + complementos; mayúscula y punto.</li>
+</ol>
+<h3>Fitxa 06 · Sílaba tónica</h3>
+<table>
+<thead>
+<tr>
+<th>Palabra</th>
+<th>Tónica</th>
+<th>Per qué</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>lámpara</td>
+<td><strong>lám</strong></td>
+<td>Aguda: tilde en la última.</td>
+</tr>
+<tr>
+<td>destornillador</td>
+<td><strong>llá</strong></td>
+<td>Esdrújula.</td>
+</tr>
+<tr>
+<td>cuchillo</td>
+<td><strong>chi</strong></td>
+<td>Llana.</td>
+</tr>
+<tr>
+<td>ordenador</td>
+<td><strong>dor</strong></td>
+<td>Llana.</td>
+</tr>
+<tr>
+<td>inventario</td>
+<td><strong>ta</strong></td>
+<td>Llana.</td>
+</tr>
+<tr>
+<td>aventura</td>
+<td><strong>ven</strong></td>
+<td>Llana.</td>
+</tr>
+<tr>
+<td>Palabra nueva</td>
+<td><strong>abanico</strong> (asa+cabaña+anillo+socorro → a+ba+ni+co)</td>
+<td>Pista: objeto para el calor.</td>
+</tr>
+</tbody>
+</table>
+<h3>Fitxa 07 · Predicado</h3>
+<ol>
+<li><strong>completó la primera prueba del evento</strong>  </li>
+<li><strong>brillan en la pantalla</strong>  </li>
+<li><strong>entraron juntos a la arena</strong><br>
+<strong>Per què:</strong> predicado = lo que se dice del sujeto (verbo + complementos).</li>
+</ol>
+<h3>Fitxa 08 · Comprensión y adjetivos</h3>
+<table>
+<thead>
+<tr>
+<th>Pregunta</th>
+<th>Resposta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>bloques / dorados</td>
+</tr>
+<tr>
+<td>2</td>
+<td>puntiagudas</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Pixel</td>
+</tr>
+<tr>
+<td>4</td>
+<td>campamento / entrada del campamento</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Adjetivos a rodear:</strong> pequeño, dorados, puntiagudas, corta, brillantes, cuadrados, pixelado, rápido, suave, dorado.</p>
+<h3>Fitxa 09 · Tipos de oración</h3>
+<p>1-X, 2-E, 3-I, 4-E, 5-X, 6-I. <strong>Per què:</strong> ¿? = interrogativa; ¡! = exclamativa; informa = enunciativa.</p>
+<h3>Fitxa 10 · Mayúsculas</h3>
+<blockquote>
+<p>El sábado por la mañana, Aray fue al colegio Sant Jordi con su mochila roja. Luca le esperó en la puerta del patio. Dijo: «Hola, Aray». ¿Juegas a Roblox esta tarde? Aray sonrió y respondió: «Sí, a las cinco en mi casa».</p>
+</blockquote>
+<p><strong>Per què:</strong> mayúscula al inicio, en nombres propios (Aray, Luca, Sant Jordi, Roblox) y después de punto.</p>
+<h2>03 · Llengua catalana (català)</h2>
+<h3>Fitxa 01 · Articles</h3>
+<table>
+<thead>
+<tr>
+<th>Buit</th>
+<th>Resposta</th>
+<th>Per què</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1–6</td>
+<td>l'arena, el mapa, l'aigua, les monedes, l'equip, les insignies</td>
+<td>Concordància de gènere i nombre; l' davant vocal.</td>
+</tr>
+<tr>
+<td>Text</td>
+<td>El matí, els jugadors, l'Arena, la nena, la porta, els nois, les monedes, la botiga</td>
+<td>Llegeix en veu alta per comprovar.</td>
+</tr>
+</tbody>
+</table>
+<h3>Fitxa 02 · c / qu / g / gu</h3>
+<ol>
+<li><strong>c</strong>amí · 2. <strong>Qu</strong>è · 3. <strong>g</strong>uardar · 4. <strong>G</strong>ran · 5. <strong>t</strong>ancar · 6. <strong>g</strong>estió · 7. <strong>g</strong>estionar · 8. <strong>c</strong>ofre<br>
+<strong>Per què:</strong> c/g davant a,o,u; qu/gu davant e,i. «Tancar» va amb <strong>t</strong>.</li>
+</ol>
+<h3>Fitxa 03 · r / rr</h3>
+<ol>
+<li>Havia un esqui<strong>rr</strong>ol · 2. Fe<strong>rr</strong>o co<strong>rr</strong>e · 3. Ma<strong>r</strong>ca… ve<strong>ll</strong>a · 4. Pe<strong>rr</strong>ot… pe<strong>r</strong>seguir · 5. Ca<strong>rr</strong>e<strong>r</strong>a · 6. Jugado<strong>r</strong>… guanya<strong>r</strong> · 7. Va<strong>r</strong>em · 8. Ti<strong>rr</strong>a va caure<br>
+<strong>Per què:</strong> rr entre vocals en moltes paraules (perro, carrera); una r en final de síl·laba o davant consonant.</li>
+</ol>
+<h3>Fitxa 04 · Formar oracions</h3>
+<p><strong>Correctes:</strong> 2 i 4.<br>
+1. L'equip guanya la partida. · 2. El foc està apagat.</p>
+<h3>Fitxa 05 · Gènere</h3>
+<table>
+<thead>
+<tr>
+<th>Paraula</th>
+<th>Gènere</th>
+<th>Femení</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>consomé, carn, iogurt, pa</td>
+<td>masc.</td>
+<td></td>
+</tr>
+<tr>
+<td>ensalada, sopa</td>
+<td>fem.</td>
+<td></td>
+</tr>
+<tr>
+<td>jugador→jugadora, guanyador→guanyadora, pobre→pobra</td>
+<td></td>
+<td>Canvi típic -a al femení.</td>
+</tr>
+</tbody>
+</table>
+<h3>Fitxa 06 · Singular i plural</h3>
+<p>sing./pl. segons forma. Plurals: <strong>lleons, peixos, motxilles, pedres</strong>.</p>
+<h3>Fitxa 07 · Concordància</h3>
+<ol>
+<li>El mapa és gran. · 2. Les monedes brillen. · 3. La insígnia és daurada. · 4. El foc està apagat.<br>
+<strong>Per què:</strong> article i adjectiu han de coincidir en gènere i nombre amb el substantiu.</li>
+</ol>
+<h3>Fitxa 08 · Adjectius</h3>
+<p>Tipus: vermell/blau=color; divertit/petit=qualitat; tres=nombre.<br>
+Concordança: gran; <strong>daurades</strong>; obert; <strong>secretes</strong>.</p>
+<h3>Fitxa 09 · Puntuació</h3>
+<ol>
+<li>Aray i Eric van entrar a l'Arena de Cuchillos. Era la primera vegada.  </li>
+<li>Quan vam guanyar la partida, tots vam cridar: «Hurra!»  </li>
+<li>Saps on és la porta secreta del mapa?</li>
+</ol>
+<h3>Fitxa 10 · Text amb buits</h3>
+<blockquote>
+<p>Aquest matí, <strong>els</strong> cinc amics… <strong>El</strong> foc… <strong>fred</strong>… <strong>un</strong> sac… <strong>L'</strong>equip… <strong>la</strong> hoguera.<br>
+<strong>Amics:</strong> <strong>5</strong> (cinc amics).</p>
+</blockquote>
+<h2>04 · Coneixement del medi (català)</h2>
+<h3>Fitxa 01 · Materials</h3>
+<p>Finestra→vidre, paret→maó, cadira→fusta, clau→metall, cartell→paper.<br>
+Propietats: Vidre <strong>B</strong> (transparent), Maó <strong>A</strong> (opac), Paper <strong>C</strong> (flexible).</p>
+<h3>Fitxa 02 · Transparent / opac / flexible</h3>
+<p>1-T, 2-O, 3-F, 4-F, 5-T, 6-O, 7-O, 8-F. Exemple transparent: finestra; opac: paret de maons.</p>
+<h3>Fitxa 03 · Vertebrats</h3>
+<p>V: serp, peix, granota. I: papallona, escarabat, medusa.<br>
+<strong>Per què:</strong> invertebrats no tenen columna vertebral; la medusa no té esquelet intern d'ossos.</p>
+<h3>Fitxa 04 · Locomotor</h3>
+<p><strong>Marca X:</strong> ossos, músculs, articulacions, columna vertebral.<br>
+V/F: 1-V, 2-F, 3-V, 4-V.</p>
+<h3>Fitxa 05 · Cos humà</h3>
+<ol>
+<li>el cervell / el cap · 2. la boca / la llengua · 3. la infantesa / la joventut (adult acceptat si ho relacionen) · 4. els ulls · 5. el cor.</li>
+</ol>
+<h3>Fitxa 06 · Ossos</h3>
+<p>1-B, 2-A, 3-D, 4-C, 5-E, 6-A/F (tíbia=cama). Crani protegeix el cervell.</p>
+<h3>Fitxa 07 · Verdader o fals</h3>
+<p>V, V, F, V, V, F.</p>
+<h3>Fitxa 08 · Cicle de l'aigua</h3>
+<p><strong>Ordre:</strong> 2 evaporació → 4 núvols → 1 pluja → 3 acumulació.<br>
+Relació: Evaporació-C, Precipitació-D, Condensació-A, Acumulació-B.</p>
+<h3>Fitxa 09 · Paisatge</h3>
+<p>N: riu, bosc, platja. H: carretera, pont, ciutat, parc amb bancs, camp de blat (cultivat).</p>
+<h3>Fitxa 10 · Mapa</h3>
+<p>Llegenda: 1-B, 2-C, 3-A, 4-D.<br>
+Rutes: depèn del mapa imprès; en general: hospital amb creu vermella, autobús a la parada, parc per jugar a l'aire lliure.</p>
+<h2>05 · Anglès (English)</h2>
+<h3>Worksheet 01 · Colours</h3>
+<p>Match: 1-C, 2-D, 3-A, 4-E, 5-F, 6-B.<br>
+Wordsearch: RED, BLUE, GREEN, PINK, GREY, ORANGE (al graella).</p>
+<h3>Worksheet 02 · Yes / No</h3>
+<p>1 yes · 2 <em>personal</em> (yes si regla blanca) · 3 no · 4 no · 5 yes · 6 yes · 7 no · 8 yes.</p>
+<h3>Worksheet 03 · School places</h3>
+<p>1-B canteen · 2-A playground · 3-C classroom · 4-D lab · 5 classroom · 6 playground.</p>
+<h3>Worksheet 04 · Materials</h3>
+<p>1 glass · 2 brick · 3 wood · 4 metal · 5 wood. Cercle: glass, brick, metal.</p>
+<h3>Worksheet 05 · Family</h3>
+<p>1 grandfather · 2 cousin · 3 cousin · 4 aunt · 5 uncle · 6 grandparents.</p>
+<h3>Worksheet 06 · Days</h3>
+<p>Monday, Tuesday, Wednesday, Friday, Thursday. Ordre: Monday…Friday. After Wednesday: <strong>Thursday</strong>.</p>
+<h3>Worksheet 07 · Read and draw</h3>
+<p>Comprova la llista: sofa, window, table, 6 chairs, kite; sofa blue, table brown. <strong>No hi ha una sola resposta de dibuix</strong> — valida si inclou tot el text.</p>
+<h3>Worksheet 08 · Survey</h3>
+<p>Respostes personals. La frase final ha de descriure una dada real de la taula.</p>
+<h3>Worksheet 09 · Body</h3>
+<p>Label (segons plantilla): eyes, nose, mouth, ears, hair, teeth.<br>
+1. eyes · 2. nose (smell).</p>
+<h3>Worksheet 10 · Reading</h3>
+<p>1-T · 2-F (cooking no; Arena de Cuchillos) · 3-T · 4-F (together).<br>
+Win: <strong>the Legendary Pack</strong> / Legendary Pack of five knives.</p>
+<h2>Resum ràpid per tema</h2>
+<table>
+<thead>
+<tr>
+<th>Tema</th>
+<th>Què practica</th>
+<th>Consell si pregunta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Mates</strong></td>
+<td>Càlcul, comparació, doble/triple, valor posicional, ordinals, suma commutativa, multiplicació, divisió amb resta, problemes</td>
+<td>«Llegeix tot el problema abans de calcular» · Comprova amb operació inversa</td>
+</tr>
+<tr>
+<td><strong>Castellano</strong></td>
+<td>Comprensió, ordre temporal, sinónimos, sílabas, predicado, adjetivos, tipos de frase, mayúsculas</td>
+<td>«Busca la frase al text» · Lee en voz alta</td>
+</tr>
+<tr>
+<td><strong>Català</strong></td>
+<td>Articles, ortografia, oracions, gènere/nombre, concordança, puntuació</td>
+<td>«Prova-ho en veu alta» · Article + substantiu han d'encaixar</td>
+</tr>
+<tr>
+<td><strong>Medi</strong></td>
+<td>Materials, animals, cos humà, aigua, paisatge, mapa</td>
+<td>«Pensa en un exemple real» · Vertebrat = té esquena d'ossos</td>
+</tr>
+<tr>
+<td><strong>Anglès</strong></td>
+<td>Colors, yes/no, school, materials, family, days, reading</td>
+<td>«Find the words in the text» · Days amb majúscula</td>
+</tr>
+</tbody>
+</table></div>
+      <footer class="footer-line">Solucionari · No imprimir amb les fitxes d'Aray</footer>
+    </article>
+    
+</body>
+</html>

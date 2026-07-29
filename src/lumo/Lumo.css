@@ -1,0 +1,785 @@
+.lumo {
+  --lumo-belly-hi: #a8d8f0;
+  --lumo-belly-lo: #6bc4e8;
+  --lumo-belly-glow: rgba(125, 211, 240, 0.35);
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 5.5rem;
+  height: 5.5rem;
+  flex-shrink: 0;
+}
+
+.lumo--sm {
+  width: 3.75rem;
+  height: 3.75rem;
+}
+
+.lumo--lg {
+  width: 7rem;
+  height: 7rem;
+}
+
+.lumo__svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  position: relative;
+  z-index: 1;
+}
+
+.lumo__shadow {
+  fill: rgba(0, 0, 0, 0.22);
+  transform-origin: 60px 112px;
+}
+
+.lumo__figure {
+  transform-origin: 60px 100px;
+}
+
+.lumo__arm,
+.lumo__leg {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.lumo__arm--l {
+  transform-origin: right center;
+}
+
+.lumo__arm--r {
+  transform-origin: left center;
+}
+
+.lumo__leg--l,
+.lumo__leg--r {
+  transform-origin: center top;
+}
+
+.lumo__belly {
+  transform-origin: 60px 84px;
+  transform-box: fill-box;
+}
+
+.lumo__belly-glow {
+  fill: var(--lumo-belly-glow);
+  stroke: var(--lumo-belly-glow);
+  stroke-width: 0;
+  opacity: 0;
+  transform-origin: 60px 84px;
+  transform-box: fill-box;
+  pointer-events: none;
+}
+
+.lumo__eye {
+  fill: #0b1f3a;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.lumo__pupils {
+  transform-origin: 60px 47px;
+}
+
+.lumo__pupil {
+  fill: #e0f2fe;
+}
+
+.lumo__mouth {
+  fill: none;
+  stroke: #0b1f3a;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+
+.lumo__mouth-oops {
+  fill: none;
+  stroke: #0b1f3a;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  opacity: 0;
+}
+
+.lumo__blush {
+  fill: rgba(244, 114, 182, 0.35);
+  opacity: 0.55;
+}
+
+.lumo__aura {
+  position: absolute;
+  inset: 8%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.35), transparent 70%);
+  opacity: 0.45;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.lumo__spark {
+  position: absolute;
+  width: 0.35rem;
+  height: 0.35rem;
+  border-radius: 50%;
+  background: #c4b5fd;
+  opacity: 0;
+  display: none;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.lumo__spark--a {
+  top: 12%;
+  left: 18%;
+}
+.lumo__spark--b {
+  top: 8%;
+  right: 16%;
+}
+.lumo__spark--c {
+  bottom: 22%;
+  right: 10%;
+}
+
+/* Intensidad de energía en barriga */
+.lumo--i1 .lumo__belly {
+  filter: brightness(1.06);
+}
+.lumo--i2 .lumo__belly {
+  filter: brightness(1.12);
+}
+.lumo--i3 .lumo__belly {
+  filter: brightness(1.18);
+}
+.lumo--i4 .lumo__belly {
+  filter: brightness(1.24);
+}
+
+.lumo--i3 .lumo__aura,
+.lumo--i4 .lumo__aura {
+  filter: blur(0.5px);
+  transform: scale(1.12);
+}
+
+/* ——— idle ——— */
+.lumo--idle .lumo__figure {
+  animation: lumo-breathe 3.6s ease-in-out infinite;
+}
+
+.lumo--idle .lumo__eye {
+  animation: lumo-blink 5.5s ease-in-out infinite;
+}
+
+.lumo--idle .lumo__pupils {
+  animation: lumo-glance 8s ease-in-out infinite;
+}
+
+.lumo--idle .lumo__shadow {
+  animation: lumo-shadow-breathe 3.6s ease-in-out infinite;
+}
+
+.lumo--idle .lumo__belly,
+.lumo--thinking .lumo__belly {
+  animation: lumo-belly-shine 2.8s ease-in-out infinite;
+}
+
+.lumo--idle .lumo__belly-glow,
+.lumo--thinking .lumo__belly-glow {
+  animation: lumo-belly-halo 2.8s ease-in-out infinite;
+}
+
+/* ——— thinking (esperando / nervioso gracioso) ——— */
+.lumo--thinking .lumo__pupils {
+  animation: lumo-look 2.4s ease-in-out infinite;
+}
+
+.lumo--thinking .lumo__figure {
+  animation: lumo-squish 1.1s ease-in-out 1;
+}
+
+.lumo--thinking .lumo__arm--l {
+  animation: lumo-fidget-l 0.32s ease-in-out 5;
+}
+
+.lumo--thinking .lumo__arm--r {
+  animation: lumo-fidget-r 0.32s ease-in-out 5;
+  animation-delay: 0.08s;
+}
+
+.lumo--thinking .lumo__leg--l {
+  animation: lumo-tap-l 0.36s ease-in-out 5;
+}
+
+.lumo--thinking .lumo__leg--r {
+  animation: lumo-tap-r 0.36s ease-in-out 5;
+  animation-delay: 0.12s;
+}
+
+.lumo--thinking .lumo__aura {
+  opacity: 0.55;
+}
+
+/* ——— correct (acierto) ——— */
+.lumo--correct {
+  --lumo-belly-hi: #bbf7d0;
+  --lumo-belly-lo: #4ade80;
+  --lumo-belly-glow: rgba(74, 222, 128, 0.45);
+}
+
+.lumo--correct .lumo__figure {
+  animation: lumo-pop 0.55s ease;
+}
+
+.lumo--correct .lumo__arm--l {
+  animation: lumo-arms-up-l 0.55s ease;
+}
+
+.lumo--correct .lumo__arm--r {
+  animation: lumo-arms-up-r 0.55s ease;
+}
+
+.lumo--correct .lumo__eye {
+  animation: lumo-happy-eyes 0.55s ease;
+}
+
+.lumo--correct .lumo__belly {
+  animation: lumo-belly-bright 0.55s ease;
+}
+
+.lumo--correct .lumo__belly-glow {
+  animation: lumo-belly-pulse 0.7s ease;
+}
+
+.lumo--correct .lumo__aura {
+  background: radial-gradient(circle, rgba(74, 222, 128, 0.45), transparent 70%);
+  opacity: 0.85;
+}
+
+.lumo--correct .lumo__shadow {
+  animation: lumo-shadow-hop 0.55s ease;
+}
+
+/* ——— incorrect (error + nuevo intento) ——— */
+.lumo--incorrect {
+  --lumo-belly-hi: #c7e8f7;
+  --lumo-belly-lo: #93c5fd;
+  --lumo-belly-glow: rgba(147, 197, 253, 0.3);
+}
+
+.lumo--incorrect .lumo__mouth {
+  opacity: 0;
+}
+
+.lumo--incorrect .lumo__mouth-oops {
+  opacity: 1;
+}
+
+.lumo--incorrect .lumo__figure {
+  animation: lumo-tilt-think 0.7s ease forwards;
+}
+
+.lumo--incorrect .lumo__pupils {
+  animation: lumo-look-down 0.7s ease forwards;
+}
+
+.lumo--incorrect .lumo__arm--r {
+  animation: lumo-think-hand 0.7s ease forwards;
+}
+
+.lumo--incorrect .lumo__aura {
+  background: radial-gradient(circle, rgba(147, 197, 253, 0.3), transparent 70%);
+  opacity: 0.5;
+}
+
+/* ——— streak (energía conseguida) ——— */
+.lumo--streak {
+  --lumo-belly-hi: #ddd6fe;
+  --lumo-belly-lo: #22d3ee;
+  --lumo-belly-glow: rgba(34, 211, 238, 0.5);
+}
+
+.lumo--streak .lumo__figure {
+  animation: lumo-hop 0.7s ease;
+}
+
+.lumo--streak .lumo__belly {
+  animation: lumo-belly-bright 0.9s ease;
+}
+
+.lumo--streak .lumo__belly-glow {
+  animation: lumo-belly-pulse 0.9s ease;
+}
+
+.lumo--streak .lumo__spark {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  animation: lumo-spark 0.9s ease 1;
+}
+
+.lumo--streak .lumo__aura {
+  opacity: 1;
+  animation: lumo-glow 0.9s ease 1;
+}
+
+.lumo--streak .lumo__shadow {
+  animation: lumo-shadow-hop 0.7s ease;
+}
+
+/* ——— celebration ——— */
+.lumo--celebration {
+  --lumo-belly-hi: #fef08a;
+  --lumo-belly-lo: #22d3ee;
+  --lumo-belly-glow: rgba(250, 204, 21, 0.45);
+}
+
+.lumo--celebration .lumo__figure {
+  animation: lumo-celebrate 1.2s ease;
+}
+
+.lumo--celebration .lumo__arm--l {
+  animation: lumo-arms-up-l 1.2s ease;
+}
+
+.lumo--celebration .lumo__arm--r {
+  animation: lumo-arms-up-r 1.2s ease;
+}
+
+.lumo--celebration .lumo__eye {
+  animation: lumo-happy-eyes 1.2s ease;
+}
+
+.lumo--celebration .lumo__belly {
+  animation: lumo-belly-bright 1.2s ease;
+}
+
+.lumo--celebration .lumo__belly-glow {
+  animation: lumo-belly-pulse 1s ease 1;
+}
+
+.lumo--celebration .lumo__spark {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  animation: lumo-spark 1s ease 2;
+}
+
+.lumo--celebration .lumo__aura {
+  opacity: 1;
+  background: radial-gradient(
+    circle,
+    rgba(167, 139, 250, 0.55),
+    rgba(34, 211, 238, 0.25),
+    transparent 70%
+  );
+}
+
+.lumo--celebration .lumo__shadow {
+  animation: lumo-shadow-celebrate 1.2s ease;
+}
+
+/* ——— keyframes ——— */
+@keyframes lumo-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+}
+
+@keyframes lumo-shadow-breathe {
+  0%,
+  100% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scaleX(0.92);
+    opacity: 0.85;
+  }
+}
+
+@keyframes lumo-blink {
+  0%,
+  92%,
+  100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.12);
+  }
+}
+
+@keyframes lumo-glance {
+  0%,
+  70%,
+  100% {
+    transform: translateX(0);
+  }
+  78% {
+    transform: translateX(2.5px);
+  }
+  86% {
+    transform: translateX(-1.5px);
+  }
+  92% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes lumo-look {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(3px);
+  }
+  50% {
+    transform: translateX(0);
+  }
+  75% {
+    transform: translateX(-3px);
+  }
+}
+
+@keyframes lumo-look-down {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(2px, 1.5px);
+  }
+}
+
+@keyframes lumo-squish {
+  0%,
+  100% {
+    transform: scale(1, 1);
+  }
+  30% {
+    transform: scale(1.04, 0.96);
+  }
+  55% {
+    transform: scale(0.97, 1.04);
+  }
+  80% {
+    transform: scale(1.02, 0.98);
+  }
+}
+
+@keyframes lumo-fidget-l {
+  0%,
+  100% {
+    transform: rotate(0deg) translateY(0);
+  }
+  50% {
+    transform: rotate(-18deg) translateY(1px);
+  }
+}
+
+@keyframes lumo-fidget-r {
+  0%,
+  100% {
+    transform: rotate(0deg) translateY(0);
+  }
+  50% {
+    transform: rotate(18deg) translateY(1px);
+  }
+}
+
+@keyframes lumo-tap-l {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes lumo-tap-r {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes lumo-pop {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  35% {
+    transform: translateY(-7px) scale(1.06);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes lumo-arms-up-l {
+  0%,
+  100% {
+    transform: rotate(0deg) translateY(0);
+  }
+  40% {
+    transform: rotate(-42deg) translateY(-4px);
+  }
+}
+
+@keyframes lumo-arms-up-r {
+  0%,
+  100% {
+    transform: rotate(0deg) translateY(0);
+  }
+  40% {
+    transform: rotate(42deg) translateY(-4px);
+  }
+}
+
+@keyframes lumo-happy-eyes {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  30%,
+  70% {
+    transform: scaleY(0.45);
+  }
+}
+
+@keyframes lumo-belly-shine {
+  0%,
+  100% {
+    filter: brightness(0.92);
+    opacity: 0.82;
+  }
+  50% {
+    filter: brightness(1.38);
+    opacity: 1;
+  }
+}
+
+@keyframes lumo-belly-halo {
+  0%,
+  100% {
+    opacity: 0.08;
+    transform: scale(0.96);
+  }
+  50% {
+    opacity: 0.48;
+    transform: scale(1.12);
+  }
+}
+
+@keyframes lumo-belly-bright {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+  45% {
+    filter: brightness(1.28);
+  }
+}
+
+@keyframes lumo-belly-pulse {
+  0% {
+    opacity: 0;
+    stroke-width: 0;
+    transform: scale(0.85);
+  }
+  35% {
+    opacity: 0.85;
+    stroke-width: 3;
+  }
+  100% {
+    opacity: 0;
+    stroke-width: 0;
+    transform: scale(1.55);
+  }
+}
+
+@keyframes lumo-tilt-think {
+  0% {
+    transform: rotate(0deg);
+  }
+  40% {
+    transform: rotate(-7deg);
+  }
+  100% {
+    transform: rotate(-5deg);
+  }
+}
+
+@keyframes lumo-think-hand {
+  0% {
+    transform: rotate(0deg) translate(0, 0);
+  }
+  55%,
+  100% {
+    transform: rotate(-55deg) translate(-4px, -10px);
+  }
+}
+
+@keyframes lumo-hop {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  35% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes lumo-shadow-hop {
+  0%,
+  100% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  35% {
+    transform: scaleX(0.78);
+    opacity: 0.65;
+  }
+}
+
+@keyframes lumo-celebrate {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-10px) rotate(-4deg);
+  }
+  50% {
+    transform: translateY(-4px) rotate(4deg);
+  }
+  75% {
+    transform: translateY(-12px) rotate(-2deg);
+  }
+}
+
+@keyframes lumo-shadow-celebrate {
+  0%,
+  100% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  25%,
+  75% {
+    transform: scaleX(0.72);
+    opacity: 0.55;
+  }
+  50% {
+    transform: scaleX(0.88);
+    opacity: 0.75;
+  }
+}
+
+@keyframes lumo-spark {
+  0% {
+    transform: scale(0.4) translateY(0);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.2) translateY(-10px);
+    opacity: 0;
+  }
+}
+
+@keyframes lumo-glow {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lumo--idle .lumo__figure,
+  .lumo--idle .lumo__eye,
+  .lumo--idle .lumo__pupils,
+  .lumo--idle .lumo__shadow,
+  .lumo--idle .lumo__belly,
+  .lumo--idle .lumo__belly-glow,
+  .lumo--thinking .lumo__pupils,
+  .lumo--thinking .lumo__figure,
+  .lumo--thinking .lumo__arm--l,
+  .lumo--thinking .lumo__arm--r,
+  .lumo--thinking .lumo__leg--l,
+  .lumo--thinking .lumo__leg--r,
+  .lumo--thinking .lumo__belly,
+  .lumo--thinking .lumo__belly-glow,
+  .lumo--correct .lumo__figure,
+  .lumo--correct .lumo__arm--l,
+  .lumo--correct .lumo__arm--r,
+  .lumo--correct .lumo__eye,
+  .lumo--correct .lumo__belly,
+  .lumo--correct .lumo__belly-glow,
+  .lumo--correct .lumo__shadow,
+  .lumo--incorrect .lumo__figure,
+  .lumo--incorrect .lumo__pupils,
+  .lumo--incorrect .lumo__arm--r,
+  .lumo--streak .lumo__figure,
+  .lumo--streak .lumo__belly,
+  .lumo--streak .lumo__belly-glow,
+  .lumo--streak .lumo__spark,
+  .lumo--streak .lumo__aura,
+  .lumo--streak .lumo__shadow,
+  .lumo--celebration .lumo__figure,
+  .lumo--celebration .lumo__arm--l,
+  .lumo--celebration .lumo__arm--r,
+  .lumo--celebration .lumo__eye,
+  .lumo--celebration .lumo__belly,
+  .lumo--celebration .lumo__belly-glow,
+  .lumo--celebration .lumo__spark,
+  .lumo--celebration .lumo__shadow {
+    animation: none !important;
+  }
+
+  /* Sustituir movimiento por expresión / luminosidad estática */
+  .lumo--idle .lumo__belly,
+  .lumo--thinking .lumo__belly {
+    filter: brightness(1.12);
+    opacity: 0.95;
+  }
+
+  .lumo--thinking .lumo__aura {
+    opacity: 0.6;
+  }
+
+  .lumo--correct .lumo__eye,
+  .lumo--celebration .lumo__eye {
+    transform: scaleY(0.5);
+  }
+
+  .lumo--correct .lumo__belly,
+  .lumo--streak .lumo__belly,
+  .lumo--celebration .lumo__belly {
+    filter: brightness(1.15);
+  }
+
+  .lumo--incorrect .lumo__figure {
+    transform: rotate(-4deg);
+  }
+
+  .lumo--incorrect .lumo__arm--r {
+    transform: rotate(-40deg) translate(-2px, -6px);
+  }
+
+  .lumo--streak .lumo__aura,
+  .lumo--celebration .lumo__aura {
+    opacity: 0.9;
+  }
+}

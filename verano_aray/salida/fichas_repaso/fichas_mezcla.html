@@ -1,0 +1,3855 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <title>Fichas repaso · Mezcla</title>
+  <style>
+    @page { size: A4; margin: 8mm; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #edf2fb; color: #1f2530; font-family: Arial, Helvetica, sans-serif; }
+    .page { width: 196mm; min-height: 279mm; margin: 6mm auto; padding: 8mm 9mm; background: #fff; border: 1px solid #d5ddec; border-radius: 12px; page-break-after: always; }
+    .hero, .panel, .story-panel { border-radius: 12px; border: 1px solid #d7e1f8; padding: 12px; margin-bottom: 10px; }
+    .hero { background: linear-gradient(180deg, #eef3ff 0%, #fff7ea 100%); }
+    .story-panel { background: #f8fbff; }
+    .support-panel { background: #fffdfa; border-color: #eadfb6; }
+    .decoder-panel { background: #f5fff2; border-color: #d6e8cc; }
+    .bonus-panel { background: #fffdf4; border-color: #eadfb6; }
+    .chapter-pill { display: inline-block; padding: 6px 10px; background: #e8efff; color: #1e4db7; border-radius: 999px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; }
+    .section-badge { display: inline-block; margin-bottom: 8px; padding: 4px 9px; background: #eef2ff; color: #314f98; border-radius: 999px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+    h1 { margin: 8px 0 6px 0; font-size: 28px; }
+    h3 { margin: 0 0 8px 0; font-size: 17px; }
+    p, li, td, th { font-size: 13.6px; line-height: 1.42; }
+    .subtitle { margin: 0; color: #4b5871; }
+    .cover-art { width: 100%; height: auto; margin-top: 10px; }
+    .suspect-table, .solution-table, .vf-table { width: 100%; border-collapse: collapse; }
+    .suspect-table th, .suspect-table td, .solution-table th, .solution-table td, .vf-table th, .vf-table td { border: 1px solid #c9d2e5; padding: 6px; text-align: left; vertical-align: top; }
+    .vf-cell { width: 34px; text-align: center; }
+    .vf-cell::before { content: ""; display: inline-block; width: 16px; height: 16px; border: 2px solid #7d90ba; border-radius: 4px; }
+    .task-card { display: grid; grid-template-columns: 48px 1fr; gap: 10px; margin-bottom: 9px; }
+    .task-code { background: #1e4db7; color: #fff; border-radius: 10px; text-align: center; padding: 8px 0; font-size: 14px; font-weight: 700; }
+    .task-prompt { margin: 0 0 6px 0; }
+    .section-intro { margin: 0 0 8px 0; color: #5a6882; }
+    .response-boxes { display: flex; flex-wrap: wrap; gap: 4px; }
+    .box { display: inline-block; height: 28px; border: 2px solid #93a7d4; border-radius: 6px; background: #fff; }
+    .write-line { height: 24px; border-bottom: 2px solid #aeb9cf; margin-top: 5px; }
+    .choice-group { display: grid; gap: 5px; }
+    .choice-option { display: flex; align-items: center; gap: 8px; min-height: 24px; }
+    .choice-mark { width: 16px; height: 16px; border: 2px solid #8396be; border-radius: 4px; display: inline-block; }
+    .story-lines { margin-top: 6px; }
+    .story-line-row { display: grid; grid-template-columns: 26px 1fr; gap: 6px; margin: 3px 0; font-size: 14px; }
+    .story-line-num { font-weight: 700; color: #1e4db7; }
+    .support-lines p { margin: 0 0 6px 0; }
+    .decoder-word { margin-top: 10px; padding: 10px; background: #fff; border: 1px dashed #88a370; border-radius: 10px; }
+    .decoder-steps { margin: 8px 0 10px 20px; padding: 0; }
+    .evidence-box { margin-top: 10px; padding: 10px; background: #fff; border: 1px dashed #88a370; border-radius: 10px; }
+    .wordsearch-box { margin-top: 8px; padding: 10px; border: 2px solid #9bb0da; border-radius: 10px; background: #fff; }
+    .wordsearch-row { font-family: "Courier New", monospace; font-size: 20px; letter-spacing: 4px; line-height: 1.25; }
+    .footer-line { margin-top: 10px; color: #55627a; font-size: 13px; }
+    @media print {
+      body { background: #fff; }
+      .page { width: auto; margin: 0; border: none; border-radius: 0; }
+    }
+    
+    @page { size: A4; margin: 8mm; }
+    .page.fitxa-page {
+      width: 196mm;
+      min-height: 279mm;
+      margin: 0 auto;
+      padding: 7mm 9mm 5mm 9mm;
+      page-break-after: always;
+      page-break-inside: avoid;
+      display: flex;
+      flex-direction: column;
+    }
+    .fitxa-body {
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+    .fitxa-body > :first-child { margin-top: 0; }
+    .fitxa-meta {
+      margin: 0 0 8px 0;
+      padding: 0;
+      color: #55627a;
+      font-size: 11.5px;
+      line-height: 1.35;
+    }
+    .fitxa-header-bar {
+      display: flex;
+      align-items: flex-end;
+      gap: 12px;
+      margin: 0 0 10px 0;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #c9d2e5;
+    }
+    .fitxa-header-bar img.aray-avatar {
+      width: 60px !important;
+      height: auto !important;
+      max-height: 60px;
+      flex-shrink: 0;
+    }
+    .fitxa-fields {
+      flex: 1;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      gap: 10px 18px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .field-group {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .field-line {
+      display: inline-block;
+      border-bottom: 2.5px solid #1f2530;
+      height: 24px;
+      vertical-align: bottom;
+    }
+    .field-nom { width: 72mm; min-width: 72mm; }
+    .field-date { width: 36mm; min-width: 36mm; }
+    .fitxa-num {
+      margin-left: auto;
+      color: #1e4db7;
+      font-size: 15px;
+      white-space: nowrap;
+    }
+    .fitxa-body h1 {
+      font-size: 21px;
+      margin: 0 0 8px 0;
+      line-height: 1.2;
+    }
+    .fitxa-body h2 {
+      font-size: 16px;
+      margin: 14px 0 8px 0;
+      color: #1e4db7;
+      line-height: 1.3;
+    }
+    .fitxa-body p,
+    .fitxa-body li,
+    .fitxa-body td,
+    .fitxa-body th {
+      font-size: 14px;
+      line-height: 1.45;
+      margin: 4px 0;
+    }
+    .fitxa-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0;
+    }
+    .fitxa-body th,
+    .fitxa-body td {
+      border: 1px solid #c9d2e5;
+      padding: 8px 9px;
+      font-size: 13.5px;
+      vertical-align: top;
+      min-height: 32px;
+    }
+    .fitxa-body th { background: #eef3ff; }
+    .fitxa-body blockquote {
+      margin: 8px 0;
+      padding: 8px 12px;
+      background: #f8fbff;
+      border-left: 3px solid #1e4db7;
+      color: #44506a;
+      font-size: 13px;
+    }
+    .fitxa-body img.fitxa-illustration {
+      width: auto !important;
+      height: auto !important;
+      max-height: 48mm !important;
+      max-width: 52% !important;
+      float: right;
+      margin: 0 0 8px 10px;
+      object-fit: contain;
+    }
+    .fitxa-body img.fitxa-illustration-small {
+      max-height: 24mm !important;
+      max-width: 28% !important;
+    }
+  /* Imatge principal sola: més gran i centrada */
+    .fitxa-body h2 + p > img.fitxa-illustration:only-child,
+    .fitxa-body p > img.fitxa-illustration:only-child {
+      max-height: 55mm !important;
+      max-width: 75% !important;
+      float: none;
+      display: block;
+      margin: 8px auto 12px auto;
+    }
+    .fitxa-body pre {
+      font-family: "Courier New", monospace;
+      font-size: 14px;
+      line-height: 1.35;
+      background: #f8faff;
+      border: 1px solid #d5ddec;
+      border-radius: 8px;
+      padding: 10px;
+      margin: 8px 0;
+      white-space: pre-wrap;
+      min-height: 55mm;
+    }
+    .fitxa-body ul,
+    .fitxa-body ol {
+      margin: 8px 0;
+      padding-left: 22px;
+    }
+    .fitxa-body li {
+      margin: 6px 0 14px 0;
+    }
+    .fitxa-body li p { margin: 0 0 6px 0; }
+    .fitxa-body li + .write-line { margin-top: 4px; margin-bottom: 8px; }
+    .write-line {
+      height: 28px;
+      border-bottom: 2px solid #7d90ba;
+      margin: 6px 0 12px 0;
+    }
+    .write-line.tall {
+      height: 34px;
+      margin-bottom: 14px;
+    }
+    .inline-blank {
+      display: inline-block;
+      min-width: 65mm;
+      border-bottom: 2px solid #7d90ba;
+      height: 22px;
+      vertical-align: bottom;
+    }
+    .fitxa-body p:has(strong:first-child) { margin-top: 10px; }
+    .fitxa-recorda {
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: #fffdf4;
+      border: 1px solid #eadfb6;
+      border-radius: 8px;
+      font-size: 13px;
+    }
+    .fitxa-body .reading-text {
+      font-size: 14px;
+      line-height: 1.5;
+      margin: 6px 0 12px 0;
+    }
+    .footer-line {
+      flex-shrink: 0;
+      margin-top: 8px;
+      padding-top: 5px;
+      border-top: 1px solid #e2e8f4;
+      color: #7a869e;
+      font-size: 11px;
+    }
+    .area-cover {
+      text-align: center;
+      padding: 30mm 10mm;
+      height: 281mm;
+    }
+    .area-cover h1 { font-size: 32px; }
+    .area-cover p { color: #55627a; font-size: 16px; }
+    @media print {
+      body { background: #fff; }
+      .page { border: none; border-radius: 0; box-shadow: none; }
+      .page.fitxa-page { width: auto; margin: 0; }
+    }
+    
+    .page.mezcla-page {
+      width: 196mm;
+      min-height: 279mm;
+      padding: 7mm 9mm 5mm 9mm;
+      page-break-after: always;
+      page-break-inside: avoid;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .mezcla-page-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      padding-bottom: 7px;
+      border-bottom: 2px solid #c9d2e5;
+    }
+    .mezcla-page-head .chapter-pill { margin: 0; }
+    .mezcla-page-num {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1e4db7;
+    }
+    .mezcla-stack {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      justify-content: stretch;
+    }
+    .exercise-card {
+      border: 1.5px solid #d5ddec;
+      border-radius: 10px;
+      padding: 9px 11px 10px 11px;
+      background: linear-gradient(180deg, #fafcff 0%, #fff 100%);
+      flex: 1 1 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .exercise-card .fitxa-body {
+      flex: 1;
+    }
+    .exercise-card-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+    }
+    .exercise-badge {
+      display: inline-block;
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      color: #fff;
+    }
+    .exercise-ref {
+      font-size: 11px;
+      color: #6a7894;
+      font-weight: 600;
+    }
+    .exercise-card h2 {
+      font-size: 15px;
+      margin: 0 0 6px 0;
+      color: #1f2530;
+      line-height: 1.25;
+    }
+    .exercise-card .fitxa-body p,
+    .exercise-card .fitxa-body li,
+    .exercise-card .fitxa-body td,
+    .exercise-card .fitxa-body th {
+      font-size: 13.5px;
+      line-height: 1.4;
+      margin: 3px 0;
+    }
+    .exercise-card .fitxa-body h2 { display: none; }
+    .exercise-card .fitxa-body table {
+      margin: 5px 0;
+    }
+    .exercise-card .fitxa-body th,
+    .exercise-card .fitxa-body td {
+      padding: 6px 7px;
+      font-size: 12.5px;
+    }
+    .exercise-card .fitxa-body img.fitxa-illustration {
+      max-height: 36mm !important;
+      max-width: 40% !important;
+      float: right;
+      margin: 0 0 6px 8px;
+    }
+    .exercise-card .fitxa-body img.fitxa-illustration-small {
+      max-height: 16mm !important;
+      max-width: 20% !important;
+    }
+    .exercise-card .fitxa-body pre {
+      min-height: 42mm;
+      font-size: 12px;
+      padding: 8px;
+      margin: 6px 0 0 0;
+    }
+    .exercise-card .fitxa-body .reading-text {
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .exercise-card .fitxa-body .write-line {
+      height: 24px;
+      margin: 4px 0 8px 0;
+    }
+    .exercise-card .fitxa-body ol > li {
+      margin-bottom: 8px;
+    }
+    .mezcla-page .footer-line {
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+    </style>
+</head>
+<body>
+
+<article class="page area-cover">
+  <div class="chapter-pill">Fichas de repaso</div>
+  <h1>Repàs mesclat</h1>
+  <p>2–3 exercicis per pàgina · Mates, Castellano, Català, Medi, Anglès</p>
+  <p>3r primària · Aray · Temàtica Roblox</p>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 1</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#1e4db7">MAT</span>
+    <span class="exercise-ref">Matemàtiques · Fitxa 1</span>
+  </div>
+  <h2>Monedes i punts de l&#x27;arena</h2>
+  <div class="fitxa-body"><p>Calcula de cap. Escriu el resultat a cada casella.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;"></th>
+<th style="text-align: center;"></th>
+<th style="text-align: center;"></th>
+<th style="text-align: center;"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">45 + 23 = ______</td>
+<td style="text-align: center;">67 − 18 = ______</td>
+<td style="text-align: center;">38 + 41 = ______</td>
+<td style="text-align: center;">90 − 35 = ______</td>
+</tr>
+<tr>
+<td style="text-align: center;">56 + 27 = ______</td>
+<td style="text-align: center;">84 − 29 = ______</td>
+<td style="text-align: center;">72 + 15 = ______</td>
+<td style="text-align: center;">100 − 47 = ______</td>
+</tr>
+<tr>
+<td style="text-align: center;">33 + 48 = ______</td>
+<td style="text-align: center;">95 − 56 = ______</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#1e4db7">MAT</span>
+    <span class="exercise-ref">Matemàtiques · Fitxa 1</span>
+  </div>
+  <h2>Repàs ràpid</h2>
+  <div class="fitxa-body"><p>Aray guanya punts a l'<strong>Arena de Cuchillos</strong>. Resol sense paper auxiliar:</p>
+<ol>
+<li>
+<p>Té <strong>120</strong> monedes i en guanya <strong>35</strong> més. Quantes té ara? ______ monedes</p>
+</li>
+<li>
+<p>Gastes <strong>48</strong> punts en una skin i en tenies <strong>75</strong>. Quants et queden? ______ punts</p>
+</li>
+</ol></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 1 · MAT</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 2</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#c45a11">CAS</span>
+    <span class="exercise-ref">Castellano · Fitxa 1</span>
+  </div>
+  <h2>Lee el texto con atención</h2>
+  <div class="fitxa-body"><p><img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/les_01_lectura.png" class="fitxa-illustration" alt="Aray leyendo en su habitación"></p>
+<p><strong>Un sábado especial</strong></p>
+<p>Aray abrió los ojos muy temprano: era sábado y el sol entraba por la ventana. Se estiró, miró el reloj y sonrió porque tenía el día libre. Después de desayunar y ordenar su habitación, encendió el ordenador. En Roblox apareció un cartel enorme del juego <strong>Arena de Cuchillos</strong>. El aviso decía que un evento nuevo empezaba a mediodía y que los jugadores podían ganar objetos raros. Aray llamó a Luca por el móvil y le dijo: «¡Tenemos que entrar juntos!». Los dos amigos se sentaron frente a la pantalla y esperaron el inicio del evento con mucha ilusión.</p></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#c45a11">CAS</span>
+    <span class="exercise-ref">Castellano · Fitxa 1</span>
+  </div>
+  <h2>Responde leyendo el texto</h2>
+  <div class="fitxa-body"><ol>
+<li>
+<p>¿Qué día de la semana ocurre la historia?</p><div class="write-line"></div>
+</li>
+<li>
+<p>¿Qué hizo Aray después de desayunar?</p><div class="write-line"></div>
+</li>
+<li>
+<p>¿Cómo se llama el juego de Roblox del cartel?</p><div class="write-line"></div>
+</li>
+<li>
+<p>¿A quién llamó Aray por el móvil?</p><div class="write-line"></div>
+</li>
+<li>
+<p>¿Qué dijo Aray a su amigo? (escribe la idea con tus palabras)<br>
+<br>
+<div class="write-line"></div>
+</p>
+</li>
+</ol></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 2 · CAS</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 3</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#2a7a3b">CAT</span>
+    <span class="exercise-ref">Català · Fitxa 1</span>
+  </div>
+  <h2>A) Escriu l&#x27;article: el, la, l&#x27;, els, les</h2>
+  <div class="fitxa-body"><ol>
+<li>___ arena del joc  </li>
+<li>___ mapa secret  </li>
+<li>___ aigua de la font  </li>
+<li>___ monedes daurades  </li>
+<li>___ equip guanyador  </li>
+<li>___ insignies del capítol</li>
+</ol>
+<h3>B) Completa el text amb articles</h3>
+<blockquote>
+<p>___ matí, ___ jugadors van entrar a ___ <strong>Arena de Cuchillos</strong>. ___ nena va obrir ___ porta verda i ___ nois van seguir el camí. ___ monedes brillaven a ___ botiga del vestíbul.</p>
+</blockquote></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 3 · CAT</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 4</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#6b4c9a">MED</span>
+    <span class="exercise-ref">Medi · Fitxa 1</span>
+  </div>
+  <h2>A) De què està fet?</h2>
+  <div class="fitxa-body"><p><img alt="Materials de construcció del joc" src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/med_01_materials.png" class="fitxa-illustration"></p>
+<p>Completa amb les paraules del quadre:</p>
+<blockquote>
+<p>vidre · maó · fusta · metall · paper</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Objecte de l'arena</th>
+<th>Material</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Finestra</td>
+<td>___</td>
+</tr>
+<tr>
+<td>2. Paret gruixuda</td>
+<td>___</td>
+</tr>
+<tr>
+<td>3. Cadira del control</td>
+<td>___</td>
+</tr>
+<tr>
+<td>4. Clau daurada</td>
+<td>___</td>
+</tr>
+<tr>
+<td>5. Cartell del mapa</td>
+<td>___</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#6b4c9a">MED</span>
+    <span class="exercise-ref">Medi · Fitxa 1</span>
+  </div>
+  <h2>B) Propietats dels materials</h2>
+  <div class="fitxa-body"><p>Relaciona cada material amb la seva propietat principal. Escriu la lletra.</p>
+<table>
+<thead>
+<tr>
+<th>Material</th>
+<th>Propietat</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Vidre</td>
+<td>A) Opac i molt dur</td>
+</tr>
+<tr>
+<td>Maó</td>
+<td>B) Transparent</td>
+</tr>
+<tr>
+<td>Paper</td>
+<td>C) Es pot doblegar amb facilitat</td>
+</tr>
+</tbody>
+</table>
+<p>Vidre ___ · Maó ___ · Paper ___</p></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 4 · MED</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 5</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card heavy-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#0d7a8c">ANG</span>
+    <span class="exercise-ref">Anglès · Fitxa 1</span>
+  </div>
+  <h2>A) Match the colour with the word</h2>
+  <div class="fitxa-body"><p><img alt="Game colour palette" src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/en_07_colours.png" class="fitxa-illustration"></p>
+<p>Write the letter.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Colour blob</th>
+<th></th>
+<th>Word</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>🔴</td>
+<td>—</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>🟡</td>
+<td>—</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>🔵</td>
+<td>—</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>🟢</td>
+<td>—</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>🟠</td>
+<td>—</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>🩷</td>
+<td>—</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>___ · 2. ___ · 3. ___ · 4. ___ · 5. ___ · 6. ___</li>
+</ol></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#0d7a8c">ANG</span>
+    <span class="exercise-ref">Anglès · Fitxa 1</span>
+  </div>
+  <h2>B) Wordsearch · Find 6 colours</h2>
+  <div class="fitxa-body"><p>Circle the words in the grid. Words can go <strong>across</strong> or <strong>down</strong>.</p>
+<p><code>O R A N G E
+Y B L U E R
+E D G P I N
+G R E E N K
+P I N K Y G
+G R E Y X X</code></p>
+<p>Colours to find: <strong>RED</strong> · <strong>BLUE</strong> · <strong>GREEN</strong> · <strong>PINK</strong> · <strong>GREY</strong> · <strong>ORANGE</strong></p></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 5 · ANG</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 6</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#1e4db7">MAT</span>
+    <span class="exercise-ref">Matemàtiques · Fitxa 2</span>
+  </div>
+  <h2>Puntuacions de l&#x27;arena</h2>
+  <div class="fitxa-body"><p>A l'<strong>Arena de Cuchillos</strong>, cada jugador acumula punts en diferents rondes. Compara els nombres i escriu <strong><code>&gt;</code></strong>, <strong><code>&lt;</code></strong> o <strong><code>=</code></strong> al mig.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;"></th>
+<th style="text-align: center;"></th>
+<th style="text-align: center;"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">3.456</td>
+<td style="text-align: center;">______</td>
+<td style="text-align: center;">3.465</td>
+</tr>
+<tr>
+<td style="text-align: center;">2.890</td>
+<td style="text-align: center;">______</td>
+<td style="text-align: center;">2.809</td>
+</tr>
+<tr>
+<td style="text-align: center;">5.001</td>
+<td style="text-align: center;">______</td>
+<td style="text-align: center;">5.010</td>
+</tr>
+<tr>
+<td style="text-align: center;">4.720</td>
+<td style="text-align: center;">______</td>
+<td style="text-align: center;">4.702</td>
+</tr>
+<tr>
+<td style="text-align: center;">6.999</td>
+<td style="text-align: center;">______</td>
+<td style="text-align: center;">7.000</td>
+</tr>
+<tr>
+<td style="text-align: center;">1.350</td>
+<td style="text-align: center;">______</td>
+<td style="text-align: center;">1.305</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#1e4db7">MAT</span>
+    <span class="exercise-ref">Matemàtiques · Fitxa 2</span>
+  </div>
+  <h2>Qui ha fet més punts?</h2>
+  <div class="fitxa-body"><ol>
+<li>La <strong>Sara</strong> ha fet <strong>2.847</strong> punts i l'<strong>Eric</strong> ha fet <strong>2.874</strong> punts. Qui n'ha fet més?</li>
+</ol>
+<div class=\"write-line\"></div>
+<ol start="2">
+<li>L'<strong>Axel</strong> ha fet <strong>3.205</strong> punts i la <strong>Maria</strong> ha fet <strong>3.250</strong> punts. Qui n'ha fet menys?</li>
+</ol>
+<div class=\"write-line\"></div>
+<ol start="3">
+<li>Ordena de <strong>menor a major</strong> (escriu els tres nombres): <strong>1.980</strong> · <strong>1.908</strong> · <strong>1.899</strong></li>
+</ol>
+<p><strong><em>_</em></strong><strong><em>_</em>_  &lt;  </strong><strong><em>_</em></strong><strong><em>_  &lt;  </em></strong><strong><em>_</em></strong>___</p></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 6 · MAT</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 7</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#c45a11">CAS</span>
+    <span class="exercise-ref">Castellano · Fitxa 2</span>
+  </div>
+  <h2>Ordena la mañana de Aray</h2>
+  <div class="fitxa-body"><p><strong>Piensa en la historia del sábado por la mañana (despertar, tareas y evento de Roblox). Escribe del 1 al 6 para ordenar los acontecimientos.</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Acontecimiento</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>___</td>
+<td>Aray enciende el ordenador y ve el aviso del evento en Arena de Cuchillos.</td>
+</tr>
+<tr>
+<td>___</td>
+<td>Aray se despierta y mira el reloj de la pared.</td>
+</tr>
+<tr>
+<td>___</td>
+<td>Termina el desayuno y ayuda a recoger la mesa.</td>
+</tr>
+<tr>
+<td>___</td>
+<td>Llama a Luca y los dos entran juntos al evento.</td>
+</tr>
+<tr>
+<td>___</td>
+<td>Hace la cama, saca la basura y riega las plantas del balcón.</td>
+</tr>
+<tr>
+<td>___</td>
+<td>En pantalla aparece el mapa con las cinco pruebas del pack.</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#2a7a3b">CAT</span>
+    <span class="exercise-ref">Català · Fitxa 2</span>
+  </div>
+  <h2>Completa els buits amb **c**, **qu**, **g** o **gu**</h2>
+  <div class="fitxa-body"><ol>
+<li>El __amí secret del bosc era difícil.  </li>
+<li>__è costa aquest cofre a la botiga?  </li>
+<li>Vaig __uardar les monedes al campament.  </li>
+<li>L'__ran de la pantalla era enorme.  </li>
+<li>Hem de __ancar la porta del refugi.  </li>
+<li>La __estió de l'equip era bona.  </li>
+<li>Vaig __estionar el temps abans de la nit.  </li>
+<li>El __ofre del mapa era petit.</li>
+</ol></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 7 · CAS · CAT</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 8</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#6b4c9a">MED</span>
+    <span class="exercise-ref">Medi · Fitxa 2</span>
+  </div>
+  <h2>Classifica els blocs de construcció</h2>
+  <div class="fitxa-body"><p>Observa cada objecte del joc i escriu <strong>T</strong> (transparent), <strong>O</strong> (opac) o <strong>F</strong> (flexible).</p>
+<table>
+<thead>
+<tr>
+<th>Objecte</th>
+<th>T / O / F</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Finestra de vidre</td>
+<td>___</td>
+</tr>
+<tr>
+<td>2. Paret de maons</td>
+<td>___</td>
+</tr>
+<tr>
+<td>3. Full de paper</td>
+<td>___</td>
+</tr>
+<tr>
+<td>4. Cinta elàstica del botí</td>
+<td>___</td>
+</tr>
+<tr>
+<td>5. Plàstic transparent del escut</td>
+<td>___</td>
+</tr>
+<tr>
+<td>6. Porta de fusta</td>
+<td>___</td>
+</tr>
+<tr>
+<td>7. Teulada de metall</td>
+<td>___</td>
+</tr>
+<tr>
+<td>8. Glob de goma del personatge</td>
+<td>___</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#6b4c9a">MED</span>
+    <span class="exercise-ref">Medi · Fitxa 2</span>
+  </div>
+  <h2>Pregunta curta</h2>
+  <div class="fitxa-body"><p>Cita un objecte <strong>transparent</strong> i un objecte <strong>opac</strong> de la taula.</p>
+<p>Transparent: <span class=\"inline-blank\"></span></p>
+<p>Opac: <span class=\"inline-blank\"></span></p></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 8 · MED</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 9</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#0d7a8c">ANG</span>
+    <span class="exercise-ref">Anglès · Fitxa 2</span>
+  </div>
+  <h2>Answer yes or no</h2>
+  <div class="fitxa-body"><p>Write <strong>yes</strong> or <strong>no</strong>. Use short answers where you can.</p>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Is a banana yellow?</td>
+<td>___</td>
+</tr>
+<tr>
+<td>2. Is your ruler white?</td>
+<td>___</td>
+</tr>
+<tr>
+<td>3. Is the grass grey?</td>
+<td>___</td>
+</tr>
+<tr>
+<td>4. Is snow hot?</td>
+<td>___</td>
+</tr>
+<tr>
+<td>5. Does a teacher work in a school?</td>
+<td>___</td>
+</tr>
+<tr>
+<td>6. Is the sky blue on a sunny day?</td>
+<td>___</td>
+</tr>
+<tr>
+<td>7. Do fish live in the desert?</td>
+<td>___</td>
+</tr>
+<tr>
+<td>8. Can you play Roblox on a computer?</td>
+<td>___</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 9 · ANG</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 10</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#1e4db7">MAT</span>
+    <span class="exercise-ref">Matemàtiques · Fitxa 3</span>
+  </div>
+  <h2>Taula del doble i el triple</h2>
+  <div class="fitxa-body"><p><img alt="Botiga de l'arena" src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/mat_07_botiga.png" class="fitxa-illustration"></p>
+<p>Completa la taula. El <strong>doble</strong> és sumar el nombre dues vegades. El <strong>triple</strong> és sumar-lo tres vegades.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nombre</th>
+<th style="text-align: center;">Doble</th>
+<th style="text-align: center;">Triple</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>4</strong></td>
+<td style="text-align: center;">______</td>
+<td style="text-align: center;">______</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>6</strong></td>
+<td style="text-align: center;">______</td>
+<td style="text-align: center;">______</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>9</strong></td>
+<td style="text-align: center;">______</td>
+<td style="text-align: center;">______</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#1e4db7">MAT</span>
+    <span class="exercise-ref">Matemàtiques · Fitxa 3</span>
+  </div>
+  <h2>Monedes a la botiga</h2>
+  <div class="fitxa-body"><p>A la botiga del joc, un cofre costa <strong>6</strong> monedes.</p>
+<ol>
+<li>
+<p>Quantes monedes costen <strong>2</strong> cofres? (és el doble de 6) ______ monedes</p>
+</li>
+<li>
+<p>Quantes monedes costen <strong>3</strong> cofres? (és el triple de 6) ______ monedes</p>
+</li>
+<li>
+<p>Aray té <strong>20</strong> monedes. Vol comprar <strong>3</strong> cofres. En té prou? Explica amb una frase curta.</p>
+</li>
+</ol>
+<div class="write-line"></div></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 10 · MAT</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 11</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#c45a11">CAS</span>
+    <span class="exercise-ref">Castellano · Fitxa 3</span>
+  </div>
+  <h2>Sustituye la palabra en negrita</h2>
+  <div class="fitxa-body"><p><strong>Escribe la frase entera cambiando la palabra destacada por un sinónimo. El significado debe seguir igual.</strong></p>
+<ol>
+<li>
+<p>La <strong>tienda</strong> del juego vende packs nuevos cada semana.<br>
+   → <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+</li>
+<li>
+<p>Luca estaba <strong>contento</strong> cuando ganó el primer cuchillo.<br>
+   → <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+</li>
+<li>
+<p>Hay que <strong>comprar</strong> llenya antes de encender la hoguera.<br>
+   → <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+</li>
+<li>
+<p>El mapa del evento es muy <strong>grande</strong> y tiene cinco salas.<br>
+   → <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+</li>
+<li>
+<p>Aray guardó las monedas en un <strong>lugar</strong> seguro del inventario.<br>
+   → <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+</li>
+</ol></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 11 · CAS</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 12</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#2a7a3b">CAT</span>
+    <span class="exercise-ref">Català · Fitxa 3</span>
+  </div>
+  <h2>&lt;img src=&quot;../imatges/cat_08_rr.png&quot; alt=&quot;&quot; width=&quot;90&quot; align=&quot;right&quot;&gt;</h2>
+  <div class="fitxa-body"><blockquote>
+<p><em>(Decoració opcional a la cantonada.)</em></p>
+</blockquote></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#2a7a3b">CAT</span>
+    <span class="exercise-ref">Català · Fitxa 3</span>
+  </div>
+  <h2>Completa amb **r** o **rr**</h2>
+  <div class="fitxa-body"><ol>
+<li>Ha__ia un esqui__ol al bosc del joc.  </li>
+<li>Fe__ co__e pel camí de l'arena.  </li>
+<li>La ma__xa del cofre era ve__ella.  </li>
+<li>El pe__ot va pe__seguir la pilota.  </li>
+<li>La ca__e__a del mapa era llarga.  </li>
+<li>El jugado__ va guanya__ la medalla.  </li>
+<li>Va__em cap al campament abans de la pluja.  </li>
+<li>El ti__e va cau__e a terra.</li>
+</ol></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 12 · CAT</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 13</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#6b4c9a">MED</span>
+    <span class="exercise-ref">Medi · Fitxa 3</span>
+  </div>
+  <h2>Classifica els animals</h2>
+  <div class="fitxa-body"><p><img alt="Mascotes del joc" src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/med_06_animals.png" class="fitxa-illustration"></p>
+<p>Escriu <strong>V</strong> si és vertebrat o <strong>I</strong> si és invertebrat.</p>
+<table>
+<thead>
+<tr>
+<th>Animal</th>
+<th>V / I</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Serp</td>
+<td>___</td>
+</tr>
+<tr>
+<td>2. Papallona</td>
+<td>___</td>
+</tr>
+<tr>
+<td>3. Peix</td>
+<td>___</td>
+</tr>
+<tr>
+<td>4. Escarabat</td>
+<td>___</td>
+</tr>
+<tr>
+<td>5. Granota</td>
+<td>___</td>
+</tr>
+<tr>
+<td>6. Medusa</td>
+<td>___</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#6b4c9a">MED</span>
+    <span class="exercise-ref">Medi · Fitxa 3</span>
+  </div>
+  <h2>Pregunta curta</h2>
+  <div class="fitxa-body"><p>Cita un animal <strong>invertebrat</strong> de la taula i explica per què ho és (una frase).</p>
+<div class="write-line"></div>
+<div class="write-line"></div></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 13 · MED</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 14</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#0d7a8c">ANG</span>
+    <span class="exercise-ref">Anglès · Fitxa 3</span>
+  </div>
+  <h2>Match the sentence with the place</h2>
+  <div class="fitxa-body"><p><img alt="Game map zones" src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/en_03_school.png" class="fitxa-illustration"></p>
+<p>Write the letter.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Sentence</th>
+<th></th>
+<th>Place</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>We eat lunch here.</td>
+<td>—</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>We run and play here.</td>
+<td>—</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>We read books in this room.</td>
+<td>—</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>We do experiments with water.</td>
+<td>—</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>___ · 2. ___ · 3. ___ · 4. ___</li>
+</ol></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#0d7a8c">ANG</span>
+    <span class="exercise-ref">Anglès · Fitxa 3</span>
+  </div>
+  <h2>Write the place</h2>
+  <div class="fitxa-body"><ol start="5">
+<li>Where do you sit at a desk and listen to the teacher?</li>
+</ol>
+<div class=\"write-line\"></div>
+<ol start="6">
+<li>Where do children play football outside?</li>
+</ol>
+<div class=\"write-line\"></div></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 14 · ANG</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 15</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card heavy-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#1e4db7">MAT</span>
+    <span class="exercise-ref">Matemàtiques · Fitxa 4</span>
+  </div>
+  <h2>Descomposició d&#x27;un nombre</h2>
+  <div class="fitxa-body"><p><img alt="Blocs de valor posicional" src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/mat_04_valor_posicional.png" class="fitxa-illustration"></p>
+<p>Descompon cada nombre en <strong>unitats de millar (UM) + centenes (C) + desenes (D) + unitats (U)</strong>.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nombre</th>
+<th style="text-align: left;">Descomposició</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>3.472</strong></td>
+<td style="text-align: left;"><strong><em>_</em>_ UM + </strong><strong><em>_ C + </em></strong><strong><em> D + </em></strong>___ U</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>5.806</strong></td>
+<td style="text-align: left;"><strong><em>_</em>_ UM + </strong><strong><em>_ C + </em></strong><strong><em> D + </em></strong>___ U</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>2.095</strong></td>
+<td style="text-align: left;"><strong><em>_</em>_ UM + </strong><strong><em>_ C + </em></strong><strong><em> D + </em></strong>___ U</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#1e4db7">MAT</span>
+    <span class="exercise-ref">Matemàtiques · Fitxa 4</span>
+  </div>
+  <h2>Què val cada bloc?</h2>
+  <div class="fitxa-body"><ol>
+<li>Al nombre <strong>4.318</strong>, quantes <strong>centenes</strong> hi ha?</li>
+</ol>
+<div class=\"write-line\"></div>
+<ol start="2">
+<li>Al nombre <strong>4.318</strong>, quantes <strong>unitats</strong> hi ha?</li>
+</ol>
+<div class=\"write-line\"></div>
+<ol start="3">
+<li>Escriu amb xifres el nombre que té <strong>2</strong> milers, <strong>0</strong> centenes, <strong>7</strong> desenes i <strong>4</strong> unitats: <span class=\"inline-blank\"></span></li>
+</ol></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 15 · MAT</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 16</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#c45a11">CAS</span>
+    <span class="exercise-ref">Castellano · Fitxa 4</span>
+  </div>
+  <h2>Relaciona cada palabra con su sinónimo</h2>
+  <div class="fitxa-body"><p><strong>Lee las definiciones. Une cada palabra de la columna A con su sinónimo de la columna B. Escribe la letra.</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Palabra</th>
+<th></th>
+<th>Sinónimo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>alzar</td>
+<td>—</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>sanar</td>
+<td>—</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>aroma</td>
+<td>—</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>bonito</td>
+<td>—</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#c45a11">CAS</span>
+    <span class="exercise-ref">Castellano · Fitxa 4</span>
+  </div>
+  <h2>¿Qué significa cada pareja?</h2>
+  <div class="fitxa-body"><p><strong>Escribe el número de la pareja correcta (1–4) junto a cada definición.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Definición</th>
+<th>Pareja</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Poner algo más alto, levantarlo del suelo.</td>
+<td>___</td>
+</tr>
+<tr>
+<td>Hacer que una herida o enfermedad mejore.</td>
+<td>___</td>
+</tr>
+<tr>
+<td>Olor agradable que se percibe con la nariz.</td>
+<td>___</td>
+</tr>
+<tr>
+<td>Que resulta agradable a la vista.</td>
+<td>___</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 16 · CAS</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 17</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#2a7a3b">CAT</span>
+    <span class="exercise-ref">Català · Fitxa 4</span>
+  </div>
+  <h2>A) Marca amb una **X** les frases que **sí** són oracions correctes</h2>
+  <div class="fitxa-body"><ul>
+<li>[ ] L'Aray juga a l'arena cada dia.  </li>
+<li>[ ] El mapa és gran.  </li>
+<li>[ ] Obre porta la el.  </li>
+<li>[ ] Diumenge anem al campament.</li>
+</ul></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#2a7a3b">CAT</span>
+    <span class="exercise-ref">Català · Fitxa 4</span>
+  </div>
+  <h2>B) Ordena les paraules i escriu la frase</h2>
+  <div class="fitxa-body"><p><strong>Frase 1:</strong> EQUIP / L' / Guanya / La / Partida<br>
+→ <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+<p><strong>Frase 2:</strong> FOC / El / Està / Apagat<br>
+→ <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 17 · CAT</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 18</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#6b4c9a">MED</span>
+    <span class="exercise-ref">Medi · Fitxa 4</span>
+  </div>
+  <h2>A) Marca amb una X</h2>
+  <div class="fitxa-body"><p><img alt="Esquelet del personatge" src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/med_03_esquelet.png" class="fitxa-illustration"></p>
+<p>Quines paraules pertanyen a l'<strong>aparell locomotor</strong>?</p>
+<ul>
+<li>[ ] ossos  </li>
+<li>[ ] músculs  </li>
+<li>[ ] articulacions  </li>
+<li>[ ] estómac  </li>
+<li>[ ] orelles  </li>
+<li>[ ] columna vertebral</li>
+</ul></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#6b4c9a">MED</span>
+    <span class="exercise-ref">Medi · Fitxa 4</span>
+  </div>
+  <h2>B) Verdader o fals</h2>
+  <div class="fitxa-body"><p>Escriu <strong>V</strong> o <strong>F</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Afirmació</th>
+<th>V / F</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Els músculs permeten moure el cos.</td>
+<td>___</td>
+</tr>
+<tr>
+<td>2. L'estómac és un os del braç.</td>
+<td>___</td>
+</tr>
+<tr>
+<td>3. Les articulacions uneixen els ossos.</td>
+<td>___</td>
+</tr>
+<tr>
+<td>4. Els ossos donen suport al cos.</td>
+<td>___</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 18 · MED</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 19</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#0d7a8c">ANG</span>
+    <span class="exercise-ref">Anglès · Fitxa 4</span>
+  </div>
+  <h2>A) What is it made of?</h2>
+  <div class="fitxa-body"><p>Complete with: <strong>glass</strong> · <strong>wood</strong> · <strong>metal</strong> · <strong>brick</strong></p>
+<table>
+<thead>
+<tr>
+<th>Object</th>
+<th>Material</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. A window is made of <strong><em>_</em></strong>___.</td>
+<td></td>
+</tr>
+<tr>
+<td>2. A wall can be made of <strong><em>_</em></strong>___.</td>
+<td></td>
+</tr>
+<tr>
+<td>3. A door can be made of <strong><em>_</em></strong>___.</td>
+<td></td>
+</tr>
+<tr>
+<td>4. A key is made of <strong><em>_</em></strong>___.</td>
+<td></td>
+</tr>
+<tr>
+<td>5. A chair is often made of <strong><em>_</em></strong>___.</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#0d7a8c">ANG</span>
+    <span class="exercise-ref">Anglès · Fitxa 4</span>
+  </div>
+  <h2>B) Choose the best material</h2>
+  <div class="fitxa-body"><p>Circle the best word.</p>
+<ol>
+<li>The arena <strong>window</strong> is made of: glass / paper / water  </li>
+<li>The thick <strong>wall</strong> is made of: brick / air / cotton  </li>
+<li>The <strong>door</strong> of the control room is made of: metal / juice / sand</li>
+</ol></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 19 · ANG</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 20</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#1e4db7">MAT</span>
+    <span class="exercise-ref">Matemàtiques · Fitxa 5</span>
+  </div>
+  <h2>Quin valor té la xifra en negreta?</h2>
+  <div class="fitxa-body"><p>A cada nombre, la xifra marcada en <strong>negreta</strong> no val el que sembla. Escriu el <strong>valor</strong> que té (no la xifra sola).</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Nombre</th>
+<th style="text-align: center;">La xifra en negreta val…</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">2.<strong>7</strong>45</td>
+<td style="text-align: center;">______</td>
+</tr>
+<tr>
+<td style="text-align: center;">3.<strong>8</strong>12</td>
+<td style="text-align: center;">______</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>5</strong>.094</td>
+<td style="text-align: center;">______</td>
+</tr>
+<tr>
+<td style="text-align: center;">6.2<strong>3</strong>0</td>
+<td style="text-align: center;">______</td>
+</tr>
+<tr>
+<td style="text-align: center;">1.<strong>4</strong>67</td>
+<td style="text-align: center;">______</td>
+</tr>
+<tr>
+<td style="text-align: center;">9.<strong>0</strong>58</td>
+<td style="text-align: center;">______</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#1e4db7">MAT</span>
+    <span class="exercise-ref">Matemàtiques · Fitxa 5</span>
+  </div>
+  <h2>Pensa-ho bé</h2>
+  <div class="fitxa-body"><ol>
+<li>
+<p>Al nombre <strong>7.502</strong>, quina xifra val <strong>500</strong>? Escriu-la: <span class=\"inline-blank\"></span></p>
+</li>
+<li>
+<p>Al nombre <strong>7.502</strong>, quina xifra val <strong>7</strong>? Escriu-la: <span class=\"inline-blank\"></span></p>
+</li>
+</ol></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 20 · MAT</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 21</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#c45a11">CAS</span>
+    <span class="exercise-ref">Castellano · Fitxa 5</span>
+  </div>
+  <h2>Ordena las palabras y escribe la frase</h2>
+  <div class="fitxa-body"><p><strong>Coloca las palabras en el orden correcto. Empieza con mayúscula y termina con punto.</strong></p>
+<p><strong>Frase 1:</strong> verano / El / es / la / estación / más / calurosa<br>
+→ <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+<p><strong>Frase 2:</strong> del / La / cola / zorro / es / larga<br>
+→ <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+<p><strong>Frase 3:</strong> juego / El / Roblox / es / divertido<br>
+→ <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 21 · CAS</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 22</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card heavy-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#2a7a3b">CAT</span>
+    <span class="exercise-ref">Català · Fitxa 5</span>
+  </div>
+  <h2>A) Escriu: **masc.** o **fem.**</h2>
+  <div class="fitxa-body"><p><img alt="Menú del menjador de l'arena" src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/cat_05_menjador.png" class="fitxa-illustration"></p>
+<table>
+<thead>
+<tr>
+<th>Paraula</th>
+<th>Gènere</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>consomé</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>ensalada</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>carn</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>iogurt</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>pa</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>sopa</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#2a7a3b">CAT</span>
+    <span class="exercise-ref">Català · Fitxa 5</span>
+  </div>
+  <h2>B) Escriu el femení</h2>
+  <div class="fitxa-body"><ol>
+<li>jugador → <strong><em>_</em></strong><strong><em>_</em></strong>_  </li>
+<li>guanyador → <strong><em>_</em></strong><strong><em>_</em></strong>_  </li>
+<li>pobre → <strong><em>_</em></strong><strong><em>_</em></strong>_</li>
+</ol></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 22 · CAT</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 23</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#6b4c9a">MED</span>
+    <span class="exercise-ref">Medi · Fitxa 5</span>
+  </div>
+  <h2>Respon amb una frase curta</h2>
+  <div class="fitxa-body"><ol>
+<li>Què ens permet <strong>pensar</strong> i aprendre coses noves?</li>
+</ol>
+<div class="write-line"></div>
+<ol start="2">
+<li>Quina part del cos ens permet <strong>parlar</strong>?</li>
+</ol>
+<div class="write-line"></div>
+<ol start="3">
+<li>Quan som nadons, el cos encara no està del tot format. Com es diu la fase següent de la vida, quan ja som grans com tu?</li>
+</ol>
+<div class="write-line"></div>
+<ol start="4">
+<li>Quins dos òrgans ens permeten <strong>veure</strong>?</li>
+</ol>
+<div class="write-line"></div>
+<ol start="5">
+<li>Quin òrgan batega i envia la sang per tot el cos?</li>
+</ol>
+<div class="write-line"></div></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 23 · MED</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 24</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#0d7a8c">ANG</span>
+    <span class="exercise-ref">Anglès · Fitxa 5</span>
+  </div>
+  <h2>Complete the family word</h2>
+  <div class="fitxa-body"><table>
+<thead>
+<tr>
+<th>Sentence</th>
+<th>Your answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. He's the father of my mother. He's my <strong><em>_</em></strong>___.</td>
+<td></td>
+</tr>
+<tr>
+<td>2. She's the daughter of my aunt. She's my <strong><em>_</em></strong>___.</td>
+<td></td>
+</tr>
+<tr>
+<td>3. He's the son of my uncle. He's my <strong><em>_</em></strong>___.</td>
+<td></td>
+</tr>
+<tr>
+<td>4. She's my mother's sister. She's my <strong><em>_</em></strong>___.</td>
+<td></td>
+</tr>
+<tr>
+<td>5. He's my father's brother. He's my <strong><em>_</em></strong>___.</td>
+<td></td>
+</tr>
+<tr>
+<td>6. They are my parents' parents. They are my <strong><em>_</em></strong>___.</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 24 · ANG</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 25</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card heavy-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#1e4db7">MAT</span>
+    <span class="exercise-ref">Matemàtiques · Fitxa 6</span>
+  </div>
+  <h2>Carrera de l&#x27;arena</h2>
+  <div class="fitxa-body"><p><img alt="Carrera de l'arena" src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/mat_06_ordinals.png" class="fitxa-illustration"></p>
+<p>A l'<strong>Arena de Cuchillos</strong> hi ha una cursa entre tres jugadors. L'ordre d'arribada és:</p>
+<ol>
+<li><strong>Eric</strong> (primer)</li>
+<li><strong>Sara</strong> (segon)</li>
+<li><strong>Axel</strong> (tercer)</li>
+</ol>
+<p>Respon amb la paraula ordinal (<strong>primer</strong>, <strong>segon</strong>, <strong>tercer</strong>, <strong>quart</strong>…):</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Pregunta</th>
+<th style="text-align: left;">Resposta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Qui ha arribat en <strong>primer</strong> lloc?</td>
+<td style="text-align: left;"><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>__</td>
+</tr>
+<tr>
+<td style="text-align: left;">Qui ha arribat en <strong>segon</strong> lloc?</td>
+<td style="text-align: left;"><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>__</td>
+</tr>
+<tr>
+<td style="text-align: left;">Qui ha arribat en <strong>tercer</strong> lloc?</td>
+<td style="text-align: left;"><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>__</td>
+</tr>
+<tr>
+<td style="text-align: left;">En quin lloc ha arribat l'<strong>Axel</strong>?</td>
+<td style="text-align: left;"><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>__</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#1e4db7">MAT</span>
+    <span class="exercise-ref">Matemàtiques · Fitxa 6</span>
+  </div>
+  <h2>La fila d&#x27;entrada</h2>
+  <div class="fitxa-body"><p>Quatre jugadors esperen per entrar a l'arena. De dreta a esquerra: <strong>Maria</strong> (1a), <strong>Joan</strong> (2n), <strong>Laura</strong> (3a), <strong>Pau</strong> (4t).</p>
+<ol>
+<li>Qui és el <strong>tercer</strong> de la fila?</li>
+</ol>
+<div class=\"write-line\"></div>
+<ol start="2">
+<li>Qui és el <strong>primer</strong> de la fila?</li>
+</ol>
+<div class=\"write-line\"></div></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#1e4db7">MAT</span>
+    <span class="exercise-ref">Matemàtiques · Fitxa 6</span>
+  </div>
+  <h2>El rellotge del vestíbul</h2>
+  <div class="fitxa-body"><p>Aray mira el rellotge de la sala abans de jugar. La <strong>petita</strong> agulla apunta al <strong>9</strong> i la <strong>gran</strong> apunta al <strong>12</strong>.</p>
+<ol>
+<li>
+<p>Quina hora és? ______ en punt</p>
+</li>
+<li>
+<p>Si el partit comença una hora després, a quina hora comença? ______ en punt</p>
+</li>
+</ol></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 25 · MAT</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 26</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#c45a11">CAS</span>
+    <span class="exercise-ref">Castellano · Fitxa 6</span>
+  </div>
+  <h2>Subraya la sílaba tónica</h2>
+  <div class="fitxa-body"><p><strong>En cada palabra, subraya la sílaba que pronuncias con más fuerza.</strong></p>
+<ol>
+<li>lámpara → <strong><em>_</em></strong><strong><em>_</em></strong>_  </li>
+<li>destornillador → <strong><em>_</em></strong><strong><em>_</em></strong>_  </li>
+<li>cuchillo → <strong><em>_</em></strong><strong><em>_</em></strong>_  </li>
+<li>ordenador → <strong><em>_</em></strong><strong><em>_</em></strong>_  </li>
+<li>inventario → <strong><em>_</em></strong><strong><em>_</em></strong>_  </li>
+<li>aventura → <strong><em>_</em></strong><strong><em>_</em></strong>_</li>
+</ol></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#c45a11">CAS</span>
+    <span class="exercise-ref">Castellano · Fitxa 6</span>
+  </div>
+  <h2>Forma una palabra nueva</h2>
+  <div class="fitxa-body"><p><strong>Subraya la sílaba tónica de cada palabra. Después, escribe una palabra usando solo las sílabas tónicas (en el orden que quieras).</strong></p>
+<table>
+<thead>
+<tr>
+<th>Palabra</th>
+<th>Sílaba tónica</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>asa</td>
+<td></td>
+</tr>
+<tr>
+<td>cabaña</td>
+<td></td>
+</tr>
+<tr>
+<td>anillo</td>
+<td></td>
+</tr>
+<tr>
+<td>socorro</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Palabra que formas con las sílabas tónicas:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>__</p>
+<p><em>(Pista: es un objeto que usamos cuando hace mucho calor.)</em></p></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 26 · CAS</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 27</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#2a7a3b">CAT</span>
+    <span class="exercise-ref">Català · Fitxa 6</span>
+  </div>
+  <h2>A) Escriu: **sing.** o **pl.**</h2>
+  <div class="fitxa-body"><table>
+<thead>
+<tr>
+<th>Paraula</th>
+<th>Nombre</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>moneda</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>monedes</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>tronc</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>troncs</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>cofre</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>cofres</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#2a7a3b">CAT</span>
+    <span class="exercise-ref">Català · Fitxa 6</span>
+  </div>
+  <h2>B) Escriu el plural</h2>
+  <div class="fitxa-body"><ol>
+<li>lleó → <strong><em>_</em></strong><strong><em>_</em></strong>_  </li>
+<li>peix → <strong><em>_</em></strong><strong><em>_</em></strong>_  </li>
+<li>motxilla → <strong><em>_</em></strong><strong><em>_</em></strong>_  </li>
+<li>pedra → <strong><em>_</em></strong><strong><em>_</em></strong>_</li>
+</ol></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 27 · CAT</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 28</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#6b4c9a">MED</span>
+    <span class="exercise-ref">Medi · Fitxa 6</span>
+  </div>
+  <h2>Relaciona l&#x27;os amb la zona del cos</h2>
+  <div class="fitxa-body"><p><img alt="Esquelet per etiquetar" src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/med_03_esquelet.png" class="fitxa-illustration"></p>
+<p>Escriu la lletra correcta.</p>
+<table>
+<thead>
+<tr>
+<th>Os</th>
+<th>Zona del cos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Crani</td>
+<td>A) Cama</td>
+</tr>
+<tr>
+<td>2. Fèmur</td>
+<td>B) Cap</td>
+</tr>
+<tr>
+<td>3. Húmer</td>
+<td>C) Espatlla</td>
+</tr>
+<tr>
+<td>4. Omòplat</td>
+<td>D) Braç</td>
+</tr>
+<tr>
+<td>5. Costelles</td>
+<td>E) Tronc</td>
+</tr>
+<tr>
+<td>6. Tíbia</td>
+<td>F) Cama</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>___ · 2. ___ · 3. ___ · 4. ___ · 5. ___ · 6. ___</li>
+</ol>
+<h3>Pregunta curta</h3>
+<p>Quin os protegeix el cervell?</p>
+<div class="write-line"></div></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 28 · MED</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 29</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#0d7a8c">ANG</span>
+    <span class="exercise-ref">Anglès · Fitxa 6</span>
+  </div>
+  <h2>A) Unscramble the letters</h2>
+  <div class="fitxa-body"><p>Write the correct day.</p>
+<table>
+<thead>
+<tr>
+<th>Scrambled</th>
+<th>Day</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Modayn</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>2. dyTuessa</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>3. Wednasdy</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>4. irFady</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>5. Thrusyda</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#0d7a8c">ANG</span>
+    <span class="exercise-ref">Anglès · Fitxa 6</span>
+  </div>
+  <h2>B) Order the week</h2>
+  <div class="fitxa-body"><p>Write the days from <strong>Monday</strong> to <strong>Friday</strong> in the correct order.</p>
+<ol>
+<li>
+
+</li>
+<li>
+
+</li>
+<li>
+
+</li>
+<li>
+
+</li>
+<li>
+
+</li>
+</ol>
+<h3>C) Short answer</h3>
+<p>Which day comes after Wednesday?</p>
+<div class=\"write-line\"></div></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 29 · ANG</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 30</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#1e4db7">MAT</span>
+    <span class="exercise-ref">Matemàtiques · Fitxa 7</span>
+  </div>
+  <h2>La suma és commutativa</h2>
+  <div class="fitxa-body"><p>Pots sumar en qualsevol ordre i el resultat és el mateix: <strong>a + b = b + a</strong>.</p>
+<p>Completa cada igualtat:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;"></th>
+<th style="text-align: center;"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">23 + 45 = 45 + ______</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">______ + 17 = 17 + 38</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">56 + ______ = 72 + 56</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">9 + 34 = ______ + 9</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">125 + 48 = 48 + ______</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#1e4db7">MAT</span>
+    <span class="exercise-ref">Matemàtiques · Fitxa 7</span>
+  </div>
+  <h2>Punts de dos equips</h2>
+  <div class="fitxa-body"><p>L'equip <strong>Roig</strong> fa <strong>34</strong> punts i l'equip <strong>Blau</strong> fa <strong>28</strong> punts.</p>
+<ol>
+<li>
+<p>Escriu les dues sumes possibles (canviant l'ordre): <span class=\"inline-blank\"></span> + <strong><em>_</em>_ = </strong>____</p>
+</li>
+<li>
+<p>Quants punts fan els dos equips junts? ______ punts</p>
+</li>
+</ol></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 30 · MAT</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 31</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#c45a11">CAS</span>
+    <span class="exercise-ref">Castellano · Fitxa 7</span>
+  </div>
+  <h2>Subraya el predicado</h2>
+  <div class="fitxa-body"><p><strong>En cada oración, subraya solo el predicado (lo que dice el sujeto: qué hace, qué es o cómo está).</strong></p>
+<ol>
+<li>
+<p>Aray completó la primera prueba del evento.</p><div class="write-line"></div>
+</li>
+<li>
+<p>Los cuchillos del pack brillan en la pantalla.</p><div class="write-line"></div>
+</li>
+<li>
+<p>Luca y Aray entraron juntos a la arena.<br>
+<br>
+<div class="write-line"></div>
+</p>
+</li>
+</ol></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#2a7a3b">CAT</span>
+    <span class="exercise-ref">Català · Fitxa 7</span>
+  </div>
+  <h2>Hi ha un error en cada frase. Reescriu-la bé.</h2>
+  <div class="fitxa-body"><ol>
+<li>
+<p>Els mapa és gran.<br>
+   → <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+</li>
+<li>
+<p>La monedes brillen al cofre.<br>
+   → <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+</li>
+<li>
+<p>El insignia és daurada.<br>
+   → <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+</li>
+<li>
+<p>Les foc està apagat.<br>
+   → <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+</li>
+</ol></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 31 · CAS · CAT</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 32</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#6b4c9a">MED</span>
+    <span class="exercise-ref">Medi · Fitxa 7</span>
+  </div>
+  <h2>Escriu V o F</h2>
+  <div class="fitxa-body"><table>
+<thead>
+<tr>
+<th>Afirmació</th>
+<th>V / F</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. El vidre és un material transparent.</td>
+<td>___</td>
+</tr>
+<tr>
+<td>2. Els músculs del braç ens permeten aixecar pes.</td>
+<td>___</td>
+</tr>
+<tr>
+<td>3. Una medusa és un animal vertebrat.</td>
+<td>___</td>
+</tr>
+<tr>
+<td>4. El paper es pot doblegar amb facilitat.</td>
+<td>___</td>
+</tr>
+<tr>
+<td>5. El crani protegeix el cervell.</td>
+<td>___</td>
+</tr>
+<tr>
+<td>6. Una paret de maó deixa passar la llum com una finestra.</td>
+<td>___</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 32 · MED</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 33</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#0d7a8c">ANG</span>
+    <span class="exercise-ref">Anglès · Fitxa 7</span>
+  </div>
+  <h2>Read the description</h2>
+  <div class="fitxa-body"><p><img alt="Living room scene" src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/en_04_room.png" class="fitxa-illustration"></p>
+<blockquote>
+<p>This is a game living room.<br>
+There is a <strong>sofa</strong> next to the <strong>window</strong>.<br>
+There is a <strong>table</strong> in the middle of the room.<br>
+There are <strong>six chairs</strong> around the table.<br>
+There is a <strong>kite</strong> on the wall.<br>
+The sofa is <strong>blue</strong>. The table is <strong>brown</strong>.</p>
+</blockquote></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#0d7a8c">ANG</span>
+    <span class="exercise-ref">Anglès · Fitxa 7</span>
+  </div>
+  <h2>Draw and colour</h2>
+  <div class="fitxa-body"><p>In the box below, draw the room with all the objects. Colour the sofa blue and the table brown.</p>
+<p><code>┌─────────────────────────────────────────────────────────┐
+│                                                         │
+│                                                         │
+│                                                         │
+│                                                         │
+│                                                         │
+│                                                         │
+│                                                         │
+│                                                         │
+│                                                         │
+│                                                         │
+└─────────────────────────────────────────────────────────┘</code></p></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#0d7a8c">ANG</span>
+    <span class="exercise-ref">Anglès · Fitxa 7</span>
+  </div>
+  <h2>Check your drawing</h2>
+  <div class="fitxa-body"><p>Tick (✓) when you have drawn each thing:</p>
+<ul>
+<li>[ ] sofa  </li>
+<li>[ ] window  </li>
+<li>[ ] table  </li>
+<li>[ ] six chairs  </li>
+<li>[ ] kite on the wall</li>
+</ul></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 33 · ANG</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 34</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#1e4db7">MAT</span>
+    <span class="exercise-ref">Matemàtiques · Fitxa 8</span>
+  </div>
+  <h2>Torneig de l&#x27;arena</h2>
+  <div class="fitxa-body"><p>A l'<strong>Arena de Cuchillos</strong> hi ha un torneig amb <strong>4 equips</strong>. Cada equip té <strong>9</strong> jugadors.</p>
+<ol>
+<li>
+<p>Quants jugadors hi ha en total? Escriu la multiplicació i el resultat: <span class=\"inline-blank\"></span> × <strong><em>_</em>_ = </strong>____ jugadors</p>
+</li>
+<li>
+<p>Si cada jugador porta <strong>2</strong> espases, quants espases hi ha en total? (pista: primer calcula els jugadors)</p>
+</li>
+</ol>
+<p>______ espases</p></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#1e4db7">MAT</span>
+    <span class="exercise-ref">Matemàtiques · Fitxa 8</span>
+  </div>
+  <h2>Multiplicacions directes</h2>
+  <div class="fitxa-body"><p>Calcula i escriu el resultat:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;"></th>
+<th style="text-align: center;"></th>
+<th style="text-align: center;"></th>
+<th style="text-align: center;"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">4 × 7 = ______</td>
+<td style="text-align: center;">6 × 8 = ______</td>
+<td style="text-align: center;">9 × 5 = ______</td>
+<td style="text-align: center;">3 × 9 = ______</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#1e4db7">MAT</span>
+    <span class="exercise-ref">Matemàtiques · Fitxa 8</span>
+  </div>
+  <h2>Reparteix mentalment</h2>
+  <div class="fitxa-body"><p>Un cofre dóna <strong>5</strong> monedes per ronda. Si jugues <strong>6</strong> rondes, quantes monedes guanyes?</p>
+<p><strong><em>_</em>_ × </strong><strong><em>_ = </em></strong>___ monedes</p></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 34 · MAT</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 35</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#c45a11">CAS</span>
+    <span class="exercise-ref">Castellano · Fitxa 8</span>
+  </div>
+  <h2>Lee el texto</h2>
+  <div class="fitxa-body"><p><img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/les_08_cachorro.png" class="fitxa-illustration" alt="Cachorro dorado en un juego de bloques"></p>
+<p><strong>El cachorro de bloques</strong></p>
+<p>En un mundo de Roblox lleno de cubos de colores, Aray encontró un cachorro pequeño hecho de bloques dorados. Tenía orejas puntiagudas, una cola corta y ojos brillantes que parecían dos estrellas. El animalito corría rápido entre los árboles cuadrados del bosque pixelado. Cuando Aray le acarició la cabeza, el cachorro movió la cola con alegría y soltó un ladrido suave. «Te llamaré Pixel», dijo Aray, y el cachorro dorado lo siguió hasta la entrada del campamento.</p></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#c45a11">CAS</span>
+    <span class="exercise-ref">Castellano · Fitxa 8</span>
+  </div>
+  <h2>Responde</h2>
+  <div class="fitxa-body"><ol>
+<li>
+<p>¿De qué material parece hecho el cachorro?</p><div class="write-line"></div>
+</li>
+<li>
+<p>¿Cómo son las orejas del cachorro?</p><div class="write-line"></div>
+</li>
+<li>
+<p>¿Qué nombre le puso Aray?</p><div class="write-line"></div>
+</li>
+<li>
+<p>¿Adónde lo siguió el cachorro?</p><div class="write-line"></div>
+</li>
+</ol>
+<h3>Rodea los adjetivos</h3>
+<p><strong>Vuelve a leer el texto. Rodea con un círculo todos los adjetivos (palabras que describen cómo es algo o alguien).</strong></p></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 35 · CAS</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 36</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#2a7a3b">CAT</span>
+    <span class="exercise-ref">Català · Fitxa 8</span>
+  </div>
+  <h2>A) Escriu el tipus d&#x27;adjectiu: **qualitat**, **color** o **nombre**</h2>
+  <div class="fitxa-body"><table>
+<thead>
+<tr>
+<th>Adjectiu</th>
+<th>Tipus</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>vermell</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>divertit</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>tres</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>petit</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>blau</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#2a7a3b">CAT</span>
+    <span class="exercise-ref">Català · Fitxa 8</span>
+  </div>
+  <h2>B) Completa amb l&#x27;adjectiu en la forma correcta</h2>
+  <div class="fitxa-body"><ol>
+<li>L'arena és <strong><em>_</em></strong><strong><em>_</em></strong>_ (gran).  </li>
+<li>Les monedes són <strong><em>_</em></strong><strong><em>_</em></strong>_ (daurat).  </li>
+<li>El cofre està <strong><em>_</em></strong><strong><em>_</em></strong>_ (obert).  </li>
+<li>Les portes verdes són <strong><em>_</em></strong><strong><em>_</em></strong>_ (secret).</li>
+</ol></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 36 · CAT</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 37</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#6b4c9a">MED</span>
+    <span class="exercise-ref">Medi · Fitxa 8</span>
+  </div>
+  <h2>A) Ordena les etapes</h2>
+  <div class="fitxa-body"><p><img alt="Cicle de l'aigua" src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/med_08_aigua.png" class="fitxa-illustration"></p>
+<p>Escriu del <strong>1</strong> al <strong>4</strong>.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Etapa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>___</td>
+<td>La aigua cau en forma de pluja o neu</td>
+</tr>
+<tr>
+<td>___</td>
+<td>La aigua de rius i mars s'evapora pel sol</td>
+</tr>
+<tr>
+<td>___</td>
+<td>L'aigua recollida forma rius i llacs</td>
+</tr>
+<tr>
+<td>___</td>
+<td>El vapor forma núvols</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#6b4c9a">MED</span>
+    <span class="exercise-ref">Medi · Fitxa 8</span>
+  </div>
+  <h2>B) Relaciona paraula i etapa</h2>
+  <div class="fitxa-body"><table>
+<thead>
+<tr>
+<th>Paraula</th>
+<th>Etapa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Evaporació</td>
+<td>A) Formació de núvols</td>
+</tr>
+<tr>
+<td>Precipitació</td>
+<td>B) L'aigua torna al mar o al riu</td>
+</tr>
+<tr>
+<td>Condensació</td>
+<td>C) El sol escalfa l'aigua</td>
+</tr>
+<tr>
+<td>Acumulació</td>
+<td>D) Pluja o neu</td>
+</tr>
+</tbody>
+</table>
+<p>Evaporació ___ · Precipitació ___ · Condensació ___ · Acumulació ___</p></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 37 · MED</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 38</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#0d7a8c">ANG</span>
+    <span class="exercise-ref">Anglès · Fitxa 8</span>
+  </div>
+  <h2>Ask three friends</h2>
+  <div class="fitxa-body"><p>Interview <strong>3 friends</strong> (or family members). Write their answers in the table.</p>
+<p><strong>Questions to ask:</strong></p>
+<ol>
+<li>What is your name?  </li>
+<li>How old are you?  </li>
+<li>What is your favourite colour?  </li>
+<li>Who is your best friend?  </li>
+<li>What colour is your rucksack?</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Friend 1</th>
+<th>Friend 2</th>
+<th>Friend 3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Age</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Favourite colour</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Best friend</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Rucksack colour</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#0d7a8c">ANG</span>
+    <span class="exercise-ref">Anglès · Fitxa 8</span>
+  </div>
+  <h2>Write one sentence about your survey</h2>
+  <div class="fitxa-body"><p>Example: <em>My friend Luca is eight years old.</em></p>
+<div class="write-line"></div>
+<div class="write-line"></div></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 38 · ANG</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 39</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#1e4db7">MAT</span>
+    <span class="exercise-ref">Matemàtiques · Fitxa 9</span>
+  </div>
+  <h2>Quocient i resta</h2>
+  <div class="fitxa-body"><p>Quan dividim, de vegades sobra una part que no es pot repartir igual. Escriu el <strong>quocient</strong> i la <strong>resta</strong>.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Divisió</th>
+<th style="text-align: center;">Quocient</th>
+<th style="text-align: center;">Resta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">17 ÷ 5</td>
+<td style="text-align: center;">______</td>
+<td style="text-align: center;">______</td>
+</tr>
+<tr>
+<td style="text-align: center;">23 ÷ 4</td>
+<td style="text-align: center;">______</td>
+<td style="text-align: center;">______</td>
+</tr>
+<tr>
+<td style="text-align: center;">35 ÷ 6</td>
+<td style="text-align: center;">______</td>
+<td style="text-align: center;">______</td>
+</tr>
+<tr>
+<td style="text-align: center;">29 ÷ 7</td>
+<td style="text-align: center;">______</td>
+<td style="text-align: center;">______</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#1e4db7">MAT</span>
+    <span class="exercise-ref">Matemàtiques · Fitxa 9</span>
+  </div>
+  <h2>Repartiment de gemes</h2>
+  <div class="fitxa-body"><p>L'<strong>Eric</strong> ha guanyat <strong>48</strong> gemes a l'arena i les vol repartir <strong>igual</strong> entre <strong>5</strong> jugadors de l'equip.</p>
+<ol>
+<li>
+<p>Quantes gemes rep cada jugador com a mínim? ______ gemes</p>
+</li>
+<li>
+<p>Quantes gemes sobren sense repartir? ______ gemes</p>
+</li>
+<li>
+<p>Escriu la divisió completa: 48 ÷ 5 = <strong><em>_</em>_ amb una resta de </strong>____</p>
+</li>
+</ol></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#1e4db7">MAT</span>
+    <span class="exercise-ref">Matemàtiques · Fitxa 9</span>
+  </div>
+  <h2>Comprova</h2>
+  <div class="fitxa-body"><p>Si cada jugador rep el que has calculat i les que sobren es queden a l'<strong>Eric</strong>, suma per veure si arribes a 48:</p>
+<p>(<strong><em>_</em>_ × </strong><strong><em>_) + </em></strong><strong><em> = </em></strong>___</p></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 39 · MAT</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 40</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#c45a11">CAS</span>
+    <span class="exercise-ref">Castellano · Fitxa 9</span>
+  </div>
+  <h2>Clasifica cada oración</h2>
+  <div class="fitxa-body"><p><strong>Escribe en la casilla: E (enunciativa), I (interrogativa) o X (exclamativa).</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Oración</th>
+<th>Tipo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>¡Qué evento tan emocionante!</td>
+<td>___</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Aray guarda las monedas en el inventario.</td>
+<td>___</td>
+</tr>
+<tr>
+<td>3</td>
+<td>¿Cuántos cuchillos tiene el pack legendario?</td>
+<td>___</td>
+</tr>
+<tr>
+<td>4</td>
+<td>No tengo hambre todavía.</td>
+<td>___</td>
+</tr>
+<tr>
+<td>5</td>
+<td>¡Hemos ganado la primera prueba!</td>
+<td>___</td>
+</tr>
+<tr>
+<td>6</td>
+<td>¿Vienes a jugar conmigo esta tarde?</td>
+<td>___</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#2a7a3b">CAT</span>
+    <span class="exercise-ref">Català · Fitxa 9</span>
+  </div>
+  <h2>Afegeix punts, majúscules i signes (**?** o **!**) on calgui</h2>
+  <div class="fitxa-body"><p>Escriu les tres frases corregides a continuació.</p>
+<p><strong>1.</strong><br>
+aray i eric van entrar a l'arena de cuchillos era la primera vegada</p>
+<p>→ <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____  </p>
+<div class="write-line"></div>
+<p><strong>2.</strong><br>
+quan guanyarem la partida tots vam cridar hurra</p>
+<p>→ <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____  </p>
+<div class="write-line"></div>
+<p><strong>3.</strong><br>
+saps on és la porta secreta del mapa</p>
+<p>→ <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____  </p>
+<div class="write-line"></div></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 40 · CAS · CAT</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 41</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#6b4c9a">MED</span>
+    <span class="exercise-ref">Medi · Fitxa 9</span>
+  </div>
+  <h2>Classifica els elements del paisatge</h2>
+  <div class="fitxa-body"><p>Escriu <strong>N</strong> si és natural o <strong>H</strong> si és humanitzat (fet per les persones).</p>
+<table>
+<thead>
+<tr>
+<th>Element del paisatge</th>
+<th>N / H</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Un riu entre muntanyes</td>
+<td>___</td>
+</tr>
+<tr>
+<td>2. Una carretera amb cotxes</td>
+<td>___</td>
+</tr>
+<tr>
+<td>3. Un bosc amb pins</td>
+<td>___</td>
+</tr>
+<tr>
+<td>4. Un pont de formigó</td>
+<td>___</td>
+</tr>
+<tr>
+<td>5. Un camp de blat</td>
+<td>___</td>
+</tr>
+<tr>
+<td>6. Una ciutat amb edificis</td>
+<td>___</td>
+</tr>
+<tr>
+<td>7. Una platja amb sorra</td>
+<td>___</td>
+</tr>
+<tr>
+<td>8. Un parc amb bancs i jocs</td>
+<td>___</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#6b4c9a">MED</span>
+    <span class="exercise-ref">Medi · Fitxa 9</span>
+  </div>
+  <h2>Pregunta curta</h2>
+  <div class="fitxa-body"><p>Cita un element <strong>natural</strong> i un element <strong>humanitzat</strong> de la taula.</p>
+<p>Natural: <span class=\"inline-blank\"></span></p>
+<p>Humanitzat: <span class=\"inline-blank\"></span></p></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 41 · MED</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 42</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card heavy-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#0d7a8c">ANG</span>
+    <span class="exercise-ref">Anglès · Fitxa 9</span>
+  </div>
+  <h2>Label the face</h2>
+  <div class="fitxa-body"><p><img alt="Avatar face template" src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/en_09_face.png" class="fitxa-illustration"></p>
+<p>Write the English word on each line. Use the word bank.</p>
+<blockquote>
+<p>eyes · nose · mouth · ears · hair · teeth</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Number on face</th>
+<th>Word</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong><em>_</em></strong><strong><em>_</em></strong>_</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#0d7a8c">ANG</span>
+    <span class="exercise-ref">Anglès · Fitxa 9</span>
+  </div>
+  <h2>Write two sentences</h2>
+  <div class="fitxa-body"><ol>
+<li>We see with our <strong><em>_</em></strong><strong><em>_</em></strong>_.  </li>
+<li>We smell with our <strong><em>_</em></strong><strong><em>_</em></strong>_.</li>
+</ol></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 42 · ANG</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 43</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card heavy-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#1e4db7">MAT</span>
+    <span class="exercise-ref">Matemàtiques · Fitxa 10</span>
+  </div>
+  <h2>Llegeix i comprèn</h2>
+  <div class="fitxa-body"><p><img alt="Aparcament de l'arena" src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/mat_10_aparcament.png" class="fitxa-illustration"></p>
+<p>A l'entrada de l'<strong>Arena de Cuchillos</strong> hi ha un aparcament.</p>
+<ul>
+<li>A les <strong>onze</strong> del matí hi ha <strong>142</strong> cotxes.  </li>
+<li>Marxa <strong>28</strong> cotxes.  </li>
+<li>Entren <strong>15</strong> cotxes nous.</li>
+</ul>
+<p>Completa la taula. Pensa cada pas abans de passar al següent.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Dades</th>
+<th>Operació</th>
+<th>Resposta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1.</strong> Quants cotxes queden després que marxin 28?</td>
+<td>142 − 28</td>
+<td></td>
+<td><strong><em>_</em></strong>__ cotxes</td>
+</tr>
+<tr>
+<td><strong>2.</strong> Quants cotxes hi ha quan entren 15 nous?</td>
+<td></td>
+<td></td>
+<td><strong><em>_</em></strong>__ cotxes</td>
+</tr>
+<tr>
+<td><strong>3.</strong> Si cada cotxe porta <strong>4</strong> persones, quantes persones com a màxim?</td>
+<td></td>
+<td></td>
+<td><strong><em>_</em></strong>__ persones</td>
+</tr>
+<tr>
+<td><strong>4.</strong> La Maria diu: «Ara hi ha menys cotxes que al principi». Té raó? Explica amb una frase.</td>
+<td>Compara 142 i el resultat</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 43 · MAT</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 44</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#c45a11">CAS</span>
+    <span class="exercise-ref">Castellano · Fitxa 10</span>
+  </div>
+  <h2>Copia el texto corrigiendo las mayúsculas</h2>
+  <div class="fitxa-body"><p><strong>Este texto tiene errores de mayúsculas. Escríbelo de nuevo con la ortografía correcta (mayúsculas y puntos).</strong></p>
+<p><em>Texto con errores:</em></p>
+<blockquote>
+<p>el sábado por la mañana aray fue al colegio sant jordi con su mochila roja luca le esperó en la puerta del patio dijo hola aray ¿juegas a roblox esta tarde aray sonrió y respondió sí, a las cinco en mi casa</p>
+</blockquote>
+<p><strong>Escribe aquí el texto corregido:</strong></p>
+<div class="write-line"></div>
+<div class="write-line"></div>
+<div class="write-line"></div>
+<div class="write-line"></div>
+<div class="write-line"></div></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#2a7a3b">CAT</span>
+    <span class="exercise-ref">Català · Fitxa 10</span>
+  </div>
+  <h2>Llegeix i completa els buits</h2>
+  <div class="fitxa-body"><blockquote>
+<p>Aquest matí, ___ cinc amics van arribar al campament del bosc. ___ foc estava apagat i feia ___ al voltant. Luca va portar ___ sac de carbó i Erika va ajudar a encendre la primera flama. Abans de la nit, ___ equip va recollir llenya per ___ hoguera.</p>
+</blockquote>
+<p><strong>Paraules útils:</strong> el · la · els · fred · un · l'</p>
+<p><em>(Pots repetir paraules o triar la forma que encaixi millor.)</em></p>
+<h3>Pregunta curta</h3>
+<p>Quants amics hi ha a l'equip?</p>
+<div class=\"write-line\"></div></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 44 · CAS · CAT</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 45</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#6b4c9a">MED</span>
+    <span class="exercise-ref">Medi · Fitxa 10</span>
+  </div>
+  <h2>A) Completa la llegenda</h2>
+  <div class="fitxa-body"><p><img alt="Mapa del poble del joc" src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/med_07_mapa.png" class="fitxa-illustration"></p>
+<p>Relaciona cada símbol amb el seu significat. Escriu la lletra.</p>
+<table>
+<thead>
+<tr>
+<th>Símbol al mapa</th>
+<th>Significat</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Creu vermella</td>
+<td>A) Parc</td>
+</tr>
+<tr>
+<td>2. Autobús</td>
+<td>B) Hospital</td>
+</tr>
+<tr>
+<td>3. Arbre verd</td>
+<td>C) Parada d'autobús</td>
+</tr>
+<tr>
+<td>4. Edifici amb campana</td>
+<td>D) Escola</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>___ · 2. ___ · 3. ___ · 4. ___</li>
+</ol></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#6b4c9a">MED</span>
+    <span class="exercise-ref">Medi · Fitxa 10</span>
+  </div>
+  <h2>B) Ruta pel mapa</h2>
+  <div class="fitxa-body"><p>Respon amb una paraula o una frase curta.</p>
+<ol>
+<li>Si surts de l'<strong>escola</strong> i vols anar a l'<strong>hospital</strong>, quin edifici passes primer?</li>
+</ol>
+<div class="write-line"></div>
+<ol start="2">
+<li>On esperaries un autobús per sortir del poble?</li>
+</ol>
+<div class="write-line"></div>
+<ol start="3">
+<li>Quin lloc del mapa és millor per jugar a l'aire lliure?</li>
+</ol>
+<div class="write-line"></div></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 45 · MED</footer>
+</article>
+
+
+<article class="page mezcla-page">
+  
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+  </div>
+</div>
+<div class="mezcla-page-head">
+  <span class="chapter-pill">Repàs mesclat · Roblox</span>
+  <span class="mezcla-page-num">Pàgina 46</span>
+</div>
+
+  <div class="mezcla-stack">
+    
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#0d7a8c">ANG</span>
+    <span class="exercise-ref">Anglès · Fitxa 10</span>
+  </div>
+  <h2>Read the text</h2>
+  <div class="fitxa-body"><blockquote>
+<p>Aray loves playing <strong>Roblox</strong> on Saturday mornings.<br>
+His favourite game is <strong>Arena de Cuchillos</strong>.<br>
+There is a big <strong>event</strong> with five special knives.<br>
+Aray and his friend <strong>Eric</strong> complete missions together.<br>
+They need to pass five <strong>tests</strong> to win the Legendary Pack.</p>
+</blockquote></div>
+</section>
+
+
+<section class="exercise-card">
+  <div class="exercise-card-header">
+    <span class="exercise-badge" style="background:#0d7a8c">ANG</span>
+    <span class="exercise-ref">Anglès · Fitxa 10</span>
+  </div>
+  <h2>True or false?</h2>
+  <div class="fitxa-body"><p>Write <strong>T</strong> (true) or <strong>F</strong> (false).</p>
+<table>
+<thead>
+<tr>
+<th>Sentence</th>
+<th>T / F</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Aray plays Roblox on Saturday.</td>
+<td>___</td>
+</tr>
+<tr>
+<td>2. His favourite game is about cooking.</td>
+<td>___</td>
+</tr>
+<tr>
+<td>3. There are five special knives in the event.</td>
+<td>___</td>
+</tr>
+<tr>
+<td>4. Eric plays alone without Aray.</td>
+<td>___</td>
+</tr>
+</tbody>
+</table>
+<h3>One short answer</h3>
+<p>What do Aray and Eric want to win?</p>
+<div class=\"write-line\"></div></div>
+</section>
+
+  </div>
+  <footer class="footer-line">Repàs mesclat · Pàgina 46 · ANG</footer>
+</article>
+
+</body>
+</html>

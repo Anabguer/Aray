@@ -1,0 +1,343 @@
+import { challengeModeConfig } from '@/config/playConfig'
+import { matchSessionMeta } from '@/config/rewardGoal'
+import { rewardRules } from '@/config/rewards'
+import { createInitialCratesState, normalizeCratesState } from '@/crates/engine'
+import { computeMasteryScore, emptyFactStats, emptyTableProgress } from '@/math/selector'
+import {
+  applyEvaluableRound,
+  bumpTableAttempt,
+  evaluateTableRoundScore,
+  normalizeTableProgress,
+} from '@/math/tableMastery'
+import { factKeyOf } from '@/math/tables'
+import type { ProgressState, SessionAnswer, SessionResult, TableProgress } from '@/math/types'
+import {
+  createInitialRewardProgress,
+  grantRewardPoints,
+  localDateString,
+  syncRewardDay,
+} from '@/reward/engine'
+import { computeTablesRewardRequest } from '@/reward/tablesReward'
+
+export const PROGRESS_STORAGE_KEY = 'aray.progress.v1'
+
+export function createInitialProgress(): ProgressState {
+  return {
+    version: 2,
+    xp: 0,
+    coins: 0,
+    bestStreak: 0,
+    bestChallengeScore: 0,
+    lastPracticeAt: null,
+    facts: {},
+    tables: {},
+    soundMuted: false,
+    reward: createInitialRewardProgress(),
+    crates: createInitialCratesState(),
+  }
+}
+
+/** Normaliza / migra cualquier progreso guardado (v1 sin reward → v2). */
+export function normalizeProgress(raw: unknown, today: string = localDateString()): ProgressState {
+  const base = createInitialProgress()
+  if (!raw || typeof raw !== 'object') return base
+
+  const parsed = raw as Partial<ProgressState> & { version?: number; reward?: Partial<ProgressState['reward']> }
+
+  const reward = {
+    ...createInitialRewardProgress(),
+    ...(parsed.reward ?? {}),
+    appliedSessionIds: Array.isArray(parsed.reward?.appliedSessionIds)
+      ? parsed.reward!.appliedSessionIds.filter((id): id is string => typeof id === 'string')
+      : [],
+  }
+
+  const merged: ProgressState = {
+    ...base,
+    xp: typeof parsed.xp === 'number' ? parsed.xp : 0,
+    coins: typeof parsed.coins === 'number' ? parsed.coins : 0,
+    bestStreak: typeof parsed.bestStreak === 'number' ? parsed.bestStreak : 0,
+    bestChallengeScore: typeof parsed.bestChallengeScore === 'number' ? parsed.bestChallengeScore : 0,
+    lastPracticeAt: typeof parsed.lastPracticeAt === 'string' ? parsed.lastPracticeAt : null,
+    facts: parsed.facts && typeof parsed.facts === 'object' ? parsed.facts : {},
+    tables: normalizeTablesMap(parsed.tables),
+    soundMuted: Boolean(parsed.soundMuted),
+    reward: syncRewardDay(reward, today),
+    crates: normalizeCratesState((parsed as { crates?: unknown }).crates),
+    version: 2,
+  }
+
+  // No convertir monedas en puntos de recompensa
+  merged.reward.pointsTotal = Math.min(
+    300,
+    Math.max(0, typeof parsed.reward?.pointsTotal === 'number' ? parsed.reward.pointsTotal : 0),
+  )
+  merged.reward.dailyPoints = Math.min(
+    10,
+    Math.max(0, typeof parsed.reward?.dailyPoints === 'number' ? parsed.reward.dailyPoints : 0),
+  )
+
+  return merged
+}
+
+function normalizeTablesMap(raw: unknown): Record<string, TableProgress> {
+  if (!raw || typeof raw !== 'object') return {}
+  const out: Record<string, TableProgress> = {}
+  for (const [key, value] of Object.entries(raw as Record<string, Partial<TableProgress>>)) {
+    out[key] = normalizeTableProgress(value)
+  }
+  return out
+}
+
+export interface ProgressStore {
+  load(): ProgressState
+  save(state: ProgressState): void
+  clear(): void
+}
+
+export function createLocalStorageProgressStore(
+  storage: Pick<Storage, 'getItem' | 'setItem' | 'removeItem'> = localStorage,
+  key: string = PROGRESS_STORAGE_KEY,
+  now: () => Date = () => new Date(),
+): ProgressStore {
+  return {
+    load() {
+      try {
+        const raw = storage.getItem(key)
+        if (!raw) return createInitialProgress()
+        return normalizeProgress(JSON.parse(raw), localDateString(now()))
+      } catch {
+        return createInitialProgress()
+      }
+    },
+    save(state) {
+      storage.setItem(key, JSON.stringify({ ...state, version: 2 }))
+    },
+    clear() {
+      storage.removeItem(key)
+    },
+  }
+}
+
+export function bumpWeightOnWrong(weight: number): number {
+  return Math.min(12, weight + 2.5)
+}
+
+export function bumpWeightOnCorrect(weight: number): number {
+  return Math.max(0.5, weight * 0.7)
+}
+
+export function calculateSessionRewards(
+  mode: SessionResult['mode'],
+  answers: SessionAnswer[],
+  previousBestChallenge: number,
+  score: number,
+  multipliers: { xpMultiplier?: number; coinMultiplier?: number } = {},
+): { xpEarned: number; coinsEarned: number; bestStreak: number; personalBest: boolean } {
+  const xpMult = multipliers.xpMultiplier ?? 1
+  const coinMult = multipliers.coinMultiplier ?? 1
+  let xp = 0
+  let streak = 0
+  let bestStreak = 0
+
+  for (const answer of answers) {
+    if (answer.correct) {
+      const firstTry = answer.firstTry ?? true
+      xp += rewardRules.xpPerCorrect * xpMult
+      if (firstTry) {
+        streak += 1
+        bestStreak = Math.max(bestStreak, streak)
+        if (streak > 0 && streak % rewardRules.xpStreakBonusEvery === 0) {
+          xp += rewardRules.xpStreakBonus * xpMult
+        }
+      } else {
+        streak = 0
+      }
+    } else {
+      streak = 0
+    }
+  }
+
+  let coins = 0
+  if (mode === 'train' || mode === 'misses' || mode === 'match') {
+    coins += rewardRules.coinsTrainComplete * (mode === 'match' ? 1 : 1)
+  }
+  if (mode === 'challenge') {
+    coins += rewardRules.coinsChallengeComplete * coinMult
+  }
+
+  const personalBest = mode === 'challenge' && score > previousBestChallenge
+  if (personalBest) {
+    coins += rewardRules.coinsPersonalBest * coinMult
+  }
+
+  return { xpEarned: xp, coinsEarned: coins, bestStreak, personalBest }
+}
+
+export function newId(prefix: string): string {
+  return `${prefix}_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 9)}`
+}
+
+export function applySessionToProgress(
+  progress: ProgressState,
+  partial: Omit<
+    SessionResult,
+    | 'xpEarned'
+    | 'coinsEarned'
+    | 'personalBest'
+    | 'missedFacts'
+    | 'rewardPointsEarned'
+    | 'rewardPointsRequested'
+    | 'rewardDailyComplete'
+    | 'rewardGoalJustCompleted'
+    | 'rewardDailyPoints'
+    | 'rewardPointsTotal'
+  > & {
+    missedFacts?: SessionResult['missedFacts']
+    sessionId: string
+  },
+  today: string = localDateString(),
+): { next: ProgressState; result: SessionResult } {
+  // Sesión ya aplicada: no duplicar XP/monedas/recompensa
+  if (progress.reward.appliedSessionIds.includes(partial.sessionId)) {
+    const emptyResult: SessionResult = {
+      mode: partial.mode,
+      tables: partial.tables,
+      answers: partial.answers,
+      score: partial.score,
+      bestStreak: 0,
+      xpEarned: 0,
+      coinsEarned: 0,
+      personalBest: false,
+      missedFacts: partial.missedFacts ?? [],
+      sessionId: partial.sessionId,
+      rewardPointsEarned: 0,
+      rewardPointsRequested: 0,
+      rewardDailyComplete: progress.reward.dailyPoints >= 10 || progress.reward.goalStatus !== 'active',
+      rewardGoalJustCompleted: false,
+      rewardDailyPoints: progress.reward.dailyPoints,
+      rewardPointsTotal: progress.reward.pointsTotal,
+    }
+    return { next: progress, result: emptyResult }
+  }
+
+  const rewards = calculateSessionRewards(
+    partial.mode,
+    partial.answers,
+    progress.bestChallengeScore,
+    partial.score,
+    partial.mode === 'challenge'
+      ? {
+          xpMultiplier: challengeModeConfig.xpMultiplier,
+          coinMultiplier: challengeModeConfig.coinMultiplier,
+        }
+      : {},
+  )
+
+  const rewardRequest =
+    partial.mode === 'learn'
+      ? { requestedPoints: 0, creditedAttemptIds: [] as string[], creditedFactKeys: [] as string[] }
+      : partial.mode === 'match'
+        ? {
+            requestedPoints: matchSessionMeta.rewardWeight,
+            creditedAttemptIds: partial.answers.filter((a) => a.correct).map((a) => a.attemptId),
+            creditedFactKeys: [],
+          }
+        : (() => {
+            const base = computeTablesRewardRequest(partial.answers)
+            const mult =
+              partial.mode === 'challenge' ? challengeModeConfig.rewardMultiplier : 1
+            return {
+              ...base,
+              requestedPoints: Math.round(base.requestedPoints * mult),
+            }
+          })()
+
+  const grant = grantRewardPoints(
+    progress.reward,
+    {
+      requestedPoints: rewardRequest.requestedPoints,
+      sessionId: partial.sessionId,
+      attemptIds: rewardRequest.creditedAttemptIds,
+    },
+    today,
+  )
+
+  const next: ProgressState = {
+    ...progress,
+    version: 2,
+    facts: { ...progress.facts },
+    tables: { ...progress.tables },
+    xp: progress.xp + rewards.xpEarned,
+    coins: progress.coins + rewards.coinsEarned,
+    bestStreak: Math.max(progress.bestStreak, rewards.bestStreak),
+    lastPracticeAt: new Date().toISOString(),
+    reward: grant.reward,
+  }
+
+  if (partial.mode === 'challenge') {
+    next.bestChallengeScore = Math.max(progress.bestChallengeScore, partial.score)
+  }
+
+  const now = next.lastPracticeAt!
+
+  for (const answer of partial.answers) {
+    const key = factKeyOf(answer.fact)
+    const prev = next.facts[key] ?? emptyFactStats()
+    const updated = {
+      ...prev,
+      attempts: prev.attempts + 1,
+      correct: prev.correct + (answer.correct ? 1 : 0),
+      wrong: prev.wrong + (answer.correct ? 0 : 1),
+      weight: answer.correct ? bumpWeightOnCorrect(prev.weight) : bumpWeightOnWrong(prev.weight),
+      lastSeenAt: now,
+    }
+    next.facts[key] = updated
+
+    if (answer.fact.a >= 1 && answer.fact.a <= 10) {
+      const tKey = String(answer.fact.a)
+      const tPrev = normalizeTableProgress(next.tables[tKey] ?? emptyTableProgress())
+      next.tables[tKey] = bumpTableAttempt(tPrev, answer.correct, now, computeMasteryScore)
+    }
+  }
+
+  // Rondas evaluables por tabla (Entrena / Empareja / Reto con volumen suficiente)
+  const tablesTouched = new Set(
+    partial.answers.map((a) => a.fact.a).filter((n) => n >= 1 && n <= 10),
+  )
+  for (const tableNum of tablesTouched) {
+    const roundScore = evaluateTableRoundScore(partial.answers, tableNum)
+    if (roundScore === null) continue
+    const tKey = String(tableNum)
+    const tPrev = normalizeTableProgress(next.tables[tKey] ?? emptyTableProgress())
+    next.tables[tKey] = applyEvaluableRound(tPrev, roundScore)
+  }
+
+  const missedFacts =
+    partial.missedFacts ??
+    partial.answers
+      .filter((a) => !a.correct)
+      .map((a) => a.fact)
+      .filter((fact, index, arr) => arr.findIndex((f) => factKeyOf(f) === factKeyOf(fact)) === index)
+
+  const result: SessionResult = {
+    mode: partial.mode,
+    tables: partial.tables,
+    answers: partial.answers,
+    score: partial.score,
+    bestStreak: rewards.bestStreak,
+    xpEarned: rewards.xpEarned,
+    coinsEarned: rewards.coinsEarned,
+    personalBest: rewards.personalBest,
+    missedFacts,
+    sessionId: partial.sessionId,
+    rewardPointsEarned: grant.granted,
+    rewardPointsRequested: grant.requested,
+    rewardDailyComplete: grant.dailyComplete,
+    rewardGoalJustCompleted: grant.goalJustCompleted,
+    rewardDailyPoints: grant.reward.dailyPoints,
+    rewardPointsTotal: grant.reward.pointsTotal,
+  }
+
+  return { next, result }
+}

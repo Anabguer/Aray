@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>caso 01 soluciones</title>
+  <style>
+    @page { size: A4; margin: 8mm; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #edf2fb; color: #1f2530; font-family: Arial, Helvetica, sans-serif; }
+    .page { width: 196mm; min-height: 279mm; margin: 6mm auto; padding: 8mm 9mm; background: #fff; border: 1px solid #d5ddec; border-radius: 12px; page-break-after: always; }
+    .hero, .panel, .story-panel { border-radius: 12px; border: 1px solid #d7e1f8; padding: 12px; margin-bottom: 10px; }
+    .hero { background: linear-gradient(180deg, #eef3ff 0%, #fff7ea 100%); }
+    .story-panel { background: #f8fbff; }
+    .support-panel { background: #fffdfa; border-color: #eadfb6; }
+    .decoder-panel { background: #f5fff2; border-color: #d6e8cc; }
+    .bonus-panel { background: #fffdf4; border-color: #eadfb6; }
+    .chapter-pill { display: inline-block; padding: 6px 10px; background: #e8efff; color: #1e4db7; border-radius: 999px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; }
+    .section-badge { display: inline-block; margin-bottom: 8px; padding: 4px 9px; background: #eef2ff; color: #314f98; border-radius: 999px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+    h1 { margin: 8px 0 6px 0; font-size: 28px; }
+    h3 { margin: 0 0 8px 0; font-size: 17px; }
+    p, li, td, th { font-size: 13.6px; line-height: 1.42; }
+    .subtitle { margin: 0; color: #4b5871; }
+    .cover-art { width: 100%; height: auto; margin-top: 10px; }
+    .suspect-table, .solution-table, .vf-table { width: 100%; border-collapse: collapse; }
+    .suspect-table th, .suspect-table td, .solution-table th, .solution-table td, .vf-table th, .vf-table td { border: 1px solid #c9d2e5; padding: 6px; text-align: left; vertical-align: top; }
+    .vf-cell { width: 34px; text-align: center; }
+    .vf-cell::before { content: ""; display: inline-block; width: 16px; height: 16px; border: 2px solid #7d90ba; border-radius: 4px; }
+    .task-card { display: grid; grid-template-columns: 48px 1fr; gap: 10px; margin-bottom: 9px; }
+    .task-code { background: #1e4db7; color: #fff; border-radius: 10px; text-align: center; padding: 8px 0; font-size: 14px; font-weight: 700; }
+    .task-prompt { margin: 0 0 6px 0; }
+    .section-intro { margin: 0 0 8px 0; color: #5a6882; }
+    .response-boxes { display: flex; flex-wrap: wrap; gap: 4px; }
+    .box { display: inline-block; height: 28px; border: 2px solid #93a7d4; border-radius: 6px; background: #fff; }
+    .write-line { height: 24px; border-bottom: 2px solid #aeb9cf; margin-top: 5px; }
+    .choice-group { display: grid; gap: 5px; }
+    .choice-option { display: flex; align-items: center; gap: 8px; min-height: 24px; }
+    .choice-mark { width: 16px; height: 16px; border: 2px solid #8396be; border-radius: 4px; display: inline-block; }
+    .story-lines { margin-top: 6px; }
+    .story-line-row { display: grid; grid-template-columns: 26px 1fr; gap: 6px; margin: 3px 0; font-size: 14px; }
+    .story-line-num { font-weight: 700; color: #1e4db7; }
+    .support-lines p { margin: 0 0 6px 0; }
+    .decoder-word { margin-top: 10px; padding: 10px; background: #fff; border: 1px dashed #88a370; border-radius: 10px; }
+    .decoder-steps { margin: 8px 0 10px 20px; padding: 0; }
+    .evidence-box { margin-top: 10px; padding: 10px; background: #fff; border: 1px dashed #88a370; border-radius: 10px; }
+    .wordsearch-box { margin-top: 8px; padding: 10px; border: 2px solid #9bb0da; border-radius: 10px; background: #fff; }
+    .wordsearch-row { font-family: "Courier New", monospace; font-size: 20px; letter-spacing: 4px; line-height: 1.25; }
+    .footer-line { margin-top: 10px; color: #55627a; font-size: 13px; }
+    @media print {
+      body { background: #fff; }
+      .page { width: auto; margin: 0; border: none; border-radius: 0; }
+    }
+    </style>
+</head>
+<body>
+
+    <article class="page solution-page">
+      <header class="page-head">
+        <div class="chapter-pill">Soluciones · Capitulo 1</div>
+        <h1>CASO 1: El cuchillo desaparecido</h1>
+        <p class="subtitle">Investiga con Aray: mismas tareas que en el cole, pero dentro del caso.</p>
+      </header>
+      <section class="panel">
+        <h3>Correccion del capitulo</h3>
+        <table class="solution-table">
+          <thead><tr><th>Area</th><th>Codigo</th><th>Ejercicio</th><th>Respuesta</th></tr></thead>
+          <tbody><tr><td>Comprension</td><td>C1</td><td>¿Que descubrio Aray al abrir su inventario?</td><td>Que faltaba un cuchillo de su coleccion.</td></tr><tr><td>Comprension</td><td>C2</td><td>Marca la opcion correcta. ¿A que hora encendio la tablet?</td><td>8:25</td></tr><tr><td>Comprension</td><td>C3</td><td>Verdadero o falso.</td><td>V, V, F</td></tr><tr><td>Comprension</td><td>C4</td><td>Numera del 1 al 3 estas acciones segun pasan en el texto: revisa el historial, desayuna, mira el inventario.</td><td>1 desayuna, 2 mira el inventario, 3 revisa el historial</td></tr><tr><td>Comprension</td><td>C5</td><td>En este texto, inventario significa...</td><td>la lista de objetos que tiene en el juego</td></tr><tr><td>Comprension</td><td>C6</td><td>¿Por que crees que Aray revisa el historial antes de hablar con sus amigos?</td><td>Porque quiere comprobar pruebas antes de decidir.</td></tr><tr><td>Mates</td><td>M1</td><td>Del informe: Aray se desperto a las 8:10 y encendio la tablet a las 8:25. ¿Cuantos minutos pasaron?</td><td>15</td></tr><tr><td>Mates</td><td>M2</td><td>El domingo tenia 18 cuchillos y esa manana ve 17. Marca la operacion para saber cuantos faltan.</td><td>18 - 17</td></tr><tr><td>Mates</td><td>M3</td><td>Resuelve la operacion anterior. ¿Cuantos cuchillos faltan?</td><td>1</td></tr><tr><td>Mates</td><td>M4</td><td>Calcula mentalmente: 24 + 35 + 42 (tres ofertas que aparecen en el chat).</td><td>101</td></tr><tr><td>Mates</td><td>M5</td><td>Aray tiene 150 monedas. Una mejora de seguridad cuesta 45. Marca la operacion correcta.</td><td>150 - 45</td></tr><tr><td>Mates</td><td>M6</td><td>Resuelve la operacion anterior. ¿Cuantas monedas le quedarian?</td><td>105</td></tr><tr><td>Mates</td><td>M7</td><td>Aray reparte 15 monedas iguales en 3 montones para comparar ofertas. Marca la operacion.</td><td>15 : 3</td></tr><tr><td>Mates</td><td>M8</td><td>Resuelve la operacion anterior. ¿Cuantas monedas hay en cada monton?</td><td>5</td></tr><tr><td>Prueba final</td><td>P1</td><td>Segun la pista inicial del caso, ¿de que color era el cuchillo desaparecido?</td><td>azul</td></tr><tr><td>Prueba final</td><td>P2</td><td>Mira el tablero de sospechosos. ¿Quien lleva capa roja?</td><td>Axel</td></tr><tr><td>Prueba final</td><td>P3</td><td>Copia la pista del caso que acabas de descubrir.</td><td>El culpable no llevaba capa roja.</td></tr><tr><td>Lengua</td><td>L1</td><td>Copia del informe una palabra que nombre un color.</td><td>azul</td></tr><tr><td>Lengua</td><td>L2</td><td>Escribe el singular de cuchillos.</td><td>cuchillo</td></tr><tr><td>Lengua</td><td>L3</td><td>Escribe el plural de mensaje.</td><td>mensajes</td></tr><tr><td>Lengua</td><td>L4</td><td>Escribe en orden alfabetico: Luca, Axel, Emma.</td><td>Axel, Emma, Luca</td></tr><tr><td>Lengua</td><td>L5</td><td>Completa la frase del informe: Aray ______ el historial antes de acusar.</td><td>reviso</td></tr><tr><td>Lengua</td><td>L6</td><td>Marca la opcion correcta. La palabra favorito se parece mas a...</td><td>preferido</td></tr><tr><td>Medi</td><td>ME1</td><td>Marca la opcion correcta. Una perra como Penny es...</td><td>un vertebrado</td></tr><tr><td>Medi</td><td>ME2</td><td>Verdadero o falso.</td><td>V, F, V</td></tr><tr><td>Medi</td><td>ME3</td><td>¿Que animal vertebrado aparece en la vida real de Aray segun el recuadro?</td><td>Cuba o Penny (las perras)</td></tr></tbody>
+        </table>
+      </section>
+      <section class="panel decoder-panel">
+        <h3>Resolucion del caso</h3>
+        <p><strong>Pista del caso:</strong> El culpable no llevaba capa roja.</p>
+        <p><strong>Siguiente capitulo:</strong> Nueva pista para el CASO 2: alguien pregunto por cuchillos azules en el mercado de skins.</p>
+      </section>
+    </article>
+    
+</body>
+</html>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">Reto rápido</title>
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#53E7FF"/><stop offset=".55" stop-color="#8D72FF"/><stop offset="1" stop-color="#FF6F91"/></linearGradient></defs>
+  <circle cx="31" cy="35" r="22" fill="#F7FBFF" stroke="#3156B8" stroke-width="3"/>
+  <path d="M24 8h14M31 8v6M48 18l4-4" stroke="#3156B8" stroke-width="4" stroke-linecap="round"/>
+  <path d="M31 20v15l11 7" fill="none" stroke="url(#g)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M17 51c-4 0-8-2-10-5 4 0 5-3 5-6 5 2 8 6 8 11" fill="#FF8B5C" stroke="#3156B8" stroke-width="2.5" stroke-linejoin="round"/>
+  <rect x="42" y="43" width="19" height="14" rx="7" fill="#FFE45C" stroke="#3156B8" stroke-width="2.5"/>
+  <text x="51.5" y="53" text-anchor="middle" font-family="Arial,sans-serif" font-size="9" font-weight="900" fill="#3156B8">×2</text>
+</svg>

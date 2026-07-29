@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>caso 02 el mercado de las skins</title>
+  <style>
+    @page { size: A4; margin: 8mm; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #edf2fb; color: #1f2530; font-family: Arial, Helvetica, sans-serif; }
+    .page { width: 196mm; min-height: 279mm; margin: 6mm auto; padding: 8mm 9mm; background: #fff; border: 1px solid #d5ddec; border-radius: 12px; page-break-after: always; }
+    .hero, .panel, .story-panel { border-radius: 12px; border: 1px solid #d7e1f8; padding: 12px; margin-bottom: 10px; }
+    .hero { background: linear-gradient(180deg, #eef3ff 0%, #fff7ea 100%); }
+    .story-panel { background: #f8fbff; }
+    .support-panel { background: #fffdfa; border-color: #eadfb6; }
+    .decoder-panel { background: #f5fff2; border-color: #d6e8cc; }
+    .bonus-panel { background: #fffdf4; border-color: #eadfb6; }
+    .chapter-pill { display: inline-block; padding: 6px 10px; background: #e8efff; color: #1e4db7; border-radius: 999px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; }
+    .section-badge { display: inline-block; margin-bottom: 8px; padding: 4px 9px; background: #eef2ff; color: #314f98; border-radius: 999px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+    h1 { margin: 8px 0 6px 0; font-size: 28px; }
+    h3 { margin: 0 0 8px 0; font-size: 17px; }
+    p, li, td, th { font-size: 13.6px; line-height: 1.42; }
+    .subtitle { margin: 0; color: #4b5871; }
+    .cover-art { width: 100%; height: auto; margin-top: 10px; }
+    .suspect-table, .solution-table, .vf-table { width: 100%; border-collapse: collapse; }
+    .suspect-table th, .suspect-table td, .solution-table th, .solution-table td, .vf-table th, .vf-table td { border: 1px solid #c9d2e5; padding: 6px; text-align: left; vertical-align: top; }
+    .vf-cell { width: 34px; text-align: center; }
+    .vf-cell::before { content: ""; display: inline-block; width: 16px; height: 16px; border: 2px solid #7d90ba; border-radius: 4px; }
+    .task-card { display: grid; grid-template-columns: 48px 1fr; gap: 10px; margin-bottom: 9px; }
+    .task-code { background: #1e4db7; color: #fff; border-radius: 10px; text-align: center; padding: 8px 0; font-size: 14px; font-weight: 700; }
+    .task-prompt { margin: 0 0 6px 0; }
+    .section-intro { margin: 0 0 8px 0; color: #5a6882; }
+    .response-boxes { display: flex; flex-wrap: wrap; gap: 4px; }
+    .box { display: inline-block; height: 28px; border: 2px solid #93a7d4; border-radius: 6px; background: #fff; }
+    .write-line { height: 24px; border-bottom: 2px solid #aeb9cf; margin-top: 5px; }
+    .choice-group { display: grid; gap: 5px; }
+    .choice-option { display: flex; align-items: center; gap: 8px; min-height: 24px; }
+    .choice-mark { width: 16px; height: 16px; border: 2px solid #8396be; border-radius: 4px; display: inline-block; }
+    .story-lines { margin-top: 6px; }
+    .story-line-row { display: grid; grid-template-columns: 26px 1fr; gap: 6px; margin: 3px 0; font-size: 14px; }
+    .story-line-num { font-weight: 700; color: #1e4db7; }
+    .support-lines p { margin: 0 0 6px 0; }
+    .decoder-word { margin-top: 10px; padding: 10px; background: #fff; border: 1px dashed #88a370; border-radius: 10px; }
+    .decoder-steps { margin: 8px 0 10px 20px; padding: 0; }
+    .evidence-box { margin-top: 10px; padding: 10px; background: #fff; border: 1px dashed #88a370; border-radius: 10px; }
+    .wordsearch-box { margin-top: 8px; padding: 10px; border: 2px solid #9bb0da; border-radius: 10px; background: #fff; }
+    .wordsearch-row { font-family: "Courier New", monospace; font-size: 20px; letter-spacing: 4px; line-height: 1.25; }
+    .footer-line { margin-top: 10px; color: #55627a; font-size: 13px; }
+    @media print {
+      body { background: #fff; }
+      .page { width: auto; margin: 0; border: none; border-radius: 0; }
+    }
+    </style>
+</head>
+<body>
+
+    <article class="page cover-page">
+      <header class="page-head">
+        <div class="chapter-pill">Capitulo 2</div>
+        <h1>CASO 2: El mercado de las skins</h1>
+        <p class="subtitle">Historia breve · sospechosos · pista inicial. Luego investigas con fichas del cole.</p>
+      </header>
+      
+    <svg viewBox="0 0 920 260" class="cover-art" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <linearGradient id="bg" x1="0" x2="1">
+          <stop offset="0%" stop-color="#dfe8ff"/>
+          <stop offset="100%" stop-color="#fff0d8"/>
+        </linearGradient>
+      </defs>
+      <rect x="0" y="0" width="920" height="260" rx="24" fill="url(#bg)"/>
+      <rect x="48" y="58" width="190" height="150" rx="22" fill="#1e4db7"/>
+      <rect x="82" y="90" width="120" height="14" rx="7" fill="#8fb1ff"/>
+      <rect x="82" y="118" width="88" height="14" rx="7" fill="#8fb1ff"/>
+      <rect x="314" y="50" width="170" height="182" rx="26" fill="#24355a"/>
+      <circle cx="399" cy="100" r="34" fill="#ffd7b5"/>
+      <path d="M365 94 Q399 40 433 94" fill="#1a2440"/>
+      <rect x="369" y="136" width="60" height="78" rx="16" fill="#3f74ff"/>
+      <path d="M342 134 L368 214 L348 228 L316 162" fill="#5a77df"/>
+      <path d="M456 134 L430 214 L450 228 L482 162" fill="#5a77df"/>
+      <circle cx="620" cy="214" r="24" fill="#f0d0ac"/>
+      <circle cx="678" cy="214" r="24" fill="#f0d0ac"/>
+      <circle cx="613" cy="206" r="5" fill="#202020"/>
+      <circle cx="627" cy="206" r="5" fill="#202020"/>
+      <circle cx="671" cy="206" r="5" fill="#202020"/>
+      <circle cx="685" cy="206" r="5" fill="#202020"/>
+      <rect x="603" y="226" width="34" height="14" rx="7" fill="#c88f62"/>
+      <rect x="661" y="226" width="34" height="14" rx="7" fill="#c88f62"/>
+      <rect x="712" y="46" width="150" height="82" rx="18" fill="#fff"/>
+      <text x="734" y="78" font-size="25" font-family="Arial" fill="#1f2530">Caso 2</text>
+      <text x="734" y="108" font-size="18" font-family="Arial" fill="#55627a">Operacion Nebula Blade</text>
+    </svg>
+    
+      <section class="hero">
+        <h3>El mercado de las skins</h3>
+        <p>Aray va al mercado de skins para revisar ofertas raras. No va a memorizar veinte detalles: solo quiere comprobar si alguien preguntó por cuchillos azules antes del robo. Axel, Eric, Luca y Emma siguen en la lista.</p>
+      </section>
+      <section class="panel">
+        <h3>Sospechosos</h3>
+        <table class="suspect-table">
+          <thead><tr><th>Nombre</th><th>Capa</th><th>Le gusta</th><th>Tachar</th></tr></thead>
+          <tbody><tr><td>Axel</td><td>roja</td><td>escudos de fuego y jugadas rapidas</td><td class='vf-cell'></td></tr><tr><td>Eric</td><td>azul clara</td><td>mascotas raras y cuidar a Cuba y Penny</td><td class='vf-cell'></td></tr><tr><td>Luca</td><td>azul oscura</td><td>cuchillos, skins raras y protecciones de sombra</td><td class='vf-cell'></td></tr><tr><td>Emma</td><td>violeta</td><td>alas, gemas y acertijos</td><td class='vf-cell'></td></tr></tbody>
+        </table>
+      </section>
+      <section class="panel decoder-panel">
+        <h3>Pista inicial</h3>
+        <p>Pista inicial: en el mercado alguien preguntó por cuchillos azules.</p>
+      </section>
+      <footer class="footer-line">Pagina 1 · Marco del caso (~10%) · Avance: ★★☆☆☆</footer>
+    </article>
+    
+    <article class="page">
+      <header class="page-head">
+        <div class="chapter-pill">Capitulo 2</div>
+        <h1>Comprension lectora</h1>
+        <p class="subtitle">Documento del caso. Lee el texto y responde como en el cole; las respuestas estan en la pagina.</p>
+      </header>
+      <section class="story-panel">
+        <h3>Registro del mercado de skins</h3>
+        <div class='story-lines'><div class='story-line-row'><span class='story-line-num'>1.</span><span>Al dia siguiente, Aray fue al mercado de skins con Alma.</span></div><div class='story-line-row'><span class='story-line-num'>2.</span><span>La dependienta le enseno el registro de tres intercambios.</span></div><div class='story-line-row'><span class='story-line-num'>3.</span><span>Axel habia ofrecido 24 monedas por un cuchillo comun.</span></div><div class='story-line-row'><span class='story-line-num'>4.</span><span>Emma habia ofrecido 35 gemas por una funda brillante.</span></div><div class='story-line-row'><span class='story-line-num'>5.</span><span>Luca habia ofrecido 42 monedas y 18 gemas por un cuchillo raro.</span></div><div class='story-line-row'><span class='story-line-num'>6.</span><span>Ademas, alguien pregunto si aun quedaban cuchillos azules.</span></div><div class='story-line-row'><span class='story-line-num'>7.</span><span>Aray copio los datos antes de sacar conclusiones.</span></div><div class='story-line-row'><span class='story-line-num'>8.</span><span>Primero queria entender bien el registro y despues hacer las cuentas.</span></div></div>
+      </section>
+      
+    <section class="panel">
+      <div class="section-badge">Castellano</div>
+      <h3>Actividades</h3>
+      <p class="section-intro">Aray y Alma pidieron el registro del mercado. Lee el documento y responde como en comprension lectora.</p>
+      
+    <div class="task-card">
+      <div class="task-code">C1</div>
+      <div class="task-body">
+        <p class="task-prompt">¿Donde fue Aray al principio del registro?</p>
+        <div class="write-line"></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">C2</div>
+      <div class="task-body">
+        <p class="task-prompt">Marca la opcion correcta. ¿Cuantas ofertas aparecen en el registro?</p>
+        <div class="choice-group"><div class="choice-option"><span class="choice-mark"></span><span>2</span></div><div class="choice-option"><span class="choice-mark"></span><span>3</span></div><div class="choice-option"><span class="choice-mark"></span><span>4</span></div></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">C3</div>
+      <div class="task-body">
+        <p class="task-prompt">Verdadero o falso.</p>
+        
+        <table class="vf-table">
+          <thead><tr><th>Enunciado</th><th>V</th><th>F</th></tr></thead>
+          <tbody><tr><td>Luca ofrecio 42 monedas y 18 gemas.</td><td class='vf-cell'></td><td class='vf-cell'></td></tr><tr><td>Emma ofrecio monedas por un cuchillo raro.</td><td class='vf-cell'></td><td class='vf-cell'></td></tr><tr><td>Alguien pregunto por cuchillos azules.</td><td class='vf-cell'></td><td class='vf-cell'></td></tr></tbody>
+        </table>
+        
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">C4</div>
+      <div class="task-body">
+        <p class="task-prompt">Numera del 1 al 3: copia los datos, va al mercado, hace las cuentas.</p>
+        <div class="write-line"></div><div class="write-line"></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">C5</div>
+      <div class="task-body">
+        <p class="task-prompt">En este texto, registro significa...</p>
+        <div class="choice-group"><div class="choice-option"><span class="choice-mark"></span><span>lista o anotacion de datos</span></div><div class="choice-option"><span class="choice-mark"></span><span>un tipo de skin</span></div><div class="choice-option"><span class="choice-mark"></span><span>una capa de fuego</span></div></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">C6</div>
+      <div class="task-body">
+        <p class="task-prompt">¿Que detalle del registro conecta con el cuchillo desaparecido de Aray?</p>
+        <div class="write-line"></div>
+      </div>
+    </div>
+    
+    </section>
+    
+      <footer class="footer-line">Pagina 2 · Actividades escolares · Avance: ★★☆☆☆</footer>
+    </article>
+    
+    <article class="page">
+      <header class="page-head">
+        <div class="chapter-pill">Capitulo 2</div>
+        <h1>Matematicas</h1>
+        <p class="subtitle">Problemas del caso: monedas, gemas, horas y repartos. Mismo formato que en clase.</p>
+      </header>
+      
+    <section class="panel">
+      <div class="section-badge">Matematicas</div>
+      <h3>Problemas del caso</h3>
+      <p class="section-intro">Lee el enunciado, elige la operacion y calcula. Todo ocurre dentro de la investigacion.</p>
+      
+    <div class="task-card">
+      <div class="task-code">M1</div>
+      <div class="task-body">
+        <p class="task-prompt">En el mercado, cada proteccion de sombra cuesta 6 monedas. ¿Cuantas cuestan 2 protecciones?</p>
+        <div class="response-boxes"><span class="box" style="width:22px"></span><span class="box" style="width:22px"></span></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">M2</div>
+      <div class="task-body">
+        <p class="task-prompt">Marca la operacion para calcular 2 protecciones de 6 monedas.</p>
+        <div class="choice-group"><div class="choice-option"><span class="choice-mark"></span><span>2 + 6</span></div><div class="choice-option"><span class="choice-mark"></span><span>2 x 6</span></div><div class="choice-option"><span class="choice-mark"></span><span>6 - 2</span></div></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">M3</div>
+      <div class="task-body">
+        <p class="task-prompt">Un cuchillo raro cuesta 8 monedas. Si ya llevas 12 monedas de protecciones, ¿cuanto pagas en total?</p>
+        <div class="response-boxes"><span class="box" style="width:22px"></span><span class="box" style="width:22px"></span></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">M4</div>
+      <div class="task-body">
+        <p class="task-prompt">El comprador pago con 25 monedas y gasto 20. Marca la operacion para saber cuanto sobra.</p>
+        <div class="choice-group"><div class="choice-option"><span class="choice-mark"></span><span>25 + 20</span></div><div class="choice-option"><span class="choice-mark"></span><span>25 - 20</span></div><div class="choice-option"><span class="choice-mark"></span><span>20 - 25</span></div></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">M5</div>
+      <div class="task-body">
+        <p class="task-prompt">Resuelve la operacion anterior. ¿Cuantas monedas sobraron?</p>
+        <div class="response-boxes"><span class="box" style="width:22px"></span></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">M6</div>
+      <div class="task-body">
+        <p class="task-prompt">Emma ofrecio 35 gemas. Una mejora cuesta 20 gemas. ¿Cuantas gemas le sobrarian?</p>
+        <div class="response-boxes"><span class="box" style="width:22px"></span><span class="box" style="width:22px"></span></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">M7</div>
+      <div class="task-body">
+        <p class="task-prompt">Aray reparte 18 gemas en 3 bolsitas iguales. Marca la operacion correcta.</p>
+        <div class="choice-group"><div class="choice-option"><span class="choice-mark"></span><span>18 + 3</span></div><div class="choice-option"><span class="choice-mark"></span><span>18 - 3</span></div><div class="choice-option"><span class="choice-mark"></span><span>18 : 3</span></div></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">M8</div>
+      <div class="task-body">
+        <p class="task-prompt">Resuelve la operacion anterior. ¿Cuantas gemas hay en cada bolsita?</p>
+        <div class="response-boxes"><span class="box" style="width:22px"></span></div>
+      </div>
+    </div>
+    
+    </section>
+    
+      <footer class="footer-line">Pagina 3 · Actividades escolares · Avance: ★★☆☆☆</footer>
+    </article>
+    
+    <article class="page">
+      <header class="page-head">
+        <div class="chapter-pill">Capitulo 2</div>
+        <h1>Otras asignaturas</h1>
+        <p class="subtitle">Lengua, catala, medi o ingles con pruebas y pistas del caso.</p>
+      </header>
+      
+    <section class="panel">
+      <div class="section-badge">Catala</div>
+      <h3>Catala</h3>
+      <p class="section-intro">Trabaja como en clase, pero con documentos y datos de la investigacion.</p>
+      
+    <div class="task-card">
+      <div class="task-code">CA1</div>
+      <div class="task-body">
+        <p class="task-prompt">Llegeix la nota trobada al mercat: No vull ales ni mascotes.</p>
+        <div class="write-line"></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">CA2</div>
+      <div class="task-body">
+        <p class="task-prompt">Marca l&#x27;opcio correcta. No vull significa...</p>
+        <div class="choice-group"><div class="choice-option"><span class="choice-mark"></span><span>no quiero</span></div><div class="choice-option"><span class="choice-mark"></span><span>no veo</span></div><div class="choice-option"><span class="choice-mark"></span><span>no juego</span></div></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">CA3</div>
+      <div class="task-body">
+        <p class="task-prompt">Escriu el plural de gema en catala.</p>
+        <div class="write-line"></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">CA4</div>
+      <div class="task-body">
+        <p class="task-prompt">Completa: Busco ganivets rars i proteccions ______.</p>
+        <div class="choice-group"><div class="choice-option"><span class="choice-mark"></span><span>fosques</span></div><div class="choice-option"><span class="choice-mark"></span><span>foses</span></div><div class="choice-option"><span class="choice-mark"></span><span>fortes</span></div></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">CA5</div>
+      <div class="task-body">
+        <p class="task-prompt">Escriu en ordre alfabetic: Axel, Emma, Luca.</p>
+        <div class="write-line"></div>
+      </div>
+    </div>
+    
+    </section>
+    
+      
+        
+    <section class="story-panel support-panel">
+      <h3>Chat message</h3>
+      <div class='support-lines'><p>I saw a blue knife near the trade window.</p><p>It was shiny and very cold.</p></div>
+    </section>
+    
+        
+    <section class="panel">
+      <div class="section-badge">English</div>
+      <h3>English · Mensaje del mercado</h3>
+      <p class="section-intro">En el mostrador habia un mensaje corto en ingles. Lee y responde con vocabulario basico.</p>
+      
+    <div class="task-card">
+      <div class="task-code">EN1</div>
+      <div class="task-body">
+        <p class="task-prompt">Marca la opcion correcta. Blue knife significa...</p>
+        <div class="choice-group"><div class="choice-option"><span class="choice-mark"></span><span>cuchillo azul</span></div><div class="choice-option"><span class="choice-mark"></span><span>ventana azul</span></div><div class="choice-option"><span class="choice-mark"></span><span>gema fria</span></div></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">EN2</div>
+      <div class="task-body">
+        <p class="task-prompt">Verdadero o falso.</p>
+        
+        <table class="vf-table">
+          <thead><tr><th>Enunciado</th><th>V</th><th>F</th></tr></thead>
+          <tbody><tr><td>El mensaje habla de un cuchillo azul.</td><td class='vf-cell'></td><td class='vf-cell'></td></tr><tr><td>El cuchillo estaba cerca de la ventana de intercambio.</td><td class='vf-cell'></td><td class='vf-cell'></td></tr><tr><td>El cuchillo era rojo.</td><td class='vf-cell'></td><td class='vf-cell'></td></tr></tbody>
+        </table>
+        
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">EN3</div>
+      <div class="task-body">
+        <p class="task-prompt">Escribe en castellano la primera frase del mensaje.</p>
+        <div class="write-line"></div>
+      </div>
+    </div>
+    
+    </section>
+    
+        
+      
+    <section class="panel bonus-panel">
+      <h3>Actividad especial · Mensaje secreto</h3>
+      <p class="section-intro">Copia solo las letras mayusculas para descubrir una palabra del caso.</p>
+      <div class='decoder-word'><p>En el mercado alguien escribio: aZuLeS.</p></div>
+    </section>
+    
+      <footer class="footer-line">Pagina 4 · Actividades escolares · Avance: ★★☆☆☆</footer>
+    </article>
+    
+    <article class="page">
+      <header class="page-head">
+        <div class="chapter-pill">Capitulo 2</div>
+        <h1>Prueba final del caso</h1>
+        <p class="subtitle">Cierra el episodio con pistas claras. Solo aqui conectas con la investigacion.</p>
+      </header>
+      
+    <section class="panel">
+      <div class="section-badge">Investigacion</div>
+      <h3>Prueba final</h3>
+      <p class="section-intro">Responde y escribe la pista del caso.</p>
+      
+    <div class="task-card">
+      <div class="task-code">P1</div>
+      <div class="task-body">
+        <p class="task-prompt">Segun la pista inicial del caso, ¿que preguntaron en el mercado?</p>
+        <div class="write-line"></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">P2</div>
+      <div class="task-body">
+        <p class="task-prompt">En el mercado encontraron una huella. ¿De que mano parece ser?</p>
+        <div class="response-boxes"><span class="box" style="width:22px"></span><span class="box" style="width:22px"></span><span class="box" style="width:22px"></span><span class="box" style="width:22px"></span><span class="box" style="width:22px"></span></div>
+      </div>
+    </div>
+    
+    <div class="task-card">
+      <div class="task-code">P3</div>
+      <div class="task-body">
+        <p class="task-prompt">Copia la pista del caso que acabas de descubrir.</p>
+        <div class="write-line"></div><div class="write-line"></div>
+      </div>
+    </div>
+    
+    </section>
+    
+      
+    <section class="panel decoder-panel">
+      <h3>Resolucion del caso</h3>
+      <p class="section-intro">Escribe la pista clara del capitulo cuando hayas terminado.</p>
+      <ol class='decoder-steps'><li>1. Recuerda la pista inicial del mercado.</li><li>2. Piensa en la huella encontrada.</li><li>3. Escribe la conclusion del caso.</li></ol>
+      <div class="decoder-word">
+        <p><strong>Escribe la pista del caso:</strong></p>
+        <div class="write-line"></div><div class="write-line"></div>
+      </div>
+    </section>
+    
+      <section class="panel decoder-panel">
+        <h3>Pista del caso</h3>
+        <p><strong>La huella encontrada pertenece a alguien zurdo.</strong></p>
+      </section>
+      <section class="panel">
+        <h3>Siguiente capitulo</h3>
+        <p>Nueva pista para el CASO 3: en el estadio apareció una nota sobre sombra.</p>
+      </section>
+      <footer class="footer-line">Pagina 5 · Pistas y resolucion (~10%) · Avance: ★★☆☆☆</footer>
+    </article>
+    
+</body>
+</html>

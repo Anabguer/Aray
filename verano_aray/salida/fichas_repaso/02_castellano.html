@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <title>Fitxes · Castellano</title>
+  <style>
+    @page { size: A4; margin: 8mm; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #edf2fb; color: #1f2530; font-family: Arial, Helvetica, sans-serif; }
+    .page { width: 196mm; min-height: 279mm; margin: 6mm auto; padding: 8mm 9mm; background: #fff; border: 1px solid #d5ddec; border-radius: 12px; page-break-after: always; }
+    .hero, .panel, .story-panel { border-radius: 12px; border: 1px solid #d7e1f8; padding: 12px; margin-bottom: 10px; }
+    .hero { background: linear-gradient(180deg, #eef3ff 0%, #fff7ea 100%); }
+    .story-panel { background: #f8fbff; }
+    .support-panel { background: #fffdfa; border-color: #eadfb6; }
+    .decoder-panel { background: #f5fff2; border-color: #d6e8cc; }
+    .bonus-panel { background: #fffdf4; border-color: #eadfb6; }
+    .chapter-pill { display: inline-block; padding: 6px 10px; background: #e8efff; color: #1e4db7; border-radius: 999px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; }
+    .section-badge { display: inline-block; margin-bottom: 8px; padding: 4px 9px; background: #eef2ff; color: #314f98; border-radius: 999px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+    h1 { margin: 8px 0 6px 0; font-size: 28px; }
+    h3 { margin: 0 0 8px 0; font-size: 17px; }
+    p, li, td, th { font-size: 13.6px; line-height: 1.42; }
+    .subtitle { margin: 0; color: #4b5871; }
+    .cover-art { width: 100%; height: auto; margin-top: 10px; }
+    .suspect-table, .solution-table, .vf-table { width: 100%; border-collapse: collapse; }
+    .suspect-table th, .suspect-table td, .solution-table th, .solution-table td, .vf-table th, .vf-table td { border: 1px solid #c9d2e5; padding: 6px; text-align: left; vertical-align: top; }
+    .vf-cell { width: 34px; text-align: center; }
+    .vf-cell::before { content: ""; display: inline-block; width: 16px; height: 16px; border: 2px solid #7d90ba; border-radius: 4px; }
+    .task-card { display: grid; grid-template-columns: 48px 1fr; gap: 10px; margin-bottom: 9px; }
+    .task-code { background: #1e4db7; color: #fff; border-radius: 10px; text-align: center; padding: 8px 0; font-size: 14px; font-weight: 700; }
+    .task-prompt { margin: 0 0 6px 0; }
+    .section-intro { margin: 0 0 8px 0; color: #5a6882; }
+    .response-boxes { display: flex; flex-wrap: wrap; gap: 4px; }
+    .box { display: inline-block; height: 28px; border: 2px solid #93a7d4; border-radius: 6px; background: #fff; }
+    .write-line { height: 24px; border-bottom: 2px solid #aeb9cf; margin-top: 5px; }
+    .choice-group { display: grid; gap: 5px; }
+    .choice-option { display: flex; align-items: center; gap: 8px; min-height: 24px; }
+    .choice-mark { width: 16px; height: 16px; border: 2px solid #8396be; border-radius: 4px; display: inline-block; }
+    .story-lines { margin-top: 6px; }
+    .story-line-row { display: grid; grid-template-columns: 26px 1fr; gap: 6px; margin: 3px 0; font-size: 14px; }
+    .story-line-num { font-weight: 700; color: #1e4db7; }
+    .support-lines p { margin: 0 0 6px 0; }
+    .decoder-word { margin-top: 10px; padding: 10px; background: #fff; border: 1px dashed #88a370; border-radius: 10px; }
+    .decoder-steps { margin: 8px 0 10px 20px; padding: 0; }
+    .evidence-box { margin-top: 10px; padding: 10px; background: #fff; border: 1px dashed #88a370; border-radius: 10px; }
+    .wordsearch-box { margin-top: 8px; padding: 10px; border: 2px solid #9bb0da; border-radius: 10px; background: #fff; }
+    .wordsearch-row { font-family: "Courier New", monospace; font-size: 20px; letter-spacing: 4px; line-height: 1.25; }
+    .footer-line { margin-top: 10px; color: #55627a; font-size: 13px; }
+    @media print {
+      body { background: #fff; }
+      .page { width: auto; margin: 0; border: none; border-radius: 0; }
+    }
+    
+    @page { size: A4; margin: 8mm; }
+    .page.fitxa-page {
+      width: 196mm;
+      min-height: 279mm;
+      margin: 0 auto;
+      padding: 7mm 9mm 5mm 9mm;
+      page-break-after: always;
+      page-break-inside: avoid;
+      display: flex;
+      flex-direction: column;
+    }
+    .fitxa-body {
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+    .fitxa-body > :first-child { margin-top: 0; }
+    .fitxa-meta {
+      margin: 0 0 8px 0;
+      padding: 0;
+      color: #55627a;
+      font-size: 11.5px;
+      line-height: 1.35;
+    }
+    .fitxa-header-bar {
+      display: flex;
+      align-items: flex-end;
+      gap: 12px;
+      margin: 0 0 10px 0;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #c9d2e5;
+    }
+    .fitxa-header-bar img.aray-avatar {
+      width: 60px !important;
+      height: auto !important;
+      max-height: 60px;
+      flex-shrink: 0;
+    }
+    .fitxa-fields {
+      flex: 1;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      gap: 10px 18px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .field-group {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .field-line {
+      display: inline-block;
+      border-bottom: 2.5px solid #1f2530;
+      height: 24px;
+      vertical-align: bottom;
+    }
+    .field-nom { width: 72mm; min-width: 72mm; }
+    .field-date { width: 36mm; min-width: 36mm; }
+    .fitxa-num {
+      margin-left: auto;
+      color: #1e4db7;
+      font-size: 15px;
+      white-space: nowrap;
+    }
+    .fitxa-body h1 {
+      font-size: 21px;
+      margin: 0 0 8px 0;
+      line-height: 1.2;
+    }
+    .fitxa-body h2 {
+      font-size: 16px;
+      margin: 14px 0 8px 0;
+      color: #1e4db7;
+      line-height: 1.3;
+    }
+    .fitxa-body p,
+    .fitxa-body li,
+    .fitxa-body td,
+    .fitxa-body th {
+      font-size: 14px;
+      line-height: 1.45;
+      margin: 4px 0;
+    }
+    .fitxa-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0;
+    }
+    .fitxa-body th,
+    .fitxa-body td {
+      border: 1px solid #c9d2e5;
+      padding: 8px 9px;
+      font-size: 13.5px;
+      vertical-align: top;
+      min-height: 32px;
+    }
+    .fitxa-body th { background: #eef3ff; }
+    .fitxa-body blockquote {
+      margin: 8px 0;
+      padding: 8px 12px;
+      background: #f8fbff;
+      border-left: 3px solid #1e4db7;
+      color: #44506a;
+      font-size: 13px;
+    }
+    .fitxa-body img.fitxa-illustration {
+      width: auto !important;
+      height: auto !important;
+      max-height: 48mm !important;
+      max-width: 52% !important;
+      float: right;
+      margin: 0 0 8px 10px;
+      object-fit: contain;
+    }
+    .fitxa-body img.fitxa-illustration-small {
+      max-height: 24mm !important;
+      max-width: 28% !important;
+    }
+  /* Imatge principal sola: més gran i centrada */
+    .fitxa-body h2 + p > img.fitxa-illustration:only-child,
+    .fitxa-body p > img.fitxa-illustration:only-child {
+      max-height: 55mm !important;
+      max-width: 75% !important;
+      float: none;
+      display: block;
+      margin: 8px auto 12px auto;
+    }
+    .fitxa-body pre {
+      font-family: "Courier New", monospace;
+      font-size: 14px;
+      line-height: 1.35;
+      background: #f8faff;
+      border: 1px solid #d5ddec;
+      border-radius: 8px;
+      padding: 10px;
+      margin: 8px 0;
+      white-space: pre-wrap;
+      min-height: 55mm;
+    }
+    .fitxa-body ul,
+    .fitxa-body ol {
+      margin: 8px 0;
+      padding-left: 22px;
+    }
+    .fitxa-body li {
+      margin: 6px 0 14px 0;
+    }
+    .fitxa-body li p { margin: 0 0 6px 0; }
+    .fitxa-body li + .write-line { margin-top: 4px; margin-bottom: 8px; }
+    .write-line {
+      height: 28px;
+      border-bottom: 2px solid #7d90ba;
+      margin: 6px 0 12px 0;
+    }
+    .write-line.tall {
+      height: 34px;
+      margin-bottom: 14px;
+    }
+    .inline-blank {
+      display: inline-block;
+      min-width: 65mm;
+      border-bottom: 2px solid #7d90ba;
+      height: 22px;
+      vertical-align: bottom;
+    }
+    .fitxa-body p:has(strong:first-child) { margin-top: 10px; }
+    .fitxa-recorda {
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: #fffdf4;
+      border: 1px solid #eadfb6;
+      border-radius: 8px;
+      font-size: 13px;
+    }
+    .fitxa-body .reading-text {
+      font-size: 14px;
+      line-height: 1.5;
+      margin: 6px 0 12px 0;
+    }
+    .footer-line {
+      flex-shrink: 0;
+      margin-top: 8px;
+      padding-top: 5px;
+      border-top: 1px solid #e2e8f4;
+      color: #7a869e;
+      font-size: 11px;
+    }
+    .area-cover {
+      text-align: center;
+      padding: 30mm 10mm;
+      height: 281mm;
+    }
+    .area-cover h1 { font-size: 32px; }
+    .area-cover p { color: #55627a; font-size: 16px; }
+    @media print {
+      body { background: #fff; }
+      .page { border: none; border-radius: 0; box-shadow: none; }
+      .page.fitxa-page { width: auto; margin: 0; }
+    }
+    </style>
+</head>
+<body>
+
+    <article class="page area-cover">
+      <div class="chapter-pill">Fichas de repaso</div>
+      <h1>Castellano</h1>
+      <p>3r primària · Escola Sant Jordi · Temàtica Roblox</p>
+      <p><strong>02_castellano</strong></p>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 1 · Comprensión lectora</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 1</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Llengua castellana · Idioma: castellà · 3r primària · BEX: LES-TIP-001 · Dificultat: ⭐⭐</p>
+
+<h2>Lee el texto con atención</h2>
+<p><img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/les_01_lectura.png" class="fitxa-illustration" alt="Aray leyendo en su habitación"></p>
+<p><strong>Un sábado especial</strong></p>
+<p>Aray abrió los ojos muy temprano: era sábado y el sol entraba por la ventana. Se estiró, miró el reloj y sonrió porque tenía el día libre. Después de desayunar y ordenar su habitación, encendió el ordenador. En Roblox apareció un cartel enorme del juego <strong>Arena de Cuchillos</strong>. El aviso decía que un evento nuevo empezaba a mediodía y que los jugadores podían ganar objetos raros. Aray llamó a Luca por el móvil y le dijo: «¡Tenemos que entrar juntos!». Los dos amigos se sentaron frente a la pantalla y esperaron el inicio del evento con mucha ilusión.</p>
+<h2>Responde leyendo el texto</h2>
+<ol>
+<li>
+<p>¿Qué día de la semana ocurre la historia?</p><div class="write-line tall"></div><div class="write-line"></div>
+</li>
+<li>
+<p>¿Qué hizo Aray después de desayunar?</p><div class="write-line tall"></div><div class="write-line"></div>
+</li>
+<li>
+<p>¿Cómo se llama el juego de Roblox del cartel?</p><div class="write-line tall"></div><div class="write-line"></div>
+</li>
+<li>
+<p>¿A quién llamó Aray por el móvil?</p><div class="write-line tall"></div><div class="write-line"></div>
+</li>
+<li>
+<p>¿Qué dijo Aray a su amigo? (escribe la idea con tus palabras)</p><div class="write-line"></div>
+</li>
+</ol>
+<p class="fitxa-recorda"><strong>Recorda:</strong> Lee el texto dos veces si hace falta · Busca la respuesta en las frases · Escribe con letra clara.</p>
+      </div>
+      <footer class="footer-line">Castellano · Fitxa 1 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 2 · Ordenar acontecimientos</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 2</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Llengua castellana · Idioma: castellà · 3r primària · BEX: cap03 m01 · Dificultat: ⭐⭐</p>
+
+<h2>Ordena la mañana de Aray</h2>
+<p><strong>Piensa en la historia del sábado por la mañana (despertar, tareas y evento de Roblox). Escribe del 1 al 6 para ordenar los acontecimientos.</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Acontecimiento</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>___</td>
+<td>Aray enciende el ordenador y ve el aviso del evento en Arena de Cuchillos.</td>
+</tr>
+<tr>
+<td>___</td>
+<td>Aray se despierta y mira el reloj de la pared.</td>
+</tr>
+<tr>
+<td>___</td>
+<td>Termina el desayuno y ayuda a recoger la mesa.</td>
+</tr>
+<tr>
+<td>___</td>
+<td>Llama a Luca y los dos entran juntos al evento.</td>
+</tr>
+<tr>
+<td>___</td>
+<td>Hace la cama, saca la basura y riega las plantas del balcón.</td>
+</tr>
+<tr>
+<td>___</td>
+<td>En pantalla aparece el mapa con las cinco pruebas del pack.</td>
+</tr>
+</tbody>
+</table>
+<p class="fitxa-recorda"><strong>Recorda:</strong> El primer número es lo que pasa <strong>antes</strong> · Piensa en las horas de la mañana · Comprueba que tu orden tenga sentido.</p>
+      </div>
+      <footer class="footer-line">Castellano · Fitxa 2 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 3 · Sinónimos en contexto</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 3</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Llengua castellana · Idioma: castellà · 3r primària · BEX: LES-003 · Dificultat: ⭐⭐</p>
+
+<h2>Sustituye la palabra en negrita</h2>
+<p><strong>Escribe la frase entera cambiando la palabra destacada por un sinónimo. El significado debe seguir igual.</strong></p>
+<ol>
+<li>
+<p>La <strong>tienda</strong> del juego vende packs nuevos cada semana.<br>
+   → <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+</li>
+<li>
+<p>Luca estaba <strong>contento</strong> cuando ganó el primer cuchillo.<br>
+   → <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+</li>
+<li>
+<p>Hay que <strong>comprar</strong> llenya antes de encender la hoguera.<br>
+   → <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+</li>
+<li>
+<p>El mapa del evento es muy <strong>grande</strong> y tiene cinco salas.<br>
+   → <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+</li>
+<li>
+<p>Aray guardó las monedas en un <strong>lugar</strong> seguro del inventario.<br>
+   → <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+</li>
+</ol>
+<p class="fitxa-recorda"><strong>Recorda:</strong> Un sinónimo es una palabra <strong>parecida</strong> en significado · Lee la frase entera al terminar · No cambies el resto de palabras.</p>
+      </div>
+      <footer class="footer-line">Castellano · Fitxa 3 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 4 · Sinónimos y definición</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 4</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Llengua castellana · Idioma: castellà · 3r primària · BEX: LES-004 · Dificultat: ⭐⭐</p>
+
+<h2>Relaciona cada palabra con su sinónimo</h2>
+<p><strong>Lee las definiciones. Une cada palabra de la columna A con su sinónimo de la columna B. Escribe la letra.</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Palabra</th>
+<th></th>
+<th>Sinónimo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>alzar</td>
+<td>—</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>sanar</td>
+<td>—</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>aroma</td>
+<td>—</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>bonito</td>
+<td>—</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>¿Qué significa cada pareja?</h2>
+<p><strong>Escribe el número de la pareja correcta (1–4) junto a cada definición.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Definición</th>
+<th>Pareja</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Poner algo más alto, levantarlo del suelo.</td>
+<td>___</td>
+</tr>
+<tr>
+<td>Hacer que una herida o enfermedad mejore.</td>
+<td>___</td>
+</tr>
+<tr>
+<td>Olor agradable que se percibe con la nariz.</td>
+<td>___</td>
+</tr>
+<tr>
+<td>Que resulta agradable a la vista.</td>
+<td>___</td>
+</tr>
+</tbody>
+</table>
+<p class="fitxa-recorda"><strong>Recorda:</strong> Lee la definición con calma · Busca la palabra que signifique <strong>lo mismo</strong> · Comprueba que encaje en una frase.</p>
+      </div>
+      <footer class="footer-line">Castellano · Fitxa 4 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 5 · Ordenar palabras</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 5</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Llengua castellana · Idioma: castellà · 3r primària · BEX: LES-005 · Dificultat: ⭐⭐</p>
+
+<h2>Ordena las palabras y escribe la frase</h2>
+<p><strong>Coloca las palabras en el orden correcto. Empieza con mayúscula y termina con punto.</strong></p>
+<p><strong>Frase 1:</strong> verano / El / es / la / estación / más / calurosa<br>
+→ <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+<p><strong>Frase 2:</strong> del / La / cola / zorro / es / larga<br>
+→ <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+<p><strong>Frase 3:</strong> juego / El / Roblox / es / divertido<br>
+→ <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>_____</p>
+<p class="fitxa-recorda"><strong>Recorda:</strong> La frase empieza con <strong>mayúscula</strong> · Busca el <strong>sujeto</strong> (quién o qué) · Termina con <strong>punto</strong>.</p>
+      </div>
+      <footer class="footer-line">Castellano · Fitxa 5 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 6 · Sílaba tónica</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 6</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Llengua castellana · Idioma: castellà · 3r primària · BEX: LES-006 · Dificultat: ⭐⭐⭐</p>
+
+<h2>Subraya la sílaba tónica</h2>
+<p><strong>En cada palabra, subraya la sílaba que pronuncias con más fuerza.</strong></p>
+<ol>
+<li>lámpara → <strong><em>_</em></strong><strong><em>_</em></strong>_  </li>
+<li>destornillador → <strong><em>_</em></strong><strong><em>_</em></strong>_  </li>
+<li>cuchillo → <strong><em>_</em></strong><strong><em>_</em></strong>_  </li>
+<li>ordenador → <strong><em>_</em></strong><strong><em>_</em></strong>_  </li>
+<li>inventario → <strong><em>_</em></strong><strong><em>_</em></strong>_  </li>
+<li>aventura → <strong><em>_</em></strong><strong><em>_</em></strong>_</li>
+</ol>
+<h2>Forma una palabra nueva</h2>
+<p><strong>Subraya la sílaba tónica de cada palabra. Después, escribe una palabra usando solo las sílabas tónicas (en el orden que quieras).</strong></p>
+<table>
+<thead>
+<tr>
+<th>Palabra</th>
+<th>Sílaba tónica</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>asa</td>
+<td></td>
+</tr>
+<tr>
+<td>cabaña</td>
+<td></td>
+</tr>
+<tr>
+<td>anillo</td>
+<td></td>
+</tr>
+<tr>
+<td>socorro</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Palabra que formas con las sílabas tónicas:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>__</p>
+<p><em>(Pista: es un objeto que usamos cuando hace mucho calor.)</em></p>
+<p class="fitxa-recorda"><strong>Recorda:</strong> La sílaba tónica es la que suena <strong>más fuerte</strong> · Separa en sílabas antes de subrayar · Di la palabra en voz alta.</p>
+      </div>
+      <footer class="footer-line">Castellano · Fitxa 6 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 7 · El predicado</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 7</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Llengua castellana · Idioma: castellà · 3r primària · BEX: LES-007 · Dificultat: ⭐⭐</p>
+
+<h2>Subraya el predicado</h2>
+<p><strong>En cada oración, subraya solo el predicado (lo que dice el sujeto: qué hace, qué es o cómo está).</strong></p>
+<ol>
+<li>
+<p>Aray completó la primera prueba del evento.</p><div class="write-line"></div>
+</li>
+<li>
+<p>Los cuchillos del pack brillan en la pantalla.</p><div class="write-line"></div>
+</li>
+<li>
+<p>Luca y Aray entraron juntos a la arena.</p><div class="write-line"></div>
+</li>
+</ol>
+<p class="fitxa-recorda"><strong>Recorda:</strong> El <strong>sujeto</strong> es quién hace la acción · El <strong>predicado</strong> es el resto de la oración · Pregunta «¿qué hace?» o «¿qué es?» para encontrarlo.</p>
+      </div>
+      <footer class="footer-line">Castellano · Fitxa 7 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 8 · Comprensión y adjetivos</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 8</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Llengua castellana · Idioma: castellà · 3r primària · BEX: LES-008 · Dificultat: ⭐⭐</p>
+
+<h2>Lee el texto</h2>
+<p><img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/les_08_cachorro.png" class="fitxa-illustration" alt="Cachorro dorado en un juego de bloques"></p>
+<p><strong>El cachorro de bloques</strong></p>
+<p>En un mundo de Roblox lleno de cubos de colores, Aray encontró un cachorro pequeño hecho de bloques dorados. Tenía orejas puntiagudas, una cola corta y ojos brillantes que parecían dos estrellas. El animalito corría rápido entre los árboles cuadrados del bosque pixelado. Cuando Aray le acarició la cabeza, el cachorro movió la cola con alegría y soltó un ladrido suave. «Te llamaré Pixel», dijo Aray, y el cachorro dorado lo siguió hasta la entrada del campamento.</p>
+<h2>Responde</h2>
+<ol>
+<li>
+<p>¿De qué material parece hecho el cachorro?</p><div class="write-line tall"></div><div class="write-line"></div>
+</li>
+<li>
+<p>¿Cómo son las orejas del cachorro?</p><div class="write-line tall"></div><div class="write-line"></div>
+</li>
+<li>
+<p>¿Qué nombre le puso Aray?</p><div class="write-line tall"></div><div class="write-line"></div>
+</li>
+<li>
+<p>¿Adónde lo siguió el cachorro?</p><div class="write-line tall"></div><div class="write-line"></div>
+</li>
+</ol>
+<h2>Rodea los adjetivos</h2>
+<p><strong>Vuelve a leer el texto. Rodea con un círculo todos los adjetivos (palabras que describen cómo es algo o alguien).</strong></p>
+<p class="fitxa-recorda"><strong>Recorda:</strong> El adjetivo describe al sustantivo (pequeño, dorado, rápido…) · Lee despacio palabra por palabra · No rodees los nombres de personas o animales.</p>
+      </div>
+      <footer class="footer-line">Castellano · Fitxa 8 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 9 · Tipos de oración</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 9</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Llengua castellana · Idioma: castellà · 3r primària · BEX: LES-009 · Dificultat: ⭐⭐</p>
+
+<h2>Clasifica cada oración</h2>
+<p><strong>Escribe en la casilla: E (enunciativa), I (interrogativa) o X (exclamativa).</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Oración</th>
+<th>Tipo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>¡Qué evento tan emocionante!</td>
+<td>___</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Aray guarda las monedas en el inventario.</td>
+<td>___</td>
+</tr>
+<tr>
+<td>3</td>
+<td>¿Cuántos cuchillos tiene el pack legendario?</td>
+<td>___</td>
+</tr>
+<tr>
+<td>4</td>
+<td>No tengo hambre todavía.</td>
+<td>___</td>
+</tr>
+<tr>
+<td>5</td>
+<td>¡Hemos ganado la primera prueba!</td>
+<td>___</td>
+</tr>
+<tr>
+<td>6</td>
+<td>¿Vienes a jugar conmigo esta tarde?</td>
+<td>___</td>
+</tr>
+</tbody>
+</table>
+<p class="fitxa-recorda"><strong>Recorda:</strong> La <strong>enunciativa</strong> informa y termina en punto · La <strong>interrogativa</strong> pregunta (¿…?) · La <strong>exclamativa</strong> muestra emoción (¡…!).</p>
+      </div>
+      <footer class="footer-line">Castellano · Fitxa 9 · Repàs verano Aray</footer>
+    </article>
+    
+
+    <article class="page fitxa-page">
+      <div class="fitxa-body">
+        <h1>Fitxa 10 · Mayúsculas y puntos</h1>
+<div class="fitxa-header-bar">
+  <img src="file://amg-arriba/htdocs/Aray/verano_aray/fichas_repaso/imatges/aray.png" class="aray-avatar" alt="Aray">
+  <div class="fitxa-fields">
+    <div class="field-group"><span>Nom:</span><span class="field-line field-nom"></span></div>
+    <div class="field-group"><span>Data:</span><span class="field-line field-date"></span></div>
+    <span class="fitxa-num">Fitxa 10</span>
+  </div>
+</div>
+
+<p class="fitxa-meta">Àrea: Llengua castellana · Idioma: castellà · 3r primària · BEX: LES-010 · Dificultat: ⭐</p>
+
+<h2>Copia el texto corrigiendo las mayúsculas</h2>
+<p><strong>Este texto tiene errores de mayúsculas. Escríbelo de nuevo con la ortografía correcta (mayúsculas y puntos).</strong></p>
+<p><em>Texto con errores:</em></p>
+<blockquote>
+<p>el sábado por la mañana aray fue al colegio sant jordi con su mochila roja luca le esperó en la puerta del patio dijo hola aray ¿juegas a roblox esta tarde aray sonrió y respondió sí, a las cinco en mi casa</p>
+</blockquote>
+<p><strong>Escribe aquí el texto corregido:</strong></p>
+<div class="write-line"></div>
+<div class="write-line"></div>
+<div class="write-line"></div>
+<div class="write-line"></div>
+<div class="write-line"></div>
+<p class="fitxa-recorda"><strong>Recorda:</strong> Mayúscula al <strong>empezar</strong> la frase · Mayúscula en <strong>nombres propios</strong> (personas, lugares) · Después de punto, otra mayúscula.</p>
+      </div>
+      <footer class="footer-line">Castellano · Fitxa 10 · Repàs verano Aray</footer>
+    </article>
+    
+</body>
+</html>

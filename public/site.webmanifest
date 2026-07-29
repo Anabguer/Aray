@@ -1,0 +1,36 @@
+{
+  "name": "ARAY",
+  "short_name": "ARAY",
+  "description": "El espacio digital de Aray",
+  "lang": "es",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#071528",
+  "theme_color": "#071528",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

@@ -1,0 +1,1065 @@
+--- PAGE 1 ---
+básico
+°Matemática 3
+TOMO I
+
+
+--- PAGE 2 ---
+Matemática
+básico3°
+Dirección editorial
+Prof. Rodolfo Hidalgo Caprile
+Jefatura de área
+Mg. Cristian Gúmera Valenzuela
+Edición
+Prof. Sandra Droguett Villarroel
+Autoría
+Prof. Cecilia Véliz Bórquez
+Asesoría pedagógica
+Prof. Ingrid Cerón Reyes
+Prof. Cristián Tobar Salinas
+Asesoría en didáctica
+Dra. Lorena Espinoza Salfate
+Dr. Joaquim Barbé Farré
+Mg. Enrique González Laussube
+Prof. Dinko Mitrovich García
+TOMO I
+El Centro Félix Klein de la UNIVERSIDAD 
+DE SANTIAGO DE CHILE, ha revisado 
+y validado la propuesta didáctica de las 
+páginas de resolución de problemas 
+basadas en el Método Gráfico Singapur 
+propuestas en los textos de Matemática 
+del proyecto Casa del Saber de Editorial 
+Santillana.
+Pasos para
+Resolver problemas
+¿Qué pasos me permiten 
+resolver de manera 
+ordenada un problema?
+Primero, debes leer y 
+comprender la situación y 
+la pregunta asociada a ella.
+Luego, debes seleccionar 
+los datos que te permitan 
+responder la pregunta.
+Una vez seleccionados los datos, 
+encontrarás la solución del 
+problema utilizando una estrategia.
+Finalmente, debes comprobar la 
+solución y responder la pregunta 
+del problema. 
+Nombre
+
+
+--- PAGE 3 ---
+El Tomo I del material didáctico Matemática 3º básico, proyecto  
+Casa del Saber, es una obra colectiva, creada y diseñada por el 
+Departamento de Investigaciones Educativas de Editorial Santillana. 
+Dirección editorial: Rodolfo Hidalgo Caprile
+Subdirección de contenidos: Ana María Anwandter Rodríguez
+Solucionario: Daniela Linares Rodríguez, Yonatan Batarce Vásquez
+Corrección de estilo:  Patricio Varetto Cabré
+Documentación:  Paulina Novoa Venturino, Cristian Bustos Chavarría
+Gestión autorizaciones:  María Cecilia Mery Zúñiga
+Subdirección de arte:  María Verónica Román Soto
+Jefatura de arte:  Raúl Urbano Cornejo
+Diseño y diagramación:  Pablo Aguirre Ladueña
+Ilustraciones:  Álvaro de la Vega Arancibia
+Fotografías: Archivo Santillana
+Cubierta: Alfredo Galdames Cid
+Ilustración de cubierta:  Sandra Caloguerea Alarcón
+Producción: Germán Urrutia Garín
+Resolución de problemas
+Pasos Pa R a R esolve R  situaciones PR oblema
+Problema 
+Pregunta: Se necesita encontrar la cantidad de lápices 
+que debe agregar Bárbara a su estuche para 
+que tenga la misma cantidad que el de Valeria.
+Datos: 15 lápices en el estuche de Bárbara.
+ 20 lápices en el estuche de V
+aleria.
+Estrategia: Hacer un esquema.
+Bárbara
+20
+15
+Valeria
+20 – 15 = 5
+Comprobación: 15 + 5 = 20
+Respuesta: Bárbara debe agregar 5 lápices a su estuche.
+Comprensión de la situación y la pregunta
+Explica con tus palabras la situación y la 
+interrogante que debes responder. 
+Selección de los datos
+Selecciona solo aquellos datos de la situación 
+que te permitan dar respuesta a la pregunta.
+Utilización de una estrategia
+En esta etapa, debes buscar una estrategia 
+para resolver la situación problema. 
+Comprobación y respuesta
+Analiza la solución encontrada y responde en 
+forma completa a la pregunta del problema.
+estRategias Pa R a R esolve R  PR oblemas
+Puedes seleccionar la estrategia que te facilite resolver el problema. Aquí, te presentamos algunas de ellas.
+Representar la situación
+15 lápices
+20 lápices
+? lápices
+Plantear una ecuación (modelar)
+15 +  = 20
+  = 20 – 5
+  = 5
+En el estuche de Bárbara hay 15 lápices y en el de 
+Valeria hay 20.
+¿Cuántos lápices debe agregar Bárbara a su estuche 
+para tener la misma cantidad que Valeria?
+La editorial ha hecho todo lo posible por conseguir los permisos correspondientes 
+para las obras con “Copyright”  que aparecen en el presente texto. 
+Cualquier error u omisión será rectificado en futuras impresiones a medida que la 
+información esté disponible.
+Que  d an rigurosamente prohibidas, sin la autorización escrita de los titulares 
+del “Copyright”, bajo las sanciones establecidas en las leyes, la reproducción total
+o parcial de esta obra por cualquier medio o procedimiento, comprendidos
+la reprografía y el tratamiento informático, y la distribución en ejemplares 
+de ella mediante alquiler o présta  m o público.
+© 2013, by Santillana del Pacífico S.A. de Ediciones. 
+Dr. Aníbal Ariztía 1444, Providencia, Santiago (Chile). 
+PRINTED IN CHINA. Impreso en Chile por Quad/Graphics
+ISBN: 978-956-15-2200-8   –   Inscripción N° 221.704
+www.santillana.cl   info@santillana.cl
+SANTILLANA® es una marca registrada de Grupo Santillana de Ediciones, S.L. 
+Todos los derechos reservados.
+
+--- PAGE 4 ---
+Presentación
+Hola, amigas y amigos:
+Somos Punto         y Coma          y queremos darles la bienvenida 
+a nuestra Casa del Saber. Es una casa muy especial, ¿quieren saber 
+por qué? 
+•	 Es una casa llena de magia, y en ella todos tenemos cabida.  
+Aquí encontrarán contenidos, textos, imágenes y actividades 
+escritas de una manera sencilla y amigable para que  
+descubran que aprender es entretenido. 
+•	 Es un espacio donde todos aprendemos a compartir y a convivir, 
+desarrollando actividades que nos invitan a reflexionar sobre los 
+valores y a relacionarnos mejor con los demás.
+•	 Es una casa abierta al mundo, donde podrán  
+aprender más y de manera interactiva gracias  
+a la tecnología.
+•	 Es una casa llena de desafíos que los pondrán a prueba y que, 
+junto con sus compañeras y compañeros, deberán enfrentar para 
+encontrar soluciones, desarrollando habilidades matemáticas y 
+aplicando diferentes estrategias de cálculo y de resolución de 
+problemas.
+•	  
+Nosotros avanzaremos con ustedes en todo momento, 
+solo necesitan curiosidad y ganas de aprender.
+Casa 
+del Saber
+ 3
+
+--- PAGE 5 ---
+Nosotros te 
+acompañaremos 
+en las distintas 
+páginas.
+¿Cómo se organiza tu texto? 
+El texto Matemática 3º básico Casa del Saber se organiza en 8 unidades y en cada unidad encontrarás: 
+Páginas de inicio de unidad
+•	 Número y título de la unidad
+•	 Objetivos de aprendizaje
+•	 Evaluación inicial
+•	 Observa y responde
+•	 Lee y responde
+•	 Aprende
+•	 Practica
+•	 Ponte a prueba
+Módulos organizados por objetivos de aprendizaje
+•	 Educando en valores
+•	 ¿Sabías que...?
+•	 Recuerda que…
+•	 Conectados
+Secciones de cada unidad
+4
+
+
+--- PAGE 6 ---
+Páginas de apoyo 
+Páginas de evaluación
+Páginas especiales
+•	 Registro de tu avance
+•	 Desarrollo de la autonomía 
+(Agenda)
+•	 Desplegable de habilidades
+•	 Recortables
+•	 Cartones
+•	 Competencias para la 
+vida
+•	 Resolución de problemas
+•	 Estrategias para 
+preparar el Simce
+MR
+•	 Prepara la prueba 
+(síntesis y repaso para que 
+pegues en tu cuaderno)
+•	 ¿Qué sabes?  
+Evaluación inicial
+•	 ¿Cómo vas?  
+Evaluación intermedia
+•	 ¿Qué aprendiste? 
+Evaluación final
+•	 Evaluación integradora 
+tipo Simce
+MR
+5
+5
+
+--- PAGE 7 ---
+La Casa del Saber se construye día a día. 
+Busca el recortable al final del texto y 
+pégalo para registrar tu avance.
+Unidad 2
+Adición y 
+sustracción
+Página
+50
+Unidad 1
+Números
+Página
+12
+¿Cuánto has avanzado?
+6
+
+--- PAGE 8 ---
+Matemática 3º básico - Tomo I
+Unidad 3
+Multiplicación y 
+división
+Página
+100
+Unidad 4
+Patrones y 
+ecuaciones
+Página
+154
+7
+
+--- PAGE 9 ---
+Índice
+Unidad Módulo 1 Módulo 2 Módulo 3 Módulo 4 Resolución de 
+problemas Competencias Simce Evaluaciones Síntesis y 
+repaso
+1
+Números
+Números hasta el 10.000
+Lectura y representación
+Conteo
+pág. 14
+Ponte a prueba
+pág. 21
+Sistema de numeración 
+decimal
+Unidad de mil y decena de mil
+Valor posicional
+Composición y descomposición aditiva
+pág. 22
+Ponte a prueba 
+pág. 27
+Orden y comparación de 
+números
+Comparación usando la tabla posicional
+Orden y comparación en la recta 
+numérica
+Orden y comparación usando 
+software
+pág. 30
+Ponte a prueba 
+pág. 35
+Números hasta el 100.000
+Números hasta el 100.000
+Aproximación por redondeo
+pág. 36
+Educando en valores: 
+responsabilidad
+pág. 37
+Ponte a prueba 
+pág. 41
+  
+Estrategia
+ 
+Ordenar la 
+información
+pág. 42
+  
+Los números 
+me ayudan a 
+conocer a los 
+mamíferos
+Competencias:  
+matemática, 
+conocimiento e 
+interacción con el 
+mundo físico
+pág. 44
+  
+Estrategias 
+para preparar 
+una pregunta 
+de selección 
+múltiple
+pág. 46  
+¿Qué sabes?
+Evaluación inicial
+pág. 13
+¿Cómo vas?
+Evaluación intermedia
+pág. 28
+¿Qué aprendiste?
+Evaluación final
+pág. 47
+Prepara la 
+prueba 1
+2
+Adición y 
+sustracción
+Cálculo de adiciones y de 
+sustracciones
+Adición sin reserva
+Adición con reserva
+Sustracción sin canje
+Sustracción con canje
+pág. 52
+Ponte a prueba 
+pág. 59
+Adición y sustracción
+Propiedades de la adición
+Relación entre la adición y la sustracción
+Operaciones combinadas
+pág. 60
+Educando en valores:  
+trabajo en equipo
+pág. 64
+Ponte a prueba 
+pág. 69  
+Estrategias de cálculo mental
+Descomponer
+Completar la decena
+Usar dobles y mitades
+Sumar en vez de restar
+Aplicar la asociatividad
+pág. 72
+Ponte a prueba 
+pág. 81
+Problemas aditivos
+Resolución de problemas aditivos
+Resolución usando 
+software
+Creación de problemas aditivos
+pág. 82
+Educando en valores: 
+autocuidado
+pág. 82
+Ponte a prueba 
+pág. 89
+Método Singapur
+Problemas de dos 
+etapas
+pág. 90
+La matemática 
+me ayuda a 
+conocer las 
+raíces de mi 
+país
+Competencias:  
+matemática, 
+cultural y artística
+pág. 94
+  
+Estrategias 
+para preparar 
+una pregunta 
+de selección 
+múltiple
+pág. 96  
+¿Qué sabes?
+Evaluación inicial
+pág. 51
+¿Cómo vas?
+Evaluación intermedia
+pág. 70
+¿Qué aprendiste?
+Evaluación final
+pág. 97
+Prepara la 
+prueba 2
+3
+Multiplicación y 
+división
+Conteo
+Conteo de 3 en 3
+Conteo de 4 en 4
+Conteo de 5 en 5
+pág. 102
+Educando en valores:  
+autocuidado
+pág. 104
+Ponte a prueba 
+pág. 107
+Multiplicación
+Relación entre la adición y la 
+multiplicación
+Situaciones de: aporte equitativo, 
+correspondencia uno a varios, arreglo 
+bidimensional
+Distributividad
+pág. 108
+Educando en valores:  
+perseverancia
+pág. 119
+Ponte a prueba 
+pág. 119  
+División
+Relación entre la sustracción y la división
+Situaciones de: reparto equitativo, 
+reparto por medida
+División utilizando las tablas de 
+multiplicar y como operación inversa de 
+la multiplicación
+pág. 122
+Educando en valores:  
+buena convivencia
+pág. 128
+Ponte a prueba 
+pág. 131
+Problemas 
+multiplicativos
+Problemas de: iteración de una 
+medida, reparto equitativo, 
+agrupamiento por medida
+Creación de problemas 
+multiplicativos
+Problemas con el sistema 
+monetario
+pág. 132
+Ponte a prueba 
+pág. 143
+Método Singapur
+Problemas de 
+multiplicación
+pág. 144
+Problemas de división
+pág. 146
+Los números 
+me ayudan a 
+reciclar
+Competencias:  
+matemática, 
+conocimiento e 
+interacción con el 
+mundo físico
+pág. 148
+  
+Estrategias 
+para preparar 
+una pregunta 
+de selección 
+múltiple
+pág. 150
+¿Qué sabes?
+Evaluación inicial
+pág. 101
+¿Cómo vas?
+Evaluación intermedia
+pág. 120
+¿Qué aprendiste?
+Evaluación final
+pág. 151
+Prepara la 
+prueba 3
+4
+Patrones y 
+ecuaciones
+Patrones numéricos
+Patrones numéricos en tablas de 100
+Patrones numéricos en un 
+software
+pág. 156
+Educando en valores:  
+perseverancia
+pág. 163
+Ponte a prueba 
+pág. 163  
+Ecuaciones
+¿Qué es una ecuación?
+Ecuaciones con adición
+Ecuaciones con sustracción
+pág. 166
+Ponte a prueba 
+pág. 177
+Estrategia
+Plantear un ecuación
+pág. 178
+Conocer  
+patrones 
+me permite 
+entender la 
+música
+Competencias:  
+matemática, 
+cultural y artística
+pág. 180  
+Estrategias 
+para preparar 
+una pregunta 
+de selección 
+múltiple
+pág. 182
+¿Qué sabes?
+Evaluación inicial
+pág. 155
+¿Cómo vas?
+Evaluación intermedia
+pág. 164
+¿Qué aprendiste?
+Evaluación final
+pág. 183
+Prepara la 
+prueba 4
+págs. 12 - 49
+págs. 100 - 153
+págs. 50 - 99
+Evaluación integradora  págs. 186 - 191 Recortables pág. 193
+págs. 154 - 185
+8
+
+
+--- PAGE 10 ---
+Unidad Módulo 1 Módulo 2 Módulo 3 Módulo 4 Resolución de 
+problemas Competencias Simce MR Evaluaciones Síntesis y 
+repaso
+Números
+Números hasta el 10.000
+Lectura y representación
+Conteo
+pág. 14
+Ponte a prueba
+pág. 21
+Sistema de numeración 
+decimal
+Unidad de mil y decena de mil
+Valor posicional
+Composición y descomposición aditiva
+pág. 22
+Ponte a prueba 
+pág. 27
+Orden y comparación de 
+números
+Comparación usando la tabla posicional
+Orden y comparación en la recta 
+numérica
+Orden y comparación usando 
+software
+pág. 30
+Ponte a prueba 
+pág. 35
+Números hasta el 100.000
+Números hasta el 100.000
+Aproximación por redondeo
+pág. 36
+Educando en valores: 
+responsabilidad
+pág. 37
+Ponte a prueba 
+pág. 41
+  
+Estrategia
+ 
+Ordenar la 
+información
+pág. 42
+  
+Los números 
+me ayudan a 
+conocer a los 
+mamíferos
+Competencias:  
+matemática, 
+conocimiento e 
+interacción con el 
+mundo físico
+pág. 44
+  
+Estrategias 
+para preparar 
+una pregunta 
+de selección 
+múltiple
+pág. 46  
+¿Qué sabes?
+Evaluación inicial
+pág. 13
+¿Cómo vas?
+Evaluación intermedia
+pág. 28
+¿Qué aprendiste?
+Evaluación final
+pág. 47
+Prepara la 
+prueba 1
+Adición y 
+sustracción
+Cálculo de adiciones y de 
+sustracciones
+Adición sin reserva
+Adición con reserva
+Sustracción sin canje
+Sustracción con canje
+pág. 52
+Ponte a prueba 
+pág. 59
+Adición y sustracción
+Propiedades de la adición
+Relación entre la adición y la sustracción
+Operaciones combinadas
+pág. 60
+Educando en valores:  
+trabajo en equipo
+pág. 64
+Ponte a prueba 
+pág. 69  
+Estrategias de cálculo mental
+Descomponer
+Completar la decena
+Usar dobles y mitades
+Sumar en vez de restar
+Aplicar la asociatividad
+pág. 72
+Ponte a prueba 
+pág. 81
+Problemas aditivos
+Resolución de problemas aditivos
+Resolución usando 
+software
+Creación de problemas aditivos
+pág. 82
+Educando en valores: 
+autocuidado
+pág. 82
+Ponte a prueba 
+pág. 89
+Método Singapur
+Problemas de dos 
+etapas
+pág. 90
+La matemática 
+me ayuda a 
+conocer las 
+raíces de mi 
+país
+Competencias:  
+matemática, 
+cultural y artística
+pág. 94
+  
+Estrategias 
+para preparar 
+una pregunta 
+de selección 
+múltiple
+pág. 96  
+¿Qué sabes?
+Evaluación inicial
+pág. 51
+¿Cómo vas?
+Evaluación intermedia
+pág. 70
+¿Qué aprendiste?
+Evaluación final
+pág. 97
+Prepara la 
+prueba 2
+Multiplicación y 
+división
+Conteo
+Conteo de 3 en 3
+Conteo de 4 en 4
+Conteo de 5 en 5
+pág. 102
+Educando en valores:  
+autocuidado
+pág. 104
+Ponte a prueba 
+pág. 107
+Multiplicación
+Relación entre la adición y la 
+multiplicación
+Situaciones de: aporte equitativo, 
+correspondencia uno a varios, arreglo 
+bidimensional
+Distributividad
+pág. 108
+Educando en valores:  
+perseverancia
+pág. 119
+Ponte a prueba 
+pág. 119  
+División
+Relación entre la sustracción y la división
+Situaciones de: reparto equitativo, 
+reparto por medida
+División utilizando las tablas de 
+multiplicar y como operación inversa de 
+la multiplicación
+pág. 122
+Educando en valores:  
+buena convivencia
+pág. 128
+Ponte a prueba 
+pág. 131
+Problemas 
+multiplicativos
+Problemas de: iteración de una 
+medida, reparto equitativo, 
+agrupamiento por medida
+Creación de problemas 
+multiplicativos
+Problemas con el sistema 
+monetario
+pág. 132
+Ponte a prueba 
+pág. 143
+Método Singapur
+Problemas de 
+multiplicación
+pág. 144
+Problemas de división
+pág. 146
+Los números 
+me ayudan a 
+reciclar
+Competencias:  
+matemática, 
+conocimiento e 
+interacción con el 
+mundo físico
+pág. 148
+  
+Estrategias 
+para preparar 
+una pregunta 
+de selección 
+múltiple
+pág. 150
+¿Qué sabes?
+Evaluación inicial
+pág. 101
+¿Cómo vas?
+Evaluación intermedia
+pág. 120
+¿Qué aprendiste?
+Evaluación final
+pág. 151
+Prepara la 
+prueba 3
+Patrones y 
+ecuaciones
+Patrones numéricos
+Patrones numéricos en tablas de 100
+Patrones numéricos en un 
+software
+pág. 156
+Educando en valores:  
+perseverancia
+pág. 163
+Ponte a prueba 
+pág. 163  
+Ecuaciones
+¿Qué es una ecuación?
+Ecuaciones con adición
+Ecuaciones con sustracción
+pág. 166
+Ponte a prueba 
+pág. 177
+Estrategia
+Plantear un ecuación
+pág. 178
+Conocer  
+patrones 
+me permite 
+entender la 
+música
+Competencias:  
+matemática, 
+cultural y artística
+pág. 180  
+Estrategias 
+para preparar 
+una pregunta 
+de selección 
+múltiple
+pág. 182
+¿Qué sabes?
+Evaluación inicial
+pág. 155
+¿Cómo vas?
+Evaluación intermedia
+pág. 164
+¿Qué aprendiste?
+Evaluación final
+pág. 183
+Prepara la 
+prueba 4
+Matemática 3º básico - Tomo I
+Recortables pág. 193
+9
+
+
+--- PAGE 11 ---
+Desarrollo de la autonomía
+Día Día
+1 17
+2 18
+3 19
+4 20
+5 21
+6 22
+7 23
+8 24
+9 25
+10 26
+11 27
+12 28
+13 29
+14 30
+15 31
+16
+Día Día
+1 17
+2 18
+3 19
+4 20
+5 21
+6 22
+7 23
+8 24
+9 25
+10 26
+11 27
+12 28
+13 29
+14 30
+15
+16
+Día Día
+1 17
+2 18
+3 19
+4 20
+5 21
+6 22
+7 23
+8 24
+9 25
+10 26
+11 27
+12 28
+13 29
+14 30
+15 31
+16
+Abril
+ Mayo
+Marzo
+Prueba
+ Traer materiales
+Tarea para la casa
+10
+
+
+--- PAGE 12 ---
+Día Día
+1 17
+2 18
+3 19
+4 20
+5 21
+6 22
+7 23
+8 24
+9 25
+10 26
+11 27
+12 28
+13 29
+14 30
+15
+16
+Día Día
+1 17
+2 18
+3 19
+4 20
+5 21
+6 22
+7 23
+8 24
+9 25
+10 26
+11 27
+12 28
+13 29
+14 30
+15 31
+16
+Día Día
+1 17
+2 18
+3 19
+4 20
+5 21
+6 22
+7 23
+8 24
+9 25
+10 26
+11 27
+12 28
+13 29
+14 30
+15 31
+16
+Julio
+ Agosto
+Junio
+Prueba
+ Traer materiales
+Tarea para la casa
+11
+
+
+--- PAGE 13 ---
+Unidad
+ 1
+Números
+En esta unidad aprenderás a:
+• Leer,	escribir	y	representar	números	hasta	el	100.000.
+• Describir	números	a	partir	de	la	unidad	de	mil	y	la	decena	de	mil.
+• Contar	de	5	en	5,	de	10	en	10	y	de	100	en	100	con	números	hasta	el	100.000.
+• Representar	números	a	partir	del	valor	posicional	de	los	dígitos.
+• Componer	y	descomponer	aditivamente	los	números.
+• Ordenar	y	comparar	números.
+• Mostrar	un	estilo	de	trabajo	ordenado	y	metódico.
+12
+
+
+--- PAGE 14 ---
+¿Qué	s abes?  Evaluación inicial
+Observa la imagen y responde.
+1.
+ ¿
+Cuántas
+	
+personas
+	
+están
+	
+visitando
+	
+el
+	
+museo
+	
+“
+Nuestro
+	
+Patrimonio
+	
+Cultural”?
+2. ¿ Cuántas 	 personas 	 hay 	 en 	 la 	 fila 	 de 	 la 	
+bo
+letería?
+3. ¿ Cuál 	 es 	 el 	 valor 	 de 	 la 	 entrada 	 para 	 la 	 tercera 	
+e
+dad?
+	
+Escríbelo
+	
+con
+	
+palabras.
+	
+ pesos.	
+4
+.
+ ¿Qué	s itio 	f ue 	d eclarado	p atrimonio	d e	l a	
+humanidad	h ace 	m ás 	a ños? 	P inta 	e l 	 	d e 	t u 	
+r
+espuesta.
+	Iglesias	de	Chiloé.
+	P arque 	 Nacional 	 de 	 Rapa 	 Nui.
+	B arrio 	 histórico 	 de 	 la 	 ciudad 	 portuaria 	 de 	
+V alparaíso.
+5.
+ ¿
+Qué
+	
+patrimonio
+	
+de
+	
+la
+	
+humanidad
+	
+fue
+	
+d
+eclarado
+	
+el
+	
+año
+	
+dos mil cinco?
+	
+Pinta
+	
+el
+	 	
+d
+e
+	
+tu
+	
+respuesta.
+	C iudad 	 minera 	 de 	 Sewell.
+	O ficinas 	 salitreras 	 de 	 Humberstone 	 y 	
+S anta 	 Laura.
+	B arrio 	 histórico 	 de 	 la 	 ciudad 	 portuaria 	 de 	
+V alparaíso.
+13
+
+
+--- PAGE 15 ---
+Números hasta el 9
+Módulo
+1 Números hasta el 10.000
+Módulo
+1
+Unidad 1 / Números y operaciones
+•	¿Cuál	es	el	valor	de	
+ ?	Escribe	la	cantidad	con	palabras.
+	pesos.
+•	¿Cuánto	dinero	tiene	
+ ?	Escribe	la	cantidad	con	palabras.	 	 	 	
+	pesos.
+•	¿Cuál	e s 	e l 	v alor 	d e	
+ ?	E scribe 	e l 	n úmero.	 	 	 	 	 	 	 	
+	 		
+•	¿Cómo	se	escribirá	el	valor	de
+ 	c on 	 palabras?
+	pesos.
+Lectura y representación
+Observa y responde
+14
+$	999 $	1.999 $	2.999
