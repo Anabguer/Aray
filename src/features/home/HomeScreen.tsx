@@ -45,15 +45,15 @@ export function HomeScreen() {
       <section className="lobby" aria-labelledby="home-greeting">
         <header className="lobby__header">
           <div className="lobby__welcome">
-            <Lumo state={lumoState} intensity={lumoState === 'idle' ? 0 : 2} size="md" />
-            <div className="lobby__welcome-text">
-              <h1 id="home-greeting" className="lobby__greeting">
-                {demoProfile.greeting}
-              </h1>
-              <p className="lobby__bubble" role="status">
-                ¿Jugamos, Aray?
-              </p>
-            </div>
+            <Lumo
+              className="lobby__lumo"
+              state={lumoState}
+              intensity={lumoState === 'idle' ? 0 : 2}
+              size="md"
+            />
+            <h1 id="home-greeting" className="lobby__greeting">
+              {demoProfile.greeting}
+            </h1>
           </div>
 
           <div className="lobby-hud" aria-label="Progreso">

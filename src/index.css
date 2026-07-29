@@ -2647,13 +2647,18 @@ a {
 }
 
 .lobby__welcome {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 0.75rem;
+  display: flex;
   align-items: center;
-  width: 100%;
+  gap: 0.55rem 0.7rem;
+  width: max-content;
+  max-width: 100%;
   min-width: 0;
   justify-self: start;
+}
+
+.lobby__lumo {
+  width: 6.35rem;
+  height: 6.35rem;
 }
 
 .lobby-hud {
@@ -2681,7 +2686,7 @@ a {
 }
 
 .lobby__logo {
-  --logo-size: clamp(7.25rem, 32vw, 10.5rem);
+  --logo-size: clamp(9rem, 40vw, 13.5rem);
   margin: 0;
   contain: paint;
   isolation: isolate;
@@ -2815,22 +2820,6 @@ a {
   font-family: var(--font-display);
   font-size: clamp(1.35rem, 4vw, 1.75rem);
   line-height: 1.1;
-}
-
-.lobby__bubble {
-  margin: 0.45rem 0 0;
-  position: relative;
-  display: inline-block;
-  max-width: 22ch;
-  padding: 0.55rem 0.85rem;
-  border-radius: 1.1rem 1.1rem 1.1rem 0.35rem;
-  background: linear-gradient(155deg, rgba(34, 211, 238, 0.22), rgba(16, 40, 74, 0.95));
-  border: 1px solid rgba(34, 211, 238, 0.45);
-  color: var(--text);
-  font-size: 1rem;
-  font-weight: 800;
-  font-family: var(--font-display);
-  box-shadow: 0 8px 18px rgba(0, 8, 24, 0.28);
 }
 
 .lobby__main {
@@ -3285,7 +3274,7 @@ a {
   }
 
   .lobby__logo {
-    --logo-size: 10.5rem;
+    --logo-size: 13.5rem;
   }
 
   .lobby-hud__profile {
