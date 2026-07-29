@@ -93,8 +93,11 @@ describe('ARAY navigation shell', () => {
     expect(screen.getByRole('button', { name: /sorpresa/i })).toBeInTheDocument()
   })
 
-  it('muestra botón discreto de adultos en el lobby', () => {
+  it('muestra controles unificados: ayuda, sonido y acceso adulto', () => {
     renderAt('/')
+    expect(screen.getByRole('toolbar', { name: /controles del lobby/i })).toBeInTheDocument()
+    expect(screen.getByLabelText(/ayuda: xp, monedas y drop/i)).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /silenciar sonido|activar sonido/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /acceso adulto/i })).toBeInTheDocument()
   })
 

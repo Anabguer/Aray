@@ -139,11 +139,19 @@ export function useKeyboardAnswers(
   }, [enabled, options, onSelect])
 }
 
-export function MuteToggle({ muted, onToggle }: { muted: boolean; onToggle: () => void }) {
+export function MuteToggle({
+  muted,
+  onToggle,
+  className,
+}: {
+  muted: boolean
+  onToggle: () => void
+  className?: string
+}) {
   return (
     <button
       type="button"
-      className="icon-btn"
+      className={['icon-btn', className].filter(Boolean).join(' ')}
       onClick={onToggle}
       aria-pressed={muted}
       aria-label={muted ? 'Activar sonido' : 'Silenciar sonido'}

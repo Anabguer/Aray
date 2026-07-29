@@ -47,16 +47,76 @@ export function HomeScreen() {
   return (
     <AppShell
       trailing={
-        <div className="lobby__trailing">
-          <MuteToggle muted={progress.soundMuted} onToggle={() => setSoundMuted(!progress.soundMuted)} />
+        <div className="lobby__trailing" role="toolbar" aria-label="Controles del lobby">
+          <details className="lobby-help lobby-help--toolbar">
+            <summary className="lobby-ctrl" aria-label="Ayuda: XP, monedas y drop">
+              <span className="lobby-ctrl__mark" aria-hidden="true">
+                ?
+              </span>
+            </summary>
+            <div className="lobby-help__panel">
+              <p>
+                XP y monedas son para jugar. El drop de Robux se carga con energía (aparte de las
+                monedas). Las cajas son sorpresas extra al completar actividades.
+              </p>
+              <p className="lobby-help__course">
+                Estás en repaso de {courseLabel(progress.school.currentCourseId)}. El curso lo cambia
+                un adulto.
+              </p>
+            </div>
+          </details>
+
+          <MuteToggle
+            className="lobby-ctrl"
+            muted={progress.soundMuted}
+            onToggle={() => setSoundMuted(!progress.soundMuted)}
+          />
+
           <button
             type="button"
-            className="lobby__adult-btn"
+            className="lobby-ctrl lobby-ctrl--lock"
             aria-label="Acceso adulto"
             title="Adultos"
             onClick={() => setAdultPinOpen(true)}
           >
-            <span aria-hidden="true">⚙</span>
+            <svg
+              className="lobby-ctrl__lock"
+              viewBox="0 0 24 24"
+              width="1.15em"
+              height="1.15em"
+              fill="none"
+              aria-hidden="true"
+            >
+              <defs>
+                <linearGradient id="lobbyLockGrad" x1="4" y1="2" x2="20" y2="22">
+                  <stop offset="0%" stopColor="#67e8f9" />
+                  <stop offset="55%" stopColor="#a78bfa" />
+                  <stop offset="100%" stopColor="#c4b5fd" />
+                </linearGradient>
+              </defs>
+              <path
+                d="M8 10V8a4 4 0 0 1 8 0v2"
+                stroke="url(#lobbyLockGrad)"
+                strokeWidth="1.9"
+                strokeLinecap="round"
+              />
+              <rect
+                x="5.5"
+                y="10"
+                width="13"
+                height="10"
+                rx="2.4"
+                stroke="url(#lobbyLockGrad)"
+                strokeWidth="1.9"
+              />
+              <circle cx="12" cy="14.2" r="1.15" fill="url(#lobbyLockGrad)" />
+              <path
+                d="M12 15.4v2.1"
+                stroke="url(#lobbyLockGrad)"
+                strokeWidth="1.9"
+                strokeLinecap="round"
+              />
+            </svg>
           </button>
         </div>
       }
@@ -229,22 +289,6 @@ export function HomeScreen() {
             ))}
           </div>
         </section>
-
-        <details className="lobby-help lobby-help--icon">
-          <summary aria-label="Ayuda: XP, monedas y drop">
-            <span className="lobby-help__i" aria-hidden="true">
-              ?
-            </span>
-          </summary>
-          <p>
-            XP y monedas son para jugar. El drop de Robux se carga con energía (aparte de las monedas).
-            Las cajas son sorpresas extra al completar actividades.
-          </p>
-          <p className="lobby-help__course">
-            Estás en repaso de {courseLabel(progress.school.currentCourseId)}. El curso lo cambia un
-            adulto.
-          </p>
-        </details>
       </section>
 
       <AdultPinModal open={adultPinOpen} onClose={() => setAdultPinOpen(false)} />
