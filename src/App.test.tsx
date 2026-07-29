@@ -50,6 +50,8 @@ describe('ARAY navigation shell', () => {
     expect(screen.getByRole('heading', { name: /¡hola, aray!/i })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /^jugar$/i })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: /misión de hoy|tu misión de hoy/i })).toBeInTheDocument()
+    expect(screen.getByText(/¿jugamos, aray\?/i)).toBeInTheDocument()
+    expect(screen.queryByText(/tu espacio para misiones/i)).not.toBeInTheDocument()
   })
 
   it('abre la pantalla de misiones con matemáticas jugable', () => {

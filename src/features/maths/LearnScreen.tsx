@@ -132,7 +132,7 @@ export function LearnScreen() {
           </p>
         ) : null}
 
-        <div className="play-stage">
+        <div className="play-stage learn-stage">
           <Lumo state={lumo.state} intensity={lumo.intensity} size="sm" />
           <div className="play-stage__main">
             <p className="learn-hint">
@@ -156,27 +156,26 @@ export function LearnScreen() {
                 <strong>?</strong>
               </div>
             )}
+            <div
+              className={`learn-dots${product > 36 ? ' learn-dots--compact' : ''}`}
+              style={
+                {
+                  gridTemplateColumns: `repeat(${columns}, ${size}px)`,
+                  gap: 'var(--learn-gap)',
+                  '--learn-unit': `${size}px`,
+                } as CSSProperties
+              }
+              aria-hidden="true"
+            >
+              {dots.map((d) => (
+                <span
+                  key={d}
+                  className={`learn-dot${d % table === 0 && d !== 0 ? ' learn-dot--group' : ''}`}
+                  style={{ width: size, height: size }}
+                />
+              ))}
+            </div>
           </div>
-        </div>
-
-        <div
-          className={`learn-dots${product > 36 ? ' learn-dots--compact' : ''}`}
-          style={
-            {
-              gridTemplateColumns: `repeat(${columns}, ${size}px)`,
-              gap: 'var(--learn-gap)',
-              '--learn-unit': `${size}px`,
-            } as CSSProperties
-          }
-          aria-hidden="true"
-        >
-          {dots.map((d) => (
-            <span
-              key={d}
-              className={`learn-dot${d % table === 0 && d !== 0 ? ' learn-dot--group' : ''}`}
-              style={{ width: size, height: size }}
-            />
-          ))}
         </div>
 
         {phase !== 'reveal' ? (
