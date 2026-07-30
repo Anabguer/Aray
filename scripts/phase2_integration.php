@@ -41,13 +41,14 @@ try {
 
     // Hard-abort (sin servidor HTTP)
     $phpBin = PHP_BINARY !== '' ? PHP_BINARY : 'php';
+    $installScript = realpath($root . DIRECTORY_SEPARATOR . 'scripts' . DIRECTORY_SEPARATOR . 'install_once.php');
     $out = [];
     $code = 0;
     exec(
         sprintf(
             '%s %s --token=WRONG',
             escapeshellarg($phpBin),
-            escapeshellarg($root . '/scripts/install_once.php')
+            escapeshellarg($installScript !== false ? $installScript : $root . '/scripts/install_once.php')
         ) . ' 2>&1',
         $out,
         $code

@@ -5,25 +5,19 @@ declare(strict_types=1);
 /**
  * Fase 2: recálculo y persistencia de partidas.
  *
- * El servidor recalcula siempre XP, monedas, dominio y fact_stats.
- * No se confía en los campos de recompensa enviados por React.
- * Idempotencia garantizada por sessionId (PRIMARY KEY en arayapp_sessions).
+ * El servidor recalcula siempre factKey, correct, XP, monedas, dominio y fact_stats.
+ * No se confía en `correct` ni `factKey` enviados por React: solo en a, b y selected.
+ * Idempotencia por sessionId + ownership del playerId autenticado.
  *
- * Reglas de XP/monedas (mismas que en el frontend, validadas aquí):
- *   - Base XP por pregunta correcta: 10
- *   - Bonus racha × factor: cada 5 respuestas correctas seguidas +5 XP extra
- *   - Monedas = floor(xpEarned / 10)   (1 moneda por cada 10 XP)
- *   - Modo "learn": sin energía (energyWeight=0)
- *   - best_streak: máximo de cualquier racha en la sesión
+ * Catálogo de operaciones: a,b ∈ [1,10] (como factsForTables del frontend).
+ * 0×n / n×0 / 0×0 no estánidos.
  *
- * Dominio (table_mastery):
- *   - mastery_score  = clamp(0-100): corrects_in_session / total_in_session × 100
- *   - ever_mastered  = true si mastery_score ≥ 80 alguna vez
- *   - best_round_score actualizado si la sesión supera el anterior
- *   - consecutive_low_rounds: +1 si score <50, reset a 0 si score ≥50
+ * factKey canónico: min(a,b)×max(a,b)  (p.ej. 3×7 ≡ 7×3 → "3x7").
+ * correct: selected === a * b.
  *
- * fact_stats: attempts/correct/wrong y peso adaptativo por fact_key (a×b).
- *   - weight sube si wrong/attempts > 0.4; baja si correct/attempts > 0.8
+ * Dominio por tabla (no score global):
+ *   - Se atribuye la respuesta a la tabla `a` (igual que el frontend).
+ *   - last/best_round_score, ever_mastered y consecutive_low_rounds usan el score de esa tabla.
  */
 final class SessionService
 {
@@ -32,11 +26,14 @@ final class SessionService
     public const STREAK_BONUS_XP = 5;
     public const MASTERY_THRESHOLD = 80;
     public const CONSECUTIVE_LOW_THRESHOLD = 50;
+    public const MIN_OPERAND = 1;
+    public const MAX_OPERAND = 10;
     public const MAX_TABLES = 10;
 
     /**
      * Procesa y persiste una partida.
-     * Si el sessionId ya existe devuelve el resultado anterior (idempotente).
+     * Si el sessionId ya existe y pertenece al playerId, devuelve el resultado (idempotente).
+     * Si pertenece a otro jugador → 403.
      *
      * @param array{
      *   sessionId: string,
@@ -44,11 +41,11 @@ final class SessionService
      *   tables: list<int>,
      *   answers: list<array{
      *     attemptId: string,
-     *     factKey: string,
+     *     factKey?: string,
      *     a: int,
      *     b: int,
      *     selected: int,
-     *     correct: bool,
+     *     correct?: bool,
      *     firstTry?: bool,
      *     attemptN?: int,
      *     elapsedMs?: int
@@ -61,47 +58,39 @@ final class SessionService
         $sessionId = self::validateSessionId($payload['sessionId'] ?? '');
         $mode      = self::validateMode($payload['mode'] ?? 'train');
         $tables    = self::validateTables($payload['tables'] ?? []);
-        $answers   = self::validateAnswers($payload['answers'] ?? []);
+        $answers   = self::normalizeAnswers($payload['answers'] ?? []);
         $clientStartedAt = self::parseClientStartedAt($payload['clientStartedAt'] ?? null);
 
         $pdo = Database::pdo();
-
-        // Idempotencia: si ya existe, devolver el resultado guardado
         $sessTable = Database::table('sessions');
+
+        // Idempotencia: si ya existe, comprobar ownership
         $existing = $pdo->prepare("SELECT * FROM {$sessTable} WHERE id = :id LIMIT 1");
         $existing->execute([':id' => $sessionId]);
         $existingRow = $existing->fetch();
         if (is_array($existingRow)) {
-            return self::buildResult($existingRow, $playerId, true);
+            self::assertSessionOwnedBy($existingRow, $playerId);
+            return self::buildResult($existingRow, true);
         }
 
-        // Recálculo en servidor
-        $calc = self::recalculate($answers, $mode);
+        $calc = self::recalculate($answers);
 
         $pdo->beginTransaction();
         try {
-            // Re-check dentro de la transacción (evita carrera concurrente)
+            // Re-check dentro de la transacción (carrera concurrente)
             $lock = $pdo->prepare("SELECT * FROM {$sessTable} WHERE id = :id LIMIT 1 FOR UPDATE");
             $lock->execute([':id' => $sessionId]);
             $locked = $lock->fetch();
             if (is_array($locked)) {
                 $pdo->commit();
-                return self::buildResult($locked, $playerId, true);
+                self::assertSessionOwnedBy($locked, $playerId);
+                return self::buildResult($locked, true);
             }
 
-            // 1. Guardar sesión
             self::insertSession($pdo, $sessionId, $playerId, $mode, $tables, $calc, $clientStartedAt);
-
-            // 2. Guardar respuestas individuales
             self::insertAnswers($pdo, $sessionId, $answers);
-
-            // 3. Actualizar fact_stats
             self::updateFactStats($pdo, $playerId, $answers);
-
-            // 4. Actualizar table_mastery para cada tabla involucrada
-            self::updateTableMastery($pdo, $playerId, $tables, $answers, $calc);
-
-            // 5. Actualizar player_progress (XP, monedas, best_streak, last_practice_at)
+            self::updateTableMastery($pdo, $playerId, $tables, $answers);
             self::updatePlayerProgress($pdo, $playerId, $calc);
 
             $pdo->commit();
@@ -109,25 +98,96 @@ final class SessionService
             if ($pdo->inTransaction()) {
                 $pdo->rollBack();
             }
-            // Si otra petición insertó la misma sesión en paralelo, devolver la existente
+            // Carrera: otra petición insertó la misma sesión
             $existing->execute([':id' => $sessionId]);
             $raceRow = $existing->fetch();
             if (is_array($raceRow)) {
-                return self::buildResult($raceRow, $playerId, true);
+                self::assertSessionOwnedBy($raceRow, $playerId);
+                return self::buildResult($raceRow, true);
             }
             throw $e;
         }
 
-        // Recargar la fila insertada para construir la respuesta canónica
         $existing->execute([':id' => $sessionId]);
         $savedRow = $existing->fetch();
 
-        return self::buildResult(is_array($savedRow) ? $savedRow : [], $playerId, false);
+        return self::buildResult(is_array($savedRow) ? $savedRow : [], false);
+    }
+
+    /** factKey canónico: menor×mayor (3×7 ≡ 7×3). */
+    public static function canonicalFactKey(int $a, int $b): string
+    {
+        $lo = min($a, $b);
+        $hi = max($a, $b);
+        return $lo . 'x' . $hi;
+    }
+
+    public static function isAllowedOperand(int $n): bool
+    {
+        return $n >= self::MIN_OPERAND && $n <= self::MAX_OPERAND;
+    }
+
+    // ─────────────────────────── Ownership ─────────────────────────────────
+
+    private static function assertSessionOwnedBy(array $sessionRow, int $playerId): void
+    {
+        if ((int) ($sessionRow['player_id'] ?? 0) !== $playerId) {
+            Http::error(403, 'session_forbidden', 'Esta sesión no pertenece a este perfil.');
+        }
+    }
+
+    // ─────────────────────────── Normalización ─────────────────────────────
+
+    /**
+     * Normaliza respuestas: factKey y correct solo desde a, b, selected.
+     * Ignora factKey/correct del cliente. Descarta operandos fuera de catálogo.
+     *
+     * @return list<array{
+     *   attemptId:string, factKey:string, a:int, b:int, selected:int,
+     *   correct:bool, firstTry:bool, attemptN:int, elapsedMs:?int
+     * }>
+     */
+    private static function normalizeAnswers(array $answers): array
+    {
+        if (count($answers) > 200) {
+            Http::error(400, 'too_many_answers', 'Demasiadas respuestas (máx 200).');
+        }
+        $out = [];
+        foreach ($answers as $ans) {
+            if (!is_array($ans)) {
+                continue;
+            }
+            $attemptId = trim((string) ($ans['attemptId'] ?? ''));
+            if ($attemptId === '' || strlen($attemptId) > 64) {
+                continue;
+            }
+            $a = (int) ($ans['a'] ?? 0);
+            $b = (int) ($ans['b'] ?? 0);
+            if (!self::isAllowedOperand($a) || !self::isAllowedOperand($b)) {
+                // 0×0, 0×n, fuera de 1..10: rechazadas (catálogo no las permite)
+                continue;
+            }
+            $selected = (int) ($ans['selected'] ?? -1);
+            $out[] = [
+                'attemptId' => $attemptId,
+                'factKey'   => self::canonicalFactKey($a, $b),
+                'a'         => $a,
+                'b'         => $b,
+                'selected'  => $selected,
+                'correct'   => $selected === ($a * $b),
+                'firstTry'  => isset($ans['firstTry']) ? (bool) $ans['firstTry'] : true,
+                'attemptN'  => max(1, (int) ($ans['attemptN'] ?? 1)),
+                'elapsedMs' => isset($ans['elapsedMs']) && is_numeric($ans['elapsedMs'])
+                    ? (int) $ans['elapsedMs']
+                    : null,
+            ];
+        }
+        return $out;
     }
 
     // ─────────────────────────── Recálculo ─────────────────────────────────
 
-    private static function recalculate(array $answers, string $mode): array
+    private static function recalculate(array $answers): array
     {
         $correctCount = 0;
         $wrongCount = 0;
@@ -135,8 +195,9 @@ final class SessionService
         $bestStreak = 0;
         $xp = 0;
 
-        foreach ($answers as $a) {
-            if ((bool) ($a['correct'] ?? false)) {
+        foreach ($answers as $ans) {
+            // Solo el correct recalculado en servidor
+            if (!empty($ans['correct'])) {
                 $correctCount++;
                 $streak++;
                 $xp += self::XP_PER_CORRECT;
@@ -165,6 +226,28 @@ final class SessionService
             'xpEarned'     => $xp,
             'coinsEarned'  => $coins,
         ];
+    }
+
+    /**
+     * Score 0–100 de una tabla concreta (respuestas con a === tableN).
+     *
+     * @return array{attempts:int, correct:int, score:int}
+     */
+    private static function scoreForTable(array $answers, int $tableN): array
+    {
+        $attempts = 0;
+        $correct = 0;
+        foreach ($answers as $ans) {
+            if ((int) $ans['a'] !== $tableN) {
+                continue;
+            }
+            $attempts++;
+            if (!empty($ans['correct'])) {
+                $correct++;
+            }
+        }
+        $score = $attempts > 0 ? (int) round(100 * $correct / $attempts) : 0;
+        return ['attempts' => $attempts, 'correct' => $correct, 'score' => $score];
     }
 
     // ─────────────────────────── Persistencia ──────────────────────────────
@@ -223,15 +306,15 @@ final class SessionService
         foreach ($answers as $ans) {
             $stmt->execute([
                 ':sid' => $sessionId,
-                ':aid' => (string) ($ans['attemptId'] ?? ''),
-                ':fk'  => (string) ($ans['factKey'] ?? ''),
-                ':a'   => (int) ($ans['a'] ?? 0),
-                ':b'   => (int) ($ans['b'] ?? 0),
-                ':sel' => (int) ($ans['selected'] ?? 0),
-                ':cor' => (bool) ($ans['correct'] ?? false) ? 1 : 0,
-                ':ft'  => isset($ans['firstTry']) ? ((bool) $ans['firstTry'] ? 1 : 0) : 1,
-                ':an'  => max(1, (int) ($ans['attemptN'] ?? 1)),
-                ':ms'  => isset($ans['elapsedMs']) ? (int) $ans['elapsedMs'] : null,
+                ':aid' => $ans['attemptId'],
+                ':fk'  => $ans['factKey'],
+                ':a'   => $ans['a'],
+                ':b'   => $ans['b'],
+                ':sel' => $ans['selected'],
+                ':cor' => !empty($ans['correct']) ? 1 : 0,
+                ':ft'  => !empty($ans['firstTry']) ? 1 : 0,
+                ':an'  => $ans['attemptN'],
+                ':ms'  => $ans['elapsedMs'],
                 ':now' => $now,
             ]);
         }
@@ -245,18 +328,14 @@ final class SessionService
         $factTable = Database::table('fact_stats');
         $now = MadridTime::utcNowString();
 
-        // Agrupar por factKey para hacer un upsert por key
         $byKey = [];
         foreach ($answers as $ans) {
-            $key = (string) ($ans['factKey'] ?? '');
-            if ($key === '') {
-                continue;
-            }
+            $key = $ans['factKey'];
             if (!isset($byKey[$key])) {
                 $byKey[$key] = ['attempts' => 0, 'correct' => 0, 'wrong' => 0];
             }
             $byKey[$key]['attempts']++;
-            if ((bool) ($ans['correct'] ?? false)) {
+            if (!empty($ans['correct'])) {
                 $byKey[$key]['correct']++;
             } else {
                 $byKey[$key]['wrong']++;
@@ -264,7 +343,6 @@ final class SessionService
         }
 
         foreach ($byKey as $factKey => $counts) {
-            // Leer estado actual para recalcular weight
             $stmt = $pdo->prepare(
                 "SELECT attempts, correct, wrong, weight
                  FROM {$factTable}
@@ -322,8 +400,7 @@ final class SessionService
         PDO $pdo,
         int $playerId,
         array $tables,
-        array $answers,
-        array $calc
+        array $answers
     ): void {
         if (empty($tables)) {
             return;
@@ -331,26 +408,6 @@ final class SessionService
 
         $masteryTable = Database::table('table_mastery');
         $now = MadridTime::utcNowString();
-        $score = $calc['score'];
-
-        // Contar correctas/incorrectas por tabla a partir de factKey (ej: "3x7")
-        $byTable = [];
-        foreach ($answers as $ans) {
-            $a = (int) ($ans['a'] ?? 0);
-            $b = (int) ($ans['b'] ?? 0);
-            $tableN = $a >= 1 && $a <= self::MAX_TABLES ? $a
-                    : ($b >= 1 && $b <= self::MAX_TABLES ? $b : 0);
-            if ($tableN === 0) {
-                continue;
-            }
-            if (!isset($byTable[$tableN])) {
-                $byTable[$tableN] = ['attempts' => 0, 'correct' => 0];
-            }
-            $byTable[$tableN]['attempts']++;
-            if ((bool) ($ans['correct'] ?? false)) {
-                $byTable[$tableN]['correct']++;
-            }
-        }
 
         foreach ($tables as $tableN) {
             $tableN = (int) $tableN;
@@ -358,9 +415,14 @@ final class SessionService
                 continue;
             }
 
-            $counts = $byTable[$tableN] ?? ['attempts' => 0, 'correct' => 0];
+            // Score específico de esta tabla (no el global de la sesión)
+            $tableCalc = self::scoreForTable($answers, $tableN);
+            $tableScore = $tableCalc['score'];
+            $counts = [
+                'attempts' => $tableCalc['attempts'],
+                'correct'  => $tableCalc['correct'],
+            ];
 
-            // Leer estado actual
             $stmt = $pdo->prepare(
                 "SELECT * FROM {$masteryTable}
                  WHERE player_id = :p AND table_n = :t LIMIT 1"
@@ -371,9 +433,9 @@ final class SessionService
             $newAttempts = ($current ? (int) $current['attempts'] : 0) + $counts['attempts'];
             $newCorrect  = ($current ? (int) $current['correct']  : 0) + $counts['correct'];
             $bestRound   = $current ? (int) $current['best_round_score'] : 0;
-            $newBestRound = max($bestRound, $score);
+            $newBestRound = max($bestRound, $tableScore);
             $everMastered = $current ? (bool) $current['ever_mastered'] : false;
-            if ($score >= self::MASTERY_THRESHOLD) {
+            if ($tableScore >= self::MASTERY_THRESHOLD) {
                 $everMastered = true;
             }
 
@@ -382,10 +444,12 @@ final class SessionService
                 : 0;
 
             $consLow = $current ? (int) $current['consecutive_low_rounds'] : 0;
-            if ($score < self::CONSECUTIVE_LOW_THRESHOLD) {
-                $consLow++;
-            } else {
-                $consLow = 0;
+            if ($counts['attempts'] > 0) {
+                if ($tableScore < self::CONSECUTIVE_LOW_THRESHOLD) {
+                    $consLow++;
+                } else {
+                    $consLow = 0;
+                }
             }
 
             if (!is_array($current)) {
@@ -396,16 +460,16 @@ final class SessionService
                       ever_mastered, last_practiced_at, updated_at)
                      VALUES (:p, :t, 1, :at, :co, :ms, :br, :lr, :cl, :em, :now, :now2)"
                 )->execute([
-                    ':p'   => $playerId,
-                    ':t'   => $tableN,
-                    ':at'  => $newAttempts,
-                    ':co'  => $newCorrect,
-                    ':ms'  => $masteryScore,
-                    ':br'  => $newBestRound,
-                    ':lr'  => $score,
-                    ':cl'  => $consLow,
-                    ':em'  => $everMastered ? 1 : 0,
-                    ':now' => $now,
+                    ':p'    => $playerId,
+                    ':t'    => $tableN,
+                    ':at'   => $newAttempts,
+                    ':co'   => $newCorrect,
+                    ':ms'   => $masteryScore,
+                    ':br'   => $newBestRound,
+                    ':lr'   => $counts['attempts'] > 0 ? $tableScore : null,
+                    ':cl'   => $consLow,
+                    ':em'   => $everMastered ? 1 : 0,
+                    ':now'  => $now,
                     ':now2' => $now,
                 ]);
             } else {
@@ -416,24 +480,24 @@ final class SessionService
                          correct                  = :co,
                          mastery_score            = :ms,
                          best_round_score         = :br,
-                         last_round_score         = :lr,
+                         last_round_score         = COALESCE(:lr, last_round_score),
                          consecutive_low_rounds   = :cl,
                          ever_mastered            = :em,
                          last_practiced_at        = :now,
                          updated_at               = :now2
                      WHERE player_id = :p AND table_n = :t"
                 )->execute([
-                    ':at'  => $newAttempts,
-                    ':co'  => $newCorrect,
-                    ':ms'  => $masteryScore,
-                    ':br'  => $newBestRound,
-                    ':lr'  => $score,
-                    ':cl'  => $consLow,
-                    ':em'  => $everMastered ? 1 : 0,
-                    ':now' => $now,
+                    ':at'   => $newAttempts,
+                    ':co'   => $newCorrect,
+                    ':ms'   => $masteryScore,
+                    ':br'   => $newBestRound,
+                    ':lr'   => $counts['attempts'] > 0 ? $tableScore : null,
+                    ':cl'   => $consLow,
+                    ':em'   => $everMastered ? 1 : 0,
+                    ':now'  => $now,
                     ':now2' => $now,
-                    ':p'   => $playerId,
-                    ':t'   => $tableN,
+                    ':p'    => $playerId,
+                    ':t'    => $tableN,
                 ]);
             }
         }
@@ -444,7 +508,6 @@ final class SessionService
         $progTable = Database::table('player_progress');
         $now = MadridTime::utcNowString();
 
-        // Crear fila de progreso si no existe (primer juego sin login previo)
         $pdo->prepare(
             "INSERT IGNORE INTO {$progTable}
              (player_id, xp, coins, best_streak, best_challenge_score,
@@ -461,27 +524,27 @@ final class SessionService
                  updated_at       = :now2
              WHERE player_id = :p"
         )->execute([
-            ':xp'  => $calc['xpEarned'],
-            ':co'  => $calc['coinsEarned'],
-            ':bs'  => $calc['bestStreak'],
-            ':now' => $now,
+            ':xp'   => $calc['xpEarned'],
+            ':co'   => $calc['coinsEarned'],
+            ':bs'   => $calc['bestStreak'],
+            ':now'  => $now,
             ':now2' => $now,
-            ':p'   => $playerId,
+            ':p'    => $playerId,
         ]);
     }
 
     // ─────────────────────────── Respuesta ─────────────────────────────────
 
-    private static function buildResult(array $sessionRow, int $playerId, bool $idempotent): array
+    private static function buildResult(array $sessionRow, bool $idempotent): array
     {
         return [
-            'idempotent'   => $idempotent,
-            'sessionId'    => (string) ($sessionRow['id'] ?? ''),
-            'score'        => (int) ($sessionRow['score'] ?? 0),
-            'bestStreak'   => (int) ($sessionRow['best_streak'] ?? 0),
-            'xpEarned'     => (int) ($sessionRow['xp_earned'] ?? 0),
-            'coinsEarned'  => (int) ($sessionRow['coins_earned'] ?? 0),
-            'processedAt'  => (string) ($sessionRow['processed_at'] ?? ''),
+            'idempotent'  => $idempotent,
+            'sessionId'   => (string) ($sessionRow['id'] ?? ''),
+            'score'       => (int) ($sessionRow['score'] ?? 0),
+            'bestStreak'  => (int) ($sessionRow['best_streak'] ?? 0),
+            'xpEarned'    => (int) ($sessionRow['xp_earned'] ?? 0),
+            'coinsEarned' => (int) ($sessionRow['coins_earned'] ?? 0),
+            'processedAt' => (string) ($sessionRow['processed_at'] ?? ''),
         ];
     }
 
@@ -514,46 +577,6 @@ final class SessionService
             if ($n >= 1 && $n <= self::MAX_TABLES && !in_array($n, $out, true)) {
                 $out[] = $n;
             }
-        }
-        return $out;
-    }
-
-    private static function validateAnswers(array $answers): array
-    {
-        if (count($answers) > 200) {
-            Http::error(400, 'too_many_answers', 'Demasiadas respuestas (máx 200).');
-        }
-        $out = [];
-        foreach ($answers as $ans) {
-            if (!is_array($ans)) {
-                continue;
-            }
-            $attemptId = trim((string) ($ans['attemptId'] ?? ''));
-            $factKey   = trim((string) ($ans['factKey'] ?? ''));
-            $a = (int) ($ans['a'] ?? 0);
-            $b = (int) ($ans['b'] ?? 0);
-            if ($attemptId === '' || strlen($attemptId) > 64) {
-                continue;
-            }
-            if ($factKey === '' || strlen($factKey) > 16) {
-                continue;
-            }
-            if ($a < 0 || $a > 10 || $b < 0 || $b > 10) {
-                continue;
-            }
-            $out[] = [
-                'attemptId' => $attemptId,
-                'factKey'   => $factKey,
-                'a'         => $a,
-                'b'         => $b,
-                'selected'  => (int) ($ans['selected'] ?? -1),
-                'correct'   => (bool) ($ans['correct'] ?? false),
-                'firstTry'  => isset($ans['firstTry']) ? (bool) $ans['firstTry'] : true,
-                'attemptN'  => max(1, (int) ($ans['attemptN'] ?? 1)),
-                'elapsedMs' => isset($ans['elapsedMs']) && is_int($ans['elapsedMs'])
-                    ? $ans['elapsedMs']
-                    : null,
-            ];
         }
         return $out;
     }

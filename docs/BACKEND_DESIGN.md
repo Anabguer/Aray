@@ -91,14 +91,17 @@ Valores a rellenar:
 
 ### Reglas de recálculo (servidor)
 
-- XP base: 10 por respuesta correcta.
+- `factKey` canónico: `min(a,b)×max(a,b)` (p.ej. `3x7`). Se ignora el `factKey` del cliente.
+- `correct` solo vía `selected === a * b`. Se ignora el booleano `correct` del cliente.
+- Operandos permitidos: `a,b ∈ [1,10]` (catálogo). `0×n` / `0×0` se descartan.
+- XP base: 10 por respuesta correcta (recalculada).
 - Bonus de racha: +5 XP cada 5 correctas seguidas.
 - Monedas: `floor(xpEarned / 10)`.
-- Score: `round(100 * correct / total)`.
-- `fact_stats`: attempts/correct/wrong + peso adaptativo.
-- `table_mastery`: practiced, mastery_score, best/last round, ever_mastered (≥80), consecutive_low_rounds (<50).
-- No se confía en XP/monedas/score enviados por React.
-- Idempotencia: reenviar el mismo `sessionId` devuelve el resultado original sin sumar de nuevo.
+- Score de sesión: `round(100 * correct / total)`.
+- `fact_stats`: attempts/correct/wrong + peso adaptativo (clave canónica).
+- `table_mastery` por tabla (`a === tableN`): last/best_round_score, ever_mastered (≥80) y consecutive_low_rounds (<50) usan el **score de esa tabla**, no el global.
+- No se confía en XP/monedas/score/`correct`/`factKey` enviados por React.
+- Idempotencia: mismo `sessionId` del mismo `playerId` → resultado original. Si el `sessionId` es de otro jugador → `403 session_forbidden`.
 
 ### Hard-abort de `install_once.php`
 
