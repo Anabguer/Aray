@@ -76,7 +76,7 @@ describe('ARAY navigation shell', () => {
     renderAt('/missions')
     expect(screen.getByRole('heading', { name: /^mis mundos$/i })).toBeInTheDocument()
     expect(screen.getByText(/elige tu próxima aventura/i)).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /entrar a matemáticas/i })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: /jugar matemáticas/i })).toHaveAttribute(
       'href',
       '/missions/mates',
     )

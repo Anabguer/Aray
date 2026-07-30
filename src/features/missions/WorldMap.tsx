@@ -28,12 +28,21 @@ const LAYOUT: Record<string, WorldSceneVariant> = {
   maths: 'hero',
   languages: 'side',
   english: 'side',
-  medi: 'wide',
+  medi: 'side',
 }
 
 function buildScene(
   id: string,
-  byId: Map<string, { title: string; hasPlayable: boolean; worldPath: string; recommended?: boolean; progressPct?: number }>,
+  byId: Map<
+    string,
+    {
+      title: string
+      hasPlayable: boolean
+      worldPath: string
+      recommended?: boolean
+      progressPct?: number
+    }
+  >,
 ): MapWorld {
   const world = byId.get(id)
   const title =
@@ -52,6 +61,22 @@ function buildScene(
   }
 }
 
+function renderScene(scene: MapWorld) {
+  return (
+    <WorldScene
+      key={scene.id}
+      id={scene.id}
+      title={scene.title}
+      imageSrc={scene.imageSrc}
+      available={scene.available}
+      path={scene.path}
+      recommended={scene.recommended}
+      progressPct={scene.progressPct}
+      variant={scene.variant}
+    />
+  )
+}
+
 export function WorldMap({
   worlds,
 }: {
@@ -66,55 +91,17 @@ export function WorldMap({
 }) {
   const byId = new Map(worlds.map((w) => [w.id, w]))
   const maths = buildScene('maths', byId)
-  const languages = buildScene('languages', byId)
-  const english = buildScene('english', byId)
-  const medi = buildScene('medi', byId)
+  const side = [
+    buildScene('languages', byId),
+    buildScene('english', byId),
+    buildScene('medi', byId),
+  ]
 
   return (
     <section className="world-map" aria-label="Selección de mundos">
       <div className="world-map__grid">
-        <WorldScene
-          id={maths.id}
-          title={maths.title}
-          imageSrc={maths.imageSrc}
-          available={maths.available}
-          path={maths.path}
-          recommended={maths.recommended}
-          progressPct={maths.progressPct}
-          variant={maths.variant}
-        />
-        <div className="world-map__side">
-          <WorldScene
-            id={languages.id}
-            title={languages.title}
-            imageSrc={languages.imageSrc}
-            available={languages.available}
-            path={languages.path}
-            recommended={languages.recommended}
-            progressPct={languages.progressPct}
-            variant={languages.variant}
-          />
-          <WorldScene
-            id={english.id}
-            title={english.title}
-            imageSrc={english.imageSrc}
-            available={english.available}
-            path={english.path}
-            recommended={english.recommended}
-            progressPct={english.progressPct}
-            variant={english.variant}
-          />
-        </div>
-        <WorldScene
-          id={medi.id}
-          title={medi.title}
-          imageSrc={medi.imageSrc}
-          available={medi.available}
-          path={medi.path}
-          recommended={medi.recommended}
-          progressPct={medi.progressPct}
-          variant={medi.variant}
-        />
+        {renderScene(maths)}
+        <div className="world-map__side">{side.map(renderScene)}</div>
       </div>
     </section>
   )
