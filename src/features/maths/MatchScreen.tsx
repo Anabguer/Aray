@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { AppShell } from '@/components/AppShell'
-import { MuteToggle } from '@/components/quiz/QuizWidgets'
 import { StreakBadge } from '@/feedback/AnswerFx'
 import { SessionXpBar } from '@/feedback/SessionXpBar'
 import {
@@ -40,7 +39,7 @@ const WRONG_LOCK_MS = 420
 const POP_ANIM_MS = 480
 
 export function MatchScreen() {
-  const { progress, applySession, setSoundMuted } = useProgress()
+  const { progress, applySession } = useProgress()
   const { selection, setLastResult, setActiveMode } = usePlaySession()
   const table = selection.tables[0] ?? 7
   const lumo = useLumoController('thinking')
@@ -309,9 +308,6 @@ export function MatchScreen() {
       title="EMPAREJA"
       showBack
       backTo="/missions/mates/tables/modes"
-      trailing={
-        <MuteToggle muted={progress.soundMuted} onToggle={() => setSoundMuted(!progress.soundMuted)} />
-      }
     >
       <section className={`match-arena${celebration ? ' is-dimmed' : ''}`} aria-label="Minijuego Empareja">
         <SessionXpBar totalXp={progress.xp} compact className="play-screen__xp" />

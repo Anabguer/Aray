@@ -2,7 +2,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import { modeArtUrl, type ModeArtId } from '@/assets/modes'
 import { AppShell } from '@/components/AppShell'
 import { IconReview } from '@/components/Icons'
-import { MuteToggle } from '@/components/quiz/QuizWidgets'
 import { challengeModeConfig } from '@/config/playConfig'
 import { hasSavedMisses, pickRandomMission } from '@/math/randomMission'
 import { buildMissesQueue, buildTrainQueue } from '@/math/selector'
@@ -71,7 +70,7 @@ function ModePoster({
 
 export function ModeSelectScreen() {
   const navigate = useNavigate()
-  const { progress, setSoundMuted } = useProgress()
+  const { progress } = useProgress()
   const { selection, setSelection, setPendingQueue, setActiveMode, setLastResult } = usePlaySession()
 
   const subtitle = selectionSubtitle(selection)
@@ -144,9 +143,6 @@ export function ModeSelectScreen() {
       title="ELIGE TU MODO"
       showBack
       backTo="/missions/mates/tables"
-      trailing={
-        <MuteToggle muted={progress.soundMuted} onToggle={() => setSoundMuted(!progress.soundMuted)} />
-      }
     >
       <section className="mode-select mode-select--lobby" aria-label="ELIGE TU MODO">
         <header className="mode-select__head">

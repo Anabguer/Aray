@@ -34,8 +34,11 @@ export function GameHeader({
             <IconChevronLeft />
           </Link>
         ) : null}
-        <span className="game-header__avatar-badge">
-          <BrandLogo variant="compact" className="game-header__avatar" alt="Aray" />
+        <span className="game-header__avatar-wrap">
+          <span className="game-header__avatar-halo" aria-hidden="true" />
+          <span className="game-header__avatar-badge">
+            <BrandLogo variant="compact" className="game-header__avatar" alt="Aray" />
+          </span>
         </span>
         <div className="game-header__heading">
           <h1 className="game-header__title">{title}</h1>
@@ -60,12 +63,7 @@ export function GameHeader({
           <IconGamepad className="topbar__lobby-chevron" aria-hidden />
           <span className="topbar__lobby-label">LOBBY</span>
         </Link>
-      ) : (
-        <span className="topbar__lobby game-header__lobby game-header__lobby--ghost" aria-hidden="true">
-          <IconGamepad className="topbar__lobby-chevron" aria-hidden />
-          <span className="topbar__lobby-label">LOBBY</span>
-        </span>
-      )}
+      ) : null}
     </header>
   )
 }

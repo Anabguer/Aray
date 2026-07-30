@@ -38,7 +38,7 @@ export function PlayerHudBars({
       <div className="lobby-hud__energy">
         <div className="lobby-hud__energy-top">
           <IconBolt className="lobby-hud__bolt" aria-hidden />
-          <span>Energía</span>
+          <span className="lobby-hud__energy-label">Energía</span>
         </div>
         <div
           className="lobby-hud__bar lobby-hud__bar--energy"

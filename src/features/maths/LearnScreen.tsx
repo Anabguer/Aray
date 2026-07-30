@@ -1,20 +1,18 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react'
 import { Link } from 'react-router-dom'
 import { AppShell } from '@/components/AppShell'
-import { AnswerGrid, MuteToggle } from '@/components/quiz/QuizWidgets'
+import { AnswerGrid } from '@/components/quiz/QuizWidgets'
 import { learnUnitSizePx, MAX_MULTIPLIER, MIX_TABLES } from '@/config/playConfig'
 import { Lumo } from '@/lumo/Lumo'
 import { useLumoController } from '@/lumo/useLumoController'
 import { buildAnswerOptions } from '@/math/options'
 import { makeFact } from '@/math/tables'
 import { usePlaySession } from '@/progress/PlayContext'
-import { useProgress } from '@/progress/ProgressContext'
 import { soundEngine } from '@/sound/soundEngine'
 
 type LearnPhase = 'ask' | 'hint' | 'reveal' | 'done'
 
 export function LearnScreen() {
-  const { progress, setSoundMuted } = useProgress()
   const { selection } = usePlaySession()
   const tables = selection.mix ? [...MIX_TABLES] : selection.tables.length ? selection.tables : [7]
   const lumo = useLumoController('thinking')
@@ -129,9 +127,6 @@ export function LearnScreen() {
       title="APRENDE"
       showBack
       backTo="/missions/mates/tables/modes"
-      trailing={
-        <MuteToggle muted={progress.soundMuted} onToggle={() => setSoundMuted(!progress.soundMuted)} />
-      }
     >
       <section className="learn-lab" aria-label="Laboratorio Aprende">
         {phase === 'done' ? (

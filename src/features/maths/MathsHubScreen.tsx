@@ -1,60 +1,74 @@
-import { Link } from 'react-router-dom'
 import { AppShell } from '@/components/AppShell'
 import { SubjectIcon } from '@/components/ZoneIcons'
-import { MuteToggle } from '@/components/quiz/QuizWidgets'
-import { blocksForSubject, skillsForBlock } from '@/curriculum'
-import { useProgress } from '@/progress/ProgressContext'
+import { WorldLevelMap } from '@/components/world/WorldLevelMap'
+import type { MapSlot, WorldStation } from '@/components/world/types'
+import { blocksForSubject } from '@/curriculum'
+
+const MATH_MARKS = {
+  'multiplication-tables': 'tables',
+  calculation: 'calc',
+  problems: 'problems',
+  'clocks-hours': 'clocks',
+} as const
+
+const MATH_SLOTS: Record<string, MapSlot> = {
+  'multiplication-tables': 'start',
+  calculation: 'mid-high',
+  problems: 'mid-low',
+  'clocks-hours': 'end',
+}
+
+const MATH_SHORT_DESC: Record<string, string> = {
+  'multiplication-tables': 'Tablas del 2 al 9',
+  calculation: 'Sumas, restas y agilidad',
+  problems: 'Retos con números',
+  'clocks-hours': 'Leer la hora',
+}
 
 export function MathsHubScreen() {
-  const { progress, setSoundMuted } = useProgress()
   const mathsBlocks = blocksForSubject('maths')
+
+  const stations: WorldStation[] = mathsBlocks.map((block) => {
+    const isLive = block.id === 'multiplication-tables' && block.status === 'active'
+    const mark = MATH_MARKS[block.id as keyof typeof MATH_MARKS] ?? 'calc'
+    const mapSlot = MATH_SLOTS[block.id] ?? 'end'
+
+    if (isLive) {
+      return {
+        id: block.id,
+        title: block.title,
+        description: MATH_SHORT_DESC[block.id] ?? block.description,
+        status: 'recommended',
+        mark,
+        mapSlot,
+        href: '/missions/mates/tables',
+        ctaLabel: '¡A POR LAS TABLAS!',
+      }
+    }
+
+    return {
+      id: block.id,
+      title: block.title,
+      description: MATH_SHORT_DESC[block.id] ?? block.description,
+      status: 'coming-soon',
+      mark,
+      mapSlot,
+    }
+  })
 
   return (
     <AppShell
       title="Matemáticas"
       showBack
-      trailing={
-        <MuteToggle muted={progress.soundMuted} onToggle={() => setSoundMuted(!progress.soundMuted)} />
-      }
     >
-      <section className="maths-hub">
-        <div className="maths-hub__hero">
-          <div className="maths-hub__icon">
-            <SubjectIcon id="mates" />
-          </div>
-          <h2 className="maths-hub__title">Mundo de Matemáticas</h2>
-          <p className="maths-hub__lead">
-            Entrena por bloques. Las tablas ya están listas; el resto llegará sin perder tu progreso.
-          </p>
-        </div>
-
-        <ul className="maths-hub__blocks">
-          {mathsBlocks.map((block) => {
-            const skillCount = skillsForBlock(block.id).filter((s) => s.status === 'active').length
-            const isLive = block.id === 'multiplication-tables' && block.status === 'active'
-            return (
-              <li key={block.id} className="maths-hub__block">
-                <div>
-                  <h3>{block.title}</h3>
-                  <p>{block.description}</p>
-                  {skillCount > 0 ? (
-                    <p className="maths-hub__meta">{skillCount} habilidades activas</p>
-                  ) : (
-                    <p className="maths-hub__meta">Estructura lista · sin actividades aún</p>
-                  )}
-                </div>
-                {isLive ? (
-                  <Link to="/missions/mates/tables" className="btn btn-primary">
-                    Abrir tablas
-                  </Link>
-                ) : (
-                  <span className="maths-hub__soon">Pronto</span>
-                )}
-              </li>
-            )
-          })}
-        </ul>
-      </section>
+      <WorldLevelMap
+        theme="maths"
+        title="Mundo de Matemáticas"
+        tagline="Sigue el camino de las zonas"
+        icon={<SubjectIcon id="mates" />}
+        guideTip="¡Empezamos por aquí!"
+        stations={stations}
+      />
     </AppShell>
   )
 }

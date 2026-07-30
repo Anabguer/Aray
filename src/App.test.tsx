@@ -84,7 +84,7 @@ describe('ARAY navigation shell', () => {
     expect(screen.getByRole('link', { name: /ir al lobby/i })).toBeInTheDocument()
     expect(screen.queryByRole('link', { name: /^volver$/i })).not.toBeInTheDocument()
     expect(screen.getByRole('toolbar', { name: /controles del juego/i })).toBeInTheDocument()
-    expect(screen.getByLabelText(/cómo se juega/i)).toBeInTheDocument()
+    expect(screen.queryByLabelText(/cómo se juega/i)).not.toBeInTheDocument()
     expect(screen.getByRole('button', { name: /silenciar sonido|activar sonido/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /acceso adulto/i })).toBeInTheDocument()
   })
@@ -104,10 +104,10 @@ describe('ARAY navigation shell', () => {
     expect(screen.getByRole('button', { name: /sorpresa/i })).toBeInTheDocument()
   })
 
-  it('muestra controles unificados: ayuda, sonido y acceso adulto', () => {
+  it('muestra controles unificados: sonido y acceso adulto', () => {
     renderAt('/')
     expect(screen.getByRole('toolbar', { name: /controles del juego/i })).toBeInTheDocument()
-    expect(screen.getByLabelText(/cómo se juega/i)).toBeInTheDocument()
+    expect(screen.queryByLabelText(/cómo se juega/i)).not.toBeInTheDocument()
     expect(screen.getByRole('button', { name: /silenciar sonido|activar sonido/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /acceso adulto/i })).toBeInTheDocument()
   })

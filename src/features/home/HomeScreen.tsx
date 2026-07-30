@@ -3,7 +3,6 @@ import { AppShell } from '@/components/AppShell'
 import { ArayHubIcon } from '@/components/ArayHubIcon'
 import { BrandLogo } from '@/components/BrandLogo'
 import { CrateReveal } from '@/components/CrateReveal'
-import { GameHeader } from '@/components/game/GameHeader'
 import { GoalCard } from '@/components/GoalCard'
 import { ResetProgressControl } from '@/components/ResetProgressControl'
 import { ZoneCard } from '@/components/ZoneCard'
@@ -34,9 +33,7 @@ export function HomeScreen() {
   const sessionEnergy = previewSessionLoad(progress, rewardGoalConfig.dailyCap)
 
   return (
-    <AppShell hideTopbar>
-      <GameHeader title="LOBBY" subtitle="Tu base de aventuras" showLobbyLink={false} />
-
+    <AppShell title="LOBBY" subtitle="Tu base de aventuras" showLobbyLink={false}>
       <section className="lobby" aria-labelledby="home-greeting">
         <div className="lobby__welcome">
           <Lumo

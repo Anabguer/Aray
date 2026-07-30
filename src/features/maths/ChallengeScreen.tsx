@@ -5,7 +5,6 @@ import {
   AnswerGrid,
   FactPrompt,
   FeedbackBanner,
-  MuteToggle,
   useFlash,
   useKeyboardAnswers,
 } from '@/components/quiz/QuizWidgets'
@@ -38,7 +37,7 @@ type Phase = 'intro' | 'countdown' | 'play' | 'ended'
 
 export function ChallengeScreen() {
   const navigate = useNavigate()
-  const { progress, applySession, setSoundMuted } = useProgress()
+  const { progress, applySession } = useProgress()
   const { selection, setLastResult, setActiveMode } = usePlaySession()
   const pool = factsForTables(selection.tables)
   const preferred = selection.tables.length === 1 ? selection.tables[0] : null
@@ -218,9 +217,6 @@ export function ChallengeScreen() {
       title="Reto"
       showBack
       backTo="/missions/mates/tables/modes"
-      trailing={
-        <MuteToggle muted={progress.soundMuted} onToggle={() => setSoundMuted(!progress.soundMuted)} />
-      }
     >
       <section className="play-screen">
         <SessionXpBar

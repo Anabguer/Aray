@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { AppShell } from '@/components/AppShell'
 import { CrateReveal } from '@/components/CrateReveal'
-import { MuteToggle } from '@/components/quiz/QuizWidgets'
 import { challengeModeConfig } from '@/config/playConfig'
 import { lumoMessages } from '@/config/lumoMessages'
 import { newRecordMessage, noMissesMessage } from '@/config/messages'
@@ -18,7 +17,6 @@ export function SessionSummaryScreen() {
   const navigate = useNavigate()
   const {
     progress,
-    setSoundMuted,
     chooseCrate,
     openCrate,
     collectCrate,
@@ -97,9 +95,6 @@ export function SessionSummaryScreen() {
       title="Resumen"
       showBack
       backTo="/missions/mates/tables/modes"
-      trailing={
-        <MuteToggle muted={progress.soundMuted} onToggle={() => setSoundMuted(!progress.soundMuted)} />
-      }
     >
       <section className="summary-screen">
         {pending ? (

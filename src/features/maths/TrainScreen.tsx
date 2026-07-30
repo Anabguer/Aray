@@ -6,7 +6,6 @@ import {
   AnswerGrid,
   FactPrompt,
   FeedbackBanner,
-  MuteToggle,
   useFlash,
   useKeyboardAnswers,
 } from '@/components/quiz/QuizWidgets'
@@ -45,7 +44,7 @@ export function TrainScreen() {
   const navigate = useNavigate()
   const location = useLocation()
   const fallbackMix = Boolean((location.state as { fallbackMix?: boolean } | null)?.fallbackMix)
-  const { progress, applySession, setSoundMuted } = useProgress()
+  const { progress, applySession } = useProgress()
   const { selection, pendingQueue, setPendingQueue, setLastResult, activeMode } = usePlaySession()
   const lumo = useLumoController('thinking')
   const sessionIdRef = useRef(newId('train'))
@@ -275,9 +274,6 @@ export function TrainScreen() {
       title="Entrena"
       showBack
       backTo="/missions/mates/tables/modes"
-      trailing={
-        <MuteToggle muted={progress.soundMuted} onToggle={() => setSoundMuted(!progress.soundMuted)} />
-      }
     >
       <section className={`play-screen${celebration ? ' is-dimmed' : ''}`}>
         <SessionXpBar

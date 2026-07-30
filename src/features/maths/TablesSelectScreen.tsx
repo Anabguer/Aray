@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import { AppShell } from '@/components/AppShell'
 import { IconReview } from '@/components/Icons'
 import { TableLevelCard } from '@/components/TableLevelCard'
-import { MuteToggle } from '@/components/quiz/QuizWidgets'
 import { MIX_TABLES, PLAYABLE_TABLES, type PlayableTable } from '@/config/playConfig'
 import { emptyTableProgress } from '@/math/selector'
 import { tableStatus } from '@/math/tableMastery'
@@ -12,7 +11,7 @@ import { useProgress } from '@/progress/ProgressContext'
 
 export function TablesSelectScreen() {
   const navigate = useNavigate()
-  const { progress, setSoundMuted } = useProgress()
+  const { progress } = useProgress()
   const { selection, setSelection } = usePlaySession()
   const [picked, setPicked] = useState<number[]>(() =>
     selection.mix
@@ -64,9 +63,6 @@ export function TablesSelectScreen() {
       title="Niveles"
       showBack
       backTo="/missions/mates"
-      trailing={
-        <MuteToggle muted={progress.soundMuted} onToggle={() => setSoundMuted(!progress.soundMuted)} />
-      }
     >
       <section className="levels-map">
         <p className="page-intro__lead page-intro__lead--tight">
