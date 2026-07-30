@@ -1,5 +1,6 @@
 import { useEffect, useId, useState } from 'react'
 import type { MultiplicationFact } from '@/math/types'
+import { soundEngine } from '@/sound/soundEngine'
 
 export function AnswerGrid({
   options,
@@ -8,6 +9,8 @@ export function AnswerGrid({
   selectedValue,
   reveal,
   onSelect,
+  bounceCorrect,
+  shakeWrong,
 }: {
   options: number[]
   disabled?: boolean
@@ -15,20 +18,30 @@ export function AnswerGrid({
   selectedValue?: number | null
   reveal?: boolean
   onSelect: (value: number) => void
+  /** Pulso/rebote en la opción correcta al acertar. */
+  bounceCorrect?: boolean
+  /** Sacudida lateral suave en la opción fallida. */
+  shakeWrong?: boolean
 }) {
   return (
     <div className="answer-grid" role="group" aria-label="Respuestas">
       {options.map((option, index) => {
         let stateClass = ''
-        if (reveal && option === correctValue) stateClass = 'is-correct'
-        if (reveal && selectedValue === option && option !== correctValue) stateClass = 'is-wrong'
+        if (reveal && option === correctValue) {
+          stateClass = bounceCorrect ? 'is-correct is-bounce' : 'is-correct'
+        }
+        if (reveal && selectedValue === option && option !== correctValue) {
+          stateClass = shakeWrong ? 'is-wrong is-shake' : 'is-wrong'
+        }
         return (
           <button
             key={`${option}-${index}`}
             type="button"
             className={`answer-btn ${stateClass}`}
             disabled={disabled}
-            onClick={() => onSelect(option)}
+            onClick={() => {
+              onSelect(option)
+            }}
             aria-keyshortcuts={`${index + 1}`}
           >
             <span className="answer-btn__key" aria-hidden="true">
@@ -152,7 +165,17 @@ export function MuteToggle({
     <button
       type="button"
       className={['icon-btn', className].filter(Boolean).join(' ')}
-      onClick={onToggle}
+      onClick={() => {
+        soundEngine.unlock()
+        if (muted) {
+          // Al reactivar, un click suave confirma el canal de audio
+          onToggle()
+          soundEngine.play('ui-click')
+        } else {
+          soundEngine.play('ui-click')
+          onToggle()
+        }
+      }}
       aria-pressed={muted}
       aria-label={muted ? 'Activar sonido' : 'Silenciar sonido'}
       title={muted ? 'Sonido off' : 'Sonido on'}

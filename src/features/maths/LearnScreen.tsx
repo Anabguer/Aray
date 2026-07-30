@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { AppShell } from '@/components/AppShell'
 import { AnswerGrid, MuteToggle } from '@/components/quiz/QuizWidgets'
 import { learnUnitSizePx, MAX_MULTIPLIER, MIX_TABLES } from '@/config/playConfig'
-import { lumoMessages } from '@/config/lumoMessages'
 import { Lumo } from '@/lumo/Lumo'
 import { useLumoController } from '@/lumo/useLumoController'
 import { buildAnswerOptions } from '@/math/options'
@@ -88,18 +87,19 @@ export function LearnScreen() {
     }
     setPhase('done')
     lumo.celebrate('record')
-    soundEngine.play('reward')
+    soundEngine.play('activity-complete')
   }
 
   function onSelect(value: number) {
     if (phase === 'reveal' || phase === 'done' || locked) return
+    soundEngine.unlock()
     setLocked(true)
     setSelected(value)
     if (value === product) {
       setPhase('reveal')
       setHint(null)
       lumo.reactToAnswer({ correct: true, streak: 2 })
-      soundEngine.play('correct')
+      soundEngine.play('answer-correct')
       window.setTimeout(() => goNextOp(), 950)
       return
     }
@@ -107,14 +107,14 @@ export function LearnScreen() {
     setFails(nextFails)
     setHint(
       nextFails === 1
-        ? lumoMessages.tryAgain
+        ? 'Casi, prueba otra vez'
         : nextFails === 2
           ? `${row} grupos de ${table}`
           : `Cerca de ${table * Math.max(1, row - 1)} y ${table * Math.min(MAX_MULTIPLIER, row + 1)}`,
     )
     if (nextFails >= 2) setShowLumoTip(true)
     lumo.reactToAnswer({ correct: false, streak: 0 })
-    soundEngine.play('wrong')
+    soundEngine.play('answer-wrong')
     setPhase('hint')
     window.setTimeout(() => {
       setLocked(false)
@@ -175,7 +175,9 @@ export function LearnScreen() {
 
             <div className="learn-lab__stage" key={enterKey}>
               <div className="learn-lab__console" aria-live="polite">
-                <p className="learn-lab__eyebrow">{row} grupos de {table}</p>
+                <p className="learn-lab__eyebrow">
+                  {row === 1 ? `1 grupo de ${table}` : `${row} grupos de ${table}`}
+                </p>
                 <div className={`learn-lab__equation${phase === 'reveal' ? ' is-reveal' : ''}`}>
                   <span className="learn-lab__fact">
                     {table} × {row}

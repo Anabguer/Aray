@@ -15,3 +15,28 @@ Object.defineProperty(window, 'matchMedia', {
     dispatchEvent: vi.fn(),
   })),
 })
+
+class MockAudio {
+  preload = ''
+  volume = 1
+  currentTime = 0
+  paused = true
+  ended = false
+  onended: ((this: HTMLAudioElement, ev: Event) => void) | null = null
+  constructor(_src?: string) {}
+  addEventListener() {}
+  setAttribute() {}
+  load() {}
+  play() {
+    this.paused = false
+    return Promise.resolve()
+  }
+  pause() {
+    this.paused = true
+  }
+  cloneNode() {
+    return new MockAudio()
+  }
+}
+
+vi.stubGlobal('Audio', MockAudio)

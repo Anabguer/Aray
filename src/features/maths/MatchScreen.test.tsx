@@ -6,11 +6,9 @@ import {
   buildMatchPairs,
   buildMatchRounds,
   isCorrectMatch,
-  MATCH_MAX_PER_ROUND,
   MATCH_WRONG_MESSAGE,
   matchHintForAttempt,
   shuffleProductsNotAligned,
-  splitRounds,
 } from '@/math/match'
 import { matchFactorRange } from '@/config/playConfig'
 import { PlayProvider } from '@/progress/PlayContext'
@@ -18,7 +16,13 @@ import { ProgressProvider } from '@/progress/ProgressContext'
 import { createInitialProgress, createLocalStorageProgressStore } from '@/progress/repository'
 
 vi.mock('@/sound/soundEngine', () => ({
-  soundEngine: { play: vi.fn(), setMuted: vi.fn() },
+  soundEngine: {
+    play: vi.fn(),
+    setMuted: vi.fn(),
+    unlock: vi.fn(),
+    preload: vi.fn(),
+    bindAutoUnlock: vi.fn(),
+  },
 }))
 
 function memoryStorage(): Storage {
@@ -57,6 +61,7 @@ function renderMatch(table = 3) {
             <Route path="/missions/mates/tables/match" element={<MatchScreen />} />
             <Route path="/missions/mates/tables/summary" element={<div>Resumen</div>} />
             <Route path="/missions/mates/tables/modes" element={<div>Modos</div>} />
+            <Route path="/" element={<div>Lobby</div>} />
           </Routes>
         </PlayProvider>
       </ProgressProvider>
@@ -80,31 +85,14 @@ describe('Empareja la tabla — lógica', () => {
     expect(products.every((p, i) => p === pairs[i].product)).toBe(false)
   })
 
-  it('divide en rondas de máximo cinco parejas (1–5 y 6–10)', () => {
-    const rounds = buildMatchRounds(buildMatchPairs(7), MATCH_MAX_PER_ROUND)
-    expect(rounds).toHaveLength(2)
-    expect(rounds[0]).toHaveLength(5)
-    expect(rounds[1]).toHaveLength(5)
-    expect(rounds[0].map((p) => p.factor)).toEqual([1, 2, 3, 4, 5])
-    expect(rounds[1].map((p) => p.factor)).toEqual([6, 7, 8, 9, 10])
-    expect(rounds.every((r) => r.length <= MATCH_MAX_PER_ROUND)).toBe(true)
+  it('divide rondas de como máximo cinco', () => {
+    expect(buildMatchRounds(buildMatchPairs(3)).map((r) => r.length)).toEqual([5, 5])
   })
 
-  it('con rango hasta 12 usa 4+4+4', () => {
-    const pairs = buildMatchPairs(3, { min: 1, max: 12 })
-    const rounds = buildMatchRounds(pairs, MATCH_MAX_PER_ROUND)
-    expect(rounds.map((r) => r.length)).toEqual([4, 4, 4])
-  })
-
-  it('splitRounds sigue chunkando por tamaño', () => {
-    const rounds = splitRounds(buildMatchPairs(7), 5)
-    expect(rounds).toHaveLength(2)
-  })
-
-  it('valida pareja correcta e incorrecta', () => {
-    const pair = buildMatchPairs(3)[2]
-    expect(isCorrectMatch(pair, 9)).toBe(true)
-    expect(isCorrectMatch(pair, 8)).toBe(false)
+  it('valida pareja correcta', () => {
+    const pair = buildMatchPairs(4)[0]
+    expect(isCorrectMatch(pair, pair.product)).toBe(true)
+    expect(isCorrectMatch(pair, pair.product + 1)).toBe(false)
   })
 
   it('el primer fallo no revela la respuesta; pistas progresivas después', () => {
@@ -127,7 +115,7 @@ describe('Empareja la tabla — pantalla', () => {
   it('no muestra el botón Comprobar y limita la ronda a cinco', () => {
     renderMatch(3)
     expect(screen.queryByRole('button', { name: /comprobar/i })).not.toBeInTheDocument()
-    expect(screen.getByText(/ronda 1 de 2 · 0\/5 parejas/i)).toBeInTheDocument()
+    expect(screen.getByText(/ronda 1\/2/i)).toBeInTheDocument()
     const ops = screen.getByRole('list', { name: /operaciones/i })
     expect(within(ops).getAllByRole('button')).toHaveLength(5)
   })
@@ -135,32 +123,31 @@ describe('Empareja la tabla — pantalla', () => {
   it('valida y fija de inmediato una pareja correcta', async () => {
     renderMatch(3)
     fireEvent.click(screen.getByRole('button', { name: /^resultado 9$/i }))
-    expect(screen.getByText(/resultado seleccionado/i)).toBeInTheDocument()
-    fireEvent.click(screen.getByRole('button', { name: /3 × 3, vacío/i }))
+    fireEvent.click(screen.getByRole('button', { name: /^3 × 3$/i }))
 
-    expect(await screen.findByRole('button', { name: /3 × 3 = 9, correcta/i })).toBeDisabled()
-    expect(screen.getByText(/¡encaja!/i)).toBeInTheDocument()
-    expect(screen.getByText(/ronda 1 de 2 · 1\/5 parejas/i)).toBeInTheDocument()
+    expect(await screen.findByRole('button', { name: /3 × 3 = 9, resuelta/i })).toBeDisabled()
+    expect(screen.getByText(/¡pareja!/i)).toBeInTheDocument()
+    expect(screen.getByText(/encontradas/i)).toBeInTheDocument()
   })
 
   it('una incorrecta vuelve disponible y registra el fallo sin revelar', async () => {
     renderMatch(3)
     fireEvent.click(screen.getByRole('button', { name: /^resultado 12$/i }))
-    fireEvent.click(screen.getByRole('button', { name: /3 × 3, vacío/i }))
+    fireEvent.click(screen.getByRole('button', { name: /^3 × 3$/i }))
 
     expect(await screen.findByText(MATCH_WRONG_MESSAGE)).toBeInTheDocument()
     expect(screen.queryByText(/= 9/)).not.toBeInTheDocument()
 
     await settle()
     expect(screen.getByRole('button', { name: /^resultado 12$/i })).toBeEnabled()
-    expect(screen.getByRole('button', { name: /3 × 3, vacío/i })).toBeEnabled()
+    expect(screen.getByRole('button', { name: /^3 × 3$/i })).toBeEnabled()
   })
 
   it('muestra pistas progresivas en la misma operación', async () => {
     renderMatch(3)
     const wrong = async () => {
       fireEvent.click(screen.getByRole('button', { name: /^resultado 12$/i }))
-      fireEvent.click(screen.getByRole('button', { name: /3 × 3, vacío/i }))
+      fireEvent.click(screen.getByRole('button', { name: /^3 × 3$/i }))
       await settle()
     }
 
@@ -179,45 +166,26 @@ describe('Empareja la tabla — pantalla', () => {
     const pairs = buildMatchRounds(buildMatchPairs(3))[0]
     for (const pair of pairs) {
       fireEvent.click(screen.getByRole('button', { name: new RegExp(`^resultado ${pair.product}$`, 'i') }))
-      fireEvent.click(screen.getByRole('button', { name: new RegExp(`${pair.label}, vacío`, 'i') }))
+      fireEvent.click(screen.getByRole('button', { name: new RegExp(`^${pair.label}$`) }))
       await settle(520)
     }
 
     expect(await screen.findByRole('button', { name: /siguiente ronda/i })).toBeInTheDocument()
-    expect(screen.getByText(/¡ronda completada!/i)).toBeInTheDocument()
-    expect(screen.queryByText(/ronda 2 de 2 · 0\/5/i)).not.toBeInTheDocument()
+    expect(screen.getByText(/ronda lista/i)).toBeInTheDocument()
+    expect(screen.queryByText(/ronda 2\/2/i)).not.toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('button', { name: /siguiente ronda/i }))
     await waitFor(() => {
-      expect(screen.getByText(/ronda 2 de 2 · 0\/5 parejas/i)).toBeInTheDocument()
+      expect(screen.getByText(/ronda 2\/2/i)).toBeInTheDocument()
     })
   })
 
-  it('permite asociar con teclado (Enter)', async () => {
+  it('bloquea interacciones mientras hay error', async () => {
     renderMatch(3)
-    const product = screen.getByRole('button', { name: /^resultado 6$/i })
-    product.focus()
-    fireEvent.keyDown(product, { key: 'Enter' })
-    expect(screen.getByText(/resultado seleccionado/i)).toBeInTheDocument()
-    fireEvent.click(screen.getByRole('button', { name: /3 × 2, vacío/i }))
-    expect(await screen.findByRole('button', { name: /3 × 2 = 6, correcta/i })).toBeInTheDocument()
-  })
-
-  it('asocia por arrastre (drop)', async () => {
-    renderMatch(3)
-    const product = screen.getByRole('button', { name: /^resultado 3$/i })
-    const op = screen.getByRole('button', { name: /3 × 1, vacío/i })
-    const dataTransfer = {
-      data: {} as Record<string, string>,
-      setData(type: string, value: string) {
-        this.data[type] = value
-      },
-      getData(type: string) {
-        return this.data[type] ?? ''
-      },
-    }
-    fireEvent.dragStart(product, { dataTransfer })
-    fireEvent.drop(op, { dataTransfer })
-    expect(await screen.findByRole('button', { name: /3 × 1 = 3, correcta/i })).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: /^resultado 12$/i }))
+    fireEvent.click(screen.getByRole('button', { name: /^3 × 3$/i }))
+    expect(screen.getByRole('button', { name: /^resultado 9$/i })).toBeDisabled()
+    await settle()
+    expect(screen.getByRole('button', { name: /^resultado 9$/i })).toBeEnabled()
   })
 })

@@ -46,7 +46,7 @@ export function CrateReveal({ pending, onChoose, onOpen, onCollect }: CrateRevea
   function handleOpen() {
     if (pending.chosenIndex === null) return
     setPhase('open')
-    soundEngine.play(active.rarity === 'epica' ? 'reward' : 'correct')
+    soundEngine.play(active.rarity === 'epica' ? 'perfect-complete' : 'points-earned')
     window.setTimeout(
       () => {
         onOpen()

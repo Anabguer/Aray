@@ -33,7 +33,7 @@ export function SessionSummaryScreen() {
       return
     }
     if (lastResult.personalBest || lastResult.coinsEarned > 0 || lastResult.rewardPointsEarned > 0) {
-      soundEngine.play('reward')
+      soundEngine.play('points-earned')
     }
   }, [lastResult, navigate])
 

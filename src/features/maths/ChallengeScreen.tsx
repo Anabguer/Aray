@@ -9,9 +9,14 @@ import {
   useFlash,
   useKeyboardAnswers,
 } from '@/components/quiz/QuizWidgets'
+import { AnswerBurst, StreakBadge, XpFlyLabel } from '@/feedback/AnswerFx'
+import { SessionXpBar } from '@/feedback/SessionXpBar'
+import { sessionLeveledUp } from '@/feedback/sessionOutcome'
+import { LevelUpCelebration } from '@/feedback/TableCompleteCelebration'
+import { pickWrongRetryMessage, sessionXpEarned, xpDeltaForAnswer } from '@/feedback/xpPreview'
 import { challengeModeConfig } from '@/config/playConfig'
 import { energyCopy } from '@/config/rewardGoal'
-import { praiseMessages, streakMessages, wrongHelpMessage } from '@/config/messages'
+import { praiseMessages, streakMessages } from '@/config/messages'
 import { Lumo } from '@/lumo/Lumo'
 import { useLumoController } from '@/lumo/useLumoController'
 import { pickNextFact, toQuestionCard } from '@/math/selector'
@@ -53,6 +58,12 @@ export function ChallengeScreen() {
   const [locked, setLocked] = useState(false)
   const [selected, setSelected] = useState<number | null>(null)
   const [feedback, setFeedback] = useState<string | null>(null)
+  const [burstKey, setBurstKey] = useState(0)
+  const [flyKey, setFlyKey] = useState(0)
+  const [flyAmount, setFlyAmount] = useState(0)
+  const [pendingXp, setPendingXp] = useState(0)
+  const [barHighlight, setBarHighlight] = useState(0)
+  const [levelUpLevel, setLevelUpLevel] = useState<number | null>(null)
   const flash = useFlash(320)
   const finished = useRef(false)
   const answersRef = useRef(answers)
@@ -87,7 +98,7 @@ export function ChallengeScreen() {
       sessionId: sessionIdRef.current,
     })
     setLastResult(result)
-    soundEngine.play('reward')
+    soundEngine.play('activity-complete')
     navigate('/missions/mates/tables/summary')
   }, [applySession, navigate, selection.tables, setActiveMode, setLastResult])
 
@@ -101,7 +112,7 @@ export function ChallengeScreen() {
       endAtRef.current = performance.now() + challengeModeConfig.durationSec * 1000
       setPhase('play')
       lumo.setThinking()
-      soundEngine.play('correct')
+      soundEngine.play('activity-open')
     }, 450)
     return () => window.clearTimeout(t)
   }, [countdown, lumo, phase])
@@ -118,7 +129,7 @@ export function ChallengeScreen() {
         !warnedUrgent.current
       ) {
         warnedUrgent.current = true
-        soundEngine.play('tick')
+        soundEngine.play('ui-click')
       }
       if (left <= 0) {
         endChallenge()
@@ -134,12 +145,14 @@ export function ChallengeScreen() {
     const fact = pickNextFact(pool, progress, lastKeyRef.current)
     lastKeyRef.current = factKeyOf(fact)
     setCard(toQuestionCard(fact, preferred))
+    setFlyAmount(0)
     lumo.setThinking()
   }, [lumo, pool, preferred, progress])
 
   const onSelect = useCallback(
     (value: number) => {
       if (phase !== 'play' || locked || remainingMs <= 0 || finished.current) return
+      soundEngine.unlock()
       setLocked(true)
       setSelected(value)
       const correct = value === card.fact.product
@@ -151,7 +164,8 @@ export function ChallengeScreen() {
         attemptId: newId('ans'),
         firstTry: true,
       }
-      const nextAnswers = [...answersRef.current, answer]
+      const prevAnswers = answersRef.current
+      const nextAnswers = [...prevAnswers, answer]
       setAnswers(nextAnswers)
       answersRef.current = nextAnswers
 
@@ -164,13 +178,24 @@ export function ChallengeScreen() {
         scoreRef.current = nextScore
         setFeedback(pickPraise(nextStreak))
         lumo.reactToAnswer({ correct: true, streak: nextStreak })
-        soundEngine.play('correct')
+        soundEngine.play('answer-correct')
+        const xpGain = xpDeltaForAnswer('challenge', prevAnswers, answer)
+        setPendingXp(sessionXpEarned('challenge', nextAnswers, nextScore, progress.bestChallengeScore))
+        if (xpGain > 0) {
+          setFlyAmount(xpGain)
+          setFlyKey((k) => k + 1)
+          soundEngine.play('points-earned')
+        }
+        const lvl = sessionLeveledUp(progress.xp, sessionXpEarned('challenge', nextAnswers, nextScore, progress.bestChallengeScore))
+        if (lvl.leveledUp) setLevelUpLevel(lvl.newLevel)
+        setBurstKey((k) => k + 1)
         flash.trigger()
       } else {
         setStreak(0)
-        setFeedback(wrongHelpMessage(card.fact.a, card.fact.b, card.fact.product))
+        setFeedback(pickWrongRetryMessage(value))
         lumo.reactToAnswer({ correct: false, streak: 0 })
-        soundEngine.play('wrong')
+        soundEngine.play('answer-wrong')
+        setPendingXp(sessionXpEarned('challenge', nextAnswers, scoreRef.current, progress.bestChallengeScore))
       }
 
       window.setTimeout(() => {
@@ -181,7 +206,7 @@ export function ChallengeScreen() {
         nextCard()
       }, 420)
     },
-    [card, flash, locked, lumo, nextCard, phase, remainingMs, streak],
+    [card, flash, locked, lumo, nextCard, phase, progress.bestChallengeScore, progress.xp, remainingMs, streak],
   )
 
   useKeyboardAnswers(phase === 'play' && !locked && remainingMs > 0, card.options, onSelect)
@@ -198,6 +223,12 @@ export function ChallengeScreen() {
       }
     >
       <section className="play-screen">
+        <SessionXpBar
+          totalXp={progress.xp + pendingXp}
+          highlightGain={barHighlight}
+          compact
+          className="play-screen__xp"
+        />
         {phase === 'intro' ? (
           <div className="countdown-overlay" role="dialog" aria-labelledby="challenge-intro-title">
             <p id="challenge-intro-title" className="countdown-overlay__label">
@@ -214,9 +245,10 @@ export function ChallengeScreen() {
               type="button"
               className="btn btn-primary"
               onClick={() => {
+                soundEngine.unlock()
                 setCountdown(challengeModeConfig.countdownSec)
                 setPhase('countdown')
-                soundEngine.play('tick')
+                soundEngine.play('ui-click')
               }}
             >
               Empezar
@@ -245,7 +277,7 @@ export function ChallengeScreen() {
           </div>
           <div className="challenge-score">
             <span>{score} pts</span>
-            <span>Racha {streak}</span>
+            <StreakBadge streak={streak} />
           </div>
         </div>
 
@@ -264,6 +296,17 @@ export function ChallengeScreen() {
           <Lumo state={lumo.state} intensity={lumo.intensity} size="md" />
           <div className="play-stage__main">
             <FactPrompt fact={card.fact} highlight={flash.on} />
+            <div className="xp-fly-anchor">
+              <XpFlyLabel
+                amount={flyAmount}
+                flyKey={flyKey}
+                onArrived={() => {
+                  setBarHighlight(flyAmount)
+                  window.setTimeout(() => setBarHighlight(0), 600)
+                }}
+              />
+              <AnswerBurst burstKey={burstKey} />
+            </div>
             {lumo.message ? (
               <p className="lumo-caption" aria-live="polite">
                 {lumo.message}
@@ -277,12 +320,19 @@ export function ChallengeScreen() {
           correctValue={card.fact.product}
           selectedValue={selected}
           reveal={locked}
+          bounceCorrect={locked && selected === card.fact.product}
+          shakeWrong={locked && selected !== null && selected !== card.fact.product}
           onSelect={onSelect}
         />
         {feedback ? (
           <FeedbackBanner tone={selected === card.fact.product ? 'ok' : 'bad'} message={feedback} />
         ) : null}
       </section>
+      <LevelUpCelebration
+        open={levelUpLevel != null}
+        level={levelUpLevel ?? 0}
+        onDone={() => setLevelUpLevel(null)}
+      />
     </AppShell>
   )
 }

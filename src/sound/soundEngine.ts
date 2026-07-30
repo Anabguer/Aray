@@ -1,60 +1,178 @@
-type ToneKind = 'correct' | 'wrong' | 'reward' | 'tick'
+import {
+  LONG_SOUNDS,
+  SOUND_IDS,
+  type LegacyToneKind,
+  type SoundId,
+  resolveSoundId,
+} from '@/sound/soundIds'
+
+const MASTER_VOLUME = 0.48
+const WRONG_VOLUME = 0.28
+
+function soundUrl(id: SoundId): string {
+  const base = (import.meta.env.BASE_URL || '/').replace(/\/?$/, '/')
+  return `${base}sounds/${id}.wav`
+}
 
 /**
- * Motor de sonido ligero con Web Audio API (beeps originales).
- * Sin archivos externos ni recursos con copyright.
+ * Motor de audio reutilizable con archivos locales.
+ * - Precarga
+ * - Mute vía preferencia del usuario
+ * - No reproduce hasta la primera interacción (autoplay)
+ * - Evita solapar sonidos largos
  */
 export class SoundEngine {
-  private ctx: AudioContext | null = null
   private muted = false
+  private unlocked = false
+  private ready = false
+  private preloadStarted = false
+  private masterGain = MASTER_VOLUME
+  private pools = new Map<SoundId, HTMLAudioElement[]>()
+  private longCurrent: HTMLAudioElement | null = null
+  private unlockBound = false
 
   setMuted(muted: boolean) {
     this.muted = muted
+    if (muted) this.stopLong()
   }
 
   isMuted() {
     return this.muted
   }
 
-  private ensureCtx(): AudioContext | null {
-    if (typeof window === 'undefined') return null
-    const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext
-    if (!AudioCtx) return null
-    if (!this.ctx) this.ctx = new AudioCtx()
-    if (this.ctx.state === 'suspended') void this.ctx.resume()
-    return this.ctx
+  setMasterVolume(volume: number) {
+    this.masterGain = Math.max(0, Math.min(1, volume))
   }
 
-  play(kind: ToneKind) {
-    if (this.muted) return
-    const ctx = this.ensureCtx()
-    if (!ctx) return
+  /** Vincula unlock a la primera interacción del usuario. */
+  bindAutoUnlock() {
+    if (typeof window === 'undefined' || this.unlockBound) return
+    this.unlockBound = true
+    const unlock = () => {
+      this.unlocked = true
+      void this.preload()
+    }
+    window.addEventListener('pointerdown', unlock, { once: true, passive: true })
+    window.addEventListener('keydown', unlock, { once: true })
+  }
 
-    const now = ctx.currentTime
-    const osc = ctx.createOscillator()
-    const gain = ctx.createGain()
-    osc.connect(gain)
-    gain.connect(ctx.destination)
+  /** Marca el motor como desbloqueado (llamar desde gestos de UI). */
+  unlock() {
+    this.unlocked = true
+    void this.preload()
+  }
 
-    const profiles: Record<ToneKind, { freq: number; dur: number; type: OscillatorType; peak: number }> = {
-      correct: { freq: 660, dur: 0.12, type: 'sine', peak: 0.045 },
-      wrong: { freq: 220, dur: 0.14, type: 'triangle', peak: 0.035 },
-      reward: { freq: 880, dur: 0.18, type: 'sine', peak: 0.05 },
-      tick: { freq: 440, dur: 0.04, type: 'sine', peak: 0.02 },
+  async preload() {
+    if (this.preloadStarted) return
+    if (typeof window === 'undefined' || typeof Audio === 'undefined') {
+      this.ready = true
+      return
+    }
+    this.preloadStarted = true
+    this.bindAutoUnlock()
+
+    await Promise.all(
+      SOUND_IDS.map(async (id) => {
+        const a = new Audio(soundUrl(id))
+        a.preload = 'auto'
+        a.setAttribute('data-sound', id)
+        this.pools.set(id, [a])
+        await new Promise<void>((resolve) => {
+          let settled = false
+          const done = () => {
+            if (settled) return
+            settled = true
+            resolve()
+          }
+          a.addEventListener('canplaythrough', done, { once: true })
+          a.addEventListener('error', done, { once: true })
+          try {
+            a.load()
+          } catch {
+            done()
+          }
+          window.setTimeout(done, 600)
+        })
+      }),
+    )
+    this.ready = true
+  }
+
+  private acquire(id: SoundId): HTMLAudioElement | null {
+    if (typeof Audio === 'undefined') return null
+    const pool = this.pools.get(id)
+    if (!pool || pool.length === 0) {
+      const a = new Audio(soundUrl(id))
+      a.preload = 'auto'
+      this.pools.set(id, [a])
+      return a
+    }
+    const idle = pool.find((el) => el.paused || el.ended)
+    if (idle) return idle
+    if (pool.length < 3 && !LONG_SOUNDS.has(id)) {
+      const clone = pool[0].cloneNode(true) as HTMLAudioElement
+      pool.push(clone)
+      return clone
+    }
+    const a = pool[0]
+    try {
+      a.pause()
+      a.currentTime = 0
+    } catch {
+      /* ignore */
+    }
+    return a
+  }
+
+  private stopLong() {
+    if (!this.longCurrent) return
+    try {
+      this.longCurrent.pause()
+      this.longCurrent.currentTime = 0
+    } catch {
+      /* ignore */
+    }
+    this.longCurrent = null
+  }
+
+  /**
+   * Reproduce un efecto. Acepta ids nuevos o tonos legacy.
+   * Si aún no hubo interacción, no suena (política autoplay).
+   */
+  play(kind: SoundId | LegacyToneKind, opts?: { volume?: number }) {
+    if (this.muted || !this.unlocked) return
+
+    const id = resolveSoundId(kind)
+    if (!this.ready && !this.preloadStarted) void this.preload()
+
+    const audio = this.acquire(id)
+    if (!audio) return
+
+    if (LONG_SOUNDS.has(id)) {
+      this.stopLong()
+      this.longCurrent = audio
+      audio.onended = () => {
+        if (this.longCurrent === audio) this.longCurrent = null
+      }
     }
 
-    const p = profiles[kind]
-    osc.type = p.type
-    osc.frequency.setValueAtTime(p.freq, now)
-    if (kind === 'reward') {
-      osc.frequency.linearRampToValueAtTime(1174, now + p.dur)
+    const base =
+      opts?.volume ??
+      (id === 'answer-wrong' ? WRONG_VOLUME : id === 'ui-click' ? 0.35 : 0.55)
+    audio.volume = Math.max(0, Math.min(1, base * this.masterGain))
+    try {
+      audio.currentTime = 0
+    } catch {
+      /* ignore */
     }
-    gain.gain.setValueAtTime(0.0001, now)
-    gain.gain.exponentialRampToValueAtTime(p.peak, now + 0.02)
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + p.dur)
-    osc.start(now)
-    osc.stop(now + p.dur + 0.02)
+    void audio.play().catch(() => {
+      /* autoplay u otro bloqueo */
+    })
   }
 }
 
 export const soundEngine = new SoundEngine()
+
+if (typeof window !== 'undefined') {
+  soundEngine.bindAutoUnlock()
+}

@@ -9,7 +9,8 @@
     "lint": "oxlint",
     "preview": "vite preview --base /aray/",
     "test": "vitest run --maxWorkers=1 --no-file-parallelism --pool=forks",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "sounds:generate": "node scripts/generate-sounds.mjs"
   },
   "dependencies": {
     "react": "^19.2.7",

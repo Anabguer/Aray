@@ -6,6 +6,7 @@ import { AuthProvider } from '@/auth/AuthContext'
 import { PlayProvider } from '@/progress/PlayContext'
 import { ProgressProvider } from '@/progress/ProgressContext'
 import './index.css'
+import './feedback/feedback.css'
 
 /** '/aray/' → '/aray' · '/' → raíz */
 function routerBasename(): string | undefined {

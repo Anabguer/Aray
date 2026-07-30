@@ -2,6 +2,16 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { AppShell } from '@/components/AppShell'
 import { MuteToggle } from '@/components/quiz/QuizWidgets'
+import { StreakBadge } from '@/feedback/AnswerFx'
+import { SessionXpBar } from '@/feedback/SessionXpBar'
+import {
+  sessionLeveledUp,
+  unlockLabelAfterSession,
+} from '@/feedback/sessionOutcome'
+import {
+  TableCompleteCelebration,
+  type TableCompleteInfo,
+} from '@/feedback/TableCompleteCelebration'
 import { matchSessionMeta } from '@/config/rewardGoal'
 import { Lumo } from '@/lumo/Lumo'
 import { useLumoController } from '@/lumo/useLumoController'
@@ -36,6 +46,7 @@ export function MatchScreen() {
   const lumo = useLumoController('thinking')
   const sessionIdRef = useRef(newId('match'))
   const rewardedRef = useRef(false)
+  const openedRef = useRef(false)
   const maxLoad = previewSessionLoad(progress, matchSessionMeta.maxRewardFromItems)
 
   const allPairs = useMemo(() => buildMatchPairs(table), [table])
@@ -61,10 +72,18 @@ export function MatchScreen() {
   const [streak, setStreak] = useState(0)
   const [bestStreak, setBestStreak] = useState(0)
   const [victory, setVictory] = useState<SessionResult | null>(null)
+  const [celebration, setCelebration] = useState<TableCompleteInfo | null>(null)
 
   const busyRef = useRef(false)
   const lockedRef = useRef<Set<string>>(new Set())
   const attemptCountsRef = useRef<Record<string, number>>({})
+
+  useEffect(() => {
+    if (openedRef.current) return
+    openedRef.current = true
+    soundEngine.unlock()
+    soundEngine.play('activity-open')
+  }, [])
 
   useEffect(() => {
     const pairs = rounds[roundIndex] ?? []
@@ -109,6 +128,7 @@ export function MatchScreen() {
       if (rewardedRef.current) return null
       rewardedRef.current = true
       setActiveMode('match')
+      const progressBefore = progress
       const answers: SessionAnswer[] = []
       for (const pair of allPairs) {
         const wasMiss = finalMissed.has(pair.id)
@@ -141,9 +161,23 @@ export function MatchScreen() {
         missedFacts: allPairs.filter((p) => finalMissed.has(p.id)).map((p) => p.fact),
       })
       setLastResult(result)
+
+      const perfect = finalMissed.size === 0
+      const { leveledUp, newLevel } = sessionLeveledUp(progressBefore.xp, result.xpEarned)
+      const unlockLabel = unlockLabelAfterSession(progressBefore, [table], answers, result)
+      soundEngine.play(perfect ? 'perfect-complete' : 'activity-complete')
+      setCelebration({
+        perfect,
+        tableNumber: table,
+        xpEarned: result.xpEarned,
+        totalXpAfter: progressBefore.xp + result.xpEarned,
+        unlockLabel,
+        leveledUp,
+        newLevel,
+      })
       return result
     },
-    [allPairs, applySession, bestStreak, setActiveMode, setLastResult, table],
+    [allPairs, applySession, bestStreak, progress, setActiveMode, setLastResult, table],
   )
 
   const tryAssign = useCallback(
@@ -168,7 +202,7 @@ export function MatchScreen() {
           setBestStreak((b) => Math.max(b, next))
           return next
         })
-        soundEngine.play('correct')
+        soundEngine.play('answer-correct')
         window.setTimeout(() => {
           setPoppingOpId((id) => (id === opId ? null : id))
         }, POP_ANIM_MS)
@@ -177,7 +211,6 @@ export function MatchScreen() {
           lumo.reactToAnswer({ correct: true, streak: 5 })
           if (isLastRound) {
             lumo.celebrate('record')
-            soundEngine.play('reward')
             setPhase('tableComplete')
           } else {
             setPhase('roundComplete')
@@ -204,7 +237,7 @@ export function MatchScreen() {
       setWrongOpId(opId)
       setBounceProduct(product)
       lumo.reactToAnswer({ correct: false, streak: 0 })
-      soundEngine.play('wrong')
+      soundEngine.play('answer-wrong')
       busyRef.current = true
       setBusy(true)
       window.setTimeout(() => {
@@ -227,26 +260,34 @@ export function MatchScreen() {
     const result = finishAll(missedIds)
     if (result) {
       setVictory(result)
-      setPhase('victory')
     }
+  }
+
+  function onContinueCelebration() {
+    setCelebration(null)
+    setPhase('victory')
   }
 
   function onProductClick(product: number) {
     if (busy || phase !== 'playing') return
+    soundEngine.unlock()
     if (selectedOpId) {
       tryAssign(selectedOpId, product)
       return
     }
     setSelectedProduct((prev) => (prev === product ? null : product))
+    soundEngine.play('ui-click')
   }
 
   function onOpClick(opId: string) {
     if (lockedRef.current.has(opId) || busy || phase !== 'playing') return
+    soundEngine.unlock()
     if (selectedProduct !== null) {
       tryAssign(opId, selectedProduct)
       return
     }
     setSelectedOpId((prev) => (prev === opId ? null : opId))
+    soundEngine.play('ui-click')
   }
 
   function replay() {
@@ -257,6 +298,7 @@ export function MatchScreen() {
     setStreak(0)
     setBestStreak(0)
     setVictory(null)
+    setCelebration(null)
     setPhase('playing')
   }
 
@@ -271,8 +313,9 @@ export function MatchScreen() {
         <MuteToggle muted={progress.soundMuted} onToggle={() => setSoundMuted(!progress.soundMuted)} />
       }
     >
-      <section className="match-arena" aria-label="Minijuego Empareja">
-        {phase === 'victory' && victory ? (
+      <section className={`match-arena${celebration ? ' is-dimmed' : ''}`} aria-label="Minijuego Empareja">
+        <SessionXpBar totalXp={progress.xp} compact className="play-screen__xp" />
+        {phase === 'victory' && victory && !celebration ? (
           <div className="match-victory" role="status">
             <Lumo state="celebration" intensity={4} size="md" />
             <h2 className="match-victory__title">¡Tabla emparejada!</h2>
@@ -323,13 +366,7 @@ export function MatchScreen() {
                 <span>
                   Restan <strong>{remaining}</strong>
                 </span>
-                {streak > 0 ? (
-                  <span className="match-hud__streak">
-                    Racha <strong>{streak}</strong>
-                  </span>
-                ) : (
-                  <span className="match-hud__energy">Hasta ⚡{maxLoad}</span>
-                )}
+                {streak > 0 ? <StreakBadge streak={streak} /> : <span className="match-hud__energy">Hasta ⚡{maxLoad}</span>}
               </div>
             </header>
 
@@ -430,6 +467,11 @@ export function MatchScreen() {
           </>
         )}
       </section>
+      <TableCompleteCelebration
+        open={Boolean(celebration)}
+        info={celebration}
+        onContinue={onContinueCelebration}
+      />
     </AppShell>
   )
 }
