@@ -196,7 +196,7 @@ export function ModeSelectScreen() {
           ) : null}
           <ModePoster
             art="sorpresa"
-            title="SORPRESA"
+            title="RANDOM"
             text="Lumo elige por ti"
             className="mode-poster--random"
             onClick={startRandom}

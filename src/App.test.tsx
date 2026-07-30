@@ -65,9 +65,9 @@ describe('ARAY navigation shell', () => {
   it('muestra la portada lobby', () => {
     renderAt('/')
     expect(screen.getByRole('heading', { name: /^lobby$/i })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: /¡hola, aray!/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /¡ey, aray!/i })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /^jugar$/i })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: /aprende la tabla|tu misión de hoy|entrena la tabla/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /domina la tabla|tu misión de hoy|entrena la tabla/i })).toBeInTheDocument()
     expect(screen.queryByRole('link', { name: /ir al lobby/i })).not.toBeInTheDocument()
     expect(screen.queryByText(/¿jugamos, aray\?/i)).not.toBeInTheDocument()
     expect(screen.queryByText(/tu espacio para misiones/i)).not.toBeInTheDocument()
@@ -96,12 +96,12 @@ describe('ARAY navigation shell', () => {
     expect(screen.getByRole('group', { name: /tablas del 2 al 9/i })).toBeInTheDocument()
   })
 
-  it('muestra modos con Empareja y misión sorpresa', () => {
+  it('muestra modos con Empareja y misión random', () => {
     renderAt('/missions/mates/tables/modes')
     expect(screen.getByRole('heading', { name: /elige tu modo/i })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /ir al lobby/i })).toHaveTextContent(/lobby/i)
     expect(screen.getByRole('button', { name: /empareja/i })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /sorpresa/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /random/i })).toBeInTheDocument()
   })
 
   it('muestra controles unificados: sonido y acceso adulto', () => {
@@ -114,7 +114,7 @@ describe('ARAY navigation shell', () => {
 
   it('redirige /adult al lobby sin sesión adulta', () => {
     renderAt('/adult')
-    expect(screen.getByRole('heading', { name: /¡hola, aray!/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /¡ey, aray!/i })).toBeInTheDocument()
     expect(screen.queryByText(/panel familiar/i)).not.toBeInTheDocument()
   })
 })
