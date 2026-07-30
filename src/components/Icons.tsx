@@ -149,6 +149,14 @@ export function IconChevronLeft(props: IconProps) {
   )
 }
 
+export function IconChevronRight(props: IconProps) {
+  return (
+    <BaseIcon {...props}>
+      <path d="M9 6l6 6-6 6" />
+    </BaseIcon>
+  )
+}
+
 export function IconReview(props: IconProps) {
   return (
     <BaseIcon {...props}>

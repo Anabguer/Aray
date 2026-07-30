@@ -15,6 +15,25 @@ import { usePlaySession } from '@/progress/PlayContext'
 import { useProgress } from '@/progress/ProgressContext'
 import { normalizeRewardCycles, previewSessionLoad } from '@/reward/engine'
 
+/** Copy solo Lobby: no altera títulos del catálogo en otras pantallas. */
+function lobbyMissionTitle(mission: LobbyMissionCard | null): string {
+  if (!mission) return 'Tu misión de hoy'
+  const learn = mission.title.match(/^Aprende la tabla del (\d+)$/i)
+  if (learn) return `Domina la tabla del ${learn[1]}`
+  return mission.title
+}
+
+function lobbyMissionDescription(
+  mission: LobbyMissionCard | null,
+  sessionEnergy: number,
+): string {
+  if (!mission) return `Practica y gana hasta ⚡ ${sessionEnergy}`
+  if (mission.description === 'Repasa la tabla sin prisa') {
+    return 'Gana XP y déjala dominada'
+  }
+  return mission.description
+}
+
 export function HomeScreen() {
   const navigate = useNavigate()
   const { progress, chooseCrate, openCrate, collectCrate } = useProgress()
@@ -47,7 +66,7 @@ export function HomeScreen() {
   }
 
   return (
-    <AppShell title="LOBBY" subtitle="Tu base de aventuras" showLobbyLink={false}>
+    <AppShell title="LOBBY" subtitle="Tu zona de juego" showLobbyLink={false}>
       <section className="lobby" aria-labelledby="home-greeting">
         <div className="lobby__welcome">
           <Lumo
@@ -58,9 +77,11 @@ export function HomeScreen() {
           />
           <div className="lobby__welcome-copy">
             <h2 id="home-greeting" className="lobby__greeting">
-              ¡Hola, Aray!
+              ¡Ey, Aray!
             </h2>
-            <p className="lobby__welcome-lead">Listo para tu próxima aventura</p>
+            <p className="lobby__welcome-lead">
+              Soy <span className="lobby__lumo-name">Lumo</span>. ¿Qué vamos a farmear hoy?
+            </p>
           </div>
           <div className="hero__logo-wrap lobby__logo">
             <BrandLogo variant="hero" />
@@ -90,15 +111,14 @@ export function HomeScreen() {
                     ? 'Para repasar'
                     : primaryMission.reason === 'mandatory'
                       ? 'Pendiente'
-                      : 'Misión recomendada'
+                      : 'Misión del día'
                   : `Matemáticas · Tabla del ${missionTable}`}
               </p>
               <h2 id="mission-today-title" className="lobby-mission__title">
-                {primaryMission?.title ?? 'Tu misión de hoy'}
+                {lobbyMissionTitle(primaryMission)}
               </h2>
               <p className="lobby-mission__rewards">
-                {primaryMission?.description ??
-                  `Practica y gana hasta ⚡ ${sessionEnergy}`}
+                {lobbyMissionDescription(primaryMission, sessionEnergy)}
               </p>
               <Link
                 to={primaryMission?.path ?? '/missions/mates/tables'}
@@ -122,7 +142,6 @@ export function HomeScreen() {
 
         {(lobby.mandatory.length > 0 ||
           lobby.review.length > 0 ||
-          lobby.recommended.length > 1 ||
           lobby.free.length > 0) && (
           <section className="lobby-quests" aria-label="Actividades para ti">
             {lobby.mandatory.length > 0 ? (

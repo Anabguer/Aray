@@ -29,7 +29,7 @@ export function AppShell({
   return (
     <div className="app-shell">
       <div className="app-shell__bg" aria-hidden="true" />
-      <main className="app-main">
+      <main className={['app-main', isHome ? 'app-main--lobby' : ''].filter(Boolean).join(' ')}>
         {!hideHeader && resolvedTitle ? (
           <GameHeader
             title={resolvedTitle}
