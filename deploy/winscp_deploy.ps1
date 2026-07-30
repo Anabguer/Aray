@@ -137,7 +137,8 @@ if ($raw -notmatch "ARAY_COOKIE_PATH") {
 if ($raw -notmatch "ARAY_COOKIE_SECURE") {
     $raw += "`r`ndefine('ARAY_COOKIE_SECURE', true);`r`n"
 }
-Set-Content -LiteralPath $prodPhp -Value $raw -Encoding UTF8
+$utf8NoBom = New-Object System.Text.UTF8Encoding $false
+[System.IO.File]::WriteAllText($prodPhp, $raw.TrimStart([char]0xFEFF) + "`r`n", $utf8NoBom)
 Write-Log 'Generado includes/database.local.php de producción en stage (no versionado).'
 
 $protocol = [string]$config.HOSTALIA_PROTOCOL.Trim().ToLowerInvariant()
@@ -153,10 +154,13 @@ if (-not $remoteBase.StartsWith('/')) { $remoteBase = '/' + $remoteBase.TrimStar
 if ($remoteBase.Length -gt 1 -and $remoteBase.EndsWith('/')) { $remoteBase = $remoteBase.TrimEnd('/') }
 
 function Format-WinScpRemoteArg([string]$PathForScript) {
+    # Rutas absolutas entre comillas (List.Add evita el bug de @() + coma).
     return '"' + ($PathForScript.Replace('\', '/') -replace '"', '""') + '"'
 }
 function Format-WinScpLocalArg([string]$WinPath) {
-    return '"' + ($WinPath.Trim() -replace '"', '""') + '"'
+    # No terminar en \ antes de la comilla: \" escapa el cierre en el parser de WinSCP.
+    $p = $WinPath.Trim().TrimEnd('\')
+    return '"' + ($p -replace '"', '""') + '"'
 }
 
 $encUser = [Uri]::EscapeDataString($userName)
@@ -195,50 +199,47 @@ function Invoke-WinScpScript([string[]]$ScriptLines, [string]$Label) {
 $probeLocal = Join-Path $BackupRoot ("probe-$ts")
 New-Item -ItemType Directory -Path $probeLocal -Force | Out-Null
 $probeWin = $probeLocal
-if (-not $probeWin.EndsWith('\')) { $probeWin += '\' }
 
-$probeLines = @(
-    'option batch continue',
-    'option confirm off',
-    'option transfer binary',
-    $openLine,
-    'mkdir ' + (Format-WinScpRemoteArg $remoteBase),
-    'cd ' + (Format-WinScpRemoteArg $remoteBase),
-    'lcd ' + (Format-WinScpLocalArg $probeWin),
-    'get -filemask="*|*/" *',
-    'exit'
-)
+# Importante: usar List.Add — en @() la coma tiene más precedencia que + y parte
+# 'mkdir ' + '"..."' en dos líneas de script (mkdir vacío + ruta suelta).
+$probeLines = [System.Collections.Generic.List[string]]::new()
+$probeLines.Add('option batch continue')
+$probeLines.Add('option confirm off')
+$probeLines.Add('option transfer binary')
+$probeLines.Add($openLine)
+$probeLines.Add('mkdir ' + (Format-WinScpRemoteArg $remoteBase))
+$probeLines.Add('cd ' + (Format-WinScpRemoteArg $remoteBase))
+$probeLines.Add('lcd ' + (Format-WinScpLocalArg $probeWin))
+$probeLines.Add('get -filemask="*|*/" *')
+$probeLines.Add('exit')
 Write-Log "Inspeccionando remoto $remoteBase ..."
-Invoke-WinScpScript -ScriptLines $probeLines -Label 'probe'
+Invoke-WinScpScript -ScriptLines $probeLines.ToArray() -Label 'probe'
 
 $existing = @(Get-ChildItem -LiteralPath $probeLocal -Force -ErrorAction SilentlyContinue | Where-Object { $_.Name -ne '.' -and $_.Name -ne '..' })
 if ($existing.Count -gt 0) {
     $backupLocal = Join-Path $BackupRoot ("aray_backup_$ts")
     New-Item -ItemType Directory -Path $backupLocal -Force | Out-Null
     $backupLocalWin = $backupLocal
-    if (-not $backupLocalWin.EndsWith('\')) { $backupLocalWin += '\' }
     $remoteBackup = "/aray_backup_$ts"
     Write-Log "Backup: $remoteBase → local + $remoteBackup"
-    $bakLines = @(
-        'option batch abort',
-        'option confirm off',
-        'option transfer binary',
-        $openLine,
-        'cd ' + (Format-WinScpRemoteArg $remoteBase),
-        'lcd ' + (Format-WinScpLocalArg $backupLocalWin),
-        'synchronize local ' + (Format-WinScpLocalArg $backupLocalWin) + ' ' + (Format-WinScpRemoteArg $remoteBase),
-        'mkdir ' + (Format-WinScpRemoteArg $remoteBackup),
-        'synchronize remote ' + (Format-WinScpLocalArg $backupLocalWin) + ' ' + (Format-WinScpRemoteArg $remoteBackup),
-        'exit'
-    )
-    Invoke-WinScpScript -ScriptLines $bakLines -Label 'backup'
+    $bakLines = [System.Collections.Generic.List[string]]::new()
+    $bakLines.Add('option batch abort')
+    $bakLines.Add('option confirm off')
+    $bakLines.Add('option transfer binary')
+    $bakLines.Add($openLine)
+    $bakLines.Add('cd ' + (Format-WinScpRemoteArg $remoteBase))
+    $bakLines.Add('lcd ' + (Format-WinScpLocalArg $backupLocalWin))
+    $bakLines.Add('synchronize local ' + (Format-WinScpLocalArg $backupLocalWin) + ' ' + (Format-WinScpRemoteArg $remoteBase))
+    $bakLines.Add('mkdir ' + (Format-WinScpRemoteArg $remoteBackup))
+    $bakLines.Add('synchronize remote ' + (Format-WinScpLocalArg $backupLocalWin) + ' ' + (Format-WinScpRemoteArg $remoteBackup))
+    $bakLines.Add('exit')
+    Invoke-WinScpScript -ScriptLines $bakLines.ToArray() -Label 'backup'
 } else {
     Write-Log "Remoto vacío o nuevo: $remoteBase"
     Remove-Item -LiteralPath $probeLocal -Recurse -Force -ErrorAction SilentlyContinue
 }
 
 $stageWin = $StageRoot
-if (-not $stageWin.EndsWith('\')) { $stageWin += '\' }
 $putLines = [System.Collections.Generic.List[string]]::new()
 $putLines.Add('option batch abort')
 $putLines.Add('option confirm off')
