@@ -13,9 +13,10 @@ async function shot(page, name, urlPath = 'missions') {
   await page.goto(`${base}${urlPath}`, { waitUntil: 'networkidle' })
   await page.waitForSelector('.game-header', { timeout: 15000 })
   await page.waitForSelector('.world-scene--maths', { timeout: 15000 })
-  await page.waitForTimeout(600)
+  await page.waitForSelector('.world-scene--medi img', { timeout: 15000 })
+  await page.waitForTimeout(700)
   const file = path.join(outDir, name)
-  await page.screenshot({ path: file, fullPage: false })
+  await page.screenshot({ path: file, fullPage: true })
   console.log('saved', file)
 }
 
