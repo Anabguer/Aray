@@ -42,7 +42,7 @@ export function MathsHubScreen() {
         mark,
         mapSlot,
         href: '/missions/mates/tables',
-        ctaLabel: '¡A POR LAS TABLAS!',
+        ctaLabel: 'JUGAR TABLAS',
       }
     }
 
@@ -67,9 +67,9 @@ export function MathsHubScreen() {
       <WorldLevelMap
         theme="maths"
         title="Mundo de Matemáticas"
-        tagline="Sigue el camino de las zonas"
+        tagline="Supera zonas y domina sus retos"
         icon={<SubjectIcon id="mates" />}
-        guideTip="¡Empezamos por aquí!"
+        guideTip="Empieza por aquí"
         stations={stations}
       />
     </AppShell>

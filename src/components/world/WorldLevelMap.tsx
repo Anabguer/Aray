@@ -1,65 +1,10 @@
+import { useCallback, useLayoutEffect, useRef, useState } from 'react'
 import { WorldMapScenery } from '@/components/world/WorldMapScenery'
 import { WorldStationNode } from '@/components/world/WorldStationNode'
 import type { WorldLevelMapProps, WorldStation } from '@/components/world/types'
+import '@/components/world/world-level-map.css'
 
-/** Camino SVG escritorio: start → mid-high → mid-low → end */
-function DesktopPath() {
-  return (
-    <svg
-      className="world-level-map__path world-level-map__path--desktop"
-      viewBox="0 0 1000 640"
-      preserveAspectRatio="none"
-      aria-hidden="true"
-    >
-      <defs>
-        <linearGradient id="mapPathGlow" x1="0%" y1="100%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="rgba(34,211,238,0.95)" />
-          <stop offset="45%" stopColor="rgba(167,139,250,0.9)" />
-          <stop offset="100%" stopColor="rgba(56,189,248,0.85)" />
-        </linearGradient>
-        <filter id="mapPathBlur" x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur stdDeviation="4" />
-        </filter>
-      </defs>
-      <path
-        className="world-level-map__path-glow"
-        d="M155 545 C 250 545, 300 380, 445 165 C 510 80, 575 160, 640 500 C 675 585, 760 170, 875 115"
-        fill="none"
-        stroke="url(#mapPathGlow)"
-        strokeWidth="18"
-        strokeLinecap="round"
-        filter="url(#mapPathBlur)"
-        opacity="0.45"
-      />
-      <path
-        className="world-level-map__path-line"
-        d="M155 545 C 250 545, 300 380, 445 165 C 510 80, 575 160, 640 500 C 675 585, 760 170, 875 115"
-        fill="none"
-        stroke="url(#mapPathGlow)"
-        strokeWidth="7"
-        strokeLinecap="round"
-        strokeDasharray="2 18"
-      />
-    </svg>
-  )
-}
-
-function MobilePath({ count }: { count: number }) {
-  return (
-    <div className="world-level-map__path world-level-map__path--mobile" aria-hidden="true">
-      <span className="world-level-map__path-rail" />
-      {Array.from({ length: Math.max(0, count - 1) }, (_, i) => (
-        <span
-          key={i}
-          className="world-level-map__path-dot"
-          style={{ top: `${((i + 0.5) / count) * 100}%` }}
-        />
-      ))}
-    </div>
-  )
-}
-
-function orderForMobile(stations: WorldStation[]): WorldStation[] {
+function orderStations(stations: WorldStation[]): WorldStation[] {
   const rank: Record<WorldStation['mapSlot'], number> = {
     start: 0,
     'mid-high': 1,
@@ -67,6 +12,30 @@ function orderForMobile(stations: WorldStation[]): WorldStation[] {
     end: 3,
   }
   return [...stations].sort((a, b) => rank[a.mapSlot] - rank[b.mapSlot])
+}
+
+function buildCurvePath(
+  points: Array<{ x: number; y: number }>,
+  opts?: { softVertical?: boolean },
+): string {
+  if (points.length === 0) return ''
+  if (points.length === 1) return `M ${points[0]!.x} ${points[0]!.y}`
+  let d = `M ${points[0]!.x} ${points[0]!.y}`
+  for (let i = 1; i < points.length; i++) {
+    const prev = points[i - 1]!
+    const curr = points[i]!
+    const midY = (prev.y + curr.y) / 2
+    const nearlyVertical = Math.abs(curr.x - prev.x) < 12
+    if (opts?.softVertical && nearlyVertical) {
+      // Carril móvil a la izquierda: curva suave hacia la tarjeta (x positivo).
+      const sway = i % 2 === 0 ? 18 : 11
+      const cx = prev.x + sway
+      d += ` C ${cx} ${midY}, ${cx} ${midY}, ${curr.x} ${curr.y}`
+    } else {
+      d += ` C ${prev.x} ${midY}, ${curr.x} ${midY}, ${curr.x} ${curr.y}`
+    }
+  }
+  return d
 }
 
 export function WorldLevelMap({
@@ -77,49 +46,122 @@ export function WorldLevelMap({
   guideTip,
   stations,
 }: WorldLevelMapProps) {
-  const mobileOrder = orderForMobile(stations)
+  const ordered = orderStations(stations)
+  const stageRef = useRef<HTMLDivElement>(null)
+  const [pathD, setPathD] = useState('')
+  const [pathBox, setPathBox] = useState({ w: 0, h: 0 })
+  const openZones = stations.filter((s) => s.status !== 'coming-soon').length
+
+  const updatePath = useCallback(() => {
+    const stage = stageRef.current
+    if (!stage) return
+    const w = stage.clientWidth
+    const h = Math.max(stage.scrollHeight, stage.clientHeight)
+    setPathBox({ w, h })
+
+    const ports = [...stage.querySelectorAll<HTMLElement>('.map-station__port')]
+    if (ports.length === 0) {
+      setPathD('')
+      return
+    }
+    const sr = stage.getBoundingClientRect()
+    const points = ports.map((port) => {
+      const r = port.getBoundingClientRect()
+      return {
+        x: r.left + r.width / 2 - sr.left + stage.scrollLeft,
+        y: r.top + r.height / 2 - sr.top + stage.scrollTop,
+      }
+    })
+    const softVertical = window.matchMedia('(max-width: 719px)').matches
+    setPathD(buildCurvePath(points, { softVertical }))
+  }, [])
+
+  useLayoutEffect(() => {
+    updatePath()
+    const stage = stageRef.current
+    if (!stage) return
+    const ro = new ResizeObserver(() => updatePath())
+    ro.observe(stage)
+    window.addEventListener('resize', updatePath)
+    const t = window.setTimeout(updatePath, 120)
+    return () => {
+      ro.disconnect()
+      window.removeEventListener('resize', updatePath)
+      window.clearTimeout(t)
+    }
+  }, [updatePath, ordered.length])
 
   return (
     <section className={`world-level-map world-level-map--${theme}`}>
       <WorldMapScenery theme={theme} />
 
       <header className="world-level-map__head">
-        <div className="world-level-map__identity">
-          <div className="world-level-map__icon">{icon}</div>
-          <div className="world-level-map__titles">
-            <h2 className="world-level-map__title">{title}</h2>
-            <p className="world-level-map__tagline">{tagline}</p>
-          </div>
+        <div className="world-level-map__icon">{icon}</div>
+        <div className="world-level-map__titles">
+          <h2 className="world-level-map__title">{title}</h2>
+          <p className="world-level-map__tagline">{tagline}</p>
+          {stations.length > 0 ? (
+            <p className="world-level-map__progress">
+              {openZones}/{stations.length} zonas abiertas
+            </p>
+          ) : null}
         </div>
       </header>
 
-      <div className="world-level-map__stage">
-        <DesktopPath />
-        <MobilePath count={mobileOrder.length} />
-
-        <ol className="world-level-map__stations world-level-map__stations--desktop">
-          {stations.map((station) => (
-            <li
-              key={station.id}
-              className={`world-level-map__slot world-level-map__slot--${station.mapSlot}`}
-            >
-              <WorldStationNode
-                station={station}
-                guideTip={station.status === 'recommended' ? guideTip : undefined}
+      <div className="world-level-map__stage" ref={stageRef} onScroll={updatePath}>
+        <svg
+          className="world-level-map__path"
+          width={pathBox.w || undefined}
+          height={pathBox.h || undefined}
+          viewBox={pathBox.w && pathBox.h ? `0 0 ${pathBox.w} ${pathBox.h}` : undefined}
+          aria-hidden="true"
+        >
+          <defs>
+            <linearGradient id="worldMapPathGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="rgba(34,211,238,0.95)" />
+              <stop offset="55%" stopColor="rgba(167,139,250,0.88)" />
+              <stop offset="100%" stopColor="rgba(56,189,248,0.55)" />
+            </linearGradient>
+          </defs>
+          {pathD ? (
+            <>
+              <path
+                className="world-level-map__path-glow"
+                d={pathD}
+                fill="none"
+                stroke="url(#worldMapPathGrad)"
+                strokeWidth="14"
+                strokeLinecap="round"
+                opacity="0.28"
               />
-            </li>
-          ))}
-        </ol>
-
-        <ol className="world-level-map__stations world-level-map__stations--mobile">
-          {mobileOrder.map((station) => (
-            <li key={`m-${station.id}`} className="world-level-map__slot">
-              <WorldStationNode
-                station={station}
-                guideTip={station.status === 'recommended' ? guideTip : undefined}
+              <path
+                className="world-level-map__path-line"
+                d={pathD}
+                fill="none"
+                stroke="url(#worldMapPathGrad)"
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeDasharray="1 14"
               />
-            </li>
-          ))}
+            </>
+          ) : null}
+        </svg>
+
+        <ol className="world-level-map__stations">
+          {ordered.map((station, index) => {
+            const side = index % 2 === 0 ? 'left' : 'right'
+            return (
+              <li
+                key={station.id}
+                className={`world-level-map__slot world-level-map__slot--${side}`}
+              >
+                <WorldStationNode
+                  station={station}
+                  guideTip={station.status === 'recommended' ? guideTip : undefined}
+                />
+              </li>
+            )
+          })}
         </ol>
       </div>
     </section>
