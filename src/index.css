@@ -6044,7 +6044,7 @@ a {
   --lobby-ctrl-size: 2.55rem;
   --game-header-avatar: 56px;
   position: sticky;
-  top: calc(10px + var(--safe-top));
+  top: calc(clamp(10px, 1.4vh, 14px) + var(--safe-top));
   z-index: 20;
   display: grid;
   grid-template-columns: auto minmax(180px, 1.7fr) auto auto auto;
@@ -6053,8 +6053,8 @@ a {
   column-gap: 0.75rem;
   row-gap: 0.75rem;
   width: 100%;
-  margin: calc(12px + var(--safe-top)) 0 0.35rem;
-  padding: 1.05rem 1.2rem;
+  margin: calc(clamp(24px, 3.2vh, 32px) + var(--safe-top)) 0 clamp(0.75rem, 1.8vh, 1.05rem);
+  padding: 1.15rem 1.2rem 1.2rem;
   box-sizing: border-box;
   border-radius: 28px;
   border: 1px solid rgba(103, 232, 249, 0.32);
@@ -6361,8 +6361,8 @@ a {
     column-gap: 0.35rem;
     row-gap: 0.7rem;
     top: calc(8px + var(--safe-top));
-    margin: calc(10px + var(--safe-top)) 0 0.95rem;
-    padding: 0.75rem 0.7rem;
+    margin: calc(10px + var(--safe-top)) 0 1.15rem;
+    padding: 0.8rem 0.7rem;
     border-radius: 22px;
   }
 
@@ -6574,6 +6574,11 @@ a {
   color: rgba(226, 236, 255, 0.78);
 }
 
+.lobby__lumo-name {
+  color: var(--cyan);
+  font-weight: 800;
+}
+
 .lobby .lobby__greeting {
   margin: 0;
 }
@@ -6596,13 +6601,41 @@ a {
 /* Mis mundos: mapa de seleccion */
 .app-main:has(.game-header) {
   width: min(1180px, calc(100vw - 32px));
-  padding-top: 0;
+  padding-top: clamp(0.2rem, 0.9vh, 0.55rem);
+}
+
+@media (min-width: 901px) {
+  .app-main:has(.world-map) {
+    /* Baja ligeramente el conjunto en pantallas altas sin centrarlo. */
+    padding-top: clamp(0.4rem, 2.2vh, 1.1rem);
+  }
+
+  .app-main:has(.world-map) .game-header {
+    margin-bottom: 0;
+  }
+
+  .app-main:has(.world-map) .world-map {
+    margin-top: clamp(24px, 2.8vh, 28px);
+  }
+}
+
+@media (min-width: 901px) and (min-height: 860px) {
+  .app-main:has(.world-map) {
+    padding-top: clamp(0.9rem, 4.2vh, 2.25rem);
+  }
+}
+
+@media (min-width: 901px) and (min-height: 1000px) {
+  .app-main:has(.world-map) {
+    padding-top: clamp(1.15rem, 5vh, 2.75rem);
+  }
 }
 
 @media (max-width: 900px) {
   .app-main:has(.game-header) {
     width: min(1180px, calc(100vw - 16px));
     padding-inline: 0.55rem;
+    padding-top: 0;
   }
 }
 
