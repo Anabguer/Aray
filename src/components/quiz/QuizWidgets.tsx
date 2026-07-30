@@ -11,6 +11,7 @@ export function AnswerGrid({
   onSelect,
   bounceCorrect,
   shakeWrong,
+  showCorrectAnswer = true,
 }: {
   options: number[]
   disabled?: boolean
@@ -22,12 +23,14 @@ export function AnswerGrid({
   bounceCorrect?: boolean
   /** Sacudida lateral suave en la opción fallida. */
   shakeWrong?: boolean
+  /** Si false, en reveal solo marca la opción fallida (reintento). */
+  showCorrectAnswer?: boolean
 }) {
   return (
     <div className="answer-grid" role="group" aria-label="Respuestas">
       {options.map((option, index) => {
         let stateClass = ''
-        if (reveal && option === correctValue) {
+        if (reveal && showCorrectAnswer && option === correctValue) {
           stateClass = bounceCorrect ? 'is-correct is-bounce' : 'is-correct'
         }
         if (reveal && selectedValue === option && option !== correctValue) {
