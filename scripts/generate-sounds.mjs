@@ -108,12 +108,20 @@ const sounds = {
     silence(0.02),
     tone(523, 0.12, { gain: 0.26 }),
   ),
-  'answer-correct': concat(
-    tone(660, 0.08, { gain: 0.28 }),
-    silence(0.015),
-    tone(880, 0.1, { gain: 0.3 }),
-  ),
-  'answer-wrong': tone(240, 0.11, { type: 'triangle', gain: 0.14, attack: 0.01, release: 0.07 }),
+  'answer-correct': mix([
+    // Moneda / power-up: ping limpio + subida corta
+    tone(988, 0.055, { type: 'sine', gain: 0.2, attack: 0.002, release: 0.04 }),
+    concat(silence(0.035), tone(1319, 0.07, { type: 'sine', gain: 0.24, attack: 0.002, release: 0.05 })),
+    concat(silence(0.08), slide(1046, 1760, 0.2, { gain: 0.18 })),
+    concat(silence(0.12), tone(2093, 0.14, { type: 'triangle', gain: 0.1, attack: 0.001, release: 0.1 })),
+  ]),
+  'answer-wrong': mix([
+    // Bonk digital troll: bajada + glitch corto (no alarma)
+    slide(380, 165, 0.11, { gain: 0.16 }),
+    concat(silence(0.07), tone(290, 0.07, { type: 'square', gain: 0.07, attack: 0.004, release: 0.05 })),
+    concat(silence(0.13), tone(220, 0.09, { type: 'triangle', gain: 0.09, attack: 0.006, release: 0.06 })),
+    concat(silence(0.2), tone(440, 0.05, { type: 'sine', gain: 0.05, attack: 0.002, release: 0.04 })),
+  ]),
   'points-earned': slide(880, 1175, 0.16, { gain: 0.28 }),
   'activity-complete': mix([
     tone(523, 0.18, { gain: 0.22 }),

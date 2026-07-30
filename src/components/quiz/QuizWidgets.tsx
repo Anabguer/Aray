@@ -96,6 +96,7 @@ export function ConfirmDialog({
   cancelLabel = 'Cancelar',
   onConfirm,
   onCancel,
+  cancelIsPrimary = false,
 }: {
   open: boolean
   title: string
@@ -104,6 +105,8 @@ export function ConfirmDialog({
   cancelLabel?: string
   onConfirm: () => void
   onCancel: () => void
+  /** Si true, Cancelar/Seguir es el CTA principal (p. ej. salir de run). */
+  cancelIsPrimary?: boolean
 }) {
   const titleId = useId()
   useEffect(() => {
@@ -117,18 +120,42 @@ export function ConfirmDialog({
 
   if (!open) return null
 
+  const cancelBtn = (
+    <button
+      type="button"
+      className={`btn ${cancelIsPrimary ? 'btn-primary' : 'btn-ghost'} btn-block`}
+      onClick={onCancel}
+    >
+      {cancelLabel}
+    </button>
+  )
+  const confirmBtn = (
+    <button
+      type="button"
+      className={`btn ${cancelIsPrimary ? 'btn-ghost' : 'btn-secondary'} btn-block`}
+      onClick={onConfirm}
+    >
+      {confirmLabel}
+    </button>
+  )
+
   return (
     <div className="dialog" role="dialog" aria-modal="true" aria-labelledby={titleId}>
       <div className="dialog-card">
         <h2 id={titleId}>{title}</h2>
         <p className="shell-note">{body}</p>
         <div className="dialog-actions">
-          <button type="button" className="btn btn-secondary btn-block" onClick={onConfirm}>
-            {confirmLabel}
-          </button>
-          <button type="button" className="btn btn-ghost btn-block" onClick={onCancel}>
-            {cancelLabel}
-          </button>
+          {cancelIsPrimary ? (
+            <>
+              {cancelBtn}
+              {confirmBtn}
+            </>
+          ) : (
+            <>
+              {confirmBtn}
+              {cancelBtn}
+            </>
+          )}
         </div>
       </div>
     </div>
