@@ -75,7 +75,11 @@ describe('ARAY navigation shell', () => {
   it('abre la pantalla de misiones con matemáticas jugable', () => {
     renderAt('/missions')
     expect(screen.getByRole('heading', { name: /^mis mundos$/i })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /^matemáticas$/i })).toBeInTheDocument()
+    expect(screen.getByText(/elige tu próxima aventura/i)).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /matemáticas\. entrar al mundo/i })).toBeInTheDocument()
+    expect(screen.getByText(/¡empieza por aquí!/i)).toBeInTheDocument()
+    expect(screen.getByText(/^entrar$/i)).toBeInTheDocument()
+    expect(screen.getAllByText(/próximamente/i).length).toBeGreaterThanOrEqual(1)
   })
 
   it('abre el mapa de niveles sin 1 ni 10', () => {
@@ -96,7 +100,7 @@ describe('ARAY navigation shell', () => {
   it('muestra controles unificados: ayuda, sonido y acceso adulto', () => {
     renderAt('/')
     expect(screen.getByRole('toolbar', { name: /controles del lobby/i })).toBeInTheDocument()
-    expect(screen.getByLabelText(/ayuda: xp, monedas y drop/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/cómo se juega/i)).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /silenciar sonido|activar sonido/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /acceso adulto/i })).toBeInTheDocument()
   })
