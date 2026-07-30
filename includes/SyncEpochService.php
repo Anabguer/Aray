@@ -74,9 +74,10 @@ final class SyncEpochService
 
     /**
      * Rechaza partidas creadas antes del corte de datos.
+     * @param mixed $clientEpoch
      * @throws void via Http::error
      */
-    public static function assertClientEpochAcceptable(mixed $clientEpoch): int
+    public static function assertClientEpochAcceptable($clientEpoch): int
     {
         $server = self::current();
         // Sin syncEpoch → se asume la época actual (cliente online reciente / scripts).

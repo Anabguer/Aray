@@ -717,7 +717,8 @@ final class SessionService
         return $out;
     }
 
-    private static function validateMissionCode(mixed $code): ?string
+    /** @param mixed $code */
+    private static function validateMissionCode($code): ?string
     {
         if ($code === null || $code === '') {
             return null;
