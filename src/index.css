@@ -7073,11 +7073,11 @@ a {
 
 @media (max-width: 900px) {
   .lobby {
-    /* Compensa el margin-bottom del HUD para centrar Lumo + saludo. */
-    --lobby-stack-hud: 0px;
-    --lobby-stack-welcome: 1.15rem;
+    /* Un poco más de aire bajo el HUD, sin volver a pegarlo a la misión. */
+    --lobby-stack-hud: 10px;
+    --lobby-stack-welcome: 1.05rem;
     --lobby-stack-main: 18px;
-    padding-top: 0;
+    padding-top: var(--lobby-stack-hud);
   }
 
   .lobby > .lobby__welcome {
@@ -7117,6 +7117,7 @@ a {
 /* Lobby: gaps fijos; no reutiliza el centrado / ritmo de Mis mundos */
 .app-main--lobby {
   display: block;
+  padding-bottom: calc(0.9rem + var(--safe-bottom));
 }
 
 .app-main--lobby > .game-header {
@@ -7125,6 +7126,19 @@ a {
 
 .app-main--lobby .lobby {
   min-height: 0;
+}
+
+/* Escritorios bajos (p. ej. 1366?768): compactar saludo sin tocar Mis mundos */
+@media (min-width: 1024px) and (max-height: 860px) {
+  .app-main--lobby .lobby {
+    --lobby-stack-hud: 26px;
+    --lobby-stack-welcome: 28px;
+    --lobby-stack-main: 22px;
+  }
+
+  .app-main--lobby .lobby__logo {
+    --logo-size: 9.75rem;
+  }
 }
 
 @media (min-width: 901px) {
