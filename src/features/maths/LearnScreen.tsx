@@ -6,9 +6,8 @@ import {
   ConfirmDialog,
   useKeyboardAnswers,
 } from '@/components/quiz/QuizWidgets'
-import { rewardRules } from '@/config/rewards'
 import { MAX_MULTIPLIER, MIX_TABLES } from '@/config/playConfig'
-import { sessionXpEarned } from '@/feedback/xpPreview'
+import { sessionXpEarned, xpDeltaForAnswer } from '@/feedback/xpPreview'
 import { Lumo } from '@/lumo/Lumo'
 import { useLumoController } from '@/lumo/useLumoController'
 import { buildAnswerOptions } from '@/math/options'
@@ -47,6 +46,15 @@ const HIT_MESSAGES = [
   'Demasiado fácil para ti.',
 ] as const
 
+const HIT_MESSAGES_MOBILE = [
+  '¡Regalada!',
+  'Lumo impresionado.',
+  '¡PUM! Directo.',
+  'Modo bestia.',
+  '¡Combo limpio!',
+  'Demasiado fácil.',
+] as const
+
 const MISS_MESSAGES = [
   'Buen intento, pequeño troll.',
   'Uy… esa hizo parkour.',
@@ -58,11 +66,23 @@ const MISS_MESSAGES = [
   'Plot twist: esa no era.',
 ] as const
 
-const STAMP_HITS = ['¡CRACK!', 'COMBO', 'EZ', '¡PUM!'] as const
+const MISS_MESSAGES_MOBILE = [
+  'Buen intento, troll.',
+  'Esa hizo parkour.',
+  'Se ha escondido.',
+  'Casi. Nada visto.',
+  'Glitch. Otra vez.',
+  'Te quiso trolear.',
+  'Reintenta, cae.',
+  'Plot twist.',
+] as const
+
+const STAMP_HITS = ['¡CRACK!', 'EZ', '¡PUM!', 'NICE'] as const
 const STAMP_MISS = ['CASI, TROL', 'NOPE', 'GLITCH', '¿EH?'] as const
 const STAMP_SLOTS: StampSlot[] = ['a', 'b', 'c', 'd']
 const FX_DESKTOP: FxKind[] = ['bubble', 'stamp', 'near', 'band']
 const FX_MOBILE: FxKind[] = ['bubble', 'near', 'band']
+const COMBO_MIN = 2
 
 function pickFromPool<T>(pool: readonly T[], avoid?: T | null): T {
   if (pool.length === 1) return pool[0]!
@@ -209,28 +229,39 @@ export function LearnScreen() {
     finishRun(nextAnswers, nextHits)
   }
 
-  function spawnFx(tone: 'hit' | 'miss', optionValue: number, nextStreak: number) {
+  function spawnFx(
+    tone: 'hit' | 'miss',
+    optionValue: number,
+    nextStreak: number,
+    xpGranted?: number,
+  ) {
     const reduced = prefersReducedMotion()
-    const pool = isMobileFx() ? FX_MOBILE : FX_DESKTOP
+    const mobile = isMobileFx()
+    const pool = mobile ? FX_MOBILE : FX_DESKTOP
     const kind = pickFromPool(pool, lastFxKindRef.current)
     lastFxKindRef.current = kind
 
+    const hitPool = mobile ? HIT_MESSAGES_MOBILE : HIT_MESSAGES
+    const missPool = mobile ? MISS_MESSAGES_MOBILE : MISS_MESSAGES
     const message =
       tone === 'hit'
-        ? pickFromPool(HIT_MESSAGES, lastHitMsgRef.current)
-        : pickFromPool(MISS_MESSAGES, lastMissMsgRef.current)
+        ? pickFromPool(hitPool, lastHitMsgRef.current)
+        : pickFromPool(missPool, lastMissMsgRef.current)
     if (tone === 'hit') lastHitMsgRef.current = message
     else lastMissMsgRef.current = message
 
     const optionIndex = Math.max(0, options.indexOf(optionValue))
+    const hasCombo = tone === 'hit' && nextStreak >= COMBO_MIN
     const stamp =
       kind === 'stamp'
-        ? nextStreak >= 3 && tone === 'hit'
+        ? hasCombo
           ? `COMBO ×${nextStreak}`
           : pickFromPool(tone === 'hit' ? STAMP_HITS : STAMP_MISS)
-        : nextStreak >= 3 && tone === 'hit' && kind === 'band'
+        : hasCombo && kind === 'band'
           ? `COMBO ×${nextStreak}`
           : undefined
+
+    const xp = tone === 'hit' && xpGranted != null && xpGranted > 0 ? xpGranted : undefined
 
     const next: LearnFx = {
       kind: reduced && kind === 'stamp' ? 'band' : kind,
@@ -239,8 +270,8 @@ export function LearnScreen() {
       stamp,
       slot: pickFromPool(STAMP_SLOTS),
       optionIndex,
-      xp: tone === 'hit' ? rewardRules.xpPerCorrect : undefined,
-      combo: tone === 'hit' && nextStreak >= 3 ? nextStreak : undefined,
+      xp,
+      combo: hasCombo ? nextStreak : undefined,
       key: Date.now(),
     }
     setFx(next)
@@ -264,7 +295,8 @@ export function LearnScreen() {
           attemptId: newId('ans'),
           firstTry,
         }
-        const nextAnswers = [...answersRef.current, answer]
+        const prevAnswers = answersRef.current
+        const nextAnswers = [...prevAnswers, answer]
         answersRef.current = nextAnswers
         setAnswers(nextAnswers)
         const nextHits = firstTry ? hits + 1 : hits
@@ -273,10 +305,10 @@ export function LearnScreen() {
         setStreak(nextStreak)
         setPhase('reveal')
         setBurstKey((k) => k + 1)
-        spawnFx('hit', value, nextStreak)
+        spawnFx('hit', value, nextStreak, xpDeltaForAnswer('learn', prevAnswers, answer))
         lumo.reactToAnswer({ correct: true, streak: nextStreak })
         soundEngine.play('answer-correct')
-        if (nextStreak >= 3) {
+        if (nextStreak >= COMBO_MIN) {
           window.setTimeout(() => soundEngine.play('points-earned', { volume: 0.35 }), 90)
         }
         const delay = prefersReducedMotion() ? 700 : 950
@@ -401,7 +433,7 @@ export function LearnScreen() {
               </div>
               <p className="learn-lab__bar-note">
                 {hits} {hits === 1 ? 'acierto' : 'aciertos'} en esta run
-                {streak >= 2 ? ` · Combo ×${streak}` : ''}
+                {streak >= COMBO_MIN ? ` · Combo ×${streak}` : ''}
               </p>
             </header>
 
@@ -422,7 +454,13 @@ export function LearnScreen() {
                   <Lumo state={lumo.state} intensity={lumo.intensity} size="sm" label="Lumo" />
                   {fx?.kind === 'bubble' ? (
                     <div className={`learn-lab__bubble learn-lab__bubble--${fx.tone}`} key={fx.key}>
-                      {fx.message}
+                      <span className="learn-lab__bubble-msg">{fx.message}</span>
+                      {fx.xp != null ? (
+                        <span className="learn-lab__bubble-xp">+{fx.xp} XP</span>
+                      ) : null}
+                      {fx.combo != null ? (
+                        <span className="learn-lab__bubble-combo">COMBO ×{fx.combo}</span>
+                      ) : null}
                     </div>
                   ) : null}
                 </div>
@@ -450,14 +488,15 @@ export function LearnScreen() {
                     className={`learn-lab__stamp learn-lab__stamp--${fx.slot} learn-lab__stamp--${fx.tone}`}
                     key={fx.key}
                   >
-                    {fx.stamp ?? fx.message}
+                    <span className="learn-lab__stamp-label">{fx.stamp ?? fx.message}</span>
+                    {fx.xp != null ? <span className="learn-lab__stamp-xp">+{fx.xp} XP</span> : null}
                   </p>
                 ) : null}
 
                 {fx?.kind === 'band' ? (
                   <p className={`learn-lab__band learn-lab__band--${fx.tone}`} key={fx.key} role="status">
-                    {fx.stamp ?? fx.message}
-                    {fx.xp ? <span className="learn-lab__band-xp">+{fx.xp} XP</span> : null}
+                    <span className="learn-lab__band-msg">{fx.stamp ?? fx.message}</span>
+                    {fx.xp != null ? <span className="learn-lab__band-xp">+{fx.xp} XP</span> : null}
                   </p>
                 ) : null}
 
@@ -505,17 +544,18 @@ export function LearnScreen() {
                 bounceCorrect={isCorrectReveal}
                 shakeWrong={isWrongFlash}
                 onSelect={onSelect}
+                nearFx={
+                  fx?.kind === 'near' && typeof fx.optionIndex === 'number'
+                    ? {
+                        index: fx.optionIndex,
+                        tone: fx.tone,
+                        message: fx.message,
+                        xp: fx.xp,
+                        combo: fx.combo,
+                      }
+                    : null
+                }
               />
-              {fx?.kind === 'near' && typeof fx.optionIndex === 'number' ? (
-                <div
-                  className={`learn-lab__near learn-lab__near--${fx.optionIndex} learn-lab__near--${fx.tone}`}
-                  key={fx.key}
-                  role="status"
-                >
-                  <span>{fx.message}</span>
-                  {fx.xp ? <strong>+{fx.xp} XP</strong> : null}
-                </div>
-              ) : null}
             </div>
 
             <nav className="learn-lab__nav" aria-label="Navegación de la run">

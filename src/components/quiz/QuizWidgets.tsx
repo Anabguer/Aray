@@ -12,6 +12,7 @@ export function AnswerGrid({
   bounceCorrect,
   shakeWrong,
   showCorrectAnswer = true,
+  nearFx,
 }: {
   options: number[]
   disabled?: boolean
@@ -25,6 +26,14 @@ export function AnswerGrid({
   shakeWrong?: boolean
   /** Si false, en reveal solo marca la opción fallida (reintento). */
   showCorrectAnswer?: boolean
+  /** Feedback anclado a una opción (no tapa número ni clave). */
+  nearFx?: {
+    index: number
+    tone: 'hit' | 'miss'
+    message: string
+    xp?: number
+    combo?: number
+  } | null
 }) {
   return (
     <div className="answer-grid" role="group" aria-label="Respuestas">
@@ -36,11 +45,12 @@ export function AnswerGrid({
         if (reveal && selectedValue === option && option !== correctValue) {
           stateClass = shakeWrong ? 'is-wrong is-shake' : 'is-wrong'
         }
+        const showNear = nearFx && nearFx.index === index
         return (
           <button
             key={`${option}-${index}`}
             type="button"
-            className={`answer-btn ${stateClass}`}
+            className={`answer-btn ${stateClass}${showNear ? ' has-near-fx' : ''}`}
             disabled={disabled}
             onClick={() => {
               onSelect(option)
@@ -51,6 +61,17 @@ export function AnswerGrid({
               {index + 1}
             </span>
             <span className="answer-btn__value">{option}</span>
+            {showNear ? (
+              <span className={`answer-btn__near answer-btn__near--${nearFx.tone}`} role="status">
+                <span className="answer-btn__near-msg">{nearFx.message}</span>
+                {nearFx.xp != null ? (
+                  <span className="answer-btn__near-xp">+{nearFx.xp} XP</span>
+                ) : null}
+                {nearFx.combo != null ? (
+                  <span className="answer-btn__near-combo">COMBO ×{nearFx.combo}</span>
+                ) : null}
+              </span>
+            ) : null}
           </button>
         )
       })}
