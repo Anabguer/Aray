@@ -146,4 +146,7 @@ export interface LobbyMissionCard {
   role: AssignmentRole
   path: string
   reason: 'recommended' | 'mandatory' | 'review' | 'free'
+  /** Tabla de la actividad (si aplica); el path de juego es genérico y hace falta fijarla en PlayContext. */
+  table?: number
+  playMode?: string
 }

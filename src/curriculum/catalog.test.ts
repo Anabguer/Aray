@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import {
   activities,
   blocks,
+  buildLobbyMissions,
   catalogSnapshot,
   changeCourse,
   courseActivityAssignments,
@@ -118,6 +119,17 @@ describe('perfil escolar y visibilidad', () => {
     expect(effectiveActivityRole('mult-table-2-train', 'primary-4', { 'mult-table-2-train': 'mandatory' })).toBe(
       'mandatory',
     )
+  })
+
+  it('el lobby propaga tabla y modo de la actividad (no solo el path genérico)', () => {
+    const progress = createInitialProgress()
+    const lobby = buildLobbyMissions(progress, 8)
+    const learn2 = lobby.recommended.find((m) => m.activityId === 'mult-table-2-learn')
+    expect(learn2).toBeTruthy()
+    expect(learn2?.title).toContain('tabla del 2')
+    expect(learn2?.table).toBe(2)
+    expect(learn2?.playMode).toBe('learn')
+    expect(learn2?.path).toBe('/missions/mates/tables/learn')
   })
 
   it('migra progreso antiguo a v4 conservando dominio', () => {

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { AppShell } from '@/components/AppShell'
 import { ArayHubIcon } from '@/components/ArayHubIcon'
 import { BrandLogo } from '@/components/BrandLogo'
@@ -7,16 +7,19 @@ import { GoalCard } from '@/components/GoalCard'
 import { ResetProgressControl } from '@/components/ResetProgressControl'
 import { ZoneCard } from '@/components/ZoneCard'
 import { rewardGoalConfig } from '@/config/rewardGoal'
-import { buildLobbyMissions } from '@/curriculum'
+import { buildLobbyMissions, type LobbyMissionCard } from '@/curriculum'
 import { zoneLinks } from '@/data/demo'
+import { launchLobbyMission } from '@/features/home/launchMission'
 import { Lumo } from '@/lumo/Lumo'
 import { usePlaySession } from '@/progress/PlayContext'
 import { useProgress } from '@/progress/ProgressContext'
 import { normalizeRewardCycles, previewSessionLoad } from '@/reward/engine'
 
 export function HomeScreen() {
+  const navigate = useNavigate()
   const { progress, chooseCrate, openCrate, collectCrate } = useProgress()
-  const { selection } = usePlaySession()
+  const { selection, setSelection, setActiveMode, setPendingQueue, setLastResult } =
+    usePlaySession()
   const missionTable = selection.tables[0] ?? 7
   const lobby = buildLobbyMissions(progress, 4)
   const primaryMission =
@@ -31,6 +34,17 @@ export function HomeScreen() {
 
   const pendingCrate = progress.crates.pending
   const sessionEnergy = previewSessionLoad(progress, rewardGoalConfig.dailyCap)
+
+  function playMission(mission: LobbyMissionCard) {
+    launchLobbyMission(mission, {
+      progress,
+      navigate,
+      setSelection,
+      setActiveMode,
+      setPendingQueue,
+      setLastResult,
+    })
+  }
 
   return (
     <AppShell title="LOBBY" subtitle="Tu base de aventuras" showLobbyLink={false}>
@@ -89,6 +103,11 @@ export function HomeScreen() {
               <Link
                 to={primaryMission?.path ?? '/missions/mates/tables'}
                 className="btn btn-primary lobby-mission__cta"
+                onClick={(e) => {
+                  if (!primaryMission) return
+                  e.preventDefault()
+                  playMission(primaryMission)
+                }}
               >
                 <span className="lobby-mission__play" aria-hidden="true">
                   ▶
@@ -112,7 +131,15 @@ export function HomeScreen() {
                 <ul className="lobby-quests__list">
                   {lobby.mandatory.map((m) => (
                     <li key={m.activityId}>
-                      <Link to={m.path}>{m.title}</Link>
+                      <Link
+                        to={m.path}
+                        onClick={(e) => {
+                          e.preventDefault()
+                          playMission(m)
+                        }}
+                      >
+                        {m.title}
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -124,7 +151,15 @@ export function HomeScreen() {
                 <ul className="lobby-quests__list">
                   {lobby.review.slice(0, 3).map((m) => (
                     <li key={m.activityId}>
-                      <Link to={m.path}>{m.title}</Link>
+                      <Link
+                        to={m.path}
+                        onClick={(e) => {
+                          e.preventDefault()
+                          playMission(m)
+                        }}
+                      >
+                        {m.title}
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -136,7 +171,15 @@ export function HomeScreen() {
                 <ul className="lobby-quests__list">
                   {lobby.free.slice(0, 3).map((m) => (
                     <li key={m.activityId}>
-                      <Link to={m.path}>{m.title}</Link>
+                      <Link
+                        to={m.path}
+                        onClick={(e) => {
+                          e.preventDefault()
+                          playMission(m)
+                        }}
+                      >
+                        {m.title}
+                      </Link>
                     </li>
                   ))}
                 </ul>

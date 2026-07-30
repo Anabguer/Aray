@@ -150,6 +150,8 @@ function toLobbyCard(
   const block = getBlock(skill.blockId)
   const subject = block ? getSubject(block.subjectId) : undefined
   if (!block || !subject) return null
+  const table = activity.config.table
+  const playMode = activity.config.playMode
   return {
     activityId,
     title: activity.title,
@@ -160,6 +162,8 @@ function toLobbyCard(
     role,
     path: activityPath(activityId),
     reason,
+    ...(typeof table === 'number' ? { table } : {}),
+    ...(typeof playMode === 'string' ? { playMode } : {}),
   }
 }
 
