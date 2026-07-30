@@ -31,7 +31,9 @@ export function GameHeader({
             <IconChevronLeft />
           </Link>
         ) : null}
-        <BrandLogo variant="compact" className="game-header__avatar" alt="Aray" />
+        <span className="game-header__avatar-badge">
+          <BrandLogo variant="compact" className="game-header__avatar" alt="Aray" />
+        </span>
         <div className="game-header__heading">
           <h1 className="game-header__title">{title}</h1>
           {subtitle ? <p className="game-header__subtitle">{subtitle}</p> : null}
