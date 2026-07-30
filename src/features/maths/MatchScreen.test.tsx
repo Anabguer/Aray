@@ -1,6 +1,7 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
 import { fireEvent, render, screen, within, waitFor } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
+import { AuthProvider } from '@/auth/AuthContext'
 import { MatchScreen } from '@/features/maths/MatchScreen'
 import {
   buildMatchPairs,
@@ -55,16 +56,25 @@ function renderMatch(table = 3) {
   sessionStorage.setItem('aray.tables.selection', JSON.stringify({ tables: [table], mix: false }))
   return render(
     <MemoryRouter initialEntries={['/missions/mates/tables/match']}>
-      <ProgressProvider store={store}>
-        <PlayProvider>
-          <Routes>
-            <Route path="/missions/mates/tables/match" element={<MatchScreen />} />
-            <Route path="/missions/mates/tables/summary" element={<div>Resumen</div>} />
-            <Route path="/missions/mates/tables/modes" element={<div>Modos</div>} />
-            <Route path="/" element={<div>Lobby</div>} />
-          </Routes>
-        </PlayProvider>
-      </ProgressProvider>
+      <AuthProvider
+        initialSession={{
+          role: null,
+          account: null,
+          csrf: 'test-csrf',
+          players: [],
+        }}
+      >
+        <ProgressProvider store={store}>
+          <PlayProvider>
+            <Routes>
+              <Route path="/missions/mates/tables/match" element={<MatchScreen />} />
+              <Route path="/missions/mates/tables/summary" element={<div>Resumen</div>} />
+              <Route path="/missions/mates/tables/modes" element={<div>Modos</div>} />
+              <Route path="/" element={<div>Lobby</div>} />
+            </Routes>
+          </PlayProvider>
+        </ProgressProvider>
+      </AuthProvider>
     </MemoryRouter>,
   )
 }
