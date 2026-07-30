@@ -64,10 +64,11 @@ function renderAt(path: string) {
 describe('ARAY navigation shell', () => {
   it('muestra la portada lobby', () => {
     renderAt('/')
-    expect(screen.getByText('LOBBY')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /^lobby$/i })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: /¡hola, aray!/i })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /^jugar$/i })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: /aprende la tabla|tu misión de hoy|entrena la tabla/i })).toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: /ir al lobby/i })).not.toBeInTheDocument()
     expect(screen.queryByText(/¿jugamos, aray\?/i)).not.toBeInTheDocument()
     expect(screen.queryByText(/tu espacio para misiones/i)).not.toBeInTheDocument()
   })
@@ -105,7 +106,7 @@ describe('ARAY navigation shell', () => {
 
   it('muestra controles unificados: ayuda, sonido y acceso adulto', () => {
     renderAt('/')
-    expect(screen.getByRole('toolbar', { name: /controles del lobby/i })).toBeInTheDocument()
+    expect(screen.getByRole('toolbar', { name: /controles del juego/i })).toBeInTheDocument()
     expect(screen.getByLabelText(/cómo se juega/i)).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /silenciar sonido|activar sonido/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /acceso adulto/i })).toBeInTheDocument()

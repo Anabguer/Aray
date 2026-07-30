@@ -212,22 +212,11 @@ a {
     padding-top: 0.15rem;
   }
 
-  .lobby__header {
-    grid-template-columns: minmax(0, 1fr) auto;
-    grid-template-areas:
-      'welcome profile'
-      'bars bars';
-    gap: 0.65rem 0.55rem;
-    padding-top: 0.1rem;
-  }
-
   .lobby__welcome {
-    grid-area: welcome;
     gap: 0.4rem 0.55rem;
-    width: auto;
+    width: 100%;
     max-width: 100%;
     min-width: 0;
-    justify-self: start;
   }
 
   .lobby__lumo {
@@ -4261,8 +4250,9 @@ a {
   }
 
   .lobby__welcome {
-    justify-self: start;
-    width: max-content;
+    justify-self: stretch;
+    width: 100%;
+    max-width: 100%;
   }
 
   .lobby-hud__bars {
@@ -6061,8 +6051,8 @@ a {
   align-items: center;
   gap: 0.75rem 0.85rem;
   width: 100%;
-  margin: calc(12px + var(--safe-top)) 0 1.2rem;
-  padding: 1rem 1.15rem;
+  margin: calc(12px + var(--safe-top)) 0 0.35rem;
+  padding: 1.05rem 1.2rem;
   box-sizing: border-box;
   border-radius: 28px;
   border: 1px solid rgba(103, 232, 249, 0.32);
@@ -6342,8 +6332,58 @@ a {
   }
 }
 
+
+.game-header__lobby--ghost {
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.lobby > .lobby__welcome {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas: none;
+  gap: 0.85rem 1rem;
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: 0.15rem 0 0.55rem;
+  justify-self: stretch;
+}
+
+.lobby > .lobby__welcome .lobby__welcome-copy {
+  min-width: 0;
+}
+
+.lobby > .lobby__welcome .lobby__welcome-lead {
+  margin: 0.35rem 0 0;
+  font-size: 0.95rem;
+  font-weight: 650;
+  color: rgba(226, 236, 255, 0.78);
+}
+
+.lobby .lobby__greeting {
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .lobby > .lobby__welcome {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.65rem 0.75rem;
+  }
+
+  .lobby > .lobby__welcome .lobby__logo {
+    display: none;
+  }
+
+  .lobby > .lobby__welcome .lobby__welcome-lead {
+    font-size: 0.85rem;
+  }
+}
+
 /* Mis mundos: mapa de seleccion */
-.app-main:has(.world-map) {
+.app-main:has(.game-header) {
   width: min(1180px, calc(100vw - 32px));
   padding-top: 0;
 }
@@ -6351,7 +6391,7 @@ a {
 .world-map {
   width: 100%;
   max-width: 1180px;
-  margin: 0 auto;
+  margin: 1.25rem auto 0;
 }
 
 .world-map__grid {

@@ -1,29 +1,23 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { AppShell } from '@/components/AppShell'
 import { ArayHubIcon } from '@/components/ArayHubIcon'
 import { BrandLogo } from '@/components/BrandLogo'
 import { CrateReveal } from '@/components/CrateReveal'
+import { GameHeader } from '@/components/game/GameHeader'
 import { GoalCard } from '@/components/GoalCard'
-import { IconBolt, IconCoin } from '@/components/Icons'
 import { ResetProgressControl } from '@/components/ResetProgressControl'
 import { ZoneCard } from '@/components/ZoneCard'
-import { MuteToggle } from '@/components/quiz/QuizWidgets'
 import { rewardGoalConfig } from '@/config/rewardGoal'
-import { buildLobbyMissions, courseLabel } from '@/curriculum'
+import { buildLobbyMissions } from '@/curriculum'
 import { zoneLinks } from '@/data/demo'
-import { AdultPinModal } from '@/features/access/AdultPinModal'
 import { Lumo } from '@/lumo/Lumo'
 import { usePlaySession } from '@/progress/PlayContext'
 import { useProgress } from '@/progress/ProgressContext'
 import { normalizeRewardCycles, previewSessionLoad } from '@/reward/engine'
 
-const XP_PER_LEVEL = 100
-
 export function HomeScreen() {
-  const { progress, setSoundMuted, chooseCrate, openCrate, collectCrate } = useProgress()
+  const { progress, chooseCrate, openCrate, collectCrate } = useProgress()
   const { selection } = usePlaySession()
-  const [adultPinOpen, setAdultPinOpen] = useState(false)
   const missionTable = selection.tables[0] ?? 7
   const lobby = buildLobbyMissions(progress, 4)
   const primaryMission =
@@ -37,158 +31,30 @@ export function HomeScreen() {
         : 'idle'
 
   const pendingCrate = progress.crates.pending
-  const energyToday = Math.min(reward.dailyPoints, rewardGoalConfig.dailyCap)
   const sessionEnergy = previewSessionLoad(progress, rewardGoalConfig.dailyCap)
-  const level = Math.floor(progress.xp / XP_PER_LEVEL) + 1
-  const xpIntoLevel = progress.xp % XP_PER_LEVEL
-  const xpPct = Math.min(100, Math.round((xpIntoLevel / XP_PER_LEVEL) * 100))
-  const energyBarPct = Math.min(100, Math.round((energyToday / rewardGoalConfig.dailyCap) * 100))
 
   return (
-    <AppShell
-      trailing={
-        <div className="lobby__trailing" role="toolbar" aria-label="Controles del lobby">
-          <details className="lobby-help lobby-help--toolbar">
-            <summary className="lobby-ctrl" aria-label="Ayuda: XP, monedas y drop">
-              <span className="lobby-ctrl__mark" aria-hidden="true">
-                ?
-              </span>
-            </summary>
-            <div className="lobby-help__panel">
-              <p>
-                XP y monedas son para jugar. El drop de Robux se carga con energía (aparte de las
-                monedas). Las cajas son sorpresas extra al completar actividades.
-              </p>
-              <p className="lobby-help__course">
-                Estás en repaso de {courseLabel(progress.school.currentCourseId)}. El curso lo cambia
-                un adulto.
-              </p>
-            </div>
-          </details>
+    <AppShell hideTopbar>
+      <GameHeader title="LOBBY" subtitle="Tu base de aventuras" showLobbyLink={false} />
 
-          <MuteToggle
-            className="lobby-ctrl"
-            muted={progress.soundMuted}
-            onToggle={() => setSoundMuted(!progress.soundMuted)}
-          />
-
-          <button
-            type="button"
-            className="lobby-ctrl lobby-ctrl--lock"
-            aria-label="Acceso adulto"
-            title="Adultos"
-            onClick={() => setAdultPinOpen(true)}
-          >
-            <svg
-              className="lobby-ctrl__lock"
-              viewBox="0 0 24 24"
-              width="1.15em"
-              height="1.15em"
-              fill="none"
-              aria-hidden="true"
-            >
-              <defs>
-                <linearGradient id="lobbyLockGrad" x1="4" y1="2" x2="20" y2="22">
-                  <stop offset="0%" stopColor="#67e8f9" />
-                  <stop offset="55%" stopColor="#a78bfa" />
-                  <stop offset="100%" stopColor="#c4b5fd" />
-                </linearGradient>
-              </defs>
-              <path
-                d="M8 10V8a4 4 0 0 1 8 0v2"
-                stroke="url(#lobbyLockGrad)"
-                strokeWidth="1.9"
-                strokeLinecap="round"
-              />
-              <rect
-                x="5.5"
-                y="10"
-                width="13"
-                height="10"
-                rx="2.4"
-                stroke="url(#lobbyLockGrad)"
-                strokeWidth="1.9"
-              />
-              <circle cx="12" cy="14.2" r="1.15" fill="url(#lobbyLockGrad)" />
-              <path
-                d="M12 15.4v2.1"
-                stroke="url(#lobbyLockGrad)"
-                strokeWidth="1.9"
-                strokeLinecap="round"
-              />
-            </svg>
-          </button>
-        </div>
-      }
-    >
       <section className="lobby" aria-labelledby="home-greeting">
-        <header className="lobby__header">
-          <div className="lobby__welcome">
-            <Lumo
-              className="lobby__lumo"
-              state={lumoState}
-              intensity={lumoState === 'idle' ? 0 : 2}
-              size="md"
-            />
-            <h1 id="home-greeting" className="lobby__greeting">
+        <div className="lobby__welcome">
+          <Lumo
+            className="lobby__lumo"
+            state={lumoState}
+            intensity={lumoState === 'idle' ? 0 : 2}
+            size="md"
+          />
+          <div className="lobby__welcome-copy">
+            <h2 id="home-greeting" className="lobby__greeting">
               ¡Hola, Aray!
-            </h1>
+            </h2>
+            <p className="lobby__welcome-lead">Listo para tu próxima aventura</p>
           </div>
-
-          <div className="lobby-hud" aria-label="Progreso">
-            <div className="lobby-hud__bars">
-              <div className="lobby-hud__xp">
-                <div className="lobby-hud__xp-top">
-                  <span className="lobby-hud__level">Nv. {level}</span>
-                  <span className="lobby-hud__xp-label">XP</span>
-                </div>
-                <div
-                  className="lobby-hud__bar lobby-hud__bar--xp"
-                  role="progressbar"
-                  aria-valuemin={0}
-                  aria-valuemax={XP_PER_LEVEL}
-                  aria-valuenow={xpIntoLevel}
-                  aria-label={`Nivel ${level}: ${xpIntoLevel} de ${XP_PER_LEVEL} XP`}
-                >
-                  <span style={{ width: `${xpPct}%` }} />
-                </div>
-                <p className="lobby-hud__bar-text">
-                  {xpIntoLevel} / {XP_PER_LEVEL} XP
-                </p>
-              </div>
-
-              <div className="lobby-hud__energy">
-                <div className="lobby-hud__energy-top">
-                  <IconBolt className="lobby-hud__bolt" aria-hidden />
-                  <span>Energía</span>
-                </div>
-                <div
-                  className="lobby-hud__bar lobby-hud__bar--energy"
-                  role="progressbar"
-                  aria-valuemin={0}
-                  aria-valuemax={rewardGoalConfig.dailyCap}
-                  aria-valuenow={energyToday}
-                  aria-label={`Energía: ${energyToday} de ${rewardGoalConfig.dailyCap}`}
-                >
-                  <span style={{ width: `${energyBarPct}%` }} />
-                </div>
-                <p className="lobby-hud__bar-text">
-                  {energyToday} / {rewardGoalConfig.dailyCap}
-                </p>
-              </div>
-            </div>
-
-            <div className="lobby-hud__profile">
-              <div className="lobby-hud__coins" aria-label={`${progress.coins} monedas`}>
-                <IconCoin className="lobby-hud__coin-icon" aria-hidden />
-                <strong className="lobby-hud__coin-value">{progress.coins}</strong>
-              </div>
-              <div className="hero__logo-wrap lobby__logo">
-                <BrandLogo variant="hero" />
-              </div>
-            </div>
+          <div className="hero__logo-wrap lobby__logo">
+            <BrandLogo variant="hero" />
           </div>
-        </header>
+        </div>
 
         {pendingCrate ? (
           <CrateReveal
@@ -290,8 +156,6 @@ export function HomeScreen() {
           </div>
         </section>
       </section>
-
-      <AdultPinModal open={adultPinOpen} onClose={() => setAdultPinOpen(false)} />
 
       {import.meta.env.DEV ? (
         <section className="home-tools home-tools--dev" aria-label="Herramientas de desarrollo">

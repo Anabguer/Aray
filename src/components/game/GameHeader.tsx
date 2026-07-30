@@ -7,24 +7,27 @@ import { derivePlayerHud } from '@/progress/playerHud'
 import { useProgress } from '@/progress/ProgressContext'
 
 /**
- * Cabecera compacta para pantallas secundarias.
- * Reutiliza estilos y datos del HUD del Lobby sin modificar el Lobby.
+ * HUD persistente del juego: Lobby y pantallas secundarias.
+ * Un solo componente, mismos datos reales de progreso.
  */
 export function GameHeader({
   title,
   subtitle,
   backTo,
+  showLobbyLink = true,
 }: {
   title: string
   subtitle?: string
   /** Flecha atrás al nivel anterior (no confundir con LOBBY). */
   backTo?: string
+  /** En el Lobby no se muestra el acceso al Lobby. */
+  showLobbyLink?: boolean
 }) {
   const { progress } = useProgress()
   const hud = derivePlayerHud(progress)
 
   return (
-    <header className="game-header">
+    <header className={`game-header${showLobbyLink ? '' : ' game-header--home'}`}>
       <div className="game-header__identity">
         {backTo ? (
           <Link to={backTo} className="game-header__back" aria-label="Atrás">
@@ -52,10 +55,17 @@ export function GameHeader({
         <GameControls />
       </div>
 
-      <Link to="/" className="topbar__lobby game-header__lobby" aria-label="Ir al Lobby">
-        <IconGamepad className="topbar__lobby-chevron" aria-hidden />
-        <span className="topbar__lobby-label">LOBBY</span>
-      </Link>
+      {showLobbyLink ? (
+        <Link to="/" className="topbar__lobby game-header__lobby" aria-label="Ir al Lobby">
+          <IconGamepad className="topbar__lobby-chevron" aria-hidden />
+          <span className="topbar__lobby-label">LOBBY</span>
+        </Link>
+      ) : (
+        <span className="topbar__lobby game-header__lobby game-header__lobby--ghost" aria-hidden="true">
+          <IconGamepad className="topbar__lobby-chevron" aria-hidden />
+          <span className="topbar__lobby-label">LOBBY</span>
+        </span>
+      )}
     </header>
   )
 }
