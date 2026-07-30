@@ -9,11 +9,13 @@ tmp-php-*.txt
 node_modules
 dist
 dist-ssr
+deploy/hostalia.publish.local.json
+deploy/logs/
+deploy/backups/
+deploy/stage/
 *.local
 includes/database.local.php
 includes/*.local.php
-deploy/hostalia.publish.local.json
-deploy/logs/
 
 .vscode/*
 !.vscode/extensions.json
