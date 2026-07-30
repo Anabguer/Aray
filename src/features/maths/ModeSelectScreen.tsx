@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { modeArtUrl, type ModeArtId } from '@/assets/modes'
 import { AppShell } from '@/components/AppShell'
-import { IconReview } from '@/components/Icons'
+import { IconPlay, IconReview } from '@/components/Icons'
 import { challengeModeConfig } from '@/config/playConfig'
 import { hasSavedMisses, pickRandomMission } from '@/math/randomMission'
 import { buildMissesQueue, buildTrainQueue } from '@/math/selector'
@@ -14,7 +14,10 @@ function selectionSubtitle(selection: TablesSelection): string {
   const tables = selection.tables
   if (tables.length <= 1) return `Tabla del ${tables[0] ?? 7}`
   if (tables.length === 2) return `Tablas del ${tables[0]} y del ${tables[1]}`
-  const head = tables.slice(0, -1).map((n) => `del ${n}`).join(', ')
+  const head = tables
+    .slice(0, -1)
+    .map((n) => `del ${n}`)
+    .join(', ')
   return `Tablas ${head} y del ${tables[tables.length - 1]}`
 }
 
@@ -23,6 +26,7 @@ function ModePoster({
   title,
   text,
   className,
+  flip = false,
   onClick,
   to,
 }: {
@@ -30,39 +34,49 @@ function ModePoster({
   title: string
   text: string
   className: string
+  flip?: boolean
   onClick?: () => void
   to?: string
 }) {
   const body = (
-    <span className="mode-poster__art">
-      <img
-        src={modeArtUrl(art)}
-        alt=""
-        className="mode-poster__img"
-        width={512}
-        height={512}
-        draggable={false}
-        decoding="async"
-      />
-      <span className="mode-poster__overlay">
+    <>
+      <span className="mode-poster__media" aria-hidden="true">
+        <img
+          src={modeArtUrl(art)}
+          alt=""
+          className="mode-poster__img"
+          width={512}
+          height={512}
+          draggable={false}
+          decoding="async"
+        />
+        <span className="mode-poster__fade" />
+      </span>
+      <span className="mode-poster__body">
         <span className="mode-poster__title">{title}</span>
         <span className="mode-poster__text">{text}</span>
+        <span className="mode-poster__go" aria-hidden="true">
+          <IconPlay className="mode-poster__go-icon" />
+        </span>
       </span>
-    </span>
+    </>
   )
 
   const label = `${title}. ${text}`
+  const classes = ['mode-poster', className, flip ? 'mode-poster--flip' : '']
+    .filter(Boolean)
+    .join(' ')
 
   if (to) {
     return (
-      <Link to={to} className={`mode-poster ${className}`} aria-label={label}>
+      <Link to={to} className={classes} aria-label={label}>
         {body}
       </Link>
     )
   }
 
   return (
-    <button type="button" className={`mode-poster ${className}`} onClick={onClick} aria-label={label}>
+    <button type="button" className={classes} onClick={onClick} aria-label={label}>
       {body}
     </button>
   )
@@ -140,11 +154,12 @@ export function ModeSelectScreen() {
 
   return (
     <AppShell
-      title="ELIGE TU MODO"
+      title="Elige tu modo"
+      shortTitle="MODO"
       showBack
       backTo="/missions/mates/tables"
     >
-      <section className="mode-select mode-select--lobby" aria-label="ELIGE TU MODO">
+      <section className="mode-select mode-select--lobby" aria-label="Elige tu modo">
         <header className="mode-select__head">
           <p className="mode-select__tables">{subtitle}</p>
         </header>
@@ -169,6 +184,7 @@ export function ModeSelectScreen() {
             title="ENTRENA"
             text="10 preguntas · Gana energía"
             className="mode-poster--train"
+            flip
             onClick={startTrain}
           />
           <ModePoster
@@ -183,6 +199,7 @@ export function ModeSelectScreen() {
             title="EMPAREJA"
             text="Encuentra las parejas"
             className="mode-poster--match"
+            flip
             onClick={startMatch}
           />
           {canPracticeMisses ? (
@@ -199,6 +216,7 @@ export function ModeSelectScreen() {
             title="RANDOM"
             text="Lumo elige por ti"
             className="mode-poster--random"
+            flip={!canPracticeMisses}
             onClick={startRandom}
           />
         </div>

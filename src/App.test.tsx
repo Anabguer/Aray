@@ -92,8 +92,10 @@ describe('ARAY navigation shell', () => {
   it('abre el mapa de niveles sin 1 ni 10', () => {
     renderAt('/missions/mates/tables')
     expect(screen.getByRole('heading', { name: /^niveles$/i })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /mezcla/i })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /mezcla tablas|mezcla/i })).not.toBeInTheDocument()
+    expect(screen.queryByText(/mezcla tablas del 2 al 9/i)).not.toBeInTheDocument()
     expect(screen.getByRole('group', { name: /tablas del 2 al 9/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /jugar tabla del/i })).toBeInTheDocument()
   })
 
   it('muestra modos con Empareja y misión random', () => {

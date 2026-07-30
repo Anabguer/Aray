@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
+import { ScrollToTop } from '@/components/ScrollToTop'
 import { AuthGate } from '@/features/access/AuthGate'
 import { AdultPanel } from '@/features/adult/AdultPanel'
 import { CollectionScreen } from '@/features/collection/CollectionScreen'
@@ -17,7 +18,9 @@ import { LumoGallery } from '@/lumo/LumoGallery'
 
 export default function App() {
   return (
-    <Routes>
+    <>
+      <ScrollToTop />
+      <Routes>
       <Route path="/dev/lumo" element={<LumoGallery />} />
       <Route element={<AuthGate />}>
         <Route path="/adult" element={<AdultPanel />} />
@@ -36,5 +39,6 @@ export default function App() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>
+    </>
   )
 }

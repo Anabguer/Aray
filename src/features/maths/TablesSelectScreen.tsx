@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AppShell } from '@/components/AppShell'
 import { IconPlay, IconReview } from '@/components/Icons'
@@ -21,6 +21,7 @@ export function TablesSelectScreen() {
         : [7],
   )
   const [mix, setMix] = useState(selection.mix)
+  const [launchPulse, setLaunchPulse] = useState(false)
 
   const reviewTables = useMemo(
     () =>
@@ -31,12 +32,26 @@ export function TablesSelectScreen() {
     [progress.tables],
   )
 
+  const selectedCount = mix ? MIX_TABLES.length : picked.length
+
   const playLabel = useMemo(() => {
-    if (mix) return 'JUGAR MEZCLA'
+    if (mix || picked.length > 1) return 'JUGAR MEZCLA'
     if (picked.length === 1) return `JUGAR TABLA DEL ${picked[0]}`
-    if (picked.length > 1) return `JUGAR ${picked.length} TABLAS`
     return 'JUGAR'
   }, [mix, picked])
+
+  const selectionKey = mix ? 'mix' : picked.join('-')
+
+  useEffect(() => {
+    if (selectedCount === 0) return
+    const reduced =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (reduced) return
+    setLaunchPulse(true)
+    const t = window.setTimeout(() => setLaunchPulse(false), 280)
+    return () => window.clearTimeout(t)
+  }, [selectionKey, selectedCount])
 
   function toggleTable(n: number) {
     setMix(false)
@@ -44,11 +59,6 @@ export function TablesSelectScreen() {
       if (prev.includes(n)) return prev.filter((x) => x !== n)
       return [...prev, n]
     })
-  }
-
-  function selectMix() {
-    setMix(true)
-    setPicked([...MIX_TABLES])
   }
 
   function continueNext() {
@@ -59,16 +69,8 @@ export function TablesSelectScreen() {
   }
 
   return (
-    <AppShell
-      title="Niveles"
-      showBack
-      backTo="/missions/mates"
-    >
-      <section className="levels-map">
-        <p className="page-intro__lead page-intro__lead--tight">
-          Elige niveles. Varias tablas se juegan en el orden escogido.
-        </p>
-
+    <AppShell title="Niveles" showBack backTo="/missions/mates">
+      <section className="levels-map" aria-label="Niveles">
         {reviewTables.length > 0 ? (
           <p className="review-notice" role="status">
             <IconReview className="review-notice__icon" />
@@ -79,16 +81,6 @@ export function TablesSelectScreen() {
             </span>
           </p>
         ) : null}
-
-        <button
-          type="button"
-          className={`mix-chip${mix ? ' is-on' : ''}`}
-          onClick={selectMix}
-          aria-pressed={mix}
-        >
-          Mezcla
-          <span>Todas del 2 al 9 · en orden</span>
-        </button>
 
         <div className="levels-grid" role="group" aria-label="Tablas del 2 al 9">
           {PLAYABLE_TABLES.map((n) => {
@@ -108,15 +100,15 @@ export function TablesSelectScreen() {
           })}
         </div>
 
-        <div className="tables-select__footer">
+        <div className="levels-launch" aria-live="polite">
           <button
             type="button"
-            className="btn btn-primary btn-block tables-select__play"
-            disabled={!mix && picked.length === 0}
+            className={`levels-launch__play${launchPulse ? ' is-pulse' : ''}`}
+            disabled={selectedCount === 0}
             onClick={continueNext}
           >
-            <IconPlay className="tables-select__play-icon" aria-hidden />
-            {playLabel}
+            <IconPlay className="levels-launch__play-icon" aria-hidden />
+            <span>{playLabel}</span>
           </button>
         </div>
       </section>
