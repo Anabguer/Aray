@@ -34,11 +34,13 @@ SET @aray_display := (
 );
 
 -- Abortar si no existe / slug o display no coinciden / id distinto del esperado
+-- COLLATE explícito: evita Illegal mix utf8mb4_unicode_ci vs general_ci en Hostalia
 SELECT
   CASE
     WHEN @aray_player_id IS NULL THEN 1/0
     WHEN @aray_player_id <> @EXPECTED_PLAYER_ID THEN 1/0
-    WHEN @aray_display <> @EXPECTED_DISPLAY THEN 1/0
+    WHEN (@aray_display COLLATE utf8mb4_unicode_ci)
+         <> (@EXPECTED_DISPLAY COLLATE utf8mb4_unicode_ci) THEN 1/0
     ELSE @aray_player_id
   END AS verified_aray_player_id,
   @aray_display AS verified_display_name,
