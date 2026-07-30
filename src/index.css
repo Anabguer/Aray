@@ -6601,33 +6601,17 @@ a {
 /* Mis mundos: mapa de seleccion */
 .app-main:has(.game-header) {
   width: min(1180px, calc(100vw - 32px));
+  /* Mismo ritmo superior en Lobby, Mis mundos y el resto de pantallas. */
   padding-top: clamp(0.2rem, 0.9vh, 0.55rem);
 }
 
 @media (min-width: 901px) {
-  .app-main:has(.world-map) {
-    /* Baja ligeramente el conjunto en pantallas altas sin centrarlo. */
-    padding-top: clamp(0.4rem, 2.2vh, 1.1rem);
-  }
-
   .app-main:has(.world-map) .game-header {
     margin-bottom: 0;
   }
 
   .app-main:has(.world-map) .world-map {
     margin-top: clamp(24px, 2.8vh, 28px);
-  }
-}
-
-@media (min-width: 901px) and (min-height: 860px) {
-  .app-main:has(.world-map) {
-    padding-top: clamp(0.9rem, 4.2vh, 2.25rem);
-  }
-}
-
-@media (min-width: 901px) and (min-height: 1000px) {
-  .app-main:has(.world-map) {
-    padding-top: clamp(1.15rem, 5vh, 2.75rem);
   }
 }
 
