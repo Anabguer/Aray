@@ -13,14 +13,16 @@
   --map-accent-2: #a78bfa;
   --map-glow: rgba(34, 211, 238, 0.34);
   position: relative;
-  isolation: isolate;
+  isolation: auto;
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   min-height: 0;
-  width: min(100%, 900px);
-  margin-inline: auto;
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
   overflow: visible;
+  background: transparent;
 }
 
 .world-level-map--maths {
@@ -52,34 +54,16 @@
   position: absolute;
   inset: 0;
   z-index: 0;
-  overflow: hidden;
-}
-
-.map-scenery__wash {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 70% 45% at 50% -8%, color-mix(in srgb, var(--map-accent) 16%, transparent), transparent 58%),
-    radial-gradient(ellipse 45% 35% at 92% 28%, color-mix(in srgb, var(--map-accent-2) 14%, transparent), transparent 55%),
-    radial-gradient(ellipse 40% 30% at 8% 72%, rgba(14, 165, 233, 0.1), transparent 52%);
-}
-
-.map-scenery__veil {
-  position: absolute;
-  inset: 0;
-  opacity: 0.16;
-  background-image:
-    linear-gradient(rgba(148, 163, 184, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(148, 163, 184, 0.06) 1px, transparent 1px);
-  background-size: 32px 32px;
-  mask-image: radial-gradient(ellipse 75% 65% at 50% 35%, #000 15%, transparent 78%);
+  overflow: visible;
+  background: transparent;
 }
 
 .map-scenery__orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(30px);
-  opacity: 0.38;
+  filter: blur(36px);
+  opacity: 0.32;
+  pointer-events: none;
 }
 
 .map-scenery__orb--a {
@@ -87,7 +71,7 @@
   height: 12rem;
   top: -3.5rem;
   right: -2rem;
-  background: radial-gradient(circle, var(--map-accent), transparent 70%);
+  background: radial-gradient(circle, var(--map-accent), transparent 72%);
 }
 
 .map-scenery__orb--b {
@@ -95,8 +79,8 @@
   height: 10rem;
   bottom: 12%;
   left: -3.5rem;
-  background: radial-gradient(circle, var(--map-accent-2), transparent 70%);
-  opacity: 0.3;
+  background: radial-gradient(circle, var(--map-accent-2), transparent 72%);
+  opacity: 0.26;
 }
 
 .map-scenery__orb--c {
@@ -104,8 +88,8 @@
   height: 7rem;
   top: 48%;
   left: 42%;
-  background: radial-gradient(circle, rgba(56, 189, 248, 0.55), transparent 70%);
-  opacity: 0.22;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.5), transparent 72%);
+  opacity: 0.18;
 }
 
 .map-scenery__dust {
@@ -130,6 +114,9 @@
   align-items: center;
   gap: 0.7rem;
   padding: 0.15rem 0.35rem 0.55rem;
+  width: min(100%, 900px);
+  margin-inline: auto;
+  box-sizing: border-box;
 }
 
 .world-level-map__icon {
@@ -195,10 +182,12 @@
   z-index: 1;
   flex: 1 1 auto;
   min-height: 0;
-  width: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
+  width: min(100%, 900px);
+  margin-inline: auto;
+  overflow: visible;
   padding: 0.25rem 0.35rem 1.5rem;
+  box-sizing: border-box;
+  background: transparent;
 }
 
 .world-level-map__path {
@@ -527,8 +516,9 @@
 }
 
 .map-station--coming-soon .zone-mark {
-  transform: scale(0.92);
-  filter: saturate(0.78) brightness(0.9);
+  /* Identidad visible: el atenuado va en .zone-mark__art, no se escala ni se esconde. */
+  transform: none;
+  filter: none;
 }
 
 .map-station--coming-soon .map-station__port {
@@ -620,6 +610,7 @@
 .map-station__ambient--tables span:nth-child(2) { bottom: 22%; right: 18%; font-size: 0.75rem; }
 
 .zone-mark {
+  --zone-mark-pad: 0.28rem;
   position: relative;
   width: 3.45rem;
   height: 3.45rem;
@@ -629,8 +620,8 @@
 }
 
 .map-station--recommended .zone-mark {
-  width: 3.85rem;
-  height: 3.85rem;
+  width: 3.45rem;
+  height: 3.45rem;
 }
 
 .zone-mark__ring {
@@ -639,19 +630,80 @@
   border-radius: 0.95rem;
   border: 1px solid color-mix(in srgb, var(--map-accent) 55%, transparent);
   background:
-    radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.2), transparent 42%),
-    linear-gradient(155deg, color-mix(in srgb, var(--map-accent) 32%, #0b1f3a), #071528 72%);
+    radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.16), transparent 42%),
+    linear-gradient(155deg, color-mix(in srgb, var(--map-accent) 28%, #0b1f3a), #071528 72%);
   box-shadow:
     0 8px 16px rgba(0, 8, 24, 0.4),
     0 0 16px color-mix(in srgb, var(--map-glow) 55%, transparent);
 }
 
+.zone-mark--art .zone-mark__ring {
+  background:
+    radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.1), transparent 45%),
+    linear-gradient(160deg, rgba(10, 28, 52, 0.55), rgba(5, 14, 30, 0.72));
+}
+
 .zone-mark__glow {
   position: absolute;
-  inset: 18%;
+  inset: 14%;
   border-radius: 0.7rem;
-  background: radial-gradient(circle, var(--map-glow), transparent 70%);
-  opacity: 0.7;
+  background: radial-gradient(circle, var(--map-glow), transparent 72%);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.map-station--recommended .zone-mark__glow,
+.map-station--available.map-station--active .zone-mark__glow {
+  opacity: 0.9;
+  inset: 8%;
+  filter: blur(0.5px);
+}
+
+.zone-mark__frame {
+  position: relative;
+  z-index: 1;
+  width: calc(100% - (var(--zone-mark-pad) * 2));
+  height: calc(100% - (var(--zone-mark-pad) * 2));
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 0.72rem;
+}
+
+.zone-mark__art {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 2px 6px rgba(0, 8, 24, 0.35));
+}
+
+.map-station--recommended .zone-mark__art,
+.map-station--available.map-station--active .zone-mark__art {
+  filter:
+    drop-shadow(0 0 10px color-mix(in srgb, var(--map-glow) 70%, transparent))
+    drop-shadow(0 2px 6px rgba(0, 8, 24, 0.28))
+    brightness(1.06)
+    saturate(1.08);
+}
+
+.map-station--coming-soon .zone-mark__art {
+  filter:
+    saturate(0.58)
+    brightness(0.72)
+    contrast(0.96)
+    drop-shadow(0 1px 4px rgba(0, 8, 24, 0.3));
+}
+
+.map-station--coming-soon .zone-mark--art .zone-mark__glow {
+  opacity: 0.22;
+}
+
+.map-station--coming-soon .zone-mark--art .zone-mark__spark {
+  opacity: 0.18;
 }
 
 .zone-mark__glyph {
@@ -675,7 +727,12 @@
   height: 0.28rem;
   border-radius: 50%;
   background: #fff;
-  opacity: 0.5;
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.zone-mark--art .zone-mark__spark {
+  opacity: 0.28;
 }
 
 .zone-mark__spark--a { top: 12%; right: 16%; }
@@ -686,9 +743,43 @@
 .zone-mark--problems .zone-mark__glyph { color: #fde68a; }
 .zone-mark--clocks .zone-mark__glyph { color: #fdba74; }
 
+.zone-mark--tables.zone-mark--art .zone-mark__ring {
+  border-color: color-mix(in srgb, #22d3ee 58%, transparent);
+}
+.zone-mark--calc.zone-mark--art .zone-mark__ring {
+  border-color: color-mix(in srgb, #a78bfa 55%, transparent);
+}
+.zone-mark--problems.zone-mark--art .zone-mark__ring {
+  border-color: color-mix(in srgb, #fbbf24 48%, transparent);
+}
+.zone-mark--clocks.zone-mark--art .zone-mark__ring {
+  border-color: color-mix(in srgb, #fb923c 50%, transparent);
+}
+
 @media (max-width: 719px) {
+  .app-shell:has(.world-level-map) .app-main {
+    overflow-x: clip;
+    max-width: 100%;
+  }
+
   .world-level-map {
-    width: min(100%, 40rem);
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+    isolation: auto;
+  }
+
+  .map-scenery__orb--a {
+    width: 7.5rem;
+    height: 7.5rem;
+    top: -2.5rem;
+    right: -1.2rem;
+  }
+
+  .map-scenery__orb--b {
+    width: 6.5rem;
+    height: 6.5rem;
+    left: -1.2rem;
   }
 
   .world-level-map__stage {
@@ -709,57 +800,103 @@
   }
 
   .world-level-map__stations {
-    gap: 1.35rem;
-    /* Carril para la ruta energética a la izquierda; tarjetas a ancho casi completo */
-    padding: 0.35rem 0.1rem 2rem 1.55rem;
+    gap: 1.9rem;
+    padding: 0.35rem 0.1rem 2rem;
+    overflow-x: clip;
   }
 
+  /* Sin carretera lateral continua: el SVG se oculta en móvil. */
+  .world-level-map__path {
+    display: none;
+  }
+
+  /* Nodo inferior de cada estación. */
   .world-level-map__slot--left .map-station__port,
   .world-level-map__slot--right .map-station__port {
-    left: -0.95rem;
+    left: 50%;
     right: auto;
-    top: 1.55rem;
-    width: 0.78rem;
-    height: 0.78rem;
-    transform: translate(-50%, -50%);
+    top: auto;
+    bottom: -0.15rem;
+    width: 0.58rem;
+    height: 0.58rem;
+    transform: translate(-50%, 50%);
     z-index: 4;
     box-shadow:
       0 0 10px var(--map-glow),
       0 0 0 2px rgba(8, 20, 40, 0.75);
   }
 
-  .world-level-map__path {
-    z-index: 0;
+  /* Nodo superior de la estación siguiente (excepto la primera). */
+  .world-level-map__slot:not(:first-child)::before {
+    content: '';
+    display: block;
+    width: 0.5rem;
+    height: 0.5rem;
+    margin: 0 auto 0.35rem;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #ecfeff, var(--map-accent-2));
+    border: 2px solid rgba(8, 20, 40, 0.85);
+    box-shadow: 0 0 10px color-mix(in srgb, var(--map-accent-2) 55%, transparent);
+    pointer-events: none;
   }
 
-  .world-level-map__path-glow {
-    stroke-width: 11px;
-    opacity: 0.42;
+  .world-level-map__slot--left:not(:first-child)::before {
+    transform: translateX(-0.4rem);
   }
 
-  .world-level-map__path-line {
-    stroke-width: 3.25px;
-    stroke-dasharray: 0.5 11;
+  .world-level-map__slot--right:not(:first-child)::before {
+    transform: translateX(0.4rem);
+  }
+
+  /*
+   * Saltos de energía cortos entre estaciones (solo en el hueco).
+   * No forma una franja lateral ni una línea continua de punta a punta.
+   */
+  .world-level-map__slot:not(:last-child)::after {
+    content: '';
+    display: block;
+    width: 0.22rem;
+    height: 0.72rem;
+    margin: 0.5rem auto 0;
+    border-radius: 999px;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 50% 8%, var(--map-accent) 0 1.2px, transparent 1.45px),
+      radial-gradient(circle at 50% 50%, var(--map-accent-2) 0 1.2px, transparent 1.45px),
+      radial-gradient(circle at 50% 92%, var(--map-accent) 0 1.2px, transparent 1.45px);
+    filter: drop-shadow(0 0 4px var(--map-glow));
+    opacity: 0.88;
+  }
+
+  .world-level-map__slot--left:not(:last-child)::after {
+    transform: translateX(-0.4rem);
+  }
+
+  .world-level-map__slot--right:not(:last-child)::after {
+    transform: translateX(0.4rem);
+  }
+
+  .world-level-map__slot:nth-child(even):not(:last-child)::after {
+    background:
+      radial-gradient(circle at 50% 8%, var(--map-accent-2) 0 1.2px, transparent 1.45px),
+      radial-gradient(circle at 50% 50%, var(--map-accent) 0 1.2px, transparent 1.45px),
+      radial-gradient(circle at 50% 92%, var(--map-accent-2) 0 1.2px, transparent 1.45px);
   }
 
   .world-level-map__stations,
   .map-station,
   .map-station__platform {
-    /* Evita cortes visuales tipo lista entre estaciones */
     isolation: auto;
   }
 
   .map-station__halo {
-    inset: -10% -2%;
+    inset: -8% -4%;
+    border-radius: 50%;
     opacity: 0.28;
   }
 
   .map-station {
     overflow: visible;
-  }
-
-  .world-level-map__stations {
-    overflow-x: clip;
   }
 
   .map-station--coming-soon .map-station__halo {
@@ -835,5 +972,9 @@
   .map-station__cta:hover,
   .map-station__cta:active {
     transform: none !important;
+  }
+
+  .world-level-map__slot:not(:last-child)::after {
+    filter: none;
   }
 }
