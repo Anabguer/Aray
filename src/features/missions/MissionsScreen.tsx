@@ -1,52 +1,40 @@
-import { Link } from 'react-router-dom'
 import { AppShell } from '@/components/AppShell'
-import { WorldPortal, type WorldPortalTheme } from '@/components/WorldPortal'
-import { visibleWorlds } from '@/curriculum'
+import { SubjectCard } from '@/components/SubjectCard'
+import { blocksForSubject, visibleWorlds } from '@/curriculum'
 import { useProgress } from '@/progress/ProgressContext'
-
-const worldTheme: Record<string, WorldPortalTheme> = {
-  maths: 'maths',
-  languages: 'languages',
-  english: 'english',
-}
 
 export function MissionsScreen() {
   const { progress } = useProgress()
   const worlds = visibleWorlds(progress)
 
   return (
-    <AppShell showBack backTo="/">
-      <section className="worlds-map" aria-label="Selección de mundos">
-        <header className="worlds-map__head">
-          <div className="worlds-map__titles">
-            <h1 className="worlds-map__title">Mis mundos</h1>
-            <p className="worlds-map__subtitle">Elige tu próxima aventura</p>
-          </div>
-          <Link to="/" className="worlds-map__lobby-btn">
-            Volver al Lobby
-          </Link>
-        </header>
-
-        <div className="worlds-map__sky" aria-hidden="true">
-          <span className="worlds-map__star worlds-map__star--a" />
-          <span className="worlds-map__star worlds-map__star--b" />
-          <span className="worlds-map__star worlds-map__star--c" />
-          <span className="worlds-map__particle worlds-map__particle--a" />
-          <span className="worlds-map__particle worlds-map__particle--b" />
-        </div>
-
-        <div className="worlds-map__stage">
+    <AppShell title="Mis mundos" showBack>
+      <section className="page-intro">
+        <p className="page-intro__lead">
+          Elige un mundo para entrenar. Matemáticas ya tiene misiones; Lenguas e Inglés están
+          preparados para cuando lleguen nuevas aventuras.
+        </p>
+      </section>
+      <section className="subjects" aria-label="Mundos de entrenamiento">
+        <div className="subjects__grid">
           {worlds.map((world) => {
-            const theme = worldTheme[world.id] ?? 'maths'
-            const playable = world.hasPlayable
+            const blockTitles = blocksForSubject(world.id)
+              .filter((b) => b.status !== 'hidden')
+              .map((b) => b.title)
             return (
-              <WorldPortal
+              <SubjectCard
                 key={world.id}
-                theme={theme}
-                title={world.title}
+                subject={{
+                  id: world.legacyHubId,
+                  title: world.title,
+                  shortLabel: world.shortTitle,
+                  description: world.hasPlayable
+                    ? world.description
+                    : `Pronto: ${blockTitles.slice(0, 2).join(', ')}`,
+                  accent: world.legacyHubId,
+                }}
                 path={world.worldPath}
-                playable={playable}
-                featured={playable}
+                playable={world.hasPlayable}
               />
             )
           })}
