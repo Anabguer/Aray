@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import {
   mundoIngles,
   mundoLenguas,
@@ -66,16 +65,6 @@ export function WorldMap({
 
   return (
     <section className="world-map" aria-label="Selección de mundos">
-      <header className="world-map__header">
-        <div className="world-map__heading">
-          <h1 className="world-map__title">MIS MUNDOS</h1>
-          <p className="world-map__subtitle">Elige tu próxima aventura</p>
-        </div>
-        <Link to="/" className="world-map__back">
-          VOLVER
-        </Link>
-      </header>
-
       <div className="world-map__grid">
         {scenes.map((scene) => (
           <WorldScene

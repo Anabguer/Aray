@@ -80,8 +80,12 @@ describe('ARAY navigation shell', () => {
       'href',
       '/missions/mates',
     )
-    expect(screen.getByRole('link', { name: /^volver$/i })).toBeInTheDocument()
-    expect(screen.queryByRole('link', { name: /próximamente/i })).not.toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /ir al lobby/i })).toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: /^volver$/i })).not.toBeInTheDocument()
+    expect(screen.getByRole('toolbar', { name: /controles del juego/i })).toBeInTheDocument()
+    expect(screen.getByLabelText(/cómo se juega/i)).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /silenciar sonido|activar sonido/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /acceso adulto/i })).toBeInTheDocument()
   })
 
   it('abre el mapa de niveles sin 1 ni 10', () => {
