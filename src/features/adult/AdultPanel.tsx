@@ -114,13 +114,15 @@ function IconChevron({ open }: { open: boolean }) {
 }
 
 export function AdultPanel() {
-  const { account, players, logout } = useAuth()
-  const { progress, updateSchool, setActivityAssignments } = useProgress()
+  const { account, players, logout, authorizeDeviceForPlayer, deviceAuthorized, refreshMe } =
+    useAuth()
+  const { progress, updateSchool, setActivityAssignments, refreshFromServer } = useProgress()
   const navigate = useNavigate()
   const [resolvedPlayerId, setResolvedPlayerId] = useState<number | null>(
     players[0]?.id ?? null,
   )
   const playerId = resolvedPlayerId ?? players[0]?.id ?? null
+  const [deviceBusy, setDeviceBusy] = useState(false)
 
   const [overview, setOverview] = useState<AdultOverview | null>(null)
   const [activityDays, setActivityDays] = useState<ActivityDay[]>([])
@@ -251,6 +253,21 @@ export function AdultPanel() {
   const needsReview = overview?.education.needsReview ?? []
   const learning = overview?.education.learning ?? []
   const dominated = overview?.education.dominated ?? []
+
+  async function authorizeDevice() {
+    if (playerId == null) return
+    setDeviceBusy(true)
+    setError(null)
+    try {
+      await authorizeDeviceForPlayer(playerId, 'Dispositivo familiar')
+      await refreshMe()
+      await refreshFromServer()
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : 'No se pudo autorizar el dispositivo.')
+    } finally {
+      setDeviceBusy(false)
+    }
+  }
 
   async function confirmDeliver() {
     if (!deliverCycle || playerId == null) return
@@ -400,7 +417,25 @@ export function AdultPanel() {
           <button
             type="button"
             className="btn btn-ghost"
-            onClick={() => navigate('/', { replace: true })}
+            disabled={deviceBusy || !playerId}
+            onClick={() => void authorizeDevice()}
+          >
+            {deviceBusy ? 'Autorizando…' : deviceAuthorized ? 'Dispositivo listo' : 'Autorizar este dispositivo'}
+          </button>
+          <button
+            type="button"
+            className="btn btn-ghost"
+            onClick={() => {
+              void (async () => {
+                try {
+                  await apiPost('/auth/child-enter.php', {})
+                } catch {
+                  /* dispositivo aún no autorizado */
+                }
+                await refreshFromServer()
+                navigate('/', { replace: true })
+              })()
+            }}
           >
             Volver al juego
           </button>

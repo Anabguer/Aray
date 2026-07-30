@@ -175,14 +175,9 @@ final class AuthService
             'deviceLabel' => $label,
         ]);
 
+        // No convertir la sesión adulta en infantil: el panel familiar debe seguir.
+        // El juego entra después con child-enter + cookie ARAYDEVICE.
         $player = self::findPlayerById($playerId);
-        Session::regenerate();
-        Session::setChild(
-            $playerId,
-            (string) $player['slug'],
-            (string) $player['display_name'],
-            $deviceId
-        );
 
         return [
             'deviceId' => $deviceId,
@@ -191,10 +186,11 @@ final class AuthService
             'expiresAt' => $expiresAt,
             'player' => [
                 'id' => $playerId,
-                'slug' => (string) $player['slug'],
-                'displayName' => (string) $player['display_name'],
+                'slug' => is_array($player) ? (string) $player['slug'] : '',
+                'displayName' => is_array($player) ? (string) $player['display_name'] : '',
             ],
             'csrf' => Csrf::token(),
+            'role' => 'adult',
         ];
     }
 

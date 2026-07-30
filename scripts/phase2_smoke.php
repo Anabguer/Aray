@@ -116,6 +116,7 @@ try {
         'tables' => [3],
         'answers' => $answers,
         'clientStartedAt' => MadridTime::utcNowString(),
+        'syncEpoch' => SyncEpochService::current(),
     ]);
 
     check('sesión creada', $result['idempotent'] === false, 'sessionId=' . $result['sessionId']);
@@ -130,6 +131,7 @@ try {
         'mode' => 'train',
         'tables' => [3],
         'answers' => $answers,
+        'syncEpoch' => SyncEpochService::current(),
     ]);
     check('idempotente flag', $result2['idempotent'] === true);
     check('idempotente mismo XP', $result2['xpEarned'] === 65, 'xp=' . $result2['xpEarned']);

@@ -28,6 +28,7 @@ if ($payload['dbConfigured']) {
         $payload['migrations'] = $stmt ? $stmt->fetchAll(PDO::FETCH_COLUMN) : [];
         $payload['arayTableCount'] = count(SchemaInstaller::listArayTables($pdo));
         $payload['accounts'] = SchemaInstaller::countAccounts($pdo);
+        $payload['syncEpoch'] = SyncEpochService::current();
     } catch (Throwable $e) {
         $payload['dbOk'] = false;
         $payload['dbError'] = 'connection_failed';

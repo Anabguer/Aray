@@ -35,6 +35,7 @@ require_once __DIR__ . '/RewardCycleService.php';
 require_once __DIR__ . '/ActivityService.php';
 require_once __DIR__ . '/AdultDashboardService.php';
 require_once __DIR__ . '/SessionService.php';
+require_once __DIR__ . '/SyncEpochService.php';
 require_once __DIR__ . '/ProgressRepository.php';
 require_once __DIR__ . '/Database.php';
 if (!defined('DB_PREFIX')) {

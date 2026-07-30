@@ -5,6 +5,7 @@ import { BrandLogo } from '@/components/BrandLogo'
 import { CrateReveal } from '@/components/CrateReveal'
 import { GoalCard } from '@/components/GoalCard'
 import { ResetProgressControl } from '@/components/ResetProgressControl'
+import { SyncStatusBanner } from '@/components/SyncStatusBanner'
 import { ZoneCard } from '@/components/ZoneCard'
 import { rewardGoalConfig } from '@/config/rewardGoal'
 import { buildLobbyMissions, type LobbyMissionCard } from '@/curriculum'
@@ -67,6 +68,7 @@ export function HomeScreen() {
 
   return (
     <AppShell title="LOBBY" subtitle="Tu zona de juego" showLobbyLink={false}>
+      <SyncStatusBanner />
       <section className="lobby" aria-labelledby="home-greeting">
         <div className="lobby__welcome">
           <Lumo

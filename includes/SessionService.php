@@ -60,6 +60,8 @@ final class SessionService
         $tables    = self::validateTables($payload['tables'] ?? []);
         $answers   = self::normalizeAnswers($payload['answers'] ?? []);
         $clientStartedAt = self::parseClientStartedAt($payload['clientStartedAt'] ?? null);
+        // Corte de datos: rechaza colas offline de PWA/dispositivos anteriores a la limpieza.
+        SyncEpochService::assertClientEpochAcceptable($payload['syncEpoch'] ?? null);
 
         $pdo = Database::pdo();
         $sessTable = Database::table('sessions');
@@ -110,6 +112,13 @@ final class SessionService
 
         $existing->execute([':id' => $sessionId]);
         $savedRow = $existing->fetch();
+
+        // Energía/premio: fuera de la transacción de partida (grantPoints abre la suya).
+        if (is_array($savedRow) && (int) ($savedRow['energy_granted'] ?? 0) === 0) {
+            self::applyEnergyGrant($sessionId, $playerId, $mode, $answers);
+            $existing->execute([':id' => $sessionId]);
+            $savedRow = $existing->fetch();
+        }
 
         return self::buildResult(is_array($savedRow) ? $savedRow : [], false);
     }
@@ -533,6 +542,73 @@ final class SessionService
         ]);
     }
 
+    /**
+     * Energía del premio: recalculada en servidor a partir de aciertos únicos.
+     * No confía en puntos enviados por React. Idempotente vía energy_granted en sessions.
+     */
+    private static function computeEnergyRequested(string $mode, array $answers): int
+    {
+        if ($mode === 'learn') {
+            return 0;
+        }
+        if ($mode === 'match') {
+            // matchSessionMeta.rewardWeight = medium = 3
+            return 3;
+        }
+
+        $weight = 1;
+        $mult = $mode === 'challenge' ? 2 : 1;
+        $seen = [];
+        $points = 0;
+        foreach ($answers as $ans) {
+            if (empty($ans['correct'])) {
+                continue;
+            }
+            $fk = (string) ($ans['factKey'] ?? '');
+            if ($fk === '' || isset($seen[$fk])) {
+                continue;
+            }
+            $seen[$fk] = true;
+            $points += $weight;
+        }
+
+        return (int) round($points * $mult);
+    }
+
+    private static function applyEnergyGrant(
+        string $sessionId,
+        int $playerId,
+        string $mode,
+        array $answers
+    ): void {
+        $requested = self::computeEnergyRequested($mode, $answers);
+        $pdo = Database::pdo();
+        $sessTable = Database::table('sessions');
+
+        if ($requested <= 0) {
+            $pdo->prepare(
+                "UPDATE {$sessTable}
+                 SET energy_requested = 0, energy_granted = 0
+                 WHERE id = :id AND player_id = :p"
+            )->execute([':id' => $sessionId, ':p' => $playerId]);
+            return;
+        }
+
+        $grant = RewardCycleService::grantPoints($playerId, $requested, $sessionId, null);
+        $granted = (int) ($grant['granted'] ?? 0);
+
+        $pdo->prepare(
+            "UPDATE {$sessTable}
+             SET energy_requested = :req, energy_granted = :gr
+             WHERE id = :id AND player_id = :p"
+        )->execute([
+            ':req' => $requested,
+            ':gr' => $granted,
+            ':id' => $sessionId,
+            ':p' => $playerId,
+        ]);
+    }
+
     // ─────────────────────────── Respuesta ─────────────────────────────────
 
     private static function buildResult(array $sessionRow, bool $idempotent): array
@@ -544,6 +620,8 @@ final class SessionService
             'bestStreak'  => (int) ($sessionRow['best_streak'] ?? 0),
             'xpEarned'    => (int) ($sessionRow['xp_earned'] ?? 0),
             'coinsEarned' => (int) ($sessionRow['coins_earned'] ?? 0),
+            'energyRequested' => (int) ($sessionRow['energy_requested'] ?? 0),
+            'energyGranted' => (int) ($sessionRow['energy_granted'] ?? 0),
             'processedAt' => (string) ($sessionRow['processed_at'] ?? ''),
         ];
     }

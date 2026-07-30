@@ -101,6 +101,7 @@ final class ProgressRepository
             'soundMuted' => (bool) $progress['sound_muted'],
             'lastPracticeAt' => $progress['last_practice_at'],
             'localMigratedAt' => $progress['local_migrated_at'],
+            'syncEpoch' => SyncEpochService::current(),
             'facts' => (object) $facts,
             'tables' => (object) $tables,
             'reward' => $reward,

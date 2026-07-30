@@ -47,6 +47,13 @@ export default defineConfig({
       interval: 1000,
     },
     proxy: {
+      // Producción / build: /aray/api/v1 → PHP en la raíz del proyecto
+      '/aray/api': {
+        target: 'http://127.0.0.1:8777',
+        changeOrigin: true,
+        rewrite: (p) => p.replace(/^\/aray/, ''),
+      },
+      // Scripts smoke legacy y health directo
       '/api': {
         target: 'http://127.0.0.1:8777',
         changeOrigin: true,

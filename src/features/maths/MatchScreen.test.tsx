@@ -64,7 +64,7 @@ function renderMatch(table = 3) {
           players: [],
         }}
       >
-        <ProgressProvider store={store}>
+        <ProgressProvider store={store} skipHydration>
           <PlayProvider>
             <Routes>
               <Route path="/missions/mates/tables/match" element={<MatchScreen />} />

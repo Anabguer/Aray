@@ -51,7 +51,7 @@ function renderAt(path: string) {
           players: [],
         }}
       >
-        <ProgressProvider store={store}>
+        <ProgressProvider store={store} skipHydration>
           <PlayProvider>
             <App />
           </PlayProvider>

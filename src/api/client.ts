@@ -1,6 +1,9 @@
-/** Cliente JSON con cookies de sesión. La API vive en `/api/v1` (raíz del sitio), no bajo `/aray/`. */
-
-const API_ROOT = '/api/v1'
+/**
+ * Cliente JSON con cookies de sesión.
+ * Bajo Hostalia/Vite la app vive en `/aray/` y la API en `/aray/api/v1`.
+ */
+const BASE = (import.meta.env.BASE_URL || '/aray/').replace(/\/?$/, '/')
+export const API_ROOT = `${BASE}api/v1`
 
 let csrfCache: string | null = null
 

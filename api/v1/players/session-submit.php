@@ -27,7 +27,8 @@ declare(strict_types=1);
  *       "elapsedMs": 1234
  *     }
  *   ],
- *   "clientStartedAt": "2026-07-29 18:00:00"  // UTC, opcional
+ *   "clientStartedAt": "2026-07-29 18:00:00",  // UTC, opcional
+ *   "syncEpoch": 1                               // época oficial; si < servidor → 409 sync_epoch_stale
  * }
  *
  * Response 200:

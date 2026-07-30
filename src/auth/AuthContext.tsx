@@ -8,8 +8,9 @@ import {
   type ReactNode,
 } from 'react'
 import { apiGet, apiPost, peekCsrf, setCsrf } from '@/api/client'
+import { authorizeCurrentDevice } from '@/sync/playSession'
 
-export type AuthRole = 'adult' | null
+export type AuthRole = 'adult' | 'child' | null
 
 export type AuthAccount = {
   id: number
@@ -26,15 +27,18 @@ export type AuthPlayer = {
 export type AuthSessionSeed = {
   role: AuthRole
   account: AuthAccount | null
+  player?: AuthPlayer | null
   players?: AuthPlayer[]
   csrf: string
 }
 
 type MeResponse = {
   authenticated?: boolean
-  role?: AuthRole | 'child' | null
+  role?: AuthRole | null
   account?: AuthAccount
   players?: AuthPlayer[]
+  player?: AuthPlayer
+  device?: { authorized?: boolean; player?: AuthPlayer }
   csrf?: string
 }
 
@@ -42,10 +46,13 @@ type AuthContextValue = {
   loading: boolean
   role: AuthRole
   account: AuthAccount | null
+  player: AuthPlayer | null
   players: AuthPlayer[]
+  deviceAuthorized: boolean
   csrf: string | null
   refreshMe: () => Promise<void>
   loginAdultPin: (pin: string) => Promise<void>
+  authorizeDeviceForPlayer: (playerId: number, label?: string) => Promise<void>
   logout: () => Promise<void>
 }
 
@@ -62,7 +69,9 @@ export function AuthProvider({
   const [loading, setLoading] = useState(!initialSession)
   const [role, setRole] = useState<AuthRole>(initialSession?.role ?? null)
   const [account, setAccount] = useState<AuthAccount | null>(initialSession?.account ?? null)
+  const [player, setPlayer] = useState<AuthPlayer | null>(initialSession?.player ?? null)
   const [players, setPlayers] = useState<AuthPlayer[]>(initialSession?.players ?? [])
+  const [deviceAuthorized, setDeviceAuthorized] = useState(false)
   const [csrf, setCsrfState] = useState<string | null>(() => {
     if (initialSession?.csrf) {
       setCsrf(initialSession.csrf)
@@ -79,15 +88,24 @@ export function AuthProvider({
     setCsrfState(peekCsrf())
   }, [])
 
+  const applyMe = useCallback(
+    (data: MeResponse) => {
+      const nextRole = data.role === 'adult' || data.role === 'child' ? data.role : null
+      setRole(nextRole)
+      setAccount(nextRole === 'adult' ? (data.account ?? null) : null)
+      setPlayer(nextRole === 'child' ? (data.player ?? null) : null)
+      setPlayers(nextRole === 'adult' && Array.isArray(data.players) ? data.players : [])
+      setDeviceAuthorized(Boolean(data.device?.authorized))
+      if (typeof data.csrf === 'string') setCsrf(data.csrf)
+      syncCsrfState()
+    },
+    [syncCsrfState],
+  )
+
   const refreshMe = useCallback(async () => {
     const data = await apiGet<MeResponse>('/auth/me.php')
-    const nextRole = data.role === 'adult' ? 'adult' : null
-    setRole(nextRole)
-    setAccount(nextRole === 'adult' ? (data.account ?? null) : null)
-    setPlayers(nextRole === 'adult' && Array.isArray(data.players) ? data.players : [])
-    if (typeof data.csrf === 'string') setCsrf(data.csrf)
-    syncCsrfState()
-  }, [syncCsrfState])
+    applyMe(data)
+  }, [applyMe])
 
   useEffect(() => {
     if (initialSession) return
@@ -99,7 +117,9 @@ export function AuthProvider({
         if (!cancelled) {
           setRole(null)
           setAccount(null)
+          setPlayer(null)
           setPlayers([])
+          setDeviceAuthorized(false)
         }
       } finally {
         if (!cancelled) setLoading(false)
@@ -116,13 +136,17 @@ export function AuthProvider({
       if (data.role !== 'adult') {
         throw new Error('PIN incorrecto')
       }
-      setRole('adult')
-      setAccount(data.account ?? null)
-      setPlayers(Array.isArray(data.players) ? data.players : [])
-      if (typeof data.csrf === 'string') setCsrf(data.csrf)
-      syncCsrfState()
+      applyMe(data)
     },
-    [syncCsrfState],
+    [applyMe],
+  )
+
+  const authorizeDeviceForPlayer = useCallback(
+    async (playerId: number, label = 'Dispositivo de Aray') => {
+      await authorizeCurrentDevice(playerId, label)
+      await refreshMe()
+    },
+    [refreshMe],
   )
 
   const logout = useCallback(async () => {
@@ -133,6 +157,7 @@ export function AuthProvider({
     }
     setRole(null)
     setAccount(null)
+    setPlayer(null)
     setPlayers([])
     syncCsrfState()
   }, [syncCsrfState])
@@ -142,13 +167,28 @@ export function AuthProvider({
       loading,
       role,
       account,
+      player,
       players,
+      deviceAuthorized,
       csrf,
       refreshMe,
       loginAdultPin,
+      authorizeDeviceForPlayer,
       logout,
     }),
-    [loading, role, account, players, csrf, refreshMe, loginAdultPin, logout],
+    [
+      loading,
+      role,
+      account,
+      player,
+      players,
+      deviceAuthorized,
+      csrf,
+      refreshMe,
+      loginAdultPin,
+      authorizeDeviceForPlayer,
+      logout,
+    ],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

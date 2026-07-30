@@ -7898,3 +7898,19 @@ a {
   }
 }
 
+
+.sync-banner {
+  margin: 0 0 0.75rem;
+  padding: 0.65rem 0.9rem;
+  border-radius: var(--radius-sm, 0.75rem);
+  font-size: 0.9rem;
+  line-height: 1.35;
+}
+.sync-banner--info {
+  background: color-mix(in srgb, #38bdf8 18%, transparent);
+  color: var(--text, #eef7ff);
+}
+.sync-banner--warn {
+  background: color-mix(in srgb, #fbbf24 22%, transparent);
+  color: var(--text, #eef7ff);
+}

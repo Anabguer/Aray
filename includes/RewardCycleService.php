@@ -101,9 +101,23 @@ final class RewardCycleService
                 throw new RuntimeException('reward goal missing');
             }
 
-            // Anti-duplicado: usamos meta_json en adult_actions no; guardamos en daily via session list en cliente.
-            // En servidor: tabla sessions aún Fase 2; usamos campo aplicado en goal via points + session id en meta.
-            // Para esta fase: comprobamos applied list pasada o un hash en daily_activity modes.
+            // Anti-duplicado: si la sesión ya tiene energía concedida, no repetir.
+            $sessTable = Database::table('sessions');
+            $sstmt = $pdo->prepare(
+                "SELECT energy_granted FROM {$sessTable} WHERE id = :id AND player_id = :p LIMIT 1"
+            );
+            $sstmt->execute([':id' => $sessionId, ':p' => $playerId]);
+            $sessRow = $sstmt->fetch();
+            if (is_array($sessRow) && (int) ($sessRow['energy_granted'] ?? 0) > 0) {
+                $pdo->commit();
+                return [
+                    'granted' => 0,
+                    'reward' => self::publicRewardState($playerId),
+                    'cyclesCompleted' => [],
+                    'skippedDuplicate' => true,
+                ];
+            }
+
             if (is_array($alreadyAppliedSessionIds) && in_array($sessionId, $alreadyAppliedSessionIds, true)) {
                 $pdo->commit();
                 return [
