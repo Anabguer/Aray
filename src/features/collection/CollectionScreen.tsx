@@ -201,7 +201,7 @@ export function CollectionScreen() {
   ]
 
   return (
-    <AppShell title="Mi colección" showBack backTo="/">
+    <AppShell title="Mi colección" shortTitle="Colección" showBack backTo="/">
       <section className="collection" aria-labelledby="collection-counter-label">
         <div className="collection-toolbar">
           <div
