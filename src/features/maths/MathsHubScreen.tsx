@@ -2,7 +2,7 @@ import { AppShell } from '@/components/AppShell'
 import { SubjectIcon } from '@/components/ZoneIcons'
 import { WorldLevelMap } from '@/components/world/WorldLevelMap'
 import type { MapSlot, WorldStation } from '@/components/world/types'
-import { blocksForSubject } from '@/curriculum'
+import { blocksForSubject, getSubject } from '@/curriculum'
 
 const MATH_MARKS = {
   'multiplication-tables': 'tables',
@@ -56,9 +56,12 @@ export function MathsHubScreen() {
     }
   })
 
+  const maths = getSubject('maths')
+
   return (
     <AppShell
-      title="Matemáticas"
+      title={maths?.title ?? 'Matemáticas'}
+      shortTitle={maths?.shortTitle ?? 'Mates'}
       showBack
     >
       <WorldLevelMap

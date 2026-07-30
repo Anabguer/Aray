@@ -20,14 +20,14 @@ export const zoneLinks: ZoneLink[] = [
   {
     id: 'missions',
     title: 'Mis mundos',
-    description: 'Entrena por asignaturas',
+    description: 'Elige qué quieres farmear',
     status: 'active',
     path: '/missions',
   },
   {
     id: 'collection',
     title: 'Mi colección',
-    description: 'Logros y premios',
+    description: 'Drops, logros y premios',
     status: 'active',
     path: '/collection',
   },
@@ -43,7 +43,7 @@ export const subjectPreviews: SubjectPreview[] = [
   },
   {
     id: 'catala',
-    title: 'Catalán',
+    title: 'Català',
     shortLabel: 'Català',
     description: 'Lectura, ortografía y expresión',
     accent: 'catala',
@@ -51,7 +51,7 @@ export const subjectPreviews: SubjectPreview[] = [
   {
     id: 'castellano',
     title: 'Castellano',
-    shortLabel: 'Castellano',
+    shortLabel: 'Caste',
     description: 'Comprensión, vocabulario y escritura',
     accent: 'castellano',
   },
@@ -64,8 +64,8 @@ export const subjectPreviews: SubjectPreview[] = [
   },
   {
     id: 'medi',
-    title: 'Medio',
-    shortLabel: 'Medio',
+    title: 'Medi',
+    shortLabel: 'Medi',
     description: 'Naturaleza, sociedad y cultura',
     accent: 'medi',
   },

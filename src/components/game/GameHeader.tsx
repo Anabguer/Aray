@@ -12,11 +12,14 @@ import { useProgress } from '@/progress/ProgressContext'
  */
 export function GameHeader({
   title,
+  shortTitle,
   subtitle,
   backTo,
   showLobbyLink = true,
 }: {
   title: string
+  /** Variante corta para móvil (p. ej. Mates). Si falta, se usa `title` en todos los anchos. */
+  shortTitle?: string
   subtitle?: string
   /** Flecha atrás al nivel anterior (no confundir con LOBBY). */
   backTo?: string
@@ -25,6 +28,8 @@ export function GameHeader({
 }) {
   const { progress } = useProgress()
   const hud = derivePlayerHud(progress)
+  const mobileTitle = shortTitle?.trim() || title
+  const hasShortVariant = mobileTitle !== title
 
   return (
     <header className={`game-header${showLobbyLink ? '' : ' game-header--home'}`}>
@@ -41,7 +46,14 @@ export function GameHeader({
           </span>
         </span>
         <div className="game-header__heading">
-          <h1 className="game-header__title">{title}</h1>
+          <h1 className="game-header__title" aria-label={title}>
+            <span className="game-header__title-full">{title}</span>
+            {hasShortVariant ? (
+              <span className="game-header__title-short" aria-hidden="true">
+                {mobileTitle}
+              </span>
+            ) : null}
+          </h1>
           {subtitle ? <p className="game-header__subtitle">{subtitle}</p> : null}
         </div>
       </div>

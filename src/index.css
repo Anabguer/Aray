@@ -2116,7 +2116,7 @@ a {
   gap: 0.95rem;
   width: min(100%, 40rem);
   margin-inline: auto;
-  padding-block: 0.2rem 0.85rem;
+  padding-block: calc(0.2rem + 14px) 0.85rem;
   min-height: calc(100dvh - 7rem);
   align-content: start;
 }
@@ -6749,6 +6749,10 @@ a {
   white-space: nowrap;
 }
 
+.game-header__title-short {
+  display: none;
+}
+
 .game-header__subtitle {
   margin: 0;
   font-size: 0.84rem;
@@ -6870,11 +6874,13 @@ a {
   .game-header__identity {
     gap: 0.45rem;
     min-width: 0;
+    flex: 1 1 auto;
   }
 
   .game-header__heading {
     gap: 0;
     min-width: 0;
+    flex: 1 1 auto;
   }
 
   .game-header__title {
@@ -6882,6 +6888,14 @@ a {
     letter-spacing: 0.04em;
     line-height: 1.15;
     white-space: nowrap;
+  }
+
+  .game-header__title:has(.game-header__title-short) .game-header__title-full {
+    display: none;
+  }
+
+  .game-header__title-short {
+    display: inline;
   }
 
   .game-header__subtitle {
@@ -6894,6 +6908,7 @@ a {
 
   .game-header__coins {
     align-self: center;
+    flex-shrink: 0;
   }
 
   .game-header__actions {
@@ -7073,7 +7088,7 @@ a {
 
 @media (max-width: 900px) {
   .lobby {
-    /* Un poco más de aire bajo el HUD, sin volver a pegarlo a la misión. */
+    /* Un poco mas de aire bajo el HUD, sin volver a pegarlo a la mision. */
     --lobby-stack-hud: 10px;
     --lobby-stack-welcome: 1.05rem;
     --lobby-stack-main: 18px;
@@ -7488,3 +7503,4 @@ a {
     transform: none;
   }
 }
+

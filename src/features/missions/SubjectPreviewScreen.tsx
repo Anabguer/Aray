@@ -35,16 +35,17 @@ export function SubjectPreviewScreen() {
     )
   }
 
-  const title = curriculumSubject?.title ?? legacySubject!.title
-  const description = curriculumSubject?.description ?? legacySubject!.description
-  const accent = curriculumSubject?.legacyHubId ?? legacySubject!.accent
-  const iconId = (curriculumSubject?.legacyHubId ?? legacySubject!.id) as SubjectId
+  const title = legacySubject?.title ?? curriculumSubject?.title ?? 'Mundo'
+  const shortTitle = legacySubject?.shortLabel ?? curriculumSubject?.shortTitle ?? title
+  const description = legacySubject?.description ?? curriculumSubject?.description ?? ''
+  const accent = legacySubject?.accent ?? curriculumSubject?.legacyHubId ?? 'mates'
+  const iconId = (legacySubject?.id ?? curriculumSubject?.legacyHubId ?? 'mates') as SubjectId
   const preparedBlocks = curriculumSubject
     ? blocksForSubject(curriculumSubject.id).filter((b) => b.status !== 'hidden')
     : []
 
   return (
-    <AppShell title={title} showBack>
+    <AppShell title={title} shortTitle={shortTitle} showBack>
       <section className="subject-preview" aria-labelledby="subject-preview-title">
         <div className={`subject-preview__panel subject-preview__panel--${accent}`}>
           <div className="subject-preview__icon">

@@ -5,6 +5,7 @@ import { GameHeader } from '@/components/game/GameHeader'
 export function AppShell({
   children,
   title,
+  shortTitle,
   subtitle,
   showBack = false,
   backTo = '..',
@@ -13,6 +14,8 @@ export function AppShell({
 }: {
   children: ReactNode
   title?: string
+  /** Título corto en móvil; escritorio sigue mostrando `title`. */
+  shortTitle?: string
   subtitle?: string
   showBack?: boolean
   backTo?: string
@@ -33,6 +36,7 @@ export function AppShell({
         {!hideHeader && resolvedTitle ? (
           <GameHeader
             title={resolvedTitle}
+            shortTitle={shortTitle}
             subtitle={subtitle}
             backTo={showBack && !isHome ? backTo : undefined}
             showLobbyLink={lobbyLink}
