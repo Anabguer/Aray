@@ -24,7 +24,7 @@ export const rewardGoalConfig = {
 /** Textos visibles para Aray (energía / premio). */
 export const energyCopy = {
   today: (n: number, cap: number) => `Energía de hoy: ${n}/${cap}`,
-  total: (n: number, target: number) => `${n} / ${target} puntos`,
+  total: (n: number, target: number) => `${n} / ${target} de energía`,
   farmed: (n: number) => `¡Has farmeado +${n} de energía!`,
   sessionMax: (n: number) =>
     n > 0 ? `Esta partida puede cargar hasta +${n} de energía` : 'Hoy ya está completa la carga diaria',

@@ -71,18 +71,20 @@ export function GoalCard({ compact = false }: { compact?: boolean }) {
                 ¡Vamos a por el PREMIO {cycleNumber}!
               </h2>
               <p className="goal-card__sub">
-                {current} / {target} puntos
+                {current} / {target} de energía
               </p>
             </>
           ) : (
             <>
-              <p className="goal-card__eyebrow">PREMIO {cycleNumber}</p>
+              <p className="goal-card__eyebrow">PRÓXIMO DROP</p>
               <h2 id="goal-title" className="goal-card__prize">
                 {rewardGoalConfig.rewardLabel}
               </h2>
               <p className="goal-card__sub">
                 {energyCopy.total(current, target)}
-                {remaining > 0 ? ` · Te faltan ${remaining} puntos` : ''}
+                {remaining > 0
+                  ? ` · Te faltan ${remaining} de energía para desbloquearlo`
+                  : ''}
               </p>
             </>
           )}
@@ -95,12 +97,14 @@ export function GoalCard({ compact = false }: { compact?: boolean }) {
         aria-valuemin={0}
         aria-valuemax={target}
         aria-valuenow={pendingFirst != null ? target : current}
-        aria-label={`Premio ${cycleNumber}: ${current} de ${target}`}
+        aria-label={`Premio ${cycleNumber}: ${current} de ${target} de energía`}
       >
         <span style={{ width: `${pendingFirst != null ? 100 : pct}%` }} />
       </div>
       <p className="goal-card__meter-label">
-        {pendingFirst != null ? `${target} / ${target}` : `${current} / ${target} puntos`}
+        {pendingFirst != null
+          ? `${target} / ${target} de energía`
+          : energyCopy.total(current, target)}
       </p>
 
       {!compact ? (
@@ -120,7 +124,7 @@ export function GoalCard({ compact = false }: { compact?: boolean }) {
 
       {pendingFirst == null ? (
         <Link to="/missions/mates/tables" className="btn btn-ghost btn-block goal-card__cta">
-          Cargar energía
+          Farmear energía
         </Link>
       ) : null}
     </section>
