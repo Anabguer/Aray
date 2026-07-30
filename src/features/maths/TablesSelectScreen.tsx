@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AppShell } from '@/components/AppShell'
-import { IconReview } from '@/components/Icons'
+import { IconPlay, IconReview } from '@/components/Icons'
 import { TableLevelCard } from '@/components/TableLevelCard'
 import { MIX_TABLES, PLAYABLE_TABLES, type PlayableTable } from '@/config/playConfig'
 import { emptyTableProgress } from '@/math/selector'
@@ -31,11 +31,11 @@ export function TablesSelectScreen() {
     [progress.tables],
   )
 
-  const summary = useMemo(() => {
-    if (mix) return 'Mezcla del 2 al 9 · en orden'
-    if (picked.length === 0) return 'Elige al menos un nivel'
-    if (picked.length === 1) return `Nivel: tabla del ${picked[0]}`
-    return `Orden: ${picked.join(' → ')}`
+  const playLabel = useMemo(() => {
+    if (mix) return 'JUGAR MEZCLA'
+    if (picked.length === 1) return `JUGAR TABLA DEL ${picked[0]}`
+    if (picked.length > 1) return `JUGAR ${picked.length} TABLAS`
+    return 'JUGAR'
   }, [mix, picked])
 
   function toggleTable(n: number) {
@@ -109,14 +109,14 @@ export function TablesSelectScreen() {
         </div>
 
         <div className="tables-select__footer">
-          <p className="tables-select__summary">{summary}</p>
           <button
             type="button"
-            className="btn btn-primary btn-block"
+            className="btn btn-primary btn-block tables-select__play"
             disabled={!mix && picked.length === 0}
             onClick={continueNext}
           >
-            Continuar
+            <IconPlay className="tables-select__play-icon" aria-hidden />
+            {playLabel}
           </button>
         </div>
       </section>

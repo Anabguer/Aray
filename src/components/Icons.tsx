@@ -176,3 +176,11 @@ export function IconUser(props: IconProps) {
     </BaseIcon>
   )
 }
+
+export function IconPlay(props: IconProps) {
+  return (
+    <BaseIcon {...props} fill="currentColor" stroke="none">
+      <path d="M8.2 5.4v13.2L18.5 12 8.2 5.4z" />
+    </BaseIcon>
+  )
+}
