@@ -7073,14 +7073,18 @@ a {
 
 @media (max-width: 900px) {
   .lobby {
-    --lobby-stack-hud: 18px;
-    --lobby-stack-welcome: 22px;
+    /* Compensa el margin-bottom del HUD para centrar Lumo + saludo. */
+    --lobby-stack-hud: 0px;
+    --lobby-stack-welcome: 1.15rem;
     --lobby-stack-main: 18px;
+    padding-top: 0;
   }
 
   .lobby > .lobby__welcome {
     grid-template-columns: auto minmax(0, 1fr);
     gap: 0.65rem 0.75rem;
+    margin-top: 0;
+    margin-bottom: var(--lobby-stack-welcome);
   }
 
   .lobby > .lobby__welcome .lobby__logo {
