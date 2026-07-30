@@ -60,6 +60,8 @@ final class SessionService
         $tables    = self::validateTables($payload['tables'] ?? []);
         $answers   = self::normalizeAnswers($payload['answers'] ?? []);
         $clientStartedAt = self::parseClientStartedAt($payload['clientStartedAt'] ?? null);
+        $isMissionOfDay = !empty($payload['isMissionOfDay']);
+        $missionCode = self::validateMissionCode($payload['missionCode'] ?? null);
         // Corte de datos: rechaza colas offline de PWA/dispositivos anteriores a la limpieza.
         SyncEpochService::assertClientEpochAcceptable($payload['syncEpoch'] ?? null);
 
@@ -89,11 +91,31 @@ final class SessionService
                 return self::buildResult($locked, true);
             }
 
-            self::insertSession($pdo, $sessionId, $playerId, $mode, $tables, $calc, $clientStartedAt);
+            self::insertSession(
+                $pdo,
+                $sessionId,
+                $playerId,
+                $mode,
+                $tables,
+                $calc,
+                $clientStartedAt,
+                $isMissionOfDay
+            );
             self::insertAnswers($pdo, $sessionId, $answers);
             self::updateFactStats($pdo, $playerId, $answers);
-            self::updateTableMastery($pdo, $playerId, $tables, $answers);
+            $newlyMastered = self::updateTableMastery($pdo, $playerId, $tables, $answers);
             self::updatePlayerProgress($pdo, $playerId, $calc);
+            if ($isMissionOfDay && $missionCode !== null) {
+                self::upsertMissionCompletion($pdo, $playerId, $missionCode, $sessionId);
+            }
+            CrateService::rollAfterSession(
+                $pdo,
+                $playerId,
+                $sessionId,
+                $mode,
+                $isMissionOfDay,
+                $newlyMastered
+            );
 
             $pdo->commit();
         } catch (Throwable $e) {
@@ -268,7 +290,8 @@ final class SessionService
         string $mode,
         array $tables,
         array $calc,
-        ?string $clientStartedAt
+        ?string $clientStartedAt,
+        bool $isMissionOfDay = false
     ): void {
         $sessTable = Database::table('sessions');
         $now = MadridTime::utcNowString();
@@ -283,7 +306,7 @@ final class SessionService
              VALUES
              (:id, :pid, :mode, :tj, :score, :bs,
               :xp, :co, 0, 0,
-              0, 0, :csa, :now, 1)"
+              0, :mod, :csa, :now, 1)"
         )->execute([
             ':id'   => $sessionId,
             ':pid'  => $playerId,
@@ -293,6 +316,7 @@ final class SessionService
             ':bs'   => $calc['bestStreak'],
             ':xp'   => $calc['xpEarned'],
             ':co'   => $calc['coinsEarned'],
+            ':mod'  => $isMissionOfDay ? 1 : 0,
             ':csa'  => $clientStartedAt,
             ':now'  => $now,
         ]);
@@ -405,18 +429,22 @@ final class SessionService
         }
     }
 
+    /**
+     * @return list<int> tablas que pasan a ever_mastered en esta partida
+     */
     private static function updateTableMastery(
         PDO $pdo,
         int $playerId,
         array $tables,
         array $answers
-    ): void {
+    ): array {
         if (empty($tables)) {
-            return;
+            return [];
         }
 
         $masteryTable = Database::table('table_mastery');
         $now = MadridTime::utcNowString();
+        $newlyMastered = [];
 
         foreach ($tables as $tableN) {
             $tableN = (int) $tableN;
@@ -443,9 +471,13 @@ final class SessionService
             $newCorrect  = ($current ? (int) $current['correct']  : 0) + $counts['correct'];
             $bestRound   = $current ? (int) $current['best_round_score'] : 0;
             $newBestRound = max($bestRound, $tableScore);
-            $everMastered = $current ? (bool) $current['ever_mastered'] : false;
+            $wasMastered = $current ? (bool) $current['ever_mastered'] : false;
+            $everMastered = $wasMastered;
             if ($tableScore >= self::MASTERY_THRESHOLD) {
                 $everMastered = true;
+            }
+            if ($everMastered && !$wasMastered) {
+                $newlyMastered[] = $tableN;
             }
 
             $masteryScore = $newAttempts > 0
@@ -510,6 +542,32 @@ final class SessionService
                 ]);
             }
         }
+
+        return $newlyMastered;
+    }
+
+    private static function upsertMissionCompletion(
+        PDO $pdo,
+        int $playerId,
+        string $missionCode,
+        string $sessionId
+    ): void {
+        $table = Database::table('mission_completions');
+        $now = MadridTime::utcNowString();
+        $date = MadridTime::playableDate();
+        $pdo->prepare(
+            "INSERT INTO {$table}
+             (player_id, mission_date, mission_code, session_id, completed_at)
+             VALUES (:p, :d, :c, :s, :now)
+             ON DUPLICATE KEY UPDATE
+               session_id = COALESCE(session_id, VALUES(session_id))"
+        )->execute([
+            ':p' => $playerId,
+            ':d' => $date,
+            ':c' => $missionCode,
+            ':s' => $sessionId,
+            ':now' => $now,
+        ]);
     }
 
     private static function updatePlayerProgress(PDO $pdo, int $playerId, array $calc): void
@@ -657,6 +715,21 @@ final class SessionService
             }
         }
         return $out;
+    }
+
+    private static function validateMissionCode(mixed $code): ?string
+    {
+        if ($code === null || $code === '') {
+            return null;
+        }
+        if (!is_string($code)) {
+            return null;
+        }
+        $code = trim($code);
+        if ($code === '' || strlen($code) > 64 || !preg_match('/^[a-zA-Z0-9_\-]+$/', $code)) {
+            Http::error(400, 'invalid_mission_code', 'missionCode inválido.');
+        }
+        return $code;
     }
 
     private static function parseClientStartedAt(?string $value): ?string

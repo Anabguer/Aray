@@ -79,17 +79,19 @@ final class ProgressRepository
             'pityWithout' => (int) $progress['crate_pity_without'],
         ];
         if (is_array($pendingCrate)) {
-            $options = json_decode((string) $pendingCrate['options_json'], true);
-            $crates['pending'] = [
-                'completionId' => (string) $pendingCrate['completion_id'],
-                'rarity' => (string) $pendingCrate['rarity'],
-                'isChoice' => (bool) $pendingCrate['is_choice'],
-                'options' => is_array($options) ? $options : [],
-                'chosenIndex' => $pendingCrate['chosen_index'] === null ? null : (int) $pendingCrate['chosen_index'],
-                'rewardKind' => $pendingCrate['reward_kind'],
-                'rewardAmount' => $pendingCrate['reward_amount'] === null ? null : (int) $pendingCrate['reward_amount'],
-                'status' => (string) $pendingCrate['status'],
-            ];
+            $crates['pending'] = CrateService::publicPending($pendingCrate);
+        }
+
+        $missionTable = Database::table('mission_completions');
+        $missionsToday = [];
+        $mstmt = $pdo->prepare(
+            "SELECT mission_code FROM {$missionTable}
+             WHERE player_id = :p AND mission_date = :d
+             ORDER BY completed_at ASC"
+        );
+        $mstmt->execute([':p' => $playerId, ':d' => MadridTime::playableDate()]);
+        foreach ($mstmt->fetchAll() as $mrow) {
+            $missionsToday[] = (string) $mrow['mission_code'];
         }
 
         return [
@@ -106,6 +108,7 @@ final class ProgressRepository
             'tables' => (object) $tables,
             'reward' => $reward,
             'crates' => $crates,
+            'missionsToday' => $missionsToday,
             'school' => PlayerCourseService::getSchoolProfile($playerId),
             'playableDate' => MadridTime::playableDate(),
             'serverTimeUtc' => MadridTime::utcNowString(),

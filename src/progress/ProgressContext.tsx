@@ -17,6 +17,7 @@ import {
   type CratesState,
 } from '@/crates/engine'
 import { applyCrateRewardToProgress } from '@/crates/apply'
+import { postCrateChoose, postCrateClaim, postCrateOpen } from '@/crates/api'
 import type { ActivityAssignmentMap, SchoolProfile } from '@/curriculum/types'
 import type { ProgressState, RewardProgress, SessionResult } from '@/math/types'
 import {
@@ -44,6 +45,7 @@ import {
   hydrateOfficialProgress,
   type SyncStatus,
 } from '@/sync/syncEngine'
+import { mapServerProgressToState, type ServerProgressSnapshot } from '@/sync/mapServerProgress'
 
 interface ProgressContextValue {
   progress: ProgressState
@@ -70,6 +72,7 @@ interface ProgressContextValue {
       sessionId: string
       crateActivity?: CrateActivityKey
       isMissionOfDay?: boolean
+      missionCode?: string
     },
   ) => SessionResult
   refreshFromServer: () => Promise<void>
@@ -106,6 +109,16 @@ function detectNewlyMastered(
 
 function clearProgressCache(): void {
   clearSyncProgressCache(PROGRESS_STORAGE_KEY)
+}
+
+function mapIfNeeded(snapshot: ServerProgressSnapshot, latest: ProgressState): ProgressState {
+  return {
+    ...mapServerProgressToState(snapshot, {
+      soundMuted: latest.soundMuted,
+      achievements: latest.achievements,
+      celebratedPendingCycles: latest.reward.celebratedPendingCycles,
+    }),
+  }
 }
 
 export function ProgressProvider({
@@ -307,6 +320,7 @@ export function ProgressProvider({
         sessionId: string
         crateActivity?: CrateActivityKey
         isMissionOfDay?: boolean
+        missionCode?: string
       },
     ) => {
       const current = progressRef.current
@@ -350,6 +364,8 @@ export function ProgressProvider({
           answers: partial.answers,
           clientStartedAt: new Date().toISOString().slice(0, 19).replace('T', ' '),
           syncEpoch: syncEpochRef.current,
+          isMissionOfDay: partial.isMissionOfDay,
+          missionCode: partial.missionCode,
         })
         void (async () => {
           setSyncStatus('syncing')
@@ -362,7 +378,7 @@ export function ProgressProvider({
                 ...syncResult.progress,
                 soundMuted: latest.soundMuted,
                 achievements: latest.achievements,
-                crates: latest.crates,
+                // Cajas oficiales del servidor (pending + pity)
                 reward: {
                   ...syncResult.progress.reward,
                   celebratedPendingCycles: latest.reward.celebratedPendingCycles.filter((n) =>
@@ -439,18 +455,51 @@ export function ProgressProvider({
   const chooseCrate = useCallback(
     (index: number) => {
       const current = progressRef.current
+      const completionId = current.crates.pending?.completionId
       persistCache({ ...current, crates: chooseCrateOption(current.crates, index) })
+      const id = playerIdRef.current
+      if (id !== null && completionId) {
+        void postCrateChoose(completionId, index)
+          .then((res) => {
+            if (res.progress) {
+              const latest = progressRef.current
+              applyOfficial(
+                {
+                  ...mapIfNeeded(res.progress, latest),
+                },
+                id,
+                syncEpochRef.current,
+              )
+            }
+          })
+          .catch(() => {
+            /* offline: se queda el optimista */
+          })
+      }
     },
-    [persistCache],
+    [applyOfficial, persistCache],
   )
 
   const openCrate = useCallback(() => {
     const current = progressRef.current
+    const completionId = current.crates.pending?.completionId
     persistCache({ ...current, crates: markCrateOpened(current.crates) })
-  }, [persistCache])
+    const id = playerIdRef.current
+    if (id !== null && completionId) {
+      void postCrateOpen(completionId)
+        .then((res) => {
+          if (res.progress) {
+            const latest = progressRef.current
+            applyOfficial(mapIfNeeded(res.progress, latest), id, syncEpochRef.current)
+          }
+        })
+        .catch(() => {})
+    }
+  }, [applyOfficial, persistCache])
 
   const collectCrate = useCallback(() => {
     const current = progressRef.current
+    const completionId = current.crates.pending?.completionId
     const collected = collectPendingCrate(current.crates)
     if (!collected.applied || !collected.reward) {
       if (collected.crates !== current.crates) persistCache({ ...current, crates: collected.crates })
@@ -461,8 +510,20 @@ export function ProgressProvider({
       collected.reward,
     )
     persistCache(applied.next)
+
+    const id = playerIdRef.current
+    if (id !== null && completionId) {
+      void postCrateClaim(completionId)
+        .then((res) => {
+          if (res.progress) {
+            const latest = progressRef.current
+            applyOfficial(mapIfNeeded(res.progress, latest), id, syncEpochRef.current)
+          }
+        })
+        .catch(() => {})
+    }
     return applied.adjustmentNote
-  }, [persistCache])
+  }, [applyOfficial, persistCache])
 
   const claimAchievement = useCallback(
     (achievementId: string) => {

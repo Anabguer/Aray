@@ -38,7 +38,7 @@ type Phase = 'intro' | 'countdown' | 'play' | 'ended'
 export function ChallengeScreen() {
   const navigate = useNavigate()
   const { progress, applySession } = useProgress()
-  const { selection, setLastResult, setActiveMode } = usePlaySession()
+  const { selection, setLastResult, setActiveMode, consumeMissionOfDay } = usePlaySession()
   const pool = factsForTables(selection.tables)
   const preferred = selection.tables.length === 1 ? selection.tables[0] : null
   const lumo = useLumoController('thinking')
@@ -88,6 +88,7 @@ export function ChallengeScreen() {
     setPhase('ended')
     setLocked(true)
     setActiveMode('challenge')
+    const mission = consumeMissionOfDay()
     const result = applySession({
       mode: 'challenge',
       tables: selection.tables,
@@ -95,11 +96,13 @@ export function ChallengeScreen() {
       score: scoreRef.current,
       bestStreak: 0,
       sessionId: sessionIdRef.current,
+      isMissionOfDay: Boolean(mission),
+      missionCode: mission?.code,
     })
     setLastResult(result)
     soundEngine.play('activity-complete')
     navigate('/missions/mates/tables/summary')
-  }, [applySession, navigate, selection.tables, setActiveMode, setLastResult])
+  }, [applySession, consumeMissionOfDay, navigate, selection.tables, setActiveMode, setLastResult])
 
   useEffect(() => {
     if (phase !== 'countdown') return

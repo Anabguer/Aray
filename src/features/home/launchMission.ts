@@ -11,14 +11,23 @@ interface LaunchDeps {
   setActiveMode: (mode: PlayMode | null) => void
   setPendingQueue: (queue: QuestionCard[] | null) => void
   setLastResult: (result: SessionResult | null) => void
+  setMissionOfDay: (mission: { code: string } | null) => void
 }
 
 /** Prepara PlayContext según la actividad del lobby y navega a su path. */
 export function launchLobbyMission(mission: LobbyMissionCard, deps: LaunchDeps): void {
-  const { progress, navigate, setSelection, setActiveMode, setPendingQueue, setLastResult } =
-    deps
+  const {
+    progress,
+    navigate,
+    setSelection,
+    setActiveMode,
+    setPendingQueue,
+    setLastResult,
+    setMissionOfDay,
+  } = deps
 
   setLastResult(null)
+  setMissionOfDay({ code: mission.activityId })
 
   const table = mission.table
   if (typeof table === 'number') {

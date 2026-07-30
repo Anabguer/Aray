@@ -38,7 +38,7 @@ function lobbyMissionDescription(
 export function HomeScreen() {
   const navigate = useNavigate()
   const { progress, chooseCrate, openCrate, collectCrate } = useProgress()
-  const { selection, setSelection, setActiveMode, setPendingQueue, setLastResult } =
+  const { selection, setSelection, setActiveMode, setPendingQueue, setLastResult, setMissionOfDay } =
     usePlaySession()
   const missionTable = selection.tables[0] ?? 7
   const lobby = buildLobbyMissions(progress, 4)
@@ -63,6 +63,7 @@ export function HomeScreen() {
       setActiveMode,
       setPendingQueue,
       setLastResult,
+      setMissionOfDay,
     })
   }
 

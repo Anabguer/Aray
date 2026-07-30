@@ -45,7 +45,8 @@ export function TrainScreen() {
   const location = useLocation()
   const fallbackMix = Boolean((location.state as { fallbackMix?: boolean } | null)?.fallbackMix)
   const { progress, applySession } = useProgress()
-  const { selection, pendingQueue, setPendingQueue, setLastResult, activeMode } = usePlaySession()
+  const { selection, pendingQueue, setPendingQueue, setLastResult, activeMode, consumeMissionOfDay } =
+    usePlaySession()
   const lumo = useLumoController('thinking')
   const sessionIdRef = useRef(newId('train'))
   const openedRef = useRef(false)
@@ -95,6 +96,7 @@ export function TrainScreen() {
   const finish = useCallback(
     (finalAnswers: SessionAnswer[]) => {
       const progressBefore = progress
+      const mission = consumeMissionOfDay()
       const result = applySession({
         mode,
         tables: selection.tables,
@@ -102,6 +104,8 @@ export function TrainScreen() {
         score: finalAnswers.filter((a) => a.correct && (a.firstTry ?? true)).length,
         bestStreak: 0,
         sessionId: sessionIdRef.current,
+        isMissionOfDay: Boolean(mission),
+        missionCode: mission?.code,
       })
       flushSync(() => {
         setLastResult(result)
@@ -131,7 +135,15 @@ export function TrainScreen() {
         newLevel,
       })
     },
-    [applySession, mode, progress, selection.tables, setLastResult, setPendingQueue],
+    [
+      applySession,
+      consumeMissionOfDay,
+      mode,
+      progress,
+      selection.tables,
+      setLastResult,
+      setPendingQueue,
+    ],
   )
 
   const goNext = useCallback(

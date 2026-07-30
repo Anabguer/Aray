@@ -16,6 +16,8 @@ export type PendingSessionPayload = {
   clientStartedAt?: string
   /** Época oficial del servidor en el momento de crear la partida. */
   syncEpoch: number
+  isMissionOfDay?: boolean
+  missionCode?: string
 }
 
 export type PendingSessionOp = {

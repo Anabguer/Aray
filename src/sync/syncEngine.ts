@@ -60,6 +60,8 @@ export function buildSessionPayload(partial: {
   answers: SessionAnswer[]
   clientStartedAt?: string
   syncEpoch: number
+  isMissionOfDay?: boolean
+  missionCode?: string
 }): PendingSessionPayload {
   return {
     sessionId: partial.sessionId,
@@ -68,6 +70,8 @@ export function buildSessionPayload(partial: {
     answers: toSubmitAnswers(partial.answers),
     clientStartedAt: partial.clientStartedAt,
     syncEpoch: partial.syncEpoch,
+    ...(partial.isMissionOfDay ? { isMissionOfDay: true } : {}),
+    ...(partial.missionCode ? { missionCode: partial.missionCode } : {}),
   }
 }
 

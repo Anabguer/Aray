@@ -25,6 +25,8 @@ describe('launchLobbyMission', () => {
     const setPendingQueue = vi.fn()
     const setLastResult = vi.fn()
 
+    const setMissionOfDay = vi.fn()
+
     launchLobbyMission(mission({ table: 2, playMode: 'learn', path: '/missions/mates/tables/learn' }), {
       progress: createInitialProgress(),
       navigate,
@@ -32,9 +34,11 @@ describe('launchLobbyMission', () => {
       setActiveMode,
       setPendingQueue,
       setLastResult,
+      setMissionOfDay,
     })
 
     expect(setLastResult).toHaveBeenCalledWith(null)
+    expect(setMissionOfDay).toHaveBeenCalledWith({ code: 'mult-table-2-learn' })
     expect(setSelection).toHaveBeenCalledWith({ tables: [2], mix: false })
     expect(navigate).toHaveBeenCalledWith('/missions/mates/tables/learn')
   })

@@ -40,7 +40,7 @@ const POP_ANIM_MS = 480
 
 export function MatchScreen() {
   const { progress, applySession } = useProgress()
-  const { selection, setLastResult, setActiveMode } = usePlaySession()
+  const { selection, setLastResult, setActiveMode, consumeMissionOfDay } = usePlaySession()
   const table = selection.tables[0] ?? 7
   const lumo = useLumoController('thinking')
   const sessionIdRef = useRef(newId('match'))
@@ -150,6 +150,7 @@ export function MatchScreen() {
           firstTry: !wasMiss,
         })
       }
+      const mission = consumeMissionOfDay()
       const result = applySession({
         mode: 'match',
         tables: [table],
@@ -158,6 +159,8 @@ export function MatchScreen() {
         bestStreak,
         sessionId: sessionIdRef.current,
         missedFacts: allPairs.filter((p) => finalMissed.has(p.id)).map((p) => p.fact),
+        isMissionOfDay: Boolean(mission),
+        missionCode: mission?.code,
       })
       setLastResult(result)
 
@@ -176,7 +179,16 @@ export function MatchScreen() {
       })
       return result
     },
-    [allPairs, applySession, bestStreak, progress, setActiveMode, setLastResult, table],
+    [
+      allPairs,
+      applySession,
+      bestStreak,
+      consumeMissionOfDay,
+      progress,
+      setActiveMode,
+      setLastResult,
+      table,
+    ],
   )
 
   const tryAssign = useCallback(

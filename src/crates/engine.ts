@@ -60,15 +60,33 @@ export function normalizeCratesState(raw: unknown): CratesState {
 
 function normalizePending(raw: unknown): PendingCrate | null {
   if (!raw || typeof raw !== 'object') return null
-  const p = raw as Partial<PendingCrate>
-  if (typeof p.completionId !== 'string' || !p.reward || !Array.isArray(p.options)) return null
+  const p = raw as Partial<PendingCrate> & {
+    rewardKind?: string
+    rewardAmount?: number
+    status?: string
+  }
+  if (typeof p.completionId !== 'string' || !Array.isArray(p.options)) return null
+
+  const rewardFromFields =
+    typeof p.rewardKind === 'string' && typeof p.rewardAmount === 'number'
+      ? { kind: p.rewardKind as CrateRewardSpec['kind'], amount: p.rewardAmount }
+      : null
+  const reward = (p.reward as CrateRewardSpec | undefined) ?? rewardFromFields
+  if (!reward || typeof reward.kind !== 'string' || typeof reward.amount !== 'number') return null
+
+  const status = typeof p.status === 'string' ? p.status : null
+  const opened =
+    typeof p.opened === 'boolean'
+      ? p.opened
+      : status === 'pending_claim' || status === 'claimed'
+
   return {
     completionId: p.completionId,
     rarity: (p.rarity as CrateRarity) ?? 'normal',
     options: p.options as PendingCrateOption[],
     chosenIndex: typeof p.chosenIndex === 'number' ? p.chosenIndex : null,
-    opened: Boolean(p.opened),
-    reward: p.reward as CrateRewardSpec,
+    opened,
+    reward,
     isChoice: Boolean(p.isChoice),
   }
 }
