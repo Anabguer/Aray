@@ -19,70 +19,72 @@ const themeToHubId: Record<WorldPortalTheme, SubjectId> = {
   english: 'angles',
 }
 
-function MathsScene() {
+function MathsArt() {
   return (
-    <div className="world-scene world-scene--maths" aria-hidden="true">
-      <span className="world-scene__mist" />
-      <span className="world-scene__path" />
-      <span className="world-scene__platform" />
-      <span className="world-scene__gate">
-        <span className="world-scene__ring" />
-        <span className="world-scene__ring world-scene__ring--inner" />
-        <span className="world-scene__core" />
+    <div className="world-art" aria-hidden="true">
+      <span className="world-art__path" />
+      <span className="world-art__gate">
+        <span className="world-art__ring" />
+        <span className="world-art__ring world-art__ring--inner" />
+        <span className="world-art__core" />
       </span>
-      <span className="world-scene__block world-scene__block--a">7</span>
-      <span className="world-scene__block world-scene__block--b">×</span>
-      <span className="world-scene__block world-scene__block--c">4</span>
-      <span className="world-scene__block world-scene__block--d">=</span>
-      <span className="world-scene__crystal world-scene__crystal--a" />
-      <span className="world-scene__crystal world-scene__crystal--b" />
-      <span className="world-scene__crystal world-scene__crystal--c" />
+      <span className="world-art__pad" />
+      <span className="world-art__chip world-art__chip--a">7</span>
+      <span className="world-art__chip world-art__chip--b">×</span>
+      <span className="world-art__chip world-art__chip--c">4</span>
+      <span className="world-art__chip world-art__chip--d">28</span>
+      <span className="world-art__cube world-art__cube--a" />
+      <span className="world-art__cube world-art__cube--b" />
+      <span className="world-art__cube world-art__cube--c" />
     </div>
   )
 }
 
-function LanguagesScene() {
+function LanguagesArt() {
   return (
-    <div className="world-scene world-scene--languages" aria-hidden="true">
-      <span className="world-scene__mist" />
-      <span className="world-scene__platform world-scene__platform--warm" />
-      <span className="world-scene__book">
-        <span className="world-scene__page world-scene__page--l" />
-        <span className="world-scene__page world-scene__page--r" />
+    <div className="world-art" aria-hidden="true">
+      <span className="world-art__shelf world-art__shelf--warm" />
+      <span className="world-art__book">
+        <span className="world-art__page world-art__page--l" />
+        <span className="world-art__page world-art__page--r" />
       </span>
-      <span className="world-scene__pencil" />
-      <span className="world-scene__letter world-scene__letter--a">A</span>
-      <span className="world-scene__letter world-scene__letter--b">R</span>
-      <span className="world-scene__letter world-scene__letter--c">Y</span>
-      <span className="world-scene__scrap world-scene__scrap--a" />
-      <span className="world-scene__scrap world-scene__scrap--b" />
+      <span className="world-art__pencil" />
+      <span className="world-art__tile world-art__tile--a">A</span>
+      <span className="world-art__tile world-art__tile--b">B</span>
+      <span className="world-art__tile world-art__tile--c">Z</span>
+      <span className="world-art__sheet world-art__sheet--a" />
+      <span className="world-art__sheet world-art__sheet--b" />
+      <span className="world-art__gate world-art__gate--closed world-art__gate--warm">
+        <span className="world-art__lock" />
+      </span>
     </div>
   )
 }
 
-function EnglishScene() {
+function EnglishArt() {
   return (
-    <div className="world-scene world-scene--english" aria-hidden="true">
-      <span className="world-scene__mist" />
-      <span className="world-scene__platform world-scene__platform--teal" />
-      <span className="world-scene__speech world-scene__speech--a">Hi!</span>
-      <span className="world-scene__speech world-scene__speech--b">Go</span>
-      <span className="world-scene__speech world-scene__speech--c">OK</span>
-      <span className="world-scene__letter world-scene__letter--d">E</span>
-      <span className="world-scene__letter world-scene__letter--e">N</span>
-      <span className="world-scene__orb world-scene__orb--a" />
-      <span className="world-scene__orb world-scene__orb--b" />
+    <div className="world-art" aria-hidden="true">
+      <span className="world-art__shelf world-art__shelf--teal" />
+      <span className="world-art__bubble world-art__bubble--a">Hi!</span>
+      <span className="world-art__bubble world-art__bubble--b">Play</span>
+      <span className="world-art__bubble world-art__bubble--c">Yes</span>
+      <span className="world-art__tile world-art__tile--d">E</span>
+      <span className="world-art__tile world-art__tile--e">N</span>
+      <span className="world-art__tile world-art__tile--f">G</span>
+      <span className="world-art__gate world-art__gate--closed world-art__gate--teal">
+        <span className="world-art__lock" />
+      </span>
     </div>
   )
 }
 
-function Scene({ theme }: { theme: WorldPortalTheme }) {
-  if (theme === 'maths') return <MathsScene />
-  if (theme === 'languages') return <LanguagesScene />
-  return <EnglishScene />
+function WorldArt({ theme }: { theme: WorldPortalTheme }) {
+  if (theme === 'maths') return <MathsArt />
+  if (theme === 'languages') return <LanguagesArt />
+  return <EnglishArt />
 }
 
-/** Portal-escenario de un mundo (presentación; la ruta la decide el padre). */
+/** Un solo contenedor visual por mundo (escenario + info integrados). */
 export function WorldPortal({ theme, title, path, playable, featured = false }: WorldPortalProps) {
   const classes = [
     'world-portal',
@@ -97,27 +99,34 @@ export function WorldPortal({ theme, title, path, playable, featured = false }: 
 
   return (
     <Link to={path} className={classes} aria-label={label}>
-      <div className="world-portal__land">
-        <Scene theme={theme} />
-        {featured && playable ? (
-          <div className="world-portal__guide">
-            <Lumo state="idle" size="sm" label="Lumo te señala Matemáticas" />
-            <p className="world-portal__guide-text" role="status">
-              ¡Vamos a Mates!
-            </p>
+      <WorldArt theme={theme} />
+
+      <div className="world-portal__info">
+        <div className="world-portal__identity">
+          <span className="world-portal__icon">
+            <SubjectIcon id={themeToHubId[theme]} />
+          </span>
+          <div className="world-portal__copy">
+            <span className="world-portal__title">{title}</span>
+            {playable ? (
+              <span className="world-portal__cue">¡Empieza por aquí!</span>
+            ) : (
+              <span className="world-portal__seal">Próximamente</span>
+            )}
+          </div>
+        </div>
+
+        {playable ? (
+          <div className="world-portal__action">
+            <div className="world-portal__guide">
+              <Lumo state="idle" size="sm" label="Lumo te señala Matemáticas" />
+              <p className="world-portal__guide-text" role="status">
+                ¡Vamos a Mates!
+              </p>
+            </div>
+            <span className="world-portal__cta">Entrar</span>
           </div>
         ) : null}
-      </div>
-
-      <div className="world-portal__hud">
-        <span className="world-portal__icon">
-          <SubjectIcon id={themeToHubId[theme]} />
-        </span>
-        <div className="world-portal__copy">
-          <span className="world-portal__title">{title}</span>
-          {featured && playable ? <span className="world-portal__cue">¡Empieza por aquí!</span> : null}
-        </div>
-        {playable ? <span className="world-portal__cta">Entrar</span> : <span className="world-portal__seal">Próximamente</span>}
       </div>
     </Link>
   )

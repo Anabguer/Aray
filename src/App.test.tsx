@@ -77,7 +77,6 @@ describe('ARAY navigation shell', () => {
     expect(screen.getByRole('heading', { name: /^mis mundos$/i })).toBeInTheDocument()
     expect(screen.getByText(/elige tu próxima aventura/i)).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /^volver al lobby$/i })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /^ir al lobby$/i })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /matemáticas\. entrar al mundo/i })).toBeInTheDocument()
     expect(screen.getByText(/¡empieza por aquí!/i)).toBeInTheDocument()
     expect(screen.getByText(/¡vamos a mates!/i)).toBeInTheDocument()

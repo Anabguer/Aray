@@ -15,10 +15,13 @@ export function MissionsScreen() {
   const worlds = visibleWorlds(progress)
 
   return (
-    <AppShell title="Mis mundos" showBack backTo="/">
+    <AppShell showBack backTo="/">
       <section className="worlds-map" aria-label="Selección de mundos">
         <header className="worlds-map__head">
-          <p className="worlds-map__subtitle">Elige tu próxima aventura</p>
+          <div className="worlds-map__titles">
+            <h1 className="worlds-map__title">Mis mundos</h1>
+            <p className="worlds-map__subtitle">Elige tu próxima aventura</p>
+          </div>
           <Link to="/" className="worlds-map__lobby-btn">
             Volver al Lobby
           </Link>
@@ -28,13 +31,8 @@ export function MissionsScreen() {
           <span className="worlds-map__star worlds-map__star--a" />
           <span className="worlds-map__star worlds-map__star--b" />
           <span className="worlds-map__star worlds-map__star--c" />
-          <span className="worlds-map__star worlds-map__star--d" />
           <span className="worlds-map__particle worlds-map__particle--a" />
           <span className="worlds-map__particle worlds-map__particle--b" />
-          <span className="worlds-map__particle worlds-map__particle--c" />
-          <span className="worlds-map__float worlds-map__float--a" />
-          <span className="worlds-map__float worlds-map__float--b" />
-          <span className="worlds-map__float worlds-map__float--c" />
         </div>
 
         <div className="worlds-map__stage">
