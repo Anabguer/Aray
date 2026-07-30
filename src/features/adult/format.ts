@@ -1,5 +1,21 @@
 /** Formateo amigable para el panel familiar (Europe/Madrid). */
 
+const madridDateParts = (d: Date) =>
+  new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Europe/Madrid',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(d)
+
+const madridTimeHm = (d: Date) =>
+  new Intl.DateTimeFormat('es-ES', {
+    timeZone: 'Europe/Madrid',
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(d)
+
+/** Fecha corta legible: «30 jul 2026». */
 export function formatMadridDateTime(iso: string | null | undefined): string {
   if (!iso) return 'Todavía no'
   const d = new Date(iso)
@@ -11,6 +27,40 @@ export function formatMadridDateTime(iso: string | null | undefined): string {
     year: 'numeric',
     hour: '2-digit',
     minute: '2-digit',
+  }).format(d)
+}
+
+/**
+ * Relativo y corto para el panel:
+ * «Hoy, 05:28» · «Ayer, 18:10» · «Hace 2 días» · «30 jul 2026»
+ */
+export function formatFriendlyWhen(iso: string | null | undefined): string {
+  if (!iso) return 'Todavía no'
+  const d = new Date(iso)
+  if (Number.isNaN(d.getTime())) return 'Todavía no'
+
+  const todayYmd = todayMadridYmd()
+  const eventYmd = madridDateParts(d)
+  const time = madridTimeHm(d)
+
+  if (eventYmd === todayYmd) return `Hoy, ${time}`
+
+  const yesterday = new Date()
+  yesterday.setDate(yesterday.getDate() - 1)
+  if (eventYmd === madridDateParts(yesterday)) return `Ayer, ${time}`
+
+  const todayNoon = new Date(`${todayYmd}T12:00:00`)
+  const eventNoon = new Date(`${eventYmd}T12:00:00`)
+  const diffDays = Math.round(
+    (todayNoon.getTime() - eventNoon.getTime()) / (24 * 60 * 60 * 1000),
+  )
+  if (diffDays > 1 && diffDays <= 6) return `Hace ${diffDays} días`
+
+  return new Intl.DateTimeFormat('es-ES', {
+    timeZone: 'Europe/Madrid',
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
   }).format(d)
 }
 

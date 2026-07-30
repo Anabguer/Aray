@@ -1,14 +1,33 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+  type ReactNode,
+} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ApiError, apiGet, apiPost } from '@/api/client'
 import { useAuth } from '@/auth/AuthContext'
+import { ArayHubIcon } from '@/components/ArayHubIcon'
+import {
+  IconBook,
+  IconBolt,
+  IconCalc,
+  IconFlag,
+  IconGem,
+  IconSpark,
+} from '@/components/Icons'
+import { rewardGoalConfig } from '@/config/rewardGoal'
 import { ConfirmDialog } from '@/features/adult/ConfirmDialog'
 import {
+  formatFriendlyWhen,
   formatMadridDate,
-  formatMadridDateTime,
   formatPlayDuration,
   todayMadridYmd,
 } from '@/features/adult/format'
+import '@/features/adult/adult-panel.css'
 import type {
   ActivityDay,
   AdultOverview,
@@ -21,12 +40,28 @@ import {
   courseLabel,
   courses,
   effectiveActivityRole,
+  getBlock,
   getSkill,
+  getSubject,
+  skills,
+  subjects,
 } from '@/curriculum'
 import type { AssignmentRole, CourseId, CourseMode } from '@/curriculum/types'
 import { useProgress } from '@/progress/ProgressContext'
 
 type ActivityRange = '7d' | '30d' | 'custom'
+type PanelSection = 'activities' | 'tables' | 'report' | 'course' | null
+
+const SECTION_STORAGE_KEY = 'aray-adult-open-section'
+
+const ROLE_LABELS: Record<AssignmentRole | '', string> = {
+  '': 'Por defecto del curso',
+  recommended: 'Recomendada',
+  mandatory: 'Obligatoria',
+  free: 'Libre',
+  review: 'Repaso',
+  hidden: 'Oculta',
+}
 
 function masteryClass(label: string): string {
   switch (label) {
@@ -41,6 +76,43 @@ function masteryClass(label: string): string {
   }
 }
 
+function masteryTone(label: string): 'refuerzo' | 'progreso' | 'domada' {
+  if (label === 'NECESITA REFUERZO') return 'refuerzo'
+  if (label === 'DOMADA') return 'domada'
+  return 'progreso'
+}
+
+function readStoredSection(): PanelSection {
+  try {
+    const v = sessionStorage.getItem(SECTION_STORAGE_KEY)
+    if (v === 'activities' || v === 'tables' || v === 'report' || v === 'course') return v
+  } catch {
+    /* ignore */
+  }
+  return null
+}
+
+function IconChevron({ open }: { open: boolean }) {
+  return (
+    <svg
+      className={`adult-acc__chevron${open ? ' is-open' : ''}`}
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
+      aria-hidden="true"
+    >
+      <path
+        d="M5 7.5 10 12.5 15 7.5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
 export function AdultPanel() {
   const { account, players, logout } = useAuth()
   const { progress, updateSchool, setActivityAssignments } = useProgress()
@@ -52,6 +124,7 @@ export function AdultPanel() {
 
   const [overview, setOverview] = useState<AdultOverview | null>(null)
   const [activityDays, setActivityDays] = useState<ActivityDay[]>([])
+  const [weekPlaySeconds, setWeekPlaySeconds] = useState(0)
   const [range, setRange] = useState<ActivityRange>('7d')
   const [customFrom, setCustomFrom] = useState('')
   const [customTo, setCustomTo] = useState('')
@@ -73,6 +146,14 @@ export function AdultPanel() {
   const [eduReport, setEduReport] = useState<
     NonNullable<AdultOverview['educationReport']> | null
   >(null)
+  const [reportLoaded, setReportLoaded] = useState(false)
+
+  const [openSection, setOpenSection] = useState<PanelSection>(() => readStoredSection())
+  const [statsExpanded, setStatsExpanded] = useState(false)
+  const [prizeHistoryOpen, setPrizeHistoryOpen] = useState(false)
+  const [pendingListOpen, setPendingListOpen] = useState(false)
+
+  const sectionRefs = useRef<Partial<Record<NonNullable<PanelSection>, HTMLElement | null>>>({})
 
   const loadOverview = useCallback(async () => {
     const qs = playerId != null ? `?playerId=${playerId}` : ''
@@ -85,17 +166,22 @@ export function AdultPanel() {
   }, [playerId])
 
   const loadActivity = useCallback(
-    async (pid: number | null = playerId) => {
+    async (pid: number | null = playerId, activityRange: ActivityRange = range) => {
       if (pid == null) return
-      const params = new URLSearchParams({ playerId: String(pid), range })
-      if (range === 'custom') {
+      const params = new URLSearchParams({
+        playerId: String(pid),
+        range: activityRange,
+      })
+      if (activityRange === 'custom') {
         if (customFrom) params.set('from', customFrom)
         if (customTo) params.set('to', customTo)
       }
       const data = await apiGet<{ days: ActivityDay[] }>(
         `/adult/activity.php?${params.toString()}`,
       )
-      setActivityDays(Array.isArray(data.days) ? data.days : [])
+      const days = Array.isArray(data.days) ? data.days : []
+      setActivityDays(days)
+      return days
     },
     [playerId, range, customFrom, customTo],
   )
@@ -105,17 +191,53 @@ export function AdultPanel() {
     setError(null)
     try {
       const pid = await loadOverview()
-      await loadActivity(pid)
+      const days = await loadActivity(pid)
+      if (range === '7d' && days) {
+        setWeekPlaySeconds(days.reduce((acc, d) => acc + (d.playSeconds || 0), 0))
+      } else if (pid != null) {
+        const week = await apiGet<{ days: ActivityDay[] }>(
+          `/adult/activity.php?${new URLSearchParams({
+            playerId: String(pid),
+            range: '7d',
+          }).toString()}`,
+        )
+        const weekDays = Array.isArray(week.days) ? week.days : []
+        setWeekPlaySeconds(weekDays.reduce((acc, d) => acc + (d.playSeconds || 0), 0))
+      }
     } catch (err) {
       setError(err instanceof ApiError ? err.message : 'No se pudo cargar el panel.')
     } finally {
       setLoading(false)
     }
-  }, [loadOverview, loadActivity])
+  }, [loadOverview, loadActivity, range])
 
   useEffect(() => {
     void refreshAll()
   }, [refreshAll])
+
+  useEffect(() => {
+    try {
+      if (openSection) sessionStorage.setItem(SECTION_STORAGE_KEY, openSection)
+      else sessionStorage.removeItem(SECTION_STORAGE_KEY)
+    } catch {
+      /* ignore */
+    }
+  }, [openSection])
+
+  const toggleSection = useCallback((id: NonNullable<PanelSection>) => {
+    setOpenSection((prev) => {
+      const next = prev === id ? null : id
+      if (next) {
+        requestAnimationFrame(() => {
+          const el = sectionRefs.current[next]
+          if (!el) return
+          const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+          el.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' })
+        })
+      }
+      return next
+    })
+  }, [])
 
   const summary = overview?.summary
   const name = overview?.player.displayName ?? 'Aray'
@@ -125,6 +247,10 @@ export function AdultPanel() {
     const map = new Map(activityDays.map((d) => [d.activityDate, d]))
     return [...map.entries()].sort((a, b) => (a[0] < b[0] ? 1 : -1))
   }, [activityDays])
+
+  const needsReview = overview?.education.needsReview ?? []
+  const learning = overview?.education.learning ?? []
+  const dominated = overview?.education.dominated ?? []
 
   async function confirmDeliver() {
     if (!deliverCycle || playerId == null) return
@@ -186,20 +312,19 @@ export function AdultPanel() {
     }
   }
 
-  async function assignActivityRole(activityId: string, role: AssignmentRole | '') {
+  async function assignActivityRoles(assignments: Record<string, AssignmentRole | null>) {
     if (playerId == null) return
     setBusy(true)
     try {
-      const payload: Record<string, string | null> = {
-        [activityId]: role === '' ? null : role,
-      }
       await apiPost('/adult/activity-assignments.php', {
         playerId,
-        assignments: payload,
+        assignments,
       })
       const next = { ...progress.activityAssignments }
-      if (!role) delete next[activityId]
-      else next[activityId] = role
+      for (const [activityId, role] of Object.entries(assignments)) {
+        if (!role) delete next[activityId]
+        else next[activityId] = role
+      }
       setActivityAssignments(next)
       await refreshAll()
     } catch (err) {
@@ -209,16 +334,28 @@ export function AdultPanel() {
     }
   }
 
+  async function assignActivityRole(activityId: string, role: AssignmentRole | '') {
+    await assignActivityRoles({ [activityId]: role === '' ? null : role })
+  }
+
+  async function recommendTablePractice(tableN: number) {
+    const trainId = `mult-table-${tableN}-train`
+    await assignActivityRole(trainId, 'recommended')
+  }
+
   async function loadEducationReport() {
     if (playerId == null) return
     try {
       const params = new URLSearchParams({ playerId: String(playerId) })
       if (reportCourse !== 'all') params.set('courseId', reportCourse)
       if (reportSubject !== 'all') params.set('subjectId', reportSubject)
-      const data = await apiGet<{ dashboard?: AdultOverview; educationReport?: AdultOverview['educationReport'] }>(
-        `/adult/dashboard.php?${params.toString()}`,
-      )
+      const data = await apiGet<{
+        dashboard?: AdultOverview
+        educationReport?: AdultOverview['educationReport']
+      }>(`/adult/dashboard.php?${params.toString()}`)
       setEduReport(data.dashboard?.educationReport ?? data.educationReport ?? null)
+      await loadActivity(playerId)
+      setReportLoaded(true)
     } catch (err) {
       setError(err instanceof ApiError ? err.message : 'No se pudo cargar el informe.')
     }
@@ -231,6 +368,23 @@ export function AdultPanel() {
     await logout()
     navigate('/', { replace: true })
   }
+
+  function openDeliver(c: RewardCycle) {
+    setDeliverCycle(c)
+    setRobuxAmount(500)
+    setDeliveryDate(overview?.playableDate || todayMadridYmd())
+    setDeliveryNote('')
+  }
+
+  const reinforcementLabel = useMemo(() => {
+    if (needsReview.length === 0) return null
+    const names = needsReview.map((t) => t.tableN)
+    if (names.length === 1) return `Tablas del ${names[0]}`
+    if (names.length === 2) return `Tablas del ${names[0]} y del ${names[1]}`
+    return `Tablas del ${names.slice(0, -1).join(', ')} y del ${names[names.length - 1]}`
+  }, [needsReview])
+
+  const reinforcementPct = needsReview[0]?.accuracyPct
 
   return (
     <div className="adult-panel">
@@ -246,9 +400,9 @@ export function AdultPanel() {
           <button
             type="button"
             className="btn btn-ghost"
-            onClick={() => void onLogout()}
+            onClick={() => navigate('/', { replace: true })}
           >
-            Cerrar
+            Volver al juego
           </button>
           <button
             type="button"
@@ -266,236 +420,278 @@ export function AdultPanel() {
         </p>
       ) : null}
 
-      {loading || !summary ? (
+      {loading || !summary || !overview ? (
         <div className="adult-panel__loading" role="status">
           {error && !loading ? 'No se pudo cargar.' : 'Cargando resumen…'}
         </div>
       ) : (
         <>
-          <section className="adult-summary" aria-label="Resumen">
-            <SummaryCard label="Días jugados" value={String(summary.daysPlayed)} />
-            <SummaryCard
-              label="Última actividad"
-              value={formatMadridDateTime(summary.lastActivityAt)}
-            />
-            <SummaryCard
-              label="Tiempo total"
-              value={formatPlayDuration(summary.playSecondsTotal)}
-            />
-            <SummaryCard label="Partidas" value={String(summary.sessionsCount)} />
-            <SummaryCard
-              label="Puntos recompensa"
-              value={`${summary.rewardPointsCurrent} / ${summary.rewardTarget}`}
-            />
-            <SummaryCard
-              label="Nivel / XP"
-              value={`Nv. ${summary.level} · ${summary.xp} XP`}
-            />
-            <SummaryCard label="Monedas" value={String(summary.coins)} />
-            <SummaryCard
-              label="Energía hoy"
-              value={`${summary.energyToday} / ${summary.energyCap}`}
-            />
-            <SummaryCard
-              label="Mejor racha"
-              value={`${summary.bestStreak} aciertos`}
-            />
-            <SummaryCard
-              label="Tablas dominadas"
-              value={
-                summary.dominatedTables.length
-                  ? summary.dominatedTables.map((n) => `×${n}`).join(' · ')
-                  : 'Ninguna aún'
-              }
-            />
-            <SummaryCard
-              label="Premios"
-              value={`${summary.pendingPrizesCount} pendientes · ${summary.deliveredPrizesCount} entregados`}
-            />
-            <SummaryCard
-              label="Aciertos"
-              value={
-                summary.accuracyPct != null
-                  ? `${summary.accuracyPct}% (${summary.correctCount} bien)`
-                  : 'Sin datos'
-              }
-            />
-          </section>
-
-          <section className="adult-block" aria-labelledby="adult-course">
-            <h2 id="adult-course" className="adult-block__title">
-              Curso escolar
-            </h2>
-            <p className="adult-block__lead">
-              Actual: <strong>{courseLabel(school.currentCourseId as CourseId)}</strong>
-              {school.courseMode === 'review' ? ' · modo repaso' : ''}. Cambiar de curso no borra
-              XP, monedas, Robux, premios, logros ni dominio.
-            </p>
-            <div className="adult-card__actions">
-              {courses
-                .filter((c) => c.status !== 'future')
-                .map((course) => (
-                  <button
-                    key={course.id}
-                    type="button"
-                    className={
-                      school.currentCourseId === course.id
-                        ? 'btn btn-primary'
-                        : 'btn btn-ghost'
-                    }
-                    disabled={busy}
-                    onClick={() => setConfirmCourseId(course.id)}
-                  >
-                    {course.title}
-                  </button>
-                ))}
-            </div>
-          </section>
-
-          <section className="adult-block" aria-labelledby="adult-assign">
-            <h2 id="adult-assign" className="adult-block__title">
-              Asignar actividades
-            </h2>
-            <p className="adult-block__lead">
-              Recomendada, obligatoria, libre, repaso u oculta. Aray no puede cambiar esto.
-            </p>
-            <div className="adult-table-wrap">
-              <table className="adult-table">
-                <thead>
-                  <tr>
-                    <th>Actividad</th>
-                    <th>Habilidad</th>
-                    <th>Rol</th>
-                    <th>Asignar</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {activities
-                    .filter((a) => a.status === 'active')
-                    .slice(0, 24)
-                    .map((activity) => {
-                      const skill = getSkill(activity.skillId)
-                      const effective = effectiveActivityRole(
-                        activity.id,
-                        school.currentCourseId as CourseId,
-                        assignmentMap as Record<string, AssignmentRole>,
-                      )
-                      const override = assignmentMap[activity.id] ?? ''
-                      return (
-                        <tr key={activity.id}>
-                          <td>{activity.title}</td>
-                          <td>{skill?.title ?? activity.skillId}</td>
-                          <td>{effective ?? '—'}</td>
-                          <td>
-                            <select
-                              value={override}
-                              disabled={busy}
-                              aria-label={`Asignación de ${activity.title}`}
-                              onChange={(e) =>
-                                void assignActivityRole(
-                                  activity.id,
-                                  e.target.value as AssignmentRole | '',
-                                )
-                              }
-                            >
-                              <option value="">Por defecto del curso</option>
-                              <option value="recommended">Recomendada</option>
-                              <option value="mandatory">Obligatoria</option>
-                              <option value="free">Libre</option>
-                              <option value="review">Repaso</option>
-                              <option value="hidden">Oculta</option>
-                            </select>
-                          </td>
-                        </tr>
-                      )
-                    })}
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          <PendingPrizes
+          <PendingPrizeHero
             pending={overview.pendingPrizes}
             delivered={overview.deliveredPrizes}
-            onDeliver={(c) => {
-              setDeliverCycle(c)
-              setRobuxAmount(500)
-              setDeliveryDate(overview.playableDate || todayMadridYmd())
-              setDeliveryNote('')
-            }}
+            energyCurrent={summary.rewardPointsCurrent}
+            energyTarget={summary.rewardTarget}
+            cycleNumber={summary.currentCycleNumber}
+            historyOpen={prizeHistoryOpen}
+            pendingListOpen={pendingListOpen}
+            onToggleHistory={() => setPrizeHistoryOpen((v) => !v)}
+            onTogglePendingList={() => setPendingListOpen((v) => !v)}
+            onDeliver={openDeliver}
             onVoid={(c) => {
               setVoidCycle(c)
               setVoidReason('')
             }}
           />
 
-          <ActivitySection
-            range={range}
-            onRange={setRange}
-            customFrom={customFrom}
-            customTo={customTo}
-            onCustomFrom={setCustomFrom}
-            onCustomTo={setCustomTo}
-            onApplyCustom={() => void loadActivity()}
-            days={calendarDays}
-          />
-
-          <EducationSection tables={overview.education.tables} />
-
-          <section className="adult-block" aria-labelledby="adult-report">
-            <h2 id="adult-report" className="adult-block__title">
-              Informe por curso / asignatura
-            </h2>
-            <div className="adult-filters">
-              <label>
-                Curso
-                <select value={reportCourse} onChange={(e) => setReportCourse(e.target.value)}>
-                  <option value="all">Histórico global</option>
-                  {courses.map((c) => (
-                    <option key={c.id} value={c.id}>
-                      {c.title}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label>
-                Asignatura
-                <select value={reportSubject} onChange={(e) => setReportSubject(e.target.value)}>
-                  <option value="all">Todas</option>
-                  <option value="maths">Matemáticas</option>
-                  <option value="languages">Lenguas</option>
-                  <option value="english">Inglés</option>
-                </select>
-              </label>
-              <button type="button" className="btn btn-secondary" onClick={() => void loadEducationReport()}>
-                Filtrar
-              </button>
+          <section className="adult-overview" aria-labelledby="adult-overview-title">
+            <div className="adult-overview__head">
+              <h2 id="adult-overview-title" className="adult-overview__title">
+                Resumen de {name}
+              </h2>
             </div>
-            {eduReport ? (
-              <ul className="adult-tables">
-                {eduReport.skills.map((row) => (
-                  <li key={row.skillId} className="adult-tables__item">
-                    <div className="adult-tables__head">
-                      <span className="adult-tables__n">
-                        {row.subjectTitle} · {row.blockTitle} · {row.skillTitle}
-                      </span>
-                      <span className={`mastery-chip ${masteryClass(row.mastery?.label ?? 'ENTRENANDO')}`}>
-                        {row.mastery?.label ?? 'Sin datos'}
-                      </span>
-                    </div>
-                    <p className="adult-tables__meta">
-                      {row.mastery
-                        ? `${row.mastery.correct}/${row.mastery.attempts} aciertos`
-                        : 'Sin práctica aún'}
-                      {eduReport.scope === 'global' ? ' · vista global' : ' · filtrado por curso'}
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="adult-block__empty">Pulsa Filtrar para ver el informe curricular.</p>
-            )}
+            <div className="adult-overview__grid">
+              <SummaryCard
+                label="Última vez que jugó"
+                value={formatFriendlyWhen(summary.lastActivityAt)}
+              />
+              <SummaryCard
+                label="Tiempo esta semana"
+                value={formatPlayDuration(weekPlaySeconds)}
+              />
+              <SummaryCard
+                label="Energía para el próximo premio"
+                value={`${summary.rewardPointsCurrent} / ${summary.rewardTarget}`}
+              />
+              <SummaryCard
+                label="Necesita más refuerzo"
+                value={
+                  reinforcementLabel
+                    ? reinforcementLabel
+                    : dominated.length > 0
+                      ? 'Va bien · sin alertas'
+                      : 'Aún sin datos'
+                }
+              />
+            </div>
+
+            {needsReview.length > 0 ? (
+              <aside className="adult-need" aria-label="Aviso de refuerzo">
+                <div className="adult-need__body">
+                  <p className="adult-need__eyebrow">Necesita practicar</p>
+                  <p className="adult-need__title">{reinforcementLabel}</p>
+                  <p className="adult-need__meta">
+                    Último resultado:{' '}
+                    {reinforcementPct != null ? `${reinforcementPct} %` : 'Sin datos'}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  className="btn btn-secondary adult-need__cta"
+                  onClick={() => {
+                    setOpenSection('tables')
+                    requestAnimationFrame(() => {
+                      const el = sectionRefs.current.tables
+                      if (!el) return
+                      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+                      el.scrollIntoView({
+                        behavior: reduced ? 'auto' : 'smooth',
+                        block: 'start',
+                      })
+                    })
+                  }}
+                >
+                  Ver qué necesita repasar
+                </button>
+              </aside>
+            ) : null}
+
+            <button
+              type="button"
+              className="adult-link-btn"
+              aria-expanded={statsExpanded}
+              aria-controls="adult-stats-more"
+              onClick={() => setStatsExpanded((v) => !v)}
+            >
+              {statsExpanded ? 'Ocultar estadísticas' : 'Ver todas las estadísticas'}
+            </button>
+
+            <div
+              id="adult-stats-more"
+              className={`adult-stats-more${statsExpanded ? ' is-open' : ''}`}
+              hidden={!statsExpanded}
+            >
+              <div className="adult-stats-more__grid">
+                <SummaryCard compact label="Días jugados" value={String(summary.daysPlayed)} />
+                <SummaryCard compact label="Partidas" value={String(summary.sessionsCount)} />
+                <SummaryCard
+                  compact
+                  label="Nivel y XP"
+                  value={`Nv. ${summary.level} · ${summary.xp} XP`}
+                />
+                <SummaryCard compact label="Monedas" value={String(summary.coins)} />
+                <SummaryCard
+                  compact
+                  label="Mejor racha"
+                  value={`${summary.bestStreak} aciertos`}
+                />
+                <SummaryCard
+                  compact
+                  label="Tablas dominadas"
+                  value={
+                    summary.dominatedTables.length
+                      ? summary.dominatedTables.map((n) => `×${n}`).join(' · ')
+                      : 'Ninguna aún'
+                  }
+                />
+                <SummaryCard
+                  compact
+                  label="Aciertos"
+                  value={
+                    summary.accuracyPct != null
+                      ? `${summary.accuracyPct}% (${summary.correctCount} bien)`
+                      : 'Sin datos'
+                  }
+                />
+                <SummaryCard
+                  compact
+                  label="Premios entregados"
+                  value={String(summary.deliveredPrizesCount)}
+                />
+                <SummaryCard
+                  compact
+                  label="Energía hoy"
+                  value={`${summary.energyToday} / ${summary.energyCap}`}
+                />
+                <SummaryCard
+                  compact
+                  label="Tiempo total"
+                  value={formatPlayDuration(summary.playSecondsTotal)}
+                />
+              </div>
+            </div>
           </section>
+
+          <div className="adult-sections" role="region" aria-label="Secciones de gestión">
+            <AccordionSection
+              id="activities"
+              open={openSection === 'activities'}
+              onToggle={() => toggleSection('activities')}
+              icon={<IconFlag />}
+              title="Actividades asignadas"
+              description="Decide qué actividades aparecen en el juego."
+              summary={activityAssignmentSummary(school.currentCourseId as CourseId, assignmentMap)}
+              sectionRef={(el) => {
+                sectionRefs.current.activities = el
+              }}
+            >
+              <ActivitiesPanel
+                courseId={school.currentCourseId as CourseId}
+                assignmentMap={assignmentMap as Record<string, AssignmentRole>}
+                busy={busy}
+                onAssign={(id, role) => void assignActivityRole(id, role)}
+                onAssignGroup={(ids, role) => {
+                  const payload: Record<string, AssignmentRole | null> = {}
+                  for (const id of ids) payload[id] = role === '' ? null : role
+                  void assignActivityRoles(payload)
+                }}
+              />
+            </AccordionSection>
+
+            <AccordionSection
+              id="tables"
+              open={openSection === 'tables'}
+              onToggle={() => toggleSection('tables')}
+              icon={<IconCalc />}
+              title="Progreso en tablas"
+              description="Consulta qué tablas domina y cuáles debe repasar."
+              summary={`${dominated.length} dominadas · ${needsReview.length} necesitan refuerzo`}
+              sectionRef={(el) => {
+                sectionRefs.current.tables = el
+              }}
+            >
+              <TablesProgressPanel
+                needsReview={needsReview}
+                learning={learning}
+                dominated={dominated}
+                allTables={overview.education.tables}
+                busy={busy}
+                onRecommend={(n) => void recommendTablePractice(n)}
+              />
+            </AccordionSection>
+
+            <AccordionSection
+              id="report"
+              open={openSection === 'report'}
+              onToggle={() => toggleSection('report')}
+              icon={<IconBook />}
+              title="Informe escolar"
+              description="Revisa su progreso por curso y asignatura."
+              summary={`${courseLabel(school.currentCourseId as CourseId)} · histórico global`}
+              sectionRef={(el) => {
+                sectionRefs.current.report = el
+              }}
+            >
+              <ReportPanel
+                reportCourse={reportCourse}
+                reportSubject={reportSubject}
+                range={range}
+                customFrom={customFrom}
+                customTo={customTo}
+                onReportCourse={setReportCourse}
+                onReportSubject={setReportSubject}
+                onRange={setRange}
+                onCustomFrom={setCustomFrom}
+                onCustomTo={setCustomTo}
+                onSubmit={() => void loadEducationReport()}
+                reportLoaded={reportLoaded}
+                eduReport={eduReport}
+                days={calendarDays}
+              />
+            </AccordionSection>
+
+            <AccordionSection
+              id="course"
+              open={openSection === 'course'}
+              onToggle={() => toggleSection('course')}
+              icon={<IconSpark />}
+              title="Curso y configuración"
+              description="Gestiona el curso y otras opciones del juego."
+              summary={courseLabel(school.currentCourseId as CourseId)}
+              sectionRef={(el) => {
+                sectionRefs.current.course = el
+              }}
+            >
+              <div className="adult-course-cfg">
+                <p className="adult-course-cfg__current">
+                  Curso actual:{' '}
+                  <strong>{courseLabel(school.currentCourseId as CourseId)}</strong>
+                  {school.courseMode === 'review' ? ' · modo repaso' : ''}
+                </p>
+                <p className="adult-course-cfg__note" role="note">
+                  Cambiar de curso no borra su progreso, XP, monedas ni premios.
+                </p>
+                <div className="adult-course-cfg__actions">
+                  {courses
+                    .filter((c) => c.status !== 'future')
+                    .map((course) => (
+                      <button
+                        key={course.id}
+                        type="button"
+                        className={
+                          school.currentCourseId === course.id
+                            ? 'btn btn-primary'
+                            : 'btn btn-ghost'
+                        }
+                        disabled={busy || school.currentCourseId === course.id}
+                        onClick={() => setConfirmCourseId(course.id)}
+                      >
+                        {course.title}
+                      </button>
+                    ))}
+                </div>
+              </div>
+            </AccordionSection>
+          </div>
         </>
       )}
 
@@ -581,45 +777,239 @@ export function AdultPanel() {
   )
 }
 
-function SummaryCard({ label, value }: { label: string; value: string }) {
+function activityAssignmentSummary(
+  courseId: CourseId,
+  assignmentMap: Record<string, string>,
+): string {
+  let recommended = 0
+  let mandatory = 0
+  for (const activity of activities.filter((a) => a.status === 'active').slice(0, 24)) {
+    const role = effectiveActivityRole(
+      activity.id,
+      courseId,
+      assignmentMap as Record<string, AssignmentRole>,
+    )
+    if (role === 'recommended') recommended += 1
+    if (role === 'mandatory') mandatory += 1
+  }
+  return `${recommended} recomendadas · ${mandatory} obligatorias`
+}
+
+function SummaryCard({
+  label,
+  value,
+  compact = false,
+}: {
+  label: string
+  value: string
+  compact?: boolean
+}) {
   return (
-    <article className="adult-stat">
+    <article className={`adult-stat${compact ? ' adult-stat--compact' : ''}`}>
       <p className="adult-stat__label">{label}</p>
       <p className="adult-stat__value">{value}</p>
     </article>
   )
 }
 
-function PendingPrizes({
+function AccordionSection({
+  open,
+  onToggle,
+  icon,
+  title,
+  description,
+  summary,
+  children,
+  sectionRef,
+}: {
+  id: string
+  open: boolean
+  onToggle: () => void
+  icon: ReactNode
+  title: string
+  description: string
+  summary: string
+  children: ReactNode
+  sectionRef: (el: HTMLElement | null) => void
+}) {
+  const panelId = useId()
+  const headerId = useId()
+  return (
+    <section
+      className={`adult-acc${open ? ' is-open' : ''}`}
+      ref={sectionRef}
+      aria-labelledby={headerId}
+    >
+      <h2 className="adult-acc__heading">
+        <button
+          type="button"
+          id={headerId}
+          className="adult-acc__trigger"
+          aria-expanded={open}
+          aria-controls={panelId}
+          onClick={onToggle}
+        >
+          <span className="adult-acc__icon" aria-hidden="true">
+            {icon}
+          </span>
+          <span className="adult-acc__text">
+            <span className="adult-acc__title">{title}</span>
+            <span className="adult-acc__desc">{description}</span>
+            <span className="adult-acc__summary">{summary}</span>
+          </span>
+          <IconChevron open={open} />
+        </button>
+      </h2>
+      <div
+        id={panelId}
+        role="region"
+        aria-labelledby={headerId}
+        className={`adult-acc__panel${open ? ' is-open' : ''}`}
+        hidden={!open}
+      >
+        <div className="adult-acc__panel-inner">{children}</div>
+      </div>
+    </section>
+  )
+}
+
+function PendingPrizeHero({
   pending,
   delivered,
+  energyCurrent,
+  energyTarget,
+  cycleNumber,
+  historyOpen,
+  pendingListOpen,
+  onToggleHistory,
+  onTogglePendingList,
   onDeliver,
   onVoid,
 }: {
   pending: RewardCycle[]
   delivered: RewardCycle[]
+  energyCurrent: number
+  energyTarget: number
+  cycleNumber: number
+  historyOpen: boolean
+  pendingListOpen: boolean
+  onToggleHistory: () => void
+  onTogglePendingList: () => void
   onDeliver: (c: RewardCycle) => void
   onVoid: (c: RewardCycle) => void
 }) {
+  const ready = pending[0] ?? null
+  const nextPending = pending[1] ?? null
+  const prizeName = ready?.robuxAmount
+    ? `${ready.robuxAmount} Robux`
+    : rewardGoalConfig.rewardLabel
+  const inProgress = !ready
+  const pct = ready
+    ? 100
+    : Math.min(100, Math.round((energyCurrent / Math.max(1, energyTarget)) * 100))
+  const energyNow = ready ? energyTarget : energyCurrent
+  const statusLabel = ready ? 'Listo para entregar' : 'En progreso'
+
   return (
-    <section className="adult-block adult-block--prize" aria-labelledby="adult-prizes">
-      <h2 id="adult-prizes" className="adult-block__title">
-        Premios
-      </h2>
-      {pending.length === 0 ? (
-        <p className="adult-block__empty">No hay premios pendientes de entregar.</p>
-      ) : (
+    <section
+      className={`adult-prize-hero${ready ? ' adult-prize-hero--ready' : ''}`}
+      aria-labelledby="adult-prize-title"
+    >
+      <div className="adult-prize-hero__top">
+        <div className="adult-prize-hero__visual" aria-hidden="true">
+          <ArayHubIcon id="drop_robot" className="adult-prize-hero__img" />
+        </div>
+        <div className="adult-prize-hero__main">
+          <p className="adult-prize-hero__eyebrow">Premio pendiente</p>
+          <h2 id="adult-prize-title" className="adult-prize-hero__name">
+            {inProgress && pending.length === 0 && delivered.length === 0 && energyCurrent === 0
+              ? rewardGoalConfig.rewardLabel
+              : prizeName}
+          </h2>
+          <p className={`adult-prize-hero__status adult-prize-hero__status--${ready ? 'ready' : 'progress'}`}>
+            {statusLabel}
+            {ready ? ` · Ciclo ${ready.cycleNumber}` : ` · Ciclo ${cycleNumber}`}
+          </p>
+          {ready?.earnedAt ? (
+            <p className="adult-prize-hero__date">
+              Desbloqueado: {formatFriendlyWhen(ready.earnedAt)}
+            </p>
+          ) : null}
+        </div>
+      </div>
+
+      <div
+        className="adult-prize-hero__meter"
+        role="progressbar"
+        aria-valuemin={0}
+        aria-valuemax={energyTarget}
+        aria-valuenow={energyNow}
+        aria-label={`Energía del premio: ${energyNow} de ${energyTarget}`}
+      >
+        <div className="adult-prize-hero__meter-fill" style={{ width: `${pct}%` }} />
+      </div>
+      <p className="adult-prize-hero__energy">
+        <IconBolt className="adult-prize-hero__bolt" />
+        {energyNow} / {energyTarget} de energía
+      </p>
+
+      <div className="adult-prize-hero__actions">
+        {ready ? (
+          <button
+            type="button"
+            className="btn btn-primary adult-prize-hero__cta"
+            onClick={() => onDeliver(ready)}
+          >
+            Marcar como entregado
+          </button>
+        ) : null}
+        <button
+          type="button"
+          className="btn btn-ghost"
+          aria-expanded={historyOpen}
+          onClick={onToggleHistory}
+        >
+          Ver historial de premios
+        </button>
+      </div>
+
+      {nextPending || (pending.length > 1 && !pendingListOpen) ? (
+        <div className="adult-prize-hero__next">
+          {nextPending ? (
+            <p>
+              Siguiente premio listo: ciclo {nextPending.cycleNumber}
+              {nextPending.earnedAt
+                ? ` · ${formatFriendlyWhen(nextPending.earnedAt)}`
+                : ''}
+            </p>
+          ) : null}
+          {pending.length > 1 ? (
+            <button
+              type="button"
+              className="adult-link-btn"
+              aria-expanded={pendingListOpen}
+              onClick={onTogglePendingList}
+            >
+              {pendingListOpen
+                ? 'Ocultar lista de premios'
+                : `Ver los ${pending.length} premios pendientes`}
+            </button>
+          ) : null}
+        </div>
+      ) : null}
+
+      {pendingListOpen && pending.length > 1 ? (
         <ul className="adult-prize-list">
           {pending.map((c) => (
             <li key={c.id} className="adult-prize adult-prize--pending">
               <div>
-                <p className="adult-prize__badge">Pendiente</p>
+                <p className="adult-prize__badge">Listo para entregar</p>
                 <h3 className="adult-prize__title">
-                  Meta del ciclo {c.cycleNumber} completada
+                  {rewardGoalConfig.rewardLabel} · Ciclo {c.cycleNumber}
                 </h3>
                 <p className="adult-prize__meta">
                   {c.earnedAt
-                    ? `Logrado el ${formatMadridDateTime(c.earnedAt)}`
+                    ? `Desbloqueado: ${formatFriendlyWhen(c.earnedAt)}`
                     : 'Listo para entregar'}
                 </p>
               </div>
@@ -633,171 +1023,531 @@ function PendingPrizes({
             </li>
           ))}
         </ul>
-      )}
+      ) : null}
 
-      {delivered.length > 0 ? (
-        <>
-          <h3 className="adult-block__subtitle">Entregados recientemente</h3>
-          <ul className="adult-prize-list adult-prize-list--delivered">
-            {delivered.slice(0, 5).map((c) => (
-              <li key={c.id} className="adult-prize adult-prize--done">
-                <div>
-                  <h3 className="adult-prize__title">
-                    Ciclo {c.cycleNumber}
-                    {c.robuxAmount != null ? ` · ${c.robuxAmount} Robux` : ''}
-                  </h3>
-                  <p className="adult-prize__meta">
-                    {c.deliveryDateLocal
-                      ? formatMadridDate(c.deliveryDateLocal)
-                      : formatMadridDateTime(c.deliveredAt)}
-                    {c.deliveryNote ? ` · ${c.deliveryNote}` : ''}
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  className="btn btn-ghost"
-                  onClick={() => onVoid(c)}
-                >
-                  Anular
-                </button>
-              </li>
-            ))}
-          </ul>
-        </>
+      {!ready && pending.length === 0 && energyCurrent === 0 && delivered.length === 0 ? (
+        <p className="adult-prize-hero__empty">
+          Todavía no hay un premio pendiente. Cuando {rewardGoalConfig.rewardLabel} se
+          desbloquee, aparecerá aquí para entregarlo.
+        </p>
+      ) : null}
+
+      {historyOpen ? (
+        <div className="adult-prize-history">
+          <h3 className="adult-block__subtitle">Historial de premios</h3>
+          {delivered.length === 0 ? (
+            <p className="adult-block__empty">Aún no hay premios entregados.</p>
+          ) : (
+            <ul className="adult-prize-list adult-prize-list--delivered">
+              {delivered.slice(0, 8).map((c) => (
+                <li key={c.id} className="adult-prize adult-prize--done">
+                  <div>
+                    <p className="adult-prize__badge adult-prize__badge--done">Entregado</p>
+                    <h3 className="adult-prize__title">
+                      {c.robuxAmount != null
+                        ? `${c.robuxAmount} Robux`
+                        : rewardGoalConfig.rewardLabel}
+                      {` · Ciclo ${c.cycleNumber}`}
+                    </h3>
+                    <p className="adult-prize__meta">
+                      {c.deliveryDateLocal
+                        ? formatMadridDate(c.deliveryDateLocal)
+                        : formatFriendlyWhen(c.deliveredAt)}
+                      {c.deliveryNote ? ` · ${c.deliveryNote}` : ''}
+                    </p>
+                  </div>
+                  <button type="button" className="btn btn-ghost" onClick={() => onVoid(c)}>
+                    Anular
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       ) : null}
     </section>
   )
 }
 
-function ActivitySection({
-  range,
-  onRange,
-  customFrom,
-  customTo,
-  onCustomFrom,
-  onCustomTo,
-  onApplyCustom,
-  days,
+function ActivitiesPanel({
+  courseId,
+  assignmentMap,
+  busy,
+  onAssign,
+  onAssignGroup,
 }: {
-  range: ActivityRange
-  onRange: (r: ActivityRange) => void
-  customFrom: string
-  customTo: string
-  onCustomFrom: (v: string) => void
-  onCustomTo: (v: string) => void
-  onApplyCustom: () => void
-  days: Array<[string, ActivityDay]>
+  courseId: CourseId
+  assignmentMap: Record<string, AssignmentRole>
+  busy: boolean
+  onAssign: (activityId: string, role: AssignmentRole | '') => void
+  onAssignGroup: (activityIds: string[], role: AssignmentRole | '') => void
 }) {
+  const [subjectFilter, setSubjectFilter] = useState('all')
+  const [skillFilter, setSkillFilter] = useState('all')
+
+  const activeActivities = useMemo(
+    () => activities.filter((a) => a.status === 'active').slice(0, 24),
+    [],
+  )
+
+  const groups = useMemo(() => {
+    const map = new Map<
+      string,
+      {
+        skillId: string
+        title: string
+        subjectId: string
+        subjectTitle: string
+        items: typeof activeActivities
+      }
+    >()
+    for (const activity of activeActivities) {
+      const skillMeta = getSkill(activity.skillId)
+      const subjectId = skillMeta
+        ? (getBlock(skillMeta.blockId)?.subjectId ?? 'maths')
+        : 'maths'
+      const subjectTitle = getSubject(subjectId)?.title ?? subjectId
+      const key = activity.skillId
+      const existing = map.get(key)
+      if (existing) existing.items.push(activity)
+      else {
+        map.set(key, {
+          skillId: activity.skillId,
+          title: skillMeta?.title ?? activity.skillId,
+          subjectId,
+          subjectTitle,
+          items: [activity],
+        })
+      }
+    }
+    return [...map.values()].filter((g) => {
+      if (subjectFilter !== 'all' && g.subjectId !== subjectFilter) return false
+      if (skillFilter !== 'all' && g.skillId !== skillFilter) return false
+      return true
+    })
+  }, [activeActivities, subjectFilter, skillFilter])
+
+  const skillOptions = useMemo(() => {
+    const ids = new Set(activeActivities.map((a) => a.skillId))
+    return skills.filter((s) => ids.has(s.id))
+  }, [activeActivities])
+
   return (
-    <section className="adult-block" aria-labelledby="adult-activity">
-      <div className="adult-block__head">
-        <h2 id="adult-activity" className="adult-block__title">
-          Actividad
-        </h2>
-        <div className="adult-range" role="group" aria-label="Periodo">
-          {(
-            [
-              ['7d', '7 días'],
-              ['30d', '30 días'],
-              ['custom', 'Personalizado'],
-            ] as const
-          ).map(([id, label]) => (
-            <button
-              key={id}
-              type="button"
-              className={`adult-range__btn${range === id ? ' is-active' : ''}`}
-              onClick={() => onRange(id)}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
+    <div className="adult-assign">
+      <div className="adult-filters adult-filters--row">
+        <label className="adult-field">
+          Asignatura
+          <select
+            className="adult-select"
+            value={subjectFilter}
+            onChange={(e) => {
+              setSubjectFilter(e.target.value)
+              setSkillFilter('all')
+            }}
+          >
+            <option value="all">Todas</option>
+            {subjects.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.title}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="adult-field">
+          Habilidad
+          <select
+            className="adult-select"
+            value={skillFilter}
+            onChange={(e) => setSkillFilter(e.target.value)}
+          >
+            <option value="all">Todas</option>
+            {skillOptions
+              .filter((s) => {
+                if (subjectFilter === 'all') return true
+                return getBlock(s.blockId)?.subjectId === subjectFilter
+              })
+              .map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.title}
+                </option>
+              ))}
+          </select>
+        </label>
       </div>
 
-      {range === 'custom' ? (
-        <div className="adult-custom-range">
-          <label className="adult-field">
-            Desde
-            <input
-              type="date"
-              value={customFrom}
-              onChange={(e) => onCustomFrom(e.target.value)}
-            />
-          </label>
-          <label className="adult-field">
-            Hasta
-            <input type="date" value={customTo} onChange={(e) => onCustomTo(e.target.value)} />
-          </label>
-          <button type="button" className="btn btn-ghost" onClick={onApplyCustom}>
-            Ver
-          </button>
-        </div>
-      ) : null}
-
-      {days.length === 0 ? (
-        <p className="adult-block__empty">Sin actividad en este periodo.</p>
+      {groups.length === 0 ? (
+        <p className="adult-block__empty">No hay actividades con estos filtros.</p>
       ) : (
-        <ul className="adult-calendar">
-          {days.map(([date, day]) => {
-            const intensity = Math.min(1, day.playSeconds / 1800)
-            return (
-              <li
-                key={date}
-                className="adult-calendar__day"
-                style={{ ['--day-heat' as string]: String(0.18 + intensity * 0.72) }}
-              >
-                <p className="adult-calendar__date">{formatMadridDate(date)}</p>
-                <p className="adult-calendar__time">
-                  {formatPlayDuration(day.playSeconds)}
-                </p>
-                <p className="adult-calendar__meta">
-                  {day.sessionsCount} partida{day.sessionsCount === 1 ? '' : 's'}
-                  {day.rewardPointsEarned > 0
-                    ? ` · +${day.rewardPointsEarned} pts`
-                    : ''}
-                  {day.accuracyPct != null ? ` · ${day.accuracyPct}% aciertos` : ''}
-                </p>
-              </li>
-            )
-          })}
-        </ul>
-      )}
-    </section>
-  )
-}
-
-function EducationSection({ tables }: { tables: TableMasteryItem[] }) {
-  return (
-    <section className="adult-block" aria-labelledby="adult-edu">
-      <h2 id="adult-edu" className="adult-block__title">
-        Progreso de las tablas
-      </h2>
-      <p className="adult-block__lead">
-        Etiquetas claras: Domada, Casi domada, Entrenando o Necesita refuerzo.
-      </p>
-      {tables.length === 0 ? (
-        <p className="adult-block__empty">Todavía no ha practicado tablas.</p>
-      ) : (
-        <ul className="adult-tables">
-          {tables.map((t) => (
-            <li key={t.tableN} className="adult-tables__item">
-              <div className="adult-tables__head">
-                <span className="adult-tables__n">Tabla del {t.tableN}</span>
-                <span className={`mastery-chip ${masteryClass(t.label)}`}>{t.label}</span>
+        <ul className="adult-assign__groups">
+          {groups.map((group) => (
+            <li key={group.skillId} className="adult-assign__group">
+              <div className="adult-assign__group-head">
+                <div>
+                  <h3 className="adult-assign__group-title">{group.title}</h3>
+                  <p className="adult-assign__group-meta">{group.subjectTitle}</p>
+                </div>
+                <label className="adult-field adult-field--inline">
+                  <span className="visually-hidden">Aplicar a todo el grupo</span>
+                  <select
+                    className="adult-select"
+                    disabled={busy}
+                    defaultValue=""
+                    aria-label={`Aplicar estado a ${group.title}`}
+                    onChange={(e) => {
+                      const v = e.target.value as AssignmentRole | ''
+                      onAssignGroup(
+                        group.items.map((i) => i.id),
+                        v,
+                      )
+                      e.target.value = ''
+                    }}
+                  >
+                    <option value="" disabled>
+                      Aplicar a todo el grupo…
+                    </option>
+                    <option value="">Por defecto del curso</option>
+                    <option value="recommended">Recomendada</option>
+                    <option value="mandatory">Obligatoria</option>
+                    <option value="free">Libre</option>
+                    <option value="review">Repaso</option>
+                    <option value="hidden">Oculta</option>
+                  </select>
+                </label>
               </div>
-              <p className="adult-tables__meta">
-                {t.attempts > 0
-                  ? `${t.correct}/${t.attempts} aciertos`
-                  : 'Sin intentos aún'}
-                {t.accuracyPct != null ? ` · ${t.accuracyPct}%` : ''}
-                {t.lastPracticedAt
-                  ? ` · Última vez ${formatMadridDateTime(t.lastPracticedAt)}`
-                  : ''}
-              </p>
+              <ul className="adult-assign__items">
+                {group.items.map((activity) => {
+                  const effective = effectiveActivityRole(
+                    activity.id,
+                    courseId,
+                    assignmentMap,
+                  )
+                  const override = assignmentMap[activity.id] ?? ''
+                  return (
+                    <li key={activity.id} className="adult-assign__item">
+                      <div className="adult-assign__item-info">
+                        <p className="adult-assign__item-name">{activity.title}</p>
+                        <p className="adult-assign__item-state">
+                          Estado: {ROLE_LABELS[effective ?? ''] ?? effective ?? '—'}
+                        </p>
+                      </div>
+                      <label className="adult-field adult-field--inline">
+                        <span className="visually-hidden">Asignación de {activity.title}</span>
+                        <select
+                          className="adult-select"
+                          value={override}
+                          disabled={busy}
+                          aria-label={`Asignación de ${activity.title}`}
+                          onChange={(e) =>
+                            onAssign(activity.id, e.target.value as AssignmentRole | '')
+                          }
+                        >
+                          <option value="">Por defecto del curso</option>
+                          <option value="recommended">Recomendada</option>
+                          <option value="mandatory">Obligatoria</option>
+                          <option value="free">Libre</option>
+                          <option value="review">Repaso</option>
+                          <option value="hidden">Oculta</option>
+                        </select>
+                      </label>
+                    </li>
+                  )
+                })}
+              </ul>
             </li>
           ))}
         </ul>
       )}
-    </section>
+    </div>
+  )
+}
+
+function TablesProgressPanel({
+  needsReview,
+  learning,
+  dominated,
+  allTables,
+  busy,
+  onRecommend,
+}: {
+  needsReview: TableMasteryItem[]
+  learning: TableMasteryItem[]
+  dominated: TableMasteryItem[]
+  allTables: TableMasteryItem[]
+  busy: boolean
+  onRecommend: (tableN: number) => void
+}) {
+  if (allTables.length === 0) {
+    return <p className="adult-block__empty">Todavía no ha practicado tablas.</p>
+  }
+
+  const sections: Array<{
+    key: string
+    title: string
+    items: TableMasteryItem[]
+    showRecommend?: boolean
+  }> = [
+    { key: 'review', title: 'Necesita refuerzo', items: needsReview, showRecommend: true },
+    { key: 'learning', title: 'En progreso', items: learning },
+    { key: 'dominated', title: 'Dominadas', items: dominated },
+  ]
+
+  return (
+    <div className="adult-tables-panel">
+      {sections.map((section) =>
+        section.items.length === 0 ? null : (
+          <div key={section.key} className="adult-tables-panel__section">
+            <h3 className="adult-tables-panel__heading">{section.title}</h3>
+            <ul className="adult-tables adult-tables--cards">
+              {section.items.map((t) => {
+                const tone = masteryTone(t.label)
+                const pct = t.accuracyPct ?? 0
+                return (
+                  <li
+                    key={t.tableN}
+                    className={`adult-table-card adult-table-card--${tone}`}
+                  >
+                    <div className="adult-table-card__head">
+                      <span className="adult-tables__n">Tabla del {t.tableN}</span>
+                      <span className={`mastery-chip ${masteryClass(t.label)}`}>
+                        {t.label}
+                      </span>
+                    </div>
+                    <p className="adult-tables__meta">
+                      {t.attempts > 0
+                        ? `${t.correct}/${t.attempts} aciertos`
+                        : 'Sin intentos aún'}
+                      {t.accuracyPct != null ? ` · ${t.accuracyPct} %` : ''}
+                    </p>
+                    <p className="adult-tables__meta">
+                      Última práctica:{' '}
+                      {t.lastPracticedAt
+                        ? formatFriendlyWhen(t.lastPracticedAt)
+                        : 'Todavía no'}
+                    </p>
+                    <div
+                      className="adult-table-card__bar"
+                      role="progressbar"
+                      aria-valuemin={0}
+                      aria-valuemax={100}
+                      aria-valuenow={pct}
+                      aria-label={`Precisión ${pct} %`}
+                    >
+                      <span style={{ width: `${pct}%` }} />
+                    </div>
+                    {section.showRecommend ? (
+                      <button
+                        type="button"
+                        className="btn btn-secondary adult-table-card__cta"
+                        disabled={busy}
+                        onClick={() => onRecommend(t.tableN)}
+                      >
+                        Recomendar práctica
+                      </button>
+                    ) : null}
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
+        ),
+      )}
+    </div>
+  )
+}
+
+function ReportPanel({
+  reportCourse,
+  reportSubject,
+  range,
+  customFrom,
+  customTo,
+  onReportCourse,
+  onReportSubject,
+  onRange,
+  onCustomFrom,
+  onCustomTo,
+  onSubmit,
+  reportLoaded,
+  eduReport,
+  days,
+}: {
+  reportCourse: string
+  reportSubject: string
+  range: ActivityRange
+  customFrom: string
+  customTo: string
+  onReportCourse: (v: string) => void
+  onReportSubject: (v: string) => void
+  onRange: (r: ActivityRange) => void
+  onCustomFrom: (v: string) => void
+  onCustomTo: (v: string) => void
+  onSubmit: () => void
+  reportLoaded: boolean
+  eduReport: NonNullable<AdultOverview['educationReport']> | null
+  days: Array<[string, ActivityDay]>
+}) {
+  const mastered = eduReport?.skills.filter((s) => s.mastery?.label === 'DOMADA').length ?? 0
+  const needs = eduReport?.skills.filter((s) => s.mastery?.label === 'NECESITA REFUERZO').length ?? 0
+
+  return (
+    <div className="adult-report">
+      <div className="adult-filters adult-filters--report">
+        <label className="adult-field">
+          Curso
+          <select
+            className="adult-select"
+            value={reportCourse}
+            onChange={(e) => onReportCourse(e.target.value)}
+          >
+            <option value="all">Histórico global</option>
+            {courses.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.title}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="adult-field">
+          Asignatura
+          <select
+            className="adult-select"
+            value={reportSubject}
+            onChange={(e) => onReportSubject(e.target.value)}
+          >
+            <option value="all">Todas</option>
+            <option value="maths">Matemáticas</option>
+            <option value="languages">Lenguas</option>
+            <option value="english">Inglés</option>
+          </select>
+        </label>
+        <div className="adult-field">
+          <span>Periodo</span>
+          <div className="adult-range" role="group" aria-label="Periodo">
+            {(
+              [
+                ['7d', '7 días'],
+                ['30d', '30 días'],
+                ['custom', 'Personalizado'],
+              ] as const
+            ).map(([id, label]) => (
+              <button
+                key={id}
+                type="button"
+                className={`adult-range__btn${range === id ? ' is-active' : ''}`}
+                onClick={() => onRange(id)}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+        {range === 'custom' ? (
+          <div className="adult-custom-range">
+            <label className="adult-field">
+              Desde
+              <input
+                type="date"
+                value={customFrom}
+                onChange={(e) => onCustomFrom(e.target.value)}
+              />
+            </label>
+            <label className="adult-field">
+              Hasta
+              <input
+                type="date"
+                value={customTo}
+                onChange={(e) => onCustomTo(e.target.value)}
+              />
+            </label>
+          </div>
+        ) : null}
+        <button type="button" className="btn btn-primary adult-report__submit" onClick={onSubmit}>
+          Ver informe
+        </button>
+      </div>
+
+      {!reportLoaded ? (
+        <p className="adult-report__hint">
+          Elige curso, asignatura y periodo para ver el progreso escolar y la actividad de
+          esos días. El dominio de las tablas es global (no se reinicia al cambiar de curso).
+        </p>
+      ) : (
+        <>
+          {eduReport ? (
+            <div className="adult-report__summary">
+              <IconGem className="adult-report__summary-icon" />
+              <div>
+                <p className="adult-report__summary-title">Resumen del informe</p>
+                <p className="adult-report__summary-text">
+                  {eduReport.skills.length} habilidades · {mastered} dominadas · {needs}{' '}
+                  necesitan refuerzo
+                  {eduReport.scope === 'global' ? ' · vista global' : ' · filtrado por curso'}
+                </p>
+              </div>
+            </div>
+          ) : null}
+
+          <h3 className="adult-tables-panel__heading">Actividad del periodo</h3>
+          {days.length === 0 ? (
+            <p className="adult-block__empty">Sin actividad en este periodo.</p>
+          ) : (
+            <ul className="adult-calendar">
+              {days.map(([date, day]) => {
+                const intensity = Math.min(1, day.playSeconds / 1800)
+                return (
+                  <li
+                    key={date}
+                    className="adult-calendar__day"
+                    style={{ ['--day-heat' as string]: String(0.18 + intensity * 0.72) }}
+                  >
+                    <p className="adult-calendar__date">{formatMadridDate(date)}</p>
+                    <p className="adult-calendar__time">
+                      {formatPlayDuration(day.playSeconds)}
+                    </p>
+                    <p className="adult-calendar__meta">
+                      {day.sessionsCount} partida{day.sessionsCount === 1 ? '' : 's'}
+                      {day.rewardPointsEarned > 0
+                        ? ` · +${day.rewardPointsEarned} energía`
+                        : ''}
+                      {day.accuracyPct != null ? ` · ${day.accuracyPct}% aciertos` : ''}
+                    </p>
+                  </li>
+                )
+              })}
+            </ul>
+          )}
+
+          <h3 className="adult-tables-panel__heading">Progreso por habilidad</h3>
+          {eduReport ? (
+            <ul className="adult-tables">
+              {eduReport.skills.map((row) => (
+                <li key={row.skillId} className="adult-tables__item">
+                  <div className="adult-tables__head">
+                    <span className="adult-tables__n">
+                      {row.subjectTitle} · {row.skillTitle}
+                    </span>
+                    <span
+                      className={`mastery-chip ${masteryClass(row.mastery?.label ?? 'ENTRENANDO')}`}
+                    >
+                      {row.mastery?.label ?? 'Sin datos'}
+                    </span>
+                  </div>
+                  <p className="adult-tables__meta">
+                    {row.mastery
+                      ? `${row.mastery.correct}/${row.mastery.attempts} aciertos`
+                      : 'Sin práctica aún'}
+                    {row.mastery?.lastPracticedAt
+                      ? ` · ${formatFriendlyWhen(row.mastery.lastPracticedAt)}`
+                      : ''}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="adult-block__empty">No hay datos de habilidades para este filtro.</p>
+          )}
+        </>
+      )}
+    </div>
   )
 }
