@@ -75,7 +75,13 @@ describe('ARAY navigation shell', () => {
   it('abre la pantalla de misiones con matemáticas jugable', () => {
     renderAt('/missions')
     expect(screen.getByRole('heading', { name: /^mis mundos$/i })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /^matemáticas$/i })).toBeInTheDocument()
+    expect(screen.getByText(/elige tu próxima aventura/i)).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /entrar a matemáticas/i })).toHaveAttribute(
+      'href',
+      '/missions/mates',
+    )
+    expect(screen.getByRole('link', { name: /^volver$/i })).toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: /próximamente/i })).not.toBeInTheDocument()
   })
 
   it('abre el mapa de niveles sin 1 ni 10', () => {
