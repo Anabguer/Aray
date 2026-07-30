@@ -1,6 +1,6 @@
+import { Link } from 'react-router-dom'
 import { AppShell } from '@/components/AppShell'
 import { WorldPortal, type WorldPortalTheme } from '@/components/WorldPortal'
-import { Lumo } from '@/lumo/Lumo'
 import { visibleWorlds } from '@/curriculum'
 import { useProgress } from '@/progress/ProgressContext'
 
@@ -15,16 +15,14 @@ export function MissionsScreen() {
   const worlds = visibleWorlds(progress)
 
   return (
-    <AppShell title="Mis mundos" showBack>
+    <AppShell title="Mis mundos" showBack backTo="/">
       <section className="worlds-map" aria-label="Selección de mundos">
-        <p className="worlds-map__subtitle">Elige tu próxima aventura</p>
-
-        <div className="worlds-map__hint">
-          <Lumo state="idle" size="sm" label="Lumo te señala Matemáticas" />
-          <p className="worlds-map__hint-text" role="status">
-            ¡Vamos a Mates!
-          </p>
-        </div>
+        <header className="worlds-map__head">
+          <p className="worlds-map__subtitle">Elige tu próxima aventura</p>
+          <Link to="/" className="worlds-map__lobby-btn">
+            Volver al Lobby
+          </Link>
+        </header>
 
         <div className="worlds-map__sky" aria-hidden="true">
           <span className="worlds-map__star worlds-map__star--a" />
@@ -34,8 +32,6 @@ export function MissionsScreen() {
           <span className="worlds-map__particle worlds-map__particle--a" />
           <span className="worlds-map__particle worlds-map__particle--b" />
           <span className="worlds-map__particle worlds-map__particle--c" />
-          <span className="worlds-map__path worlds-map__path--a" />
-          <span className="worlds-map__path worlds-map__path--b" />
           <span className="worlds-map__float worlds-map__float--a" />
           <span className="worlds-map__float worlds-map__float--b" />
           <span className="worlds-map__float worlds-map__float--c" />
