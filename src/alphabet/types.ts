@@ -100,7 +100,14 @@ export interface AlphabetSessionSummary {
   mode: AlphabetPlayMode
   total: number
   correct: number
+  wrong: number
   bestStreak: number
+  roundScore?: number
+  xpEarned?: number
+  coinsEarned?: number
+  rewardPointsEarned?: number
+  recommendReview?: boolean
+  statusLabel?: string
 }
 
 export const ALPHABET_ROUND_SIZE = 8

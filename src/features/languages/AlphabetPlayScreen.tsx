@@ -8,9 +8,12 @@ import {
   type AlphabetPlayMode,
   type AlphabetQuestion,
 } from '@/alphabet'
+import type { AlphabetAnswerRecord } from '@/alphabet/progress'
 import { AppShell } from '@/components/AppShell'
 import { Lumo } from '@/lumo/Lumo'
 import { useLumoController } from '@/lumo/useLumoController'
+import { newId } from '@/progress/repository'
+import { useProgress } from '@/progress/ProgressContext'
 import { soundEngine } from '@/sound/soundEngine'
 
 const MODE_TITLES: Record<AlphabetPlayMode, string> = {
@@ -48,12 +51,22 @@ function promptFor(q: AlphabetQuestion): string {
   }
 }
 
+function focusLetterOf(q: AlphabetQuestion): string | undefined {
+  if (q.kind === 'missing' || q.kind === 'neighbor') return q.answer
+  if (q.kind === 'order-letters') return q.answer[0]
+  return q.answer[0]?.[0]?.toUpperCase()
+}
+
 export function AlphabetPlayScreen() {
   const { mode: modeParam } = useParams<{ mode: string }>()
   const navigate = useNavigate()
   const { setLastSummary, setLastMode } = useAlphabetSession()
+  const { applyAlphabetSession } = useProgress()
   const lumo = useLumoController('thinking')
   const seedRef = useRef(Date.now())
+  const sessionIdRef = useRef(newId('abc'))
+  const answersRef = useRef<AlphabetAnswerRecord[]>([])
+  const orderMissedRef = useRef(false)
   const mode: AlphabetPlayMode = isPlayMode(modeParam) ? modeParam : 'missing'
 
   const queue = useMemo(
@@ -66,12 +79,16 @@ export function AlphabetPlayScreen() {
   const [selected, setSelected] = useState<string | null>(null)
   const [picked, setPicked] = useState<string[]>([])
   const [correctCount, setCorrectCount] = useState(0)
+  const [wrongCount, setWrongCount] = useState(0)
   const [streak, setStreak] = useState(0)
   const [bestStreak, setBestStreak] = useState(0)
   const [feedback, setFeedback] = useState<string | null>(null)
   const [shakeId, setShakeId] = useState<string | null>(null)
   const openedRef = useRef(false)
   const finishedRef = useRef(false)
+  const bestStreakRef = useRef(0)
+  const correctCountRef = useRef(0)
+  const wrongCountRef = useRef(0)
 
   const question = queue[index]
 
@@ -89,6 +106,7 @@ export function AlphabetPlayScreen() {
     setFeedback(null)
     setLocked(false)
     setShakeId(null)
+    orderMissedRef.current = false
     lumo.setThinking()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index])
@@ -102,35 +120,74 @@ export function AlphabetPlayScreen() {
   useEffect(() => {
     if (question || finishedRef.current) return
     finishedRef.current = true
+    const result = applyAlphabetSession({
+      mode,
+      answers: answersRef.current,
+      sessionId: sessionIdRef.current,
+      bestStreakInRound: bestStreakRef.current,
+    })
     setLastSummary({
       mode,
       total: ALPHABET_ROUND_SIZE,
-      correct: correctCount,
-      bestStreak,
+      correct: correctCountRef.current,
+      wrong: wrongCountRef.current,
+      bestStreak: bestStreakRef.current,
+      roundScore: result.roundScore,
+      xpEarned: result.xpEarned,
+      coinsEarned: result.coinsEarned,
+      rewardPointsEarned: result.rewardPointsEarned,
+      recommendReview: result.recommendReview,
+      statusLabel: result.statusLabel,
     })
     navigate('/missions/languages/alphabet/summary', { replace: true })
-  }, [question, correctCount, bestStreak, mode, navigate, setLastSummary])
+  }, [question, mode, navigate, setLastSummary, applyAlphabetSession])
 
   if (!isPlayMode(modeParam)) return null
   if (!question) return null
 
-  function registerCorrect() {
+  function pushAnswer(correct: boolean, firstTry: boolean) {
+    if (!question) return
+    answersRef.current.push({
+      questionId: question.id,
+      kind: question.kind,
+      correct,
+      firstTry,
+      focusLetter: focusLetterOf(question),
+      attemptId: newId('abc-a'),
+    })
+  }
+
+  function registerCorrect(firstTry = true) {
     soundEngine.play('correct')
     lumo.reactToAnswer({ correct: true, streak: streak + 1 })
-    setCorrectCount((c) => c + 1)
+    pushAnswer(true, firstTry)
+    setCorrectCount((c) => {
+      const next = c + 1
+      correctCountRef.current = next
+      return next
+    })
     setStreak((s) => {
       const next = s + 1
-      setBestStreak((b) => Math.max(b, next))
+      setBestStreak((b) => {
+        const best = Math.max(b, next)
+        bestStreakRef.current = best
+        return best
+      })
       return next
     })
     setFeedback('¡Bien!')
   }
 
-  function registerWrong(hint: string) {
+  function registerWrong(message = '¡Casi! Prueba otra') {
     soundEngine.play('wrong')
     lumo.reactToAnswer({ correct: false, streak: 0 })
     setStreak(0)
-    setFeedback(hint)
+    setWrongCount((w) => {
+      const next = w + 1
+      wrongCountRef.current = next
+      return next
+    })
+    setFeedback(message)
   }
 
   function advance(delay: number) {
@@ -150,11 +207,12 @@ export function AlphabetPlayScreen() {
     setSelected(value)
     const ok = value === question.answer
     if (ok) {
-      registerCorrect()
+      registerCorrect(true)
       advance(700)
     } else {
-      registerWrong(`Era: ${question.answer}`)
-      advance(1400)
+      pushAnswer(false, true)
+      registerWrong('¡Uy! Sigue intentando')
+      advance(900)
     }
   }
 
@@ -167,11 +225,8 @@ export function AlphabetPlayScreen() {
     const status = isOrderComplete(next, question.answer)
     if (status === 'wrong') {
       setShakeId(value)
-      registerWrong(
-        question.kind === 'order-letters'
-          ? `Siguiente: ${question.answer[picked.length]}`
-          : `Siguiente: ${question.answer[picked.length]}`,
-      )
+      orderMissedRef.current = true
+      registerWrong('¡Uy! Empieza de nuevo')
       setLocked(true)
       window.setTimeout(() => {
         setShakeId(null)
@@ -179,14 +234,14 @@ export function AlphabetPlayScreen() {
         setLocked(false)
         setPicked([])
         lumo.setThinking()
-      }, 1100)
+      }, 900)
       return
     }
 
     setPicked(next)
     if (status === 'correct') {
       setLocked(true)
-      registerCorrect()
+      registerCorrect(!orderMissedRef.current)
       advance(800)
     } else {
       soundEngine.play('ui-click')
@@ -212,6 +267,9 @@ export function AlphabetPlayScreen() {
         <header className="alphabet-play__hud">
           <p className="alphabet-play__count">
             {index + 1} / {ALPHABET_ROUND_SIZE}
+          </p>
+          <p className="alphabet-play__misses" aria-live="polite">
+            Fallos {wrongCount}
           </p>
           <p className="alphabet-play__streak" aria-live="polite">
             Racha {streak}
@@ -289,7 +347,6 @@ export function AlphabetPlayScreen() {
               let cls = 'alphabet-chip'
               if (selected != null && isSel && isCorrect) cls += ' is-ok'
               if (selected != null && isSel && !isCorrect) cls += ' is-bad'
-              if (selected != null && !isSel && isCorrect && locked) cls += ' is-reveal'
               return (
                 <button
                   key={`${question.id}-opt-${opt}`}

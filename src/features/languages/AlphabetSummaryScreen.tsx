@@ -30,6 +30,14 @@ export function AlphabetSummaryScreen() {
 
   const pct =
     summary.total > 0 ? Math.round((summary.correct / summary.total) * 100) : 0
+  const crack = pct >= 100
+  const title = crack
+    ? '¡Crack!'
+    : pct >= 80
+      ? '¡Genial!'
+      : summary.recommendReview
+        ? 'Conviene repasar'
+        : 'Buen entrenamiento'
 
   function repeat() {
     const mode = summary.mode
@@ -45,25 +53,50 @@ export function AlphabetSummaryScreen() {
       backTo="/missions/languages/alphabet"
     >
       <section className="alphabet-summary" aria-labelledby="alphabet-summary-title">
-        <Lumo state={pct >= 80 ? 'celebration' : 'correct'} size="lg" />
+        <Lumo state={crack || pct >= 80 ? 'celebration' : 'correct'} size="lg" />
         <h2 id="alphabet-summary-title" className="alphabet-summary__title">
-          {pct >= 80 ? '¡Genial!' : 'Buen entrenamiento'}
+          {title}
         </h2>
-        <p className="alphabet-summary__meta">{MODE_LABEL[summary.mode]}</p>
+        <p className="alphabet-summary__meta">
+          {MODE_LABEL[summary.mode]}
+          {summary.statusLabel ? ` · ${summary.statusLabel}` : ''}
+        </p>
         <ul className="alphabet-summary__stats">
           <li>
             <strong>{summary.correct}</strong>
             <span>aciertos</span>
           </li>
           <li>
+            <strong>{summary.wrong}</strong>
+            <span>fallos</span>
+          </li>
+          <li>
             <strong>{summary.bestStreak}</strong>
             <span>mejor racha</span>
           </li>
           <li>
-            <strong>{pct}%</strong>
-            <span>de la ronda</span>
+            <strong>{summary.roundScore ?? Math.round((pct / 100) * 10)}/10</strong>
+            <span>ronda</span>
           </li>
         </ul>
+        {(summary.xpEarned || summary.coinsEarned || summary.rewardPointsEarned) ? (
+          <p className="alphabet-summary__rewards">
+            {summary.xpEarned ? `+${summary.xpEarned} XP` : null}
+            {summary.xpEarned && summary.coinsEarned ? ' · ' : null}
+            {summary.coinsEarned ? `+${summary.coinsEarned} monedas` : null}
+            {(summary.xpEarned || summary.coinsEarned) && summary.rewardPointsEarned
+              ? ' · '
+              : null}
+            {summary.rewardPointsEarned
+              ? `+${summary.rewardPointsEarned} energía`
+              : null}
+          </p>
+        ) : null}
+        {summary.recommendReview ? (
+          <p className="alphabet-summary__review" role="status">
+            Este modo pide un repaso. Sin prisa: otra ronda y se asienta.
+          </p>
+        ) : null}
         <div className="alphabet-summary__actions">
           <button type="button" className="btn btn-primary btn-block" onClick={repeat}>
             Repetir
