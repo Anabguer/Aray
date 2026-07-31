@@ -5748,8 +5748,9 @@ a {
 .levels-map {
   display: grid;
   gap: 0.65rem;
-  /* Aire entre cabecera sticky y las cards */
-  margin-top: 1.15rem;
+  /* Aire extra bajo la cabecera sticky (sin mover el header) */
+  margin-top: 2rem;
+  padding-top: 0.35rem;
   /* Reserva fija para el CTA de jugar (footer fixed) */
   padding-bottom: calc(6.5rem + var(--safe-bottom));
 }
@@ -6480,6 +6481,8 @@ a {
   }
 
   .levels-map {
+    margin-top: 2.35rem;
+    padding-top: 0.45rem;
     padding-bottom: calc(7.75rem + var(--safe-bottom));
   }
 
