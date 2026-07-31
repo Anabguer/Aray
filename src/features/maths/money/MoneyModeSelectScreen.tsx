@@ -15,14 +15,14 @@ type MoneyPoster = {
 const HEROES: MoneyPoster[] = [
   {
     mode: 'mix',
-    art: 'sorpresa',
+    art: 'money-mix',
     className: 'mode-poster--random',
     text: 'Mezcla de dinero',
     tag: 'DESTACADO',
   },
   {
     mode: 'change',
-    art: 'reto-rapido',
+    art: 'money-change',
     className: 'mode-poster--challenge',
     text: 'Pagas y te devuelven',
     tag: 'RÁPIDO',
@@ -30,9 +30,9 @@ const HEROES: MoneyPoster[] = [
 ]
 
 const ROSTER: MoneyPoster[] = [
-  { mode: 'build', art: 'entrena', className: 'mode-poster--train', text: 'Toca monedas', tag: '01' },
-  { mode: 'spare', art: 'mis-fallos', className: 'mode-poster--misses', text: '¿Qué moneda sobra?', tag: '02' },
-  { mode: 'sum', art: 'aprende', className: 'mode-poster--learn', text: 'Suma billetes y monedas', tag: '03' },
+  { mode: 'build', art: 'money-build', className: 'mode-poster--train', text: 'Toca monedas', tag: '01' },
+  { mode: 'spare', art: 'money-spare', className: 'mode-poster--misses', text: '¿Qué moneda sobra?', tag: '02' },
+  { mode: 'sum', art: 'money-sum', className: 'mode-poster--learn', text: 'Suma billetes y monedas', tag: '03' },
 ]
 
 export function MoneyModeSelectScreen() {

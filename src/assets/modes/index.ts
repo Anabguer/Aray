@@ -20,6 +20,11 @@ import clockTrain from './clock-train.webp'
 import empareja from './empareja.png'
 import entrena from './entrena.png'
 import misFallos from './mis-fallos.png'
+import moneyBuild from './money-build.png'
+import moneyChange from './money-change.png'
+import moneyMix from './money-mix.png'
+import moneySpare from './money-spare.png'
+import moneySum from './money-sum.png'
 import retoRapido from './reto-rapido.png'
 import sorpresa from './sorpresa.png'
 import spellComplete from './spell-complete.png'
@@ -52,6 +57,11 @@ export type ModeArtId =
   | 'calc-compare'
   | 'calc-order'
   | 'calc-truefalse'
+  | 'money-mix'
+  | 'money-change'
+  | 'money-build'
+  | 'money-spare'
+  | 'money-sum'
   | 'clock-learn'
   | 'clock-train'
   | 'clock-match'
@@ -86,6 +96,11 @@ export const modeArt: Record<ModeArtId, string> = {
   'calc-compare': calcCompare,
   'calc-order': calcOrder,
   'calc-truefalse': calcTruefalse,
+  'money-mix': moneyMix,
+  'money-change': moneyChange,
+  'money-build': moneyBuild,
+  'money-spare': moneySpare,
+  'money-sum': moneySum,
   'clock-learn': clockLearn,
   'clock-train': clockTrain,
   'clock-match': clockMatch,
