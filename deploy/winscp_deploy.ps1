@@ -259,6 +259,6 @@ $putLines.Add('exit')
 Write-Log "Subiendo stage a $remoteBase ..."
 Invoke-WinScpScript -ScriptLines $putLines.ToArray() -Label 'upload'
 
-Write-Log 'Deploy ARAY completado.'
+Write-Log 'Deploy AFK Academy completado.'
 Write-Log "Comprobar: https://intocables13.com/aray/afkacademy/  y  https://intocables13.com/aray/afkacademy/api/v1/health.php"
 exit 0
