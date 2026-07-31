@@ -61,27 +61,48 @@ function wordOptions(w: SpellWord, rand: () => number): string[] {
   return opts
 }
 
-function blankAt(word: string, index: number): string {
+/** Digrafos ortográficos que cuentan como una sola “letra” en el hueco. */
+const SPELL_DIGRAPHS = ['ll', 'rr'] as const
+
+/**
+ * Unidad a rellenar en “letra que falta”: ll/rr juntas, no L_L ni R_R.
+ */
+export function hardUnitAt(word: string, index: number): { start: number; unit: string } {
   const i = Math.max(0, Math.min(word.length - 1, index))
-  return `${word.slice(0, i)}_${word.slice(i + 1)}`
+  const lower = word.toLowerCase()
+  for (const dig of SPELL_DIGRAPHS) {
+    if (lower.slice(i, i + dig.length) === dig) {
+      return { start: i, unit: word.slice(i, i + dig.length) }
+    }
+    if (i > 0 && lower.slice(i - 1, i + 1) === dig) {
+      return { start: i - 1, unit: word.slice(i - 1, i + 1) }
+    }
+  }
+  return { start: i, unit: word[i]! }
+}
+
+function blankAt(word: string, index: number): string {
+  const { start, unit } = hardUnitAt(word, index)
+  return `${word.slice(0, start)}_${word.slice(start + unit.length)}`
 }
 
 function rivalLetters(w: SpellWord, correct: string): string[] {
+  const c = correct.toLowerCase()
   switch (w.rule) {
     case 'r-rr':
-      return ['r', 'rr'].filter((x) => x !== correct)
+      return ['r', 'rr'].filter((x) => x !== c)
     case 'hie-hue':
     case 'haber-hablar':
-      return ['h', ''].filter((x) => x !== correct)
+      return ['h', ''].filter((x) => x !== c)
     case 'aba':
     case 'b-v':
-      return ['b', 'v'].filter((x) => x !== correct)
+      return ['b', 'v'].filter((x) => x !== c)
     case 'll-illa':
-      return ['ll', 'y', 'l'].filter((x) => x !== correct)
+      return ['ll', 'y', 'l'].filter((x) => x !== c)
     case 'mb-mp':
-      return ['m', 'n'].filter((x) => x !== correct)
+      return ['m', 'n'].filter((x) => x !== c)
     default:
-      return ['b', 'v', 'h', 'r'].filter((x) => x !== correct)
+      return ['b', 'v', 'h', 'r'].filter((x) => x !== c)
   }
 }
 
@@ -89,18 +110,21 @@ function buildMissing(seed: number, used: Set<string>, mode: SpellPlayMode): Spe
   const rand = mulberry32(seed)
   const w = pickWord(rand, used)
   used.add(w.word)
-  const letter = w.word[w.hardIndex]!
+  const { unit: letter } = hardUnitAt(w.word, w.hardIndex)
   const optionsSet = new Set<string>([letter, ...rivalLetters(w, letter)])
-  const pool = 'bcdfghjlmnrstv'
+  const pool = ['b', 'c', 'd', 'f', 'g', 'h', 'j', 'l', 'll', 'm', 'n', 'r', 'rr', 's', 't', 'v']
   let guard = 0
   while (optionsSet.size < 4 && guard < 20) {
     guard += 1
     const ch = pool[Math.floor(rand() * pool.length)]!
-    if (ch !== letter) optionsSet.add(ch)
+    if (ch.toLowerCase() !== letter.toLowerCase()) optionsSet.add(ch)
   }
   const options = shuffle([...optionsSet].filter(Boolean).slice(0, 4), rand)
   if (!options.includes(letter)) options[0] = letter
-  while (options.length < 4) options.push(pool[options.length]!)
+  while (options.length < 4) {
+    const filler = pool.find((p) => !options.some((o) => o.toLowerCase() === p.toLowerCase()))
+    options.push(filler ?? `·${options.length}`)
+  }
   return {
     kind: 'mcq',
     id: `miss-${w.word}-${seed}`,
