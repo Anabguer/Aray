@@ -254,17 +254,6 @@ export function ClockLearnScreen() {
           </div>
         </div>
 
-        {lang === 'ca' ? (
-          <p className="clock-learn__hint" role="note">
-            <span className="clock-learn__hint-ico" aria-hidden="true">
-              💡
-            </span>
-            <span>
-              En catalán contamos el camino hacia la siguiente hora, no desde la anterior.
-            </span>
-          </p>
-        ) : null}
-
         <div className="clock-learn__stage">
           {pizzaOnly && showPizza ? (
             <div className="clock-learn__visuals clock-learn__visuals--pizza-first">
@@ -287,6 +276,17 @@ export function ClockLearnScreen() {
           {phrase ? <p className="clock-learn__phrase">{phrase}</p> : null}
           <p className="clock-learn__tip">{step.tip}</p>
         </div>
+
+        {lang === 'ca' ? (
+          <p className="clock-learn__hint" role="note">
+            <span className="clock-learn__hint-ico" aria-hidden="true">
+              💡
+            </span>
+            <span>
+              En catalán contamos el camino hacia la siguiente hora, no desde la anterior.
+            </span>
+          </p>
+        ) : null}
 
         <div className="clock-learn__dots" aria-hidden="true">
           {steps.map((s, i) => (
