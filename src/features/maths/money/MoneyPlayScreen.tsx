@@ -22,6 +22,7 @@ import { useProgress } from '@/progress/ProgressContext'
 import { usePlaySession } from '@/progress/PlayContext'
 import { newId } from '@/progress/repository'
 import { SideRunShell, prefersReducedMotion, useAnswerFx } from '@/run'
+import { sideRunEnergyForProgress } from '@/reward/sideRunSettle'
 import './money.css'
 
 function isMode(v: string | undefined): v is MoneyPlayMode {
@@ -84,41 +85,48 @@ export function MoneyPlayScreen() {
     lumo.setThinking()
   }, [index])
 
-  useEffect(() => {
-    if (question || finishedRef.current) return
+  function finish(opts?: { early?: boolean }) {
+    if (finishedRef.current) return
     finishedRef.current = true
+    const correct = correctRef.current
+    const early = Boolean(opts?.early)
     setLastSummary({
       mode,
-      total: MONEY_ROUND_SIZE,
-      correct: correctRef.current,
+      total: early ? Math.max(correct, index) : MONEY_ROUND_SIZE,
+      correct,
       bestStreak: bestRef.current,
     })
-    if (correctRef.current > 0) {
-      const energy = energyForMissionAttempt('money', 1, playerId)
+    if (correct > 0) {
+      const full = energyForMissionAttempt('money', 1, playerId)
+      const energy = early
+        ? sideRunEnergyForProgress(full, correct, MONEY_ROUND_SIZE)
+        : full
       const dailyChallenge = consumeMissionOfDay()
       recordProgress('money', 1)
       grantActivityEnergy({
         sessionId: newId('money'),
         requestedPoints: energy,
         mode: `money-${mode}`.slice(0, 16),
-        correct: correctRef.current,
-        wrong: Math.max(0, MONEY_ROUND_SIZE - correctRef.current),
-        xpEarned: sessionXpFromCorrects(
-          correctRef.current,
-          rewardMatrix.money.xpPerCorrect,
-        ),
+        correct,
+        wrong: Math.max(0, MONEY_ROUND_SIZE - correct),
+        xpEarned: sessionXpFromCorrects(correct, rewardMatrix.money.xpPerCorrect),
         claimDailyChallenge: Boolean(dailyChallenge),
         statsDelta: buildActivityStatsDelta({
           feature: 'money',
           mode,
-          correct: correctRef.current,
+          correct,
           total: MONEY_ROUND_SIZE,
           playSeconds: Math.max(1, Math.round((Date.now() - startedAtRef.current) / 1000)),
         }),
       })
     }
     navigate(`${modesPath}/summary`, { replace: true })
-  }, [question, mode, navigate, setLastSummary, recordProgress, grantActivityEnergy, consumeMissionOfDay, playerId])
+  }
+
+  useEffect(() => {
+    if (question || finishedRef.current) return
+    finish()
+  }, [question])
 
   if (!isMode(modeParam) || !question) return null
 
@@ -205,7 +213,7 @@ export function MoneyPlayScreen() {
         onExitRequest={() => (hasProgress ? setExitOpen(true) : navigate(modesPath))}
         onConfirmExit={() => {
           setExitOpen(false)
-          navigate(modesPath)
+          finish({ early: true })
         }}
         onCancelExit={() => setExitOpen(false)}
         enterKey={enterKey}

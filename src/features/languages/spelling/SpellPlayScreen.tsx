@@ -22,6 +22,7 @@ import { useProgress } from '@/progress/ProgressContext'
 import { usePlaySession } from '@/progress/PlayContext'
 import { newId } from '@/progress/repository'
 import { SideRunShell, prefersReducedMotion, useAnswerFx } from '@/run'
+import { sideRunEnergyForProgress } from '@/reward/sideRunSettle'
 import './spelling.css'
 
 function isMode(v: string | undefined): v is SpellPlayMode {
@@ -106,16 +107,24 @@ export function SpellPlayScreen() {
 
   useEffect(() => {
     if (question || finishedRef.current) return
+    finish()
+  }, [question])
+
+  function finish(opts?: { early?: boolean }) {
+    if (finishedRef.current) return
     finishedRef.current = true
+    const correct = correctRef.current
+    const early = Boolean(opts?.early)
     setLastSummary({
       mode,
-      total: SPELL_ROUND_SIZE,
-      correct: correctRef.current,
+      total: early ? Math.max(correct, index) : SPELL_ROUND_SIZE,
+      correct,
       bestStreak: bestRef.current,
     })
-    if (correctRef.current > 0) {
-      const units = Math.min(4, correctRef.current)
-      const energy = energyForMissionAttempt('spelling', units, playerId)
+    if (correct > 0) {
+      const units = Math.min(4, correct)
+      const full = energyForMissionAttempt('spelling', units, playerId)
+      const energy = early ? sideRunEnergyForProgress(full, correct, SPELL_ROUND_SIZE) : full
       const playSeconds = Math.max(1, Math.round((Date.now() - startedAtRef.current) / 1000))
       const dailyChallenge = consumeMissionOfDay()
       recordProgress('spelling', units)
@@ -123,24 +132,21 @@ export function SpellPlayScreen() {
         sessionId: newId('spell'),
         requestedPoints: energy,
         mode: `spell-${mode}`.slice(0, 16),
-        correct: correctRef.current,
-        wrong: Math.max(0, SPELL_ROUND_SIZE - correctRef.current),
-        xpEarned: sessionXpFromCorrects(
-          correctRef.current,
-          rewardMatrix.spelling.xpPerCorrect,
-        ),
+        correct,
+        wrong: Math.max(0, SPELL_ROUND_SIZE - correct),
+        xpEarned: sessionXpFromCorrects(correct, rewardMatrix.spelling.xpPerCorrect),
         claimDailyChallenge: Boolean(dailyChallenge),
         statsDelta: buildActivityStatsDelta({
           feature: 'spelling',
           mode,
-          correct: correctRef.current,
+          correct,
           total: SPELL_ROUND_SIZE,
           playSeconds,
         }),
       })
     }
     navigate(`${modesPath}/summary`, { replace: true })
-  }, [question, mode, navigate, setLastSummary, recordProgress, grantActivityEnergy, consumeMissionOfDay, playerId])
+  }
 
   useEffect(() => {
     setPicked(null)
@@ -256,7 +262,7 @@ export function SpellPlayScreen() {
           onExitRequest={requestExit}
           onConfirmExit={() => {
             setExitOpen(false)
-            navigate(modesPath)
+            finish({ early: true })
           }}
           onCancelExit={() => setExitOpen(false)}
           enterKey={enterKey}

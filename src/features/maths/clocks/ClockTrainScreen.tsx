@@ -14,6 +14,7 @@ import { useProgress } from '@/progress/ProgressContext'
 import { usePlaySession } from '@/progress/PlayContext'
 import { newId } from '@/progress/repository'
 import { SideRunShell, prefersReducedMotion, useAnswerFx } from '@/run'
+import { sideRunEnergyForProgress } from '@/reward/sideRunSettle'
 
 const TRAIN_COUNT = 10
 const MODES_PATH = '/missions/mates/clocks'
@@ -61,40 +62,45 @@ export function ClockTrainScreen() {
 
   useEffect(() => {
     if (question || finishedRef.current) return
+    finish()
+  }, [question])
+
+  function finish(opts?: { early?: boolean }) {
+    if (finishedRef.current) return
     finishedRef.current = true
+    const correct = correctRef.current
+    const early = Boolean(opts?.early)
     setLastSummary({
       mode: 'train',
       lang,
-      total: TRAIN_COUNT,
-      correct: correctRef.current,
+      total: early ? Math.max(correct, index + 1) : TRAIN_COUNT,
+      correct,
       bestStreak: bestRef.current,
     })
-    if (correctRef.current > 0) {
-      const energy = energyForMissionAttempt('clocks', 2, playerId)
+    if (correct > 0) {
+      const full = energyForMissionAttempt('clocks', 2, playerId)
+      const energy = early ? sideRunEnergyForProgress(full, correct, TRAIN_COUNT) : full
       const dailyChallenge = consumeMissionOfDay()
       recordProgress('clocks', 2)
       grantActivityEnergy({
         sessionId: newId('clock'),
         requestedPoints: energy,
         mode: 'clocks-train',
-        correct: correctRef.current,
-        wrong: Math.max(0, TRAIN_COUNT - correctRef.current),
-        xpEarned: sessionXpFromCorrects(
-          correctRef.current,
-          rewardMatrix['clocks-train'].xpPerCorrect,
-        ),
+        correct,
+        wrong: Math.max(0, TRAIN_COUNT - correct),
+        xpEarned: sessionXpFromCorrects(correct, rewardMatrix['clocks-train'].xpPerCorrect),
         claimDailyChallenge: Boolean(dailyChallenge),
         statsDelta: buildActivityStatsDelta({
           feature: 'clocks',
           mode: 'train',
-          correct: correctRef.current,
+          correct,
           total: TRAIN_COUNT,
           playSeconds: Math.max(1, Math.round((Date.now() - startedAtRef.current) / 1000)),
         }),
       })
     }
     navigate(`${MODES_PATH}/summary`, { replace: true })
-  }, [question, lang, navigate, setLastSummary, recordProgress, grantActivityEnergy, consumeMissionOfDay, playerId])
+  }
 
   useEffect(() => {
     setSelected(null)
@@ -176,7 +182,7 @@ export function ClockTrainScreen() {
         onExitRequest={() => (hasProgress ? setExitOpen(true) : navigate(MODES_PATH))}
         onConfirmExit={() => {
           setExitOpen(false)
-          navigate(MODES_PATH)
+          finish({ early: true })
         }}
         onCancelExit={() => setExitOpen(false)}
         enterKey={enterKey}
