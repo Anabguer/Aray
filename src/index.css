@@ -426,7 +426,7 @@ a {
 .app-main {
   width: min(720px, 100%);
   margin: 0 auto;
-  padding: 0.5rem 0.85rem calc(1.75rem + var(--safe-bottom));
+  padding: 0.5rem 1.1rem calc(1.75rem + var(--safe-bottom));
   box-sizing: border-box;
 }
 
@@ -437,7 +437,7 @@ a {
 
 @media (max-width: 359px) {
   .app-main {
-    padding-inline: 0.65rem;
+    padding-inline: 0.85rem;
   }
 }
 
@@ -7650,11 +7650,11 @@ a {
   grid-template-columns: auto minmax(180px, 1.7fr) auto auto auto;
   grid-template-areas: 'identity bars coins actions lobby';
   align-items: center;
-  column-gap: 0.75rem;
+  column-gap: 0.95rem;
   row-gap: 0.75rem;
   width: 100%;
   margin: calc(clamp(24px, 3.2vh, 32px) + var(--safe-top)) 0 clamp(0.75rem, 1.8vh, 1.05rem);
-  padding: 1.15rem 1.2rem 1.2rem;
+  padding: 1.15rem 1.45rem 1.2rem;
   box-sizing: border-box;
   border-radius: 28px;
   border: 1px solid rgba(103, 232, 249, 0.32);
@@ -7965,11 +7965,11 @@ a {
       'identity coins actions'
       'bars bars lobby';
     align-items: center;
-    column-gap: 0.35rem;
-    row-gap: 0.7rem;
+    column-gap: 0.55rem;
+    row-gap: 0.75rem;
     top: calc(8px + var(--safe-top));
     margin: calc(10px + var(--safe-top)) 0 1.15rem;
-    padding: 0.8rem 0.7rem;
+    padding: 0.85rem 1rem;
     border-radius: 22px;
   }
 
@@ -7987,7 +7987,7 @@ a {
   }
 
   .game-header__identity {
-    gap: 0.45rem;
+    gap: 0.55rem;
     min-width: 0;
     flex: 1 1 auto;
   }
@@ -8097,14 +8097,14 @@ a {
   .game-header {
     --game-header-avatar: 40px;
     --lobby-ctrl-size: 1.95rem;
-    column-gap: 0.28rem;
-    row-gap: 0.6rem;
+    column-gap: 0.4rem;
+    row-gap: 0.65rem;
     margin-top: calc(8px + var(--safe-top));
-    padding: 0.7rem 0.55rem;
+    padding: 0.75rem 0.85rem;
   }
 
   .game-header__identity {
-    gap: 0.35rem;
+    gap: 0.45rem;
   }
 
   .game-header__title {
@@ -8133,8 +8133,8 @@ a {
   .game-header {
     --game-header-avatar: 36px;
     --lobby-ctrl-size: 1.8rem;
-    padding: 0.65rem 0.5rem;
-    column-gap: 0.22rem;
+    padding: 0.65rem 0.7rem;
+    column-gap: 0.32rem;
   }
 
   .game-header__avatar-halo {
@@ -8242,8 +8242,10 @@ a {
 
 /* Cabecera compartida: el ritmo vertical lo controla cada pantalla */
 .app-main:has(.game-header) {
-  width: min(1180px, calc(100vw - 32px));
+  width: min(1180px, calc(100vw - 48px));
   padding-top: clamp(0.2rem, 0.9vh, 0.55rem);
+  padding-inline: max(1rem, env(safe-area-inset-left, 0px) + 0.35rem)
+    max(1rem, env(safe-area-inset-right, 0px) + 0.35rem);
 }
 
 /* Lobby: gaps fijos; no reutiliza el centrado / ritmo de Mis mundos */
