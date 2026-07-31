@@ -1,8 +1,14 @@
 import { AppShell } from '@/components/AppShell'
-import { SubjectIcon } from '@/components/ZoneIcons'
 import { WorldLevelMap } from '@/components/world/WorldLevelMap'
 import type { MapSlot, WorldStation } from '@/components/world/types'
 import { blocksForSubject, getSubject } from '@/curriculum'
+import {
+  hubGuideTip,
+  hubHasWeakZones,
+  resolveHubZoneStatus,
+  type HubZoneId,
+} from '@/curriculum/hubRecommendations'
+import { useProgress } from '@/progress/ProgressContext'
 
 const LANG_MARKS = {
   alphabet: 'alphabet',
@@ -25,8 +31,12 @@ const LANG_SHORT: Record<string, string> = {
   spelling: 'Repaso ortografía 3.º',
 }
 
+const LANG_ZONES: HubZoneId[] = ['alphabet', 'spelling']
+
 export function LanguagesHubScreen() {
+  const { progress } = useProgress()
   const langBlocks = blocksForSubject('languages')
+  const anyWeak = hubHasWeakZones(progress, LANG_ZONES)
 
   const stations: WorldStation[] = langBlocks.map((block) => {
     const mark = LANG_MARKS[block.id as keyof typeof LANG_MARKS] ?? 'alphabet'
@@ -38,7 +48,11 @@ export function LanguagesHubScreen() {
         id: block.id,
         title: block.title,
         description: short,
-        status: 'recommended',
+        status: resolveHubZoneStatus(progress, 'alphabet', {
+          playable: true,
+          isStarter: true,
+          anyWeakInHub: anyWeak,
+        }),
         mark,
         mapSlot,
         href: '/missions/languages/alphabet',
@@ -51,7 +65,10 @@ export function LanguagesHubScreen() {
         id: block.id,
         title: block.title,
         description: short,
-        status: 'recommended',
+        status: resolveHubZoneStatus(progress, 'spelling', {
+          playable: true,
+          anyWeakInHub: anyWeak,
+        }),
         mark,
         mapSlot,
         href: '/missions/languages/spelling',
@@ -70,6 +87,10 @@ export function LanguagesHubScreen() {
   })
 
   const languages = getSubject('languages')
+  const guideTip = hubGuideTip({
+    hasRecommended: stations.some((s) => s.status === 'recommended'),
+    hasWeak: anyWeak,
+  })
 
   return (
     <AppShell
@@ -79,9 +100,7 @@ export function LanguagesHubScreen() {
     >
       <WorldLevelMap
         theme="languages"
-        title="Mundo de Lenguas"
-        tagline="Letras, palabras y práctica suave"
-        icon={<SubjectIcon id="catala" />}
+        guideTip={guideTip}
         stations={stations}
       />
     </AppShell>

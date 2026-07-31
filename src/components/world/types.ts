@@ -1,5 +1,3 @@
-import type { ReactNode } from 'react'
-
 export type WorldTheme = 'maths' | 'languages' | 'english' | 'medi'
 
 export type WorldZoneStatus = 'available' | 'recommended' | 'completed' | 'coming-soon'
@@ -8,6 +6,7 @@ export type WorldZoneMark =
   | 'tables'
   | 'calc'
   | 'problems'
+  | 'money'
   | 'clocks'
   | 'alphabet'
   | 'writing'
@@ -36,9 +35,6 @@ export type WorldStation = {
 
 export type WorldLevelMapProps = {
   theme: WorldTheme
-  title: string
-  tagline: string
-  icon: ReactNode
   /** Frase de Lumo junto a la estación activa. */
   guideTip?: string
   stations: WorldStation[]

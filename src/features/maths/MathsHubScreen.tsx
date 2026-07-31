@@ -1,8 +1,14 @@
 import { AppShell } from '@/components/AppShell'
-import { SubjectIcon } from '@/components/ZoneIcons'
 import { WorldLevelMap } from '@/components/world/WorldLevelMap'
 import type { MapSlot, WorldStation } from '@/components/world/types'
 import { blocksForSubject, getSubject } from '@/curriculum'
+import {
+  hubGuideTip,
+  hubHasWeakZones,
+  resolveHubZoneStatus,
+  type HubZoneId,
+} from '@/curriculum/hubRecommendations'
+import { useProgress } from '@/progress/ProgressContext'
 
 const MATH_MARKS = {
   'multiplication-tables': 'tables',
@@ -25,20 +31,37 @@ const MATH_SHORT_DESC: Record<string, string> = {
   'clocks-hours': 'Leer la hora',
 }
 
+const MATH_ZONES: HubZoneId[] = ['tables', 'calc', 'money', 'clocks']
+
+function zoneForMathBlock(blockId: string): HubZoneId | null {
+  if (blockId === 'multiplication-tables') return 'tables'
+  if (blockId === 'calculation') return 'calc'
+  if (blockId === 'problems') return 'money'
+  if (blockId === 'clocks-hours') return 'clocks'
+  return null
+}
+
 export function MathsHubScreen() {
+  const { progress } = useProgress()
   const mathsBlocks = blocksForSubject('maths')
+  const anyWeak = hubHasWeakZones(progress, MATH_ZONES)
 
   const stations: WorldStation[] = mathsBlocks.map((block) => {
     const mark = MATH_MARKS[block.id as keyof typeof MATH_MARKS] ?? 'calc'
     const mapSlot = MATH_SLOTS[block.id] ?? 'end'
     const short = MATH_SHORT_DESC[block.id] ?? block.description
+    const zone = zoneForMathBlock(block.id)
 
-    if (block.id === 'multiplication-tables' && block.status === 'active') {
+    if (block.id === 'multiplication-tables' && block.status === 'active' && zone) {
       return {
         id: block.id,
         title: block.title,
         description: short,
-        status: 'recommended',
+        status: resolveHubZoneStatus(progress, zone, {
+          playable: true,
+          isStarter: true,
+          anyWeakInHub: anyWeak,
+        }),
         mark,
         mapSlot,
         href: '/missions/mates/tables',
@@ -46,12 +69,15 @@ export function MathsHubScreen() {
       }
     }
 
-    if (block.id === 'clocks-hours' && block.status === 'active') {
+    if (block.id === 'clocks-hours' && block.status === 'active' && zone) {
       return {
         id: block.id,
         title: block.title,
         description: short,
-        status: 'recommended',
+        status: resolveHubZoneStatus(progress, zone, {
+          playable: true,
+          anyWeakInHub: anyWeak,
+        }),
         mark,
         mapSlot,
         href: '/missions/mates/clocks',
@@ -59,12 +85,15 @@ export function MathsHubScreen() {
       }
     }
 
-    if (block.id === 'calculation' && block.status === 'active') {
+    if (block.id === 'calculation' && block.status === 'active' && zone) {
       return {
         id: block.id,
         title: block.title,
         description: short,
-        status: 'recommended',
+        status: resolveHubZoneStatus(progress, zone, {
+          playable: true,
+          anyWeakInHub: anyWeak,
+        }),
         mark,
         mapSlot,
         href: '/missions/mates/calc',
@@ -72,13 +101,16 @@ export function MathsHubScreen() {
       }
     }
 
-    if (block.id === 'problems') {
+    if (block.id === 'problems' && zone) {
       return {
         id: 'money-euros',
         title: 'Dinero',
         description: 'Euros, cambio y monedas',
-        status: 'recommended',
-        mark: 'calc',
+        status: resolveHubZoneStatus(progress, zone, {
+          playable: true,
+          anyWeakInHub: anyWeak,
+        }),
+        mark: 'money',
         mapSlot,
         href: '/missions/mates/money',
         ctaLabel: 'JUGAR DINERO',
@@ -96,6 +128,10 @@ export function MathsHubScreen() {
   })
 
   const maths = getSubject('maths')
+  const guideTip = hubGuideTip({
+    hasRecommended: stations.some((s) => s.status === 'recommended'),
+    hasWeak: anyWeak,
+  })
 
   return (
     <AppShell
@@ -105,10 +141,7 @@ export function MathsHubScreen() {
     >
       <WorldLevelMap
         theme="maths"
-        title="Mundo de Matemáticas"
-        tagline="Supera zonas y domina sus retos"
-        icon={<SubjectIcon id="mates" />}
-        guideTip="Empieza por aquí"
+        guideTip={guideTip}
         stations={stations}
       />
     </AppShell>

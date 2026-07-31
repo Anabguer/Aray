@@ -40,9 +40,6 @@ function buildCurvePath(
 
 export function WorldLevelMap({
   theme,
-  title,
-  tagline,
-  icon,
   guideTip,
   stations,
 }: WorldLevelMapProps) {
@@ -50,7 +47,6 @@ export function WorldLevelMap({
   const stageRef = useRef<HTMLDivElement>(null)
   const [pathD, setPathD] = useState('')
   const [pathBox, setPathBox] = useState({ w: 0, h: 0 })
-  const openZones = stations.filter((s) => s.status !== 'coming-soon').length
 
   const updatePath = useCallback(() => {
     const stage = stageRef.current
@@ -95,19 +91,6 @@ export function WorldLevelMap({
     <section className={`world-level-map world-level-map--${theme}`}>
       <WorldMapScenery theme={theme} />
 
-      <header className="world-level-map__head">
-        <div className="world-level-map__icon">{icon}</div>
-        <div className="world-level-map__titles">
-          <h2 className="world-level-map__title">{title}</h2>
-          <p className="world-level-map__tagline">{tagline}</p>
-          {stations.length > 0 ? (
-            <p className="world-level-map__progress">
-              {openZones}/{stations.length} zonas abiertas
-            </p>
-          ) : null}
-        </div>
-      </header>
-
       <div className="world-level-map__stage" ref={stageRef} onScroll={updatePath}>
         <svg
           className="world-level-map__path"
@@ -150,6 +133,9 @@ export function WorldLevelMap({
         <ol className="world-level-map__stations">
           {ordered.map((station, index) => {
             const side = index % 2 === 0 ? 'left' : 'right'
+            const isFirstRecommended =
+              station.status === 'recommended' &&
+              ordered.findIndex((item) => item.status === 'recommended') === index
             return (
               <li
                 key={station.id}
@@ -157,7 +143,7 @@ export function WorldLevelMap({
               >
                 <WorldStationNode
                   station={station}
-                  guideTip={station.status === 'recommended' ? guideTip : undefined}
+                  guideTip={isFirstRecommended ? guideTip : undefined}
                 />
               </li>
             )
