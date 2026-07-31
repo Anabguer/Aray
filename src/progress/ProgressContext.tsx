@@ -45,6 +45,14 @@ import {
   saveSyncMeta,
 } from '@/sync/pendingQueue'
 import {
+  enqueueAndSyncRewardGrant,
+  flushPendingRewardGrants,
+  purgeStaleRewardGrantPending,
+  rewardGrantPendingCount,
+  type ActivityEnergyGrant,
+} from '@/sync/rewardGrantSync'
+import { grantRewardPoints } from '@/reward/engine'
+import {
   buildSessionPayload,
   enqueueAndSyncSession,
   flushPendingSessions,
@@ -93,6 +101,8 @@ interface ProgressContextValue {
     sessionId: string
     bestStreakInRound: number
   }) => AlphabetSessionResult
+  /** Concede energía (local + MySQL vía reward-grant). Respeta dailyCap. */
+  grantActivityEnergy: (input: ActivityEnergyGrant) => { granted: number }
   refreshFromServer: () => Promise<void>
   flushSyncQueue: () => Promise<void>
   resetProgress: () => void
@@ -177,7 +187,7 @@ export function ProgressProvider({
 
   const refreshPendingCount = useCallback(() => {
     const epoch = syncEpochRef.current
-    setPendingSyncCount(pendingCount(epoch) + alphabetPendingCount(epoch))
+    setPendingSyncCount(pendingCount(epoch) + alphabetPendingCount(epoch) + rewardGrantPendingCount(epoch))
   }, [])
 
   const applyOfficial = useCallback(
@@ -257,37 +267,57 @@ export function ProgressProvider({
     setSyncStatus('syncing')
     try {
       purgeStaleAlphabetPending(syncEpochRef.current, id)
+      purgeStaleRewardGrantPending(syncEpochRef.current, id)
       const result = await flushPendingSessions(id)
       const abcResult = await flushPendingAlphabetSessions(id)
+      const energyResult = await flushPendingRewardGrants(
+        id,
+        progressRef.current.reward.appliedSessionIds,
+        progressRef.current.reward,
+      )
       const official = abcResult.progress ?? result.progress
-      if (official) {
+      if (official || energyResult.reward) {
         const current = progressRef.current
-        applyOfficial(
-          {
-            ...official,
-            soundMuted: current.soundMuted,
-            achievements: current.achievements,
-            reward: {
-              ...official.reward,
-              celebratedPendingCycles: current.reward.celebratedPendingCycles.filter((n) =>
-                official.reward.pendingCycleNumbers.includes(n),
+        const base = official
+          ? {
+              ...official,
+              soundMuted: current.soundMuted,
+              achievements: current.achievements,
+              reward: {
+                ...official.reward,
+                celebratedPendingCycles: current.reward.celebratedPendingCycles.filter((n) =>
+                  official.reward.pendingCycleNumbers.includes(n),
+                ),
+              },
+            }
+          : current
+        const reward = energyResult.reward
+          ? {
+              ...energyResult.reward,
+              celebratedPendingCycles: base.reward.celebratedPendingCycles.filter((n) =>
+                energyResult.reward!.pendingCycleNumbers.includes(n),
               ),
-            },
-          },
-          id,
-          syncEpochRef.current,
-        )
+              appliedSessionIds: Array.from(
+                new Set([...base.reward.appliedSessionIds, ...energyResult.reward.appliedSessionIds]),
+              ),
+            }
+          : base.reward
+        if (official) {
+          applyOfficial({ ...base, reward }, id, syncEpochRef.current)
+        } else {
+          persistCache({ ...current, reward })
+        }
       }
       refreshPendingCount()
-      const err = abcResult.error ?? result.error
-      const synced = result.synced || abcResult.synced
+      const err = energyResult.error ?? abcResult.error ?? result.error
+      const synced = result.synced || abcResult.synced || Boolean(energyResult.reward)
       setSyncStatus(err && !synced ? 'offline' : 'ready')
       if (err && !synced) setSyncError(err)
       else setSyncError(null)
     } finally {
       syncingRef.current = false
     }
-  }, [applyOfficial, refreshPendingCount])
+  }, [applyOfficial, persistCache, refreshPendingCount])
 
   useEffect(() => {
     if (skipHydration) {
@@ -321,8 +351,13 @@ export function ProgressProvider({
   }, [flushSyncQueue, refreshFromServer, skipHydration])
 
   useEffect(() => {
-    soundEngine.setMuted(progress.soundMuted)
-  }, [progress.soundMuted])
+    // Preferir prefs locales de audio (música/SFX); alinear progress.soundMuted
+    const prefs = soundEngine.getPrefs()
+    const muted = !prefs.sfxEnabled
+    if (progressRef.current.soundMuted !== muted) {
+      persistCache({ ...progressRef.current, soundMuted: muted })
+    }
+  }, [persistCache])
 
   const applySession = useCallback(
     (
@@ -487,6 +522,64 @@ export function ProgressProvider({
     [applyOfficial, persistCache, refreshPendingCount],
   )
 
+  const grantActivityEnergy = useCallback(
+    (input: ActivityEnergyGrant) => {
+      const requested = Math.max(0, Math.floor(input.requestedPoints))
+      if (requested <= 0 || !input.sessionId) return { granted: 0 }
+
+      const current = progressRef.current
+      const localGrant = grantRewardPoints(current.reward, {
+        requestedPoints: requested,
+        sessionId: input.sessionId,
+        attemptIds: [input.sessionId],
+      })
+      persistCache({ ...current, reward: localGrant.reward })
+
+      const id = playerIdRef.current
+      if (id !== null) {
+        void (async () => {
+          setSyncStatus('syncing')
+          const syncResult = await enqueueAndSyncRewardGrant({
+            playerId: id,
+            grant: { ...input, requestedPoints: requested },
+            appliedSessionIds: localGrant.reward.appliedSessionIds,
+            localReward: localGrant.reward,
+          })
+          refreshPendingCount()
+          if (syncResult.reward) {
+            const latest = progressRef.current
+            persistCache({
+              ...latest,
+              reward: {
+                ...syncResult.reward,
+                celebratedPendingCycles: latest.reward.celebratedPendingCycles.filter((n) =>
+                  syncResult.reward!.pendingCycleNumbers.includes(n),
+                ),
+                appliedSessionIds: Array.from(
+                  new Set([
+                    ...latest.reward.appliedSessionIds,
+                    ...syncResult.reward.appliedSessionIds,
+                    input.sessionId,
+                  ]),
+                ),
+              },
+            })
+            setSyncStatus('ready')
+            setSyncError(null)
+          } else {
+            setSyncStatus(syncResult.error ? 'offline' : 'ready')
+            setSyncError(syncResult.error)
+          }
+        })()
+      } else {
+        setSyncStatus('needs_device')
+      }
+
+      return { granted: localGrant.granted }
+    },
+    [persistCache, refreshPendingCount],
+  )
+
   const resetProgress = useCallback(() => {
     // Solo limpia caché local; el oficial vive en MySQL (panel/scripts)
     clearProgressCache()
@@ -635,6 +728,7 @@ export function ProgressProvider({
       hydrated,
       applySession,
       applyAlphabetSession,
+      grantActivityEnergy,
       refreshFromServer,
       flushSyncQueue,
       resetProgress,
@@ -657,6 +751,7 @@ export function ProgressProvider({
       hydrated,
       applySession,
       applyAlphabetSession,
+      grantActivityEnergy,
       refreshFromServer,
       flushSyncQueue,
       resetProgress,

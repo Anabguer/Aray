@@ -23,6 +23,14 @@ vi.mock('@/sound/soundEngine', () => ({
     unlock: vi.fn(),
     preload: vi.fn(),
     bindAutoUnlock: vi.fn(),
+    getPrefs: vi.fn(() => ({
+      sfxEnabled: true,
+      musicEnabled: true,
+      sfxVolume: 0.7,
+      musicVolume: 0.18,
+    })),
+    applyPrefs: vi.fn(),
+    subscribePrefs: vi.fn(() => () => undefined),
   },
 }))
 

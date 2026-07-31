@@ -207,10 +207,14 @@ export function MuteToggle({
   muted,
   onToggle,
   className,
+  ariaLabel,
+  title,
 }: {
   muted: boolean
   onToggle: () => void
   className?: string
+  ariaLabel?: string
+  title?: string
 }) {
   return (
     <button
@@ -218,18 +222,12 @@ export function MuteToggle({
       className={['icon-btn', className].filter(Boolean).join(' ')}
       onClick={() => {
         soundEngine.unlock()
-        if (muted) {
-          // Al reactivar, un click suave confirma el canal de audio
-          onToggle()
-          soundEngine.play('ui-click')
-        } else {
-          soundEngine.play('ui-click')
-          onToggle()
-        }
+        soundEngine.play('ui-click')
+        onToggle()
       }}
       aria-pressed={muted}
-      aria-label={muted ? 'Activar sonido' : 'Silenciar sonido'}
-      title={muted ? 'Sonido off' : 'Sonido on'}
+      aria-label={ariaLabel ?? (muted ? 'Activar sonido' : 'Silenciar sonido')}
+      title={title ?? (muted ? 'Sonido off' : 'Sonido on')}
     >
       {muted ? (
         <svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" strokeWidth="1.85" aria-hidden="true">

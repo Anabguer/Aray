@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { MuteToggle } from '@/components/quiz/QuizWidgets'
+import { SoundSettingsModal } from '@/components/SoundSettingsModal'
 import { AdultPinModal } from '@/features/access/AdultPinModal'
-import { useProgress } from '@/progress/ProgressContext'
+import { soundEngine } from '@/sound/soundEngine'
 
 /** Controles circulares del HUD: sonido y acceso adulto. */
 export function GameControls({
@@ -11,8 +12,14 @@ export function GameControls({
   className?: string
   toolbarLabel?: string
 }) {
-  const { progress, setSoundMuted } = useProgress()
   const [adultPinOpen, setAdultPinOpen] = useState(false)
+  const [soundOpen, setSoundOpen] = useState(false)
+  const [prefs, setPrefs] = useState(() => soundEngine.getPrefs())
+
+  useEffect(() => soundEngine.subscribePrefs(setPrefs), [])
+
+  // Icono “mute” solo si efectos y música están apagados
+  const fullyMuted = !prefs.sfxEnabled && !prefs.musicEnabled
 
   return (
     <>
@@ -23,8 +30,13 @@ export function GameControls({
       >
         <MuteToggle
           className="lobby-ctrl"
-          muted={progress.soundMuted}
-          onToggle={() => setSoundMuted(!progress.soundMuted)}
+          muted={fullyMuted}
+          ariaLabel="Ajustes de sonido"
+          title="Sonido"
+          onToggle={() => {
+            soundEngine.unlock()
+            setSoundOpen(true)
+          }}
         />
 
         <button
@@ -75,6 +87,7 @@ export function GameControls({
         </button>
       </div>
 
+      <SoundSettingsModal open={soundOpen} onClose={() => setSoundOpen(false)} />
       <AdultPinModal open={adultPinOpen} onClose={() => setAdultPinOpen(false)} />
     </>
   )
