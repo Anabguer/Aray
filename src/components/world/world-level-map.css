@@ -1,7 +1,7 @@
 
 /* ===== Mapa de niveles (Mundo de Matematicas / plantilla por zonas) ===== */
 .app-shell:has(.world-level-map) .app-main {
-  padding-top: 0.1rem;
+  padding-top: 0.55rem;
   padding-bottom: 0.2rem;
   min-height: calc(100dvh - 4.5rem);
   display: flex;
@@ -185,7 +185,7 @@
   width: min(100%, 900px);
   margin-inline: auto;
   overflow: visible;
-  padding: 0.1rem 0.35rem 0.55rem;
+  padding: 0.85rem 0.35rem 0.55rem;
   box-sizing: border-box;
   background: transparent;
 }
@@ -204,7 +204,7 @@
   z-index: 1;
   list-style: none;
   margin: 0;
-  padding: 0.1rem 0.25rem 0.45rem;
+  padding: 0.15rem 0.25rem 0.45rem;
   display: flex;
   flex-direction: column;
   gap: 0.55rem;
