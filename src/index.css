@@ -4690,6 +4690,16 @@ a {
   background: linear-gradient(145deg, rgba(139, 92, 246, 0.28), rgba(16, 40, 74, 0.95));
 }
 
+.answer-btn.is-picked {
+  opacity: 0.42;
+  transform: scale(0.97);
+  pointer-events: none;
+}
+
+.side-run-options--compare {
+  grid-template-columns: 1fr 1fr;
+}
+
 .feedback-banner {
   padding: 0.75rem 0.9rem;
   border-radius: var(--radius-md);

@@ -12,7 +12,7 @@ import {
 import { AppShell } from '@/components/AppShell'
 import { useLumoController } from '@/lumo/useLumoController'
 import { soundEngine } from '@/sound/soundEngine'
-import { sideActivityEnergy } from '@/config/rewardGoal'
+import { energyForMissionAttempt } from '@/daily/missionEnergy'
 import { rewardMatrix, sessionXpFromCorrects } from '@/config/rewardMatrix'
 import { buildActivityStatsDelta } from '@/achievements/stats'
 import { useDailyMission } from '@/daily/DailyMissionContext'
@@ -43,7 +43,7 @@ export function CalcPlayScreen() {
   const navigate = useNavigate()
   const { setLastSummary, setLastMode } = useCalcSession()
   const { recordProgress } = useDailyMission()
-  const { grantActivityEnergy } = useProgress()
+  const { grantActivityEnergy, playerId } = useProgress()
   const lumo = useLumoController('thinking')
   const answerFx = useAnswerFx()
   const seedRef = useRef(Date.now())
@@ -86,9 +86,10 @@ export function CalcPlayScreen() {
     })
     recordProgress('calc', Math.min(5, correctRef.current))
     if (correctRef.current > 0) {
+      const units = Math.min(5, correctRef.current)
       grantActivityEnergy({
         sessionId: newId('calc'),
-        requestedPoints: sideActivityEnergy.calc,
+        requestedPoints: energyForMissionAttempt('calc', units, playerId),
         mode: `calc-${mode}`.slice(0, 16),
         correct: correctRef.current,
         wrong: Math.max(0, attemptsRef.current - correctRef.current),
@@ -306,16 +307,19 @@ function CalcAnswers({
 }) {
   if (question.kind === 'mcq') {
     return (
-      <div className="quiz-arena__options" role="group">
+      <div className="side-run-options" role="group" aria-label="Respuestas">
         {question.options.map((opt, i) => (
           <button
             key={`${question.id}-${i}`}
             type="button"
-            className="quiz-arena__btn"
+            className="answer-btn"
             disabled={locked}
             onClick={() => onPickMcq(i)}
           >
-            {opt}
+            <span className="answer-btn__key" aria-hidden="true">
+              {i + 1}
+            </span>
+            <span className="answer-btn__value">{opt}</span>
           </button>
         ))}
       </div>
@@ -324,25 +328,28 @@ function CalcAnswers({
 
   if (question.kind === 'compare') {
     return (
-      <div className="quiz-arena__options quiz-arena__options--compare" role="group">
+      <div className="side-run-options side-run-options--compare" role="group" aria-label="Comparar">
         <button
           type="button"
-          className="quiz-arena__btn quiz-arena__btn--big"
+          className="answer-btn"
           disabled={locked}
           onClick={() => onCompare('left')}
         >
-          {question.left}
+          <span className="answer-btn__key" aria-hidden="true">
+            1
+          </span>
+          <span className="answer-btn__value">{question.left}</span>
         </button>
-        <span className="quiz-arena__vs" aria-hidden="true">
-          vs
-        </span>
         <button
           type="button"
-          className="quiz-arena__btn quiz-arena__btn--big"
+          className="answer-btn"
           disabled={locked}
           onClick={() => onCompare('right')}
         >
-          {question.right}
+          <span className="answer-btn__key" aria-hidden="true">
+            2
+          </span>
+          <span className="answer-btn__value">{question.right}</span>
         </button>
       </div>
     )
@@ -350,38 +357,47 @@ function CalcAnswers({
 
   if (question.kind === 'truefalse') {
     return (
-      <div className="quiz-arena__options" role="group">
+      <div className="side-run-options" role="group" aria-label="Verdadero o falso">
         <button
           type="button"
-          className="quiz-arena__btn quiz-arena__btn--ok"
+          className="answer-btn"
           disabled={locked}
           onClick={() => onTrueFalse(true)}
         >
-          Correcto
+          <span className="answer-btn__key" aria-hidden="true">
+            1
+          </span>
+          <span className="answer-btn__value">Correcto</span>
         </button>
         <button
           type="button"
-          className="quiz-arena__btn quiz-arena__btn--bad"
+          className="answer-btn"
           disabled={locked}
           onClick={() => onTrueFalse(false)}
         >
-          Incorrecto
+          <span className="answer-btn__key" aria-hidden="true">
+            2
+          </span>
+          <span className="answer-btn__value">Incorrecto</span>
         </button>
       </div>
     )
   }
 
   return (
-    <div className="quiz-arena__options" role="group">
-      {question.items.map((n) => (
+    <div className="side-run-options" role="group" aria-label="Ordenar">
+      {question.items.map((n, i) => (
         <button
           key={`${question.id}-${n}`}
           type="button"
-          className={`quiz-arena__btn${picked.includes(n) ? ' is-picked' : ''}`}
+          className={`answer-btn${picked.includes(n) ? ' is-picked' : ''}`}
           disabled={locked || picked.includes(n)}
           onClick={() => onOrderTap(n)}
         >
-          {n}
+          <span className="answer-btn__key" aria-hidden="true">
+            {i + 1}
+          </span>
+          <span className="answer-btn__value">{n}</span>
         </button>
       ))}
     </div>
