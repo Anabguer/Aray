@@ -29,15 +29,15 @@ export function MathsHubScreen() {
   const mathsBlocks = blocksForSubject('maths')
 
   const stations: WorldStation[] = mathsBlocks.map((block) => {
-    const isLive = block.id === 'multiplication-tables' && block.status === 'active'
     const mark = MATH_MARKS[block.id as keyof typeof MATH_MARKS] ?? 'calc'
     const mapSlot = MATH_SLOTS[block.id] ?? 'end'
+    const short = MATH_SHORT_DESC[block.id] ?? block.description
 
-    if (isLive) {
+    if (block.id === 'multiplication-tables' && block.status === 'active') {
       return {
         id: block.id,
         title: block.title,
-        description: MATH_SHORT_DESC[block.id] ?? block.description,
+        description: short,
         status: 'recommended',
         mark,
         mapSlot,
@@ -46,10 +46,23 @@ export function MathsHubScreen() {
       }
     }
 
+    if (block.id === 'clocks-hours' && block.status === 'active') {
+      return {
+        id: block.id,
+        title: block.title,
+        description: short,
+        status: 'recommended',
+        mark,
+        mapSlot,
+        href: '/missions/mates/clocks',
+        ctaLabel: 'JUGAR HORAS',
+      }
+    }
+
     return {
       id: block.id,
       title: block.title,
-      description: MATH_SHORT_DESC[block.id] ?? block.description,
+      description: short,
       status: 'coming-soon',
       mark,
       mapSlot,

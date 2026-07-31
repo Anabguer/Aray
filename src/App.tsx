@@ -5,6 +5,12 @@ import { AdultPanel } from '@/features/adult/AdultPanel'
 import { CollectionScreen } from '@/features/collection/CollectionScreen'
 import { HomeScreen } from '@/features/home/HomeScreen'
 import { ChallengeScreen } from '@/features/maths/ChallengeScreen'
+import { ClockLangScreen } from '@/features/maths/clocks/ClockLangScreen'
+import { ClockLearnScreen } from '@/features/maths/clocks/ClockLearnScreen'
+import { ClockMatchScreen } from '@/features/maths/clocks/ClockMatchScreen'
+import { ClockModeSelectScreen } from '@/features/maths/clocks/ClockModeSelectScreen'
+import { ClockSummaryScreen } from '@/features/maths/clocks/ClockSummaryScreen'
+import { ClockTrainScreen } from '@/features/maths/clocks/ClockTrainScreen'
 import { LearnScreen } from '@/features/maths/LearnScreen'
 import { MatchScreen } from '@/features/maths/MatchScreen'
 import { MathsHubScreen } from '@/features/maths/MathsHubScreen'
@@ -34,6 +40,12 @@ export default function App() {
         <Route path="/missions/mates/tables/challenge" element={<ChallengeScreen />} />
         <Route path="/missions/mates/tables/match" element={<MatchScreen />} />
         <Route path="/missions/mates/tables/summary" element={<SessionSummaryScreen />} />
+        <Route path="/missions/mates/clocks" element={<ClockLangScreen />} />
+        <Route path="/missions/mates/clocks/modes" element={<ClockModeSelectScreen />} />
+        <Route path="/missions/mates/clocks/learn" element={<ClockLearnScreen />} />
+        <Route path="/missions/mates/clocks/train" element={<ClockTrainScreen />} />
+        <Route path="/missions/mates/clocks/match" element={<ClockMatchScreen />} />
+        <Route path="/missions/mates/clocks/summary" element={<ClockSummaryScreen />} />
         <Route path="/missions/:subjectId" element={<SubjectPreviewScreen />} />
         <Route path="/collection" element={<CollectionScreen />} />
         <Route path="*" element={<Navigate to="/" replace />} />

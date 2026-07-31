@@ -8460,3 +8460,346 @@ a {
   background: color-mix(in srgb, #fbbf24 22%, transparent);
   color: var(--text, #eef7ff);
 }
+
+/* ---- Modo Horas (reloj) ---- */
+.clock-lang {
+  max-width: 36rem;
+  margin: 0 auto;
+  padding: 0.5rem 0 1.5rem;
+}
+
+.clock-lang__title {
+  margin: 0 0 0.4rem;
+  font-size: clamp(1.35rem, 4vw, 1.75rem);
+}
+
+.clock-lang__lead {
+  margin: 0 0 1.25rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.clock-lang__grid {
+  display: grid;
+  gap: 0.85rem;
+}
+
+@media (min-width: 520px) {
+  .clock-lang__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.clock-lang__card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  padding: 1.1rem 1.15rem;
+  border-radius: var(--radius-md, 1rem);
+  border: 1px solid rgba(56, 189, 248, 0.28);
+  background: linear-gradient(160deg, rgba(8, 47, 73, 0.85), rgba(12, 74, 110, 0.55));
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 160ms ease, border-color 160ms ease;
+}
+
+.clock-lang__card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(125, 211, 252, 0.55);
+}
+
+.clock-lang__card.is-active {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.35);
+}
+
+.clock-lang__flag {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #7dd3fc;
+}
+
+.clock-lang__name {
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.clock-lang__sample {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.clock-modes__lang {
+  margin: 0 0 0.85rem;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+}
+
+.mode-posters--clocks {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 720px) {
+  .mode-posters--clocks {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.clock-learn {
+  max-width: 40rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-bottom: 1.5rem;
+}
+
+.clock-learn__lumo {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.clock-learn__bubble {
+  margin: 0;
+  flex: 1;
+  padding: 0.85rem 1rem;
+  border-radius: 1rem;
+  background: rgba(8, 28, 52, 0.72);
+  border: 1px solid rgba(56, 189, 248, 0.22);
+  line-height: 1.4;
+}
+
+.clock-learn__stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 1rem 0.5rem;
+}
+
+.clock-learn__phrase {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.clock-learn__tip {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.clock-learn__dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.clock-learn__dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.45);
+}
+
+.clock-learn__dot.is-on {
+  background: #38bdf8;
+}
+
+.clock-learn__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  justify-content: space-between;
+}
+
+.analog-clock {
+  display: block;
+  filter: drop-shadow(0 10px 24px rgba(2, 12, 27, 0.45));
+}
+
+.clock-train,
+.clock-match {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding-bottom: 1.5rem;
+}
+
+.clock-train__hud,
+.clock-match__hud {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+}
+
+.clock-train__stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.clock-train__prompt {
+  margin: 0.35rem 0 0;
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.clock-train__options {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.clock-train__option {
+  padding: 0.85rem 1rem;
+  border-radius: 0.9rem;
+  border: 1px solid rgba(56, 189, 248, 0.28);
+  background: rgba(8, 28, 52, 0.72);
+  color: inherit;
+  font-size: 1rem;
+  font-weight: 650;
+  text-align: left;
+  cursor: pointer;
+}
+
+.clock-train__option:disabled {
+  cursor: default;
+}
+
+.clock-train__option.is-ok {
+  border-color: #4ade80;
+  background: rgba(22, 101, 52, 0.45);
+}
+
+.clock-train__option.is-bad {
+  border-color: #f87171;
+  background: rgba(127, 29, 29, 0.45);
+}
+
+.clock-train__option.is-reveal {
+  border-color: #4ade80;
+}
+
+.clock-train__feedback {
+  margin: 0.85rem 0 0;
+  text-align: center;
+  font-weight: 700;
+}
+
+.clock-match__hint {
+  color: var(--text-muted);
+}
+
+.clock-match__clocks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin-bottom: 1rem;
+}
+
+.clock-match__clock {
+  padding: 0.55rem;
+  border-radius: 1rem;
+  border: 2px solid transparent;
+  background: rgba(8, 28, 52, 0.55);
+  cursor: pointer;
+}
+
+.clock-match__clock.is-sel {
+  border-color: #38bdf8;
+}
+
+.clock-match__clock.is-done {
+  opacity: 0.45;
+  border-color: #4ade80;
+}
+
+.clock-match__labels {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.clock-match__label {
+  padding: 0.8rem 0.95rem;
+  border-radius: 0.85rem;
+  border: 2px solid rgba(56, 189, 248, 0.25);
+  background: rgba(8, 28, 52, 0.72);
+  color: inherit;
+  font-weight: 650;
+  text-align: left;
+  cursor: pointer;
+}
+
+.clock-match__label.is-sel {
+  border-color: #38bdf8;
+}
+
+.clock-match__label.is-done {
+  opacity: 0.45;
+  border-color: #4ade80;
+}
+
+.clock-summary {
+  max-width: 28rem;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0 1.5rem;
+}
+
+.clock-summary__title {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+.clock-summary__meta {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+.clock-summary__stats {
+  list-style: none;
+  margin: 0.5rem 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.clock-summary__stats li {
+  display: flex;
+  flex-direction: column;
+  min-width: 5.5rem;
+}
+
+.clock-summary__stats strong {
+  font-size: 1.45rem;
+}
+
+.clock-summary__stats span {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.clock-summary__actions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin-top: 0.5rem;
+}

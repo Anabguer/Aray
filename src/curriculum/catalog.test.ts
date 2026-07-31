@@ -34,9 +34,12 @@ describe('catálogo curricular', () => {
       'problems',
       'clocks-hours',
     ])
+    expect(blocks.find((b) => b.id === 'clocks-hours')?.status).toBe('active')
     const futureBlocks = blocks.filter((b) => b.status === 'future')
     expect(futureBlocks.length).toBeGreaterThan(5)
-    expect(activities.every((a) => a.id.includes('mult-'))).toBe(true)
+    expect(activities.every((a) => a.id.includes('mult-') || a.id.startsWith('clock-'))).toBe(
+      true,
+    )
   })
 
   it('no incluye el curso en los IDs de actividad', () => {
@@ -69,6 +72,16 @@ describe('catálogo curricular', () => {
       'timed',
     ])
     expect(new Set(modes.map((m) => m.skillId)).size).toBe(1)
+  })
+  it('incluye actividades de horas en el bloque clocks-hours', () => {
+    expect(getSkill('clock-hours')?.blockId).toBe('clocks-hours')
+    expect(getSkill('clock-hours')?.progressKind).toBe('generic')
+    const clockActs = activities.filter((a) => a.skillId === 'clock-hours')
+    expect(clockActs.map((a) => a.exerciseType).sort()).toEqual([
+      'learn',
+      'match',
+      'multiple-choice',
+    ])
   })
 })
 
