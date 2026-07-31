@@ -13,7 +13,7 @@ final class Session
         $name = defined('ARAY_SESSION_NAME') ? ARAY_SESSION_NAME : 'ARAYSESSID';
         $secure = defined('ARAY_COOKIE_SECURE') ? (bool) ARAY_COOKIE_SECURE : aray_is_production();
         $sameSite = defined('ARAY_COOKIE_SAMESITE') ? ARAY_COOKIE_SAMESITE : 'Lax';
-        $path = defined('ARAY_COOKIE_PATH') ? ARAY_COOKIE_PATH : '/aray';
+        $path = defined('ARAY_COOKIE_PATH') ? ARAY_COOKIE_PATH : '/aray/afkacademy';
 
         session_name($name);
         session_set_cookie_params([

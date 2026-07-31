@@ -1,10 +1,10 @@
 #Requires -Version 5.1
 <#
-  Deploy ARAY → https://intocables13.com/aray/
+  Deploy AFK Academy → https://intocables13.com/aray/afkacademy/
   1) npm run build
   2) Empaqueta dist + PHP (api, includes, database, .htaccess, scripts útiles)
   3) Genera database.local.php de producción (no lo sube desde Git)
-  4) Backup remoto si /aray tiene contenido + upload FTPES
+  4) Backup remoto si /aray/afkacademy tiene contenido + upload FTPES
 #>
 param(
     [switch]$SkipBuild
@@ -36,7 +36,7 @@ function Write-Log {
     Add-Content -LiteralPath $LogFile -Value $line -Encoding UTF8
 }
 
-Write-Log "=== Deploy ARAY -> intocables13.com/aray/ ==="
+Write-Log "=== Deploy AFK Academy -> intocables13.com/aray/afkacademy/ ==="
 
 $cfgPath = Join-Path $DeployDir 'hostalia.publish.local.json'
 if (-not (Test-Path -LiteralPath $cfgPath)) {
@@ -44,9 +44,9 @@ if (-not (Test-Path -LiteralPath $cfgPath)) {
     $fallback = 'W:\PuntoySigo\deploy\hostalia.publish.local.json'
     if (Test-Path -LiteralPath $fallback) {
         $cfg = Get-Content -LiteralPath $fallback -Raw -Encoding UTF8 | ConvertFrom-Json
-        $cfg.HOSTALIA_REMOTE_PATH = '/aray'
+        $cfg.HOSTALIA_REMOTE_PATH = '/aray/afkacademy'
         $cfg | ConvertTo-Json | Set-Content -LiteralPath $cfgPath -Encoding UTF8
-        Write-Log "Creado $cfgPath desde PuntoySigo (REMOTE_PATH=/aray)."
+        Write-Log "Creado $cfgPath desde PuntoySigo (REMOTE_PATH=/aray/afkacademy)."
     } else {
         Write-Log "ERROR: Falta $cfgPath"
         exit 1
@@ -129,10 +129,10 @@ $prodPhp = Join-Path $StageRoot 'includes\database.local.php'
 $raw = Get-Content -LiteralPath $localPhp -Raw -Encoding UTF8
 $raw = [regex]::Replace($raw, "define\(\s*'ARAY_ENV'\s*,\s*'[^']*'\s*\)", "define('ARAY_ENV', 'production')")
 $raw = [regex]::Replace($raw, "define\(\s*'ARAY_COOKIE_SECURE'\s*,\s*[^)]+\)", "define('ARAY_COOKIE_SECURE', true)")
-$raw = [regex]::Replace($raw, "define\(\s*'ARAY_COOKIE_PATH'\s*,\s*'[^']*'\s*\)", "define('ARAY_COOKIE_PATH', '/aray')")
+$raw = [regex]::Replace($raw, "define\(\s*'ARAY_COOKIE_PATH'\s*,\s*'[^']*'\s*\)", "define('ARAY_COOKIE_PATH', '/aray/afkacademy')")
 $raw = [regex]::Replace($raw, "define\(\s*'ARAY_CREATE_DATABASE'\s*,\s*[^)]+\)", "define('ARAY_CREATE_DATABASE', false)")
 if ($raw -notmatch "ARAY_COOKIE_PATH") {
-    $raw += "`r`ndefine('ARAY_COOKIE_PATH', '/aray');`r`n"
+    $raw += "`r`ndefine('ARAY_COOKIE_PATH', '/aray/afkacademy');`r`n"
 }
 if ($raw -notmatch "ARAY_COOKIE_SECURE") {
     $raw += "`r`ndefine('ARAY_COOKIE_SECURE', true);`r`n"
@@ -260,5 +260,5 @@ Write-Log "Subiendo stage a $remoteBase ..."
 Invoke-WinScpScript -ScriptLines $putLines.ToArray() -Label 'upload'
 
 Write-Log 'Deploy ARAY completado.'
-Write-Log "Comprobar: https://intocables13.com/aray/  y  https://intocables13.com/aray/api/v1/health.php"
+Write-Log "Comprobar: https://intocables13.com/aray/afkacademy/  y  https://intocables13.com/aray/afkacademy/api/v1/health.php"
 exit 0

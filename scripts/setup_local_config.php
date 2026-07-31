@@ -78,7 +78,7 @@ define('ARAY_SESSION_NAME', 'ARAYSESSID');
 define('ARAY_DEVICE_COOKIE', 'ARAYDEVICE');
 define('ARAY_COOKIE_SECURE', false);
 define('ARAY_COOKIE_SAMESITE', 'Lax');
-define('ARAY_COOKIE_PATH', '/'); // Hostalia con URL /aray/ → '/aray'
+define('ARAY_COOKIE_PATH', '/'); // Hostalia con URL /aray/afkacademy/ → '/aray/afkacademy'
 
 define('ARAY_TIMEZONE_PLAYABLE', 'Europe/Madrid');
 define('ARAY_DEVICE_TOKEN_BYTES', 32);

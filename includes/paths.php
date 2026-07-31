@@ -1,6 +1,6 @@
 <?php
 /**
- * Detección de rutas — local (XAMPP /aray/) vs producción (intocables13.com/aray/).
+ * Detección de rutas — local vs producción (intocables13.com/aray/afkacademy/).
  * Preparado para el futuro backend PHP. No contiene secretos.
  */
 
@@ -11,10 +11,10 @@ $isLocalhost = (
 );
 
 if ($isLocalhost) {
-    define('BASE_URL', '/aray/');
-    define('SITE_URL', 'http://localhost/aray');
+    define('BASE_URL', '/aray/afkacademy/');
+    define('SITE_URL', 'http://localhost/aray/afkacademy');
 } else {
-    define('BASE_URL', '/aray/');
+    define('BASE_URL', '/aray/afkacademy/');
     $https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
         || (isset($_SERVER['SERVER_PORT']) && (int) $_SERVER['SERVER_PORT'] === 443)
         || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower((string) $_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https');

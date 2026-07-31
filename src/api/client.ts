@@ -1,8 +1,8 @@
 /**
  * Cliente JSON con cookies de sesión.
- * Bajo Hostalia/Vite la app vive en `/aray/` y la API en `/aray/api/v1`.
+ * Bajo Hostalia/Vite la app vive en `/aray/afkacademy/` y la API en `/aray/afkacademy/api/v1`.
  */
-const BASE = (import.meta.env.BASE_URL || '/aray/').replace(/\/?$/, '/')
+const BASE = (import.meta.env.BASE_URL || '/aray/afkacademy/').replace(/\/?$/, '/')
 export const API_ROOT = `${BASE}api/v1`
 
 let csrfCache: string | null = null
@@ -82,6 +82,25 @@ export async function apiPost<T extends Record<string, unknown> = Record<string,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ ...body, csrf }),
+    signal,
+  })
+  return (await parseJson(res)) as T
+}
+
+/** POST multipart (p. ej. avatar). No fuerza Content-Type: lo pone el navegador con boundary. */
+export async function apiUpload<T extends Record<string, unknown> = Record<string, unknown>>(
+  path: string,
+  form: FormData,
+  signal?: AbortSignal,
+): Promise<T> {
+  const url = path.startsWith('http') ? path : `${API_ROOT}${path.startsWith('/') ? path : `/${path}`}`
+  const csrf = await getCsrf()
+  form.set('csrf', csrf)
+  const res = await fetch(url, {
+    method: 'POST',
+    credentials: 'include',
+    headers: { Accept: 'application/json' },
+    body: form,
     signal,
   })
   return (await parseJson(res)) as T

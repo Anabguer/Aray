@@ -31,7 +31,7 @@ define('ARAY_SESSION_NAME', 'ARAYSESSID');
 define('ARAY_DEVICE_COOKIE', 'ARAYDEVICE');
 define('ARAY_COOKIE_SECURE', false); // true en Hostalia (HTTPS)
 define('ARAY_COOKIE_SAMESITE', 'Lax');
-define('ARAY_COOKIE_PATH', '/'); // en Hostalia bajo /aray/ usar '/aray'
+define('ARAY_COOKIE_PATH', '/'); // en Hostalia bajo /aray/afkacademy/ usar '/aray/afkacademy'
 
 define('ARAY_TIMEZONE_PLAYABLE', 'Europe/Madrid');
 define('ARAY_DEVICE_TOKEN_BYTES', 32);

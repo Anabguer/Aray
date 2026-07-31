@@ -32,22 +32,34 @@ final class AuthService
             Http::error(401, 'invalid_credentials', 'No se pudo iniciar sesión.');
         }
 
+        $accountId = (int) $row['id'];
+        $displayName = (string) $row['display_name'];
+        $loginNorm = (string) $row['login'];
+
         Session::regenerate();
-        Session::setAdult((int) $row['id'], (string) $row['display_name'], (string) $row['login']);
+        Session::setAdult($accountId, $displayName, $loginNorm);
         Csrf::token();
 
         $pdo->prepare(
             "UPDATE {$accounts} SET last_login_at = :at WHERE id = :id"
-        )->execute([':at' => MadridTime::utcNowString(), ':id' => (int) $row['id']]);
+        )->execute([':at' => MadridTime::utcNowString(), ':id' => $accountId]);
+
+        $players = self::playersForAccount($accountId);
+        $device = self::deviceStatus();
+        if (!self::deviceBelongsToAccount($device, $accountId) && $players !== []) {
+            self::authorizeDevice($accountId, (int) $players[0]['id'], 'PC de ' . $displayName);
+            $device = self::deviceStatus();
+        }
 
         return [
             'role' => 'adult',
             'account' => [
-                'id' => (int) $row['id'],
-                'login' => (string) $row['login'],
-                'displayName' => (string) $row['display_name'],
+                'id' => $accountId,
+                'login' => $loginNorm,
+                'displayName' => $displayName,
             ],
-            'players' => self::playersForAccount((int) $row['id']),
+            'players' => $players,
+            'device' => $device,
             'csrf' => Csrf::token(),
         ];
     }
@@ -87,7 +99,7 @@ final class AuthService
         $ap = Database::table('account_players');
         $pp = Database::table('player_profiles');
         $stmt = $pdo->prepare(
-            "SELECT p.id, p.slug, p.display_name
+            "SELECT p.id, p.slug, p.display_name, p.avatar_code, p.current_course_id
              FROM {$ap} ap
              INNER JOIN {$pp} p ON p.id = ap.player_id
              WHERE ap.account_id = :a AND p.is_active = 1
@@ -100,6 +112,10 @@ final class AuthService
                 'id' => (int) $row['id'],
                 'slug' => (string) $row['slug'],
                 'displayName' => (string) $row['display_name'],
+                'avatarUrl' => AvatarService::urlFromCode(
+                    isset($row['avatar_code']) ? (string) $row['avatar_code'] : null
+                ),
+                'courseId' => isset($row['current_course_id']) ? (string) $row['current_course_id'] : null,
             ];
         }
         return $out;
@@ -110,7 +126,7 @@ final class AuthService
         $pdo = Database::pdo();
         $pp = Database::table('player_profiles');
         $stmt = $pdo->prepare(
-            "SELECT id, slug, display_name, child_pin_hash, is_active
+            "SELECT id, slug, display_name, child_pin_hash, avatar_code, is_active
              FROM {$pp} WHERE slug = :s LIMIT 1"
         );
         $stmt->execute([':s' => mb_strtolower(trim($slug))]);
@@ -123,12 +139,36 @@ final class AuthService
         $pdo = Database::pdo();
         $pp = Database::table('player_profiles');
         $stmt = $pdo->prepare(
-            "SELECT id, slug, display_name, child_pin_hash, is_active
+            "SELECT id, slug, display_name, child_pin_hash, avatar_code, is_active
              FROM {$pp} WHERE id = :id LIMIT 1"
         );
         $stmt->execute([':id' => $id]);
         $row = $stmt->fetch();
         return is_array($row) ? $row : null;
+    }
+
+    /** Cuenta dueña del dispositivo activo (cookie), si hay. */
+    public static function accountIdFromDeviceCookie(): ?int
+    {
+        $raw = self::readDeviceCookie();
+        if ($raw === null || $raw === '') {
+            return null;
+        }
+        $device = self::findActiveDeviceByToken($raw);
+        if ($device === null) {
+            return null;
+        }
+        $aid = (int) ($device['authorized_by_account_id'] ?? 0);
+        return $aid > 0 ? $aid : null;
+    }
+
+    /** @param array<string,mixed> $deviceStatus */
+    public static function deviceBelongsToAccount(array $deviceStatus, int $accountId): bool
+    {
+        if (!($deviceStatus['authorized'] ?? false)) {
+            return false;
+        }
+        return (int) ($deviceStatus['accountId'] ?? 0) === $accountId;
     }
 
     /** Autoriza el dispositivo actual: genera token raw (solo se devuelve una vez). */
@@ -418,34 +458,61 @@ final class AuthService
         ];
     }
 
-    /** Entra como niño usando cookie de dispositivo autorizada. */
+    /** Entra como niño usando cookie de dispositivo (cualquier niño de la misma cuenta). */
     public static function childEnterWithDeviceCookie(?string $playerSlug = null): array
     {
         $raw = self::readDeviceCookie();
         if ($raw === null || $raw === '') {
-            Http::error(401, 'device_required', 'Este dispositivo no está autorizado. Pide a un adulto que lo autorice.');
+            Http::error(401, 'device_required', 'Este dispositivo no está autorizado. Entra con la cuenta familiar.');
         }
 
         $device = self::findActiveDeviceByToken($raw);
         if ($device === null) {
             self::clearDeviceCookie();
-            Http::error(401, 'device_required', 'Este dispositivo no está autorizado. Pide a un adulto que lo autorice.');
+            Http::error(401, 'device_required', 'Este dispositivo no está autorizado. Entra con la cuenta familiar.');
         }
 
-        $player = self::findPlayerById((int) $device['player_id']);
+        $accountId = (int) ($device['authorized_by_account_id'] ?? 0);
+        if ($accountId < 1) {
+            Http::error(401, 'device_required', 'Este dispositivo no está autorizado. Entra con la cuenta familiar.');
+        }
+
+        $player = null;
+        if ($playerSlug !== null && $playerSlug !== '') {
+            $candidate = self::findPlayerBySlug($playerSlug);
+            if (
+                $candidate !== null
+                && (int) $candidate['is_active'] === 1
+                && self::accountOwnsPlayer($accountId, (int) $candidate['id'])
+            ) {
+                $player = $candidate;
+            } else {
+                Http::error(403, 'forbidden', 'Este dispositivo no corresponde a ese perfil.');
+            }
+        } else {
+            $player = self::findPlayerById((int) $device['player_id']);
+            if ($player === null || (int) $player['is_active'] !== 1) {
+                $siblings = self::playersForAccount($accountId);
+                if ($siblings === []) {
+                    Http::error(401, 'device_required', 'Este dispositivo no está autorizado. Entra con la cuenta familiar.');
+                }
+                $player = self::findPlayerById((int) $siblings[0]['id']);
+            }
+        }
+
         if ($player === null || (int) $player['is_active'] !== 1) {
-            Http::error(401, 'device_required', 'Este dispositivo no está autorizado. Pide a un adulto que lo autorice.');
-        }
-
-        if ($playerSlug !== null && $playerSlug !== '' && mb_strtolower($playerSlug) !== (string) $player['slug']) {
-            Http::error(403, 'forbidden', 'Este dispositivo no corresponde a ese perfil.');
+            Http::error(401, 'device_required', 'Este dispositivo no está autorizado. Entra con la cuenta familiar.');
         }
 
         $pdo = Database::pdo();
         $table = Database::table('authorized_devices');
         $pdo->prepare(
-            "UPDATE {$table} SET last_used_at = :at WHERE id = :id"
-        )->execute([':at' => MadridTime::utcNowString(), ':id' => (int) $device['id']]);
+            "UPDATE {$table} SET last_used_at = :at, player_id = :p WHERE id = :id"
+        )->execute([
+            ':at' => MadridTime::utcNowString(),
+            ':p' => (int) $player['id'],
+            ':id' => (int) $device['id'],
+        ]);
 
         Session::regenerate();
         Session::setChild(
@@ -461,6 +528,9 @@ final class AuthService
                 'id' => (int) $player['id'],
                 'slug' => (string) $player['slug'],
                 'displayName' => (string) $player['display_name'],
+                'avatarUrl' => AvatarService::urlFromCode(
+                    isset($player['avatar_code']) ? (string) $player['avatar_code'] : null
+                ),
             ],
             'deviceId' => (int) $device['id'],
             'csrf' => Csrf::token(),
@@ -478,20 +548,42 @@ final class AuthService
         if ($device === null) {
             return ['authorized' => false];
         }
-        $player = self::findPlayerById((int) $device['player_id']);
-        if ($player === null) {
+        $accountId = (int) ($device['authorized_by_account_id'] ?? 0);
+        if ($accountId < 1) {
             return ['authorized' => false];
         }
+        $player = self::findPlayerById((int) $device['player_id']);
+        $account = self::findAccountById($accountId);
+        $players = self::playersForAccount($accountId);
         return [
             'authorized' => true,
             'deviceId' => (int) $device['id'],
             'deviceLabel' => (string) $device['device_label'],
-            'player' => [
+            'accountId' => $accountId,
+            'accountDisplayName' => is_array($account) ? (string) $account['display_name'] : null,
+            'player' => $player === null ? null : [
                 'id' => (int) $player['id'],
                 'slug' => (string) $player['slug'],
                 'displayName' => (string) $player['display_name'],
+                'avatarUrl' => AvatarService::urlFromCode(
+                    isset($player['avatar_code']) ? (string) $player['avatar_code'] : null
+                ),
             ],
+            'players' => $players,
         ];
+    }
+
+    public static function findAccountById(int $id): ?array
+    {
+        $pdo = Database::pdo();
+        $accounts = Database::table('accounts');
+        $stmt = $pdo->prepare(
+            "SELECT id, login, display_name, adult_pin_hash, is_active
+             FROM {$accounts} WHERE id = :id LIMIT 1"
+        );
+        $stmt->execute([':id' => $id]);
+        $row = $stmt->fetch();
+        return is_array($row) ? $row : null;
     }
 
     /**
@@ -510,12 +602,18 @@ final class AuthService
         if (Session::role() === 'child' && Session::playerId() === $playerId) {
             return;
         }
-        // Cookie de dispositivo sin sesión PHP aún
+        // Cookie de dispositivo: cualquier niño de la misma cuenta familiar
         $raw = self::readDeviceCookie();
         if ($raw !== null) {
             $device = self::findActiveDeviceByToken($raw);
-            if ($device !== null && (int) $device['player_id'] === $playerId) {
-                return;
+            if ($device !== null) {
+                $accountId = (int) ($device['authorized_by_account_id'] ?? 0);
+                if ($accountId > 0 && self::accountOwnsPlayer($accountId, $playerId)) {
+                    return;
+                }
+                if ((int) $device['player_id'] === $playerId) {
+                    return;
+                }
             }
         }
         Http::error(401, 'unauthorized', 'Se requiere autorización.');
@@ -548,7 +646,7 @@ final class AuthService
         $name = defined('ARAY_DEVICE_COOKIE') ? ARAY_DEVICE_COOKIE : 'ARAYDEVICE';
         $secure = defined('ARAY_COOKIE_SECURE') ? (bool) ARAY_COOKIE_SECURE : aray_is_production();
         $sameSite = defined('ARAY_COOKIE_SAMESITE') ? ARAY_COOKIE_SAMESITE : 'Lax';
-        $path = defined('ARAY_COOKIE_PATH') ? ARAY_COOKIE_PATH : '/aray';
+        $path = defined('ARAY_COOKIE_PATH') ? ARAY_COOKIE_PATH : '/aray/afkacademy';
         $ttlDays = defined('ARAY_DEVICE_TTL_DAYS') ? (int) ARAY_DEVICE_TTL_DAYS : 365;
 
         setcookie($name, $rawToken, [
@@ -566,7 +664,7 @@ final class AuthService
         $name = defined('ARAY_DEVICE_COOKIE') ? ARAY_DEVICE_COOKIE : 'ARAYDEVICE';
         $secure = defined('ARAY_COOKIE_SECURE') ? (bool) ARAY_COOKIE_SECURE : aray_is_production();
         $sameSite = defined('ARAY_COOKIE_SAMESITE') ? ARAY_COOKIE_SAMESITE : 'Lax';
-        $path = defined('ARAY_COOKIE_PATH') ? ARAY_COOKIE_PATH : '/aray';
+        $path = defined('ARAY_COOKIE_PATH') ? ARAY_COOKIE_PATH : '/aray/afkacademy';
         setcookie($name, '', [
             'expires' => time() - 3600,
             'path' => $path,

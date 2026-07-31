@@ -14,7 +14,7 @@ import { ProgressProvider } from '@/progress/ProgressContext'
 import './index.css'
 import './feedback/feedback.css'
 
-/** '/aray/' → '/aray' · '/' → raíz */
+/** '/aray/afkacademy/' → '/aray/afkacademy' · '/' → raíz */
 function routerBasename(): string | undefined {
   const base = import.meta.env.BASE_URL
   if (!base || base === '/' || base === './') return undefined

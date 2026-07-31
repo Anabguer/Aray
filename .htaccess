@@ -2,7 +2,7 @@ DirectoryIndex index.html
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /aray/
+    RewriteBase /aray/afkacademy/
 
     # No reescribir archivos ni carpetas reales (api/, assets, etc.)
     RewriteCond %{REQUEST_FILENAME} -f [OR]

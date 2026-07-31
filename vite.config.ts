@@ -2,23 +2,27 @@ import { defineConfig, type Plugin } from 'vitest/config'
 import react from '@vitejs/plugin-react'
 import path from 'node:path'
 
-/** Redirige /aray → /aray/ (Vite exige la barra final con base). */
+const APP_BASE = '/aray/afkacademy/'
+
+/** Redirige /aray/afkacademy → /aray/afkacademy/ (Vite exige la barra final). */
 function redirectBaseSlash(): Plugin {
+  const bare = APP_BASE.replace(/\/$/, '')
   const redirect = (
     req: { url?: string },
     res: { statusCode: number; setHeader: (k: string, v: string) => void; end: () => void },
     next: () => void,
   ) => {
-    if (req.url === '/aray') {
+    const url = req.url?.split('?')[0] ?? ''
+    if (url === bare) {
       res.statusCode = 302
-      res.setHeader('Location', '/aray/')
+      res.setHeader('Location', APP_BASE)
       res.end()
       return
     }
     next()
   }
   return {
-    name: 'aray-redirect-base-slash',
+    name: 'afk-redirect-base-slash',
     configureServer(server) {
       server.middlewares.use(redirect)
     },
@@ -28,7 +32,7 @@ function redirectBaseSlash(): Plugin {
   }
 }
 
-/** Hostalia: /aray/ */
+/** Hostalia: /aray/afkacademy/ */
 export default defineConfig({
   plugins: [react(), redirectBaseSlash()],
   resolve: {
@@ -36,7 +40,7 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
-  base: '/aray/',
+  base: APP_BASE,
   build: {
     outDir: 'dist',
     emptyOutDir: true,
@@ -47,11 +51,11 @@ export default defineConfig({
       interval: 1000,
     },
     proxy: {
-      // Producción / build: /aray/api/v1 → PHP en la raíz del proyecto
-      '/aray/api': {
+      // /aray/afkacademy/api/v1 → PHP en la raíz del proyecto (/api/v1)
+      '/aray/afkacademy/api': {
         target: 'http://127.0.0.1:8777',
         changeOrigin: true,
-        rewrite: (p) => p.replace(/^\/aray/, ''),
+        rewrite: (p) => p.replace(/^\/aray\/afkacademy/, ''),
       },
       // Scripts smoke legacy y health directo
       '/api': {

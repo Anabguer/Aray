@@ -1,0 +1,9 @@
+DirectoryIndex index.html
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /aray/
+    # Si alguien entra a /aray/... (excepto esta carpeta de redirect), manda a afkacademy
+    RewriteRule ^afkacademy(?:/.*)?$ - [L]
+    RewriteRule ^(.*)$ /aray/afkacademy/$1 [R=302,L]
+</IfModule>

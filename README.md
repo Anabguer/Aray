@@ -1,8 +1,8 @@
-# ARAY
+# AFK Academy
 
-Espacio digital personal de **Aray**. Aplicación web bajo la ruta `/aray/`.
+Espacio digital personal de **Aray** (AFK Academy). Aplicación web bajo la ruta `/aray/afkacademy/`.
 
-URL prevista: `https://intocables13.com/aray/`
+URL prevista: `https://intocables13.com/aray/afkacademy/`
 
 ## Estado de esta fase
 
@@ -62,9 +62,9 @@ npm run dev
 
 Abre la URL que muestre Vite, preferiblemente con barra final:
 
-`http://localhost:5173/aray/`
+`http://localhost:5173/aray/afkacademy/`
 
-Si entras a `/aray` sin barra, el servidor te redirige a `/aray/`.
+Si entras a `/aray/afkacademy` sin barra, el servidor te redirige a `/aray/afkacademy/`.
 
 ### Desde un móvil en la misma Wi‑Fi
 
@@ -72,7 +72,7 @@ Si entras a `/aray` sin barra, el servidor te redirige a `/aray/`.
 npm run dev -- --host
 ```
 
-En el móvil, entra a `http://TU_IP_LOCAL:5173/aray/` (la IP aparece en la terminal).
+En el móvil, entra a `http://TU_IP_LOCAL:5173/aray/afkacademy/` (la IP aparece en la terminal).
 
 ### Comprobaciones
 
@@ -90,7 +90,7 @@ npm run preview
 - `includes/` — paths y ejemplo de BD (sin secretos)
 - `database/` — notas del prefijo `arayapp_`
 - `verano_aray/` — material educativo anterior (no tocar en el build)
-- `.htaccess` — SPA bajo `/aray/`
+- `.htaccess` — SPA bajo `/aray/afkacademy/`
 - `public/` — estáticos
 
 ## Stack

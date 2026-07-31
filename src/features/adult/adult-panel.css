@@ -1,4 +1,4 @@
-/* Estilos aislados del panel familiar (/aray/adult). */
+/* Estilos aislados del panel familiar (/aray/afkacademy/adult). */
 
 .adult-panel {
   position: relative;
@@ -986,4 +986,43 @@
   .adult-acc__panel.is-open .adult-acc__panel-inner {
     animation: none;
   }
+}
+
+.adult-family__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.adult-family__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  align-items: flex-start;
+  margin-bottom: 1.25rem;
+}
+
+.adult-family__fields {
+  flex: 1 1 16rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.adult-family__add {
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid color-mix(in srgb, var(--sky) 18%, transparent);
+}
+
+.adult-family__add-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  align-items: center;
+}
+
+.adult-family__add-row .access-form__input {
+  flex: 1 1 8rem;
 }
