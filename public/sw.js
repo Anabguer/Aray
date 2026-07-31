@@ -1,5 +1,24 @@
-/* ARAY service worker — shell offline mínimo; no cachea JS/CSS (hashes + HTTP). */
-const CACHE = 'aray-shell-v7'
+/* ARAY service worker — shell offline mínimo; no cachea JS/CSS/media. */
+const CACHE = 'aray-shell-v8'
+
+function canPutInCache(request, response) {
+  // Cache Storage no admite 206 Partial Content (Range en audio/vídeo).
+  if (!response || response.status !== 200) return false
+  if (response.type === 'opaque') return false
+  if (request.headers.has('range')) return false
+  const vary = response.headers.get('Vary')
+  if (vary && /\*/.test(vary)) return false
+  return true
+}
+
+async function putSafe(cache, request, response) {
+  if (!canPutInCache(request, response)) return
+  try {
+    await cache.put(request, response)
+  } catch {
+    /* ignorar: 206 u otros no cacheables */
+  }
+}
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -27,6 +46,9 @@ self.addEventListener('fetch', (event) => {
   if (url.origin !== self.location.origin) return
   if (url.pathname.includes('/api/')) return
 
+  // Peticiones Range (sonidos, etc.): siempre a red, sin tocar Cache Storage.
+  if (req.headers.has('range')) return
+
   // SW y HTML: siempre red (evita quedar pegados a un deploy viejo).
   const isShellDoc =
     req.mode === 'navigate' ||
@@ -40,9 +62,9 @@ self.addEventListener('fetch', (event) => {
       (async () => {
         try {
           const fresh = await fetch(req, { cache: 'no-store' })
-          if (req.mode === 'navigate' && fresh.ok) {
+          if (req.mode === 'navigate' && canPutInCache(req, fresh)) {
             const cache = await caches.open(CACHE)
-            void cache.put('./index.html', fresh.clone())
+            void putSafe(cache, './index.html', fresh.clone())
           }
           return fresh
         } catch {
