@@ -165,7 +165,7 @@ export async function flushPendingAlphabetSessions(
       return {
         synced: false,
         progress: null,
-        error: 'Se requiere sesión infantil para guardar la partida.',
+        error: null,
       }
     }
   } catch (err) {

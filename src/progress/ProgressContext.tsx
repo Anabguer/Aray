@@ -395,7 +395,11 @@ export function ProgressProvider({
 
   const flushSyncQueue = useCallback(async () => {
     // Con sesión adulta (panel familiar) no forzar child-enter vía sync.
-    if (role === 'adult') return
+    if (role === 'adult') {
+      setSyncError(null)
+      setSyncStatus((s) => (s === 'error' || s === 'syncing' || s === 'offline' ? 'ready' : s))
+      return
+    }
     const id = playerIdRef.current
     if (!id || syncingRef.current) return
     syncingRef.current = true
@@ -464,17 +468,27 @@ export function ProgressProvider({
         alphabetPendingCount(syncEpochRef.current, id) +
         rewardGrantPendingCount(syncEpochRef.current, id)
       const err = energyResult.error ?? abcResult.error ?? result.error
+      const noisy =
+        typeof err === 'string' &&
+        /sesión adulta|sesión infantil|unauthorized|device_required|csrf/i.test(err)
       if (stillPending === 0) {
         setSyncStatus('ready')
         setSyncError(null)
       } else {
         setSyncStatus('offline')
-        setSyncError(err)
+        setSyncError(noisy ? null : err)
       }
     } finally {
       syncingRef.current = false
     }
   }, [applyOfficial, familyPlayers, persistCache, player?.slug, refreshPendingCount, role])
+
+  // Al pasar a adulto, limpia avisos de sync del juego (no deben verse en el panel).
+  useEffect(() => {
+    if (role !== 'adult') return
+    setSyncError(null)
+    setSyncStatus((s) => (s === 'error' || s === 'syncing' || s === 'offline' ? 'ready' : s))
+  }, [role])
 
   useEffect(() => {
     if (skipHydration) {

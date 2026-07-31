@@ -260,21 +260,13 @@ export async function flushPendingSessions(
   try {
     const child = await ensureChildPlaySession({ playerId, playerSlug })
     if (!child) {
-      const msg = 'Se requiere sesión infantil para guardar la partida.'
-      for (const op of ops) {
-        markPendingAttempt(op.sessionId, msg)
-        const attempts =
-          loadPendingSessions().find((o) => o.sessionId === op.sessionId)?.attempts ?? 0
-        if (attempts >= MAX_PENDING_SYNC_ATTEMPTS) {
-          removePendingSession(op.sessionId)
-        }
-      }
-      const left = loadPendingSessions().filter((o) => o.epoch === epoch && o.playerId === playerId)
+      // Adulto u otro caso sin child: no ensuciar la UI con el mensaje de la API.
+      // La cola se mantiene y se reintenta cuando haya sesión infantil.
       return {
-        synced: left.length === 0,
+        synced: false,
         progress: null,
         server: null,
-        error: msg,
+        error: null,
       }
     }
   } catch (err) {

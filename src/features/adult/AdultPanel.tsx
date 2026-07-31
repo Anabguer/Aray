@@ -263,11 +263,16 @@ export function AdultPanel() {
         setWeekPlaySeconds(weekDays.reduce((acc, d) => acc + (d.playSeconds || 0), 0))
       }
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : 'No se pudo cargar el panel.')
+      const msg = err instanceof ApiError ? err.message : 'No se pudo cargar el panel.'
+      setError(msg)
+      // Si el sync del juego degradó la sesión a niño, realinear UI (AuthGate sacará del panel).
+      if (err instanceof ApiError && err.code === 'unauthorized') {
+        void refreshMe().catch(() => undefined)
+      }
     } finally {
       setLoading(false)
     }
-  }, [loadOverview, loadActivity, range])
+  }, [loadOverview, loadActivity, range, refreshMe])
 
   useEffect(() => {
     void refreshAll()
@@ -482,7 +487,7 @@ export function AdultPanel() {
         </div>
       </header>
 
-      {error ? (
+      {error && !/sesión adulta|sesión infantil|unauthorized/i.test(error) ? (
         <p className="adult-panel__error" role="alert">
           {error}
         </p>
