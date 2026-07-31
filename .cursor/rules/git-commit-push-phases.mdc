@@ -1,15 +1,19 @@
 ---
-description: Commit y push a GitHub al cerrar fases estables; nunca secretos
+description: Commit, push y deploy a Hostalia al cerrar fases estables; nunca secretos
 alwaysApply: true
 ---
 
-# Git: fases estables → commit + push
+# Git + deploy: fases estables → commit + push + deploy
 
 Al terminar cada **fase** o **cambio importante** que esté **probado y estable**:
 
 1. Haz **commit** y **push** a GitHub.
-2. Comunica al usuario el **hash del commit**.
-3. No crees un commit por cada ajuste pequeño; agrupa cuando la fase esté lista.
-4. Nunca subas contraseñas, tokens, archivos locales de configuración ni secretos (`.env`, `*.local.php`, credenciales, claves API).
-5. No actualices `git config` salvo petición explícita; si hace falta `safe.directory` en el repo de red, pásalo solo con `-c` en el comando.
-6. No force push a `main`/`master` ni `--no-verify` salvo petición explícita.
+2. Haz **deploy** a producción con `deploy/winscp_deploy.ps1` (AFK Academy → `/aray/afkacademy/`).
+3. Si el deploy falla (p. ej. SMB/WinSCP), **reintenta** una vez; si sigue fallando, informa el error.
+4. Comunica al usuario el **hash del commit** y confirma que el deploy terminó (URL: https://intocables13.com/aray/afkacademy/).
+5. No crees un commit por cada ajuste pequeño; agrupa cuando la fase esté lista.
+6. Nunca subas contraseñas, tokens, archivos locales de configuración ni secretos (`.env`, `*.local.php`, credenciales, claves API).
+7. No actualices `git config` salvo petición explícita; si hace falta `safe.directory` en el repo de red, pásalo solo con `-c` en el comando.
+8. No force push a `main`/`master` ni `--no-verify` salvo petición explícita.
+
+**Excepción:** cambios que solo afecten a `.cursor/`, docs internas o scripts locales sin impacto en la app publicada → commit/push si aplica, **sin** deploy.
