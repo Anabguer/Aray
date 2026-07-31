@@ -28,13 +28,49 @@ const ALPHABET_ACTIVITY: Record<AlphabetTrackMode, string> = {
   random: 'alphabet-random',
 }
 
-/** Actividades de otras asignaturas sin dominio fino aún: entran con peso base. */
-const VARIETY_ACTIVITIES: Array<{ activityId: string; weight: number; hubIcon: HubIconId }> = [
-  { activityId: 'clock-hours-train', weight: 14, hubIcon: 'matematicas' },
-  { activityId: 'calc-mental-mix', weight: 14, hubIcon: 'matematicas' },
-  { activityId: 'money-change', weight: 14, hubIcon: 'matematicas' },
-  { activityId: 'spelling-mix', weight: 14, hubIcon: 'castellano' },
-  { activityId: 'alphabet-random', weight: 12, hubIcon: 'castellano' },
+/** Actividades de variedad (sin dominio fino aún): peso base + copy propio. */
+const VARIETY_ACTIVITIES: Array<{
+  activityId: string
+  weight: number
+  hubIcon: HubIconId
+  title?: string
+  description: string
+}> = [
+  {
+    activityId: 'clock-hours-train',
+    weight: 14,
+    hubIcon: 'matematicas',
+    title: 'Lee la hora',
+    description: 'Entrena con el reloj',
+  },
+  {
+    activityId: 'calc-mental-mix',
+    weight: 14,
+    hubIcon: 'matematicas',
+    title: 'Cálculo mental',
+    description: 'Suma, resta y más a tope',
+  },
+  {
+    activityId: 'money-change',
+    weight: 14,
+    hubIcon: 'matematicas',
+    title: 'Dinero: el cambio',
+    description: 'Calcula cuánto te devuelven',
+  },
+  {
+    activityId: 'spelling-mix',
+    weight: 14,
+    hubIcon: 'castellano',
+    title: 'Ortografía mezclada',
+    description: 'Elige la palabra correcta',
+  },
+  {
+    activityId: 'alphabet-random',
+    weight: 12,
+    hubIcon: 'castellano',
+    title: 'ABC random',
+    description: 'Mezcla de modos del abecedario',
+  },
 ]
 
 export interface DailyChallengeCard extends LobbyMissionCard {
@@ -223,7 +259,8 @@ function buildCandidates(progress: ProgressState): ChallengeCandidate[] {
       activityId: v.activityId,
       weight: v.weight,
       hubIcon: v.hubIcon,
-      description: 'Reto de hoy en otra asignatura',
+      title: v.title,
+      description: v.description,
     })
   }
 
