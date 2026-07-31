@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App.tsx'
 import { AuthProvider } from '@/auth/AuthContext'
+import { AlphabetSessionProvider } from '@/alphabet/AlphabetSessionContext'
 import { ClockSessionProvider } from '@/clock/ClockSessionContext'
 import { PlayProvider } from '@/progress/PlayContext'
 import { ProgressProvider } from '@/progress/ProgressContext'
@@ -23,7 +24,9 @@ createRoot(document.getElementById('root')!).render(
         <ProgressProvider>
           <PlayProvider>
             <ClockSessionProvider>
-              <App />
+              <AlphabetSessionProvider>
+                <App />
+              </AlphabetSessionProvider>
             </ClockSessionProvider>
           </PlayProvider>
         </ProgressProvider>
