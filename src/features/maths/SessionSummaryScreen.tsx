@@ -9,6 +9,7 @@ import { energyCopy, rewardGoalConfig } from '@/config/rewardGoal'
 import { Lumo } from '@/lumo/Lumo'
 import { formatFact } from '@/math/tables'
 import { buildMissesQueue, buildTrainQueue } from '@/math/selector'
+import { useAuth } from '@/auth/AuthContext'
 import { usePlaySession } from '@/progress/PlayContext'
 import { useProgress } from '@/progress/ProgressContext'
 import { soundEngine } from '@/sound/soundEngine'
@@ -25,6 +26,8 @@ export function SessionSummaryScreen() {
   const { lastResult, selection, setPendingQueue, setActiveMode, setLastResult, setSelection } =
     usePlaySession()
   const { recordProgress } = useDailyMission()
+  const { tutorDisplayName } = useAuth()
+  const tutorName = tutorDisplayName?.trim() || 'un adulto'
   const [crateNote, setCrateNote] = useState<string | null>(null)
 
   useEffect(() => {
@@ -34,7 +37,7 @@ export function SessionSummaryScreen() {
     }
     const correct = lastResult.answers.filter((a) => a.correct).length
     if (correct > 0) recordProgress('tables', correct)
-    if (lastResult.personalBest || lastResult.coinsEarned > 0 || lastResult.rewardPointsEarned > 0) {
+    if (lastResult.personalBest || lastResult.rewardPointsEarned > 0) {
       soundEngine.play('points-earned')
     }
   }, [lastResult, navigate, recordProgress])
@@ -126,7 +129,7 @@ export function SessionSummaryScreen() {
           </p>
           {result.personalBest ? <p className="summary-hero__record">{newRecordMessage}</p> : null}
           {result.rewardGoalJustCompleted ? (
-            <p className="summary-hero__record">{energyCopy.dropUnlocked}</p>
+            <p className="summary-hero__record">{energyCopy.dropUnlockedFor(tutorName)}</p>
           ) : null}
         </div>
 
@@ -162,13 +165,6 @@ export function SessionSummaryScreen() {
               ? `Has conseguido ${result.xpEarned} XP — bonus Reto ×${challengeModeConfig.xpMultiplier} incluido`
               : `Has conseguido ${result.xpEarned} XP`}
           </p>
-          {result.coinsEarned > 0 ? (
-            <p>
-              {isChallenge
-                ? `Monedas +${result.coinsEarned} — bonus Reto ×${challengeModeConfig.coinMultiplier} incluido`
-                : `Monedas +${result.coinsEarned}`}
-            </p>
-          ) : null}
           {result.rewardPointsEarned > 0 ? (
             <p>{energyCopy.farmed(result.rewardPointsEarned)}</p>
           ) : result.rewardPointsRequested > 0 || result.rewardDailyComplete ? (

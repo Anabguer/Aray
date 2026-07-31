@@ -16,7 +16,8 @@ export const rewardGoalConfig = {
   id: 'robux-500',
   title: 'Premio Robux',
   adultNoteApproxEuro: 'Valor orientativo ≈ 6 € (solo para el adulto).',
-  childNote: 'Cuando llegues al premio, avísale a Neni para recogerlo.',
+  childNoteFor: (tutorName: string) =>
+    `Cuando llegues al premio, avísale a ${tutorName} para recogerlo.`,
   /** Escala ×10: mismos ~50 días a tope que con 500/10. */
   targetPoints: 5000,
   dailyCap: 100,
@@ -24,7 +25,7 @@ export const rewardGoalConfig = {
   rewardLabel: '500 Robux',
 } as const
 
-/** Textos visibles para Aray (energía / premio). */
+/** Textos visibles (energía / premio). */
 export const energyCopy = {
   today: (n: number, cap: number) => `Energía de hoy: ${n}/${cap}`,
   total: (n: number, target: number) => `${n} / ${target} de energía`,
@@ -36,9 +37,12 @@ export const energyCopy = {
   dailyComplete: '¡Barra del día llena!',
   /** Cuando ya no suma al premio oficial pero puede seguir jugando. */
   playForFun:
-    '¡Hemos llenado la barra de hoy! Si sigues jugando, es por vicio — XP, monedas y práctica siguen contando.',
-  dropUnlocked: '¡Premio conseguido! Avísale a Neni para recogerlo',
+    '¡Hemos llenado la barra de hoy! Si sigues jugando, es por vicio — XP y práctica siguen contando.',
+  dropUnlockedFor: (tutorName: string) =>
+    `¡Premio conseguido! Avísale a ${tutorName} para recogerlo`,
   streakOnFire: 'Tu racha está on fire',
+  sourcesHint:
+    'La energía sube al jugar, al subir de nivel, con cajas y al recoger logros en Mi colección.',
 } as const
 
 /** Una multiplicación correcta = microejercicio. */

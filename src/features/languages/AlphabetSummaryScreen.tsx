@@ -80,14 +80,10 @@ export function AlphabetSummaryScreen() {
             <span>ronda</span>
           </li>
         </ul>
-        {(summary.xpEarned || summary.coinsEarned || summary.rewardPointsEarned) ? (
+        {(summary.xpEarned || summary.rewardPointsEarned) ? (
           <p className="alphabet-summary__rewards">
             {summary.xpEarned ? `+${summary.xpEarned} XP` : null}
-            {summary.xpEarned && summary.coinsEarned ? ' · ' : null}
-            {summary.coinsEarned ? `+${summary.coinsEarned} monedas` : null}
-            {(summary.xpEarned || summary.coinsEarned) && summary.rewardPointsEarned
-              ? ' · '
-              : null}
+            {summary.xpEarned && summary.rewardPointsEarned ? ' · ' : null}
             {summary.rewardPointsEarned
               ? `+${summary.rewardPointsEarned} energía`
               : null}

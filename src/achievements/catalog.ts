@@ -7,8 +7,7 @@ import type { ProgressState } from '@/math/types'
 export type AchievementCategory = 'insignias' | 'tablas' | 'lenguas'
 
 export interface AchievementReward {
-  coins?: number
-  xp?: number
+  energy: number
 }
 
 export interface AchievementDefinition {
@@ -31,7 +30,7 @@ const generalAchievements: AchievementDefinition[] = [
     howToUnlock: 'Completa cualquier actividad jugable.',
     category: 'insignias',
     image: achievementImages.primeraMision,
-    reward: { coins: 10 },
+    reward: { energy: 10 },
     current: (progress) => (progress.lastPracticeAt ? 1 : 0),
     target: 1,
   },
@@ -42,7 +41,7 @@ const generalAchievements: AchievementDefinition[] = [
     howToUnlock: 'Consigue una racha de 5 respuestas correctas.',
     category: 'insignias',
     image: achievementImages.racha5,
-    reward: { coins: 15 },
+    reward: { energy: 15 },
     current: (progress) => progress.bestStreak,
     target: 5,
   },
@@ -53,7 +52,7 @@ const generalAchievements: AchievementDefinition[] = [
     howToUnlock: 'Consigue una racha de 10 respuestas correctas.',
     category: 'insignias',
     image: achievementImages.racha10,
-    reward: { coins: 30 },
+    reward: { energy: 25 },
     current: (progress) => progress.bestStreak,
     target: 10,
   },
@@ -64,7 +63,7 @@ const generalAchievements: AchievementDefinition[] = [
     howToUnlock: 'Acierta 5 operaciones en un Reto rápido.',
     category: 'insignias',
     image: achievementImages.retoRapido,
-    reward: { xp: 30 },
+    reward: { energy: 15 },
     current: (progress) => progress.bestChallengeScore,
     target: 5,
   },
@@ -75,7 +74,7 @@ const generalAchievements: AchievementDefinition[] = [
     howToUnlock: 'Consigue 10 aciertos en un Reto rápido.',
     category: 'insignias',
     image: achievementImages.retoPerfecto,
-    reward: { coins: 50 },
+    reward: { energy: 30 },
     current: (progress) => progress.bestChallengeScore,
     target: 10,
   },
@@ -86,7 +85,7 @@ const generalAchievements: AchievementDefinition[] = [
     howToUnlock: 'Doma las tablas del 2 al 9.',
     category: 'insignias',
     image: achievementImages.todasDomadas,
-    reward: { coins: 75, xp: 100 },
+    reward: { energy: 40 },
     current: (progress) =>
       Array.from({ length: 8 }, (_, index) => index + 2).filter(
         (table) => progress.tables[String(table)]?.everMastered,
@@ -106,7 +105,7 @@ const tableAchievements: AchievementDefinition[] = Array.from(
       howToUnlock: `Consigue al menos 8/10 en una ronda evaluable de la tabla del ${table}.`,
       category: 'tablas',
       image: tableArtUrl(table)!,
-      reward: { coins: 15 },
+      reward: { energy: 15 },
       current: (progress) => (progress.tables[String(table)]?.everMastered ? 1 : 0),
       target: 1,
     }
@@ -153,7 +152,7 @@ const languageAchievements: AchievementDefinition[] = [
     howToUnlock: 'Completa una ronda del ABC.',
     category: 'lenguas',
     image: modeArtUrl('abc-random'),
-    reward: { coins: 10 },
+    reward: { energy: 10 },
     current: (progress) => (progress.alphabet.roundsPlayed > 0 ? 1 : 0),
     target: 1,
   },
@@ -164,7 +163,7 @@ const languageAchievements: AchievementDefinition[] = [
     howToUnlock: 'Acaba una ronda del ABC sin fallos.',
     category: 'lenguas',
     image: modeArtUrl('abc-falta'),
-    reward: { coins: 20, xp: 30 },
+    reward: { energy: 25 },
     current: (progress) => Math.min(1, progress.alphabet.perfectRounds),
     target: 1,
   },
@@ -176,7 +175,7 @@ const languageAchievements: AchievementDefinition[] = [
       howToUnlock: `Consigue al menos 8/10 en ${def.title.replace(' domado', '').toLowerCase()}.`,
       category: 'lenguas',
       image: modeArtUrl(def.art),
-      reward: { coins: 15 },
+      reward: { energy: 15 },
       current: (progress) =>
         normalizeAlphabetModeProgress(progress.alphabet.modes[def.mode]).everMastered ? 1 : 0,
       target: 1,
@@ -189,7 +188,7 @@ const languageAchievements: AchievementDefinition[] = [
     howToUnlock: 'Doma letra que falta, vecina, ordena letras y ordena palabras.',
     category: 'lenguas',
     image: modeArtUrl('abc-random'),
-    reward: { coins: 50, xp: 80 },
+    reward: { energy: 40 },
     current: (progress) =>
       ABC_MODE_DEFS.filter((d) =>
         normalizeAlphabetModeProgress(progress.alphabet.modes[d.mode]).everMastered,
@@ -212,8 +211,13 @@ export function achievementIsUnlocked(
 }
 
 export function achievementRewardLabel(reward: AchievementReward): string {
-  const parts: string[] = []
-  if (reward.coins) parts.push(`${reward.coins} monedas`)
-  if (reward.xp) parts.push(`${reward.xp} XP`)
-  return parts.join(' + ')
+  return `+${reward.energy} energía`
+}
+
+/** Logros desbloqueados y aún no reclamados (badge lobby). */
+export function countClaimableAchievements(progress: ProgressState): number {
+  const claimed = new Set(progress.achievements.claimedIds)
+  return achievementCatalog.filter(
+    (a) => achievementIsUnlocked(a, progress) && !claimed.has(a.id),
+  ).length
 }

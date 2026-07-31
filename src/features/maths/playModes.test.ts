@@ -102,7 +102,7 @@ describe('Entrena: reintentos', () => {
 })
 
 describe('Reto rápido: multiplicadores', () => {
-  it('concede XP ×2 y monedas ×2; energía ×1', () => {
+  it('concede XP ×2; energía ×1; sin monedas', () => {
     const progress = createInitialProgress()
     const { result, next } = applySessionToProgress(progress, {
       mode: 'challenge',
@@ -113,15 +113,14 @@ describe('Reto rápido: multiplicadores', () => {
       answers: [ans(4, 4, true, 'c1', true)],
     })
     expect(challengeModeConfig.xpMultiplier).toBe(2)
-    expect(challengeModeConfig.coinMultiplier).toBe(2)
     expect(challengeModeConfig.rewardMultiplier).toBe(1)
     expect(result.xpEarned).toBe(20)
-    expect(result.coinsEarned).toBe(20) // 5*2 complete + 5*2 personal best
+    expect(result.coinsEarned).toBe(0)
     expect(result.rewardPointsEarned).toBe(10)
     expect(next.tables['4'].masteryScore).toBeGreaterThan(0)
   })
 
-  it('error no concede ni resta energía/XP/monedas de la respuesta', () => {
+  it('error no concede ni resta energía/XP de la respuesta', () => {
     const progress = createInitialProgress()
     const { result } = applySessionToProgress(progress, {
       mode: 'challenge',

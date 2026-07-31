@@ -1,6 +1,6 @@
 import type { CrateRarity } from '@/assets/rewards'
 
-export type CrateRewardKind = 'coins' | 'energy' | 'xp'
+export type CrateRewardKind = 'energy'
 
 export interface CrateRewardSpec {
   kind: CrateRewardKind
@@ -26,41 +26,24 @@ export const crateConfig = {
   } as Record<CrateRarity, number>,
   rewards: {
     normal: [
-      { kind: 'coins', amount: 10 },
-      { kind: 'coins', amount: 15 },
-      { kind: 'coins', amount: 20 },
+      { kind: 'energy', amount: 20 },
       { kind: 'energy', amount: 30 },
       { kind: 'energy', amount: 40 },
       { kind: 'energy', amount: 50 },
-      { kind: 'xp', amount: 15 },
-      { kind: 'xp', amount: 20 },
-      { kind: 'xp', amount: 25 },
     ] as CrateRewardSpec[],
     especial: [
-      { kind: 'coins', amount: 25 },
-      { kind: 'coins', amount: 35 },
-      { kind: 'coins', amount: 50 },
+      { kind: 'energy', amount: 50 },
       { kind: 'energy', amount: 60 },
       { kind: 'energy', amount: 80 },
       { kind: 'energy', amount: 100 },
-      { kind: 'xp', amount: 40 },
-      { kind: 'xp', amount: 55 },
-      { kind: 'xp', amount: 70 },
     ] as CrateRewardSpec[],
     epica: [
-      { kind: 'coins', amount: 60 },
-      { kind: 'coins', amount: 80 },
-      { kind: 'coins', amount: 100 },
+      { kind: 'energy', amount: 100 },
       { kind: 'energy', amount: 120 },
       { kind: 'energy', amount: 160 },
       { kind: 'energy', amount: 200 },
-      { kind: 'xp', amount: 100 },
-      { kind: 'xp', amount: 140 },
-      { kind: 'xp', amount: 180 },
     ] as CrateRewardSpec[],
   } as Record<CrateRarity, CrateRewardSpec[]>,
-  /** Si la energía se corta por tope, 1 energía → N monedas. */
-  energyOverflowToCoins: 2,
   animMs: {
     enter: 400,
     shake: 550,

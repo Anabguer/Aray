@@ -40,7 +40,7 @@ describe('xpPreview mirrors rewardRules', () => {
   })
 
   it('detecta subida de nivel y sesión perfecta', () => {
-    expect(sessionLeveledUp(95, 10)).toEqual({ leveledUp: true, newLevel: 2 })
+    expect(sessionLeveledUp(495, 10)).toEqual({ leveledUp: true, newLevel: 2 })
     expect(sessionLeveledUp(10, 10)).toEqual({ leveledUp: false, newLevel: 1 })
     expect(isPerfectSession([ans(true), ans(true)])).toBe(true)
     expect(isPerfectSession([ans(true), ans(false)])).toBe(false)

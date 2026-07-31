@@ -8,6 +8,7 @@ import {
 } from '@/reward/engine'
 import { ensureChildPlaySession } from '@/sync/playSession'
 import { currentLocalEpoch, purgeStaleLocalSync } from '@/sync/pendingQueue'
+import { MAX_PENDING_SYNC_ATTEMPTS, shouldDropPendingSyncError } from '@/sync/syncErrors'
 
 const PENDING_KEY = 'aray.pending.rewardGrant.v1'
 
@@ -17,6 +18,8 @@ export type ActivityEnergyGrant = {
   mode: string
   correct?: number
   wrong?: number
+  /** XP de juego a sumar en local (economía: XP solo al jugar). */
+  xpEarned?: number
 }
 
 type ServerReward = {
@@ -40,6 +43,8 @@ type PendingOp = {
   playerId: number
   epoch: number
   createdAt: string
+  attempts?: number
+  lastError?: string | null
   grant: ActivityEnergyGrant
 }
 
@@ -58,19 +63,19 @@ function writePending(ops: PendingOp[]): void {
   localStorage.setItem(PENDING_KEY, JSON.stringify(ops))
 }
 
-export function rewardGrantPendingCount(serverEpoch?: number): number {
+export function rewardGrantPendingCount(serverEpoch?: number, playerId?: number | null): number {
   const epoch = serverEpoch ?? currentLocalEpoch()
-  return readPending().filter((o) => o.epoch === epoch).length
+  return readPending().filter(
+    (o) => o.epoch === epoch && (playerId == null || o.playerId === playerId),
+  ).length
 }
 
 export function purgeStaleRewardGrantPending(
   serverEpoch: number,
-  currentPlayerId: number | null = null,
+  _currentPlayerId: number | null = null,
 ): number {
   const before = readPending()
-  const kept = before.filter(
-    (o) => o.epoch === serverEpoch && (currentPlayerId === null || o.playerId === currentPlayerId),
-  )
+  const kept = before.filter((o) => o.epoch === serverEpoch)
   const purged = before.length - kept.length
   if (purged > 0) writePending(kept)
   return purged
@@ -120,12 +125,25 @@ export function mapGrantReward(server: ServerReward | undefined, local: RewardPr
   )
 }
 
-async function submitGrant(grant: ActivityEnergyGrant, appliedSessionIds: string[]): Promise<GrantResponse> {
-  await ensureChildPlaySession()
+async function submitGrant(
+  grant: ActivityEnergyGrant,
+  appliedSessionIds: string[],
+  opts?: { playerSlug?: string | null; playerId?: number | null },
+): Promise<GrantResponse> {
+  const child = await ensureChildPlaySession({
+    playerSlug: opts?.playerSlug,
+    playerId: opts?.playerId,
+  })
+  if (!child) {
+    throw new ApiError(401, 'device_required', 'Se requiere sesión infantil para guardar la energía.')
+  }
+  // No enviar el sessionId actual como "ya aplicado": el motor local lo añade
+  // antes del POST y el servidor lo interpretaba como duplicado (0 energía).
+  const priorOnly = appliedSessionIds.filter((id) => id !== grant.sessionId)
   return apiPost<GrantResponse>('/players/reward-grant.php', {
     sessionId: grant.sessionId,
     requestedPoints: grant.requestedPoints,
-    appliedSessionIds,
+    appliedSessionIds: priorOnly,
     activity: {
       mode: grant.mode,
       correct: grant.correct ?? 0,
@@ -137,6 +155,7 @@ async function submitGrant(grant: ActivityEnergyGrant, appliedSessionIds: string
 
 export async function enqueueAndSyncRewardGrant(args: {
   playerId: number
+  playerSlug?: string | null
   grant: ActivityEnergyGrant
   appliedSessionIds: string[]
   localReward: RewardProgress
@@ -156,12 +175,17 @@ export async function enqueueAndSyncRewardGrant(args: {
     playerId: args.playerId,
     epoch,
     createdAt: new Date().toISOString(),
+    attempts: 0,
+    lastError: null,
     grant: args.grant,
   })
   writePending(ops.slice(-40))
 
   try {
-    const res = await submitGrant(args.grant, args.appliedSessionIds)
+    const res = await submitGrant(args.grant, args.appliedSessionIds, {
+      playerId: args.playerId,
+      playerSlug: args.playerSlug,
+    })
     writePending(readPending().filter((o) => o.sessionId !== args.grant.sessionId))
     const withApplied = {
       ...args.localReward,
@@ -178,6 +202,17 @@ export async function enqueueAndSyncRewardGrant(args: {
   } catch (e) {
     const msg =
       e instanceof ApiError ? e.message : e instanceof Error ? e.message : 'No se pudo sincronizar energía'
+    if (shouldDropPendingSyncError(e)) {
+      writePending(readPending().filter((o) => o.sessionId !== args.grant.sessionId))
+    } else {
+      writePending(
+        readPending().map((o) =>
+          o.sessionId === args.grant.sessionId
+            ? { ...o, attempts: (o.attempts ?? 0) + 1, lastError: msg }
+            : o,
+        ),
+      )
+    }
     return { synced: false, reward: null, granted: 0, error: msg }
   }
 }
@@ -186,6 +221,7 @@ export async function flushPendingRewardGrants(
   playerId: number,
   appliedSessionIds: string[],
   localReward: RewardProgress,
+  playerSlug?: string | null,
 ): Promise<{ reward: RewardProgress | null; error: string | null }> {
   const epoch = currentLocalEpoch()
   purgeStaleRewardGrantPending(epoch, playerId)
@@ -194,12 +230,24 @@ export async function flushPendingRewardGrants(
   let lastError: string | null = null
   for (const op of pending) {
     try {
-      const res = await submitGrant(op.grant, appliedSessionIds)
+      const res = await submitGrant(op.grant, appliedSessionIds, { playerId, playerSlug })
       writePending(readPending().filter((o) => o.sessionId !== op.sessionId))
       latest = mapGrantReward(res.reward, latest ?? localReward)
     } catch (e) {
-      lastError =
+      const msg =
         e instanceof ApiError ? e.message : e instanceof Error ? e.message : 'Cola de energía pendiente'
+      const attempts = (op.attempts ?? 0) + 1
+      if (shouldDropPendingSyncError(e) || attempts >= MAX_PENDING_SYNC_ATTEMPTS) {
+        writePending(readPending().filter((o) => o.sessionId !== op.sessionId))
+        lastError = msg
+        continue
+      }
+      writePending(
+        readPending().map((o) =>
+          o.sessionId === op.sessionId ? { ...o, attempts, lastError: msg } : o,
+        ),
+      )
+      lastError = msg
       break
     }
   }

@@ -38,10 +38,13 @@ import {
 } from '@/progress/repository'
 import { soundEngine } from '@/sound/soundEngine'
 import { achievementCatalog, achievementIsUnlocked } from '@/achievements/catalog'
+import { LevelUpOverlay, type LevelUpFlash } from '@/components/LevelUpOverlay'
+import { applyLevelUpEnergyBonuses } from '@/progress/levelUpEnergy'
 import { SYNC_META_KEY } from '@/sync/constants'
 import {
   clearProgressCache as clearSyncProgressCache,
   currentLocalEpoch,
+  loadPendingSessions,
   loadSyncMeta,
   pendingCount,
   purgeStaleLocalSync,
@@ -117,7 +120,7 @@ interface ProgressContextValue {
   chooseCrate: (index: number) => void
   openCrate: () => void
   collectCrate: () => string | null
-  claimAchievement: (achievementId: string) => boolean
+  claimAchievement: (achievementId: string) => { ok: boolean; energyGranted: number }
 }
 
 const ProgressContext = createContext<ProgressContextValue | null>(null)
@@ -170,6 +173,7 @@ export function ProgressProvider({
   const [syncEpoch, setSyncEpoch] = useState(() => currentLocalEpoch())
   const [pendingSyncCount, setPendingSyncCount] = useState(0)
   const [hydrated, setHydrated] = useState(skipHydration)
+  const [levelUpFlash, setLevelUpFlash] = useState<LevelUpFlash | null>(null)
   const progressRef = useRef(progress)
   progressRef.current = progress
   const playerIdRef = useRef(playerId)
@@ -197,7 +201,10 @@ export function ProgressProvider({
 
   const refreshPendingCount = useCallback(() => {
     const epoch = syncEpochRef.current
-    setPendingSyncCount(pendingCount(epoch) + alphabetPendingCount(epoch) + rewardGrantPendingCount(epoch))
+    const id = playerIdRef.current
+    setPendingSyncCount(
+      pendingCount(epoch, id) + alphabetPendingCount(epoch, id) + rewardGrantPendingCount(epoch, id),
+    )
   }, [])
 
   const applyOfficial = useCallback(
@@ -236,20 +243,21 @@ export function ProgressProvider({
       // Caja ya recogida en el dispositivo pero aún pendiente en MySQL → cerrarla.
       if (suppressedPending && id !== null) {
         void (async () => {
+          const childOpts = { playerId: id, playerSlug: player?.slug ?? null }
           try {
-            await postCrateOpen(suppressedPending)
+            await postCrateOpen(suppressedPending, childOpts)
           } catch {
             /* puede estar ya abierta */
           }
           try {
-            await postCrateClaim(suppressedPending)
+            await postCrateClaim(suppressedPending, childOpts)
           } catch {
             /* reintentará en la próxima hidratación */
           }
         })()
       }
     },
-    [persistCache, refreshPendingCount],
+    [persistCache, player?.slug, refreshPendingCount],
   )
 
   const refreshFromServer = useCallback(async () => {
@@ -319,6 +327,20 @@ export function ProgressProvider({
         progressRef.current.reward,
         player?.slug ?? null,
       )
+      // Colas de otros niños (mismo PC): reintentar sin tocar la UI del activo.
+      const otherIds = Array.from(
+        new Set(
+          loadPendingSessions()
+            .filter((o) => o.epoch === syncEpochRef.current && o.playerId !== id)
+            .map((o) => o.playerId),
+        ),
+      ).filter((otherId) => familyPlayers.some((p) => p.id === otherId))
+      for (const otherId of otherIds) {
+        const slug = familyPlayers.find((p) => p.id === otherId)?.slug ?? null
+        await flushPendingSessions(otherId, undefined, slug)
+        await flushPendingAlphabetSessions(otherId, undefined, slug)
+        await flushPendingRewardGrants(otherId, [], progressRef.current.reward, slug)
+      }
       const official = abcResult.progress ?? result.progress
       if (official || energyResult.reward) {
         const current = progressRef.current
@@ -353,15 +375,22 @@ export function ProgressProvider({
         }
       }
       refreshPendingCount()
+      const stillPending =
+        pendingCount(syncEpochRef.current, id) +
+        alphabetPendingCount(syncEpochRef.current, id) +
+        rewardGrantPendingCount(syncEpochRef.current, id)
       const err = energyResult.error ?? abcResult.error ?? result.error
-      const synced = result.synced || abcResult.synced || Boolean(energyResult.reward)
-      setSyncStatus(err && !synced ? 'offline' : 'ready')
-      if (err && !synced) setSyncError(err)
-      else setSyncError(null)
+      if (stillPending === 0) {
+        setSyncStatus('ready')
+        setSyncError(null)
+      } else {
+        setSyncStatus('offline')
+        setSyncError(err)
+      }
     } finally {
       syncingRef.current = false
     }
-  }, [applyOfficial, persistCache, player?.slug, refreshPendingCount])
+  }, [applyOfficial, familyPlayers, persistCache, player?.slug, refreshPendingCount])
 
   useEffect(() => {
     if (skipHydration) {
@@ -408,6 +437,12 @@ export function ProgressProvider({
     }
   }, [flushSyncQueue, refreshFromServer, skipHydration])
 
+  // Tras hidratar, vaciar cola pendiente (si falla de forma permanente, se descarta).
+  useEffect(() => {
+    if (skipHydration || !hydrated || playerId == null) return
+    void flushSyncQueue()
+  }, [hydrated, playerId, flushSyncQueue, skipHydration])
+
   useEffect(() => {
     // Preferir prefs locales de audio (música/SFX); alinear progress.soundMuted
     const prefs = soundEngine.getPrefs()
@@ -441,11 +476,22 @@ export function ProgressProvider({
     ) => {
       const current = progressRef.current
       const { next, result } = applySessionToProgress(current, partial)
+      const playerKey = String(playerIdRef.current ?? player?.id ?? 'local')
+      const leveled = applyLevelUpEnergyBonuses(current, next, playerKey)
+      if (leveled.events[0]) {
+        const ev = leveled.events[leveled.events.length - 1]!
+        setLevelUpFlash({
+          newLevel: ev.newLevel,
+          energyGranted: leveled.events.reduce((s, e) => s + e.energyGranted, 0),
+          energyRequested: leveled.events.reduce((s, e) => s + e.energyRequested, 0),
+        })
+        soundEngine.play('points-earned')
+      }
 
       const answered = partial.answers.length > 0
       const skipCrate = partial.mode === 'learn' || !answered
 
-      let withCrates = next
+      let withCrates = leveled.next
       if (!skipCrate) {
         const activity: CrateActivityKey =
           partial.crateActivity ??
@@ -457,15 +503,15 @@ export function ProgressProvider({
                 ? 'misses'
                 : 'train')
 
-        const newlyMastered = detectNewlyMastered(current, next, partial.tables)
+        const newlyMastered = detectNewlyMastered(current, leveled.next, partial.tables)
         const roll = rollCrateForCompletion({
           completionId: partial.sessionId,
           activity,
-          crates: next.crates,
+          crates: leveled.next.crates,
           newlyMasteredTable: newlyMastered,
           isMissionOfDay: partial.isMissionOfDay,
         })
-        withCrates = { ...next, crates: roll.crates }
+        withCrates = { ...leveled.next, crates: roll.crates }
       }
 
       // Optimista en caché; MySQL manda tras sync
@@ -535,7 +581,18 @@ export function ProgressProvider({
     }) => {
       const current = progressRef.current
       const { next, result } = applyAlphabetSessionToProgress(current, input)
-      persistCache(next)
+      const playerKey = String(playerIdRef.current ?? player?.id ?? 'local')
+      const leveled = applyLevelUpEnergyBonuses(current, next, playerKey)
+      if (leveled.events[0]) {
+        const last = leveled.events[leveled.events.length - 1]!
+        setLevelUpFlash({
+          newLevel: last.newLevel,
+          energyGranted: leveled.events.reduce((s, e) => s + e.energyGranted, 0),
+          energyRequested: leveled.events.reduce((s, e) => s + e.energyRequested, 0),
+        })
+        soundEngine.play('points-earned')
+      }
+      persistCache(leveled.next)
 
       const answered = input.answers.length > 0
       const id = playerIdRef.current ?? player?.id ?? null
@@ -591,26 +648,49 @@ export function ProgressProvider({
   const grantActivityEnergy = useCallback(
     (input: ActivityEnergyGrant) => {
       const requested = Math.max(0, Math.floor(input.requestedPoints))
-      if (requested <= 0 || !input.sessionId) return { granted: 0 }
+      const xpAdd = Math.max(0, Math.floor(input.xpEarned ?? 0))
+      if ((requested <= 0 && xpAdd <= 0) || !input.sessionId) return { granted: 0 }
 
       const current = progressRef.current
-      const localGrant = grantRewardPoints(current.reward, {
-        requestedPoints: requested,
-        sessionId: input.sessionId,
-        attemptIds: [input.sessionId],
-      })
-      persistCache({ ...current, reward: localGrant.reward })
+      let working: ProgressState = {
+        ...current,
+        xp: current.xp + xpAdd,
+        lastPracticeAt: xpAdd > 0 || requested > 0 ? new Date().toISOString() : current.lastPracticeAt,
+      }
+      let granted = 0
+      if (requested > 0) {
+        const localGrant = grantRewardPoints(working.reward, {
+          requestedPoints: requested,
+          sessionId: input.sessionId,
+          attemptIds: [input.sessionId],
+        })
+        working = { ...working, reward: localGrant.reward }
+        granted = localGrant.granted
+      }
+
+      const playerKey = String(playerIdRef.current ?? player?.id ?? 'local')
+      const leveled = applyLevelUpEnergyBonuses(current, working, playerKey)
+      if (leveled.events[0]) {
+        const last = leveled.events[leveled.events.length - 1]!
+        setLevelUpFlash({
+          newLevel: last.newLevel,
+          energyGranted: leveled.events.reduce((s, e) => s + e.energyGranted, 0),
+          energyRequested: leveled.events.reduce((s, e) => s + e.energyRequested, 0),
+        })
+        soundEngine.play('points-earned')
+      }
+      persistCache(leveled.next)
 
       const id = playerIdRef.current ?? player?.id ?? null
-      if (id !== null) {
+      if (id !== null && requested > 0) {
         void (async () => {
           setSyncStatus('syncing')
           const syncResult = await enqueueAndSyncRewardGrant({
             playerId: id,
             playerSlug: player?.slug ?? null,
             grant: { ...input, requestedPoints: requested },
-            appliedSessionIds: localGrant.reward.appliedSessionIds,
-            localReward: localGrant.reward,
+            appliedSessionIds: leveled.next.reward.appliedSessionIds,
+            localReward: leveled.next.reward,
           })
           refreshPendingCount()
           if (syncResult.reward) {
@@ -638,11 +718,11 @@ export function ProgressProvider({
             setSyncError(syncResult.error)
           }
         })()
-      } else {
+      } else if (requested > 0) {
         setSyncStatus('needs_device')
       }
 
-      return { granted: localGrant.granted }
+      return { granted }
     },
     [persistCache, player?.id, player?.slug, refreshPendingCount],
   )
@@ -700,7 +780,10 @@ export function ProgressProvider({
       persistCache({ ...current, crates: chooseCrateOption(current.crates, index) })
       const id = playerIdRef.current
       if (id !== null && completionId) {
-        void postCrateChoose(completionId, index)
+        void postCrateChoose(completionId, index, {
+          playerId: id,
+          playerSlug: player?.slug ?? null,
+        })
           .then(() => {
             /* No applyOfficial: el snapshot de choose puede llegar tarde y pisar monedas/XP. */
           })
@@ -709,7 +792,7 @@ export function ProgressProvider({
           })
       }
     },
-    [persistCache],
+    [persistCache, player?.slug],
   )
 
   const openCrate = useCallback(() => {
@@ -718,13 +801,13 @@ export function ProgressProvider({
     persistCache({ ...current, crates: markCrateOpened(current.crates) })
     const id = playerIdRef.current
     if (id !== null && completionId) {
-      void postCrateOpen(completionId)
+      void postCrateOpen(completionId, { playerId: id, playerSlug: player?.slug ?? null })
         .then(() => {
           /* No applyOfficial: evita carrera con collect (pisaba monedas a 2). */
         })
         .catch(() => {})
     }
-  }, [persistCache])
+  }, [persistCache, player?.slug])
 
   const collectCrate = useCallback(() => {
     const current = progressRef.current
@@ -750,15 +833,16 @@ export function ProgressProvider({
 
     const id = playerIdRef.current
     if (id !== null && completionId) {
+      const childOpts = { playerId: id, playerSlug: player?.slug ?? null }
       void (async () => {
         try {
-          await postCrateOpen(completionId)
+          await postCrateOpen(completionId, childOpts)
         } catch {
           /* ya abierta o no hace falta */
         }
         try {
-          const res = await postCrateClaim(completionId)
-          if (res.progress) {
+          const res = await postCrateClaim(completionId, childOpts)
+          if (res?.progress) {
             const latest = progressRef.current
             applyOfficial(mapIfNeeded(res.progress, latest), id, syncEpochRef.current)
           }
@@ -768,25 +852,75 @@ export function ProgressProvider({
       })()
     }
     return applied.adjustmentNote
-  }, [applyOfficial, persistCache])
+  }, [applyOfficial, persistCache, player?.slug])
 
   const claimAchievement = useCallback(
     (achievementId: string) => {
       const current = progressRef.current
       const achievement = achievementCatalog.find((item) => item.id === achievementId)
-      if (!achievement || !achievementIsUnlocked(achievement, current)) return false
-      if (current.achievements.claimedIds.includes(achievementId)) return false
+      if (!achievement || !achievementIsUnlocked(achievement, current)) {
+        return { ok: false, energyGranted: 0 }
+      }
+      if (current.achievements.claimedIds.includes(achievementId)) {
+        return { ok: false, energyGranted: 0 }
+      }
 
-      // Solo marca local; XP/monedas oficiales vienen del servidor
-      persistCache({
+      const playerKey = String(playerIdRef.current ?? player?.id ?? 'local')
+      const sessionId = `achievement-${achievementId}-${playerKey}`.slice(0, 64)
+      const energyAmt = Math.max(0, achievement.reward.energy)
+      const grant = grantRewardPoints(current.reward, {
+        requestedPoints: energyAmt,
+        sessionId,
+        attemptIds: [sessionId],
+      })
+      const next: ProgressState = {
         ...current,
+        reward: grant.reward,
         achievements: {
           claimedIds: [...current.achievements.claimedIds, achievementId],
         },
-      })
-      return true
+      }
+      persistCache(next)
+
+      const id = playerIdRef.current ?? player?.id ?? null
+      if (id !== null && energyAmt > 0 && grant.granted > 0) {
+        void enqueueAndSyncRewardGrant({
+          playerId: id,
+          playerSlug: player?.slug ?? null,
+          grant: {
+            sessionId,
+            requestedPoints: energyAmt,
+            mode: 'achievement',
+          },
+          appliedSessionIds: grant.reward.appliedSessionIds,
+          localReward: grant.reward,
+        }).then((syncResult) => {
+          refreshPendingCount()
+          if (syncResult.reward) {
+            const latest = progressRef.current
+            persistCache({
+              ...latest,
+              reward: {
+                ...syncResult.reward,
+                celebratedPendingCycles: latest.reward.celebratedPendingCycles.filter((n) =>
+                  syncResult.reward!.pendingCycleNumbers.includes(n),
+                ),
+                appliedSessionIds: Array.from(
+                  new Set([
+                    ...latest.reward.appliedSessionIds,
+                    ...syncResult.reward.appliedSessionIds,
+                    sessionId,
+                  ]),
+                ),
+              },
+            })
+          }
+        })
+      }
+
+      return { ok: true, energyGranted: grant.granted }
     },
-    [persistCache],
+    [persistCache, player?.id, player?.slug, refreshPendingCount],
   )
 
   const value = useMemo(
@@ -838,7 +972,12 @@ export function ProgressProvider({
     ],
   )
 
-  return <ProgressContext.Provider value={value}>{children}</ProgressContext.Provider>
+  return (
+    <ProgressContext.Provider value={value}>
+      {children}
+      <LevelUpOverlay flash={levelUpFlash} onDone={() => setLevelUpFlash(null)} />
+    </ProgressContext.Provider>
+  )
 }
 
 export function useProgress(): ProgressContextValue {

@@ -14,6 +14,7 @@ import { QuizArena } from '@/components/quiz/QuizArena'
 import { useLumoController } from '@/lumo/useLumoController'
 import { soundEngine } from '@/sound/soundEngine'
 import { sideActivityEnergy } from '@/config/rewardGoal'
+import { rewardMatrix, sessionXpFromCorrects } from '@/config/rewardMatrix'
 import { useDailyMission } from '@/daily/DailyMissionContext'
 import { useProgress } from '@/progress/ProgressContext'
 import { newId } from '@/progress/repository'
@@ -85,6 +86,10 @@ export function CalcPlayScreen() {
         mode: `calc-${mode}`.slice(0, 16),
         correct: correctRef.current,
         wrong: Math.max(0, attemptsRef.current - correctRef.current),
+        xpEarned: sessionXpFromCorrects(
+          correctRef.current,
+          rewardMatrix.calc.xpPerCorrect,
+        ),
       })
     }
     navigate('/missions/mates/calc/summary', { replace: true })

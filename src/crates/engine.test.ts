@@ -126,10 +126,10 @@ describe('sistema de cajas', () => {
         chosenIndex: null,
         opened: false,
         options: [
-          { rarity: 'normal', reward: { kind: 'coins', amount: 5 } },
-          { rarity: 'especial', reward: { kind: 'xp', amount: 40 } },
+          { rarity: 'normal', reward: { kind: 'energy', amount: 5 } },
+          { rarity: 'especial', reward: { kind: 'energy', amount: 40 } },
         ],
-        reward: { kind: 'coins', amount: 5 },
+        reward: { kind: 'energy', amount: 5 },
       },
     }
     crates = chooseCrateOption(crates, 1)
@@ -150,8 +150,8 @@ describe('sistema de cajas', () => {
       isChoice: false,
       chosenIndex: 0,
       opened: true,
-      options: [{ rarity: 'normal', reward: { kind: 'coins', amount: 10 } }],
-      reward: { kind: 'coins', amount: 10 },
+      options: [{ rarity: 'normal', reward: { kind: 'energy', amount: 10 } }],
+      reward: { kind: 'energy', amount: 10 },
     }
     const local = createInitialCratesState()
     local.claimedCompletionIds = ['done-1']

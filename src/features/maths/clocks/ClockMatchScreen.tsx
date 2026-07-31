@@ -9,6 +9,7 @@ import { useLumoController } from '@/lumo/useLumoController'
 import { soundEngine } from '@/sound/soundEngine'
 import { useDailyMission } from '@/daily/DailyMissionContext'
 import { sideActivityEnergy } from '@/config/rewardGoal'
+import { rewardMatrix, sessionXpFromCorrects } from '@/config/rewardMatrix'
 import { useProgress } from '@/progress/ProgressContext'
 import { newId } from '@/progress/repository'
 
@@ -69,6 +70,7 @@ export function ClockMatchScreen() {
         mode: 'clocks-match',
         correct,
         wrong: Math.max(0, attempts - correct),
+        xpEarned: sessionXpFromCorrects(correct, rewardMatrix['clocks-match'].xpPerCorrect),
       })
     }
     navigate('/missions/mates/clocks/summary', { replace: true })

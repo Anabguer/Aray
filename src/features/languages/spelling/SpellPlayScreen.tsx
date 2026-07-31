@@ -14,6 +14,7 @@ import { useLumoController } from '@/lumo/useLumoController'
 import { soundEngine } from '@/sound/soundEngine'
 import { useDailyMission } from '@/daily/DailyMissionContext'
 import { sideActivityEnergy } from '@/config/rewardGoal'
+import { rewardMatrix, sessionXpFromCorrects } from '@/config/rewardMatrix'
 import { useProgress } from '@/progress/ProgressContext'
 import { newId } from '@/progress/repository'
 import './spelling.css'
@@ -85,6 +86,10 @@ export function SpellPlayScreen() {
         mode: `spell-${mode}`.slice(0, 16),
         correct: correctRef.current,
         wrong: Math.max(0, SPELL_ROUND_SIZE - correctRef.current),
+        xpEarned: sessionXpFromCorrects(
+          correctRef.current,
+          rewardMatrix.spelling.xpPerCorrect,
+        ),
       })
     }
     navigate('/missions/languages/spelling/summary', { replace: true })

@@ -1,11 +1,8 @@
-/** Reglas de XP y monedas — centralizadas y fáciles de cambiar. */
+/** Reglas de XP — centralizadas. Sin monedas de economía. */
 export const rewardRules = {
   xpPerCorrect: 10,
   xpStreakBonusEvery: 5,
   xpStreakBonus: 10,
-  coinsTrainComplete: 5,
-  coinsChallengeComplete: 5,
-  coinsPersonalBest: 5,
 } as const
 
 export const trainQuestionCount = 10

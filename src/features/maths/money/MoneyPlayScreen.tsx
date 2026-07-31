@@ -17,6 +17,7 @@ import { useLumoController } from '@/lumo/useLumoController'
 import { soundEngine } from '@/sound/soundEngine'
 import { useDailyMission } from '@/daily/DailyMissionContext'
 import { sideActivityEnergy } from '@/config/rewardGoal'
+import { rewardMatrix, sessionXpFromCorrects } from '@/config/rewardMatrix'
 import { useProgress } from '@/progress/ProgressContext'
 import { newId } from '@/progress/repository'
 import './money.css'
@@ -85,6 +86,10 @@ export function MoneyPlayScreen() {
         mode: `money-${mode}`.slice(0, 16),
         correct: correctRef.current,
         wrong: Math.max(0, MONEY_ROUND_SIZE - correctRef.current),
+        xpEarned: sessionXpFromCorrects(
+          correctRef.current,
+          rewardMatrix.money.xpPerCorrect,
+        ),
       })
     }
     navigate('/missions/mates/money/summary', { replace: true })

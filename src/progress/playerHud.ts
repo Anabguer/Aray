@@ -1,9 +1,10 @@
 import type { ProgressState } from '@/math/types'
+import { economyContract } from '@/config/economyContract'
 import { rewardGoalConfig } from '@/config/rewardGoal'
 import { normalizeRewardCycles } from '@/reward/engine'
 
-/** Misma escala de nivel que el Lobby. */
-export const XP_PER_LEVEL = 100
+/** Misma escala de nivel que el Lobby / economía. */
+export const XP_PER_LEVEL = economyContract.xpPerLevel
 
 export type PlayerHudSnapshot = {
   coins: number

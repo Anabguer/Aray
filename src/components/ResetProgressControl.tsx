@@ -14,7 +14,7 @@ export function ResetProgressControl() {
       <ConfirmDialog
         open={open}
         title="¿Reiniciar progreso?"
-        body="Se borrarán XP, monedas, rachas y el historial de tablas guardado en este dispositivo. No se puede deshacer."
+        body="Se borrarán XP, energía, rachas y el historial de tablas guardado en este dispositivo. No se puede deshacer."
         confirmLabel="Sí, reiniciar"
         onCancel={() => setOpen(false)}
         onConfirm={() => {

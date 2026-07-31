@@ -1,6 +1,6 @@
 import { useEffect, useId, useMemo, useState } from 'react'
 import { AppShell } from '@/components/AppShell'
-import { IconCoin, IconSpark } from '@/components/Icons'
+import { IconSpark } from '@/components/Icons'
 import {
   achievementCatalog,
   achievementIsUnlocked,
@@ -57,20 +57,11 @@ function lumoLine(achievement: AchievementDefinition, unlocked: boolean): string
 function RewardIcons({ reward }: { reward: AchievementReward }) {
   return (
     <span className="collection-reward">
-      {reward.coins ? (
-        <span className="collection-reward__item">
-          <IconCoin className="collection-reward__icon" />
-          <strong>+{reward.coins}</strong>
-          <span>MONEDAS</span>
-        </span>
-      ) : null}
-      {reward.xp ? (
-        <span className="collection-reward__item">
-          <IconSpark className="collection-reward__icon" />
-          <strong>+{reward.xp}</strong>
-          <span>XP</span>
-        </span>
-      ) : null}
+      <span className="collection-reward__item">
+        <IconSpark className="collection-reward__icon" />
+        <strong>+{reward.energy}</strong>
+        <span>ENERGÍA</span>
+      </span>
     </span>
   )
 }
@@ -337,12 +328,13 @@ function AchievementDialog({
   achievement: AchievementDefinition
   progress: ReturnType<typeof useProgress>['progress']
   onClose: () => void
-  onClaim: () => boolean
+  onClaim: () => { ok: boolean; energyGranted: number }
 }) {
   const unlocked = achievementIsUnlocked(achievement, progress)
   const claimed = progress.achievements.claimedIds.includes(achievement.id)
   const current = Math.min(achievement.current(progress), achievement.target)
   const [justClaimed, setJustClaimed] = useState(false)
+  const [energyGot, setEnergyGot] = useState(0)
   const voice = lumoLine(achievement, unlocked || justClaimed)
 
   useEffect(() => {
@@ -410,8 +402,10 @@ function AchievementDialog({
             type="button"
             className="btn btn-primary achievement-dialog__claim"
             onClick={() => {
-              if (onClaim()) {
+              const res = onClaim()
+              if (res.ok) {
                 setJustClaimed(true)
+                setEnergyGot(res.energyGranted)
                 soundEngine.play('points-earned')
               }
             }}
@@ -420,7 +414,11 @@ function AchievementDialog({
           </button>
         ) : unlocked || justClaimed ? (
           <p className="achievement-dialog__claimed" role="status">
-            {justClaimed ? '¡Listo! Pieza iluminada en tu vitrina.' : 'Premio recogido'}
+            {justClaimed
+              ? energyGot > 0
+                ? `¡Listo! +${energyGot} energía en tu barra.`
+                : '¡Listo! Pieza iluminada en tu vitrina.'
+              : 'Premio recogido'}
           </p>
         ) : (
           <button type="button" className="btn btn-secondary" onClick={onClose}>

@@ -43,22 +43,22 @@ function ans(a: number, b: number, correct: boolean, id: string): SessionAnswer 
   }
 }
 
-describe('XP, monedas y progreso', () => {
+describe('XP y progreso (sin monedas)', () => {
   it('calcula XP por aciertos y bonificación de racha', () => {
     const answers: SessionAnswer[] = Array.from({ length: 5 }, (_, i) =>
       ans(2, i + 1, true, `a${i}`),
     )
     const rewards = calculateSessionRewards('train', answers, 0, 5)
     expect(rewards.xpEarned).toBe(60)
-    expect(rewards.coinsEarned).toBe(5)
+    expect(rewards.coinsEarned).toBe(0)
     expect(rewards.bestStreak).toBe(5)
   })
 
-  it('da monedas extra por marca personal en el reto', () => {
+  it('marca récord personal en el reto sin monedas', () => {
     const answers: SessionAnswer[] = [ans(4, 4, true, 'c1')]
     const rewards = calculateSessionRewards('challenge', answers, 10, 40)
     expect(rewards.personalBest).toBe(true)
-    expect(rewards.coinsEarned).toBe(10)
+    expect(rewards.coinsEarned).toBe(0)
   })
 
   it('guarda y recupera progreso; el reset lo limpia', () => {

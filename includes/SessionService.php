@@ -246,7 +246,7 @@ final class SessionService
 
         $total = $correctCount + $wrongCount;
         $score = $total > 0 ? (int) round(100 * $correctCount / $total) : 0;
-        $coins = (int) floor($xp / 10);
+        $coins = 0;
 
         return [
             'correctCount' => $correctCount,

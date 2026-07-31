@@ -24,12 +24,12 @@ describe('derivePlayerHud', () => {
     expect(hud.energyBarPct).toBeLessThan(5)
   })
 
-  it('calcula nivel y XP del nivel actual', () => {
+  it('calcula nivel y XP del nivel actual (500 XP/nivel)', () => {
     const progress = createInitialProgress()
-    progress.xp = 125
+    progress.xp = 525
     const hud = derivePlayerHud(progress)
     expect(hud.level).toBe(2)
     expect(hud.xpIntoLevel).toBe(25)
-    expect(hud.xpPct).toBe(25)
+    expect(hud.xpPct).toBe(5)
   })
 })

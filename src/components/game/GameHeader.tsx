@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom'
-import { BrandLogo } from '@/components/BrandLogo'
 import { PlayerAvatar } from '@/components/PlayerAvatar'
 import { GameControls } from '@/components/game/GameControls'
-import { PlayerHudBars, PlayerHudCoins } from '@/components/game/PlayerHudStats'
+import { PlayerHudBars } from '@/components/game/PlayerHudStats'
 import { IconChevronLeft, IconGamepad } from '@/components/Icons'
 import { useAuth } from '@/auth/AuthContext'
 import { derivePlayerHud } from '@/progress/playerHud'
@@ -32,6 +31,10 @@ export function GameHeader({
   const { player, familyPlayers } = useAuth()
   const active = player ?? familyPlayers[0] ?? null
   const childName = active?.displayName?.trim() || 'Aray'
+  const avatarUrl =
+    active?.avatarUrl ||
+    familyPlayers.find((p) => p.id === active?.id)?.avatarUrl ||
+    null
   const hud = derivePlayerHud(progress)
   const displayTitle = shortTitle?.trim() || title
 
@@ -46,16 +49,12 @@ export function GameHeader({
         <span className="game-header__avatar-wrap">
           <span className="game-header__avatar-halo" aria-hidden="true" />
           <span className="game-header__avatar-badge">
-            {active?.avatarUrl ? (
-              <PlayerAvatar
-                url={active.avatarUrl}
-                name={childName}
-                size="sm"
-                className="game-header__avatar"
-              />
-            ) : (
-              <BrandLogo variant="compact" className="game-header__avatar" alt={childName} />
-            )}
+            <PlayerAvatar
+              url={avatarUrl}
+              name={childName}
+              size="sm"
+              className="game-header__avatar"
+            />
           </span>
         </span>
         <div className="game-header__heading">
@@ -66,10 +65,6 @@ export function GameHeader({
 
       <div className="game-header__bars">
         <PlayerHudBars hud={hud} compact />
-      </div>
-
-      <div className="game-header__coins">
-        <PlayerHudCoins hud={hud} />
       </div>
 
       <div className="game-header__actions">

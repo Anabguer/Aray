@@ -174,7 +174,6 @@ export function calculateSessionRewards(
   multipliers: { xpMultiplier?: number; coinMultiplier?: number } = {},
 ): { xpEarned: number; coinsEarned: number; bestStreak: number; personalBest: boolean } {
   const xpMult = multipliers.xpMultiplier ?? 1
-  const coinMult = multipliers.coinMultiplier ?? 1
   let xp = 0
   let streak = 0
   let bestStreak = 0
@@ -197,20 +196,9 @@ export function calculateSessionRewards(
     }
   }
 
-  let coins = 0
-  if (mode === 'train' || mode === 'misses' || mode === 'match') {
-    coins += rewardRules.coinsTrainComplete * (mode === 'match' ? 1 : 1)
-  }
-  if (mode === 'challenge') {
-    coins += rewardRules.coinsChallengeComplete * coinMult
-  }
-
   const personalBest = mode === 'challenge' && score > previousBestChallenge
-  if (personalBest) {
-    coins += rewardRules.coinsPersonalBest * coinMult
-  }
-
-  return { xpEarned: xp, coinsEarned: coins, bestStreak, personalBest }
+  // Economía sin monedas: coinsEarned siempre 0 (campo API/compat).
+  return { xpEarned: xp, coinsEarned: 0, bestStreak, personalBest }
 }
 
 export function newId(prefix: string): string {
@@ -311,7 +299,7 @@ export function applySessionToProgress(
     school: progress.school ?? createDefaultSchoolProfile(),
     activityAssignments: progress.activityAssignments ?? {},
     xp: progress.xp + rewards.xpEarned,
-    coins: progress.coins + rewards.coinsEarned,
+    coins: progress.coins,
     bestStreak: Math.max(progress.bestStreak, rewards.bestStreak),
     lastPracticeAt: new Date().toISOString(),
     reward: grant.reward,

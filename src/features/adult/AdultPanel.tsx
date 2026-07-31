@@ -637,7 +637,11 @@ export function AdultPanel() {
                   label="Nivel y XP"
                   value={`Nv. ${summary.level} · ${summary.xp} XP`}
                 />
-                <SummaryCard compact label="Monedas" value={String(summary.coins)} />
+                <SummaryCard
+                  compact
+                  label="Energía (ciclo)"
+                  value={`${summary.rewardPointsCurrent} / ${summary.rewardTarget}`}
+                />
                 <SummaryCard
                   compact
                   label="Mejor racha"
@@ -805,7 +809,7 @@ export function AdultPanel() {
                   {school.courseMode === 'review' ? ' · modo repaso' : ''}
                 </p>
                 <p className="adult-course-cfg__note" role="note">
-                  Cambiar de curso no borra su progreso, XP, monedas ni premios.
+                  Cambiar de curso no borra su progreso, XP, energía ni premios.
                 </p>
                 <div className="adult-course-cfg__actions">
                   {courses
@@ -906,7 +910,7 @@ export function AdultPanel() {
       >
         <p>
           ¿Pasar a {confirmCourseId ? courseLabel(confirmCourseId) : ''}? No se reinician XP,
-          monedas, Robux, premios, logros, tablas ni colección. Los ejercicios de cursos
+          XP, energía, Robux, premios, logros, tablas ni colección. Los ejercicios de cursos
           anteriores pueden seguir como repaso.
         </p>
       </ConfirmDialog>

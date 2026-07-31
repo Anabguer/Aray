@@ -333,7 +333,6 @@ export function MatchScreen() {
             </p>
             <ul className="match-victory__rewards">
               <li>+{victory.xpEarned} XP</li>
-              <li>+{victory.coinsEarned} monedas</li>
               <li>+{victory.rewardPointsEarned} energía</li>
             </ul>
             <div className="match-victory__actions">

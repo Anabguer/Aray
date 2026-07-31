@@ -10,7 +10,7 @@ final class CrateService
 {
     public const PITY_AFTER = 5;
     public const CHOICE_CHANCE = 0.3;
-    public const ENERGY_OVERFLOW_TO_COINS = 2;
+    public const ENERGY_OVERFLOW_TO_COINS = 0;
 
     /** @var array<string, float> */
     private const DROP_CHANCE = [
@@ -34,37 +34,22 @@ final class CrateService
     /** @var array<string, list<array{kind:string,amount:int}>> */
     private const REWARDS = [
         'normal' => [
-            ['kind' => 'coins', 'amount' => 10],
-            ['kind' => 'coins', 'amount' => 15],
-            ['kind' => 'coins', 'amount' => 20],
+            ['kind' => 'energy', 'amount' => 20],
             ['kind' => 'energy', 'amount' => 30],
             ['kind' => 'energy', 'amount' => 40],
             ['kind' => 'energy', 'amount' => 50],
-            ['kind' => 'xp', 'amount' => 15],
-            ['kind' => 'xp', 'amount' => 20],
-            ['kind' => 'xp', 'amount' => 25],
         ],
         'especial' => [
-            ['kind' => 'coins', 'amount' => 25],
-            ['kind' => 'coins', 'amount' => 35],
-            ['kind' => 'coins', 'amount' => 50],
+            ['kind' => 'energy', 'amount' => 50],
             ['kind' => 'energy', 'amount' => 60],
             ['kind' => 'energy', 'amount' => 80],
             ['kind' => 'energy', 'amount' => 100],
-            ['kind' => 'xp', 'amount' => 40],
-            ['kind' => 'xp', 'amount' => 55],
-            ['kind' => 'xp', 'amount' => 70],
         ],
         'epica' => [
-            ['kind' => 'coins', 'amount' => 60],
-            ['kind' => 'coins', 'amount' => 80],
-            ['kind' => 'coins', 'amount' => 100],
+            ['kind' => 'energy', 'amount' => 100],
             ['kind' => 'energy', 'amount' => 120],
             ['kind' => 'energy', 'amount' => 160],
             ['kind' => 'energy', 'amount' => 200],
-            ['kind' => 'xp', 'amount' => 100],
-            ['kind' => 'xp', 'amount' => 140],
-            ['kind' => 'xp', 'amount' => 180],
         ],
     ];
 
@@ -282,20 +267,11 @@ final class CrateService
 
             $rewardKind = (string) ($row['reward_kind'] ?? '');
             $rewardAmount = (int) ($row['reward_amount'] ?? 0);
-            if (!in_array($rewardKind, ['coins', 'xp', 'energy'], true) || $rewardAmount <= 0) {
-                Http::error(500, 'crate_reward_invalid', 'Premio de caja inválido.');
+            if ($rewardKind !== 'energy' || $rewardAmount <= 0) {
+                Http::error(500, 'crate_reward_invalid', 'Premio de caja inválido (solo energía).');
             }
 
             $now = MadridTime::utcNowString();
-            if ($rewardKind === 'coins' || $rewardKind === 'xp') {
-                $col = $rewardKind === 'coins' ? 'coins' : 'xp';
-                $pdo->prepare(
-                    "UPDATE {$progTable}
-                     SET {$col} = {$col} + :amt, updated_at = :now
-                     WHERE player_id = :p"
-                )->execute([':amt' => $rewardAmount, ':now' => $now, ':p' => $playerId]);
-                $applied = true;
-            }
 
             // Marcar claimed antes de energía (dedupe vía app_settings).
             $pdo->prepare(
@@ -304,7 +280,7 @@ final class CrateService
                  WHERE id = :id"
             )->execute([':now' => $now, ':id' => (int) $row['id']]);
 
-            $energyToGrant = ($rewardKind === 'energy') ? $rewardAmount : 0;
+            $energyToGrant = $rewardAmount;
 
             $pdo->commit();
         } catch (Throwable $e) {
@@ -327,18 +303,8 @@ final class CrateService
                 $grant = RewardCycleService::grantPoints($playerId, $energyToGrant, $grantId, null);
                 $granted = (int) ($grant['granted'] ?? 0);
                 $overflow = max(0, $energyToGrant - $granted);
-                $coinsBonus = $overflow * self::ENERGY_OVERFLOW_TO_COINS;
-                if ($coinsBonus > 0) {
-                    Database::pdo()->prepare(
-                        "UPDATE " . Database::table('player_progress') . "
-                         SET coins = coins + :c, updated_at = :now
-                         WHERE player_id = :p"
-                    )->execute([
-                        ':c' => $coinsBonus,
-                        ':now' => MadridTime::utcNowString(),
-                        ':p' => $playerId,
-                    ]);
-                    $note = "Tope de energía: +{$granted} energía y +{$coinsBonus} monedas";
+                if ($overflow > 0) {
+                    $note = "Tope de energía de hoy: +{$granted} de {$energyToGrant}";
                 }
                 $applied = true;
             } else {
@@ -381,7 +347,7 @@ final class CrateService
         $amount = $row['reward_amount'] === null ? null : (int) $row['reward_amount'];
         $reward = ($kind !== null && $amount !== null)
             ? ['kind' => $kind, 'amount' => $amount]
-            : (isset($options[0]['reward']) ? $options[0]['reward'] : ['kind' => 'coins', 'amount' => 0]);
+            : (isset($options[0]['reward']) ? $options[0]['reward'] : ['kind' => 'energy', 'amount' => 0]);
 
         return [
             'completionId' => (string) $row['completion_id'],

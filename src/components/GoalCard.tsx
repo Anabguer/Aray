@@ -2,11 +2,14 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArayHubIcon } from '@/components/ArayHubIcon'
 import { energyCopy, rewardGoalConfig } from '@/config/rewardGoal'
+import { useAuth } from '@/auth/AuthContext'
 import { useProgress } from '@/progress/ProgressContext'
 import { markPendingCelebrated, normalizeRewardCycles } from '@/reward/engine'
 
 export function GoalCard({ compact = false }: { compact?: boolean }) {
   const { progress, updateReward } = useProgress()
+  const { tutorDisplayName } = useAuth()
+  const tutorName = tutorDisplayName?.trim() || 'un adulto'
   const reward = normalizeRewardCycles(progress.reward)
   const target = rewardGoalConfig.targetPoints
   const current = reward.pointsTotal
@@ -62,7 +65,7 @@ export function GoalCard({ compact = false }: { compact?: boolean }) {
               <h2 id="goal-title" className="goal-card__prize">
                 ¡PREMIO {pendingFirst} CONSEGUIDO!
               </h2>
-              <p className="goal-card__sub">Avísale a Neni para recogerlo</p>
+              <p className="goal-card__sub">Avísale a {tutorName} para recogerlo</p>
             </>
           ) : delivered.length > 0 && current === 0 && cycleNumber > 1 ? (
             <>
@@ -111,6 +114,7 @@ export function GoalCard({ compact = false }: { compact?: boolean }) {
         {energyCopy.today(Math.min(daily, dailyCap), dailyCap)}
         {daily >= dailyCap ? ` · ${energyCopy.dailyComplete}` : ''}
       </p>
+      <p className="goal-card__note">{energyCopy.sourcesHint}</p>
       {daily >= dailyCap ? (
         <p className="goal-card__play-fun" role="status">
           {energyCopy.playForFun}

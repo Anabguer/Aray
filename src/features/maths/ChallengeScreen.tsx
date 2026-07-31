@@ -235,9 +235,6 @@ export function ChallengeScreen() {
             </p>
             <ul className="countdown-overlay__perks">
               <li>XP ×{challengeModeConfig.xpMultiplier}</li>
-              {challengeModeConfig.coinMultiplier > 1 ? (
-                <li>Monedas ×{challengeModeConfig.coinMultiplier}</li>
-              ) : null}
               <li>{energyCopy.sessionMax(maxLoad)}</li>
             </ul>
             <button
