@@ -8888,18 +8888,61 @@ a {
   max-width: 36rem;
 }
 
+/* Misma densidad que mates: 2 columnas; arte más bajito para no comer pantalla. */
 .mode-posters--alphabet {
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+  max-width: 36rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-@media (min-width: 720px) {
+.mode-posters--alphabet .mode-poster__media,
+.mode-posters--alphabet .mode-poster__art {
+  aspect-ratio: 4 / 3;
+}
+
+.mode-posters--alphabet .mode-poster__title {
+  font-size: clamp(0.68rem, 2.8vw, 0.88rem);
+}
+
+.mode-posters--alphabet .mode-poster__text {
+  font-size: clamp(0.58rem, 2.2vw, 0.72rem);
+}
+
+.mode-posters--alphabet .mode-poster__body {
+  padding: 0.35rem 0.45rem 0.45rem;
+}
+
+.mode-posters--alphabet .mode-poster__go {
+  width: 1.35rem;
+  height: 1.35rem;
+  margin-top: 0.1rem;
+}
+
+@media (min-width: 560px) {
   .mode-posters--alphabet {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.7rem;
+  }
+
+  .mode-posters--alphabet .mode-poster__media,
+  .mode-posters--alphabet .mode-poster__art {
+    aspect-ratio: 5 / 3.4;
+  }
+}
+
+@media (min-width: 768px) {
+  .mode-posters--alphabet .mode-poster__title {
+    font-size: 1.05rem;
+  }
+
+  .mode-posters--alphabet .mode-poster__text {
+    font-size: 0.82rem;
   }
 
   .mode-posters--alphabet .mode-poster--random {
     grid-column: 1 / -1;
-    max-width: 22rem;
+    max-width: 17rem;
     justify-self: center;
   }
 }
@@ -8955,16 +8998,16 @@ a {
 }
 
 .alphabet-chain__slot {
-  min-width: 2.6rem;
-  height: 2.85rem;
+  min-width: 2.15rem;
+  height: 2.35rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 0.75rem;
+  border-radius: 0.65rem;
   border: 1px solid rgba(125, 211, 252, 0.35);
   background: rgba(12, 48, 80, 0.75);
   font-family: var(--font-display);
-  font-size: 1.35rem;
+  font-size: 1.15rem;
   font-weight: 800;
 }
 
@@ -8985,17 +9028,17 @@ a {
 }
 
 .alphabet-neighbor__letter {
-  min-width: 4.5rem;
-  min-height: 4.5rem;
-  padding: 0.35rem 0.7rem;
+  min-width: 3.5rem;
+  min-height: 3.5rem;
+  padding: 0.25rem 0.55rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 1.1rem;
+  border-radius: 0.95rem;
   border: 2px solid rgba(56, 189, 248, 0.45);
   background: linear-gradient(160deg, rgba(14, 116, 144, 0.55), rgba(8, 47, 73, 0.85));
   font-family: var(--font-display);
-  font-size: clamp(2.4rem, 8vw, 3.4rem);
+  font-size: clamp(1.85rem, 6vw, 2.6rem);
   font-weight: 800;
   line-height: 1;
   box-shadow: 0 10px 28px rgba(2, 12, 27, 0.35);
@@ -9063,15 +9106,15 @@ a {
 }
 
 .alphabet-chip {
-  min-width: 3.1rem;
-  min-height: 3.1rem;
-  padding: 0.35rem 0.55rem;
-  border-radius: 0.9rem;
+  min-width: 2.55rem;
+  min-height: 2.55rem;
+  padding: 0.28rem 0.45rem;
+  border-radius: 0.75rem;
   border: 1px solid rgba(56, 189, 248, 0.32);
   background: rgba(8, 28, 52, 0.82);
   color: inherit;
   font-family: var(--font-display);
-  font-size: 1.35rem;
+  font-size: 1.15rem;
   font-weight: 800;
   cursor: pointer;
   transition: transform 140ms ease, border-color 140ms ease;

@@ -54,35 +54,35 @@ export function AlphabetModeSelectScreen() {
       </p>
       <div className="mode-posters mode-posters--alphabet" role="list">
         <ModePoster
-          art="aprende"
+          art="abc-falta"
           title="LETRA QUE FALTA"
           text="Completa la cadena"
           className="mode-poster--learn"
           to="/missions/languages/alphabet/missing"
         />
         <ModePoster
-          art="entrena"
+          art="abc-vecina"
           title="SIGUIENTE / ANTERIOR"
           text="Lumo saca una letra"
           className="mode-poster--train"
           to="/missions/languages/alphabet/neighbor"
         />
         <ModePoster
-          art="empareja"
+          art="abc-letras"
           title="ORDENA LETRAS"
           text="De la A a la Z"
           className="mode-poster--match"
           to="/missions/languages/alphabet/order-letters"
         />
         <ModePoster
-          art="reto-rapido"
+          art="abc-palabras"
           title="ORDENA PALABRAS"
           text="A→Z o Z→A"
           className="mode-poster--challenge"
           to="/missions/languages/alphabet/order-words"
         />
         <ModePoster
-          art="mision-random"
+          art="abc-random"
           title="RANDOM"
           text="Cada ronda un juego distinto"
           className="mode-poster--random"
