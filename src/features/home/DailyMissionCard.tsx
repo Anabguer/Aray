@@ -47,9 +47,15 @@ export function DailyMissionCard() {
                 title={`${t.label}: ${frac}`}
                 aria-label={`${t.label}: ${frac}${done ? ', completado' : ''}`}
               >
-                <span className="daily-mission__orb">
-                  <img src={dailySkillIcons[t.key]} alt="" width={56} height={56} draggable={false} />
-                  {done ? <span className="daily-mission__tick" aria-hidden="true">✓</span> : null}
+                <span className="daily-mission__orb-wrap">
+                  <span className="daily-mission__orb">
+                    <img src={dailySkillIcons[t.key]} alt="" width={56} height={56} draggable={false} />
+                  </span>
+                  {done ? (
+                    <span className="daily-mission__tick" aria-hidden="true">
+                      ✓
+                    </span>
+                  ) : null}
                 </span>
                 <span className="daily-mission__bubble-label">{t.label}</span>
                 <span className="daily-mission__bubble-frac">{frac}</span>

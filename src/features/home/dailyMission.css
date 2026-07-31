@@ -113,10 +113,17 @@
   box-shadow: 0 0 14px rgba(74, 222, 128, 0.18);
 }
 
-.daily-mission__orb {
+.daily-mission__orb-wrap {
   position: relative;
   width: 2.65rem;
   height: 2.65rem;
+  flex: 0 0 auto;
+}
+
+.daily-mission__orb {
+  display: block;
+  width: 100%;
+  height: 100%;
   border-radius: 999px;
   overflow: hidden;
   border: 2px solid rgba(34, 211, 238, 0.45);
@@ -140,8 +147,9 @@
 
 .daily-mission__tick {
   position: absolute;
-  right: -0.15rem;
-  bottom: -0.1rem;
+  right: -0.22rem;
+  bottom: -0.18rem;
+  z-index: 4;
   width: 1.05rem;
   height: 1.05rem;
   border-radius: 999px;
@@ -153,6 +161,7 @@
   background: #4ade80;
   border: 1.5px solid rgba(255, 255, 255, 0.55);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+  pointer-events: none;
 }
 
 .daily-mission__bubble-label {
