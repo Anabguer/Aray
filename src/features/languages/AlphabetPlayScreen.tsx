@@ -219,48 +219,50 @@ export function AlphabetPlayScreen() {
         </header>
 
         <div className="alphabet-play__stage">
+          <div className="alphabet-play__main">
+            <p className="alphabet-play__prompt">{promptFor(question)}</p>
+
+            {question.kind === 'missing' ? (
+              <div className="alphabet-chain" aria-label="Cadena de letras">
+                {question.sequence.map((letter, i) => (
+                  <span
+                    key={`${question.id}-seq-${i}`}
+                    className={
+                      letter == null
+                        ? 'alphabet-chain__slot is-blank'
+                        : 'alphabet-chain__slot'
+                    }
+                  >
+                    {letter ?? '?'}
+                  </span>
+                ))}
+              </div>
+            ) : null}
+
+            {question.kind === 'neighbor' ? (
+              <div className="alphabet-neighbor" aria-label="Letra de Lumo">
+                <span className="alphabet-neighbor__letter">{question.letter}</span>
+                <span className="alphabet-neighbor__gap" aria-hidden="true">
+                  {question.direction === 'next' ? '→' : '←'}
+                </span>
+                <span className="alphabet-neighbor__slot">?</span>
+              </div>
+            ) : null}
+
+            {(question.kind === 'order-letters' || question.kind === 'order-words') &&
+            picked.length > 0 ? (
+              <ol className="alphabet-picked" aria-label="Tu orden">
+                {picked.map((item) => (
+                  <li key={`picked-${item}`} className="alphabet-picked__item">
+                    {item}
+                  </li>
+                ))}
+              </ol>
+            ) : null}
+          </div>
           <div className="alphabet-play__lumo">
             <Lumo state={lumo.state} intensity={lumo.intensity} size="sm" />
           </div>
-          <p className="alphabet-play__prompt">{promptFor(question)}</p>
-
-          {question.kind === 'missing' ? (
-            <div className="alphabet-chain" aria-label="Cadena de letras">
-              {question.sequence.map((letter, i) => (
-                <span
-                  key={`${question.id}-seq-${i}`}
-                  className={
-                    letter == null
-                      ? 'alphabet-chain__slot is-blank'
-                      : 'alphabet-chain__slot'
-                  }
-                >
-                  {letter ?? '?'}
-                </span>
-              ))}
-            </div>
-          ) : null}
-
-          {question.kind === 'neighbor' ? (
-            <div className="alphabet-neighbor" aria-label="Letra de Lumo">
-              <span className="alphabet-neighbor__letter">{question.letter}</span>
-              <span className="alphabet-neighbor__gap" aria-hidden="true">
-                {question.direction === 'next' ? '→' : '←'}
-              </span>
-              <span className="alphabet-neighbor__slot">?</span>
-            </div>
-          ) : null}
-
-          {(question.kind === 'order-letters' || question.kind === 'order-words') &&
-          picked.length > 0 ? (
-            <ol className="alphabet-picked" aria-label="Tu orden">
-              {picked.map((item) => (
-                <li key={`picked-${item}`} className="alphabet-picked__item">
-                  {item}
-                </li>
-              ))}
-            </ol>
-          ) : null}
         </div>
 
         {question.kind === 'missing' || question.kind === 'neighbor' ? (
