@@ -130,7 +130,7 @@ export function GoalCard({ compact = false }: { compact?: boolean }) {
       ) : null}
 
       {pendingFirst == null ? (
-        <Link to="/missions/mates/tables" className="btn btn-ghost btn-block goal-card__cta">
+        <Link to="/missions" className="btn btn-primary btn-block goal-card__cta">
           Farmear energía
         </Link>
       ) : null}

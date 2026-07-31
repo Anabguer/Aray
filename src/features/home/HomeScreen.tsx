@@ -54,6 +54,10 @@ export function HomeScreen() {
   const { player, familyPlayers } = useAuth()
   const active = player ?? familyPlayers[0] ?? null
   const childName = active?.displayName?.trim() || 'campeón'
+  const avatarUrl =
+    active?.avatarUrl ||
+    familyPlayers.find((p) => p.id === active?.id)?.avatarUrl ||
+    null
   const { setSelection, setActiveMode, setPendingQueue, setLastResult, setMissionOfDay } =
     usePlaySession()
   const lobby = buildLobbyMissions(progress, 4)
@@ -114,7 +118,7 @@ export function HomeScreen() {
           </div>
           <div className="hero__logo-wrap lobby__logo">
             <PlayerAvatar
-              url={active?.avatarUrl}
+              url={avatarUrl}
               name={childName}
               size="lg"
             />
@@ -153,7 +157,7 @@ export function HomeScreen() {
               </p>
               <Link
                 to={primaryMission?.path ?? '/missions/mates/tables'}
-                className="btn btn-primary lobby-mission__cta"
+                className="btn btn-ghost lobby-mission__cta"
                 onClick={(e) => {
                   if (!primaryMission) return
                   e.preventDefault()
@@ -239,10 +243,12 @@ export function HomeScreen() {
         )}
 
         <section className="lobby-zones" aria-label="Zonas">
-          <div className="zones__grid lobby-zones__grid">
-            {zoneLinks.map((zone) => (
-              <ZoneCard key={zone.id} zone={zone} />
-            ))}
+          <div className="zones__grid lobby-zones__grid lobby-zones__grid--solo">
+            {zoneLinks
+              .filter((zone) => zone.id !== 'missions')
+              .map((zone) => (
+                <ZoneCard key={zone.id} zone={zone} />
+              ))}
           </div>
         </section>
 
