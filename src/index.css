@@ -4938,10 +4938,15 @@ a {
   letter-spacing: 0.02em;
   color: var(--cyan);
   text-transform: none;
+  margin-inline-end: 0.45rem;
 }
 
 .lobby-hud__xp-label {
   color: var(--lilac);
+}
+
+.lobby-hud__xp-nums {
+  letter-spacing: 0.02em;
 }
 
 .lobby-hud__energy-label {

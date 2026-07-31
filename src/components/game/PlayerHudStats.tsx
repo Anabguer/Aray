@@ -16,9 +16,8 @@ export function PlayerHudBars({
       <div className="lobby-hud__xp">
         <div className="lobby-hud__xp-top">
           <span className="lobby-hud__level">Nv. {hud.level}</span>
-          <span className="lobby-hud__xp-label">XP</span>
-          <span className="lobby-hud__bar-nums" aria-hidden="true">
-            {hud.xpIntoLevel}/{hud.xpPerLevel}
+          <span className="lobby-hud__bar-nums lobby-hud__xp-nums" aria-hidden="true">
+            ({hud.xpIntoLevel}/{hud.xpPerLevel})
           </span>
         </div>
         <div
