@@ -47,3 +47,8 @@ export {
   normalizeSchoolProfile,
   visibleWorlds,
 } from '@/curriculum/school'
+
+export {
+  pickDailyChallenge,
+  type DailyChallengeCard,
+} from '@/curriculum/dailyChallenge'

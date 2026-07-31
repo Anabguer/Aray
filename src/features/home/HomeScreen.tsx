@@ -8,7 +8,8 @@ import { ResetProgressControl } from '@/components/ResetProgressControl'
 import { SyncStatusBanner } from '@/components/SyncStatusBanner'
 import { ZoneCard } from '@/components/ZoneCard'
 import { rewardGoalConfig } from '@/config/rewardGoal'
-import { buildLobbyMissions, type LobbyMissionCard } from '@/curriculum'
+import { buildLobbyMissions, pickDailyChallenge, type LobbyMissionCard } from '@/curriculum'
+import type { HubIconId } from '@/assets/icons/hub'
 import { zoneLinks } from '@/data/demo'
 import { launchLobbyMission } from '@/features/home/launchMission'
 import { DailyMissionCard } from '@/features/home/DailyMissionCard'
@@ -19,7 +20,7 @@ import { normalizeRewardCycles, previewSessionLoad } from '@/reward/engine'
 
 /** Copy solo Lobby: no altera títulos del catálogo en otras pantallas. */
 function lobbyMissionTitle(mission: LobbyMissionCard | null): string {
-  if (!mission) return 'Tu misión de hoy'
+  if (!mission) return 'Tu reto de hoy'
   const learn = mission.title.match(/^Aprende la tabla del (\d+)$/i)
   if (learn) return `Domina la tabla del ${learn[1]}`
   return mission.title
@@ -36,15 +37,29 @@ function lobbyMissionDescription(
   return mission.description
 }
 
+function challengeHubIcon(mission: LobbyMissionCard | null): HubIconId {
+  if (mission && 'hubIcon' in mission && typeof mission.hubIcon === 'string') {
+    return mission.hubIcon as HubIconId
+  }
+  if (mission?.subjectId === 'languages') return 'castellano'
+  if (mission?.subjectId === 'english') return 'ingles'
+  if (typeof mission?.table === 'number') return 'tablas'
+  return 'matematicas'
+}
+
 export function HomeScreen() {
   const navigate = useNavigate()
   const { progress, chooseCrate, openCrate, collectCrate } = useProgress()
-  const { selection, setSelection, setActiveMode, setPendingQueue, setLastResult, setMissionOfDay } =
+  const { setSelection, setActiveMode, setPendingQueue, setLastResult, setMissionOfDay } =
     usePlaySession()
-  const missionTable = selection.tables[0] ?? 7
   const lobby = buildLobbyMissions(progress, 4)
+  const dailyChallenge = pickDailyChallenge(progress)
   const primaryMission =
-    lobby.mandatory[0] ?? lobby.review[0] ?? lobby.recommended[0] ?? null
+    dailyChallenge ??
+    lobby.mandatory[0] ??
+    lobby.review[0] ??
+    lobby.recommended[0] ??
+    null
   const reward = normalizeRewardCycles(progress.reward)
   const lumoState =
     reward.pendingCycleNumbers.length > 0 || reward.goalStatus === 'completed'
@@ -108,18 +123,14 @@ export function HomeScreen() {
         <div className="lobby__main">
           <article className="lobby-mission" aria-labelledby="mission-today-title">
             <div className="lobby-mission__art" aria-hidden="true">
-              <ArayHubIcon id="tablas" priority className="lobby-mission__icon" />
+              <ArayHubIcon
+                id={challengeHubIcon(primaryMission)}
+                priority
+                className="lobby-mission__icon"
+              />
             </div>
             <div className="lobby-mission__body">
-              <p className="lobby-mission__eyebrow">
-                {primaryMission
-                  ? primaryMission.reason === 'review'
-                    ? 'Para repasar'
-                    : primaryMission.reason === 'mandatory'
-                      ? 'Pendiente'
-                      : 'Misión del día'
-                  : `Matemáticas · Tabla del ${missionTable}`}
-              </p>
+              <p className="lobby-mission__eyebrow">Reto del día</p>
               <h2 id="mission-today-title" className="lobby-mission__title">
                 {lobbyMissionTitle(primaryMission)}
               </h2>
