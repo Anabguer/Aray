@@ -8,6 +8,7 @@ import {
   useState,
   type ReactNode,
 } from 'react'
+import { useAuth } from '@/auth/AuthContext'
 import type { CrateActivityKey } from '@/config/crateConfig'
 import {
   applyAlphabetSessionToProgress,
@@ -174,6 +175,13 @@ export function ProgressProvider({
   const syncEpochRef = useRef(syncEpoch)
   syncEpochRef.current = syncEpoch
   const syncingRef = useRef(false)
+  const { role, deviceAuthorized, player, familyPlayers } = useAuth()
+  const authKey = [
+    role ?? '',
+    deviceAuthorized ? '1' : '0',
+    player?.id ?? '',
+    familyPlayers[0]?.id ?? '',
+  ].join(':')
 
   const persistCache = useCallback(
     (next: ProgressState) => {
@@ -268,12 +276,13 @@ export function ProgressProvider({
     try {
       purgeStaleAlphabetPending(syncEpochRef.current, id)
       purgeStaleRewardGrantPending(syncEpochRef.current, id)
-      const result = await flushPendingSessions(id)
-      const abcResult = await flushPendingAlphabetSessions(id)
+      const result = await flushPendingSessions(id, undefined, player?.slug ?? null)
+      const abcResult = await flushPendingAlphabetSessions(id, undefined, player?.slug ?? null)
       const energyResult = await flushPendingRewardGrants(
         id,
         progressRef.current.reward.appliedSessionIds,
         progressRef.current.reward,
+        player?.slug ?? null,
       )
       const official = abcResult.progress ?? result.progress
       if (official || energyResult.reward) {
@@ -317,7 +326,7 @@ export function ProgressProvider({
     } finally {
       syncingRef.current = false
     }
-  }, [applyOfficial, persistCache, refreshPendingCount])
+  }, [applyOfficial, persistCache, player?.slug, refreshPendingCount])
 
   useEffect(() => {
     if (skipHydration) {
@@ -327,7 +336,7 @@ export function ProgressProvider({
       return
     }
     void refreshFromServer()
-  }, [refreshFromServer, skipHydration])
+  }, [refreshFromServer, skipHydration, authKey])
 
   useEffect(() => {
     if (skipHydration) return
@@ -413,7 +422,7 @@ export function ProgressProvider({
       // Optimista en caché; MySQL manda tras sync
       persistCache(withCrates)
 
-      const id = playerIdRef.current
+      const id = playerIdRef.current ?? player?.id ?? null
       if (id !== null && answered) {
         const payload = buildSessionPayload({
           sessionId: partial.sessionId,
@@ -427,7 +436,11 @@ export function ProgressProvider({
         })
         void (async () => {
           setSyncStatus('syncing')
-          const syncResult = await enqueueAndSyncSession({ playerId: id, payload })
+          const syncResult = await enqueueAndSyncSession({
+            playerId: id,
+            playerSlug: player?.slug ?? null,
+            payload,
+          })
           refreshPendingCount()
           if (syncResult.progress) {
             const latest = progressRef.current
@@ -461,7 +474,7 @@ export function ProgressProvider({
 
       return result
     },
-    [applyOfficial, persistCache, refreshPendingCount],
+    [applyOfficial, persistCache, player?.id, player?.slug, refreshPendingCount],
   )
 
   const applyAlphabetSession = useCallback(
@@ -476,7 +489,7 @@ export function ProgressProvider({
       persistCache(next)
 
       const answered = input.answers.length > 0
-      const id = playerIdRef.current
+      const id = playerIdRef.current ?? player?.id ?? null
       if (id !== null && answered) {
         const payload = {
           sessionId: input.sessionId,
@@ -487,7 +500,11 @@ export function ProgressProvider({
         }
         void (async () => {
           setSyncStatus('syncing')
-          const syncResult = await enqueueAndSyncAlphabetSession({ playerId: id, payload })
+          const syncResult = await enqueueAndSyncAlphabetSession({
+            playerId: id,
+            playerSlug: player?.slug ?? null,
+            payload,
+          })
           refreshPendingCount()
           if (syncResult.progress) {
             const latest = progressRef.current
@@ -519,7 +536,7 @@ export function ProgressProvider({
 
       return result
     },
-    [applyOfficial, persistCache, refreshPendingCount],
+    [applyOfficial, persistCache, player?.id, player?.slug, refreshPendingCount],
   )
 
   const grantActivityEnergy = useCallback(
@@ -535,12 +552,13 @@ export function ProgressProvider({
       })
       persistCache({ ...current, reward: localGrant.reward })
 
-      const id = playerIdRef.current
+      const id = playerIdRef.current ?? player?.id ?? null
       if (id !== null) {
         void (async () => {
           setSyncStatus('syncing')
           const syncResult = await enqueueAndSyncRewardGrant({
             playerId: id,
+            playerSlug: player?.slug ?? null,
             grant: { ...input, requestedPoints: requested },
             appliedSessionIds: localGrant.reward.appliedSessionIds,
             localReward: localGrant.reward,
@@ -577,7 +595,7 @@ export function ProgressProvider({
 
       return { granted: localGrant.granted }
     },
-    [persistCache, refreshPendingCount],
+    [persistCache, player?.id, player?.slug, refreshPendingCount],
   )
 
   const resetProgress = useCallback(() => {
@@ -634,24 +652,15 @@ export function ProgressProvider({
       const id = playerIdRef.current
       if (id !== null && completionId) {
         void postCrateChoose(completionId, index)
-          .then((res) => {
-            if (res.progress) {
-              const latest = progressRef.current
-              applyOfficial(
-                {
-                  ...mapIfNeeded(res.progress, latest),
-                },
-                id,
-                syncEpochRef.current,
-              )
-            }
+          .then(() => {
+            /* No applyOfficial: el snapshot de choose puede llegar tarde y pisar monedas/XP. */
           })
           .catch(() => {
             /* offline: se queda el optimista */
           })
       }
     },
-    [applyOfficial, persistCache],
+    [persistCache],
   )
 
   const openCrate = useCallback(() => {
@@ -661,15 +670,12 @@ export function ProgressProvider({
     const id = playerIdRef.current
     if (id !== null && completionId) {
       void postCrateOpen(completionId)
-        .then((res) => {
-          if (res.progress) {
-            const latest = progressRef.current
-            applyOfficial(mapIfNeeded(res.progress, latest), id, syncEpochRef.current)
-          }
+        .then(() => {
+          /* No applyOfficial: evita carrera con collect (pisaba monedas a 2). */
         })
         .catch(() => {})
     }
-  }, [applyOfficial, persistCache])
+  }, [persistCache])
 
   const collectCrate = useCallback(() => {
     const current = progressRef.current
@@ -684,6 +690,13 @@ export function ProgressProvider({
       collected.reward,
     )
     persistCache(applied.next)
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(
+        new CustomEvent('aray:wallet-pulse', {
+          detail: { kind: collected.reward.kind, amount: collected.reward.amount },
+        }),
+      )
+    }
 
     const id = playerIdRef.current
     if (id !== null && completionId) {
@@ -691,7 +704,21 @@ export function ProgressProvider({
         .then((res) => {
           if (res.progress) {
             const latest = progressRef.current
-            applyOfficial(mapIfNeeded(res.progress, latest), id, syncEpochRef.current)
+            const mapped = mapIfNeeded(res.progress, latest)
+            // Conserva historial local de cajas; el snapshot del server no lo trae.
+            applyOfficial(
+              {
+                ...mapped,
+                crates: {
+                  ...mapped.crates,
+                  claimedCompletionIds: latest.crates.claimedCompletionIds,
+                  rolledCompletionIds: latest.crates.rolledCompletionIds,
+                  firstMasteryGrantedTables: latest.crates.firstMasteryGrantedTables,
+                },
+              },
+              id,
+              syncEpochRef.current,
+            )
           }
         })
         .catch(() => {})

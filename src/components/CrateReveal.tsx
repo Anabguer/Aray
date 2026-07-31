@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import { crateArt, type CrateRarity } from '@/assets/rewards'
 import { crateConfig, type CrateRewardSpec } from '@/config/crateConfig'
 import type { PendingCrate } from '@/crates/engine'
+import { Lumo } from '@/lumo/Lumo'
 import { soundEngine } from '@/sound/soundEngine'
 
 type CrateRevealProps = {
@@ -18,15 +19,30 @@ function rewardLabel(reward: CrateRewardSpec): string {
   return `+${reward.amount} XP`
 }
 
+function rewardHint(reward: CrateRewardSpec): string {
+  if (reward.kind === 'coins') return 'Van al monedero de arriba ↑'
+  if (reward.kind === 'energy') return 'Van a la barra de energía ↑'
+  return 'Van a tu XP / nivel ↑'
+}
+
+function collectLabel(reward: CrateRewardSpec): string {
+  if (reward.kind === 'coins') return '¡Sumar monedas!'
+  if (reward.kind === 'energy') return '¡Sumar energía!'
+  return '¡Sumar XP!'
+}
+
 function rarityLabel(r: CrateRarity): string {
   if (r === 'epica') return 'Épica'
   if (r === 'especial') return 'Especial'
   return 'Normal'
 }
 
+const CONFETTI = Array.from({ length: 18 }, (_, i) => i)
+
 export function CrateReveal({ pending, onChoose, onOpen, onCollect }: CrateRevealProps) {
   const titleId = useId()
   const [phase, setPhase] = useState<'enter' | 'idle' | 'open' | 'reveal'>('enter')
+  const [party, setParty] = useState(false)
   const reduced =
     typeof window !== 'undefined' &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -37,7 +53,10 @@ export function CrateReveal({ pending, onChoose, onOpen, onCollect }: CrateRevea
   }, [reduced])
 
   useEffect(() => {
-    if (pending.opened) setPhase('reveal')
+    if (pending.opened) {
+      setPhase('reveal')
+      setParty(true)
+    }
   }, [pending.opened])
 
   useEffect(() => {
@@ -60,20 +79,49 @@ export function CrateReveal({ pending, onChoose, onOpen, onCollect }: CrateRevea
       () => {
         onOpen()
         setPhase('reveal')
+        setParty(true)
+        soundEngine.play('perfect-complete')
       },
       reduced ? 120 : crateConfig.animMs.open,
     )
   }
 
-  // Portal a body: overlay fijo sobre lobby/resumen, sin quedar inline en el scroll.
+  function handleCollect() {
+    soundEngine.play('points-earned')
+    onCollect()
+  }
+
   return createPortal(
     <div className="crate-reveal__backdrop" role="presentation">
       <section
-        className="crate-reveal"
+        className={`crate-reveal${party ? ' is-party' : ''}`}
         aria-labelledby={titleId}
         role="dialog"
         aria-modal="true"
       >
+        {party && !reduced ? (
+          <div className="crate-confetti" aria-hidden="true">
+            {CONFETTI.map((i) => (
+              <span
+                key={i}
+                className={`crate-confetti__bit crate-confetti__bit--${i % 6}`}
+                style={{
+                  left: `${6 + ((i * 17) % 88)}%`,
+                  animationDelay: `${(i % 8) * 45}ms`,
+                }}
+              />
+            ))}
+          </div>
+        ) : null}
+
+        <div className="crate-reveal__lumo" aria-hidden="true">
+          <Lumo
+            state={phase === 'reveal' ? 'celebration' : phase === 'open' ? 'streak' : 'idle'}
+            intensity={phase === 'reveal' ? 4 : 2}
+            size="sm"
+          />
+        </div>
+
         <h2 id={titleId} className="crate-reveal__title">
           {showChoice
             ? 'Elige una'
@@ -104,12 +152,15 @@ export function CrateReveal({ pending, onChoose, onOpen, onCollect }: CrateRevea
         ) : (
           <>
             <div
-              className={`crate-stage crate-stage--${active.rarity} is-${phase}${reduced ? ' is-reduced' : ''}`}
+              className={`crate-stage crate-stage--${active.rarity} is-${phase}${reduced ? ' is-reduced' : ''}${party ? ' is-party' : ''}`}
             >
               <span className="crate-stage__flash" aria-hidden="true" />
+              <span className="crate-stage__ring" aria-hidden="true" />
               <span className="crate-stage__spark crate-stage__spark--a" aria-hidden="true" />
               <span className="crate-stage__spark crate-stage__spark--b" aria-hidden="true" />
               <span className="crate-stage__spark crate-stage__spark--c" aria-hidden="true" />
+              <span className="crate-stage__spark crate-stage__spark--d" aria-hidden="true" />
+              <span className="crate-stage__spark crate-stage__spark--e" aria-hidden="true" />
               {phase !== 'reveal' ? (
                 <img
                   src={crateArt[active.rarity]}
@@ -118,9 +169,12 @@ export function CrateReveal({ pending, onChoose, onOpen, onCollect }: CrateRevea
                   draggable={false}
                 />
               ) : (
-                <p className="crate-stage__prize" aria-live="polite">
-                  {rewardLabel(pending.reward)}
-                </p>
+                <div className="crate-stage__prize-wrap">
+                  <p className="crate-stage__prize" aria-live="polite">
+                    {rewardLabel(pending.reward)}
+                  </p>
+                  <p className="crate-stage__hint">{rewardHint(pending.reward)}</p>
+                </div>
               )}
             </div>
             {phase !== 'reveal' ? (
@@ -128,8 +182,12 @@ export function CrateReveal({ pending, onChoose, onOpen, onCollect }: CrateRevea
                 Abrir caja
               </button>
             ) : (
-              <button type="button" className="btn btn-primary btn-block" onClick={onCollect}>
-                Recoger
+              <button
+                type="button"
+                className="btn btn-primary btn-block crate-reveal__collect"
+                onClick={handleCollect}
+              >
+                {collectLabel(pending.reward)}
               </button>
             )}
           </>

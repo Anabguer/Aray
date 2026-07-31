@@ -26,9 +26,9 @@ export const crateConfig = {
   } as Record<CrateRarity, number>,
   rewards: {
     normal: [
-      { kind: 'coins', amount: 5 },
-      { kind: 'coins', amount: 8 },
       { kind: 'coins', amount: 10 },
+      { kind: 'coins', amount: 15 },
+      { kind: 'coins', amount: 20 },
       { kind: 'energy', amount: 30 },
       { kind: 'energy', amount: 40 },
       { kind: 'energy', amount: 50 },
@@ -37,9 +37,9 @@ export const crateConfig = {
       { kind: 'xp', amount: 25 },
     ] as CrateRewardSpec[],
     especial: [
-      { kind: 'coins', amount: 12 },
-      { kind: 'coins', amount: 15 },
-      { kind: 'coins', amount: 20 },
+      { kind: 'coins', amount: 25 },
+      { kind: 'coins', amount: 35 },
+      { kind: 'coins', amount: 50 },
       { kind: 'energy', amount: 60 },
       { kind: 'energy', amount: 80 },
       { kind: 'energy', amount: 100 },
@@ -48,9 +48,9 @@ export const crateConfig = {
       { kind: 'xp', amount: 70 },
     ] as CrateRewardSpec[],
     epica: [
-      { kind: 'coins', amount: 30 },
-      { kind: 'coins', amount: 40 },
-      { kind: 'coins', amount: 50 },
+      { kind: 'coins', amount: 60 },
+      { kind: 'coins', amount: 80 },
+      { kind: 'coins', amount: 100 },
       { kind: 'energy', amount: 120 },
       { kind: 'energy', amount: 160 },
       { kind: 'energy', amount: 200 },

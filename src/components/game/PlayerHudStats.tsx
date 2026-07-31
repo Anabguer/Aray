@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { IconBolt, IconCoin } from '@/components/Icons'
 import type { PlayerHudSnapshot } from '@/progress/playerHud'
 
@@ -57,8 +58,24 @@ export function PlayerHudBars({
 }
 
 export function PlayerHudCoins({ hud }: { hud: PlayerHudSnapshot }) {
+  const [pulse, setPulse] = useState(false)
+
+  useEffect(() => {
+    function onPulse(ev: Event) {
+      const detail = (ev as CustomEvent<{ kind?: string }>).detail
+      if (detail?.kind && detail.kind !== 'coins') return
+      setPulse(true)
+      window.setTimeout(() => setPulse(false), 900)
+    }
+    window.addEventListener('aray:wallet-pulse', onPulse)
+    return () => window.removeEventListener('aray:wallet-pulse', onPulse)
+  }, [])
+
   return (
-    <div className="lobby-hud__coins" aria-label={`${hud.coins} monedas`}>
+    <div
+      className={`lobby-hud__coins${pulse ? ' is-pulse' : ''}`}
+      aria-label={`${hud.coins} monedas`}
+    >
       <IconCoin className="lobby-hud__coin-icon" aria-hidden />
       <strong className="lobby-hud__coin-value">{hud.coins}</strong>
     </div>
