@@ -23,3 +23,15 @@ export {
   AlphabetSessionProvider,
   useAlphabetSession,
 } from '@/alphabet/AlphabetSessionContext'
+export {
+  alphabetModeStatus,
+  applyAlphabetSessionToProgress,
+  emptyAlphabetProgress,
+  evaluateAlphabetRoundScore,
+  hardAlphabetLetters,
+  normalizeAlphabetModeProgress,
+  normalizeAlphabetProgress,
+  type AlphabetAnswerRecord,
+  type AlphabetProgress,
+  type AlphabetSessionResult,
+} from '@/alphabet/progress'

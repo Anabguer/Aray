@@ -58,8 +58,8 @@ export interface RewardProgress {
 }
 
 export interface ProgressState {
-  /** v4: perfil escolar + asignaciones adultas (sin romper XP/tablas). */
-  version: 4
+  /** v5: progreso ABC / lenguas (v4 = escolar; v5 = + alphabet). */
+  version: 4 | 5
   xp: number
   coins: number
   bestStreak: number
@@ -77,6 +77,8 @@ export interface ProgressState {
   school: import('@/curriculum/types').SchoolProfile
   /** Overrides del panel adulto por activityId. */
   activityAssignments: import('@/curriculum/types').ActivityAssignmentMap
+  /** Progreso del bloque ABC (lenguas). */
+  alphabet: import('@/alphabet/progress').AlphabetProgress
 }
 
 export interface SessionAnswer {

@@ -47,10 +47,15 @@ import {
   subjects,
 } from '@/curriculum'
 import type { AssignmentRole, CourseId, CourseMode } from '@/curriculum/types'
+import {
+  alphabetModeStatus,
+  hardAlphabetLetters,
+  normalizeAlphabetModeProgress,
+} from '@/alphabet/progress'
 import { useProgress } from '@/progress/ProgressContext'
 
 type ActivityRange = '7d' | '30d' | 'custom'
-type PanelSection = 'activities' | 'tables' | 'report' | 'course' | null
+type PanelSection = 'activities' | 'tables' | 'abc' | 'report' | 'course' | null
 
 const SECTION_STORAGE_KEY = 'aray-adult-open-section'
 
@@ -723,6 +728,29 @@ export function AdultPanel() {
             </AccordionSection>
 
             <AccordionSection
+              id="abc"
+              open={openSection === 'abc'}
+              onToggle={() => toggleSection('abc')}
+              icon={<IconBook />}
+              title="Progreso ABC"
+              description="Modos del abecedario, si conviene repasar y letras que más cuestan."
+              summary={
+                progress.alphabet.roundsPlayed > 0
+                  ? `${progress.alphabet.roundsPlayed} rondas · ${
+                      ['missing', 'neighbor', 'order-letters', 'order-words'].filter((m) =>
+                        normalizeAlphabetModeProgress(progress.alphabet.modes[m]).everMastered,
+                      ).length
+                    } modos domados`
+                  : 'Aún sin rondas de ABC'
+              }
+              sectionRef={(el) => {
+                sectionRefs.current.abc = el
+              }}
+            >
+              <AlphabetProgressPanel alphabet={progress.alphabet} />
+            </AccordionSection>
+
+            <AccordionSection
               id="report"
               open={openSection === 'report'}
               onToggle={() => toggleSection('report')}
@@ -1359,6 +1387,72 @@ function ActivitiesPanel({
             </li>
           ))}
         </ul>
+      )}
+    </div>
+  )
+}
+
+function AlphabetProgressPanel({
+  alphabet,
+}: {
+  alphabet: import('@/alphabet/progress').AlphabetProgress
+}) {
+  const modes: Array<{ id: string; title: string }> = [
+    { id: 'missing', title: 'Letra que falta' },
+    { id: 'neighbor', title: 'Siguiente / anterior' },
+    { id: 'order-letters', title: 'Ordena letras' },
+    { id: 'order-words', title: 'Ordena palabras' },
+    { id: 'random', title: 'Random' },
+  ]
+  const hard = hardAlphabetLetters(alphabet, 8)
+
+  if (alphabet.roundsPlayed === 0) {
+    return (
+      <p className="adult-empty">
+        Todavía no ha jugado rondas del ABC en este dispositivo. Cuando practique, aquí verás dominio
+        y letras difíciles.
+      </p>
+    )
+  }
+
+  return (
+    <div className="adult-abc-panel">
+      <p className="adult-abc-panel__meta">
+        {alphabet.roundsPlayed} rondas · {alphabet.perfectRounds} perfectas · mejor racha{' '}
+        {alphabet.bestStreak}
+      </p>
+      <ul className="adult-abc-panel__modes">
+        {modes.map((m) => {
+          const prog = normalizeAlphabetModeProgress(alphabet.modes[m.id])
+          const st = alphabetModeStatus(prog)
+          return (
+            <li key={m.id}>
+              <strong>{m.title}</strong>
+              <span>{st.label}</span>
+              <span>
+                {prog.lastRoundScore != null ? `Última ${prog.lastRoundScore}/10` : 'Sin ronda'}
+                {prog.everMastered ? ' · Domado' : ''}
+              </span>
+            </li>
+          )
+        })}
+      </ul>
+      {hard.length > 0 ? (
+        <div className="adult-abc-panel__hard">
+          <h3>Letras que más cuestan</h3>
+          <ul>
+            {hard.map((h) => (
+              <li key={h.letter}>
+                <strong>{h.letter}</strong>
+                <span>
+                  {h.wrong} fallos / {h.attempts} intentos
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <p className="adult-empty">Sin letras difíciles registradas aún.</p>
       )}
     </div>
   )

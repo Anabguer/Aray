@@ -1,8 +1,10 @@
 import { achievementImages } from '@/assets/achievements'
+import { modeArtUrl } from '@/assets/modes'
 import { tableArtUrl } from '@/assets/tables'
+import { normalizeAlphabetModeProgress } from '@/alphabet/progress'
 import type { ProgressState } from '@/math/types'
 
-export type AchievementCategory = 'insignias' | 'tablas'
+export type AchievementCategory = 'insignias' | 'tablas' | 'lenguas'
 
 export interface AchievementReward {
   coins?: number
@@ -111,7 +113,96 @@ const tableAchievements: AchievementDefinition[] = Array.from(
   },
 )
 
-export const achievementCatalog = [...generalAchievements, ...tableAchievements]
+const ABC_MODE_DEFS: Array<{
+  id: string
+  mode: 'missing' | 'neighbor' | 'order-letters' | 'order-words'
+  title: string
+  art: 'abc-falta' | 'abc-vecina' | 'abc-letras' | 'abc-palabras'
+}> = [
+  {
+    id: 'abc-falta-domado',
+    mode: 'missing',
+    title: 'Letra que falta domada',
+    art: 'abc-falta',
+  },
+  {
+    id: 'abc-vecina-domado',
+    mode: 'neighbor',
+    title: 'Siguiente/anterior domado',
+    art: 'abc-vecina',
+  },
+  {
+    id: 'abc-letras-domado',
+    mode: 'order-letters',
+    title: 'Ordena letras domado',
+    art: 'abc-letras',
+  },
+  {
+    id: 'abc-palabras-domado',
+    mode: 'order-words',
+    title: 'Ordena palabras domado',
+    art: 'abc-palabras',
+  },
+]
+
+const languageAchievements: AchievementDefinition[] = [
+  {
+    id: 'abc-primera',
+    title: 'Letras en marcha',
+    shortDescription: 'Tu primera ronda del ABC ya cuenta.',
+    howToUnlock: 'Completa una ronda del ABC.',
+    category: 'lenguas',
+    image: modeArtUrl('abc-random'),
+    reward: { coins: 10 },
+    current: (progress) => (progress.alphabet.roundsPlayed > 0 ? 1 : 0),
+    target: 1,
+  },
+  {
+    id: 'abc-crack',
+    title: 'Crack del ABC',
+    shortDescription: 'Una ronda perfecta. Ni una letra se te escapó.',
+    howToUnlock: 'Acaba una ronda del ABC sin fallos.',
+    category: 'lenguas',
+    image: modeArtUrl('abc-falta'),
+    reward: { coins: 20, xp: 30 },
+    current: (progress) => Math.min(1, progress.alphabet.perfectRounds),
+    target: 1,
+  },
+  ...ABC_MODE_DEFS.map(
+    (def): AchievementDefinition => ({
+      id: def.id,
+      title: def.title,
+      shortDescription: `${def.title.replace(' domado', '')} ya está bajo control.`,
+      howToUnlock: `Consigue al menos 8/10 en ${def.title.replace(' domado', '').toLowerCase()}.`,
+      category: 'lenguas',
+      image: modeArtUrl(def.art),
+      reward: { coins: 15 },
+      current: (progress) =>
+        normalizeAlphabetModeProgress(progress.alphabet.modes[def.mode]).everMastered ? 1 : 0,
+      target: 1,
+    }),
+  ),
+  {
+    id: 'abc-todos-domados',
+    title: 'ABC completo',
+    shortDescription: 'Los cuatro modos del abecedario, domados.',
+    howToUnlock: 'Doma letra que falta, vecina, ordena letras y ordena palabras.',
+    category: 'lenguas',
+    image: modeArtUrl('abc-random'),
+    reward: { coins: 50, xp: 80 },
+    current: (progress) =>
+      ABC_MODE_DEFS.filter((d) =>
+        normalizeAlphabetModeProgress(progress.alphabet.modes[d.mode]).everMastered,
+      ).length,
+    target: 4,
+  },
+]
+
+export const achievementCatalog = [
+  ...generalAchievements,
+  ...tableAchievements,
+  ...languageAchievements,
+]
 
 export function achievementIsUnlocked(
   achievement: AchievementDefinition,

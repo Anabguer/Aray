@@ -8981,11 +8981,106 @@ a {
   padding-bottom: 1.25rem;
 }
 
-.alphabet-modes__lead {
-  margin: 0 0 0.85rem;
-  color: var(--text-muted);
-  line-height: 1.4;
+.alphabet-modes__review {
+  margin: 0 0 0.75rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 0.75rem;
+  background: rgba(251, 146, 60, 0.12);
+  border: 1px solid rgba(251, 146, 60, 0.35);
+  color: #fdba74;
+  font-size: 0.9rem;
+  font-weight: 650;
 }
+
+.alphabet-modes__badge {
+  display: inline-flex;
+  margin-top: 0.2rem;
+  padding: 0.12rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: rgba(56, 189, 248, 0.16);
+  color: #7dd3fc;
+  width: fit-content;
+}
+
+.mode-poster--challenge .alphabet-modes__badge,
+.mode-poster--train .alphabet-modes__badge {
+  background: rgba(251, 146, 60, 0.16);
+  color: #fdba74;
+}
+
+.alphabet-summary__rewards {
+  margin: 0;
+  font-weight: 700;
+  color: #7dd3fc;
+}
+
+.alphabet-summary__review {
+  margin: 0;
+  padding: 0.55rem 0.75rem;
+  border-radius: 0.75rem;
+  background: rgba(251, 146, 60, 0.12);
+  border: 1px solid rgba(251, 146, 60, 0.35);
+  color: #fdba74;
+  font-size: 0.9rem;
+}
+
+.adult-abc-panel__meta {
+  margin: 0 0 0.75rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.adult-abc-panel__modes {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.adult-abc-panel__modes li {
+  display: grid;
+  gap: 0.1rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 0.7rem;
+  background: rgba(8, 28, 52, 0.55);
+  border: 1px solid rgba(56, 189, 248, 0.18);
+}
+
+.adult-abc-panel__modes span {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.adult-abc-panel__hard h3 {
+  margin: 0 0 0.45rem;
+  font-size: 0.95rem;
+}
+
+.adult-abc-panel__hard ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.adult-abc-panel__hard li {
+  display: flex;
+  gap: 0.4rem;
+  align-items: baseline;
+  padding: 0.35rem 0.55rem;
+  border-radius: 0.55rem;
+  background: rgba(127, 29, 29, 0.28);
+  border: 1px solid rgba(248, 113, 113, 0.35);
+  font-size: 0.85rem;
+}
+
 
 /* Móvil: 2 columnas, sin columna única centrada. */
 .mode-posters--alphabet {
@@ -9083,6 +9178,10 @@ a {
   margin-bottom: 0.75rem;
   color: var(--text-muted);
   font-size: 0.92rem;
+}
+
+.alphabet-play__misses {
+  margin: 0;
 }
 
 .alphabet-play__misses {

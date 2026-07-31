@@ -85,7 +85,7 @@ describe('XP, monedas y progreso', () => {
       tables: {},
       soundMuted: false,
     })
-    expect(migrated.version).toBe(4)
+    expect(migrated.version).toBe(5)
     expect(migrated.coins).toBe(80)
     expect(migrated.reward.pointsTotal).toBe(0)
     expect(migrated.xp).toBe(20)

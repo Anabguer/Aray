@@ -1,3 +1,4 @@
+import { normalizeAlphabetProgress, emptyAlphabetProgress } from '@/alphabet/progress'
 import { challengeModeConfig } from '@/config/playConfig'
 import { matchSessionMeta, rewardGoalConfig } from '@/config/rewardGoal'
 import { rewardRules } from '@/config/rewards'
@@ -29,7 +30,7 @@ export const PROGRESS_STORAGE_KEY = 'aray.progress.v1'
 
 export function createInitialProgress(): ProgressState {
   return {
-    version: 4,
+    version: 5,
     xp: 0,
     coins: 0,
     bestStreak: 0,
@@ -43,6 +44,7 @@ export function createInitialProgress(): ProgressState {
     achievements: { claimedIds: [] },
     school: createDefaultSchoolProfile(),
     activityAssignments: {},
+    alphabet: emptyAlphabetProgress(),
   }
 }
 
@@ -84,7 +86,8 @@ export function normalizeProgress(raw: unknown, today: string = localDateString(
     activityAssignments: normalizeActivityAssignments(
       (parsed as { activityAssignments?: unknown }).activityAssignments,
     ),
-    version: 4,
+    alphabet: normalizeAlphabetProgress((parsed as { alphabet?: unknown }).alphabet),
+    version: 5,
   }
 
   // No convertir monedas en puntos de recompensa
@@ -132,7 +135,7 @@ export function createLocalStorageProgressStore(
       }
     },
     save(state) {
-      storage.setItem(key, JSON.stringify({ ...state, version: 4 }))
+      storage.setItem(key, JSON.stringify({ ...state, version: 5 }))
     },
     clear() {
       storage.removeItem(key)
@@ -286,9 +289,10 @@ export function applySessionToProgress(
 
   const next: ProgressState = {
     ...progress,
-    version: 4,
+    version: 5,
     facts: { ...progress.facts },
     tables: { ...progress.tables },
+    alphabet: normalizeAlphabetProgress(progress.alphabet),
     school: progress.school ?? createDefaultSchoolProfile(),
     activityAssignments: progress.activityAssignments ?? {},
     xp: progress.xp + rewards.xpEarned,

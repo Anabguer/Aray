@@ -4,6 +4,8 @@ import {
   normalizeActivityAssignments,
   normalizeSchoolProfile,
 } from '@/curriculum/school'
+import type { AlphabetProgress } from '@/alphabet/progress'
+import { normalizeAlphabetProgress } from '@/alphabet/progress'
 import type { ProgressState, RewardProgress, TableProgress } from '@/math/types'
 import { normalizeTableProgress } from '@/math/tableMastery'
 import { createInitialRewardProgress, normalizeRewardCycles, syncRewardDay, localDateString } from '@/reward/engine'
@@ -31,6 +33,7 @@ export type ServerProgressSnapshot = {
   syncEpoch?: number
   facts?: Record<string, ProgressState['facts'][string]> | object
   tables?: Record<string, Partial<TableProgress>> | object
+  alphabet?: AlphabetProgress | object
   reward?: ServerReward
   crates?: {
     pending?: ProgressState['crates']['pending']
@@ -98,6 +101,7 @@ export function mapServerProgressToState(
     soundMuted?: boolean
     achievements?: ProgressState['achievements']
     celebratedPendingCycles?: number[]
+    alphabet?: AlphabetProgress
     today?: string
   } = {},
 ): ProgressState {
@@ -123,9 +127,13 @@ export function mapServerProgressToState(
     pending: snapshot.crates?.pending ?? null,
   })
 
+  const alphabet = snapshot.alphabet
+    ? normalizeAlphabetProgress(snapshot.alphabet)
+    : normalizeAlphabetProgress(opts.alphabet)
+
   return {
     ...base,
-    version: 4,
+    version: 5,
     xp: typeof snapshot.xp === 'number' ? snapshot.xp : 0,
     coins: typeof snapshot.coins === 'number' ? snapshot.coins : 0,
     bestStreak: typeof snapshot.bestStreak === 'number' ? snapshot.bestStreak : 0,
@@ -134,6 +142,7 @@ export function mapServerProgressToState(
     lastPracticeAt: typeof snapshot.lastPracticeAt === 'string' ? snapshot.lastPracticeAt : null,
     facts,
     tables,
+    alphabet,
     soundMuted: typeof opts.soundMuted === 'boolean' ? opts.soundMuted : Boolean(snapshot.soundMuted),
     reward,
     crates,

@@ -10,6 +10,12 @@ import {
 } from 'react'
 import type { CrateActivityKey } from '@/config/crateConfig'
 import {
+  applyAlphabetSessionToProgress,
+  type AlphabetAnswerRecord,
+  type AlphabetSessionResult,
+} from '@/alphabet/progress'
+import type { AlphabetPlayMode } from '@/alphabet/types'
+import {
   chooseCrateOption,
   collectPendingCrate,
   markCrateOpened,
@@ -75,6 +81,12 @@ interface ProgressContextValue {
       missionCode?: string
     },
   ) => SessionResult
+  applyAlphabetSession: (input: {
+    mode: AlphabetPlayMode
+    answers: AlphabetAnswerRecord[]
+    sessionId: string
+    bestStreakInRound: number
+  }) => AlphabetSessionResult
   refreshFromServer: () => Promise<void>
   flushSyncQueue: () => Promise<void>
   resetProgress: () => void
@@ -117,6 +129,7 @@ function mapIfNeeded(snapshot: ServerProgressSnapshot, latest: ProgressState): P
       soundMuted: latest.soundMuted,
       achievements: latest.achievements,
       celebratedPendingCycles: latest.reward.celebratedPendingCycles,
+      alphabet: latest.alphabet,
     }),
   }
 }
@@ -406,6 +419,26 @@ export function ProgressProvider({
     [applyOfficial, persistCache, refreshPendingCount],
   )
 
+  const applyAlphabetSession = useCallback(
+    (input: {
+      mode: AlphabetPlayMode
+      answers: AlphabetAnswerRecord[]
+      sessionId: string
+      bestStreakInRound: number
+    }) => {
+      const current = progressRef.current
+      const { next, result } = applyAlphabetSessionToProgress(current, input)
+      persistCache(next)
+      // ABC: progreso local oficial en caché; sync MySQL de skill_mastery en fase siguiente.
+      // XP/monedas locales se conservan al mapear servidor vía alphabet merge.
+      if (input.answers.length > 0) {
+        setSyncStatus((s) => (s === 'hydrating' ? s : playerIdRef.current !== null ? 'ready' : 'needs_device'))
+      }
+      return result
+    },
+    [persistCache],
+  )
+
   const resetProgress = useCallback(() => {
     // Solo limpia caché local; el oficial vive en MySQL (panel/scripts)
     clearProgressCache()
@@ -553,6 +586,7 @@ export function ProgressProvider({
       pendingSyncCount,
       hydrated,
       applySession,
+      applyAlphabetSession,
       refreshFromServer,
       flushSyncQueue,
       resetProgress,
@@ -574,6 +608,7 @@ export function ProgressProvider({
       pendingSyncCount,
       hydrated,
       applySession,
+      applyAlphabetSession,
       refreshFromServer,
       flushSyncQueue,
       resetProgress,

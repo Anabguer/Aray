@@ -29,6 +29,13 @@ function lumoLine(achievement: AchievementDefinition, unlocked: boolean): string
     return 'Completa el reto y captura esta pieza.'
   }
 
+  if (achievement.category === 'lenguas') {
+    if (achievement.id === 'abc-primera') return 'Juega una ronda del ABC y la sacamos.'
+    if (achievement.id === 'abc-crack') return 'Una ronda perfecta y es tuya.'
+    if (achievement.id === 'abc-todos-domados') return 'Doma los cuatro modos y Lumo aplaude.'
+    return 'Domina ese modo del ABC y la pieza entra.'
+  }
+
   switch (achievement.id) {
     case 'primera-mision':
       return 'Esta pieza todavía se está escondiendo.'
@@ -93,6 +100,23 @@ function FilterIcon({ kind }: { kind: CollectionFilter }) {
           strokeWidth="2.2"
           strokeLinecap="round"
         />
+      </svg>
+    )
+  }
+  if (kind === 'lenguas') {
+    return (
+      <svg className="collection-filter__icon" viewBox="0 0 24 24" aria-hidden="true">
+        <text
+          x="12"
+          y="16"
+          textAnchor="middle"
+          fill="currentColor"
+          fontSize="11"
+          fontWeight="800"
+          fontFamily="system-ui,sans-serif"
+        >
+          ABC
+        </text>
       </svg>
     )
   }
@@ -198,6 +222,7 @@ export function CollectionScreen() {
     { id: 'todo', label: 'TODAS' },
     { id: 'insignias', label: 'INSIGNIAS' },
     { id: 'tablas', label: 'TABLAS' },
+    { id: 'lenguas', label: 'ABC' },
   ]
 
   return (

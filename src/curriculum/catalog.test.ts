@@ -112,7 +112,7 @@ describe('perfil escolar y visibilidad', () => {
     expect(profile.courseMode).toBe('review')
     const progress = createInitialProgress()
     expect(progress.school.currentCourseId).toBe('primary-3')
-    expect(progress.version).toBe(4)
+    expect(progress.version).toBe(5)
   })
 
   it('cambiar a 4.º no borra XP, monedas, tablas ni Robux', () => {
@@ -183,7 +183,7 @@ describe('perfil escolar y visibilidad', () => {
         },
       },
     })
-    expect(migrated.version).toBe(4)
+    expect(migrated.version).toBe(5)
     expect(migrated.xp).toBe(99)
     expect(migrated.tables['2']?.everMastered).toBe(true)
     expect(migrated.school.currentCourseId).toBe('primary-3')
