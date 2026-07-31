@@ -193,9 +193,11 @@
 
 .stage-slot--chip .stage-slot__media {
   aspect-ratio: 1 / 1;
-  background:
-    radial-gradient(circle at 50% 72%, color-mix(in srgb, var(--mode-accent) 20%, transparent), transparent 60%),
-    #050d18;
+  background: transparent;
+}
+
+.stage-slot--chip .mode-poster__fade {
+  display: none;
 }
 
 .stage-slot--chip .mode-poster__img {
