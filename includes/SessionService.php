@@ -610,11 +610,11 @@ final class SessionService
             return 0;
         }
         if ($mode === 'match') {
-            // matchSessionMeta.rewardWeight = medium = 3
-            return 3;
+            // matchSessionMeta.rewardWeight = medium = 30 (escala ×10)
+            return 30;
         }
 
-        $weight = 1;
+        $weight = 10;
         $mult = $mode === 'challenge' ? 2 : 1;
         $seen = [];
         $points = 0;

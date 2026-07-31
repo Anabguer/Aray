@@ -68,8 +68,8 @@ export const alphabetRoundConfig = {
   targetSize: 10,
   passScore: 8,
   consecutiveLowsToNeedsTrain: 2,
-  /** Energía / premio por ronda completada. */
-  rewardPointsPerRound: 3,
+  /** Energía / premio por ronda completada (escala ×10). */
+  rewardPointsPerRound: 30,
 } as const
 
 export const ALPHABET_TRACK_MODES: AlphabetTrackMode[] = [

@@ -80,7 +80,7 @@ describe('Entrena: reintentos', () => {
       sessionId: 'train-retry',
       answers: [ans(6, 7, false, 'm1', false), ans(6, 7, true, 'ok1', false)],
     })
-    expect(result.rewardPointsEarned).toBe(1)
+    expect(result.rewardPointsEarned).toBe(10)
     expect(result.xpEarned).toBe(10)
     expect(result.missedFacts).toHaveLength(1)
   })
@@ -117,7 +117,7 @@ describe('Reto rápido: multiplicadores', () => {
     expect(challengeModeConfig.rewardMultiplier).toBe(1)
     expect(result.xpEarned).toBe(20)
     expect(result.coinsEarned).toBe(20) // 5*2 complete + 5*2 personal best
-    expect(result.rewardPointsEarned).toBe(1)
+    expect(result.rewardPointsEarned).toBe(10)
     expect(next.tables['4'].masteryScore).toBeGreaterThan(0)
   })
 
@@ -135,10 +135,10 @@ describe('Reto rápido: multiplicadores', () => {
     expect(result.rewardPointsEarned).toBe(0)
   })
 
-  it('respeta tope diario de energía 10', () => {
+  it('respeta tope diario de energía 100', () => {
     let progress = createInitialProgress()
     progress.reward.dailyDate = new Date().toISOString().slice(0, 10)
-    progress.reward.dailyPoints = 9
+    progress.reward.dailyPoints = 90
     const { result } = applySessionToProgress(progress, {
       mode: 'challenge',
       tables: [3],
@@ -147,8 +147,8 @@ describe('Reto rápido: multiplicadores', () => {
       sessionId: 'chal-cap',
       answers: [ans(3, 3, true, 'a', true), ans(3, 4, true, 'b', true)],
     })
-    expect(result.rewardPointsEarned).toBe(1)
-    expect(result.rewardDailyPoints).toBe(10)
+    expect(result.rewardPointsEarned).toBe(10)
+    expect(result.rewardDailyPoints).toBe(100)
   })
 })
 
@@ -169,7 +169,7 @@ describe('Empareja la tabla — recompensa de sesión', () => {
       answers,
       missedFacts: [pairs[0].fact],
     })
-    expect(first.result.rewardPointsEarned).toBe(3)
+    expect(first.result.rewardPointsEarned).toBe(30)
     expect(first.result.missedFacts).toHaveLength(1)
     const second = applySessionToProgress(first.next, {
       mode: 'match',

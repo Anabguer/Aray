@@ -85,7 +85,7 @@ describe('XP, monedas y progreso', () => {
       tables: {},
       soundMuted: false,
     })
-    expect(migrated.version).toBe(5)
+    expect(migrated.version).toBe(6)
     expect(migrated.coins).toBe(80)
     expect(migrated.reward.pointsTotal).toBe(0)
     expect(migrated.xp).toBe(20)
@@ -107,7 +107,7 @@ describe('XP, monedas y progreso', () => {
     expect(next.facts['5x6'].weight).toBeGreaterThan(1)
     expect(next.tables['5'].practiced).toBe(true)
     expect(next.xp).toBeGreaterThan(0)
-    expect(result.rewardPointsEarned).toBe(1)
+    expect(result.rewardPointsEarned).toBe(10)
   })
 
   it('no duplica recompensas al reaplicar la misma sesión', () => {
@@ -122,7 +122,7 @@ describe('XP, monedas y progreso', () => {
     }
     const first = applySessionToProgress(progress, partial)
     const second = applySessionToProgress(first.next, partial)
-    expect(first.result.rewardPointsEarned).toBe(2)
+    expect(first.result.rewardPointsEarned).toBe(20)
     expect(second.result.rewardPointsEarned).toBe(0)
     expect(second.result.xpEarned).toBe(0)
     expect(second.next.xp).toBe(first.next.xp)

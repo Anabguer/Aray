@@ -30,7 +30,7 @@ export const PROGRESS_STORAGE_KEY = 'aray.progress.v1'
 
 export function createInitialProgress(): ProgressState {
   return {
-    version: 5,
+    version: 6,
     xp: 0,
     coins: 0,
     bestStreak: 0,
@@ -48,12 +48,16 @@ export function createInitialProgress(): ProgressState {
   }
 }
 
-/** Normaliza / migra cualquier progreso guardado (v1…v3 → v4 con curso escolar). */
+/** Escala energía ×10 al migrar desde meta 500 / tope 10. */
+const ENERGY_VISUAL_SCALE = 10
+
+/** Normaliza / migra cualquier progreso guardado (v1…v5 → v6 con energía escalada). */
 export function normalizeProgress(raw: unknown, today: string = localDateString()): ProgressState {
   const base = createInitialProgress()
   if (!raw || typeof raw !== 'object') return base
 
   const parsed = raw as Partial<ProgressState> & { version?: number; reward?: Partial<ProgressState['reward']> }
+  const fromVersion = typeof parsed.version === 'number' ? parsed.version : 1
 
   const reward = {
     ...createInitialRewardProgress(),
@@ -61,6 +65,17 @@ export function normalizeProgress(raw: unknown, today: string = localDateString(
     appliedSessionIds: Array.isArray(parsed.reward?.appliedSessionIds)
       ? parsed.reward!.appliedSessionIds.filter((id): id is string => typeof id === 'string')
       : [],
+  }
+
+  let pointsTotal =
+    typeof parsed.reward?.pointsTotal === 'number' ? parsed.reward.pointsTotal : 0
+  let dailyPoints =
+    typeof parsed.reward?.dailyPoints === 'number' ? parsed.reward.dailyPoints : 0
+
+  // v5 e inferiores guardaban energía en escala 500/10.
+  if (fromVersion < 6) {
+    pointsTotal *= ENERGY_VISUAL_SCALE
+    dailyPoints *= ENERGY_VISUAL_SCALE
   }
 
   const merged: ProgressState = {
@@ -87,17 +102,17 @@ export function normalizeProgress(raw: unknown, today: string = localDateString(
       (parsed as { activityAssignments?: unknown }).activityAssignments,
     ),
     alphabet: normalizeAlphabetProgress((parsed as { alphabet?: unknown }).alphabet),
-    version: 5,
+    version: 6,
   }
 
   // No convertir monedas en puntos de recompensa
   merged.reward.pointsTotal = Math.min(
     rewardGoalConfig.targetPoints,
-    Math.max(0, typeof parsed.reward?.pointsTotal === 'number' ? parsed.reward.pointsTotal : 0),
+    Math.max(0, pointsTotal),
   )
   merged.reward.dailyPoints = Math.min(
     rewardGoalConfig.dailyCap,
-    Math.max(0, typeof parsed.reward?.dailyPoints === 'number' ? parsed.reward.dailyPoints : 0),
+    Math.max(0, dailyPoints),
   )
   merged.reward = normalizeRewardCycles(merged.reward)
 
@@ -135,7 +150,7 @@ export function createLocalStorageProgressStore(
       }
     },
     save(state) {
-      storage.setItem(key, JSON.stringify({ ...state, version: 5 }))
+      storage.setItem(key, JSON.stringify({ ...state, version: 6 }))
     },
     clear() {
       storage.removeItem(key)
@@ -237,7 +252,7 @@ export function applySessionToProgress(
       sessionId: partial.sessionId,
       rewardPointsEarned: 0,
       rewardPointsRequested: 0,
-      rewardDailyComplete: progress.reward.dailyPoints >= 10 || progress.reward.goalStatus !== 'active',
+      rewardDailyComplete: progress.reward.dailyPoints >= rewardGoalConfig.dailyCap || progress.reward.goalStatus !== 'active',
       rewardGoalJustCompleted: false,
       rewardDailyPoints: progress.reward.dailyPoints,
       rewardPointsTotal: progress.reward.pointsTotal,
@@ -289,7 +304,7 @@ export function applySessionToProgress(
 
   const next: ProgressState = {
     ...progress,
-    version: 5,
+    version: 6,
     facts: { ...progress.facts },
     tables: { ...progress.tables },
     alphabet: normalizeAlphabetProgress(progress.alphabet),

@@ -1,10 +1,12 @@
-/** Pesos de recompensa por tipo de actividad (tiempo estimado solo orientativo). */
+/** Pesos de recompensa por tipo de actividad (tiempo estimado solo orientativo).
+ * Escala ×10 respecto a v1 (números más visibles; misma cadencia real al premio).
+ */
 export const activityWeightDefaults = {
-  micro: 1, // 10–30 s
-  short: 2, // 1–2 min
-  medium: 3, // 3–5 min
-  long: 5, // 6–10 min
-  special: 8, // 10–15 min
+  micro: 10, // 10–30 s
+  short: 20, // 1–2 min
+  medium: 30, // 3–5 min
+  long: 50, // 6–10 min
+  special: 80, // 10–15 min
 } as const
 
 export type ActivityWeightTier = keyof typeof activityWeightDefaults
@@ -15,9 +17,10 @@ export const rewardGoalConfig = {
   title: 'Premio Robux',
   adultNoteApproxEuro: 'Valor orientativo ≈ 6 € (solo para el adulto).',
   childNote: 'Cuando llegues al premio, avísale a Neni para recogerlo.',
-  targetPoints: 500,
-  dailyCap: 10,
-  dailyHint: 10,
+  /** Escala ×10: mismos ~50 días a tope que con 500/10. */
+  targetPoints: 5000,
+  dailyCap: 100,
+  dailyHint: 100,
   rewardLabel: '500 Robux',
 } as const
 
@@ -49,7 +52,7 @@ export const trainSessionMeta = {
   activityType: 'train_session',
   subject: 'mates',
   skill: 'tablas',
-  maxRewardFromItems: 10,
+  maxRewardFromItems: 100,
   estimatedDuration: '3-5min',
 } as const
 
@@ -58,7 +61,7 @@ export const challengeSessionMeta = {
   activityType: 'challenge_session',
   subject: 'mates',
   skill: 'tablas',
-  maxRewardFromItems: 10,
+  maxRewardFromItems: 100,
   estimatedDuration: '1min',
 } as const
 
@@ -71,5 +74,5 @@ export const matchSessionMeta = {
   estimatedDuration: '3-5min',
   difficulty: 'standard',
   completionCriteria: 'all_pairs_correct',
-  maxRewardFromItems: 3,
+  maxRewardFromItems: 30,
 } as const

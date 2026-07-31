@@ -37,15 +37,18 @@ describe('catálogo curricular', () => {
     expect(blocks.find((b) => b.id === 'clocks-hours')?.status).toBe('active')
     expect(blocks.find((b) => b.id === 'calculation')?.status).toBe('active')
     expect(blocks.find((b) => b.id === 'alphabet')?.status).toBe('active')
+    expect(blocks.find((b) => b.id === 'spelling')?.status).toBe('active')
     const futureBlocks = blocks.filter((b) => b.status === 'future')
-    expect(futureBlocks.length).toBeGreaterThan(3)
+    expect(futureBlocks.length).toBeGreaterThan(2)
     expect(
       activities.every(
         (a) =>
           a.id.includes('mult-') ||
           a.id.startsWith('clock-') ||
           a.id.startsWith('alphabet-') ||
-          a.id.startsWith('calc-'),
+          a.id.startsWith('calc-') ||
+          a.id.startsWith('spelling-') ||
+          a.id.startsWith('money-'),
       ),
     ).toBe(true)
   })
@@ -112,7 +115,7 @@ describe('perfil escolar y visibilidad', () => {
     expect(profile.courseMode).toBe('review')
     const progress = createInitialProgress()
     expect(progress.school.currentCourseId).toBe('primary-3')
-    expect(progress.version).toBe(5)
+    expect(progress.version).toBe(6)
   })
 
   it('cambiar a 4.º no borra XP, monedas, tablas ni Robux', () => {
@@ -183,7 +186,7 @@ describe('perfil escolar y visibilidad', () => {
         },
       },
     })
-    expect(migrated.version).toBe(5)
+    expect(migrated.version).toBe(6)
     expect(migrated.xp).toBe(99)
     expect(migrated.tables['2']?.everMastered).toBe(true)
     expect(migrated.school.currentCourseId).toBe('primary-3')

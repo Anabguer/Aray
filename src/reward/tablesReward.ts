@@ -7,7 +7,7 @@ import type { SessionAnswer } from '@/math/types'
  * - Solo aciertos.
  * - Una operación canónica (3×7 ≡ 7×3) solo cuenta una vez por sesión.
  * - attemptId evita contar el mismo intento dos veces.
- * - El peso por ítem es el configurado (micro = 1).
+ * - El peso por ítem es el configurado (micro = 10 en escala actual).
  */
 export function computeTablesRewardRequest(answers: SessionAnswer[]): {
   requestedPoints: number

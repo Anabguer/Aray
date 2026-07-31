@@ -9,9 +9,12 @@ declare(strict_types=1);
  */
 final class RewardCycleService
 {
-    public const DEFAULT_TARGET = 500;
-    public const DEFAULT_DAILY_CAP = 10;
+    public const DEFAULT_TARGET = 5000;
+    public const DEFAULT_DAILY_CAP = 100;
     public const GOAL_CODE = 'robux-500';
+    /** Escala ×10 desde meta legacy 500 / tope 10. */
+    public const ENERGY_SCALE = 10;
+    public const LEGACY_TARGET = 500;
 
     public static function ensureGoalAndCycle(int $playerId): void
     {
@@ -21,7 +24,7 @@ final class RewardCycleService
         $now = MadridTime::utcNowString();
 
         $stmt = $pdo->prepare(
-            "SELECT id, target_points, current_cycle_number FROM {$goals}
+            "SELECT id, target_points, daily_cap, points_total, current_cycle_number FROM {$goals}
              WHERE player_id = :p AND goal_code = :c LIMIT 1"
         );
         $stmt->execute([':p' => $playerId, ':c' => self::GOAL_CODE]);
@@ -46,11 +49,45 @@ final class RewardCycleService
         } else {
             $cycleNumber = max(1, (int) ($goal['current_cycle_number'] ?? 1));
             $target = max(1, (int) $goal['target_points']);
-            if ($target < self::DEFAULT_TARGET) {
+            $dailyCap = max(0, (int) ($goal['daily_cap'] ?? 0));
+            $pointsTotal = max(0, (int) ($goal['points_total'] ?? 0));
+
+            // Migración escala ×10: 500→5000 y 10→100 (conserva % de progreso).
+            if ($target === self::LEGACY_TARGET || $target < self::DEFAULT_TARGET) {
+                $scaledPoints = $pointsTotal * self::ENERGY_SCALE;
                 $pdo->prepare(
-                    "UPDATE {$goals} SET target_points = :t WHERE id = :id"
-                )->execute([':t' => self::DEFAULT_TARGET, ':id' => (int) $goal['id']]);
+                    "UPDATE {$goals}
+                     SET target_points = :t, daily_cap = :d, points_total = :pt, updated_at = :u
+                     WHERE id = :id"
+                )->execute([
+                    ':t' => self::DEFAULT_TARGET,
+                    ':d' => self::DEFAULT_DAILY_CAP,
+                    ':pt' => $scaledPoints,
+                    ':u' => $now,
+                    ':id' => (int) $goal['id'],
+                ]);
+                $pdo->prepare(
+                    "UPDATE {$cycles}
+                     SET target_points = :t,
+                         points_toward = LEAST(points_toward * :s, :t2),
+                         updated_at = :u
+                     WHERE player_id = :p AND status = 'active'"
+                )->execute([
+                    ':t' => self::DEFAULT_TARGET,
+                    ':s' => self::ENERGY_SCALE,
+                    ':t2' => self::DEFAULT_TARGET,
+                    ':u' => $now,
+                    ':p' => $playerId,
+                ]);
                 $target = self::DEFAULT_TARGET;
+            } elseif ($dailyCap < self::DEFAULT_DAILY_CAP) {
+                $pdo->prepare(
+                    "UPDATE {$goals} SET daily_cap = :d, updated_at = :u WHERE id = :id"
+                )->execute([
+                    ':d' => self::DEFAULT_DAILY_CAP,
+                    ':u' => $now,
+                    ':id' => (int) $goal['id'],
+                ]);
             }
         }
 

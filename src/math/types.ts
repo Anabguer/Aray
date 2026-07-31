@@ -58,8 +58,8 @@ export interface RewardProgress {
 }
 
 export interface ProgressState {
-  /** v5: progreso ABC / lenguas (v4 = escolar; v5 = + alphabet). */
-  version: 4 | 5
+  /** v6: energía ×10 (meta 5000 / tope 100). v5 = ABC; v4 = escolar. */
+  version: 4 | 5 | 6
   xp: number
   coins: number
   bestStreak: number
