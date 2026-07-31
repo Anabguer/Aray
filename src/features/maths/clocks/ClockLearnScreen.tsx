@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { clockLangArtUrl } from '@/assets/clocks'
 import { AnalogClock } from '@/components/AnalogClock'
 import { AppShell } from '@/components/AppShell'
 import { formatClockTime } from '@/clock/format'
@@ -197,19 +198,43 @@ export function ClockLearnScreen() {
             </p>
           </div>
           <div className="clock-lang__grid">
-            <button type="button" className="clock-lang__card" onClick={() => startWith('es')}>
-              <span className="clock-lang__flag" aria-hidden="true">
-                ES
+            <button type="button" className="clock-lang__card clock-lang__card--art" onClick={() => startWith('es')}>
+              <span className="clock-lang__media" aria-hidden="true">
+                <img
+                  src={clockLangArtUrl('es')}
+                  alt=""
+                  className="clock-lang__img"
+                  width={640}
+                  height={640}
+                  draggable={false}
+                  decoding="async"
+                />
+                <span className="clock-lang__fade" />
               </span>
-              <span className="clock-lang__name">Castellano</span>
-              <span className="clock-lang__sample">la una y cuarto · y media · menos cuarto</span>
+              <span className="clock-lang__body">
+                <span className="clock-lang__flag">ES</span>
+                <span className="clock-lang__name">Castellano</span>
+                <span className="clock-lang__sample">la una y cuarto · y media · menos cuarto</span>
+              </span>
             </button>
-            <button type="button" className="clock-lang__card" onClick={() => startWith('ca')}>
-              <span className="clock-lang__flag" aria-hidden="true">
-                CA
+            <button type="button" className="clock-lang__card clock-lang__card--art" onClick={() => startWith('ca')}>
+              <span className="clock-lang__media" aria-hidden="true">
+                <img
+                  src={clockLangArtUrl('ca')}
+                  alt=""
+                  className="clock-lang__img"
+                  width={640}
+                  height={640}
+                  draggable={false}
+                  decoding="async"
+                />
+                <span className="clock-lang__fade" />
               </span>
-              <span className="clock-lang__name">Català</span>
-              <span className="clock-lang__sample">la pizza de quarts · un quart de les dues</span>
+              <span className="clock-lang__body">
+                <span className="clock-lang__flag">CA</span>
+                <span className="clock-lang__name">Català</span>
+                <span className="clock-lang__sample">la pizza de quarts · un quart de les dues</span>
+              </span>
             </button>
           </div>
         </section>
