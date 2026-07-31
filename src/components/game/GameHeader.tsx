@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom'
 import { BrandLogo } from '@/components/BrandLogo'
+import { PlayerAvatar } from '@/components/PlayerAvatar'
 import { GameControls } from '@/components/game/GameControls'
 import { PlayerHudBars, PlayerHudCoins } from '@/components/game/PlayerHudStats'
 import { IconChevronLeft, IconGamepad } from '@/components/Icons'
+import { useAuth } from '@/auth/AuthContext'
 import { derivePlayerHud } from '@/progress/playerHud'
 import { useProgress } from '@/progress/ProgressContext'
 
@@ -27,9 +29,11 @@ export function GameHeader({
   showLobbyLink?: boolean
 }) {
   const { progress } = useProgress()
+  const { player, familyPlayers } = useAuth()
+  const active = player ?? familyPlayers[0] ?? null
+  const childName = active?.displayName?.trim() || 'Aray'
   const hud = derivePlayerHud(progress)
-  const mobileTitle = shortTitle?.trim() || title
-  const hasShortVariant = mobileTitle !== title
+  const displayTitle = shortTitle?.trim() || title
 
   return (
     <header className={`game-header${showLobbyLink ? '' : ' game-header--home'}`}>
@@ -42,18 +46,20 @@ export function GameHeader({
         <span className="game-header__avatar-wrap">
           <span className="game-header__avatar-halo" aria-hidden="true" />
           <span className="game-header__avatar-badge">
-            <BrandLogo variant="compact" className="game-header__avatar" alt="Aray" />
+            {active?.avatarUrl ? (
+              <PlayerAvatar
+                url={active.avatarUrl}
+                name={childName}
+                size="sm"
+                className="game-header__avatar"
+              />
+            ) : (
+              <BrandLogo variant="compact" className="game-header__avatar" alt={childName} />
+            )}
           </span>
         </span>
         <div className="game-header__heading">
-          <h1 className="game-header__title" aria-label={title}>
-            <span className="game-header__title-full">{title}</span>
-            {hasShortVariant ? (
-              <span className="game-header__title-short" aria-hidden="true">
-                {mobileTitle}
-              </span>
-            ) : null}
-          </h1>
+          <h1 className="game-header__title">{displayTitle}</h1>
           {subtitle ? <p className="game-header__subtitle">{subtitle}</p> : null}
         </div>
       </div>
