@@ -49,6 +49,14 @@ export {
 } from '@/curriculum/school'
 
 export {
+  hubGuideTip,
+  hubHasWeakZones,
+  resolveHubZoneStatus,
+  zoneNeedsRecommendation,
+} from '@/curriculum/hubRecommendations'
+export type { HubZoneId } from '@/curriculum/hubRecommendations'
+
+export {
   pickDailyChallenge,
   type DailyChallengeCard,
 } from '@/curriculum/dailyChallenge'

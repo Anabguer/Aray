@@ -13,7 +13,8 @@ import {
   saveSyncMeta,
   type PendingSessionPayload,
 } from '@/sync/pendingQueue'
-import { ensureChildPlaySession, fetchAuthMe, resolvePlayerId } from '@/sync/playSession'
+import { ensureChildPlaySession, fetchAuthMe, resolvePlayerId, resolvePlayerSlug } from '@/sync/playSession'
+import { MAX_PENDING_SYNC_ATTEMPTS, shouldDropPendingSyncError } from '@/sync/syncErrors'
 
 export type SyncStatus =
   | 'idle'
@@ -104,11 +105,14 @@ export async function hydrateOfficialProgress(opts: {
   try {
     const me = await fetchAuthMe()
     let playerId = resolvePlayerId(me)
+    const preferredSlug = resolvePlayerSlug(me)
 
-    if (me.role !== 'adult') {
-      const child = await ensureChildPlaySession()
-      if (child) playerId = child.id
-    }
+    // Siempre dejar sesión infantil activa (también si me.php dice adult en el lobby).
+    const child = await ensureChildPlaySession({
+      playerSlug: preferredSlug,
+      playerId,
+    })
+    if (child) playerId = child.id
 
     if (!playerId) {
       purgeStaleLocalSync(ARAY_DATA_EPOCH_FALLBACK, null)
@@ -172,8 +176,15 @@ export async function hydrateOfficialProgress(opts: {
 
 export async function submitSessionToServer(
   payload: PendingSessionPayload,
+  opts?: { playerSlug?: string | null; playerId?: number | null },
 ): Promise<SessionSubmitResponse> {
-  await ensureChildPlaySession()
+  const child = await ensureChildPlaySession({
+    playerSlug: opts?.playerSlug,
+    playerId: opts?.playerId,
+  })
+  if (!child) {
+    throw new ApiError(401, 'device_required', 'Se requiere sesión infantil para guardar la partida.')
+  }
   return apiPost<SessionSubmitResponse>('/players/session-submit.php', {
     sessionId: payload.sessionId,
     mode: payload.mode,
@@ -181,6 +192,8 @@ export async function submitSessionToServer(
     answers: payload.answers,
     clientStartedAt: payload.clientStartedAt,
     syncEpoch: payload.syncEpoch,
+    ...(payload.isMissionOfDay ? { isMissionOfDay: true } : {}),
+    ...(payload.missionCode ? { missionCode: payload.missionCode } : {}),
   })
 }
 
@@ -191,6 +204,7 @@ export async function submitSessionToServer(
  */
 export async function enqueueAndSyncSession(args: {
   playerId: number
+  playerSlug?: string | null
   payload: PendingSessionPayload
 }): Promise<{
   synced: boolean
@@ -208,12 +222,13 @@ export async function enqueueAndSyncSession(args: {
     payload: args.payload,
   })
 
-  return flushPendingSessions(args.playerId, args.payload.sessionId)
+  return flushPendingSessions(args.playerId, args.payload.sessionId, args.playerSlug)
 }
 
 export async function flushPendingSessions(
   playerId: number,
   preferSessionId?: string,
+  playerSlug?: string | null,
 ): Promise<{
   synced: boolean
   progress: ProgressState | null
@@ -240,7 +255,25 @@ export async function flushPendingSessions(
   let anySynced = false
 
   try {
-    await ensureChildPlaySession()
+    const child = await ensureChildPlaySession({ playerId, playerSlug })
+    if (!child) {
+      const msg = 'Se requiere sesión infantil para guardar la partida.'
+      for (const op of ops) {
+        markPendingAttempt(op.sessionId, msg)
+        const attempts =
+          loadPendingSessions().find((o) => o.sessionId === op.sessionId)?.attempts ?? 0
+        if (attempts >= MAX_PENDING_SYNC_ATTEMPTS) {
+          removePendingSession(op.sessionId)
+        }
+      }
+      const left = loadPendingSessions().filter((o) => o.epoch === epoch && o.playerId === playerId)
+      return {
+        synced: left.length === 0,
+        progress: null,
+        server: null,
+        error: msg,
+      }
+    }
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Sin sesión de juego.'
     return { synced: false, progress: null, server: null, error: message }
@@ -248,7 +281,7 @@ export async function flushPendingSessions(
 
   for (const op of ops) {
     try {
-      const server = await submitSessionToServer(op.payload)
+      const server = await submitSessionToServer(op.payload, { playerId, playerSlug })
       removePendingSession(op.sessionId)
       anySynced = true
       lastServer = server
@@ -264,7 +297,6 @@ export async function flushPendingSessions(
       }
     } catch (err) {
       if (err instanceof ApiError && err.code === 'sync_epoch_stale') {
-        // Corte de datos: no reintentar; vaciar esta op y caché antigua
         removePendingSession(op.sessionId)
         clearProgressCache(PROGRESS_CACHE_KEY)
         lastError = err.message
@@ -272,6 +304,13 @@ export async function flushPendingSessions(
       }
       const message = err instanceof Error ? err.message : 'Error de sincronización'
       markPendingAttempt(op.sessionId, message)
+      const attempts =
+        loadPendingSessions().find((o) => o.sessionId === op.sessionId)?.attempts ?? 0
+      if (shouldDropPendingSyncError(err) || attempts >= MAX_PENDING_SYNC_ATTEMPTS) {
+        removePendingSession(op.sessionId)
+        lastError = message
+        continue
+      }
       lastError = message
       if (typeof navigator !== 'undefined' && !navigator.onLine) {
         break

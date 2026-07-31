@@ -56,12 +56,14 @@ async function parseJson(res: Response): Promise<ApiEnvelope & Record<string, un
 
 export async function apiGet<T extends Record<string, unknown> = Record<string, unknown>>(
   path: string,
+  signal?: AbortSignal,
 ): Promise<T> {
   const url = path.startsWith('http') ? path : `${API_ROOT}${path.startsWith('/') ? path : `/${path}`}`
   const res = await fetch(url, {
     method: 'GET',
     credentials: 'include',
     headers: { Accept: 'application/json' },
+    signal,
   })
   return (await parseJson(res)) as T
 }

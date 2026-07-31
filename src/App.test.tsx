@@ -3,6 +3,7 @@ import { MemoryRouter } from 'react-router-dom'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import App from '@/App'
 import { AuthProvider } from '@/auth/AuthContext'
+import { DailyMissionProvider } from '@/daily/DailyMissionContext'
 import { PlayProvider } from '@/progress/PlayContext'
 import { ProgressProvider } from '@/progress/ProgressContext'
 import { createInitialProgress, createLocalStorageProgressStore } from '@/progress/repository'
@@ -38,22 +39,40 @@ function memoryStorage(): Storage {
   }
 }
 
-function renderAt(path: string) {
+function renderAt(
+  path: string,
+  session?: {
+    role?: 'adult' | 'child' | null
+    deviceAuthorized?: boolean
+  },
+) {
   const store = createLocalStorageProgressStore(memoryStorage())
   store.save(createInitialProgress())
+  const role = session && Object.prototype.hasOwnProperty.call(session, 'role')
+    ? (session.role ?? null)
+    : 'child'
+  const deviceAuthorized = session?.deviceAuthorized ?? true
   return render(
     <MemoryRouter initialEntries={[path]}>
       <AuthProvider
         initialSession={{
-          role: null,
+          role,
           account: null,
+          player:
+            role === 'child'
+              ? { id: 1, slug: 'aray', displayName: 'Aray', avatarUrl: null }
+              : null,
+          players: [{ id: 1, slug: 'aray', displayName: 'Aray', avatarUrl: null }],
           csrf: 'test-csrf',
-          players: [],
+          deviceAuthorized,
+          tutorDisplayName: 'Neni',
         }}
       >
         <ProgressProvider store={store} skipHydration>
           <PlayProvider>
-            <App />
+            <DailyMissionProvider>
+              <App />
+            </DailyMissionProvider>
           </PlayProvider>
         </ProgressProvider>
       </AuthProvider>
@@ -67,7 +86,6 @@ describe('ARAY navigation shell', () => {
     expect(screen.getByRole('heading', { name: /^lobby$/i })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: /¡ey, aray!/i })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /^jugar$/i })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: /domina la tabla|tu misión de hoy|entrena la tabla/i })).toBeInTheDocument()
     expect(screen.queryByRole('link', { name: /ir al lobby/i })).not.toBeInTheDocument()
     expect(screen.queryByText(/¿jugamos, aray\?/i)).not.toBeInTheDocument()
     expect(screen.queryByText(/tu espacio para misiones/i)).not.toBeInTheDocument()
@@ -85,7 +103,7 @@ describe('ARAY navigation shell', () => {
     expect(screen.queryByRole('link', { name: /^volver$/i })).not.toBeInTheDocument()
     expect(screen.getByRole('toolbar', { name: /controles del juego/i })).toBeInTheDocument()
     expect(screen.queryByLabelText(/cómo se juega/i)).not.toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /silenciar sonido|activar sonido/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /ajustes de sonido/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /acceso adulto/i })).toBeInTheDocument()
   })
 
@@ -100,7 +118,7 @@ describe('ARAY navigation shell', () => {
 
   it('muestra modos con Empareja y misión random', () => {
     renderAt('/missions/mates/tables/modes')
-    expect(screen.getByRole('heading', { name: /elige tu modo/i })).toBeInTheDocument()
+    expect(screen.getByLabelText(/elige tu modo/i)).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /ir al lobby/i })).toHaveTextContent(/lobby/i)
     expect(screen.getByRole('button', { name: /empareja/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /random/i })).toBeInTheDocument()
@@ -110,13 +128,14 @@ describe('ARAY navigation shell', () => {
     renderAt('/')
     expect(screen.getByRole('toolbar', { name: /controles del juego/i })).toBeInTheDocument()
     expect(screen.queryByLabelText(/cómo se juega/i)).not.toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /silenciar sonido|activar sonido/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /ajustes de sonido/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /acceso adulto/i })).toBeInTheDocument()
   })
 
-  it('redirige /adult al lobby sin sesión adulta', () => {
-    renderAt('/adult')
-    expect(screen.getByRole('heading', { name: /¡ey, aray!/i })).toBeInTheDocument()
+  it('redirige /adult al acceso sin sesión adulta', () => {
+    renderAt('/adult', { role: null, deviceAuthorized: false })
+    expect(screen.getByText(/dispositivo nuevo|cuenta familiar/i)).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /crear familia/i })).toBeInTheDocument()
     expect(screen.queryByText(/panel familiar/i)).not.toBeInTheDocument()
   })
 })

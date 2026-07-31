@@ -22,6 +22,8 @@ export type AuthPlayer = {
   id: number
   slug: string | null
   displayName: string | null
+  avatarUrl?: string | null
+  courseId?: string | null
 }
 
 export type AuthSessionSeed = {
@@ -30,6 +32,8 @@ export type AuthSessionSeed = {
   player?: AuthPlayer | null
   players?: AuthPlayer[]
   csrf: string
+  deviceAuthorized?: boolean
+  tutorDisplayName?: string | null
 }
 
 type MeResponse = {
@@ -38,8 +42,19 @@ type MeResponse = {
   account?: AuthAccount
   players?: AuthPlayer[]
   player?: AuthPlayer
-  device?: { authorized?: boolean; player?: AuthPlayer }
+  device?: {
+    authorized?: boolean
+    accountId?: number
+    accountDisplayName?: string | null
+    player?: AuthPlayer
+    players?: AuthPlayer[]
+  }
   csrf?: string
+}
+
+export type RegisterChildInput = {
+  displayName: string
+  courseId: string
 }
 
 type AuthContextValue = {
@@ -48,15 +63,37 @@ type AuthContextValue = {
   account: AuthAccount | null
   player: AuthPlayer | null
   players: AuthPlayer[]
+  /** Jugadores de la familia en este dispositivo (también sin sesión adulta). */
+  familyPlayers: AuthPlayer[]
   deviceAuthorized: boolean
+  tutorDisplayName: string | null
   csrf: string | null
   refreshMe: () => Promise<void>
+  loginAdult: (login: string, password: string) => Promise<AuthPlayer[]>
+  registerFamily: (input: {
+    login: string
+    password: string
+    displayName: string
+    pin: string
+    children: RegisterChildInput[]
+  }) => Promise<AuthPlayer[]>
   loginAdultPin: (pin: string) => Promise<void>
+  enterAsChild: (playerSlug: string) => Promise<void>
   authorizeDeviceForPlayer: (playerId: number, label?: string) => Promise<void>
   logout: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null)
+
+function asPlayers(list: unknown): AuthPlayer[] {
+  if (!Array.isArray(list)) return []
+  return list.filter(
+    (p): p is AuthPlayer =>
+      typeof p === 'object' &&
+      p !== null &&
+      typeof (p as AuthPlayer).id === 'number',
+  )
+}
 
 export function AuthProvider({
   children,
@@ -71,7 +108,15 @@ export function AuthProvider({
   const [account, setAccount] = useState<AuthAccount | null>(initialSession?.account ?? null)
   const [player, setPlayer] = useState<AuthPlayer | null>(initialSession?.player ?? null)
   const [players, setPlayers] = useState<AuthPlayer[]>(initialSession?.players ?? [])
-  const [deviceAuthorized, setDeviceAuthorized] = useState(false)
+  const [familyPlayers, setFamilyPlayers] = useState<AuthPlayer[]>(
+    initialSession?.players ?? [],
+  )
+  const [deviceAuthorized, setDeviceAuthorized] = useState(
+    Boolean(initialSession?.deviceAuthorized),
+  )
+  const [tutorDisplayName, setTutorDisplayName] = useState<string | null>(
+    initialSession?.tutorDisplayName ?? initialSession?.account?.displayName ?? null,
+  )
   const [csrf, setCsrfState] = useState<string | null>(() => {
     if (initialSession?.csrf) {
       setCsrf(initialSession.csrf)
@@ -93,9 +138,36 @@ export function AuthProvider({
       const nextRole = data.role === 'adult' || data.role === 'child' ? data.role : null
       setRole(nextRole)
       setAccount(nextRole === 'adult' ? (data.account ?? null) : null)
-      setPlayer(nextRole === 'child' ? (data.player ?? null) : null)
-      setPlayers(nextRole === 'adult' && Array.isArray(data.players) ? data.players : [])
+
+      const adultPlayers = nextRole === 'adult' ? asPlayers(data.players) : []
+      const devicePlayers = asPlayers(data.device?.players)
+      let childPlayer = nextRole === 'child' ? (data.player ?? null) : null
+      // Si me.php no trae avatar, rellenar desde la lista del dispositivo.
+      if (childPlayer && !childPlayer.avatarUrl) {
+        const fromDevice = devicePlayers.find((p) => p.id === childPlayer!.id)
+        if (fromDevice?.avatarUrl) {
+          childPlayer = { ...childPlayer, avatarUrl: fromDevice.avatarUrl }
+        }
+      }
+      setPlayer(childPlayer)
+
+      const merged =
+        adultPlayers.length > 0
+          ? adultPlayers
+          : devicePlayers.length > 0
+            ? devicePlayers
+            : childPlayer
+              ? [childPlayer]
+              : []
+
+      setPlayers(adultPlayers)
+      setFamilyPlayers(merged)
       setDeviceAuthorized(Boolean(data.device?.authorized))
+      setTutorDisplayName(
+        data.account?.displayName ??
+          data.device?.accountDisplayName ??
+          null,
+      )
       if (typeof data.csrf === 'string') setCsrf(data.csrf)
       syncCsrfState()
     },
@@ -108,27 +180,76 @@ export function AuthProvider({
   }, [applyMe])
 
   useEffect(() => {
-    if (initialSession) return
-    let cancelled = false
+    if (initialSession) {
+      setLoading(false)
+      return
+    }
+    let alive = true
+    const ac = new AbortController()
+    const timer = window.setTimeout(() => ac.abort(), 12000)
     ;(async () => {
       try {
-        await refreshMe()
+        const data = await apiGet<MeResponse>('/auth/me.php', ac.signal)
+        if (!alive) return
+        applyMe(data)
       } catch {
-        if (!cancelled) {
-          setRole(null)
-          setAccount(null)
-          setPlayer(null)
-          setPlayers([])
-          setDeviceAuthorized(false)
-        }
+        if (!alive) return
+        setRole(null)
+        setAccount(null)
+        setPlayer(null)
+        setPlayers([])
+        setFamilyPlayers([])
+        setDeviceAuthorized(false)
+        setTutorDisplayName(null)
       } finally {
-        if (!cancelled) setLoading(false)
+        window.clearTimeout(timer)
+        if (alive) setLoading(false)
       }
     })()
     return () => {
-      cancelled = true
+      alive = false
+      window.clearTimeout(timer)
+      ac.abort()
     }
-  }, [initialSession, refreshMe])
+    // Solo al montar / cambiar semilla: no re-disparar si cambia la identidad de refreshMe.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialSession])
+
+  const loginAdult = useCallback(
+    async (login: string, password: string) => {
+      const data = await apiPost<MeResponse>('/auth/adult-login.php', { login, password })
+      if (data.role !== 'adult') {
+        throw new Error('No se pudo iniciar sesión.')
+      }
+      applyMe(data)
+      return asPlayers(data.players)
+    },
+    [applyMe],
+  )
+
+  const registerFamily = useCallback(
+    async (input: {
+      login: string
+      password: string
+      displayName: string
+      pin: string
+      children: RegisterChildInput[]
+    }) => {
+      const data = await apiPost<MeResponse>('/auth/register.php', {
+        login: input.login,
+        password: input.password,
+        displayName: input.displayName,
+        pin: input.pin,
+        children: input.children,
+      })
+      if (data.role !== 'adult') {
+        throw new Error('No se pudo crear la familia.')
+      }
+      applyMe(data)
+      return asPlayers(data.players)
+    },
+    [applyMe],
+  )
 
   const loginAdultPin = useCallback(
     async (pin: string) => {
@@ -141,8 +262,16 @@ export function AuthProvider({
     [applyMe],
   )
 
+  const enterAsChild = useCallback(
+    async (playerSlug: string) => {
+      const data = await apiPost<MeResponse>('/auth/child-enter.php', { playerSlug })
+      applyMe(data)
+    },
+    [applyMe],
+  )
+
   const authorizeDeviceForPlayer = useCallback(
-    async (playerId: number, label = 'Dispositivo de Aray') => {
+    async (playerId: number, label = 'Dispositivo familiar') => {
       await authorizeCurrentDevice(playerId, label)
       await refreshMe()
     },
@@ -160,7 +289,14 @@ export function AuthProvider({
     setPlayer(null)
     setPlayers([])
     syncCsrfState()
-  }, [syncCsrfState])
+    try {
+      await refreshMe()
+    } catch {
+      setFamilyPlayers([])
+      setDeviceAuthorized(false)
+      setTutorDisplayName(null)
+    }
+  }, [refreshMe, syncCsrfState])
 
   const value = useMemo<AuthContextValue>(
     () => ({
@@ -169,10 +305,15 @@ export function AuthProvider({
       account,
       player,
       players,
+      familyPlayers,
       deviceAuthorized,
+      tutorDisplayName,
       csrf,
       refreshMe,
+      loginAdult,
+      registerFamily,
       loginAdultPin,
+      enterAsChild,
       authorizeDeviceForPlayer,
       logout,
     }),
@@ -182,10 +323,15 @@ export function AuthProvider({
       account,
       player,
       players,
+      familyPlayers,
       deviceAuthorized,
+      tutorDisplayName,
       csrf,
       refreshMe,
+      loginAdult,
+      registerFamily,
       loginAdultPin,
+      enterAsChild,
       authorizeDeviceForPlayer,
       logout,
     ],

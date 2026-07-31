@@ -3,10 +3,12 @@ import { Link, useNavigate } from 'react-router-dom'
 import { ApiError } from '@/api/client'
 import { useAuth } from '@/auth/AuthContext'
 import { BrandLogo } from '@/components/BrandLogo'
+import { useProgress } from '@/progress/ProgressContext'
 import './access.css'
 
 export function AccessScreen() {
   const { loginAdult, enterAsChild } = useAuth()
+  const { refreshFromServer } = useProgress()
   const navigate = useNavigate()
   const [login, setLogin] = useState('')
   const [password, setPassword] = useState('')
@@ -21,6 +23,7 @@ export function AccessScreen() {
     try {
       const players = await loginAdult(login.trim().toLowerCase(), password)
       if (players.length > 1) {
+        await refreshFromServer()
         navigate('/pick-profile', { replace: true })
         return
       }
@@ -28,6 +31,7 @@ export function AccessScreen() {
       if (only?.slug) {
         await enterAsChild(only.slug)
       }
+      await refreshFromServer()
       navigate('/', { replace: true })
     } catch (err) {
       setError(
@@ -45,7 +49,10 @@ export function AccessScreen() {
       <div className="access-page__card">
         <BrandLogo variant="hero" className="access-page__logo" />
         <h1 className="access-page__title">AFK Academy</h1>
-        <p className="access-page__lead">Entra con la cuenta familiar para jugar y guardar el progreso.</p>
+        <p className="access-page__lead">
+          En un dispositivo nuevo hay que entrar una vez con la cuenta familiar. Luego Aray puede
+          jugar sin volver a poner la contraseña.
+        </p>
 
         <form className="access-form" onSubmit={(e) => void onSubmit(e)}>
           <label className="access-form__label">

@@ -1,6 +1,9 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { ScrollToTop } from '@/components/ScrollToTop'
+import { AccessScreen } from '@/features/access/AccessScreen'
 import { AuthGate } from '@/features/access/AuthGate'
+import { ProfilePickerScreen } from '@/features/access/ProfilePickerScreen'
+import { RegisterScreen } from '@/features/access/RegisterScreen'
 import { AdultPanel } from '@/features/adult/AdultPanel'
 import { CollectionScreen } from '@/features/collection/CollectionScreen'
 import { HomeScreen } from '@/features/home/HomeScreen'
@@ -41,6 +44,9 @@ export default function App() {
       <Routes>
       <Route path="/dev/lumo" element={<LumoGallery />} />
       <Route element={<AuthGate />}>
+        <Route path="/access" element={<AccessScreen />} />
+        <Route path="/register" element={<RegisterScreen />} />
+        <Route path="/pick-profile" element={<ProfilePickerScreen />} />
         <Route path="/adult" element={<AdultPanel />} />
         <Route path="/" element={<HomeScreen />} />
         <Route path="/missions" element={<MissionsScreen />} />

@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 /**
- * PIN adulto (4 dígitos). Sin dispositivos ni PIN infantil.
- * El valor en claro solo existe en config local al sembrar; en BD solo hash.
+ * PIN adulto (4 dígitos) de la familia recordada en este dispositivo
+ * (sesión adulta o cookie ARAYDEVICE). Autoriza el dispositivo si falta.
  */
 final class PinAuthService
 {
@@ -15,57 +15,75 @@ final class PinAuthService
             Http::error(401, 'invalid_pin', 'PIN incorrecto');
         }
 
-        $identity = 'adult_pin';
+        $account = self::resolveTargetAccount();
+        if ($account === null) {
+            Http::error(401, 'login_required', 'Entra primero con usuario y contraseña en este dispositivo.');
+        }
+
+        $accountId = (int) $account['id'];
+        $identity = 'adult_pin:' . $accountId;
         RateLimit::assertAllowed('pin_login', $identity);
 
-        $account = self::findActiveAdultWithPin();
-        $hash = is_array($account) ? (string) ($account['adult_pin_hash'] ?? '') : '';
+        $hash = (string) ($account['adult_pin_hash'] ?? '');
         $ok = $hash !== '' && password_verify($pinNorm, $hash);
-
         RateLimit::record('pin_login', $identity, $ok);
 
-        if (!$ok || !is_array($account)) {
+        if (!$ok) {
             Http::error(401, 'invalid_pin', 'PIN incorrecto');
         }
 
+        $displayName = (string) $account['display_name'];
+        $login = (string) $account['login'];
+
         Session::regenerate();
-        Session::setAdult(
-            (int) $account['id'],
-            (string) $account['display_name'],
-            (string) $account['login']
-        );
+        Session::setAdult($accountId, $displayName, $login);
 
         $pdo = Database::pdo();
         $accounts = Database::table('accounts');
         $pdo->prepare(
             "UPDATE {$accounts} SET last_login_at = :at WHERE id = :id"
-        )->execute([':at' => MadridTime::utcNowString(), ':id' => (int) $account['id']]);
+        )->execute([':at' => MadridTime::utcNowString(), ':id' => $accountId]);
+
+        $players = AuthService::playersForAccount($accountId);
+        $device = AuthService::deviceStatus();
+        if (!AuthService::deviceBelongsToAccount($device, $accountId) && $players !== []) {
+            AuthService::authorizeDevice($accountId, (int) $players[0]['id'], 'PC de ' . $displayName);
+            $device = AuthService::deviceStatus();
+        }
 
         return [
             'role' => 'adult',
             'account' => [
-                'id' => (int) $account['id'],
-                'login' => (string) $account['login'],
-                'displayName' => (string) $account['display_name'],
+                'id' => $accountId,
+                'login' => $login,
+                'displayName' => $displayName,
             ],
-            'players' => AuthService::playersForAccount((int) $account['id']),
+            'players' => $players,
+            'device' => $device,
             'csrf' => Csrf::token(),
         ];
     }
 
-    private static function findActiveAdultWithPin(): ?array
+    /** Cuenta cuyo PIN se puede comprobar: sesión adulta o cookie de dispositivo. */
+    private static function resolveTargetAccount(): ?array
     {
-        $pdo = Database::pdo();
-        $acc = Database::table('accounts');
-        $stmt = $pdo->query(
-            "SELECT id, login, display_name, adult_pin_hash, is_active
-             FROM {$acc}
-             WHERE is_active = 1 AND adult_pin_hash IS NOT NULL AND adult_pin_hash <> ''
-             ORDER BY id ASC
-             LIMIT 1"
-        );
-        $row = $stmt ? $stmt->fetch() : false;
-        return is_array($row) ? $row : null;
+        Session::start();
+        if (Session::role() === 'adult' && Session::accountId() !== null) {
+            $acc = AuthService::findAccountById(Session::accountId());
+            if (is_array($acc) && (int) $acc['is_active'] === 1) {
+                return $acc;
+            }
+        }
+
+        $fromDevice = AuthService::accountIdFromDeviceCookie();
+        if ($fromDevice !== null) {
+            $acc = AuthService::findAccountById($fromDevice);
+            if (is_array($acc) && (int) $acc['is_active'] === 1) {
+                return $acc;
+            }
+        }
+
+        return null;
     }
 
     /**

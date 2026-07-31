@@ -10,7 +10,7 @@ type Props = {
 }
 
 export function AdultPinModal({ open, onClose }: Props) {
-  const { loginAdultPin } = useAuth()
+  const { loginAdultPin, deviceAuthorized, tutorDisplayName } = useAuth()
   const navigate = useNavigate()
   const inputRef = useRef<HTMLInputElement>(null)
   const titleId = useId()
@@ -20,12 +20,17 @@ export function AdultPinModal({ open, onClose }: Props) {
 
   useEffect(() => {
     if (!open) return
+    if (!deviceAuthorized) {
+      onClose()
+      navigate('/access')
+      return
+    }
     setPin('')
     setError(null)
     setBusy(false)
     const t = window.setTimeout(() => inputRef.current?.focus(), 50)
     return () => window.clearTimeout(t)
-  }, [open])
+  }, [open, deviceAuthorized, navigate, onClose])
 
   if (!open) return null
 
@@ -43,6 +48,11 @@ export function AdultPinModal({ open, onClose }: Props) {
         err instanceof ApiError && err.message.trim() !== ''
           ? err.message
           : 'PIN incorrecto'
+      if (err instanceof ApiError && err.code === 'login_required') {
+        onClose()
+        navigate('/access')
+        return
+      }
       setError(message)
       setPin('')
       inputRef.current?.focus()
@@ -70,7 +80,7 @@ export function AdultPinModal({ open, onClose }: Props) {
           ×
         </button>
         <h2 id={titleId} className="adult-pin-modal__title">
-          PIN adulto
+          {tutorDisplayName ? `PIN de ${tutorDisplayName}` : 'PIN familiar'}
         </h2>
         <form className="adult-pin-modal__form" onSubmit={(e) => void onSubmit(e)}>
           <input
@@ -83,7 +93,7 @@ export function AdultPinModal({ open, onClose }: Props) {
             maxLength={4}
             value={pin}
             onChange={(e) => setPin(e.target.value.replace(/\D+/g, '').slice(0, 4))}
-            aria-label="PIN adulto"
+            aria-label="PIN familiar"
             disabled={busy}
           />
           {error ? (

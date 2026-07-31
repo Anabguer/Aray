@@ -120,6 +120,7 @@ final class RewardCycleService
         string $sessionId,
         ?array $alreadyAppliedSessionIds = null
     ): array {
+        unset($alreadyAppliedSessionIds); // legacy client field; idempotencia = energy_granted
         self::ensureGoalAndCycle($playerId);
         $pdo = Database::pdo();
         $goals = Database::table('reward_goals');
@@ -138,7 +139,9 @@ final class RewardCycleService
                 throw new RuntimeException('reward goal missing');
             }
 
-            // Anti-duplicado: si la sesión ya tiene energía concedida, no repetir.
+            // Anti-duplicado servidor: energy_granted en la fila de sesión.
+            // No usar appliedSessionIds del cliente para ESTA sesión: el front ya
+            // añade el id en local antes del POST y eso marcaba granted=0 + energy_granted=1.
             $sessTable = Database::table('sessions');
             $sstmt = $pdo->prepare(
                 "SELECT energy_granted FROM {$sessTable} WHERE id = :id AND player_id = :p LIMIT 1"
@@ -155,15 +158,8 @@ final class RewardCycleService
                 ];
             }
 
-            if (is_array($alreadyAppliedSessionIds) && in_array($sessionId, $alreadyAppliedSessionIds, true)) {
-                $pdo->commit();
-                return [
-                    'granted' => 0,
-                    'reward' => self::publicRewardState($playerId),
-                    'cyclesCompleted' => [],
-                    'skippedDuplicate' => true,
-                ];
-            }
+            // Otros ids que el cliente diga "ya aplicados" se ignoran aquí:
+            // la fuente de verdad es energy_granted por sesión.
 
             $dailyDate = $goal['daily_date'];
             $dailyPoints = (int) $goal['daily_points'];

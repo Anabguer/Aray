@@ -61,6 +61,7 @@ import {
   flushPendingRewardGrants,
   purgeStaleRewardGrantPending,
   rewardGrantPendingCount,
+  syncLevelUpEnergyEvents,
   type ActivityEnergyGrant,
 } from '@/sync/rewardGrantSync'
 import { grantRewardPoints } from '@/reward/engine'
@@ -569,11 +570,43 @@ export function ProgressProvider({
                   celebratedPendingCycles: latest.reward.celebratedPendingCycles.filter((n) =>
                     syncResult.progress!.reward.pendingCycleNumbers.includes(n),
                   ),
+                  // Conservar level-up locales hasta que syncLevelUp las confirme
+                  appliedSessionIds: Array.from(
+                    new Set([
+                      ...latest.reward.appliedSessionIds.filter((sid) =>
+                        sid.startsWith('levelup-'),
+                      ),
+                    ]),
+                  ),
                 },
               },
               id,
               syncEpochRef.current,
             )
+            if (leveled.events.length > 0) {
+              const afterOfficial = progressRef.current
+              const levelSync = await syncLevelUpEnergyEvents({
+                playerId: id,
+                playerSlug: player?.slug ?? null,
+                playerKey,
+                events: leveled.events,
+                appliedSessionIds: afterOfficial.reward.appliedSessionIds,
+                localReward: afterOfficial.reward,
+              })
+              refreshPendingCount()
+              if (levelSync.reward) {
+                persistCache({
+                  ...progressRef.current,
+                  reward: {
+                    ...levelSync.reward,
+                    celebratedPendingCycles:
+                      progressRef.current.reward.celebratedPendingCycles.filter((n) =>
+                        levelSync.reward!.pendingCycleNumbers.includes(n),
+                      ),
+                  },
+                })
+              }
+            }
             setSyncStatus('ready')
             setSyncError(null)
           } else {
@@ -643,11 +676,42 @@ export function ProgressProvider({
                   celebratedPendingCycles: latest.reward.celebratedPendingCycles.filter((n) =>
                     syncResult.progress!.reward.pendingCycleNumbers.includes(n),
                   ),
+                  appliedSessionIds: Array.from(
+                    new Set([
+                      ...latest.reward.appliedSessionIds.filter((sid) =>
+                        sid.startsWith('levelup-'),
+                      ),
+                    ]),
+                  ),
                 },
               },
               id,
               syncEpochRef.current,
             )
+            if (leveled.events.length > 0) {
+              const afterOfficial = progressRef.current
+              const levelSync = await syncLevelUpEnergyEvents({
+                playerId: id,
+                playerSlug: player?.slug ?? null,
+                playerKey,
+                events: leveled.events,
+                appliedSessionIds: afterOfficial.reward.appliedSessionIds,
+                localReward: afterOfficial.reward,
+              })
+              refreshPendingCount()
+              if (levelSync.reward) {
+                persistCache({
+                  ...progressRef.current,
+                  reward: {
+                    ...levelSync.reward,
+                    celebratedPendingCycles:
+                      progressRef.current.reward.celebratedPendingCycles.filter((n) =>
+                        levelSync.reward!.pendingCycleNumbers.includes(n),
+                      ),
+                  },
+                })
+              }
+            }
             setSyncStatus('ready')
             setSyncError(null)
           } else {
@@ -706,18 +770,35 @@ export function ProgressProvider({
       persistCache(leveled.next)
 
       const id = playerIdRef.current ?? player?.id ?? null
-      if (id !== null && (requested > 0 || input.statsDelta)) {
+      if (id !== null && (requested > 0 || xpAdd > 0 || input.statsDelta)) {
         void (async () => {
           setSyncStatus('syncing')
           const syncResult = await enqueueAndSyncRewardGrant({
             playerId: id,
             playerSlug: player?.slug ?? null,
-            grant: { ...input, requestedPoints: Math.max(requested, input.statsDelta ? 0 : requested) },
+            grant: {
+              ...input,
+              requestedPoints: requested,
+              xpEarned: xpAdd > 0 ? xpAdd : undefined,
+            },
             appliedSessionIds: leveled.next.reward.appliedSessionIds,
             localReward: leveled.next.reward,
           })
           refreshPendingCount()
-          if (syncResult.reward || syncResult.stats != null || syncResult.achievementsClaimedIds) {
+          let nextReward = syncResult.reward
+          if (leveled.events.length > 0) {
+            const levelSync = await syncLevelUpEnergyEvents({
+              playerId: id,
+              playerSlug: player?.slug ?? null,
+              playerKey,
+              events: leveled.events,
+              appliedSessionIds: (nextReward ?? leveled.next.reward).appliedSessionIds,
+              localReward: nextReward ?? leveled.next.reward,
+            })
+            refreshPendingCount()
+            if (levelSync.reward) nextReward = levelSync.reward
+          }
+          if (nextReward || syncResult.stats != null || syncResult.achievementsClaimedIds) {
             const latest = progressRef.current
             persistCache({
               ...latest,
@@ -732,16 +813,16 @@ export function ProgressProvider({
                   loadLocalClaimedAchievementIds(id),
                 ),
               },
-              reward: syncResult.reward
+              reward: nextReward
                 ? {
-                    ...syncResult.reward,
+                    ...nextReward,
                     celebratedPendingCycles: latest.reward.celebratedPendingCycles.filter((n) =>
-                      syncResult.reward!.pendingCycleNumbers.includes(n),
+                      nextReward!.pendingCycleNumbers.includes(n),
                     ),
                     appliedSessionIds: Array.from(
                       new Set([
                         ...latest.reward.appliedSessionIds,
-                        ...syncResult.reward.appliedSessionIds,
+                        ...nextReward.appliedSessionIds,
                         input.sessionId,
                       ]),
                     ),
@@ -755,7 +836,7 @@ export function ProgressProvider({
             setSyncError(syncResult.error)
           }
         })()
-      } else if (requested > 0) {
+      } else if (requested > 0 || xpAdd > 0) {
         setSyncStatus('needs_device')
       }
 

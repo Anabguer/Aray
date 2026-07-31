@@ -89,8 +89,9 @@ export function savePendingSessions(ops: PendingSessionOp[]): void {
 }
 
 /**
- * Descarta cola y caché de epochs anteriores al oficial del servidor.
- * Evita que una PWA antigua reintroduzca partidas de prueba.
+ * Descarta cola de epochs anteriores al oficial del servidor.
+ * Conserva partidas pendientes de OTROS niños en la misma época
+ * (cambiar de perfil no debe borrar la cola del hermano).
  */
 export function purgeStaleLocalSync(
   serverEpoch: number,
@@ -103,10 +104,7 @@ export function purgeStaleLocalSync(
   const epochChanged = meta.epoch !== serverEpoch
   const ops = loadPendingSessions()
   const kept = ops.filter(
-    (op) =>
-      op.epoch === serverEpoch &&
-      (currentPlayerId === null || op.playerId === currentPlayerId) &&
-      op.payload.syncEpoch === serverEpoch,
+    (op) => op.epoch === serverEpoch && op.payload.syncEpoch === serverEpoch,
   )
   const purgedOps = ops.length - kept.length
   if (purgedOps > 0 || epochChanged) {
@@ -157,9 +155,11 @@ export function removePendingSession(sessionId: string): void {
   savePendingSessions(loadPendingSessions().filter((o) => o.sessionId !== sessionId))
 }
 
-export function pendingCount(serverEpoch?: number): number {
+export function pendingCount(serverEpoch?: number, playerId?: number | null): number {
   const epoch = serverEpoch ?? currentLocalEpoch()
-  return loadPendingSessions().filter((o) => o.epoch === epoch).length
+  return loadPendingSessions().filter(
+    (o) => o.epoch === epoch && (playerId == null || o.playerId === playerId),
+  ).length
 }
 
 /** Vacía progreso en caché cuando cambia la época oficial. */

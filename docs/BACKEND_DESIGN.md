@@ -5,15 +5,15 @@ Documento vivo tras la aprobación y ajustes obligatorios. La fuente oficial es 
 ## Decisiones clave
 
 ### Acceso
-- Cuenta adulta inicial: **Neni**.
-- Perfil infantil: **Aray** (relación cuenta → N perfiles vía `arayapp_account_players`).
-- Flujo preferido: adulto inicia sesión → autoriza dispositivo → siguientes visitas “JUGAR COMO ARAY”.
-- Autorización: token aleatorio largo, **solo hash en servidor**, cookie `ARAYDEVICE` HttpOnly/Secure/SameSite.
+- Registro abierto de familias: tutor (usuario + contraseña + PIN + nombre) y 1..N niños (nombre, curso, avatar).
+- Cuenta seed inicial: **Neni** / perfil **Aray** (no se borra al registrar otras familias).
+- Flujo preferido: entrar con usuario/contraseña (o crear familia) → cookie de dispositivo a nivel **cuenta** → selector de perfil si hay varios niños → jugar.
+- PIN del panel: solo de la familia recordada en este dispositivo (sesión adulta o cookie `ARAYDEVICE`); ya no es global al primer adulto.
+- Autorización: token aleatorio largo, **solo hash en servidor**, cookie `ARAYDEVICE` HttpOnly/Secure/SameSite; un PC sirve a todos los hermanos de la misma cuenta.
 - Tablas: `arayapp_authorized_devices`, `arayapp_device_temp_codes`, `arayapp_auth_attempts`.
-- Adulto puede listar/revocar dispositivos.
-- Dispositivo nuevo sin sesión adulta: código temporal de un solo uso y caducidad corta.
-- PIN infantil (columna opcional) es **alternativa local**, no única barrera pública.
-- Rate limiting + errores genéricos + bloqueo temporal en login adulto / PIN / código.
+- Adulto puede listar/revocar dispositivos, editar nombres/avatar y añadir niños.
+- Avatares: subida a `uploads/avatars/` (JPG/PNG/WebP, máx 2 MB); `avatar_code` = `upload:archivo`.
+- Rate limiting + errores genéricos + bloqueo temporal en login / registro / PIN / upload.
 - No mostrar ≈€ en zona infantil.
 
 ### Zona horaria
@@ -72,15 +72,19 @@ Valores a rellenar:
 |--------|------|-------------|
 | GET | `/api/v1/health.php` | Salud + versiones (sin secretos) |
 | GET | `/api/v1/csrf.php` | Token CSRF |
-| POST | `/api/v1/auth/adult-login.php` | Login Neni |
+| POST | `/api/v1/auth/register.php` | Crear familia (tutor + niños) |
+| POST | `/api/v1/auth/adult-login.php` | Login tutor (auto-autoriza dispositivo) |
 | POST | `/api/v1/auth/adult-logout.php` | Logout adulto |
 | GET | `/api/v1/auth/me.php` | Sesión actual |
-| POST | `/api/v1/auth/device-authorize.php` | Autorizar este dispositivo para Aray |
+| POST | `/api/v1/auth/device-authorize.php` | Reautorizar este dispositivo |
 | GET | `/api/v1/auth/devices.php` | Listar dispositivos |
 | POST | `/api/v1/auth/device-revoke.php` | Revocar dispositivo |
 | POST | `/api/v1/auth/temp-code-create.php` | Código temporal |
 | POST | `/api/v1/auth/temp-code-redeem.php` | Canjear código → cookie dispositivo |
-| POST | `/api/v1/auth/child-enter.php` | Entrar con cookie de dispositivo |
+| POST | `/api/v1/auth/child-enter.php` | Entrar como niño (cualquier hermano de la cuenta) |
+| POST | `/api/v1/players/create.php` | Añadir niño a la familia |
+| POST | `/api/v1/players/avatar.php` | Subir foto del niño |
+| POST | `/api/v1/adult/profile-update.php` | Renombrar tutor/niño |
 | GET | `/api/v1/players/progress.php?playerId=` | Snapshot oficial |
 
 ## Endpoints Fase 2

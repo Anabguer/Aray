@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Smoke: Lobby libre + PIN adulto (sin dispositivos).
+ * Smoke: login familiar + PIN scoped (dispositivo de la cuenta).
  * php scripts/smoke_adult_pin.php
  */
 
@@ -64,14 +64,37 @@ try {
     $csrf = $c['json']['csrf'] ?? '';
     check('csrf', is_string($csrf) && $csrf !== '');
 
-    // Overview sin sesión adulta
     $blocked = $http('GET', '/api/v1/adult/overview.php');
     check('panel protegido sin sesión', $blocked['code'] === 401 || $blocked['code'] === 403, 'code=' . $blocked['code']);
 
     $adultPin = defined('ARAY_SEED_ADULT_PIN') ? (string) ARAY_SEED_ADULT_PIN : '';
+    $seedLogin = defined('ARAY_SEED_ADULT_LOGIN') ? (string) ARAY_SEED_ADULT_LOGIN : 'neni';
+    $seedPassword = defined('ARAY_SEED_ADULT_PASSWORD') ? (string) ARAY_SEED_ADULT_PASSWORD : '';
     check('PIN adulto configurado en local', preg_match('/^\d{4}$/', $adultPin) === 1);
+    check('password seed configurada', $seedPassword !== '');
 
-    $bad = $http('POST', '/api/v1/auth/pin-login.php', ['csrf' => $csrf, 'pin' => '0000']);
+    $pinAlone = $http('POST', '/api/v1/auth/pin-login.php', ['csrf' => $csrf, 'pin' => $adultPin]);
+    check(
+        'PIN sin device → login_required',
+        $pinAlone['code'] === 401 && (($pinAlone['json']['error'] ?? '') === 'login_required'),
+        ($pinAlone['json']['error'] ?? '') . ' code=' . $pinAlone['code']
+    );
+
+    $cLogin = $http('GET', '/api/v1/csrf.php');
+    $login = $http('POST', '/api/v1/auth/adult-login.php', [
+        'csrf' => $cLogin['json']['csrf'] ?? $csrf,
+        'login' => $seedLogin,
+        'password' => $seedPassword,
+    ]);
+    check('adult-login → adult', $login['code'] === 200 && ($login['json']['role'] ?? '') === 'adult');
+    check('adult-login auto-device', !empty($login['json']['device']['authorized']));
+
+    $http('POST', '/api/v1/auth/adult-logout.php', ['csrf' => $login['json']['csrf'] ?? '']);
+
+    // Tras logout sigue la cookie de dispositivo → PIN scoped a Neni
+    $c2 = $http('GET', '/api/v1/csrf.php');
+    $csrf2 = $c2['json']['csrf'] ?? $csrf;
+    $bad = $http('POST', '/api/v1/auth/pin-login.php', ['csrf' => $csrf2, 'pin' => '0000']);
     check(
         'PIN incorrecto',
         $bad['code'] === 401 && (($bad['json']['message'] ?? '') === 'PIN incorrecto'),
@@ -79,9 +102,11 @@ try {
     );
     check('respuesta no revela PIN', strpos($bad['raw'], $adultPin) === false);
 
-    $c2 = $http('GET', '/api/v1/csrf.php');
-    $csrf2 = $c2['json']['csrf'] ?? $csrf;
-    $ok = $http('POST', '/api/v1/auth/pin-login.php', ['csrf' => $csrf2, 'pin' => $adultPin]);
+    $c3 = $http('GET', '/api/v1/csrf.php');
+    $ok = $http('POST', '/api/v1/auth/pin-login.php', [
+        'csrf' => $c3['json']['csrf'] ?? $csrf2,
+        'pin' => $adultPin,
+    ]);
     check('PIN correcto → adult', $ok['code'] === 200 && ($ok['json']['role'] ?? '') === 'adult');
     check('respuesta login sin PIN en claro', strpos($ok['raw'], $adultPin) === false);
 

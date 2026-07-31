@@ -1,15 +1,18 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from '@/auth/AuthContext'
+import { AccessScreen } from '@/features/access/AccessScreen'
 
-/** El Lobby y el juego son libres. Solo /adult exige sesión adulta. */
+const PUBLIC_PATHS = new Set(['/access', '/register'])
+
+/** Acceso libre a /access y /register. Juego requiere dispositivo o sesión. /adult exige adulto. */
 export function AuthGate() {
-  const { loading, role } = useAuth()
+  const { loading, role, deviceAuthorized, familyPlayers } = useAuth()
   const location = useLocation()
-  const isAdultPath = location.pathname === '/adult' || location.pathname.startsWith('/adult/')
-
-  if (!isAdultPath) {
-    return <Outlet />
-  }
+  const path = location.pathname
+  const isAdultPath = path === '/adult' || path.startsWith('/adult/')
+  const isPublic = PUBLIC_PATHS.has(path)
+  const isPicker = path === '/pick-profile'
+  const canPlay = deviceAuthorized || role === 'adult' || role === 'child'
 
   if (loading) {
     return (
@@ -20,8 +23,40 @@ export function AuthGate() {
     )
   }
 
-  if (role !== 'adult') {
-    return <Navigate to="/" replace />
+  if (isPublic) {
+    if (deviceAuthorized && path === '/access') {
+      if (familyPlayers.length > 1 && role !== 'child') {
+        return <Navigate to="/pick-profile" replace />
+      }
+      if (role === 'child' || familyPlayers.length === 1) {
+        return <Navigate to="/" replace />
+      }
+    }
+    return <Outlet />
+  }
+
+  if (isAdultPath) {
+    if (role !== 'adult') {
+      return canPlay ? <Navigate to="/" replace /> : <AccessScreen />
+    }
+    return <Outlet />
+  }
+
+  if (isPicker) {
+    if (!deviceAuthorized) {
+      return <AccessScreen />
+    }
+    return <Outlet />
+  }
+
+  if (!canPlay) {
+    // Pantalla de acceso in-place (sin depender de Navigate) para no dejar el root vacío.
+    return <AccessScreen />
+  }
+
+  // Adulto con varios niños: debe elegir perfil antes de jugar.
+  if (role === 'adult' && familyPlayers.length > 1) {
+    return <Navigate to="/pick-profile" replace />
   }
 
   return <Outlet />

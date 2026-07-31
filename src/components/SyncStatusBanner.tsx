@@ -1,6 +1,7 @@
+import { Link } from 'react-router-dom'
 import { useProgress } from '@/progress/ProgressContext'
 
-/** Aviso breve si falta autorizar dispositivo o hay cola offline. */
+/** Aviso breve si falta familia en este dispositivo o hay cola offline. */
 export function SyncStatusBanner() {
   const { syncStatus, syncError, pendingSyncCount, hydrated } = useProgress()
 
@@ -15,8 +16,8 @@ export function SyncStatusBanner() {
   if (syncStatus === 'needs_device') {
     return (
       <p className="sync-banner sync-banner--warn" role="status">
-        Para guardar el progreso en la nube, Neni debe abrir el panel familiar y pulsar «Autorizar
-        este dispositivo».
+        Para guardar el progreso en la nube,{' '}
+        <Link to="/access">entra con la cuenta familiar</Link> (una vez en este dispositivo).
       </p>
     )
   }
@@ -25,9 +26,10 @@ export function SyncStatusBanner() {
     return (
       <p className="sync-banner sync-banner--info" role="status">
         {pendingSyncCount > 0
-          ? `Hay ${pendingSyncCount} partida(s) pendientes de sincronizar.`
+          ? syncError
+            ? `No se pudo guardar una partida (${syncError}). Reintentando…`
+            : `Guardando ${pendingSyncCount} partida(s) en la nube…`
           : 'Sin conexión: se usará la caché y se reintentará al volver.'}
-        {syncError ? ` (${syncError})` : ''}
       </p>
     )
   }

@@ -11,6 +11,7 @@ import {
   saveSyncMeta,
 } from '@/sync/pendingQueue'
 import { ensureChildPlaySession } from '@/sync/playSession'
+import { shouldDropPendingSyncError } from '@/sync/syncErrors'
 
 const PENDING_ABC_KEY = 'aray.pending.alphabet.v1'
 
@@ -58,26 +59,25 @@ function writePending(ops: PendingAbcOp[]): void {
   localStorage.setItem(PENDING_ABC_KEY, JSON.stringify(ops))
 }
 
-/** Descarta cola ABC de epochs/jugadores anteriores. */
+/** Descarta cola ABC de epochs anteriores (conserva otros playerId). */
 export function purgeStaleAlphabetPending(
   serverEpoch: number,
-  currentPlayerId: number | null = null,
+  _currentPlayerId: number | null = null,
 ): number {
   const before = readPending()
   const kept = before.filter(
-    (o) =>
-      o.epoch === serverEpoch &&
-      (currentPlayerId === null || o.playerId === currentPlayerId) &&
-      o.payload.syncEpoch === serverEpoch,
+    (o) => o.epoch === serverEpoch && o.payload.syncEpoch === serverEpoch,
   )
   const purged = before.length - kept.length
   if (purged > 0) writePending(kept)
   return purged
 }
 
-export function alphabetPendingCount(serverEpoch?: number): number {
+export function alphabetPendingCount(serverEpoch?: number, playerId?: number | null): number {
   const epoch = serverEpoch ?? currentLocalEpoch()
-  return readPending().filter((o) => o.epoch === epoch).length
+  return readPending().filter(
+    (o) => o.epoch === epoch && (playerId == null || o.playerId === playerId),
+  ).length
 }
 
 export function enqueueAlphabetSession(args: {
@@ -97,7 +97,15 @@ export function enqueueAlphabetSession(args: {
 
 async function submitAlphabetToServer(
   payload: AlphabetSessionPayload,
+  opts?: { playerSlug?: string | null; playerId?: number | null },
 ): Promise<AlphabetSubmitResponse> {
+  const child = await ensureChildPlaySession({
+    playerSlug: opts?.playerSlug,
+    playerId: opts?.playerId,
+  })
+  if (!child) {
+    throw new ApiError(401, 'device_required', 'Se requiere sesión infantil para guardar la partida.')
+  }
   return apiPost<AlphabetSubmitResponse>('/players/alphabet-session-submit.php', {
     sessionId: payload.sessionId,
     mode: payload.mode,
@@ -115,6 +123,7 @@ async function submitAlphabetToServer(
 
 export async function enqueueAndSyncAlphabetSession(args: {
   playerId: number
+  playerSlug?: string | null
   payload: AlphabetSessionPayload
 }): Promise<{
   synced: boolean
@@ -124,12 +133,13 @@ export async function enqueueAndSyncAlphabetSession(args: {
   const epoch = args.payload.syncEpoch
   purgeStaleLocalSync(epoch, args.playerId)
   enqueueAlphabetSession(args)
-  return flushPendingAlphabetSessions(args.playerId, args.payload.sessionId)
+  return flushPendingAlphabetSessions(args.playerId, args.payload.sessionId, args.playerSlug)
 }
 
 export async function flushPendingAlphabetSessions(
   playerId: number,
   preferSessionId?: string,
+  playerSlug?: string | null,
 ): Promise<{
   synced: boolean
   progress: ProgressState | null
@@ -150,7 +160,14 @@ export async function flushPendingAlphabetSessions(
   }
 
   try {
-    await ensureChildPlaySession()
+    const child = await ensureChildPlaySession({ playerId, playerSlug })
+    if (!child) {
+      return {
+        synced: false,
+        progress: null,
+        error: 'Se requiere sesión infantil para guardar la partida.',
+      }
+    }
   } catch (err) {
     return {
       synced: false,
@@ -165,7 +182,7 @@ export async function flushPendingAlphabetSessions(
 
   for (const op of ops) {
     try {
-      const server = await submitAlphabetToServer(op.payload)
+      const server = await submitAlphabetToServer(op.payload, { playerId, playerSlug })
       writePending(readPending().filter((o) => o.sessionId !== op.sessionId))
       anySynced = true
       if (server.progress) {
@@ -189,9 +206,14 @@ export async function flushPendingAlphabetSessions(
         continue
       }
       lastError = err instanceof Error ? err.message : 'Error sync ABC'
+      if (shouldDropPendingSyncError(err)) {
+        writePending(readPending().filter((o) => o.sessionId !== op.sessionId))
+        continue
+      }
       if (typeof navigator !== 'undefined' && !navigator.onLine) break
     }
   }
 
   return { synced: anySynced, progress: lastProgress, error: lastError }
 }
+

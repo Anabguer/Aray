@@ -70,7 +70,7 @@ Permisos: legible por PHP, no listable públicamente si el hosting lo permite.
 |---|--------|------|
 | 1 | Conexión BD | `GET /aray/afkacademy/api/v1/health.php` → `dbOk`, versiones |
 | 2 | Acceso familia | `/aray/afkacademy/access` login o `/aray/afkacademy/register` alta |
-| 3 | Dispositivo | Login/registro deja cookie; opcional «Reautorizar» en panel |
+| 3 | Dispositivo | Login/registro deja cookie automáticamente (sin UI de autorizar/revocar) |
 | 4 | Snapshot | `GET /aray/afkacademy/api/v1/players/progress.php?playerId=` → XP oficial |
 | 5 | Partida | Jugar → `POST .../session-submit.php` → fila en `arayapp_sessions` |
 | 6 | Idempotencia | Reenviar mismo `sessionId` → `idempotent: true`, sin doble XP |
