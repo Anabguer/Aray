@@ -8,6 +8,7 @@ import {
   collectPendingCrate,
   createInitialCratesState,
   markCrateOpened,
+  mergeCratesState,
   rollCrateForCompletion,
 } from '@/crates/engine'
 
@@ -139,5 +140,23 @@ describe('sistema de cajas', () => {
     expect(first.applied).toBe(true)
     const second = collectPendingCrate(first.crates)
     expect(second.applied).toBe(false)
+  })
+
+  it('no reabre una caja ya recogida al fusionar con el servidor', () => {
+    const server = createInitialCratesState()
+    server.pending = {
+      completionId: 'done-1',
+      rarity: 'normal',
+      isChoice: false,
+      chosenIndex: 0,
+      opened: true,
+      options: [{ rarity: 'normal', reward: { kind: 'coins', amount: 10 } }],
+      reward: { kind: 'coins', amount: 10 },
+    }
+    const local = createInitialCratesState()
+    local.claimedCompletionIds = ['done-1']
+    const merged = mergeCratesState(server, local)
+    expect(merged.pending).toBeNull()
+    expect(merged.claimedCompletionIds).toContain('done-1')
   })
 })

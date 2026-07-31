@@ -58,6 +58,50 @@ export function normalizeCratesState(raw: unknown): CratesState {
   }
 }
 
+function uniqueIds(ids: string[]): string[] {
+  const out: string[] = []
+  const seen = new Set<string>()
+  for (const id of ids) {
+    if (!id || seen.has(id)) continue
+    seen.add(id)
+    out.push(id)
+  }
+  if (out.length > 80) out.splice(0, out.length - 80)
+  return out
+}
+
+/**
+ * Fusiona cajas del servidor con historial local.
+ * Si ya se recogió en este dispositivo, no reaparece el modal al hidratar.
+ */
+export function mergeCratesState(server: CratesState, local: CratesState): CratesState {
+  const claimedCompletionIds = uniqueIds([
+    ...local.claimedCompletionIds,
+    ...server.claimedCompletionIds,
+  ])
+  const rolledCompletionIds = uniqueIds([
+    ...local.rolledCompletionIds,
+    ...server.rolledCompletionIds,
+  ])
+  const firstMasteryGrantedTables = uniqueIds([
+    ...local.firstMasteryGrantedTables,
+    ...server.firstMasteryGrantedTables,
+  ])
+
+  let pending = server.pending
+  if (pending && claimedCompletionIds.includes(pending.completionId)) {
+    pending = null
+  }
+
+  return {
+    pityWithoutCrate: server.pityWithoutCrate,
+    claimedCompletionIds,
+    rolledCompletionIds,
+    firstMasteryGrantedTables,
+    pending,
+  }
+}
+
 function normalizePending(raw: unknown): PendingCrate | null {
   if (!raw || typeof raw !== 'object') return null
   const p = raw as Partial<PendingCrate> & {

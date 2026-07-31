@@ -20,11 +20,13 @@ import {
   chooseCrateOption,
   collectPendingCrate,
   markCrateOpened,
+  mergeCratesState,
   rollCrateForCompletion,
   type CratesState,
 } from '@/crates/engine'
 import { applyCrateRewardToProgress } from '@/crates/apply'
 import { postCrateChoose, postCrateClaim, postCrateOpen } from '@/crates/api'
+import { loadLocalClaimedCrateIds, rememberLocalClaimedCrate } from '@/crates/claimedLocal'
 import type { ActivityAssignmentMap, SchoolProfile } from '@/curriculum/types'
 import type { ProgressState, RewardProgress, SessionResult } from '@/math/types'
 import {
@@ -200,7 +202,24 @@ export function ProgressProvider({
 
   const applyOfficial = useCallback(
     (next: ProgressState, id: number | null, epoch: number) => {
-      persistCache(next)
+      const localClaimed = loadLocalClaimedCrateIds()
+      const localCrates: CratesState = {
+        ...progressRef.current.crates,
+        claimedCompletionIds: [
+          ...progressRef.current.crates.claimedCompletionIds,
+          ...localClaimed,
+        ],
+      }
+      const suppressedPending =
+        next.crates.pending &&
+        localCrates.claimedCompletionIds.includes(next.crates.pending.completionId)
+          ? next.crates.pending.completionId
+          : null
+      const merged: ProgressState = {
+        ...next,
+        crates: mergeCratesState(next.crates, localCrates),
+      }
+      persistCache(merged)
       setSyncEpoch(epoch)
       syncEpochRef.current = epoch
       if (id !== null) {
@@ -213,6 +232,22 @@ export function ProgressProvider({
         })
       }
       refreshPendingCount()
+
+      // Caja ya recogida en el dispositivo pero aún pendiente en MySQL → cerrarla.
+      if (suppressedPending && id !== null) {
+        void (async () => {
+          try {
+            await postCrateOpen(suppressedPending)
+          } catch {
+            /* puede estar ya abierta */
+          }
+          try {
+            await postCrateClaim(suppressedPending)
+          } catch {
+            /* reintentará en la próxima hidratación */
+          }
+        })()
+      }
     },
     [persistCache, refreshPendingCount],
   )
@@ -337,6 +372,20 @@ export function ProgressProvider({
     }
     void refreshFromServer()
   }, [refreshFromServer, skipHydration, authKey])
+
+  // Al cambiar de niño: alinear playerId al instante y no mostrar números del hermano.
+  useEffect(() => {
+    if (skipHydration) return
+    const nextId = player?.id ?? null
+    if (nextId == null) return
+    if (playerIdRef.current === nextId) return
+    playerIdRef.current = nextId
+    setPlayerId(nextId)
+    clearProgressCache()
+    persistCache(createInitialProgress())
+    setSyncStatus('hydrating')
+    setHydrated(false)
+  }, [player?.id, persistCache, skipHydration])
 
   useEffect(() => {
     if (skipHydration) return
@@ -685,6 +734,7 @@ export function ProgressProvider({
       if (collected.crates !== current.crates) persistCache({ ...current, crates: collected.crates })
       return null
     }
+    if (completionId) rememberLocalClaimedCrate(completionId)
     const applied = applyCrateRewardToProgress(
       { ...current, crates: collected.crates },
       collected.reward,
@@ -700,28 +750,22 @@ export function ProgressProvider({
 
     const id = playerIdRef.current
     if (id !== null && completionId) {
-      void postCrateClaim(completionId)
-        .then((res) => {
+      void (async () => {
+        try {
+          await postCrateOpen(completionId)
+        } catch {
+          /* ya abierta o no hace falta */
+        }
+        try {
+          const res = await postCrateClaim(completionId)
           if (res.progress) {
             const latest = progressRef.current
-            const mapped = mapIfNeeded(res.progress, latest)
-            // Conserva historial local de cajas; el snapshot del server no lo trae.
-            applyOfficial(
-              {
-                ...mapped,
-                crates: {
-                  ...mapped.crates,
-                  claimedCompletionIds: latest.crates.claimedCompletionIds,
-                  rolledCompletionIds: latest.crates.rolledCompletionIds,
-                  firstMasteryGrantedTables: latest.crates.firstMasteryGrantedTables,
-                },
-              },
-              id,
-              syncEpochRef.current,
-            )
+            applyOfficial(mapIfNeeded(res.progress, latest), id, syncEpochRef.current)
           }
-        })
-        .catch(() => {})
+        } catch {
+          /* offline: queda marcada en claimedLocal y se reintenta al hidratar */
+        }
+      })()
     }
     return applied.adjustmentNote
   }, [applyOfficial, persistCache])
