@@ -130,7 +130,7 @@ final class AdultDashboardService
                 'daysPlayed' => $daysPlayed,
                 'lastActivityAt' => is_array($lastDay) ? $lastDay['last_seen_at'] : $progress['last_practice_at'],
                 'lastActivityDate' => is_array($lastDay) ? $lastDay['activity_date'] : null,
-                'playSecondsTotal' => (int) ($sums['play_seconds'] ?? 0),
+                'playSecondsTotal' => self::resolvePlaySecondsTotal($playerId, (int) ($sums['play_seconds'] ?? 0)),
                 'sessionsCount' => (int) ($sums['sessions_count'] ?? 0),
                 'activitiesCount' => (int) ($sums['activities_count'] ?? 0),
                 'correctCount' => $correct,
@@ -194,6 +194,7 @@ final class AdultDashboardService
         }
 
         $days = ActivityService::listDays($playerId, $from, $to);
+        $days = self::enrichPlaySecondsFromSessions($playerId, $from, $to, $days);
         if ($modeFilter !== null && $modeFilter !== '') {
             $days = array_values(array_filter($days, static function (array $d) use ($modeFilter): bool {
                 $modes = (array) $d['modes'];
@@ -437,6 +438,123 @@ final class AdultDashboardService
             return null;
         }
         return (int) round(100 * $correct / $total);
+    }
+
+    /** Si daily_activity no tiene tiempo (heartbeats antiguos), estima desde partidas guardadas. */
+    private static function resolvePlaySecondsTotal(int $playerId, int $fromDaily): int
+    {
+        if ($fromDaily > 0) {
+            return $fromDaily;
+        }
+        $counts = self::sessionCountsByPlayableDate($playerId, '1970-01-01', '2999-12-31');
+        $n = 0;
+        foreach ($counts as $c) {
+            $n += $c;
+        }
+        return $n * 75;
+    }
+
+    /**
+     * @param list<array> $days
+     * @return list<array>
+     */
+    private static function enrichPlaySecondsFromSessions(
+        int $playerId,
+        string $from,
+        string $to,
+        array $days
+    ): array {
+        $counts = self::sessionCountsByPlayableDate($playerId, $from, $to);
+        if ($counts === []) {
+            return $days;
+        }
+
+        $byDate = [];
+        foreach ($days as $day) {
+            $date = (string) ($day['activityDate'] ?? '');
+            $byDate[$date] = $day;
+        }
+
+        foreach ($counts as $date => $n) {
+            if ($n < 1) {
+                continue;
+            }
+            if (!isset($byDate[$date])) {
+                $byDate[$date] = [
+                    'activityDate' => $date,
+                    'playSeconds' => $n * 75,
+                    'sessionsCount' => $n,
+                    'activitiesCount' => $n,
+                    'correctCount' => 0,
+                    'wrongCount' => 0,
+                    'accuracyPct' => null,
+                    'xpEarned' => 0,
+                    'coinsEarned' => 0,
+                    'rewardPointsEarned' => 0,
+                    'tables' => (object) [],
+                    'modes' => (object) [],
+                    'achievements' => [],
+                    'firstSeenAt' => null,
+                    'lastSeenAt' => null,
+                ];
+                continue;
+            }
+            $play = (int) ($byDate[$date]['playSeconds'] ?? 0);
+            $sessions = (int) ($byDate[$date]['sessionsCount'] ?? 0);
+            if ($play <= 0) {
+                $byDate[$date]['playSeconds'] = $n * 75;
+            }
+            if ($sessions < $n) {
+                $byDate[$date]['sessionsCount'] = $n;
+            }
+        }
+
+        $out = array_values($byDate);
+        usort(
+            $out,
+            static fn (array $a, array $b): int => strcmp(
+                (string) ($b['activityDate'] ?? ''),
+                (string) ($a['activityDate'] ?? '')
+            )
+        );
+        return $out;
+    }
+
+    /** @return array<string,int> fecha jugable (Madrid) => nº partidas */
+    private static function sessionCountsByPlayableDate(int $playerId, string $from, string $to): array
+    {
+        $pdo = Database::pdo();
+        $sess = Database::table('sessions');
+        $stmt = $pdo->prepare(
+            "SELECT processed_at FROM {$sess}
+             WHERE player_id = :p
+               AND processed_at >= :f
+               AND processed_at < :t"
+        );
+        $fromUtc = MadridTime::playableDateStartUtc($from);
+        $toExclusive = self::shiftPlayableDate($to, 1);
+        $toUtc = MadridTime::playableDateStartUtc($toExclusive);
+        $stmt->execute([
+            ':p' => $playerId,
+            ':f' => $fromUtc,
+            ':t' => $toUtc,
+        ]);
+        $out = [];
+        foreach ($stmt->fetchAll() as $row) {
+            $raw = (string) ($row['processed_at'] ?? '');
+            if ($raw === '') {
+                continue;
+            }
+            $date = MadridTime::playableDate(
+                DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $raw, new DateTimeZone('UTC'))
+                    ?: new DateTimeImmutable($raw, new DateTimeZone('UTC'))
+            );
+            if ($date < $from || $date > $to) {
+                continue;
+            }
+            $out[$date] = ($out[$date] ?? 0) + 1;
+        }
+        return $out;
     }
 
     private static function shiftPlayableDate(string $ymd, int $days): string

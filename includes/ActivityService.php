@@ -105,6 +105,8 @@ final class ActivityService
      *   xpEarned?:int,
      *   coinsEarned?:int,
      *   rewardPoints?:int,
+     *   playSeconds?:int,
+     *   durationSeconds?:int,
      *   achievements?:list<string>
      * } $event
      */
@@ -121,6 +123,10 @@ final class ActivityService
         $daily = Database::table('daily_activity');
         $today = MadridTime::playableDate();
         $now = MadridTime::utcNowString();
+        $addSeconds = max(
+            0,
+            (int) ($event['playSeconds'] ?? $event['durationSeconds'] ?? 0)
+        );
 
         $pdo->beginTransaction();
         try {
@@ -191,7 +197,7 @@ final class ActivityService
                 'achievements_json' => json_encode(array_keys($achievements), JSON_UNESCAPED_UNICODE),
             ];
 
-            self::upsertDailyRow($pdo, $playerId, $today, $now, 0, $patch);
+            self::upsertDailyRow($pdo, $playerId, $today, $now, $addSeconds, $patch);
             $pdo->commit();
         } catch (Throwable $e) {
             if ($pdo->inTransaction()) {
@@ -342,10 +348,16 @@ final class ActivityService
         $modes = self::decodeList($row['modes_json']);
         unset($modes['__sessions']);
         $ach = json_decode((string) ($row['achievements_json'] ?? '[]'), true);
+        $sessions = (int) $row['sessions_count'];
+        $playSeconds = (int) $row['play_seconds'];
+        // Datos antiguos: había partidas pero el cliente no enviaba heartbeat/tiempo.
+        if ($playSeconds <= 0 && $sessions > 0) {
+            $playSeconds = $sessions * 75;
+        }
         return [
             'activityDate' => (string) $row['activity_date'],
-            'playSeconds' => (int) $row['play_seconds'],
-            'sessionsCount' => (int) $row['sessions_count'],
+            'playSeconds' => $playSeconds,
+            'sessionsCount' => $sessions,
             'activitiesCount' => (int) $row['activities_count'],
             'correctCount' => $correct,
             'wrongCount' => $wrong,

@@ -157,8 +157,26 @@ final class SessionService
         $playSeconds = isset($payload['durationSeconds'])
             ? max(0, (int) $payload['durationSeconds'])
             : (int) round($playMs / 1000);
+        // Muchas partidas llegan sin elapsedMs: estima un tiempo mínimo realista.
+        if ($playSeconds < 5 && $totalN > 0) {
+            $playSeconds = max(30, $totalN * 8);
+        }
+        $playSeconds = max(1, $playSeconds);
+
+        ActivityService::recordSessionEvent($playerId, [
+            'sessionId' => $sessionId,
+            'mode' => $mode,
+            'tables' => $tables,
+            'correct' => $correctN,
+            'wrong' => max(0, $totalN - $correctN),
+            'xpEarned' => (int) ($calc['xpEarned'] ?? 0),
+            'coinsEarned' => (int) ($calc['coinsEarned'] ?? 0),
+            'rewardPoints' => is_array($savedRow) ? (int) ($savedRow['energy_granted'] ?? 0) : 0,
+            'playSeconds' => $playSeconds,
+        ]);
+
         AchievementService::mergeStatsDelta($playerId, [
-            'playSeconds' => max(1, $playSeconds),
+            'playSeconds' => $playSeconds,
             'sessionsCompleted' => 1,
             'goodSession' => $good,
             'feature' => 'tables',
@@ -626,7 +644,7 @@ final class SessionService
     }
 
     /**
-     * Energía del premio: recalculada en servidor a partir de aciertos únicos.
+     * Energía del premio: alineada con misión diaria (5/unidad, máx. 6 slots tablas).
      * No confía en puntos enviados por React. Idempotente vía energy_granted en sessions.
      */
     private static function computeEnergyRequested(string $mode, array $answers): int
@@ -634,16 +652,15 @@ final class SessionService
         if ($mode === 'learn') {
             return 0;
         }
-        if ($mode === 'match') {
-            // matchSessionMeta.rewardWeight = medium = 30 (escala ×10)
-            return 30;
-        }
 
-        $weight = 10;
-        $mult = $mode === 'challenge' ? 2 : 1;
+        $weight = 5;
+        $maxUnits = 6;
         $seen = [];
-        $points = 0;
+        $units = 0;
         foreach ($answers as $ans) {
+            if ($units >= $maxUnits) {
+                break;
+            }
             if (empty($ans['correct'])) {
                 continue;
             }
@@ -652,10 +669,10 @@ final class SessionService
                 continue;
             }
             $seen[$fk] = true;
-            $points += $weight;
+            $units++;
         }
 
-        return (int) round($points * $mult);
+        return $units * $weight;
     }
 
     private static function applyEnergyGrant(

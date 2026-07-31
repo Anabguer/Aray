@@ -9,6 +9,7 @@ import {
 } from 'react'
 import { apiGet, apiPost, peekCsrf, setCsrf } from '@/api/client'
 import { authorizeCurrentDevice } from '@/sync/playSession'
+import { startPlayHeartbeat, stopPlayHeartbeat } from '@/sync/playHeartbeat'
 
 export type AuthRole = 'adult' | 'child' | null
 
@@ -214,6 +215,12 @@ export function AuthProvider({
     // Solo al montar / cambiar semilla: no re-disparar si cambia la identidad de refreshMe.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialSession])
+
+  useEffect(() => {
+    if (role === 'child') startPlayHeartbeat()
+    else stopPlayHeartbeat()
+    return () => stopPlayHeartbeat()
+  }, [role])
 
   const loginAdult = useCallback(
     async (login: string, password: string) => {

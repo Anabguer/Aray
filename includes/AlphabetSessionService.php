@@ -118,6 +118,15 @@ final class AlphabetSessionService
             $saved = $existing->fetch();
         }
 
+        $totalN = max(1, (int) $calc['correctCount'] + (int) $calc['wrongCount']);
+        $correctN = (int) $calc['correctCount'];
+        $perfect = $correctN >= $totalN;
+        $good = ($correctN / $totalN) >= 0.8;
+        $playSeconds = isset($payload['durationSeconds'])
+            ? max(0, (int) $payload['durationSeconds'])
+            : 90;
+        $playSeconds = max(1, $playSeconds);
+
         ActivityService::recordSessionEvent($playerId, [
             'sessionId' => $sessionId,
             'mode' => $serverMode,
@@ -126,17 +135,11 @@ final class AlphabetSessionService
             'xpEarned' => $calc['xpEarned'],
             'coinsEarned' => $calc['coinsEarned'],
             'rewardPoints' => is_array($saved) ? (int) ($saved['energy_granted'] ?? 0) : 0,
+            'playSeconds' => $playSeconds,
         ]);
 
-        $totalN = max(1, (int) $calc['correctCount'] + (int) $calc['wrongCount']);
-        $correctN = (int) $calc['correctCount'];
-        $perfect = $correctN >= $totalN;
-        $good = ($correctN / $totalN) >= 0.8;
-        $playSeconds = isset($payload['durationSeconds'])
-            ? max(0, (int) $payload['durationSeconds'])
-            : 90;
         AchievementService::mergeStatsDelta($playerId, [
-            'playSeconds' => max(1, $playSeconds),
+            'playSeconds' => $playSeconds,
             'sessionsCompleted' => 1,
             'goodSession' => $good,
             'feature' => 'alphabet',

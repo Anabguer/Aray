@@ -33,6 +33,20 @@ final class MadridTime
         return $utc->setTimezone(self::playableTz())->format('Y-m-d');
     }
 
+    /** Inicio del día jugable (Y-m-d Madrid) expresado en UTC para consultas DATETIME. */
+    public static function playableDateStartUtc(string $ymd): string
+    {
+        $local = DateTimeImmutable::createFromFormat(
+            'Y-m-d H:i:s',
+            $ymd . ' 00:00:00',
+            self::playableTz()
+        );
+        if (!$local instanceof DateTimeImmutable) {
+            return $ymd . ' 00:00:00';
+        }
+        return $local->setTimezone(new DateTimeZone('UTC'))->format('Y-m-d H:i:s');
+    }
+
     public static function addDaysUtc(int $days): string
     {
         return self::utcNow()->modify(($days >= 0 ? '+' : '') . $days . ' days')->format('Y-m-d H:i:s');
