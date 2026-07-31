@@ -7,12 +7,14 @@ import { useClockSession } from '@/clock/ClockSessionContext'
 import { Lumo } from '@/lumo/Lumo'
 import { useLumoController } from '@/lumo/useLumoController'
 import { soundEngine } from '@/sound/soundEngine'
+import { useDailyMission } from '@/daily/DailyMissionContext'
 
 const PAIRS = 4
 
 export function ClockMatchScreen() {
   const navigate = useNavigate()
   const { lang, setLastSummary } = useClockSession()
+  const { recordProgress } = useDailyMission()
   const lumo = useLumoController('thinking')
   const seedRef = useRef(Date.now())
 
@@ -53,8 +55,9 @@ export function ClockMatchScreen() {
       correct,
       bestStreak,
     })
+    recordProgress('clocks', correct > 0 ? 2 : 0)
     navigate('/missions/mates/clocks/summary', { replace: true })
-  }, [matched, attempts, correct, bestStreak, lang, navigate, setLastSummary])
+  }, [matched, attempts, correct, bestStreak, lang, navigate, setLastSummary, recordProgress])
 
   function tryMatch(clockId: string, label: string) {
     if (busy) return

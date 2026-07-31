@@ -13,6 +13,7 @@ import { AppShell } from '@/components/AppShell'
 import { Lumo } from '@/lumo/Lumo'
 import { useLumoController } from '@/lumo/useLumoController'
 import { soundEngine } from '@/sound/soundEngine'
+import { useDailyMission } from '@/daily/DailyMissionContext'
 
 const QUEUE_SIZE = 40
 
@@ -35,6 +36,7 @@ export function CalcPlayScreen() {
   const { mode: modeParam } = useParams<{ mode: string }>()
   const navigate = useNavigate()
   const { setLastSummary, setLastMode } = useCalcSession()
+  const { recordProgress } = useDailyMission()
   const lumo = useLumoController('thinking')
   const seedRef = useRef(Date.now())
   const mode: CalcPlayMode = isPlayMode(modeParam) ? modeParam : 'mix'
@@ -71,6 +73,7 @@ export function CalcPlayScreen() {
       bestStreak: bestStreakRef.current,
       durationSec: CALC_DURATION_SEC,
     })
+    recordProgress('calc', Math.min(5, correctRef.current))
     navigate('/missions/mates/calc/summary', { replace: true })
   }
 

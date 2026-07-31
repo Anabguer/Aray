@@ -12,6 +12,7 @@ import { buildMissesQueue, buildTrainQueue } from '@/math/selector'
 import { usePlaySession } from '@/progress/PlayContext'
 import { useProgress } from '@/progress/ProgressContext'
 import { soundEngine } from '@/sound/soundEngine'
+import { useDailyMission } from '@/daily/DailyMissionContext'
 
 export function SessionSummaryScreen() {
   const navigate = useNavigate()
@@ -23,6 +24,7 @@ export function SessionSummaryScreen() {
   } = useProgress()
   const { lastResult, selection, setPendingQueue, setActiveMode, setLastResult, setSelection } =
     usePlaySession()
+  const { recordProgress } = useDailyMission()
   const [crateNote, setCrateNote] = useState<string | null>(null)
 
   useEffect(() => {
@@ -30,10 +32,12 @@ export function SessionSummaryScreen() {
       navigate('/missions/mates/tables/modes', { replace: true })
       return
     }
+    const correct = lastResult.answers.filter((a) => a.correct).length
+    if (correct > 0) recordProgress('tables', correct)
     if (lastResult.personalBest || lastResult.coinsEarned > 0 || lastResult.rewardPointsEarned > 0) {
       soundEngine.play('points-earned')
     }
-  }, [lastResult, navigate])
+  }, [lastResult, navigate, recordProgress])
 
   if (!lastResult) {
     return null

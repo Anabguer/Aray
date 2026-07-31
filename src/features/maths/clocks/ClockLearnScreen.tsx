@@ -66,7 +66,7 @@ const STEPS_CA: LearnStep[] = [
     id: 'un-quart',
     title: '1 trozo → un quart',
     body: '1:15 — Ha pasado 1 trozo del camino hacia las 2. Decimos: un quart de les dues.',
-    tip: '1:15 → un quart de les dues',
+    tip: '',
     demo: { hour: 1, minute: 15 },
     pizzaSlices: 1,
   },
@@ -74,7 +74,7 @@ const STEPS_CA: LearnStep[] = [
     id: 'dos-quarts',
     title: '2 y 3 trozos',
     body: '1:30 = 2 trozos → dos quarts de les dues. 1:45 = 3 trozos → tres quarts de les dues. Siempre hacia la hora que viene.',
-    tip: '1:30 dos quarts · 1:45 tres quarts (de les dues)',
+    tip: '',
     demo: { hour: 1, minute: 30 },
     pizzaSlices: 2,
   },
@@ -82,7 +82,7 @@ const STEPS_CA: LearnStep[] = [
     id: 'arribada',
     title: '4 trozos = ¡llegaste!',
     body: '2:00 — Ya hemos llegado a las 2. Se acabó la pizza: són les dues en punt.',
-    tip: '4 trozos → hora nueva',
+    tip: '',
     demo: { hour: 2, minute: 0 },
     pizzaSlices: 4,
   },
@@ -90,7 +90,7 @@ const STEPS_CA: LearnStep[] = [
     id: 'i-minuts',
     title: 'Si no es exacto',
     body: 'Si pasan minutos después de un trozo, los sumamos: 1:35 = dos quarts i cinc de les dues. 1:25 = un quart i deu de les dues.',
-    tip: 'trozo + 5 o + 10 minutos',
+    tip: '',
     demo: { hour: 1, minute: 35 },
     pizzaSlices: 2,
   },
@@ -279,7 +279,7 @@ export function ClockLearnScreen() {
               <span className="clock-learn__phrase-text">{phrase}</span>
             </p>
           ) : null}
-          <p className="clock-learn__tip">{step.tip}</p>
+          {step.tip ? <p className="clock-learn__tip">{step.tip}</p> : null}
         </div>
 
         {lang === 'ca' ? (

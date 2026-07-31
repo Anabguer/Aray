@@ -7,12 +7,14 @@ import { useClockSession } from '@/clock/ClockSessionContext'
 import { Lumo } from '@/lumo/Lumo'
 import { useLumoController } from '@/lumo/useLumoController'
 import { soundEngine } from '@/sound/soundEngine'
+import { useDailyMission } from '@/daily/DailyMissionContext'
 
 const TRAIN_COUNT = 10
 
 export function ClockTrainScreen() {
   const navigate = useNavigate()
   const { lang, setLastSummary } = useClockSession()
+  const { recordProgress } = useDailyMission()
   const lumo = useLumoController('thinking')
   const seedRef = useRef(Date.now())
 
@@ -48,9 +50,10 @@ export function ClockTrainScreen() {
         correct: correctCount,
         bestStreak,
       })
+      recordProgress('clocks', correctCount > 0 ? 2 : 0)
       navigate('/missions/mates/clocks/summary', { replace: true })
     }
-  }, [question, correctCount, bestStreak, lang, navigate, setLastSummary])
+  }, [question, correctCount, bestStreak, lang, navigate, setLastSummary, recordProgress])
 
   if (!question) return null
 

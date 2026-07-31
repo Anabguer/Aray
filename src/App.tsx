@@ -13,6 +13,9 @@ import { ClockMatchScreen } from '@/features/maths/clocks/ClockMatchScreen'
 import { ClockModeSelectScreen } from '@/features/maths/clocks/ClockModeSelectScreen'
 import { ClockSummaryScreen } from '@/features/maths/clocks/ClockSummaryScreen'
 import { ClockTrainScreen } from '@/features/maths/clocks/ClockTrainScreen'
+import { MoneyModeSelectScreen } from '@/features/maths/money/MoneyModeSelectScreen'
+import { MoneyPlayScreen } from '@/features/maths/money/MoneyPlayScreen'
+import { MoneySummaryScreen } from '@/features/maths/money/MoneySummaryScreen'
 import { LearnScreen } from '@/features/maths/LearnScreen'
 import { MatchScreen } from '@/features/maths/MatchScreen'
 import { MathsHubScreen } from '@/features/maths/MathsHubScreen'
@@ -24,6 +27,9 @@ import { AlphabetModeSelectScreen } from '@/features/languages/AlphabetModeSelec
 import { AlphabetPlayScreen } from '@/features/languages/AlphabetPlayScreen'
 import { AlphabetSummaryScreen } from '@/features/languages/AlphabetSummaryScreen'
 import { LanguagesHubScreen } from '@/features/languages/LanguagesHubScreen'
+import { SpellModeSelectScreen } from '@/features/languages/spelling/SpellModeSelectScreen'
+import { SpellPlayScreen } from '@/features/languages/spelling/SpellPlayScreen'
+import { SpellSummaryScreen } from '@/features/languages/spelling/SpellSummaryScreen'
 import { MissionsScreen } from '@/features/missions/MissionsScreen'
 import { SubjectPreviewScreen } from '@/features/missions/SubjectPreviewScreen'
 import { LumoGallery } from '@/lumo/LumoGallery'
@@ -55,10 +61,16 @@ export default function App() {
         <Route path="/missions/mates/calc" element={<CalcModeSelectScreen />} />
         <Route path="/missions/mates/calc/summary" element={<CalcSummaryScreen />} />
         <Route path="/missions/mates/calc/:mode" element={<CalcPlayScreen />} />
+        <Route path="/missions/mates/money" element={<MoneyModeSelectScreen />} />
+        <Route path="/missions/mates/money/summary" element={<MoneySummaryScreen />} />
+        <Route path="/missions/mates/money/:mode" element={<MoneyPlayScreen />} />
         <Route path="/missions/languages" element={<LanguagesHubScreen />} />
         <Route path="/missions/languages/alphabet" element={<AlphabetModeSelectScreen />} />
         <Route path="/missions/languages/alphabet/summary" element={<AlphabetSummaryScreen />} />
         <Route path="/missions/languages/alphabet/:mode" element={<AlphabetPlayScreen />} />
+        <Route path="/missions/languages/spelling" element={<SpellModeSelectScreen />} />
+        <Route path="/missions/languages/spelling/summary" element={<SpellSummaryScreen />} />
+        <Route path="/missions/languages/spelling/:mode" element={<SpellPlayScreen />} />
         <Route path="/missions/:subjectId" element={<SubjectPreviewScreen />} />
         <Route path="/collection" element={<CollectionScreen />} />
         <Route path="*" element={<Navigate to="/" replace />} />

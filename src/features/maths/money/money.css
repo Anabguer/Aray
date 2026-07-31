@@ -1,0 +1,84 @@
+.money-modes__lead {
+  margin: 0 0 0.85rem;
+  color: var(--text-muted);
+}
+
+.mode-posters--money {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.mode-posters--money .mode-poster__media {
+  aspect-ratio: 4 / 3;
+}
+
+.mode-posters--money .mode-poster__img {
+  object-fit: contain;
+  object-position: center 42%;
+  transform: none;
+  padding: 0.15rem;
+}
+
+@media (min-width: 900px) {
+  .mode-posters--money {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.money-play {
+  max-width: 36rem;
+  margin: 0 auto;
+}
+
+.money-play__hud {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.85rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.money-play__prompt {
+  text-align: center;
+  font-weight: 800;
+  font-size: 1.15rem;
+  margin: 0 0 0.35rem;
+}
+
+.money-play__detail,
+.money-play__built {
+  text-align: center;
+  color: #7dd3fc;
+  font-weight: 700;
+  margin: 0 0 0.9rem;
+}
+
+.money-play__options,
+.money-play__coins {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.55rem;
+}
+
+.money-play__btn,
+.money-play__coin {
+  min-height: 3.1rem;
+  border-radius: 1rem;
+  border: 2px solid rgba(250, 204, 21, 0.35);
+  background: rgba(40, 30, 8, 0.65);
+  color: inherit;
+  font-size: 1.1rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.money-summary {
+  max-width: 28rem;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  align-items: center;
+}

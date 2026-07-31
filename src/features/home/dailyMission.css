@@ -1,0 +1,87 @@
+.daily-mission {
+  margin: 0 0 1rem;
+  padding: 0.95rem 1rem 1.05rem;
+  border-radius: var(--radius-md, 1rem);
+  border: 1px solid rgba(250, 204, 21, 0.28);
+  background: linear-gradient(160deg, rgba(40, 28, 8, 0.72), rgba(12, 28, 48, 0.65));
+}
+
+.daily-mission__head {
+  margin-bottom: 0.55rem;
+}
+
+.daily-mission__title {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.daily-mission__lead {
+  margin: 0.25rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+}
+
+.daily-mission__bar {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.35rem;
+  margin: 0.55rem 0 0.35rem;
+}
+
+.daily-mission__seg {
+  height: 0.55rem;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.25);
+}
+
+.daily-mission__seg.is-on {
+  background: #fbbf24;
+}
+
+.daily-mission__count {
+  margin: 0 0 0.55rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.daily-mission__list {
+  list-style: none;
+  margin: 0 0 0.65rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.daily-mission__item {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.daily-mission__item.is-done .daily-mission__link {
+  color: #86efac;
+}
+
+.daily-mission__check {
+  width: 1.1rem;
+  text-align: center;
+  font-weight: 800;
+}
+
+.daily-mission__link {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  color: inherit;
+  text-decoration: none;
+  font-weight: 650;
+  font-size: 0.95rem;
+}
+
+.daily-mission__frac {
+  color: var(--text-muted);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}

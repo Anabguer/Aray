@@ -6,6 +6,9 @@ import { AuthProvider } from '@/auth/AuthContext'
 import { AlphabetSessionProvider } from '@/alphabet/AlphabetSessionContext'
 import { CalcSessionProvider } from '@/calc/CalcSessionContext'
 import { ClockSessionProvider } from '@/clock/ClockSessionContext'
+import { DailyMissionProvider } from '@/daily/DailyMissionContext'
+import { MoneySessionProvider } from '@/money/MoneySessionContext'
+import { SpellSessionProvider } from '@/spelling/SpellSessionContext'
 import { PlayProvider } from '@/progress/PlayContext'
 import { ProgressProvider } from '@/progress/ProgressContext'
 import './index.css'
@@ -24,13 +27,19 @@ createRoot(document.getElementById('root')!).render(
       <AuthProvider>
         <ProgressProvider>
           <PlayProvider>
-            <ClockSessionProvider>
-              <AlphabetSessionProvider>
-                <CalcSessionProvider>
-                  <App />
-                </CalcSessionProvider>
-              </AlphabetSessionProvider>
-            </ClockSessionProvider>
+            <DailyMissionProvider>
+              <ClockSessionProvider>
+                <AlphabetSessionProvider>
+                  <CalcSessionProvider>
+                    <SpellSessionProvider>
+                      <MoneySessionProvider>
+                        <App />
+                      </MoneySessionProvider>
+                    </SpellSessionProvider>
+                  </CalcSessionProvider>
+                </AlphabetSessionProvider>
+              </ClockSessionProvider>
+            </DailyMissionProvider>
           </PlayProvider>
         </ProgressProvider>
       </AuthProvider>

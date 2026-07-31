@@ -72,6 +72,19 @@ export function MathsHubScreen() {
       }
     }
 
+    if (block.id === 'problems') {
+      return {
+        id: 'money-euros',
+        title: 'Dinero',
+        description: 'Euros, cambio y monedas',
+        status: 'recommended',
+        mark: 'calc',
+        mapSlot,
+        href: '/missions/mates/money',
+        ctaLabel: 'JUGAR DINERO',
+      }
+    }
+
     return {
       id: block.id,
       title: block.title,

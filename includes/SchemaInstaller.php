@@ -185,14 +185,14 @@ final class SchemaInstaller
                 "INSERT INTO {$goals}
                  (player_id, goal_code, reward_label, target_points, daily_cap, points_total,
                   goal_status, current_cycle_number, created_at, updated_at)
-                 VALUES (:p, 'robux-500', '500 Robux', 500, 10, 0, 'active', 1, :c, :u)"
+                 VALUES (:p, 'robux-500', '500 Robux', 5000, 100, 0, 'active', 1, :c, :u)"
             )->execute([':p' => $playerId, ':c' => $now, ':u' => $now]);
 
             $cycles = Database::table('reward_cycles');
             $pdo->prepare(
                 "INSERT INTO {$cycles}
                  (player_id, cycle_number, target_points, points_toward, status, created_at, updated_at)
-                 VALUES (:p, 1, 500, 0, 'active', :c, :u)"
+                 VALUES (:p, 1, 5000, 0, 'active', :c, :u)"
             )->execute([':p' => $playerId, ':c' => $now, ':u' => $now]);
 
             $pdo->prepare(

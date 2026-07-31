@@ -92,6 +92,8 @@ export function DailyMissionProvider({ children }: { children: ReactNode }) {
   }, [state])
 
   const recordProgress = useCallback((key: DailySkillKey, amount = 1) => {
+    const add = Math.max(0, Math.floor(amount))
+    if (add <= 0) return
     setState((prev) => {
       const date = localDateString()
       const base =
@@ -104,7 +106,7 @@ export function DailyMissionProvider({ children }: { children: ReactNode }) {
         ...base,
         progress: {
           ...base.progress,
-          [key]: Math.min(cap, current + Math.max(1, amount)),
+          [key]: Math.min(cap, current + add),
         },
       }
     })

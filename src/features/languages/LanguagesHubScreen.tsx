@@ -46,6 +46,19 @@ export function LanguagesHubScreen() {
       }
     }
 
+    if (block.id === 'spelling' && block.status === 'active') {
+      return {
+        id: block.id,
+        title: block.title,
+        description: short,
+        status: 'recommended',
+        mark,
+        mapSlot,
+        href: '/missions/languages/spelling',
+        ctaLabel: 'JUGAR ORTOGRAFÍA',
+      }
+    }
+
     return {
       id: block.id,
       title: block.title,

@@ -11,6 +11,7 @@ import { rewardGoalConfig } from '@/config/rewardGoal'
 import { buildLobbyMissions, type LobbyMissionCard } from '@/curriculum'
 import { zoneLinks } from '@/data/demo'
 import { launchLobbyMission } from '@/features/home/launchMission'
+import { DailyMissionCard } from '@/features/home/DailyMissionCard'
 import { Lumo } from '@/lumo/Lumo'
 import { usePlaySession } from '@/progress/PlayContext'
 import { useProgress } from '@/progress/ProgressContext'
@@ -48,7 +49,7 @@ export function HomeScreen() {
   const lumoState =
     reward.pendingCycleNumbers.length > 0 || reward.goalStatus === 'completed'
       ? 'celebration'
-      : reward.dailyPoints >= 10
+      : reward.dailyPoints >= rewardGoalConfig.dailyCap
         ? 'streak'
         : 'idle'
 
@@ -101,6 +102,8 @@ export function HomeScreen() {
             }}
           />
         ) : null}
+
+        <DailyMissionCard />
 
         <div className="lobby__main">
           <article className="lobby-mission" aria-labelledby="mission-today-title">
