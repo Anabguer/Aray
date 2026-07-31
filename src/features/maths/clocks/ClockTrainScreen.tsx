@@ -168,7 +168,7 @@ export function ClockTrainScreen() {
         lumoIntensity={lumo.intensity}
         prompt={lang === 'ca' ? 'Quina hora és?' : '¿Qué hora es?'}
         detail={feedback ?? undefined}
-        extra={<AnalogClock time={question.time} size={168} />}
+        extra={<AnalogClock time={question.time} size={220} />}
         fx={answerFx.fx}
         lumoBoost={answerFx.lumoBoost}
         hit={hitFlash}

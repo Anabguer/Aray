@@ -11,6 +11,7 @@ export function StageSelect({
   heroes,
   roster,
   divider = 'Retos',
+  heroesCols = 2,
   rosterCols,
   beforeBoard,
   ariaLabel = 'Selección de misión',
@@ -21,10 +22,14 @@ export function StageSelect({
   heroes: ReactNode
   roster?: ReactNode
   divider?: string
+  heroesCols?: 2 | 3
   rosterCols?: 1 | 2 | 3 | 4
   beforeBoard?: ReactNode
   ariaLabel?: string
 }) {
+  const heroesClass =
+    heroesCols === 3 ? 'stage-select__heroes stage-select__heroes--3' : 'stage-select__heroes'
+
   const rosterClass =
     rosterCols === 1
       ? 'stage-select__roster stage-select__roster--1'
@@ -45,7 +50,7 @@ export function StageSelect({
       {beforeBoard}
 
       <div className="stage-select__board">
-        <div className="stage-select__heroes" role="list">
+        <div className={heroesClass} role="list">
           {heroes}
         </div>
 

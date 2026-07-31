@@ -3371,6 +3371,17 @@ a {
   background: linear-gradient(145deg, rgba(251, 146, 146, 0.22), rgba(16, 40, 74, 0.95));
 }
 
+.learn-lab .answer-btn.is-picked {
+  opacity: 0.45;
+  filter: grayscale(0.25);
+  transform: scale(0.98);
+}
+
+.side-run-options--compare {
+  align-items: stretch;
+}
+
+
 .learn-lab__nav {
   display: flex;
   align-items: center;
@@ -9109,18 +9120,35 @@ a {
 
 /* ---- Modo Horas (reloj) ---- */
 .clock-lang {
-  max-width: 36rem;
-  margin: 0 auto;
-  padding: 0.5rem 0 1.5rem;
+  width: min(100%, 48rem);
+  margin: 0 auto 1rem;
+  padding: 0.35rem 0 1.25rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.clock-lang__head {
+  text-align: center;
+}
+
+.clock-lang__kicker {
+  margin: 0;
+  color: color-mix(in srgb, var(--cyan) 70%, #94a3b8);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
 }
 
 .clock-lang__title {
-  margin: 0 0 0.4rem;
-  font-size: clamp(1.35rem, 4vw, 1.75rem);
+  margin: 0.25rem 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 3.8vw, 1.75rem);
+  letter-spacing: 0.03em;
 }
 
 .clock-lang__lead {
-  margin: 0 0 1.25rem;
+  margin: 0.35rem 0 0;
   color: var(--text-muted);
   line-height: 1.4;
 }
@@ -9137,31 +9165,36 @@ a {
 }
 
 .clock-lang__card {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.35rem;
-  padding: 1.1rem 1.15rem;
-  border-radius: var(--radius-md, 1rem);
-  border: 1px solid rgba(56, 189, 248, 0.28);
-  background: linear-gradient(160deg, rgba(8, 47, 73, 0.85), rgba(12, 74, 110, 0.55));
+  appearance: none;
+  display: grid;
+  grid-template-rows: minmax(11rem, 14rem) auto;
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border-radius: 1.15rem;
+  border: 2.5px solid rgba(56, 189, 248, 0.35);
+  background: linear-gradient(165deg, rgba(10, 24, 48, 0.96), rgba(5, 12, 28, 0.98));
   color: inherit;
   text-align: left;
   cursor: pointer;
-  transition: transform 160ms ease, border-color 160ms ease;
   overflow: hidden;
+  box-shadow:
+    0 12px 0 rgba(0, 0, 0, 0.28),
+    0 16px 32px rgba(0, 8, 24, 0.45);
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease;
 }
 
 .clock-lang__card--art {
-  padding: 0;
   position: relative;
-  min-height: 11.5rem;
 }
 
 .clock-lang__media {
-  position: absolute;
-  inset: 0;
-  display: block;
+  position: relative;
+  min-height: 11rem;
+  background: #050d18;
 }
 
 .clock-lang__img {
@@ -9170,41 +9203,35 @@ a {
   object-fit: cover;
   object-position: center;
   display: block;
-  transform: scale(1.02);
   transition: transform 220ms ease;
 }
 
 .clock-lang__fade {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(2, 12, 27, 0.15) 0%,
-    rgba(2, 12, 27, 0.35) 42%,
-    rgba(2, 12, 27, 0.92) 100%
-  );
+  inset: auto 0 0;
+  height: 48%;
+  background: linear-gradient(180deg, transparent, rgba(2, 12, 27, 0.92));
   pointer-events: none;
 }
 
 .clock-lang__body {
   position: relative;
   z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.2rem;
-  padding: 4.6rem 1rem 0.95rem;
-  width: 100%;
-  box-sizing: border-box;
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.85rem 1rem 1rem;
 }
 
 .clock-lang__card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(125, 211, 252, 0.55);
+  transform: translateY(-5px);
+  border-color: rgba(125, 211, 252, 0.6);
+  box-shadow:
+    0 16px 0 rgba(0, 0, 0, 0.24),
+    0 22px 36px rgba(0, 8, 24, 0.5);
 }
 
 .clock-lang__card--art:hover .clock-lang__img {
-  transform: scale(1.06);
+  transform: scale(1.05);
 }
 
 .clock-lang__card.is-active {
@@ -9213,22 +9240,39 @@ a {
 }
 
 .clock-lang__flag {
-  font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 0.06em;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
   color: #7dd3fc;
 }
 
 .clock-lang__name {
-  font-size: 1.2rem;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
   font-weight: 800;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
 }
 
 .clock-lang__sample {
-  font-size: 0.84rem;
+  font-size: 0.88rem;
   color: #cbd5e1;
-  line-height: 1.3;
+  line-height: 1.35;
+}
+
+.clock-lang__cta {
+  margin-top: 0.4rem;
+  display: inline-flex;
+  width: fit-content;
+  min-height: 1.85rem;
+  align-items: center;
+  padding: 0.28rem 0.8rem;
+  border-radius: 999px;
+  border: 1.5px solid rgba(56, 189, 248, 0.55);
+  background: linear-gradient(160deg, #67e8f9, #22d3ee);
+  color: #042033;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
 }
 
 .clock-modes__lang {
@@ -9270,18 +9314,43 @@ a {
 }
 
 .clock-learn {
-  max-width: 40rem;
+  max-width: 44rem;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.1rem;
   padding-bottom: 1.5rem;
 }
 
+.clock-learn__head {
+  text-align: center;
+}
+
+.clock-learn__kicker {
+  margin: 0;
+  color: color-mix(in srgb, var(--cyan) 70%, #94a3b8);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.clock-learn__title {
+  margin: 0.3rem 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 4vw, 1.85rem);
+}
+
+.clock-learn__body {
+  margin: 0.55rem auto 0;
+  max-width: 36rem;
+  color: rgba(186, 230, 253, 0.92);
+  font-size: 1.02rem;
+  line-height: 1.45;
+}
+
 .clock-learn__lumo {
-  display: flex;
-  gap: 0.75rem;
-  align-items: flex-start;
+  display: none;
 }
 
 .clock-learn__bubble {
@@ -9382,11 +9451,16 @@ a {
 }
 
 .clock-learn__stage {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.65rem;
-  padding: 1rem 0.5rem;
+  display: grid;
+  gap: 0.85rem;
+  justify-items: center;
+  padding: 1rem 0.75rem 1.15rem;
+  border-radius: 1.25rem;
+  border: 2px solid rgba(56, 189, 248, 0.28);
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 20%, rgba(34, 211, 238, 0.12), transparent 65%),
+    linear-gradient(165deg, rgba(10, 24, 48, 0.92), rgba(5, 12, 28, 0.96));
+  box-shadow: 0 12px 28px rgba(0, 8, 24, 0.35);
 }
 
 .clock-learn__phrase {
@@ -9417,7 +9491,7 @@ a {
 }
 
 .clock-learn__phrase-text {
-  font-size: clamp(1.28rem, 4.8vw, 1.6rem);
+  font-size: clamp(1.4rem, 5vw, 1.85rem);
   font-weight: 850;
   letter-spacing: 0.01em;
   line-height: 1.25;
@@ -9503,15 +9577,53 @@ a {
   padding-bottom: 1.5rem;
 }
 
-.clock-train__hud,
 .clock-match__hud {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 0.75rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.85rem;
   color: var(--text-muted);
   font-size: 0.92rem;
+  text-align: center;
+}
+
+.clock-match__progress {
+  margin: 0;
+}
+
+.clock-match__kicker {
+  display: block;
+  margin-bottom: 0.2rem;
+  color: color-mix(in srgb, var(--cyan) 70%, #94a3b8);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.clock-match__hint {
+  color: var(--text-muted);
+}
+
+.clock-match__clocks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.clock-match__clock {
+  display: grid;
+  place-items: center;
+  padding: 0.85rem 0.65rem;
+  border-radius: 1.15rem;
+  border: 2.5px solid rgba(56, 189, 248, 0.28);
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 20%, rgba(34, 211, 238, 0.1), transparent 65%),
+    linear-gradient(165deg, rgba(10, 24, 48, 0.92), rgba(5, 12, 28, 0.96));
+  cursor: pointer;
+  box-shadow: 0 10px 0 rgba(0, 0, 0, 0.22);
 }
 
 .clock-train__stage {
@@ -9567,25 +9679,6 @@ a {
   margin: 0.85rem 0 0;
   text-align: center;
   font-weight: 700;
-}
-
-.clock-match__hint {
-  color: var(--text-muted);
-}
-
-.clock-match__clocks {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.65rem;
-  margin-bottom: 1rem;
-}
-
-.clock-match__clock {
-  padding: 0.55rem;
-  border-radius: 1rem;
-  border: 2px solid transparent;
-  background: rgba(8, 28, 52, 0.55);
-  cursor: pointer;
 }
 
 .clock-match__clock.is-sel {

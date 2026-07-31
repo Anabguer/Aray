@@ -4,21 +4,23 @@ import { StageSelect, StageSlot } from '@/components/stage/StageSelect'
 import { useClockSession } from '@/clock/ClockSessionContext'
 import type { ClockLang } from '@/clock/types'
 
-const HEROES: Array<{
+type ClockPoster = {
   to: string
   art: ModeArtId
   title: string
   text: string
   className: string
   tag: string
-}> = [
+}
+
+const HEROES: ClockPoster[] = [
   {
     to: '/missions/mates/clocks/learn',
     art: 'clock-learn',
     title: 'APRENDE',
-    text: 'Elige castellano o catalán y Lumo te explica',
+    text: 'Castellano o catalán, paso a paso',
     className: 'mode-poster--learn',
-    tag: 'DESTACADO',
+    tag: 'GUÍA',
   },
   {
     to: '/missions/mates/clocks/train',
@@ -27,6 +29,17 @@ const HEROES: Array<{
     text: 'Mira el reloj y elige la frase',
     className: 'mode-poster--train',
     tag: 'RÁPIDO',
+  },
+]
+
+const ROSTER: ClockPoster[] = [
+  {
+    to: '/missions/mates/clocks/match',
+    art: 'clock-match',
+    title: 'EMPAREJA',
+    text: 'Relaciona relojes y horas',
+    className: 'mode-poster--match',
+    tag: '01',
   },
 ]
 
@@ -40,9 +53,10 @@ export function ClockModeSelectScreen() {
   return (
     <AppShell title="HORAS" shortTitle="Horas" showBack backTo="/missions/mates">
       <StageSelect
+        note="Lee el reloj · castellano o catalán"
         beforeBoard={
           <p className="clock-modes__lang">
-            Para Entrena y Empareja:{' '}
+            Idioma para Entrena y Empareja:{' '}
             <button
               type="button"
               className={`clock-modes__lang-btn${lang === 'es' ? ' is-on' : ''}`}
@@ -71,17 +85,19 @@ export function ClockModeSelectScreen() {
             to={m.to}
           />
         ))}
-        roster={
+        roster={ROSTER.map((m) => (
           <StageSlot
-            art="clock-match"
-            title="EMPAREJA"
-            text="Relaciona relojes y horas"
-            className="mode-poster--match"
-            tag="01"
-            to="/missions/mates/clocks/match"
+            key={m.to}
+            art={m.art}
+            title={m.title}
+            text={m.text}
+            className={m.className}
+            tag={m.tag}
+            to={m.to}
           />
-        }
+        ))}
         rosterCols={1}
+        divider="Más modos"
       />
     </AppShell>
   )

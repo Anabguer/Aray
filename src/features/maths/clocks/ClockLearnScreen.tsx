@@ -6,7 +6,6 @@ import { AppShell } from '@/components/AppShell'
 import { formatClockTime } from '@/clock/format'
 import { useClockSession } from '@/clock/ClockSessionContext'
 import type { ClockTime } from '@/clock/types'
-import { Lumo } from '@/lumo/Lumo'
 
 interface LearnStep {
   id: string
@@ -191,12 +190,12 @@ export function ClockLearnScreen() {
     return (
       <AppShell title="APRENDE" shortTitle="Aprende" showBack backTo="/missions/mates/clocks">
         <section className="clock-lang" aria-labelledby="clock-lang-title">
-          <div className="clock-learn__lumo" style={{ marginBottom: '1rem' }}>
-            <Lumo state="thinking" size="md" />
-            <p className="clock-learn__bubble" id="clock-lang-title">
-              ¿Qué quieres que te explique: las horas en castellano o en catalán?
-            </p>
-          </div>
+          <header className="clock-lang__head">
+            <p className="clock-lang__kicker">Selecciona idioma</p>
+            <h2 className="clock-lang__title" id="clock-lang-title">
+              ¿Cómo quieres aprender las horas?
+            </h2>
+          </header>
           <div className="clock-lang__grid">
             <button type="button" className="clock-lang__card clock-lang__card--art" onClick={() => startWith('es')}>
               <span className="clock-lang__media" aria-hidden="true">
@@ -215,6 +214,7 @@ export function ClockLearnScreen() {
                 <span className="clock-lang__flag">ES</span>
                 <span className="clock-lang__name">Castellano</span>
                 <span className="clock-lang__sample">la una y cuarto · y media · menos cuarto</span>
+                <span className="clock-lang__cta">EMPEZAR</span>
               </span>
             </button>
             <button type="button" className="clock-lang__card clock-lang__card--art" onClick={() => startWith('ca')}>
@@ -234,6 +234,7 @@ export function ClockLearnScreen() {
                 <span className="clock-lang__flag">CA</span>
                 <span className="clock-lang__name">Català</span>
                 <span className="clock-lang__sample">la pizza de quarts · un quart de les dues</span>
+                <span className="clock-lang__cta">COMENÇAR</span>
               </span>
             </button>
           </div>
@@ -245,19 +246,20 @@ export function ClockLearnScreen() {
   return (
     <AppShell title="APRENDE" shortTitle="Aprende" showBack backTo="/missions/mates/clocks">
       <section className="clock-learn" aria-labelledby="clock-learn-title">
-        <div className="clock-learn__lumo">
-          <Lumo state="thinking" size="md" />
-          <div className="clock-learn__bubble-wrap">
-            <p className="clock-learn__bubble" id="clock-learn-title">
-              {step.body}
-            </p>
-          </div>
-        </div>
+        <header className="clock-learn__head">
+          <p className="clock-learn__kicker">
+            {lang === 'ca' ? 'Català' : 'Castellano'} · {index + 1}/{steps.length}
+          </p>
+          <h2 className="clock-learn__title" id="clock-learn-title">
+            {step.title}
+          </h2>
+          <p className="clock-learn__body">{step.body}</p>
+        </header>
 
         <div className="clock-learn__stage">
           {pizzaOnly && showPizza ? (
             <div className="clock-learn__visuals clock-learn__visuals--pizza-first">
-              <HourPizza slices={step.pizzaSlices!} size={200} showNumbers />
+              <HourPizza slices={step.pizzaSlices!} size={300} showNumbers />
             </div>
           ) : (
             <div
@@ -266,11 +268,11 @@ export function ClockLearnScreen() {
               {showClock && step.demo ? (
                 <AnalogClock
                   time={step.demo}
-                  size={showPizza ? 200 : 240}
+                  size={showPizza ? 280 : 360}
                   label={`Ejemplo: ${phrase}`}
                 />
               ) : null}
-              {showPizza ? <HourPizza slices={step.pizzaSlices!} size={120} /> : null}
+              {showPizza ? <HourPizza slices={step.pizzaSlices!} size={220} /> : null}
             </div>
           )}
           {phrase ? (

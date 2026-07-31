@@ -4,7 +4,6 @@ import { AnalogClock } from '@/components/AnalogClock'
 import { AppShell } from '@/components/AppShell'
 import { buildMatchPairs, shuffleLabels } from '@/clock/generator'
 import { useClockSession } from '@/clock/ClockSessionContext'
-import { Lumo } from '@/lumo/Lumo'
 import { useLumoController } from '@/lumo/useLumoController'
 import { soundEngine } from '@/sound/soundEngine'
 import { useDailyMission } from '@/daily/DailyMissionContext'
@@ -158,16 +157,15 @@ export function ClockMatchScreen() {
     <AppShell title="EMPAREJA" shortTitle="Empareja" showBack backTo="/missions/mates/clocks">
       <section className="clock-match" aria-label="Empareja horas">
         <header className="clock-match__hud">
-          <Lumo state={lumo.state} intensity={lumo.intensity} size="sm" />
-          <p>
-            {matched.size} / {PAIRS}
+          <p className="clock-match__progress">
+            <span className="clock-match__kicker">Empareja</span>
+            <strong>
+              {matched.size} / {PAIRS}
+            </strong>
             {wrongFlash ? (
               <span className="clock-match__hint"> · Prueba otra vez</span>
             ) : (
-              <span className="clock-match__hint">
-                {' '}
-                · Elige un reloj y su hora
-              </span>
+              <span className="clock-match__hint"> · Elige un reloj y su hora</span>
             )}
           </p>
         </header>
@@ -185,7 +183,7 @@ export function ClockMatchScreen() {
                 onClick={() => onClock(p.id)}
                 aria-label={`Reloj ${p.time.hour}:${String(p.time.minute).padStart(2, '0')}`}
               >
-                <AnalogClock time={p.time} size={128} showMarks />
+                <AnalogClock time={p.time} size={168} showMarks />
               </button>
             )
           })}
