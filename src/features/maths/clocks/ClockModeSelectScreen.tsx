@@ -71,21 +71,21 @@ export function ClockModeSelectScreen() {
       </p>
       <div className="mode-posters mode-posters--clocks" role="list">
         <ModePoster
-          art="aprende"
+          art="clock-learn"
           title="APRENDE"
           text="Elige castellano o catalán y Lumo te explica"
           className="mode-poster--learn"
           to="/missions/mates/clocks/learn"
         />
         <ModePoster
-          art="entrena"
+          art="clock-train"
           title="ENTRENA"
           text="Mira el reloj y elige la frase"
           className="mode-poster--train"
           to="/missions/mates/clocks/train"
         />
         <ModePoster
-          art="empareja"
+          art="clock-match"
           title="EMPAREJA"
           text="Relaciona relojes y horas"
           className="mode-poster--match"

@@ -14,6 +14,9 @@ import calcNear10 from './calc-near10.png'
 import calcOrder from './calc-order.png'
 import calcSub from './calc-sub.png'
 import calcTruefalse from './calc-truefalse.png'
+import clockLearn from './clock-learn.webp'
+import clockMatch from './clock-match.webp'
+import clockTrain from './clock-train.webp'
 import empareja from './empareja.png'
 import entrena from './entrena.png'
 import misFallos from './mis-fallos.png'
@@ -49,6 +52,9 @@ export type ModeArtId =
   | 'calc-compare'
   | 'calc-order'
   | 'calc-truefalse'
+  | 'clock-learn'
+  | 'clock-train'
+  | 'clock-match'
   | 'spell-missing'
   | 'spell-correct'
   | 'spell-picture'
@@ -80,6 +86,9 @@ export const modeArt: Record<ModeArtId, string> = {
   'calc-compare': calcCompare,
   'calc-order': calcOrder,
   'calc-truefalse': calcTruefalse,
+  'clock-learn': clockLearn,
+  'clock-train': clockTrain,
+  'clock-match': clockMatch,
   'spell-missing': spellMissing,
   'spell-correct': spellCorrect,
   'spell-picture': spellPicture,
