@@ -8,6 +8,9 @@ import { Lumo } from '@/lumo/Lumo'
 import { useLumoController } from '@/lumo/useLumoController'
 import { soundEngine } from '@/sound/soundEngine'
 import { useDailyMission } from '@/daily/DailyMissionContext'
+import { sideActivityEnergy } from '@/config/rewardGoal'
+import { useProgress } from '@/progress/ProgressContext'
+import { newId } from '@/progress/repository'
 
 const PAIRS = 4
 
@@ -15,8 +18,10 @@ export function ClockMatchScreen() {
   const navigate = useNavigate()
   const { lang, setLastSummary } = useClockSession()
   const { recordProgress } = useDailyMission()
+  const { grantActivityEnergy } = useProgress()
   const lumo = useLumoController('thinking')
   const seedRef = useRef(Date.now())
+  const finishedRef = useRef(false)
 
   const pairs = useMemo(
     () => buildMatchPairs(lang, PAIRS, seedRef.current),
@@ -47,7 +52,8 @@ export function ClockMatchScreen() {
   }, [])
 
   useEffect(() => {
-    if (matched.size < PAIRS) return
+    if (matched.size < PAIRS || finishedRef.current) return
+    finishedRef.current = true
     setLastSummary({
       mode: 'match',
       lang,
@@ -56,8 +62,27 @@ export function ClockMatchScreen() {
       bestStreak,
     })
     recordProgress('clocks', correct > 0 ? 2 : 0)
+    if (correct > 0) {
+      grantActivityEnergy({
+        sessionId: newId('clock'),
+        requestedPoints: sideActivityEnergy.clocks,
+        mode: 'clocks-match',
+        correct,
+        wrong: Math.max(0, attempts - correct),
+      })
+    }
     navigate('/missions/mates/clocks/summary', { replace: true })
-  }, [matched, attempts, correct, bestStreak, lang, navigate, setLastSummary, recordProgress])
+  }, [
+    matched,
+    attempts,
+    correct,
+    bestStreak,
+    lang,
+    navigate,
+    setLastSummary,
+    recordProgress,
+    grantActivityEnergy,
+  ])
 
   function tryMatch(clockId: string, label: string) {
     if (busy) return

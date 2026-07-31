@@ -13,7 +13,7 @@ final class AlphabetSessionService
     public const STREAK_BONUS_EVERY = 5;
     public const STREAK_BONUS_XP = 10;
     public const COINS_PER_ROUND = 5;
-    public const ENERGY_PER_ROUND = 3;
+    public const ENERGY_PER_ROUND = 30; // escala ×10 (alineado con alphabetRoundConfig)
     public const PASS_SCORE = 8; // /10
     public const TARGET_SIZE = 10;
 

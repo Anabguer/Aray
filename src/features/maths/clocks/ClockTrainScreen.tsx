@@ -8,6 +8,9 @@ import { Lumo } from '@/lumo/Lumo'
 import { useLumoController } from '@/lumo/useLumoController'
 import { soundEngine } from '@/sound/soundEngine'
 import { useDailyMission } from '@/daily/DailyMissionContext'
+import { sideActivityEnergy } from '@/config/rewardGoal'
+import { useProgress } from '@/progress/ProgressContext'
+import { newId } from '@/progress/repository'
 
 const TRAIN_COUNT = 10
 
@@ -15,8 +18,10 @@ export function ClockTrainScreen() {
   const navigate = useNavigate()
   const { lang, setLastSummary } = useClockSession()
   const { recordProgress } = useDailyMission()
+  const { grantActivityEnergy } = useProgress()
   const lumo = useLumoController('thinking')
   const seedRef = useRef(Date.now())
+  const finishedRef = useRef(false)
 
   const queue = useMemo(
     () => buildTrainQueue(lang, TRAIN_COUNT, seedRef.current),
@@ -42,18 +47,36 @@ export function ClockTrainScreen() {
   }, [])
 
   useEffect(() => {
-    if (!question) {
-      setLastSummary({
-        mode: 'train',
-        lang,
-        total: TRAIN_COUNT,
+    if (question || finishedRef.current) return
+    finishedRef.current = true
+    setLastSummary({
+      mode: 'train',
+      lang,
+      total: TRAIN_COUNT,
+      correct: correctCount,
+      bestStreak,
+    })
+    recordProgress('clocks', correctCount > 0 ? 2 : 0)
+    if (correctCount > 0) {
+      grantActivityEnergy({
+        sessionId: newId('clock'),
+        requestedPoints: sideActivityEnergy.clocks,
+        mode: 'clocks-train',
         correct: correctCount,
-        bestStreak,
+        wrong: Math.max(0, TRAIN_COUNT - correctCount),
       })
-      recordProgress('clocks', correctCount > 0 ? 2 : 0)
-      navigate('/missions/mates/clocks/summary', { replace: true })
     }
-  }, [question, correctCount, bestStreak, lang, navigate, setLastSummary, recordProgress])
+    navigate('/missions/mates/clocks/summary', { replace: true })
+  }, [
+    question,
+    correctCount,
+    bestStreak,
+    lang,
+    navigate,
+    setLastSummary,
+    recordProgress,
+    grantActivityEnergy,
+  ])
 
   if (!question) return null
 

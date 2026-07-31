@@ -16,6 +16,9 @@ import { Lumo } from '@/lumo/Lumo'
 import { useLumoController } from '@/lumo/useLumoController'
 import { soundEngine } from '@/sound/soundEngine'
 import { useDailyMission } from '@/daily/DailyMissionContext'
+import { sideActivityEnergy } from '@/config/rewardGoal'
+import { useProgress } from '@/progress/ProgressContext'
+import { newId } from '@/progress/repository'
 import './money.css'
 
 function isMode(v: string | undefined): v is MoneyPlayMode {
@@ -27,6 +30,7 @@ export function MoneyPlayScreen() {
   const navigate = useNavigate()
   const { setLastSummary, setLastMode } = useMoneySession()
   const { recordProgress } = useDailyMission()
+  const { grantActivityEnergy } = useProgress()
   const lumo = useLumoController('thinking')
   const seedRef = useRef(Date.now())
   const mode: MoneyPlayMode = isMode(modeParam) ? modeParam : 'mix'
@@ -73,9 +77,18 @@ export function MoneyPlayScreen() {
       correct: correctRef.current,
       bestStreak: bestRef.current,
     })
-    if (correctRef.current > 0) recordProgress('money', 1)
+    if (correctRef.current > 0) {
+      recordProgress('money', 1)
+      grantActivityEnergy({
+        sessionId: newId('money'),
+        requestedPoints: sideActivityEnergy.money,
+        mode: `money-${mode}`.slice(0, 16),
+        correct: correctRef.current,
+        wrong: Math.max(0, MONEY_ROUND_SIZE - correctRef.current),
+      })
+    }
     navigate('/missions/mates/money/summary', { replace: true })
-  }, [question, mode, navigate, setLastSummary, recordProgress])
+  }, [question, mode, navigate, setLastSummary, recordProgress, grantActivityEnergy])
 
   if (!isMode(modeParam) || !question) return null
 

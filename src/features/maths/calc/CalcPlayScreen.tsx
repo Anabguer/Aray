@@ -13,7 +13,10 @@ import { AppShell } from '@/components/AppShell'
 import { Lumo } from '@/lumo/Lumo'
 import { useLumoController } from '@/lumo/useLumoController'
 import { soundEngine } from '@/sound/soundEngine'
+import { sideActivityEnergy } from '@/config/rewardGoal'
 import { useDailyMission } from '@/daily/DailyMissionContext'
+import { useProgress } from '@/progress/ProgressContext'
+import { newId } from '@/progress/repository'
 
 const QUEUE_SIZE = 40
 
@@ -37,6 +40,7 @@ export function CalcPlayScreen() {
   const navigate = useNavigate()
   const { setLastSummary, setLastMode } = useCalcSession()
   const { recordProgress } = useDailyMission()
+  const { grantActivityEnergy } = useProgress()
   const lumo = useLumoController('thinking')
   const seedRef = useRef(Date.now())
   const mode: CalcPlayMode = isPlayMode(modeParam) ? modeParam : 'mix'
@@ -74,6 +78,15 @@ export function CalcPlayScreen() {
       durationSec: CALC_DURATION_SEC,
     })
     recordProgress('calc', Math.min(5, correctRef.current))
+    if (correctRef.current > 0) {
+      grantActivityEnergy({
+        sessionId: newId('calc'),
+        requestedPoints: sideActivityEnergy.calc,
+        mode: `calc-${mode}`.slice(0, 16),
+        correct: correctRef.current,
+        wrong: Math.max(0, attemptsRef.current - correctRef.current),
+      })
+    }
     navigate('/missions/mates/calc/summary', { replace: true })
   }
 

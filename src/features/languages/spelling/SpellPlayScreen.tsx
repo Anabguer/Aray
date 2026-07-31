@@ -12,6 +12,9 @@ import { Lumo } from '@/lumo/Lumo'
 import { useLumoController } from '@/lumo/useLumoController'
 import { soundEngine } from '@/sound/soundEngine'
 import { useDailyMission } from '@/daily/DailyMissionContext'
+import { sideActivityEnergy } from '@/config/rewardGoal'
+import { useProgress } from '@/progress/ProgressContext'
+import { newId } from '@/progress/repository'
 import './spelling.css'
 
 function isMode(v: string | undefined): v is SpellPlayMode {
@@ -30,6 +33,7 @@ export function SpellPlayScreen() {
   const navigate = useNavigate()
   const { setLastSummary, setLastMode } = useSpellSession()
   const { recordProgress } = useDailyMission()
+  const { grantActivityEnergy } = useProgress()
   const lumo = useLumoController('thinking')
   const seedRef = useRef(Date.now())
   const mode: SpellPlayMode = isMode(modeParam) ? modeParam : 'mix'
@@ -70,8 +74,17 @@ export function SpellPlayScreen() {
       bestStreak: bestRef.current,
     })
     recordProgress('spelling', correctRef.current)
+    if (correctRef.current > 0) {
+      grantActivityEnergy({
+        sessionId: newId('spell'),
+        requestedPoints: sideActivityEnergy.spelling,
+        mode: `spell-${mode}`.slice(0, 16),
+        correct: correctRef.current,
+        wrong: Math.max(0, SPELL_ROUND_SIZE - correctRef.current),
+      })
+    }
     navigate('/missions/languages/spelling/summary', { replace: true })
-  }, [question, mode, navigate, setLastSummary, recordProgress])
+  }, [question, mode, navigate, setLastSummary, recordProgress, grantActivityEnergy])
 
   if (!isMode(modeParam) || !question) return null
 

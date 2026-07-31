@@ -7,9 +7,9 @@ import {
   useState,
   type ReactNode,
 } from 'react'
-import { activityWeightDefaults } from '@/config/rewardGoal'
+import { sideActivityEnergy } from '@/config/rewardGoal'
 import { useProgress } from '@/progress/ProgressContext'
-import { grantRewardPoints, localDateString } from '@/reward/engine'
+import { localDateString } from '@/reward/engine'
 
 export type DailySkillKey = 'tables' | 'calc' | 'spelling' | 'clocks' | 'money'
 
@@ -80,7 +80,7 @@ interface DailyMissionContextValue {
 const DailyMissionContext = createContext<DailyMissionContextValue | null>(null)
 
 export function DailyMissionProvider({ children }: { children: ReactNode }) {
-  const { progress: playerProgress, updateReward } = useProgress()
+  const { grantActivityEnergy } = useProgress()
   const [state, setState] = useState<DailyState>(() => loadState(localDateString()))
 
   useEffect(() => {
@@ -117,16 +117,16 @@ export function DailyMissionProvider({ children }: { children: ReactNode }) {
 
   const claimBonusIfReady = useCallback(() => {
     if (!allDone || state.bonusClaimed) return false
-    const sessionId = `daily-bonus-${state.date}`
-    const result = grantRewardPoints(playerProgress.reward, {
-      requestedPoints: activityWeightDefaults.special,
-      sessionId,
-      attemptIds: [sessionId],
+    grantActivityEnergy({
+      sessionId: `daily-bonus-${state.date}`,
+      requestedPoints: sideActivityEnergy.dailyBonus,
+      mode: 'daily_bonus',
+      correct: DAILY_TASKS.length,
+      wrong: 0,
     })
-    updateReward(result.reward)
     setState((prev) => ({ ...prev, bonusClaimed: true }))
     return true
-  }, [allDone, state.bonusClaimed, state.date, playerProgress.reward, updateReward])
+  }, [allDone, state.bonusClaimed, state.date, grantActivityEnergy])
 
   const value = useMemo(
     () => ({

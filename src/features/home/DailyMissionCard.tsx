@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useDailyMission } from '@/daily/DailyMissionContext'
-import { activityWeightDefaults } from '@/config/rewardGoal'
+import { sideActivityEnergy } from '@/config/rewardGoal'
 import './dailyMission.css'
 
 export function DailyMissionCard() {
@@ -63,7 +63,7 @@ export function DailyMissionCard() {
           className="btn btn-primary btn-block"
           onClick={() => claimBonusIfReady()}
         >
-          Recoger bonus (+{activityWeightDefaults.special} energía)
+          Recoger bonus (+{sideActivityEnergy.dailyBonus} energía)
         </button>
       ) : null}
     </section>

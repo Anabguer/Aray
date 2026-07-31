@@ -76,3 +76,12 @@ export const matchSessionMeta = {
   completionCriteria: 'all_pairs_correct',
   maxRewardFromItems: 30,
 } as const
+
+/** Energía por ronda completada (actividades sin session-submit de tablas). Respeta dailyCap. */
+export const sideActivityEnergy = {
+  calc: activityWeightDefaults.short, // 20
+  spelling: activityWeightDefaults.medium, // 30
+  money: activityWeightDefaults.short, // 20
+  clocks: activityWeightDefaults.short, // 20
+  dailyBonus: activityWeightDefaults.special, // 80
+} as const
