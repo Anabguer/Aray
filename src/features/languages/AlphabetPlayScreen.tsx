@@ -226,15 +226,14 @@ export function AlphabetPlayScreen() {
     if (status === 'wrong') {
       setShakeId(value)
       orderMissedRef.current = true
-      registerWrong('¡Uy! Empieza de nuevo')
+      registerWrong('¡Uy!')
       setLocked(true)
       window.setTimeout(() => {
         setShakeId(null)
         setFeedback(null)
         setLocked(false)
-        setPicked([])
         lumo.setThinking()
-      }, 900)
+      }, 700)
       return
     }
 
