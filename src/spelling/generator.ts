@@ -30,16 +30,34 @@ function shuffle<T>(items: T[], rand: () => number): T[] {
 
 const BANK_WORDS = new Set(SPELL_BANK.map((w) => w.word.toLowerCase()))
 
+function usedRules(used: Set<string>): Set<string> {
+  const rules = new Set<string>()
+  for (const w of SPELL_BANK) {
+    if (used.has(w.word)) rules.add(w.rule)
+  }
+  for (const c of SPELL_CONTEXTS) {
+    if (used.has(c.id)) rules.add(c.rule)
+  }
+  return rules
+}
+
+/** Prioriza palabras/reglas aún no vistas en la ronda para más variedad. */
 function pickWord(rand: () => number, used: Set<string>): SpellWord {
-  const pool = SPELL_BANK.filter((w) => !used.has(w.word))
-  const list = pool.length > 0 ? pool : SPELL_BANK
-  return list[Math.floor(rand() * list.length)]!
+  const unused = SPELL_BANK.filter((w) => !used.has(w.word))
+  const seenRules = usedRules(used)
+  const freshRule = unused.filter((w) => !seenRules.has(w.rule))
+  const pool =
+    freshRule.length > 0 ? freshRule : unused.length > 0 ? unused : SPELL_BANK
+  return pool[Math.floor(rand() * pool.length)]!
 }
 
 function pickContext(rand: () => number, used: Set<string>): SpellContext {
-  const pool = SPELL_CONTEXTS.filter((c) => !used.has(c.id))
-  const list = pool.length > 0 ? pool : SPELL_CONTEXTS
-  return list[Math.floor(rand() * list.length)]!
+  const unused = SPELL_CONTEXTS.filter((c) => !used.has(c.id))
+  const seenRules = usedRules(used)
+  const freshRule = unused.filter((c) => !seenRules.has(c.rule))
+  const pool =
+    freshRule.length > 0 ? freshRule : unused.length > 0 ? unused : SPELL_CONTEXTS
+  return pool[Math.floor(rand() * pool.length)]!
 }
 
 /** 1 bien + 3 confusiones reales de esa palabra. */
@@ -96,11 +114,16 @@ function rivalLetters(w: SpellWord, correct: string): string[] {
       return ['h', ''].filter((x) => x !== c)
     case 'aba':
     case 'b-v':
+    case 'bu-bur':
       return ['b', 'v'].filter((x) => x !== c)
     case 'll-illa':
       return ['ll', 'y', 'l'].filter((x) => x !== c)
     case 'mb-mp':
       return ['m', 'n'].filter((x) => x !== c)
+    case 'g-j':
+      return ['g', 'j'].filter((x) => x !== c)
+    case 'd-z':
+      return ['c', 'z', 's'].filter((x) => x !== c)
     default:
       return ['b', 'v', 'h', 'r'].filter((x) => x !== c)
   }
@@ -238,7 +261,16 @@ function buildComplete(seed: number, used: Set<string>, mode: SpellPlayMode): Sp
 
 const MIXERS: Array<
   (seed: number, used: Set<string>, mode: SpellPlayMode) => SpellQuestion
-> = [buildComplete, buildComplete, buildCorrect, buildIntruder, buildMissing, buildPicture]
+> = [
+  buildComplete,
+  buildComplete,
+  buildCorrect,
+  buildIntruder,
+  buildMissing,
+  buildPicture,
+  buildComplete,
+  buildCorrect,
+]
 
 export function buildSpellQuestion(
   mode: SpellPlayMode,

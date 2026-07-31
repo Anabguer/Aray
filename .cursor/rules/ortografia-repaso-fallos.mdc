@@ -1,0 +1,27 @@
+---
+description: Pendiente — modo repaso de ortografía con palabras que suele fallar el niño
+alwaysApply: false
+globs: src/spelling/**/*,src/features/languages/spelling/**/*
+---
+
+# Ortografía: repaso de fallos (pendiente)
+
+Pedido del usuario (jul 2026): en cada actividad de repaso de ortografía (y luego en otras), poder practicar **las que suele fallar**.
+
+## Requisitos acordados
+
+1. **Registrar fallos** por jugador: palabra/forma, regla (`SpellRuleId`), modo, y contadores (fallos / aciertos posteriores).
+2. Persistencia: primero **local** (por `playerId`); sync MySQL cuando haya endpoint (patrón similar a ABC / progress).
+3. UI: entrada tipo **“Repaso”** o **“Mis fallos”** en el selector de modos de ortografía (`SpellModeSelectScreen`), y más adelante en cada actividad de repaso.
+4. Generador: priorizar ítems del banco de fallos; si hay pocos, completar con banco general de la misma regla.
+5. No inventar distractores: reutilizar `SPELL_BANK` / `SPELL_CONTEXTS` (match por `word` o `id`).
+
+## Dónde enganchar (cuando se implemente)
+
+- Fallo en `SpellPlayScreen` al elegir opción incorrecta → `recordSpellMiss(...)`.
+- Acierto de una palabra que estaba en fallos → bajar peso o retirar tras N aciertos seguidos.
+- Nuevo modo `SpellPlayMode`: p. ej. `'review'` + labels.
+
+## No hacer todavía
+
+No implementar hasta que el usuario lo pida explícitamente en una fase; este archivo solo es recordatorio.

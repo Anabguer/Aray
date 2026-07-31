@@ -15,8 +15,10 @@ const RULE_BADGE: Record<SpellRuleId, string> = {
   'll-illa': 'll',
   'haber-hablar': 'con h',
   'b-v': 'b / v',
-  'd-z': 'd / z',
+  'd-z': 'c / z',
   'mb-mp': 'm antes de p/b',
+  'g-j': 'g / j',
+  'bu-bur': 'bu · bur · bus',
 }
 
 function norm(s: string) {
@@ -135,6 +137,34 @@ export function explainSpellMistake(input: {
       whyWrong: `Antes de p o b no va n.`,
       whyRight: `En “${correct}” va m delante de p/b.`,
     }
+  }
+
+  if (rule === 'g-j') {
+    return {
+      badge: RULE_BADGE['g-j'],
+      whyWrong: `“${chosen}” no escribe bien el sonido g/j de esta palabra.`,
+      whyRight: `La forma correcta es “${correct}”. Hay que memorizarla.`,
+    }
+  }
+
+  if (rule === 'bu-bur') {
+    return {
+      badge: RULE_BADGE['bu-bur'],
+      whyWrong: `“${chosen}” no empieza bien (bu-/bur-/bus- o b).`,
+      whyRight: `Va “${correct}” con b.`,
+    }
+  }
+
+  if (rule === 'd-z') {
+    return {
+      badge: RULE_BADGE['d-z'],
+      whyWrong: `“${chosen}” mezcla c y z.`,
+      whyRight: `“${correct}” usa la letra que toca (za/zo/zu → z; ce/ci → c).`,
+    }
+  }
+
+  if (rule === 'b-v' || rule === 'll-illa' || rule === 'haber-hablar') {
+    return explainGeneric(rule, correct, chosen, tip)
   }
 
   return explainGeneric(rule, correct, chosen, tip)
