@@ -20,7 +20,7 @@ const MATH_SLOTS: Record<string, MapSlot> = {
 
 const MATH_SHORT_DESC: Record<string, string> = {
   'multiplication-tables': 'Tablas del 2 al 9',
-  calculation: 'Sumas, restas y agilidad',
+  calculation: 'Piensa rápido',
   problems: 'Retos con números',
   'clocks-hours': 'Leer la hora',
 }
@@ -56,6 +56,19 @@ export function MathsHubScreen() {
         mapSlot,
         href: '/missions/mates/clocks',
         ctaLabel: 'JUGAR HORAS',
+      }
+    }
+
+    if (block.id === 'calculation' && block.status === 'active') {
+      return {
+        id: block.id,
+        title: block.title,
+        description: short,
+        status: 'recommended',
+        mark,
+        mapSlot,
+        href: '/missions/mates/calc',
+        ctaLabel: 'JUGAR CÁLCULO',
       }
     }
 

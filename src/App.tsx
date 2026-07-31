@@ -5,6 +5,9 @@ import { AdultPanel } from '@/features/adult/AdultPanel'
 import { CollectionScreen } from '@/features/collection/CollectionScreen'
 import { HomeScreen } from '@/features/home/HomeScreen'
 import { ChallengeScreen } from '@/features/maths/ChallengeScreen'
+import { CalcModeSelectScreen } from '@/features/maths/calc/CalcModeSelectScreen'
+import { CalcPlayScreen } from '@/features/maths/calc/CalcPlayScreen'
+import { CalcSummaryScreen } from '@/features/maths/calc/CalcSummaryScreen'
 import { ClockLearnScreen } from '@/features/maths/clocks/ClockLearnScreen'
 import { ClockMatchScreen } from '@/features/maths/clocks/ClockMatchScreen'
 import { ClockModeSelectScreen } from '@/features/maths/clocks/ClockModeSelectScreen'
@@ -49,6 +52,9 @@ export default function App() {
         <Route path="/missions/mates/clocks/train" element={<ClockTrainScreen />} />
         <Route path="/missions/mates/clocks/match" element={<ClockMatchScreen />} />
         <Route path="/missions/mates/clocks/summary" element={<ClockSummaryScreen />} />
+        <Route path="/missions/mates/calc" element={<CalcModeSelectScreen />} />
+        <Route path="/missions/mates/calc/summary" element={<CalcSummaryScreen />} />
+        <Route path="/missions/mates/calc/:mode" element={<CalcPlayScreen />} />
         <Route path="/missions/languages" element={<LanguagesHubScreen />} />
         <Route path="/missions/languages/alphabet" element={<AlphabetModeSelectScreen />} />
         <Route path="/missions/languages/alphabet/summary" element={<AlphabetSummaryScreen />} />

@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 import App from './App.tsx'
 import { AuthProvider } from '@/auth/AuthContext'
 import { AlphabetSessionProvider } from '@/alphabet/AlphabetSessionContext'
+import { CalcSessionProvider } from '@/calc/CalcSessionContext'
 import { ClockSessionProvider } from '@/clock/ClockSessionContext'
 import { PlayProvider } from '@/progress/PlayContext'
 import { ProgressProvider } from '@/progress/ProgressContext'
@@ -25,7 +26,9 @@ createRoot(document.getElementById('root')!).render(
           <PlayProvider>
             <ClockSessionProvider>
               <AlphabetSessionProvider>
-                <App />
+                <CalcSessionProvider>
+                  <App />
+                </CalcSessionProvider>
               </AlphabetSessionProvider>
             </ClockSessionProvider>
           </PlayProvider>

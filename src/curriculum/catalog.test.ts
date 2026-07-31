@@ -35,13 +35,17 @@ describe('catálogo curricular', () => {
       'clocks-hours',
     ])
     expect(blocks.find((b) => b.id === 'clocks-hours')?.status).toBe('active')
+    expect(blocks.find((b) => b.id === 'calculation')?.status).toBe('active')
     expect(blocks.find((b) => b.id === 'alphabet')?.status).toBe('active')
     const futureBlocks = blocks.filter((b) => b.status === 'future')
-    expect(futureBlocks.length).toBeGreaterThan(4)
+    expect(futureBlocks.length).toBeGreaterThan(3)
     expect(
       activities.every(
         (a) =>
-          a.id.includes('mult-') || a.id.startsWith('clock-') || a.id.startsWith('alphabet-'),
+          a.id.includes('mult-') ||
+          a.id.startsWith('clock-') ||
+          a.id.startsWith('alphabet-') ||
+          a.id.startsWith('calc-'),
       ),
     ).toBe(true)
   })
