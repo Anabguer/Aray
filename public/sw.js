@@ -1,12 +1,12 @@
 /* ARAY service worker — app shell only; never caches API. */
-const CACHE = 'aray-shell-v1'
+const CACHE = 'aray-shell-v2'
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches
       .open(CACHE)
       .then((cache) =>
-        cache.addAll(['./', './index.html', './site.webmanifest', './favicon.png']).catch(() => undefined),
+        cache.addAll(['./', './index.html', './site.webmanifest', './favicon.png', './favicon.ico']).catch(() => undefined),
       )
       .then(() => self.skipWaiting()),
   )
