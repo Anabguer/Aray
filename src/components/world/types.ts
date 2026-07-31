@@ -40,6 +40,6 @@ export type WorldLevelMapProps = {
   tagline: string
   icon: ReactNode
   /** Frase de Lumo junto a la estación activa. */
-  guideTip: string
+  guideTip?: string
   stations: WorldStation[]
 }

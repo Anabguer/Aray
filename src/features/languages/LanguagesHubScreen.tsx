@@ -82,7 +82,6 @@ export function LanguagesHubScreen() {
         title="Mundo de Lenguas"
         tagline="Letras, palabras y práctica suave"
         icon={<SubjectIcon id="catala" />}
-        guideTip="Empieza por el abecedario"
         stations={stations}
       />
     </AppShell>
