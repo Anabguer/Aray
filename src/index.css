@@ -8573,6 +8573,60 @@ a {
   line-height: 1.4;
 }
 
+.clock-learn__bubble-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.clock-learn__slogan {
+  margin: 0;
+  padding: 0.55rem 0.85rem;
+  border-radius: 0.75rem;
+  background: rgba(251, 146, 60, 0.14);
+  border: 1px solid rgba(251, 146, 60, 0.35);
+  color: #fed7aa;
+  font-size: 0.88rem;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.clock-learn__visuals {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem 1.25rem;
+}
+
+.hour-pizza {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.hour-pizza__svg {
+  filter: drop-shadow(0 8px 16px rgba(2, 12, 27, 0.35));
+}
+
+.hour-pizza__legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  color: var(--text-muted);
+  text-align: left;
+}
+
+.hour-pizza__legend li.is-on {
+  color: #fdba74;
+  font-weight: 700;
+}
+
 .clock-learn__stage {
   display: flex;
   flex-direction: column;

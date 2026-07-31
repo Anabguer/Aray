@@ -13,6 +13,9 @@ interface LearnStep {
   body: string
   tip: string
   demo: ClockTime
+  /** Trozo de pizza iluminados (0–4). Solo ayuda catalana. */
+  pizzaSlices?: 0 | 1 | 2 | 3 | 4
+  slogan?: string
 }
 
 const STEPS_ES: LearnStep[] = [
@@ -46,58 +49,124 @@ const STEPS_ES: LearnStep[] = [
   },
 ]
 
+/** Ayuda catalana: metáfora «pizza de la hora» (miramos la hora a la que vamos). */
 const STEPS_CA: LearnStep[] = [
   {
-    id: 'punt',
-    title: 'En punt',
-    body: 'Amb la minutera al 12, és l’hora en punt. Encara no hem entrat als quarts.',
-    tip: 'la una en punt · les dues en punt',
-    demo: { hour: 3, minute: 0 },
+    id: 'pizza',
+    title: 'La pizza de la hora',
+    body: 'Imagina la hora como una pizza de 4 trozos. Cada trozo es un quart. Cuando comes los 4, ¡llegas a la hora nueva!',
+    tip: '1 trozo = un quart · 2 = dos · 3 = tres · 4 = hora nueva',
+    demo: { hour: 1, minute: 0 },
+    pizzaSlices: 0,
+    slogan: 'En castellano miramos la hora en la que estamos. En catalán, la hora a la que vamos.',
   },
   {
-    id: 'quart',
-    title: 'Un quart → hora següent',
-    body: 'Al català de campanar, els quarts miren cap a l’hora que ve. 1:15 és un quart de les dues.',
+    id: 'un-quart',
+    title: '1 trozo → un quart',
+    body: '1:15 — Ha pasado 1 trozo del camino hacia las 2. Decimos: un quart de les dues.',
     tip: '1:15 → un quart de les dues',
     demo: { hour: 1, minute: 15 },
+    pizzaSlices: 1,
   },
   {
-    id: 'dos-tres',
-    title: 'Dos i tres quarts',
-    body: '1:30 són dos quarts de les dues. 1:45 són tres quarts de les dues. Sempre cap a la següent.',
-    tip: 'dos quarts · tres quarts de les dues',
+    id: 'dos-quarts',
+    title: '2 y 3 trozos',
+    body: '1:30 = 2 trozos → dos quarts de les dues. 1:45 = 3 trozos → tres quarts de les dues. Siempre hacia la hora que viene.',
+    tip: '1:30 dos quarts · 1:45 tres quarts (de les dues)',
     demo: { hour: 1, minute: 30 },
+    pizzaSlices: 2,
   },
   {
-    id: 'minuts',
-    title: 'Quarts i minuts',
-    body: 'Si passen minuts després d’un quart, els sumem: 1:35 = dos quarts i cinc de les dues. Abans del primer quart: la una i cinc.',
-    tip: '1:25 → un quart i deu de les dues',
+    id: 'arribada',
+    title: '4 trozos = ¡llegaste!',
+    body: '2:00 — Ya hemos llegado a las 2. Se acabó la pizza: són les dues en punt.',
+    tip: '4 trozos → hora nueva',
+    demo: { hour: 2, minute: 0 },
+    pizzaSlices: 4,
+  },
+  {
+    id: 'i-minuts',
+    title: 'Si no es exacto',
+    body: 'Si pasan minutos después de un trozo, los sumamos: 1:35 = dos quarts i cinc de les dues. 1:25 = un quart i deu de les dues.',
+    tip: 'trozo + 5 o + 10 minutos',
     demo: { hour: 1, minute: 35 },
+    pizzaSlices: 2,
   },
 ]
+
+/** Pizza de 4 quarts: trozos “comidos” = camino hacia la hora siguiente. */
+function HourPizza({ slices }: { slices: 0 | 1 | 2 | 3 | 4 }) {
+  return (
+    <div className="hour-pizza" aria-hidden="true">
+      <svg className="hour-pizza__svg" viewBox="0 0 120 120" width="148" height="148">
+        <circle cx="60" cy="60" r="54" fill="#fff7ed" stroke="#9a3412" strokeWidth="3" />
+        {/* 4 sectores: 12→3, 3→6, 6→9, 9→12 */}
+        {[0, 1, 2, 3].map((i) => {
+          const start = (i * 90 - 90) * (Math.PI / 180)
+          const end = ((i + 1) * 90 - 90) * (Math.PI / 180)
+          const x1 = 60 + Math.cos(start) * 54
+          const y1 = 60 + Math.sin(start) * 54
+          const x2 = 60 + Math.cos(end) * 54
+          const y2 = 60 + Math.sin(end) * 54
+          const filled = i < slices
+          return (
+            <path
+              key={i}
+              d={`M60 60 L${x1} ${y1} A54 54 0 0 1 ${x2} ${y2} Z`}
+              fill={filled ? '#fb923c' : '#ffedd5'}
+              stroke="#9a3412"
+              strokeWidth="2"
+            />
+          )
+        })}
+        <circle cx="60" cy="60" r="8" fill="#fdba74" stroke="#9a3412" strokeWidth="2" />
+      </svg>
+      <ul className="hour-pizza__legend">
+        <li className={slices >= 1 ? 'is-on' : ''}>1 trozo = un quart</li>
+        <li className={slices >= 2 ? 'is-on' : ''}>2 trozos = dos quarts</li>
+        <li className={slices >= 3 ? 'is-on' : ''}>3 trozos = tres quarts</li>
+        <li className={slices >= 4 ? 'is-on' : ''}>4 trozos = ¡hora nueva!</li>
+      </ul>
+    </div>
+  )
+}
 
 export function ClockLearnScreen() {
   const { lang } = useClockSession()
   const steps = lang === 'ca' ? STEPS_CA : STEPS_ES
   const [index, setIndex] = useState(0)
-  const step = steps[index]!
+
+  // Reinicia el tutorial al cambiar idioma
+  const [langSeen, setLangSeen] = useState(lang)
+  if (langSeen !== lang) {
+    setLangSeen(lang)
+    setIndex(0)
+  }
+
+  const step = steps[Math.min(index, steps.length - 1)]!
   const phrase = useMemo(() => formatClockTime(step.demo, lang), [step.demo, lang])
 
   const isLast = index >= steps.length - 1
+  const showPizza = lang === 'ca' && step.pizzaSlices != null
 
   return (
     <AppShell title="APRENDE" shortTitle="Aprende" showBack backTo="/missions/mates/clocks/modes">
       <section className="clock-learn" aria-labelledby="clock-learn-title">
         <div className="clock-learn__lumo">
           <Lumo state="thinking" size="md" />
-          <p className="clock-learn__bubble" id="clock-learn-title">
-            {step.body}
-          </p>
+          <div className="clock-learn__bubble-wrap">
+            <p className="clock-learn__bubble" id="clock-learn-title">
+              {step.body}
+            </p>
+            {step.slogan ? <p className="clock-learn__slogan">{step.slogan}</p> : null}
+          </div>
         </div>
 
         <div className="clock-learn__stage">
-          <AnalogClock time={step.demo} size={240} label={`Ejemplo: ${phrase}`} />
+          <div className={`clock-learn__visuals${showPizza ? ' clock-learn__visuals--split' : ''}`}>
+            <AnalogClock time={step.demo} size={showPizza ? 200 : 240} label={`Ejemplo: ${phrase}`} />
+            {showPizza ? <HourPizza slices={step.pizzaSlices!} /> : null}
+          </div>
           <p className="clock-learn__phrase">{phrase}</p>
           <p className="clock-learn__tip">{step.tip}</p>
         </div>
@@ -127,7 +196,7 @@ export function ClockLearnScreen() {
               className="btn btn-primary"
               onClick={() => setIndex((v) => Math.min(steps.length - 1, v + 1))}
             >
-              Siguiente · {step.title}
+              Siguiente · {steps[Math.min(index + 1, steps.length - 1)]!.title}
             </button>
           )}
         </div>
