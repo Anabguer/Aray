@@ -14,6 +14,9 @@ export function AuthGate() {
   const isPicker = path === '/pick-profile'
   const canPlay = deviceAuthorized || role === 'adult' || role === 'child'
 
+  // RR7: sin key el Outlet a veces no remonta al cambiar de ruta (URL sí, pantalla no).
+  const outlet = <Outlet key={location.key || path} />
+
   if (loading) {
     return (
       <div className="auth-loading" role="status" aria-live="polite">
@@ -32,21 +35,21 @@ export function AuthGate() {
         return <Navigate to="/" replace />
       }
     }
-    return <Outlet />
+    return outlet
   }
 
   if (isAdultPath) {
     if (role !== 'adult') {
       return canPlay ? <Navigate to="/" replace /> : <AccessScreen />
     }
-    return <Outlet />
+    return outlet
   }
 
   if (isPicker) {
     if (!deviceAuthorized) {
       return <AccessScreen />
     }
-    return <Outlet />
+    return outlet
   }
 
   if (!canPlay) {
@@ -59,5 +62,5 @@ export function AuthGate() {
     return <Navigate to="/pick-profile" replace />
   }
 
-  return <Outlet />
+  return outlet
 }
