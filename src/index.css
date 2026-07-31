@@ -8761,33 +8761,38 @@ a {
   gap: 0.55rem;
 }
 
-.clock-learn__actions .btn-primary {
-  width: 100%;
-  text-align: center;
-}
-
-.clock-learn__actions .btn-ghost {
-  align-self: center;
-}
-
 .clock-learn__lang-link {
   appearance: none;
   border: 0;
   background: transparent;
   color: var(--text-muted);
-  font-size: 0.82rem;
-  font-weight: 550;
-  text-decoration: underline;
-  text-underline-offset: 0.18em;
-  padding: 0.35rem 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 0.2rem 0.35rem;
   cursor: pointer;
   align-self: center;
-  opacity: 0.85;
+  opacity: 0.65;
+  order: 2;
 }
 
 .clock-learn__lang-link:hover {
-  color: #bae6fd;
-  opacity: 1;
+  color: #94a3b8;
+  opacity: 0.9;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.clock-learn__actions > .btn-primary,
+.clock-learn__actions > a.btn-primary {
+  order: 1;
+}
+
+.clock-learn__actions > .btn-ghost {
+  order: 2;
+  align-self: center;
+  opacity: 0.75;
+  font-size: 0.88rem;
 }
 
 .analog-clock {
