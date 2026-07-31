@@ -14,8 +14,12 @@ export function DailyMissionCard() {
   } = useDailyMission()
 
   return (
-    <section className="daily-mission" aria-labelledby="daily-mission-title">
+    <section
+      className={`daily-mission${allDone && !bonusClaimed ? ' daily-mission--ready' : ''}`}
+      aria-labelledby="daily-mission-title"
+    >
       <div className="daily-mission__head">
+        <p className="daily-mission__eyebrow">Misión diaria</p>
         <h2 id="daily-mission-title" className="daily-mission__title">
           Misión del día
         </h2>
