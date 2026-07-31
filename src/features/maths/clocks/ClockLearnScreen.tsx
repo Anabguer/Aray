@@ -273,7 +273,12 @@ export function ClockLearnScreen() {
               {showPizza ? <HourPizza slices={step.pizzaSlices!} size={120} /> : null}
             </div>
           )}
-          {phrase ? <p className="clock-learn__phrase">{phrase}</p> : null}
+          {phrase ? (
+            <p className="clock-learn__phrase">
+              <span className="clock-learn__phrase-label">Se dice</span>
+              <span className="clock-learn__phrase-text">{phrase}</span>
+            </p>
+          ) : null}
           <p className="clock-learn__tip">{step.tip}</p>
         </div>
 
