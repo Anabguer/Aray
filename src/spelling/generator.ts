@@ -1,6 +1,8 @@
 import {
   SPELL_BANK,
+  SPELL_CONTEXTS,
   SPELL_ROUND_SIZE,
+  type SpellContext,
   type SpellMcqQuestion,
   type SpellPlayMode,
   type SpellQuestion,
@@ -26,7 +28,7 @@ function shuffle<T>(items: T[], rand: () => number): T[] {
   return arr
 }
 
-const BANK_WORDS = new Set(SPELL_BANK.map((w) => w.word))
+const BANK_WORDS = new Set(SPELL_BANK.map((w) => w.word.toLowerCase()))
 
 function pickWord(rand: () => number, used: Set<string>): SpellWord {
   const pool = SPELL_BANK.filter((w) => !used.has(w.word))
@@ -34,15 +36,25 @@ function pickWord(rand: () => number, used: Set<string>): SpellWord {
   return list[Math.floor(rand() * list.length)]!
 }
 
-/** Opciones = palabra bien + sus 3 faltas (nunca otra palabra del banco). */
+function pickContext(rand: () => number, used: Set<string>): SpellContext {
+  const pool = SPELL_CONTEXTS.filter((c) => !used.has(c.id))
+  const list = pool.length > 0 ? pool : SPELL_CONTEXTS
+  return list[Math.floor(rand() * list.length)]!
+}
+
+/** 1 bien + 3 confusiones reales de esa palabra. */
 function wordOptions(w: SpellWord, rand: () => number): string[] {
-  const wrongs = w.distractors.filter((d) => d !== w.word && !BANK_WORDS.has(d))
+  const wrongs = w.distractors.filter(
+    (d) => d.toLowerCase() !== w.word.toLowerCase() && !BANK_WORDS.has(d.toLowerCase()),
+  )
   const set = new Set<string>([w.word, ...wrongs])
   let n = 0
-  while (set.size < 4 && n < 8) {
+  while (set.size < 4 && n < 6) {
     n += 1
-    const extra = `${w.word}${n === 1 ? 'h' : 's'}`
-    if (extra !== w.word && !BANK_WORDS.has(extra)) set.add(extra)
+    // Confusiones suaves tipográficas, no “k”
+    const extra =
+      n === 1 ? w.word.replace(/rr/i, 'r') : n === 2 ? w.word.replace(/^h/i, '') : `${w.word}s`
+    if (extra && extra !== w.word && !BANK_WORDS.has(extra.toLowerCase())) set.add(extra)
   }
   const opts = shuffle([...set].slice(0, 4), rand)
   if (!opts.includes(w.word)) opts[0] = w.word
@@ -54,49 +66,49 @@ function blankAt(word: string, index: number): string {
   return `${word.slice(0, i)}_${word.slice(i + 1)}`
 }
 
-/** Letras confusas según la regla (no abecedario al azar). */
 function rivalLetters(w: SpellWord, correct: string): string[] {
-  const map: Record<string, string[]> = {
-    'b-v': ['b', 'v'],
-    'g-j': ['g', 'j'],
-    h: ['h', ''],
-    'll-y': ['ll', 'y'],
-    'r-rr': ['r', 'rr'],
-    'mb-mp': ['m', 'n'],
-    'que-qui': ['q', 'k', 'c'],
-    'gue-gui': ['g', 'gü', 'gu'],
-    'c-z': ['c', 'z', 's'],
-    tilde: [correct],
+  switch (w.rule) {
+    case 'r-rr':
+      return ['r', 'rr'].filter((x) => x !== correct)
+    case 'hie-hue':
+    case 'haber-hablar':
+      return ['h', ''].filter((x) => x !== correct)
+    case 'aba':
+    case 'b-v':
+      return ['b', 'v'].filter((x) => x !== correct)
+    case 'll-illa':
+      return ['ll', 'y', 'l'].filter((x) => x !== correct)
+    case 'mb-mp':
+      return ['m', 'n'].filter((x) => x !== correct)
+    default:
+      return ['b', 'v', 'h', 'r'].filter((x) => x !== correct)
   }
-  const rivals = (map[w.rule] ?? ['b', 'v', 'g', 'j']).filter((x) => x && x !== correct)
-  return rivals
 }
 
 function buildMissing(seed: number, used: Set<string>, mode: SpellPlayMode): SpellMcqQuestion {
   const rand = mulberry32(seed)
   const w = pickWord(rand, used)
   used.add(w.word)
-  const idx = w.hardIndex
-  const letter = w.word[idx]!
-  // Si la zona difícil es digrafo (ll, rr), blank de 1 letra visible + opciones de letra
+  const letter = w.word[w.hardIndex]!
   const optionsSet = new Set<string>([letter, ...rivalLetters(w, letter)])
-  const pool = 'bcdfghjklmnpqrstvwxyz'
+  const pool = 'bcdfghjlmnrstv'
   let guard = 0
   while (optionsSet.size < 4 && guard < 20) {
     guard += 1
     const ch = pool[Math.floor(rand() * pool.length)]!
     if (ch !== letter) optionsSet.add(ch)
   }
-  const options = shuffle([...optionsSet].slice(0, 4), rand)
+  const options = shuffle([...optionsSet].filter(Boolean).slice(0, 4), rand)
   if (!options.includes(letter)) options[0] = letter
+  while (options.length < 4) options.push(pool[options.length]!)
   return {
     kind: 'mcq',
     id: `miss-${w.word}-${seed}`,
     mode,
-    prompt: '¿Qué letra falta? (repasa la regla)',
+    prompt: '¿Qué falta? Piensa la regla',
     tip: w.tip,
-    display: blankAt(w.word, idx),
-    options,
+    display: blankAt(w.word, w.hardIndex),
+    options: options.slice(0, 4),
     correctIndex: options.indexOf(letter),
   }
 }
@@ -134,19 +146,25 @@ function buildPicture(seed: number, used: Set<string>, mode: SpellPlayMode): Spe
   }
 }
 
+/**
+ * Intrusa: 3 palabras bien + 1 falta sutil (pero/arrededor…).
+ * Sin tip que delate la familia de la intrusa.
+ */
 function buildIntruder(seed: number, used: Set<string>, mode: SpellPlayMode): SpellMcqQuestion {
   const rand = mulberry32(seed)
   const target = pickWord(rand, used)
   used.add(target.word)
   const intruder =
-    target.distractors.find((d) => d !== target.word && !BANK_WORDS.has(d)) ?? `${target.word}x`
+    target.distractors.find(
+      (d) => d.toLowerCase() !== target.word.toLowerCase() && !BANK_WORDS.has(d.toLowerCase()),
+    ) ?? target.word.replace(/rr/i, 'r')
 
   const goods = new Set<string>([target.word])
   let guard = 0
-  while (goods.size < 3 && guard < 50) {
+  while (goods.size < 3 && guard < 60) {
     guard += 1
     const alt = SPELL_BANK[Math.floor(rand() * SPELL_BANK.length)]!.word
-    if (alt !== intruder) goods.add(alt)
+    if (alt.toLowerCase() !== intruder.toLowerCase()) goods.add(alt)
   }
   const options = shuffle([...goods, intruder].slice(0, 4), rand)
   if (!options.includes(intruder)) options[0] = intruder
@@ -155,33 +173,36 @@ function buildIntruder(seed: number, used: Set<string>, mode: SpellPlayMode): Sp
     kind: 'mcq',
     id: `in-${target.word}-${seed}`,
     mode,
-    prompt: '¿Cuál está mal escrita? (la intrusa)',
-    tip: target.tip,
+    prompt: '¿Cuál está mal escrita?',
+    // Tip genérico del bloque, sin nombrar la palabra
+    tip: 'Busca la falta: r/rr, h muda, b/v…',
     options,
     correctIndex: options.indexOf(intruder),
   }
 }
 
+/** Completa la frase: el ejercicio de verdad de 3.º. */
 function buildComplete(seed: number, used: Set<string>, mode: SpellPlayMode): SpellMcqQuestion {
   const rand = mulberry32(seed)
-  const w = pickWord(rand, used)
-  used.add(w.word)
-  const options = wordOptions(w, rand)
+  const ctx = pickContext(rand, used)
+  used.add(ctx.id)
+  const options = shuffle([...ctx.options], rand)
+  const correct = ctx.options[ctx.correctIndex]!
   return {
     kind: 'mcq',
-    id: `cmp-${w.word}-${seed}`,
+    id: `ctx-${ctx.id}-${seed}`,
     mode,
-    prompt: 'Completa eligiendo la forma correcta',
-    tip: w.tip,
-    display: blankAt(w.word, w.hardIndex),
+    prompt: 'Elige la forma que encaja en la frase',
+    tip: ctx.tip,
+    display: ctx.sentence,
     options,
-    correctIndex: options.indexOf(w.word),
+    correctIndex: options.indexOf(correct),
   }
 }
 
 const MIXERS: Array<
   (seed: number, used: Set<string>, mode: SpellPlayMode) => SpellQuestion
-> = [buildMissing, buildCorrect, buildPicture, buildIntruder, buildComplete]
+> = [buildComplete, buildComplete, buildCorrect, buildIntruder, buildMissing, buildPicture]
 
 export function buildSpellQuestion(
   mode: SpellPlayMode,

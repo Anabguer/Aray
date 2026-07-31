@@ -6,27 +6,42 @@ export type SpellPlayMode =
   | 'complete'
   | 'mix'
 
-/** Bloques de ortografía típicos de repaso en 3.º de Primaria. */
+/**
+ * Bloques alineados con cuadernos de 3.º (castellano),
+ * p. ej. CEIP Diputació / genially 3º: r-rr, hie-/hue-, ahí-hay-ay,
+ * hacer-echar, -aba, -illo/-illa, verbos haber/hacer/hablar.
+ */
 export type SpellRuleId =
-  | 'b-v'
-  | 'g-j'
-  | 'h'
-  | 'll-y'
   | 'r-rr'
+  | 'hie-hue'
+  | 'hay-ahi-ay'
+  | 'hacer-echar'
+  | 'aba'
+  | 'll-illa'
+  | 'haber-hablar'
+  | 'b-v'
+  | 'd-z'
   | 'mb-mp'
-  | 'que-qui'
-  | 'gue-gui'
-  | 'c-z'
-  | 'tilde'
 
 export interface SpellWord {
   word: string
-  /** Tres faltas plausibles de la misma palabra (nunca otra palabra real del banco). */
+  /** Confusiones reales (nunca “k” absurda). */
   distractors: [string, string, string]
   emoji: string
   rule: SpellRuleId
+  /** Regla genérica: no debe delatar la palabra concreta. */
   tip: string
   hardIndex: number
+}
+
+/** Frase con hueco: el ejercicio típico de 3.º. */
+export interface SpellContext {
+  id: string
+  sentence: string
+  options: [string, string, string, string]
+  correctIndex: number
+  tip: string
+  rule: SpellRuleId
 }
 
 export interface SpellMcqQuestion {
@@ -35,6 +50,7 @@ export interface SpellMcqQuestion {
   mode: SpellPlayMode
   prompt: string
   tip?: string
+  /** Frase con ___ o patrón con _ */
   display?: string
   emoji?: string
   options: string[]
@@ -53,356 +69,344 @@ export interface SpellSessionSummary {
 export const SPELL_ROUND_SIZE = 12
 
 export const SPELL_MODE_LABELS: Record<SpellPlayMode, string> = {
-  missing: 'Letra difícil',
-  correct: '¿Cuál está bien?',
+  missing: 'Letra de la regla',
+  correct: 'Forma correcta',
   picture: 'Imagen y palabra',
-  intruder: 'Palabra intrusa',
-  complete: 'Completa con regla',
-  mix: 'Repaso mezclado',
+  intruder: 'La intrusa',
+  complete: 'Completa la frase',
+  mix: 'Repaso 3.º',
 }
 
-/**
- * Repaso 3.º Primaria: b/v, g/j, h, ll/y, r/rr, mb/mp, que-qui, gue-gü, c/z, tilde.
- * Distractores = faltas reales de esa palabra (no “gatoo” ni palabras ajenas).
- */
+/** Vocabulario / confusiones de cuaderno 3.º (no trampas con k). */
 export const SPELL_BANK: SpellWord[] = [
-  // —— b / v ——
+  // r / rr
   {
-    word: 'caballo',
-    distractors: ['cavallo', 'cabayo', 'kaballo'],
-    emoji: '🐴',
-    rule: 'b-v',
-    tip: 'Tras vocal + b en -allo; no “cavallo”',
+    word: 'perro',
+    distractors: ['pero', 'perroo', 'perrro'],
+    emoji: '🐕',
+    rule: 'r-rr',
+    tip: 'Entre vocales, el sonido fuerte se escribe rr',
     hardIndex: 2,
   },
   {
-    word: 'vaso',
-    distractors: ['baso', 'vazo', 'basso'],
-    emoji: '🥛',
-    rule: 'b-v',
-    tip: 'vaso se escribe con v',
-    hardIndex: 0,
-  },
-  {
-    word: 'libro',
-    distractors: ['livro', 'libbro', 'livvro'],
-    emoji: '📖',
-    rule: 'b-v',
-    tip: 'Grupo -br- con b',
+    word: 'carro',
+    distractors: ['caro', 'carroo', 'carroh'],
+    emoji: '🚗',
+    rule: 'r-rr',
+    tip: 'Entre vocales, el sonido fuerte se escribe rr',
     hardIndex: 2,
   },
   {
-    word: 'cantaba',
-    distractors: ['cantava', 'kantaba', 'cantába'],
-    emoji: '🎤',
-    rule: 'b-v',
-    tip: 'Pretérito -aba / -abas… con b',
-    hardIndex: 5,
+    word: 'alrededor',
+    distractors: ['arrededor', 'alededor', 'alrrededor'],
+    emoji: '🔄',
+    rule: 'r-rr',
+    tip: 'Tras l, n o s: una sola r (aunque suene fuerte)',
+    hardIndex: 2,
   },
   {
-    word: 'abrir',
-    distractors: ['havrir', 'avrir', 'abír'],
-    emoji: '🚪',
-    rule: 'b-v',
-    tip: 'Verbos en -bir: con b (abrir)',
-    hardIndex: 1,
-  },
-
-  // —— g / j ——
-  {
-    word: 'gente',
-    distractors: ['jente', 'guente', 'genteh'],
-    emoji: '👥',
-    rule: 'g-j',
-    tip: 'ge/gi suenan fuerte pero van con g',
-    hardIndex: 0,
+    word: 'sonreír',
+    distractors: ['sorrreír', 'sonreir', 'sonrreír'],
+    emoji: '😊',
+    rule: 'r-rr',
+    tip: 'Tras l, n o s: una sola r',
+    hardIndex: 3,
   },
   {
-    word: 'jirafa',
-    distractors: ['girafa', 'jiraffa', 'xirafa'],
-    emoji: '🦒',
-    rule: 'g-j',
-    tip: 'jirafa empieza por j',
-    hardIndex: 0,
-  },
-  {
-    word: 'garaje',
-    distractors: ['garage', 'garahe', 'garaxe'],
-    emoji: '🅿️',
-    rule: 'g-j',
-    tip: 'Terminación -aje con j',
-    hardIndex: 4,
-  },
-  {
-    word: 'juguete',
-    distractors: ['guguete', 'jugete', 'juguette'],
-    emoji: '🧸',
-    rule: 'g-j',
-    tip: 'ju- se escribe con j',
-    hardIndex: 0,
-  },
-  {
-    word: 'página',
-    distractors: ['pájina', 'pagina', 'páguina'],
-    emoji: '📄',
-    rule: 'g-j',
-    tip: 'página: g + tilde',
+    word: 'Enrique',
+    distractors: ['Enrrique', 'Enriqe', 'Henrique'],
+    emoji: '👦',
+    rule: 'r-rr',
+    tip: 'Tras l, n o s: una sola r',
     hardIndex: 2,
   },
 
-  // —— h ——
+  // hie- / hue-
+  {
+    word: 'hierro',
+    distractors: ['yerro', 'ierro', 'hiero'],
+    emoji: '⚙️',
+    rule: 'hie-hue',
+    tip: 'Las palabras con hie- y hue- llevan h',
+    hardIndex: 0,
+  },
+  {
+    word: 'hueso',
+    distractors: ['ueso', 'güeso', 'huesoa'],
+    emoji: '🦴',
+    rule: 'hie-hue',
+    tip: 'Las palabras con hie- y hue- llevan h',
+    hardIndex: 0,
+  },
+  {
+    word: 'hierba',
+    distractors: ['yerba', 'ierba', 'hierbah'],
+    emoji: '🌿',
+    rule: 'hie-hue',
+    tip: 'Las palabras con hie- y hue- llevan h',
+    hardIndex: 0,
+  },
   {
     word: 'huevo',
     distractors: ['uevo', 'güevo', 'huebo'],
     emoji: '🥚',
-    rule: 'h',
-    tip: 'hue- / hie- llevan h muda',
+    rule: 'hie-hue',
+    tip: 'Las palabras con hie- y hue- llevan h',
     hardIndex: 0,
   },
   {
     word: 'hielo',
     distractors: ['ielo', 'yelo', 'hieloh'],
     emoji: '🧊',
-    rule: 'h',
-    tip: 'hie- siempre con h',
+    rule: 'hie-hue',
+    tip: 'Las palabras con hie- y hue- llevan h',
     hardIndex: 0,
   },
   {
-    word: 'hermano',
-    distractors: ['ermano', 'jermano', 'hermmano'],
-    emoji: '👦',
-    rule: 'h',
-    tip: 'Muchas palabras empiezan por h',
-    hardIndex: 0,
-  },
-  {
-    word: 'ahora',
-    distractors: ['aora', 'ahorra', 'ajora'],
-    emoji: '⏰',
-    rule: 'h',
-    tip: 'h intercalada: a-hora',
-    hardIndex: 1,
-  },
-  {
-    word: 'hacer',
-    distractors: ['acer', 'haser', 'hácer'],
-    emoji: '🛠️',
-    rule: 'h',
-    tip: 'hacer / haber / hablar llevan h',
+    word: 'huella',
+    distractors: ['uella', 'güella', 'huellaa'],
+    emoji: '👣',
+    rule: 'hie-hue',
+    tip: 'Las palabras con hie- y hue- llevan h',
     hardIndex: 0,
   },
 
-  // —— ll / y ——
+  // -aba
   {
-    word: 'lluvia',
-    distractors: ['yuvía', 'llubia', 'yuvia'],
-    emoji: '🌧️',
-    rule: 'll-y',
-    tip: 'lluvia con ll',
-    hardIndex: 0,
+    word: 'cantaba',
+    distractors: ['cantava', 'cantába', 'cantabah'],
+    emoji: '🎤',
+    rule: 'aba',
+    tip: 'Las terminaciones -aba, -abas, -ábamos… van con b',
+    hardIndex: 5,
   },
   {
-    word: 'llave',
-    distractors: ['yave', 'llabe', 'llavee'],
-    emoji: '🔑',
-    rule: 'll-y',
-    tip: 'llave: ll + v',
-    hardIndex: 0,
+    word: 'jugaba',
+    distractors: ['jugava', 'jugába', 'hugaba'],
+    emoji: '⚽',
+    rule: 'aba',
+    tip: 'Las terminaciones -aba, -abas, -ábamos… van con b',
+    hardIndex: 4,
   },
   {
-    word: 'playa',
-    distractors: ['plalla', 'plaia', 'playya'],
-    emoji: '🏖️',
-    rule: 'll-y',
-    tip: 'playa termina en y',
-    hardIndex: 3,
+    word: 'estudiábamos',
+    distractors: ['estudiávamos', 'estudiabamos', 'estudiábamoss'],
+    emoji: '📚',
+    rule: 'aba',
+    tip: 'Las terminaciones -aba, -abas, -ábamos… van con b',
+    hardIndex: 7,
   },
+
+  // -illo / -illa
   {
     word: 'amarillo',
     distractors: ['amariyo', 'amarilo', 'amarrillo'],
     emoji: '💛',
-    rule: 'll-y',
-    tip: 'Terminación -illo con ll',
+    rule: 'll-illa',
+    tip: 'Muchas palabras en -illo / -illa se escriben con ll',
+    hardIndex: 5,
+  },
+  {
+    word: 'cucharilla',
+    distractors: ['cuchariya', 'cucharila', 'cucharillaa'],
+    emoji: '🥄',
+    rule: 'll-illa',
+    tip: 'Muchas palabras en -illo / -illa se escriben con ll',
+    hardIndex: 6,
+  },
+  {
+    word: 'bolsillo',
+    distractors: ['bolsiyo', 'bolsilo', 'bolssillo'],
+    emoji: '👖',
+    rule: 'll-illa',
+    tip: 'Muchas palabras en -illo / -illa se escriben con ll',
     hardIndex: 5,
   },
 
-  // —— r / rr ——
+  // b/v habitual
   {
-    word: 'perro',
-    distractors: ['pero', 'perrro', 'perroo'],
-    emoji: '🐕',
-    rule: 'r-rr',
-    tip: 'Entre vocales el sonido fuerte es rr',
+    word: 'caballo',
+    distractors: ['cavallo', 'cabayo', 'caballoh'],
+    emoji: '🐴',
+    rule: 'b-v',
+    tip: 'Repasa b/v: no todas las /b/ se escriben igual',
     hardIndex: 2,
   },
   {
-    word: 'carro',
-    distractors: ['caro', 'karro', 'carroo'],
-    emoji: '🚗',
-    rule: 'r-rr',
-    tip: 'ca-rro: rr entre vocales',
-    hardIndex: 2,
+    word: 'haber',
+    distractors: ['aver', 'haver', 'áber'],
+    emoji: '📦',
+    rule: 'haber-hablar',
+    tip: 'hacer, haber y hablar se escriben con h',
+    hardIndex: 0,
   },
   {
-    word: 'alrededor',
-    distractors: ['alededor', 'arrededor', 'alrrededor'],
-    emoji: '🔄',
-    rule: 'r-rr',
-    tip: 'Tras l, n, s: una sola r (no rr)',
-    hardIndex: 2,
-  },
-  {
-    word: 'tierra',
-    distractors: ['tiera', 'tierrra', 'tiérra'],
-    emoji: '🌍',
-    rule: 'r-rr',
-    tip: 'tierra lleva rr',
-    hardIndex: 3,
+    word: 'hablar',
+    distractors: ['ablar', 'havlar', 'hablár'],
+    emoji: '💬',
+    rule: 'haber-hablar',
+    tip: 'hacer, haber y hablar se escriben con h',
+    hardIndex: 0,
   },
 
-  // —— mb / mp ——
-  {
-    word: 'campo',
-    distractors: ['canpo', 'kampo', 'campoh'],
-    emoji: '🌾',
-    rule: 'mb-mp',
-    tip: 'Antes de p y b siempre m (nunca n)',
-    hardIndex: 2,
-  },
-  {
-    word: 'tambor',
-    distractors: ['tanbor', 'tamborr', 'támbór'],
-    emoji: '🥁',
-    rule: 'mb-mp',
-    tip: 'm + b: tam-bor',
-    hardIndex: 2,
-  },
-  {
-    word: 'tiempo',
-    distractors: ['tienpo', 'tiempoh', 'tíempo'],
-    emoji: '⏳',
-    rule: 'mb-mp',
-    tip: 'm antes de p: tiem-po',
-    hardIndex: 3,
-  },
+  // mb/mp
   {
     word: 'también',
     distractors: ['tanbién', 'tambien', 'tambíen'],
     emoji: '➕',
     rule: 'mb-mp',
-    tip: 'también: mb + tilde',
+    tip: 'Antes de p y b siempre va m',
     hardIndex: 2,
   },
+]
 
-  // —— que / qui ——
+/**
+ * Frases tipo cuaderno 3.º (hay/ahí/ay, hecho/echo, hacer/echar…).
+ * Las 4 opciones suenan o se parecen: hay que pensar el significado.
+ */
+export const SPELL_CONTEXTS: SpellContext[] = [
   {
-    word: 'queso',
-    distractors: ['keso', 'ceso', 'quéso'],
-    emoji: '🧀',
-    rule: 'que-qui',
-    tip: 'que/qui: la u no suena',
-    hardIndex: 0,
+    id: 'hay-1',
+    sentence: 'En la calle ___ varios perros.',
+    options: ['hay', 'ahí', '¡ay!', 'ay'],
+    correctIndex: 0,
+    tip: 'hay = verbo haber (existencia)',
+    rule: 'hay-ahi-ay',
   },
   {
-    word: 'máquina',
-    distractors: ['makina', 'mákuina', 'maquina'],
-    emoji: '⚙️',
-    rule: 'que-qui',
-    tip: 'má-qui-na: qui + tilde',
-    hardIndex: 2,
+    id: 'ahi-1',
+    sentence: 'He dejado el libro ___ encima de la mesa.',
+    options: ['ahí', 'hay', '¡ay!', 'ay'],
+    correctIndex: 0,
+    tip: 'ahí = lugar',
+    rule: 'hay-ahi-ay',
   },
   {
-    word: 'paquete',
-    distractors: ['pakete', 'pacuete', 'paquette'],
-    emoji: '📦',
-    rule: 'que-qui',
-    tip: 'pa-que-te con que',
-    hardIndex: 2,
-  },
-
-  // —— gue / gui / gü ——
-  {
-    word: 'guitarra',
-    distractors: ['gitarra', 'guitara', 'güitarra'],
-    emoji: '🎸',
-    rule: 'gue-gui',
-    tip: 'gui: la u no suena',
-    hardIndex: 2,
+    id: 'ay-1',
+    sentence: '___ qué pisotón me has dado!',
+    options: ['¡Ay!', 'Hay', 'Ahí', 'Ay'],
+    correctIndex: 0,
+    tip: '¡ay! = dolor, sorpresa o alegría',
+    rule: 'hay-ahi-ay',
   },
   {
-    word: 'pingüino',
-    distractors: ['pinguino', 'pingino', 'pingüíno'],
-    emoji: '🐧',
-    rule: 'gue-gui',
-    tip: 'Si la u suena → diéresis: ü',
-    hardIndex: 3,
+    id: 'hay-2',
+    sentence: '¿___ algún asiento libre a la sombra?',
+    options: ['Hay', 'Ahí', '¡Ay!', 'Ay'],
+    correctIndex: 0,
+    tip: 'hay = verbo haber',
+    rule: 'hay-ahi-ay',
   },
   {
-    word: 'vergüenza',
-    distractors: ['verguenza', 'vergensa', 'vergüensa'],
-    emoji: '😳',
-    rule: 'gue-gui',
-    tip: 'güe con diéresis',
-    hardIndex: 3,
-  },
-
-  // —— c / z ——
-  {
-    word: 'zapato',
-    distractors: ['sapato', 'çapato', 'zapatoh'],
-    emoji: '👟',
-    rule: 'c-z',
-    tip: 'za, zo, zu con z',
-    hardIndex: 0,
+    id: 'ahi-2',
+    sentence: 'No pongas ___ tu abrigo: se ensucia.',
+    options: ['ahí', 'hay', '¡ay!', 'hai'],
+    correctIndex: 0,
+    tip: 'ahí = lugar',
+    rule: 'hay-ahi-ay',
   },
   {
-    word: 'lápiz',
-    distractors: ['lapiz', 'lápis', 'lápizz'],
-    emoji: '✏️',
-    rule: 'c-z',
-    tip: 'Aguda en z + tilde',
-    hardIndex: 1,
+    id: 'ay-2',
+    sentence: 'El futbolista gritó ___ cuando recibió la patada.',
+    options: ['¡ay!', 'hay', 'ahí', 'hai'],
+    correctIndex: 0,
+    tip: '¡ay! expresa dolor o sorpresa',
+    rule: 'hay-ahi-ay',
   },
   {
-    word: 'brazo',
-    distractors: ['brasso', 'vrazo', 'braso'],
-    emoji: '💪',
-    rule: 'c-z',
-    tip: 'brazo: z + grupo br',
-    hardIndex: 3,
-  },
-
-  // —— tilde ——
-  {
-    word: 'árbol',
-    distractors: ['arbol', 'àrbol', 'árboles'],
-    emoji: '🌳',
-    rule: 'tilde',
-    tip: 'Esdrújulas: siempre tilde',
-    hardIndex: 0,
+    id: 'hecho-1',
+    sentence: 'Luisa ha ___ una pajarita de papel.',
+    options: ['hecho', 'echo', 'heco', 'haecho'],
+    correctIndex: 0,
+    tip: 'hecho = verbo hacer (con h)',
+    rule: 'hacer-echar',
   },
   {
-    word: 'música',
-    distractors: ['musica', 'músika', 'musíca'],
-    emoji: '🎵',
-    rule: 'tilde',
-    tip: 'mú-si-ca es esdrújula',
-    hardIndex: 1,
+    id: 'echo-1',
+    sentence: 'Yo ___ agua al jardinero cada tarde.',
+    options: ['echo', 'hecho', 'heco', 'ha echo'],
+    correctIndex: 0,
+    tip: 'echo = verbo echar (sin h)',
+    rule: 'hacer-echar',
   },
   {
-    word: 'camión',
-    distractors: ['camion', 'kamión', 'cámion'],
-    emoji: '🚛',
-    rule: 'tilde',
-    tip: 'Aguda en n: tilde',
-    hardIndex: 4,
+    id: 'hecho-2',
+    sentence: 'Las cuentas ya están ___.',
+    options: ['hechas', 'echas', 'echadas', 'fechas'],
+    correctIndex: 0,
+    tip: 'hecho/hechas = hacer',
+    rule: 'hacer-echar',
   },
   {
-    word: 'café',
-    distractors: ['cafe', 'cafè', 'kafe'],
-    emoji: '☕',
-    rule: 'tilde',
-    tip: 'Aguda en vocal: tilde',
-    hardIndex: 3,
+    id: 'echa-1',
+    sentence: 'Ramona ___ el ramo de flores al agua.',
+    options: ['echa', 'hecha', 'hace', 'echaó'],
+    correctIndex: 0,
+    tip: 'echar = sin h',
+    rule: 'hacer-echar',
+  },
+  {
+    id: 'hizo-1',
+    sentence: 'Primero ella ___ un ramo con rosas.',
+    options: ['hizo', 'izo', 'echo', 'hiso'],
+    correctIndex: 0,
+    tip: 'formas de hacer llevan h',
+    rule: 'hacer-echar',
+  },
+  {
+    id: 'echaron-1',
+    sentence: 'Ayer ___ comida a las gallinas.',
+    options: ['echaron', 'hecharon', 'hacharón', 'echarón'],
+    correctIndex: 0,
+    tip: 'formas de echar van sin h',
+    rule: 'hacer-echar',
+  },
+  {
+    id: 'habia-1',
+    sentence: 'En el hueco de la escalera ___ un hierro retorcido.',
+    options: ['había', 'avía', 'habia', 'a vía'],
+    correctIndex: 0,
+    tip: 'haber se escribe con h',
+    rule: 'haber-hablar',
+  },
+  {
+    id: 'hierro-ctx',
+    sentence: 'La valla del huerto es de ___.',
+    options: ['hierro', 'yerro', 'ierro', 'hiero'],
+    correctIndex: 0,
+    tip: 'hie- / hue- llevan h',
+    rule: 'hie-hue',
+  },
+  {
+    id: 'perro-ctx',
+    sentence: 'El ___ llegó corriendo hasta el carro.',
+    options: ['perro', 'pero', 'perroo', 'perrro'],
+    correctIndex: 0,
+    tip: 'Entre vocales, sonido fuerte → rr',
+    rule: 'r-rr',
+  },
+  {
+    id: 'alrededor-ctx',
+    sentence: 'Los gorriones volaban ___ de la torre.',
+    options: ['alrededor', 'arrededor', 'alededor', 'alrrededor'],
+    correctIndex: 0,
+    tip: 'Tras l: una sola r',
+    rule: 'r-rr',
+  },
+  {
+    id: 'cantaba-ctx',
+    sentence: 'Ayer ella ___ una canción en el patio.',
+    options: ['cantaba', 'cantava', 'cantába', 'cantabah'],
+    correctIndex: 0,
+    tip: 'Pretérito -aba con b',
+    rule: 'aba',
+  },
+  {
+    id: 'hola-1',
+    sentence: '___ , ¿cómo estás?',
+    options: ['Hola', 'Ola', '¡Hola!', 'Olaa'],
+    correctIndex: 0,
+    tip: 'Saludo: hola (con h)',
+    rule: 'haber-hablar',
   },
 ]

@@ -6,12 +6,12 @@ import { SPELL_MODE_LABELS, type SpellPlayMode } from '@/spelling'
 import './spelling.css'
 
 const MODES: Array<{ mode: SpellPlayMode; art: ModeArtId; className: string; text: string }> = [
+  { mode: 'complete', art: 'spell-complete', className: 'mode-poster--challenge', text: 'hay / ahí / ¡ay!' },
+  { mode: 'correct', art: 'spell-correct', className: 'mode-poster--train', text: 'hecho o echo' },
+  { mode: 'intruder', art: 'spell-intruder', className: 'mode-poster--misses', text: 'Encuentra la falta' },
   { mode: 'missing', art: 'spell-missing', className: 'mode-poster--learn', text: 'Letra de la regla' },
-  { mode: 'correct', art: 'spell-correct', className: 'mode-poster--train', text: 'cantaba o cantava' },
-  { mode: 'picture', art: 'spell-picture', className: 'mode-poster--match', text: 'Imagen → ortografía' },
-  { mode: 'intruder', art: 'spell-intruder', className: 'mode-poster--misses', text: '¿Cuál está mal?' },
-  { mode: 'complete', art: 'spell-complete', className: 'mode-poster--challenge', text: 'Con pista de regla' },
-  { mode: 'mix', art: 'spell-mix', className: 'mode-poster--random', text: '12 de repaso mezclado' },
+  { mode: 'picture', art: 'spell-picture', className: 'mode-poster--match', text: 'Imagen → escritura' },
+  { mode: 'mix', art: 'spell-mix', className: 'mode-poster--random', text: 'Repaso mezclado 3.º' },
 ]
 
 function Poster({
@@ -48,7 +48,7 @@ export function SpellModeSelectScreen() {
   return (
     <AppShell title="ORTOGRAFÍA" shortTitle="Ortografía" showBack backTo="/missions/languages">
       <p className="spell-modes__lead">
-        Repaso de 3.º: b/v, g/j, h, ll/y, r/rr, mb/mp… · solo botones
+        Repaso 3.º (castellano): hay/ahí/ay, hecho/echo, r/rr, hie-hue… · como en el cuaderno
       </p>
       <div className="mode-posters mode-posters--spell" role="list">
         {MODES.map((m) => (
