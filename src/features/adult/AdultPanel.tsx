@@ -120,15 +120,13 @@ function IconChevron({ open }: { open: boolean }) {
 }
 
 export function AdultPanel() {
-  const { account, players, logout, authorizeDeviceForPlayer, deviceAuthorized, refreshMe } =
-    useAuth()
+  const { account, players, logout } = useAuth()
   const { progress, updateSchool, setActivityAssignments, refreshFromServer } = useProgress()
   const navigate = useNavigate()
   const [resolvedPlayerId, setResolvedPlayerId] = useState<number | null>(
     players[0]?.id ?? null,
   )
   const playerId = resolvedPlayerId ?? players[0]?.id ?? null
-  const [deviceBusy, setDeviceBusy] = useState(false)
 
   const [overview, setOverview] = useState<AdultOverview | null>(null)
   const [activityDays, setActivityDays] = useState<ActivityDay[]>([])
@@ -259,37 +257,6 @@ export function AdultPanel() {
   const needsReview = overview?.education.needsReview ?? []
   const learning = overview?.education.learning ?? []
   const dominated = overview?.education.dominated ?? []
-
-  async function authorizeDevice() {
-    if (playerId == null) return
-    setDeviceBusy(true)
-    setError(null)
-    try {
-      await authorizeDeviceForPlayer(playerId, 'Dispositivo familiar')
-      await refreshMe()
-      await refreshFromServer()
-      await refreshAll()
-    } catch (err) {
-      setError(err instanceof ApiError ? err.message : 'No se pudo autorizar el dispositivo.')
-    } finally {
-      setDeviceBusy(false)
-    }
-  }
-
-  async function revokeDevice(deviceId: number) {
-    if (playerId == null) return
-    setDeviceBusy(true)
-    setError(null)
-    try {
-      await apiPost('/auth/device-revoke.php', { playerId, deviceId })
-      await refreshMe()
-      await refreshAll()
-    } catch (err) {
-      setError(err instanceof ApiError ? err.message : 'No se pudo revocar el dispositivo.')
-    } finally {
-      setDeviceBusy(false)
-    }
-  }
 
   async function confirmDeliver() {
     if (!deliverCycle || playerId == null) return
@@ -491,66 +458,6 @@ export function AdultPanel() {
               setVoidReason('')
             }}
           />
-
-          <section className="adult-devices-panel" aria-labelledby="adult-devices-title">
-            <div className="adult-devices-panel__head">
-              <div>
-                <h2 id="adult-devices-title" className="adult-overview__title">
-                  Dispositivos
-                </h2>
-                <p className="adult-devices-panel__lead">
-                  Los autorizados pueden jugar sin PIN. Revoca los que ya no uses.
-                </p>
-              </div>
-              <button
-                type="button"
-                className="btn btn-secondary"
-                disabled={deviceBusy || !playerId}
-                onClick={() => void authorizeDevice()}
-              >
-                {deviceBusy
-                  ? 'Espera…'
-                  : deviceAuthorized
-                    ? 'Reautorizar este'
-                    : 'Autorizar este dispositivo'}
-              </button>
-            </div>
-            {overview.devices.filter((d) => d.active).length === 0 ? (
-              <p className="adult-devices__inactive">Ningún dispositivo activo ahora mismo.</p>
-            ) : (
-              <ul className="adult-devices">
-                {overview.devices
-                  .filter((d) => d.active)
-                  .map((device) => (
-                    <li key={device.id} className="adult-devices__item">
-                      <div>
-                        <p className="adult-devices__name">{device.deviceLabel || 'Dispositivo'}</p>
-                        <p className="adult-devices__meta">
-                          {device.lastUsedAt
-                            ? `Último uso: ${formatFriendlyWhen(device.lastUsedAt)}`
-                            : `Creado: ${formatFriendlyWhen(device.createdAt)}`}
-                          {device.tokenPrefix ? ` · ${device.tokenPrefix}…` : ''}
-                        </p>
-                      </div>
-                      <button
-                        type="button"
-                        className="btn btn-ghost"
-                        disabled={deviceBusy}
-                        onClick={() => void revokeDevice(device.id)}
-                      >
-                        Revocar
-                      </button>
-                    </li>
-                  ))}
-              </ul>
-            )}
-            {overview.devices.some((d) => !d.active) ? (
-              <p className="adult-devices__inactive">
-                {overview.devices.filter((d) => !d.active).length} dispositivo(s) revocado(s) o
-                caducado(s).
-              </p>
-            ) : null}
-          </section>
 
           <section className="adult-overview" aria-labelledby="adult-overview-title">
             <div className="adult-overview__head">
