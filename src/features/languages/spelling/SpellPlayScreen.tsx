@@ -2,6 +2,9 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import {
   buildSpellRound,
+  listActiveSpellMisses,
+  recordSpellHit,
+  recordSpellMiss,
   SPELL_MODE_LABELS,
   SPELL_ROUND_SIZE,
   useSpellSession,
@@ -27,7 +30,8 @@ function isMode(v: string | undefined): v is SpellPlayMode {
     v === 'picture' ||
     v === 'intruder' ||
     v === 'complete' ||
-    v === 'mix'
+    v === 'mix' ||
+    v === 'review'
   )
 }
 
@@ -53,12 +57,18 @@ export function SpellPlayScreen() {
   const navigate = useNavigate()
   const { setLastSummary, setLastMode } = useSpellSession()
   const { recordProgress } = useDailyMission()
-  const { grantActivityEnergy } = useProgress()
+  const { grantActivityEnergy, playerId } = useProgress()
+  const pid = playerId ?? 'local'
   const lumo = useLumoController('thinking')
   const answerFx = useAnswerFx()
   const seedRef = useRef(Date.now())
   const mode: SpellPlayMode = isMode(modeParam) ? modeParam : 'mix'
-  const queue = useMemo(() => buildSpellRound(mode, SPELL_ROUND_SIZE, seedRef.current), [mode])
+  const queue = useMemo(() => {
+    const preferMisses = listActiveSpellMisses(pid)
+    return buildSpellRound(mode, SPELL_ROUND_SIZE, seedRef.current, {
+      preferMisses: mode === 'review' ? preferMisses : undefined,
+    })
+  }, [mode, pid])
 
   const [index, setIndex] = useState(0)
   const [locked, setLocked] = useState(false)
@@ -171,7 +181,9 @@ export function SpellPlayScreen() {
     setLocked(true)
     setPicked(i)
     const ok = i === question.correctIndex
+    const key = question.targetKey
     if (ok) {
+      if (key) recordSpellHit(pid, { key, rule: question.rule })
       soundEngine.play('answer-correct')
       const ns = streakRef.current + 1
       streakRef.current = ns
@@ -186,6 +198,7 @@ export function SpellPlayScreen() {
       return
     }
 
+    if (key) recordSpellMiss(pid, { key, rule: question.rule, mode })
     soundEngine.play('answer-wrong')
     streakRef.current = 0
     lumo.reactToAnswer({ correct: false, streak: 0 })
@@ -193,7 +206,7 @@ export function SpellPlayScreen() {
     answerFx.spawn({ tone: 'miss', optionIndex: i, nextStreak: 0 })
     setExplain(
       explainSpellMistake({
-        mode: question.mode === 'mix' ? mode : question.mode,
+        mode: question.mode === 'mix' || question.mode === 'review' ? mode : question.mode,
         rule: question.rule,
         tip: question.tip,
         correct: question.options[question.correctIndex]!,

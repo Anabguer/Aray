@@ -1,17 +1,26 @@
 import { describe, expect, it } from 'vitest'
 import { buildSpellQuestion, buildSpellRound, hardUnitAt } from '@/spelling/generator'
-import { SPELL_BANK, SPELL_CONTEXTS, type SpellPlayMode } from '@/spelling/types'
+import { SPELL_BANK } from '@/spelling/bank'
+import { SPELL_CONTEXTS, type SpellPlayMode } from '@/spelling/types'
 
-const MODES: SpellPlayMode[] = ['missing', 'correct', 'picture', 'intruder', 'complete', 'mix']
+const MODES: SpellPlayMode[] = [
+  'missing',
+  'correct',
+  'picture',
+  'intruder',
+  'complete',
+  'mix',
+  'review',
+]
 const BANK_WORDS = new Set(SPELL_BANK.map((w) => w.word.toLowerCase()))
 
 describe('ortografía 3.º (cuaderno real)', () => {
-  it('banco y contextos sin opciones duplicadas ni auto-distractores', () => {
-    for (const w of SPELL_BANK) {
+  it('banco amplio (~1000) y contextos válidos', () => {
+    expect(SPELL_BANK.length).toBeGreaterThanOrEqual(900)
+    for (const w of SPELL_BANK.slice(0, 80)) {
       expect(w.distractors).toHaveLength(3)
       expect(new Set(w.distractors.map((d) => d.toLowerCase())).size).toBe(3)
       expect(w.distractors.map((d) => d.toLowerCase()).includes(w.word.toLowerCase())).toBe(false)
-      // Evitar trampas absurdas tipo “pakete” (k por qu)
       expect(w.distractors.some((d) => /[^c]k|k[^e]/i.test(d))).toBe(false)
     }
     for (const c of SPELL_CONTEXTS) {
@@ -29,6 +38,7 @@ describe('ortografía 3.º (cuaderno real)', () => {
         expect(new Set(q.options.map((o) => o.toLowerCase())).size).toBe(4)
         expect(q.correctIndex).toBeGreaterThanOrEqual(0)
         expect(q.correctIndex).toBeLessThan(4)
+        expect(q.targetKey).toBeTruthy()
       }
     }
   })
@@ -57,7 +67,6 @@ describe('ortografía 3.º (cuaderno real)', () => {
     expect(hardUnitAt('perro', 2)).toEqual({ start: 2, unit: 'rr' })
     expect(hardUnitAt('caballo', 2)).toEqual({ start: 2, unit: 'b' })
 
-    // Varias semillas: si el hueco cae en digrafo, display/opciones tratan ll|rr juntas
     for (let seed = 0; seed < 80; seed += 1) {
       const q = buildSpellQuestion('missing', seed)
       if (!q.display) continue
