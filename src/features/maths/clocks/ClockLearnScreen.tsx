@@ -15,7 +15,6 @@ interface LearnStep {
   demo: ClockTime
   /** Trozo de pizza iluminados (0–4). Solo ayuda catalana. */
   pizzaSlices?: 0 | 1 | 2 | 3 | 4
-  slogan?: string
 }
 
 const STEPS_ES: LearnStep[] = [
@@ -58,7 +57,6 @@ const STEPS_CA: LearnStep[] = [
     tip: '1 trozo = un quart · 2 = dos · 3 = tres · 4 = hora nueva',
     demo: { hour: 1, minute: 0 },
     pizzaSlices: 0,
-    slogan: 'En castellano miramos la hora en la que estamos. En catalán, la hora a la que vamos.',
   },
   {
     id: 'un-quart',
@@ -189,7 +187,6 @@ export function ClockLearnScreen() {
             <p className="clock-learn__bubble" id="clock-learn-title">
               {step.body}
             </p>
-            {step.slogan ? <p className="clock-learn__slogan">{step.slogan}</p> : null}
           </div>
         </div>
 
