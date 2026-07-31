@@ -1,13 +1,11 @@
 /* ARAY service worker — app shell only; never caches API. */
-const CACHE = 'aray-shell-v3'
+const CACHE = 'aray-shell-v4'
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches
       .open(CACHE)
-      .then((cache) =>
-        cache.addAll(['./', './index.html', './site.webmanifest', './favicon.png', './favicon.ico']).catch(() => undefined),
-      )
+      .then((cache) => cache.addAll(['./', './index.html', './site.webmanifest']).catch(() => undefined))
       .then(() => self.skipWaiting()),
   )
 })
@@ -16,7 +14,7 @@ self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches
       .keys()
-      .then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))))
+      .then((keys) => Promise.all(keys.map((k) => (k === CACHE ? Promise.resolve(false) : caches.delete(k)))))
       .then(() => self.clients.claim()),
   )
 })
@@ -28,6 +26,12 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(req.url)
   if (url.origin !== self.location.origin) return
   if (url.pathname.includes('/api/')) return
+
+  // Favicons / PWA icons: always network (browsers cache them hard enough already).
+  if (/\.(?:ico|png)$/i.test(url.pathname) && /favicon|icon-|apple-touch/i.test(url.pathname)) {
+    event.respondWith(fetch(req))
+    return
+  }
 
   const isNavigation = req.mode === 'navigate'
   const isStatic =
