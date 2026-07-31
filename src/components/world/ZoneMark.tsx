@@ -5,6 +5,7 @@ const markLabel: Record<WorldZoneMark, string> = {
   tables: '×',
   calc: '∑',
   problems: '?',
+  money: '€',
   clocks: '◷',
   alphabet: 'A',
   writing: '✎',

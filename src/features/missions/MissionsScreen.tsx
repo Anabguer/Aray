@@ -7,6 +7,7 @@ import {
 import { AppShell } from '@/components/AppShell'
 import { StageSelect, StageSlot } from '@/components/stage/StageSelect'
 import { visibleWorlds } from '@/curriculum'
+import type { SubjectId } from '@/curriculum/types'
 import { useProgress } from '@/progress/ProgressContext'
 
 const WORLD_META: Record<
@@ -44,8 +45,8 @@ export function MissionsScreen() {
   const worlds = visibleWorlds(progress)
   const byId = new Map(worlds.map((w) => [w.id, w]))
 
-  function slot(id: string, featured: boolean) {
-    const world = byId.get(id)
+  function slot(id: SubjectId | 'medi', featured: boolean) {
+    const world = byId.get(id as SubjectId)
     const meta = WORLD_META[id]!
     const title = (world?.title ?? id).toUpperCase()
     const available = Boolean(world?.hasPlayable)

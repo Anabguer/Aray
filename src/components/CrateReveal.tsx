@@ -14,19 +14,16 @@ type CrateRevealProps = {
 }
 
 function rewardLabel(reward: CrateRewardSpec): string {
-  if (reward.kind === 'coins') return `+${reward.amount} monedas`
   if (reward.kind === 'energy') return `+${reward.amount} de energía`
   return `+${reward.amount} XP`
 }
 
 function rewardHint(reward: CrateRewardSpec): string {
-  if (reward.kind === 'coins') return 'Van al monedero de arriba ↑'
   if (reward.kind === 'energy') return 'Van a la barra de energía ↑'
   return 'Van a tu XP / nivel ↑'
 }
 
 function collectLabel(reward: CrateRewardSpec): string {
-  if (reward.kind === 'coins') return '¡Sumar monedas!'
   if (reward.kind === 'energy') return '¡Sumar energía!'
   return '¡Sumar XP!'
 }

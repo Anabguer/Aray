@@ -22,7 +22,7 @@ export function unlockLabelAfterSession(
   }
 
   if (result.rewardGoalJustCompleted) {
-    parts.push(energyCopy.dropUnlocked)
+    parts.push(energyCopy.dropUnlockedFor('tu tutor'))
   }
 
   if (result.personalBest) {
