@@ -107,12 +107,15 @@ export async function hydrateOfficialProgress(opts: {
     let playerId = resolvePlayerId(me)
     const preferredSlug = resolvePlayerSlug(me)
 
-    // Siempre dejar sesión infantil activa (también si me.php dice adult en el lobby).
-    const child = await ensureChildPlaySession({
-      playerSlug: preferredSlug,
-      playerId,
-    })
-    if (child) playerId = child.id
+    // No forzar child-enter si hay sesión adulta (panel familiar).
+    // En el lobby/juego, AuthGate entra como niño cuando hace falta.
+    if (me.role !== 'adult') {
+      const child = await ensureChildPlaySession({
+        playerSlug: preferredSlug,
+        playerId,
+      })
+      if (child) playerId = child.id
+    }
 
     if (!playerId) {
       purgeStaleLocalSync(ARAY_DATA_EPOCH_FALLBACK, null)

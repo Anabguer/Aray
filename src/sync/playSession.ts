@@ -83,6 +83,7 @@ function resolveEnterSlug(me: MeResponse, opts?: EnsureChildOpts): string {
 /**
  * Asegura sesión infantil para poder enviar partidas.
  * Si se indica playerSlug/playerId, cambia de perfil cuando el dispositivo lo permite.
+ * No degrada una sesión adulta (panel familiar): ahí el progreso se lee sin child-enter.
  */
 export async function ensureChildPlaySession(
   opts?: EnsureChildOpts,
@@ -92,6 +93,11 @@ export async function ensureChildPlaySession(
     if (playerMatches(me.player, opts)) {
       return me.player
     }
+  }
+
+  // Mantener sesión adulta: overview/reward del panel fallan si pasamos a child.
+  if (me.role === 'adult') {
+    return null
   }
 
   if (!me.device?.authorized) {

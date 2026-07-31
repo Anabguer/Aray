@@ -1,8 +1,35 @@
+import { useEffect, useRef } from 'react'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from '@/auth/AuthContext'
 import { AccessScreen } from '@/features/access/AccessScreen'
 
 const PUBLIC_PATHS = new Set(['/access', '/register'])
+
+/**
+ * Si el adulto llega al juego (p. ej. un solo niño) sin child-enter,
+ * entra automáticamente para poder guardar partidas sin pisar el panel familiar.
+ */
+function EnsureChildForPlay() {
+  const { role, familyPlayers, enterAsChild } = useAuth()
+  const location = useLocation()
+  const enteringRef = useRef(false)
+
+  useEffect(() => {
+    if (role !== 'adult') return
+    const path = location.pathname
+    if (path === '/adult' || path.startsWith('/adult/')) return
+    if (path === '/pick-profile') return
+    if (PUBLIC_PATHS.has(path)) return
+    if (familyPlayers.length !== 1 || !familyPlayers[0]?.slug) return
+    if (enteringRef.current) return
+    enteringRef.current = true
+    void enterAsChild(familyPlayers[0].slug).finally(() => {
+      enteringRef.current = false
+    })
+  }, [role, familyPlayers, location.pathname, enterAsChild])
+
+  return null
+}
 
 /** Acceso libre a /access y /register. Juego requiere dispositivo o sesión. /adult exige adulto. */
 export function AuthGate() {
@@ -62,5 +89,10 @@ export function AuthGate() {
     return <Navigate to="/pick-profile" replace />
   }
 
-  return outlet
+  return (
+    <>
+      <EnsureChildForPlay />
+      {outlet}
+    </>
+  )
 }

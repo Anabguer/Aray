@@ -172,7 +172,7 @@ function IconChevron({ open }: { open: boolean }) {
 }
 
 export function AdultPanel() {
-  const { account, players, logout } = useAuth()
+  const { account, players, logout, refreshMe } = useAuth()
   const { progress, updateSchool, setActivityAssignments, refreshFromServer } = useProgress()
   const navigate = useNavigate()
   const [resolvedPlayerId, setResolvedPlayerId] = useState<number | null>(

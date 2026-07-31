@@ -394,6 +394,8 @@ export function ProgressProvider({
   }, [applyOfficial, persistCache, player?.id, refreshPendingCount, store])
 
   const flushSyncQueue = useCallback(async () => {
+    // Con sesión adulta (panel familiar) no forzar child-enter vía sync.
+    if (role === 'adult') return
     const id = playerIdRef.current
     if (!id || syncingRef.current) return
     syncingRef.current = true
@@ -472,7 +474,7 @@ export function ProgressProvider({
     } finally {
       syncingRef.current = false
     }
-  }, [applyOfficial, familyPlayers, persistCache, player?.slug, refreshPendingCount])
+  }, [applyOfficial, familyPlayers, persistCache, player?.slug, refreshPendingCount, role])
 
   useEffect(() => {
     if (skipHydration) {
