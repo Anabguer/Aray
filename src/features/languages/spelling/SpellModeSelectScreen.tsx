@@ -6,12 +6,12 @@ import { SPELL_MODE_LABELS, type SpellPlayMode } from '@/spelling'
 import './spelling.css'
 
 const MODES: Array<{ mode: SpellPlayMode; art: ModeArtId; className: string; text: string }> = [
-  { mode: 'missing', art: 'aprende', className: 'mode-poster--learn', text: 'Letra de la regla' },
-  { mode: 'correct', art: 'entrena', className: 'mode-poster--train', text: 'cantaba o cantava' },
-  { mode: 'picture', art: 'empareja', className: 'mode-poster--match', text: 'Imagen → ortografía' },
-  { mode: 'intruder', art: 'mis-fallos', className: 'mode-poster--misses', text: '¿Cuál está mal?' },
-  { mode: 'complete', art: 'reto-rapido', className: 'mode-poster--challenge', text: 'Con pista de regla' },
-  { mode: 'mix', art: 'sorpresa', className: 'mode-poster--random', text: '12 de repaso mezclado' },
+  { mode: 'missing', art: 'spell-missing', className: 'mode-poster--learn', text: 'Letra de la regla' },
+  { mode: 'correct', art: 'spell-correct', className: 'mode-poster--train', text: 'cantaba o cantava' },
+  { mode: 'picture', art: 'spell-picture', className: 'mode-poster--match', text: 'Imagen → ortografía' },
+  { mode: 'intruder', art: 'spell-intruder', className: 'mode-poster--misses', text: '¿Cuál está mal?' },
+  { mode: 'complete', art: 'spell-complete', className: 'mode-poster--challenge', text: 'Con pista de regla' },
+  { mode: 'mix', art: 'spell-mix', className: 'mode-poster--random', text: '12 de repaso mezclado' },
 ]
 
 function Poster({

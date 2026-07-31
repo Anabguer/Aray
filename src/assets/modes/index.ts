@@ -19,6 +19,12 @@ import entrena from './entrena.png'
 import misFallos from './mis-fallos.png'
 import retoRapido from './reto-rapido.png'
 import sorpresa from './sorpresa.png'
+import spellComplete from './spell-complete.png'
+import spellCorrect from './spell-correct.png'
+import spellIntruder from './spell-intruder.png'
+import spellMissing from './spell-missing.png'
+import spellMix from './spell-mix.png'
+import spellPicture from './spell-picture.png'
 
 export type ModeArtId =
   | 'aprende'
@@ -43,6 +49,12 @@ export type ModeArtId =
   | 'calc-compare'
   | 'calc-order'
   | 'calc-truefalse'
+  | 'spell-missing'
+  | 'spell-correct'
+  | 'spell-picture'
+  | 'spell-intruder'
+  | 'spell-complete'
+  | 'spell-mix'
 
 /** Arte 3D gamer por modo (cuadrado, object-fit cover). */
 export const modeArt: Record<ModeArtId, string> = {
@@ -68,6 +80,12 @@ export const modeArt: Record<ModeArtId, string> = {
   'calc-compare': calcCompare,
   'calc-order': calcOrder,
   'calc-truefalse': calcTruefalse,
+  'spell-missing': spellMissing,
+  'spell-correct': spellCorrect,
+  'spell-picture': spellPicture,
+  'spell-intruder': spellIntruder,
+  'spell-complete': spellComplete,
+  'spell-mix': spellMix,
 }
 
 export function modeArtUrl(id: ModeArtId): string {
