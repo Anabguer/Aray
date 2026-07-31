@@ -5142,6 +5142,13 @@ a {
   min-width: 0;
 }
 
+.lobby__main-left {
+  display: grid;
+  gap: var(--lobby-col-gap, 0.75rem);
+  min-width: 0;
+  align-content: start;
+}
+
 .lobby-zones {
   margin: 0;
   width: 100%;
@@ -5186,10 +5193,10 @@ a {
 
 .lobby-mission {
   display: grid;
-  grid-template-columns: minmax(4.25rem, 5.25rem) minmax(0, 1fr);
-  gap: 0.7rem 0.75rem;
+  grid-template-columns: minmax(3.5rem, 4.25rem) minmax(0, 1fr);
+  gap: 0.55rem 0.65rem;
   align-items: center;
-  padding: 0.85rem 0.8rem;
+  padding: 0.65rem 0.7rem;
   border-radius: var(--radius-lg);
   border: 2px solid rgba(56, 189, 248, 0.4);
   background: linear-gradient(145deg, rgba(14, 165, 233, 0.28), rgba(139, 92, 246, 0.22), rgba(11, 31, 58, 0.96));
@@ -5208,7 +5215,7 @@ a {
 
 .lobby-mission__art {
   width: 100%;
-  max-width: 5.25rem;
+  max-width: 4.25rem;
   aspect-ratio: 1;
   height: auto;
   display: grid;
@@ -5219,6 +5226,8 @@ a {
 .lobby-mission__icon {
   width: 100%;
   height: 100%;
+  object-fit: contain;
+  object-position: center;
 }
 
 .lobby-mission__body {
@@ -5236,16 +5245,16 @@ a {
 }
 
 .lobby-mission__title {
-  margin: 0.25rem 0 0.35rem;
+  margin: 0.15rem 0 0.25rem;
   font-family: var(--font-display);
-  font-size: clamp(1.15rem, 4.6vw, 1.45rem);
+  font-size: clamp(1rem, 4vw, 1.25rem);
   line-height: 1.15;
 }
 
 .lobby-mission__rewards {
-  margin: 0 0 0.7rem;
+  margin: 0 0 0.5rem;
   color: var(--warn);
-  font-size: 0.92rem;
+  font-size: 0.85rem;
   font-family: var(--font-display);
   font-weight: 800;
 }
@@ -5254,13 +5263,13 @@ a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.45rem;
+  gap: 0.4rem;
   width: 100%;
   max-width: 100%;
   min-width: 0;
-  min-height: 2.65rem;
-  padding: 0.55rem 1rem;
-  font-size: 0.95rem;
+  min-height: 2.35rem;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.88rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -5399,6 +5408,11 @@ a {
   display: grid;
   align-content: start;
   padding: 0.9rem 0.85rem 0.95rem;
+}
+
+.lobby__main > .goal-card--compact {
+  height: 100%;
+  align-self: stretch;
 }
 
 @media (min-width: 720px) {
@@ -5812,42 +5826,42 @@ a {
 
   .lobby-mission {
     grid-template-columns: auto 1fr;
-    gap: 1rem;
-    padding: 1.15rem 1.1rem;
+    gap: 0.75rem;
+    padding: 0.75rem 0.9rem;
   }
 
   .lobby-mission__art {
-    width: clamp(7rem, 18vw, 10.5rem);
+    width: clamp(4.25rem, 9vw, 5.5rem);
     max-width: none;
-    height: clamp(7rem, 18vw, 10.5rem);
+    height: clamp(4.25rem, 9vw, 5.5rem);
     aspect-ratio: auto;
-    filter: drop-shadow(0 12px 26px rgba(14, 165, 233, 0.35));
+    filter: drop-shadow(0 8px 18px rgba(14, 165, 233, 0.32));
   }
 
   .lobby-mission__eyebrow {
-    font-size: 0.78rem;
+    font-size: 0.72rem;
     letter-spacing: 0.08em;
   }
 
   .lobby-mission__title {
-    margin: 0.35rem 0 0.45rem;
-    font-size: clamp(1.4rem, 4vw, 1.85rem);
+    margin: 0.2rem 0 0.3rem;
+    font-size: clamp(1.15rem, 2.4vw, 1.4rem);
     line-height: 1.1;
   }
 
   .lobby-mission__rewards {
-    margin: 0 0 0.95rem;
-    font-size: 1rem;
+    margin: 0 0 0.55rem;
+    font-size: 0.92rem;
   }
 
   .lobby-mission__cta {
     width: fit-content;
-    min-width: 11rem;
-    min-height: 3.35rem;
-    padding: 0.75rem 1.45rem;
-    font-size: 1.15rem;
+    min-width: 9.5rem;
+    min-height: 2.55rem;
+    padding: 0.5rem 1.1rem;
+    font-size: 0.95rem;
     letter-spacing: 0.08em;
-    gap: 0.55rem;
+    gap: 0.45rem;
   }
 
   .subjects__grid {
@@ -5887,21 +5901,37 @@ a {
     margin: 0 0 var(--lobby-stack-main);
   }
 
-  .lobby-mission {
+  .lobby__main-left {
+    display: flex;
+    flex-direction: column;
+    gap: var(--lobby-col-gap);
     min-height: 100%;
-    padding: 1.35rem 1.4rem;
+    height: 100%;
+  }
+
+  .lobby__main-left > .lobby-mission {
+    flex: 1 1 0;
+    min-height: 0;
+    padding: 0.85rem 1rem;
     grid-template-columns: auto 1fr;
+    align-content: center;
+  }
+
+  .lobby__main-left > .zone-card {
+    flex: 1 1 0;
+    min-height: 0;
+    height: auto;
   }
 
   .lobby-mission__art {
-    width: 11rem;
-    height: 11rem;
+    width: 5.25rem;
+    height: 5.25rem;
   }
 
   .lobby-mission__cta {
-    min-width: 12.5rem;
-    min-height: 3.6rem;
-    font-size: 1.25rem;
+    min-width: 10rem;
+    min-height: 2.7rem;
+    font-size: 1.05rem;
   }
 
   .goal-card--compact .goal-card__robot {
@@ -5920,6 +5950,11 @@ a {
     height: 7.25rem;
     padding: 0.8rem 1.15rem;
     column-gap: 1.25rem;
+  }
+
+  .lobby__main-left > .zone-card.zone-card--hub {
+    min-height: 0;
+    height: auto;
   }
 
   .zone-card--hub .zone-card__art {

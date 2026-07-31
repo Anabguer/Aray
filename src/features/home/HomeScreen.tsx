@@ -1,6 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { AppShell } from '@/components/AppShell'
-import { ArayHubIcon } from '@/components/ArayHubIcon'
 import { PlayerAvatar } from '@/components/PlayerAvatar'
 import { CrateReveal } from '@/components/CrateReveal'
 import { GoalCard } from '@/components/GoalCard'
@@ -9,8 +8,8 @@ import { SyncStatusBanner } from '@/components/SyncStatusBanner'
 import { ZoneCard } from '@/components/ZoneCard'
 import { energyCopy, rewardGoalConfig } from '@/config/rewardGoal'
 import { buildLobbyMissions, pickDailyChallenge, type LobbyMissionCard } from '@/curriculum'
-import type { HubIconId } from '@/assets/icons/hub'
 import { zoneLinks } from '@/data/demo'
+import { challengeArtUrl } from '@/features/home/challengeArt'
 import { launchLobbyMission } from '@/features/home/launchMission'
 import { DailyMissionCard } from '@/features/home/DailyMissionCard'
 import { Lumo } from '@/lumo/Lumo'
@@ -36,16 +35,6 @@ function lobbyMissionDescription(
     return 'Gana XP y déjala dominada'
   }
   return mission.description
-}
-
-function challengeHubIcon(mission: LobbyMissionCard | null): HubIconId {
-  if (mission && 'hubIcon' in mission && typeof mission.hubIcon === 'string') {
-    return mission.hubIcon as HubIconId
-  }
-  if (mission?.subjectId === 'languages') return 'castellano'
-  if (mission?.subjectId === 'english') return 'ingles'
-  if (typeof mission?.table === 'number') return 'tablas'
-  return 'matematicas'
 }
 
 export function HomeScreen() {
@@ -139,38 +128,50 @@ export function HomeScreen() {
         <DailyMissionCard />
 
         <div className="lobby__main">
-          <article className="lobby-mission" aria-labelledby="mission-today-title">
-            <div className="lobby-mission__art" aria-hidden="true">
-              <ArayHubIcon
-                id={challengeHubIcon(primaryMission)}
-                priority
-                className="lobby-mission__icon"
-              />
-            </div>
-            <div className="lobby-mission__body">
-              <p className="lobby-mission__eyebrow">Reto del día</p>
-              <h2 id="mission-today-title" className="lobby-mission__title">
-                {lobbyMissionTitle(primaryMission)}
-              </h2>
-              <p className="lobby-mission__rewards">
-                {lobbyMissionDescription(primaryMission, sessionEnergy)}
-              </p>
-              <Link
-                to={primaryMission?.path ?? '/missions/mates/tables'}
-                className="btn btn-ghost lobby-mission__cta"
-                onClick={(e) => {
-                  if (!primaryMission) return
-                  e.preventDefault()
-                  playMission(primaryMission)
-                }}
-              >
-                <span className="lobby-mission__play" aria-hidden="true">
-                  ▶
-                </span>
-                JUGAR
-              </Link>
-            </div>
-          </article>
+          <div className="lobby__main-left">
+            <article className="lobby-mission" aria-labelledby="mission-today-title">
+              <div className="lobby-mission__art" aria-hidden="true">
+                <img
+                  src={challengeArtUrl(primaryMission)}
+                  alt=""
+                  className="lobby-mission__icon"
+                  width={128}
+                  height={128}
+                  draggable={false}
+                  decoding="async"
+                />
+              </div>
+              <div className="lobby-mission__body">
+                <p className="lobby-mission__eyebrow">Reto del día</p>
+                <h2 id="mission-today-title" className="lobby-mission__title">
+                  {lobbyMissionTitle(primaryMission)}
+                </h2>
+                <p className="lobby-mission__rewards">
+                  {lobbyMissionDescription(primaryMission, sessionEnergy)}
+                </p>
+                <Link
+                  to={primaryMission?.path ?? '/missions/mates/tables'}
+                  className="btn btn-ghost lobby-mission__cta"
+                  onClick={(e) => {
+                    if (!primaryMission) return
+                    e.preventDefault()
+                    playMission(primaryMission)
+                  }}
+                >
+                  <span className="lobby-mission__play" aria-hidden="true">
+                    ▶
+                  </span>
+                  JUGAR
+                </Link>
+              </div>
+            </article>
+
+            {zoneLinks
+              .filter((zone) => zone.id === 'collection')
+              .map((zone) => (
+                <ZoneCard key={zone.id} zone={zone} />
+              ))}
+          </div>
 
           <GoalCard compact />
         </div>
@@ -241,16 +242,6 @@ export function HomeScreen() {
             ) : null}
           </section>
         )}
-
-        <section className="lobby-zones" aria-label="Zonas">
-          <div className="zones__grid lobby-zones__grid lobby-zones__grid--solo">
-            {zoneLinks
-              .filter((zone) => zone.id !== 'missions')
-              .map((zone) => (
-                <ZoneCard key={zone.id} zone={zone} />
-              ))}
-          </div>
-        </section>
 
         <footer className="lobby-legal">
           <p>
