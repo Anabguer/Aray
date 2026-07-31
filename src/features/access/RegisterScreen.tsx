@@ -103,9 +103,11 @@ export function RegisterScreen() {
       navigate('/', { replace: true })
     } catch (err) {
       setError(
-        err instanceof ApiError && err.message.trim() !== ''
-          ? err.message
-          : 'No se pudo crear la familia.',
+        err instanceof ApiError && err.code === 'csrf_invalid'
+          ? 'No se pudo validar la sesión. Recarga la página (F5) e inténtalo otra vez.'
+          : err instanceof ApiError && err.message.trim() !== ''
+            ? err.message
+            : 'No se pudo crear la familia.',
       )
     } finally {
       setBusy(false)
