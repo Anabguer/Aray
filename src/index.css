@@ -1834,6 +1834,13 @@ a {
   font-family: var(--font-display);
 }
 
+.goal-card__play-fun {
+  margin: 0.15rem 0 0.65rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.35;
+}
+
 .goal-card__note {
   margin: 0 0 0.85rem;
   color: var(--text-muted);
@@ -5314,6 +5321,11 @@ a {
 .goal-card--compact .goal-card__adult,
 .goal-card--compact .goal-card__status {
   display: none;
+}
+
+.goal-card--compact .goal-card__play-fun {
+  margin-top: 0.35rem;
+  font-size: 0.85rem;
 }
 
 .zone-card--hub,

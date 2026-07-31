@@ -107,10 +107,13 @@ export function GoalCard({ compact = false }: { compact?: boolean }) {
           : energyCopy.total(current, target)}
       </p>
 
-      {!compact ? (
-        <p className="goal-card__status">
-          {energyCopy.today(Math.min(daily, dailyCap), dailyCap)}
-          {daily >= dailyCap ? ` · ${energyCopy.dailyComplete}` : ''}
+      <p className="goal-card__status">
+        {energyCopy.today(Math.min(daily, dailyCap), dailyCap)}
+        {daily >= dailyCap ? ` · ${energyCopy.dailyComplete}` : ''}
+      </p>
+      {daily >= dailyCap ? (
+        <p className="goal-card__play-fun" role="status">
+          {energyCopy.playForFun}
         </p>
       ) : null}
 

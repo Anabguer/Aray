@@ -30,9 +30,14 @@ export const energyCopy = {
   total: (n: number, target: number) => `${n} / ${target} de energía`,
   farmed: (n: number) => `¡Has farmeado +${n} de energía!`,
   sessionMax: (n: number) =>
-    n > 0 ? `Esta partida puede cargar hasta +${n} de energía` : 'Hoy ya está completa la carga diaria',
+    n > 0
+      ? `Esta partida puede cargar hasta +${n} de energía`
+      : '¡Barra del día llena! Si juegas más, es por vicio 🔥',
+  dailyComplete: '¡Barra del día llena!',
+  /** Cuando ya no suma al premio oficial pero puede seguir jugando. */
+  playForFun:
+    '¡Hemos llenado la barra de hoy! Si sigues jugando, es por vicio — XP, monedas y práctica siguen contando.',
   dropUnlocked: '¡Premio conseguido! Avísale a Neni para recogerlo',
-  dailyComplete: '¡Carga diaria completa!',
   streakOnFire: 'Tu racha está on fire',
 } as const
 

@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { MONEY_MODE_LABELS, useMoneySession } from '@/money'
 import { AppShell } from '@/components/AppShell'
+import { DailyEnergyNote } from '@/components/DailyEnergyNote'
 import { Lumo } from '@/lumo/Lumo'
 import { soundEngine } from '@/sound/soundEngine'
 import './money.css'
@@ -31,6 +32,7 @@ export function MoneySummaryScreen() {
         <p>
           {s.correct}/{s.total} · racha {s.bestStreak}
         </p>
+        <DailyEnergyNote />
         <button
           type="button"
           className="btn btn-primary btn-block"

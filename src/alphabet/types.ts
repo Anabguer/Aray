@@ -106,6 +106,7 @@ export interface AlphabetSessionSummary {
   xpEarned?: number
   coinsEarned?: number
   rewardPointsEarned?: number
+  rewardDailyComplete?: boolean
   recommendReview?: boolean
   statusLabel?: string
 }

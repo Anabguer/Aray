@@ -171,8 +171,8 @@ export function SessionSummaryScreen() {
           ) : null}
           {result.rewardPointsEarned > 0 ? (
             <p>{energyCopy.farmed(result.rewardPointsEarned)}</p>
-          ) : result.rewardPointsRequested > 0 ? (
-            <p>Hoy ya está completa la carga diaria; XP, monedas y dominio siguen sumando.</p>
+          ) : result.rewardPointsRequested > 0 || result.rewardDailyComplete ? (
+            <p>{energyCopy.playForFun}</p>
           ) : (
             <p>Sin energía nueva en esta sesión.</p>
           )}

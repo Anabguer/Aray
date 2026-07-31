@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { CALC_MODE_LABELS, useCalcSession } from '@/calc'
 import { AppShell } from '@/components/AppShell'
+import { DailyEnergyNote } from '@/components/DailyEnergyNote'
 import { Lumo } from '@/lumo/Lumo'
 import { soundEngine } from '@/sound/soundEngine'
 
@@ -52,6 +53,7 @@ export function CalcSummaryScreen() {
             <span>mejor racha</span>
           </li>
         </ul>
+        <DailyEnergyNote className="calc-summary__meta" />
         <div className="calc-summary__actions">
           <button type="button" className="btn btn-primary btn-block" onClick={repeat}>
             Otra ronda

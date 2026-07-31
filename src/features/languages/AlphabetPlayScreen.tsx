@@ -136,6 +136,7 @@ export function AlphabetPlayScreen() {
       xpEarned: result.xpEarned,
       coinsEarned: result.coinsEarned,
       rewardPointsEarned: result.rewardPointsEarned,
+      rewardDailyComplete: result.rewardDailyComplete,
       recommendReview: result.recommendReview,
       statusLabel: result.statusLabel,
     })

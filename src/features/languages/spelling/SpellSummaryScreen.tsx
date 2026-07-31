@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { SPELL_MODE_LABELS, useSpellSession } from '@/spelling'
 import { AppShell } from '@/components/AppShell'
+import { DailyEnergyNote } from '@/components/DailyEnergyNote'
 import { Lumo } from '@/lumo/Lumo'
 import { soundEngine } from '@/sound/soundEngine'
 import './spelling.css'
@@ -42,6 +43,7 @@ export function SpellSummaryScreen() {
             <span>ronda</span>
           </li>
         </ul>
+        <DailyEnergyNote className="spell-summary__meta" />
         <button
           type="button"
           className="btn btn-primary btn-block"

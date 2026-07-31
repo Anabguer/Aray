@@ -7,7 +7,7 @@ import { GoalCard } from '@/components/GoalCard'
 import { ResetProgressControl } from '@/components/ResetProgressControl'
 import { SyncStatusBanner } from '@/components/SyncStatusBanner'
 import { ZoneCard } from '@/components/ZoneCard'
-import { rewardGoalConfig } from '@/config/rewardGoal'
+import { energyCopy, rewardGoalConfig } from '@/config/rewardGoal'
 import { buildLobbyMissions, pickDailyChallenge, type LobbyMissionCard } from '@/curriculum'
 import type { HubIconId } from '@/assets/icons/hub'
 import { zoneLinks } from '@/data/demo'
@@ -99,7 +99,13 @@ export function HomeScreen() {
               ¡Ey, Aray!
             </h2>
             <p className="lobby__welcome-lead">
-              Soy <span className="lobby__lumo-name">Lumo</span>. ¿Qué vamos a farmear hoy?
+              {reward.dailyPoints >= rewardGoalConfig.dailyCap
+                ? energyCopy.playForFun
+                : (
+                  <>
+                    Soy <span className="lobby__lumo-name">Lumo</span>. ¿Qué vamos a farmear hoy?
+                  </>
+                )}
             </p>
           </div>
           <div className="hero__logo-wrap lobby__logo">

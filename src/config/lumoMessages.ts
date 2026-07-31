@@ -5,7 +5,7 @@ export const lumoMessages = {
   streakCharge: 'Tu racha ha cargado la energía de Lumo.',
   maxed: '¡Lumo está a tope!',
   practiceMisses: 'Lumo te ayudará a practicar tus fallos.',
-  dailyComplete: '¡Carga diaria completa!',
+  dailyComplete: '¡Barra del día llena!',
   goalComplete: '¡Drop desbloqueado! Pendiente de validar por un adulto',
   oops: 'Casi. Piénsalo otra vez.',
   tryAgain: 'Casi. Piénsalo otra vez.',

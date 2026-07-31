@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAlphabetSession, type AlphabetPlayMode } from '@/alphabet'
 import { AppShell } from '@/components/AppShell'
+import { energyCopy } from '@/config/rewardGoal'
 import { Lumo } from '@/lumo/Lumo'
 import { soundEngine } from '@/sound/soundEngine'
 
@@ -90,6 +91,11 @@ export function AlphabetSummaryScreen() {
             {summary.rewardPointsEarned
               ? `+${summary.rewardPointsEarned} energía`
               : null}
+          </p>
+        ) : null}
+        {summary.rewardDailyComplete && !summary.rewardPointsEarned ? (
+          <p className="alphabet-summary__review" role="status">
+            {energyCopy.playForFun}
           </p>
         ) : null}
         {summary.recommendReview ? (

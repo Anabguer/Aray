@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { AppShell } from '@/components/AppShell'
+import { DailyEnergyNote } from '@/components/DailyEnergyNote'
 import { useClockSession } from '@/clock/ClockSessionContext'
 import { Lumo } from '@/lumo/Lumo'
 import { soundEngine } from '@/sound/soundEngine'
@@ -72,6 +73,7 @@ export function ClockSummaryScreen() {
             </li>
           ) : null}
         </ul>
+        <DailyEnergyNote className="clock-summary__meta" />
         <div className="clock-summary__actions">
           <button type="button" className="btn btn-primary btn-block" onClick={repeat}>
             Repetir
