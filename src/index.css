@@ -4941,8 +4941,21 @@ a {
 }
 
 .lobby-hud__xp-label {
-  margin-left: auto;
   color: var(--lilac);
+}
+
+.lobby-hud__energy-label {
+  color: var(--text-muted);
+}
+
+.lobby-hud__bar-nums {
+  margin-left: auto;
+  font-size: 0.72rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+  text-transform: none;
+  color: rgba(226, 232, 240, 0.92);
 }
 
 .lobby-hud__bolt {
@@ -6095,8 +6108,36 @@ a {
 .learn-progress__label { margin: 0; color: var(--text-muted); font-size: 0.88rem; }
 .learn-transition { margin: 0; text-align: center; font-family: var(--font-display); color: var(--cyan); }
 
-.crate-reveal { display: grid; gap: 0.85rem; padding: 1rem; border-radius: var(--radius-lg); border: 1px solid rgba(167,139,250,.35); background: linear-gradient(160deg, rgba(16,40,74,.98), rgba(11,31,58,.95)); margin-bottom: 0.75rem; text-align: center; }
+.crate-reveal__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 180;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  padding-bottom: calc(1rem + var(--safe-bottom, 0px));
+  overflow: auto;
+  background: rgba(2, 8, 20, 0.78);
+  backdrop-filter: blur(8px);
+  animation: crate-backdrop-in 180ms ease-out both;
+}
+.crate-reveal {
+  display: grid;
+  gap: 0.85rem;
+  width: min(100%, 22rem);
+  padding: 1.15rem 1rem 1.1rem;
+  border-radius: 1.25rem;
+  border: 1px solid rgba(167, 139, 250, 0.45);
+  background:
+    radial-gradient(circle at 50% 0, rgba(139, 92, 246, 0.28), transparent 42%),
+    linear-gradient(160deg, rgba(16, 40, 74, 0.98), rgba(11, 31, 58, 0.96));
+  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.55), 0 0 28px rgba(139, 92, 246, 0.18);
+  text-align: center;
+  animation: crate-modal-in 220ms ease-out both;
+}
 .crate-reveal__title { margin: 0; font-family: var(--font-display); font-size: 1.25rem; color: var(--lilac); }
+@keyframes crate-backdrop-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes crate-modal-in { from { opacity: 0; transform: translateY(14px) scale(0.94); } to { opacity: 1; transform: none; } }
 .crate-reveal__choice { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
 .crate-pick { display: grid; gap: 0.35rem; justify-items: center; padding: 0.75rem; border-radius: var(--radius-md); border: 1px solid rgba(56,189,248,.25); background: rgba(7,21,40,.55); color: var(--text); cursor: pointer; font: inherit; }
 .crate-pick__img { width: min(100%, 7.5rem); height: auto; object-fit: contain; }
@@ -7824,19 +7865,24 @@ a {
   }
 }
 
-.game-header__avatar.brand-logo,
-.game-header__avatar.brand-logo--compact {
+/* Foto subida o logo: por encima del relleno oscuro del badge (::before). */
+.game-header__avatar {
   position: relative;
   z-index: 1;
   width: 100%;
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.game-header__avatar.brand-logo,
+.game-header__avatar.brand-logo--compact {
   /* Enfoca cara y hombros; evita el wordmark ARAY del logo. */
   object-position: 30% 6%;
   transform: scale(2.15);
   transform-origin: 30% 8%;
-  display: block;
 }
 
 .game-header__heading {
@@ -7920,6 +7966,10 @@ a {
 
 .game-header .lobby-hud__bars--compact .lobby-hud__bar {
   height: 0.78rem;
+}
+
+.game-header .lobby-hud__bars--compact .lobby-hud__bar-nums {
+  font-size: 0.68rem;
 }
 
 .game-header .lobby-hud__bars--compact .lobby-hud__bolt {
@@ -8109,7 +8159,7 @@ a {
   }
 
   .game-header__identity {
-    gap: 0.45rem;
+    gap: 0.7rem;
   }
 
   .game-header__title {

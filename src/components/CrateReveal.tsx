@@ -1,4 +1,5 @@
 import { useEffect, useId, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { crateArt, type CrateRarity } from '@/assets/rewards'
 import { crateConfig, type CrateRewardSpec } from '@/config/crateConfig'
 import type { PendingCrate } from '@/crates/engine'
@@ -39,6 +40,14 @@ export function CrateReveal({ pending, onChoose, onOpen, onCollect }: CrateRevea
     if (pending.opened) setPhase('reveal')
   }, [pending.opened])
 
+  useEffect(() => {
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = prev
+    }
+  }, [])
+
   const showChoice = pending.isChoice && pending.chosenIndex === null
   const activeIndex = pending.chosenIndex ?? 0
   const active = pending.options[activeIndex] ?? pending.options[0]!
@@ -56,68 +65,77 @@ export function CrateReveal({ pending, onChoose, onOpen, onCollect }: CrateRevea
     )
   }
 
-  return (
-    <section className="crate-reveal" aria-labelledby={titleId} role="dialog" aria-modal="true">
-      <h2 id={titleId} className="crate-reveal__title">
-        {showChoice
-          ? 'Elige una'
-          : phase === 'reveal'
-            ? '¡Premio encontrado!'
-            : '¡Te ha caído una caja!'}
-      </h2>
+  // Portal a body: overlay fijo sobre lobby/resumen, sin quedar inline en el scroll.
+  return createPortal(
+    <div className="crate-reveal__backdrop" role="presentation">
+      <section
+        className="crate-reveal"
+        aria-labelledby={titleId}
+        role="dialog"
+        aria-modal="true"
+      >
+        <h2 id={titleId} className="crate-reveal__title">
+          {showChoice
+            ? 'Elige una'
+            : phase === 'reveal'
+              ? '¡Premio encontrado!'
+              : '¡Te ha caído una caja!'}
+        </h2>
 
-      {showChoice ? (
-        <div className="crate-reveal__choice">
-          {pending.options.map((opt, i) => (
-            <button
-              key={`${opt.rarity}-${i}`}
-              type="button"
-              className={`crate-pick crate-pick--${opt.rarity}`}
-              onClick={() => onChoose(i)}
-            >
-              <img
-                src={crateArt[opt.rarity]}
-                alt={`Caja ${rarityLabel(opt.rarity)}`}
-                className="crate-pick__img"
-                draggable={false}
-              />
-              <span>Caja {i + 1}</span>
-            </button>
-          ))}
-        </div>
-      ) : (
-        <>
-          <div
-            className={`crate-stage crate-stage--${active.rarity} is-${phase}${reduced ? ' is-reduced' : ''}`}
-          >
-            <span className="crate-stage__flash" aria-hidden="true" />
-            <span className="crate-stage__spark crate-stage__spark--a" aria-hidden="true" />
-            <span className="crate-stage__spark crate-stage__spark--b" aria-hidden="true" />
-            <span className="crate-stage__spark crate-stage__spark--c" aria-hidden="true" />
-            {phase !== 'reveal' ? (
-              <img
-                src={crateArt[active.rarity]}
-                alt={`Caja ${rarityLabel(active.rarity)}`}
-                className="crate-stage__img"
-                draggable={false}
-              />
-            ) : (
-              <p className="crate-stage__prize" aria-live="polite">
-                {rewardLabel(pending.reward)}
-              </p>
-            )}
+        {showChoice ? (
+          <div className="crate-reveal__choice">
+            {pending.options.map((opt, i) => (
+              <button
+                key={`${opt.rarity}-${i}`}
+                type="button"
+                className={`crate-pick crate-pick--${opt.rarity}`}
+                onClick={() => onChoose(i)}
+              >
+                <img
+                  src={crateArt[opt.rarity]}
+                  alt={`Caja ${rarityLabel(opt.rarity)}`}
+                  className="crate-pick__img"
+                  draggable={false}
+                />
+                <span>Caja {i + 1}</span>
+              </button>
+            ))}
           </div>
-          {phase !== 'reveal' ? (
-            <button type="button" className="btn btn-primary btn-block" onClick={handleOpen}>
-              Abrir caja
-            </button>
-          ) : (
-            <button type="button" className="btn btn-primary btn-block" onClick={onCollect}>
-              Recoger
-            </button>
-          )}
-        </>
-      )}
-    </section>
+        ) : (
+          <>
+            <div
+              className={`crate-stage crate-stage--${active.rarity} is-${phase}${reduced ? ' is-reduced' : ''}`}
+            >
+              <span className="crate-stage__flash" aria-hidden="true" />
+              <span className="crate-stage__spark crate-stage__spark--a" aria-hidden="true" />
+              <span className="crate-stage__spark crate-stage__spark--b" aria-hidden="true" />
+              <span className="crate-stage__spark crate-stage__spark--c" aria-hidden="true" />
+              {phase !== 'reveal' ? (
+                <img
+                  src={crateArt[active.rarity]}
+                  alt={`Caja ${rarityLabel(active.rarity)}`}
+                  className="crate-stage__img"
+                  draggable={false}
+                />
+              ) : (
+                <p className="crate-stage__prize" aria-live="polite">
+                  {rewardLabel(pending.reward)}
+                </p>
+              )}
+            </div>
+            {phase !== 'reveal' ? (
+              <button type="button" className="btn btn-primary btn-block" onClick={handleOpen}>
+                Abrir caja
+              </button>
+            ) : (
+              <button type="button" className="btn btn-primary btn-block" onClick={onCollect}>
+                Recoger
+              </button>
+            )}
+          </>
+        )}
+      </section>
+    </div>,
+    document.body,
   )
 }
