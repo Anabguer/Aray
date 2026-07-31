@@ -51,6 +51,12 @@ import {
   hydrateOfficialProgress,
   type SyncStatus,
 } from '@/sync/syncEngine'
+import {
+  alphabetPendingCount,
+  enqueueAndSyncAlphabetSession,
+  flushPendingAlphabetSessions,
+  purgeStaleAlphabetPending,
+} from '@/sync/alphabetSync'
 import { mapServerProgressToState, type ServerProgressSnapshot } from '@/sync/mapServerProgress'
 
 interface ProgressContextValue {
@@ -170,7 +176,8 @@ export function ProgressProvider({
   )
 
   const refreshPendingCount = useCallback(() => {
-    setPendingSyncCount(pendingCount(syncEpochRef.current))
+    const epoch = syncEpochRef.current
+    setPendingSyncCount(pendingCount(epoch) + alphabetPendingCount(epoch))
   }, [])
 
   const applyOfficial = useCallback(
@@ -249,30 +256,33 @@ export function ProgressProvider({
     syncingRef.current = true
     setSyncStatus('syncing')
     try {
+      purgeStaleAlphabetPending(syncEpochRef.current, id)
       const result = await flushPendingSessions(id)
-      if (result.progress) {
+      const abcResult = await flushPendingAlphabetSessions(id)
+      const official = abcResult.progress ?? result.progress
+      if (official) {
         const current = progressRef.current
-        const epoch =
-          typeof result.progress === 'object' ? syncEpochRef.current : syncEpochRef.current
         applyOfficial(
           {
-            ...result.progress,
+            ...official,
             soundMuted: current.soundMuted,
             achievements: current.achievements,
             reward: {
-              ...result.progress.reward,
+              ...official.reward,
               celebratedPendingCycles: current.reward.celebratedPendingCycles.filter((n) =>
-                result.progress!.reward.pendingCycleNumbers.includes(n),
+                official.reward.pendingCycleNumbers.includes(n),
               ),
             },
           },
           id,
-          epoch,
+          syncEpochRef.current,
         )
       }
       refreshPendingCount()
-      setSyncStatus(result.error && !result.synced ? 'offline' : 'ready')
-      if (result.error && !result.synced) setSyncError(result.error)
+      const err = abcResult.error ?? result.error
+      const synced = result.synced || abcResult.synced
+      setSyncStatus(err && !synced ? 'offline' : 'ready')
+      if (err && !synced) setSyncError(err)
       else setSyncError(null)
     } finally {
       syncingRef.current = false
@@ -429,14 +439,52 @@ export function ProgressProvider({
       const current = progressRef.current
       const { next, result } = applyAlphabetSessionToProgress(current, input)
       persistCache(next)
-      // ABC: progreso local oficial en caché; sync MySQL de skill_mastery en fase siguiente.
-      // XP/monedas locales se conservan al mapear servidor vía alphabet merge.
-      if (input.answers.length > 0) {
-        setSyncStatus((s) => (s === 'hydrating' ? s : playerIdRef.current !== null ? 'ready' : 'needs_device'))
+
+      const answered = input.answers.length > 0
+      const id = playerIdRef.current
+      if (id !== null && answered) {
+        const payload = {
+          sessionId: input.sessionId,
+          mode: input.mode,
+          answers: input.answers,
+          bestStreakInRound: input.bestStreakInRound,
+          syncEpoch: syncEpochRef.current,
+        }
+        void (async () => {
+          setSyncStatus('syncing')
+          const syncResult = await enqueueAndSyncAlphabetSession({ playerId: id, payload })
+          refreshPendingCount()
+          if (syncResult.progress) {
+            const latest = progressRef.current
+            applyOfficial(
+              {
+                ...syncResult.progress,
+                soundMuted: latest.soundMuted,
+                achievements: latest.achievements,
+                reward: {
+                  ...syncResult.progress.reward,
+                  celebratedPendingCycles: latest.reward.celebratedPendingCycles.filter((n) =>
+                    syncResult.progress!.reward.pendingCycleNumbers.includes(n),
+                  ),
+                },
+              },
+              id,
+              syncEpochRef.current,
+            )
+            setSyncStatus('ready')
+            setSyncError(null)
+          } else {
+            setSyncStatus(syncResult.error ? 'offline' : 'ready')
+            setSyncError(syncResult.error)
+          }
+        })()
+      } else if (answered) {
+        setSyncStatus('needs_device')
       }
+
       return result
     },
-    [persistCache],
+    [applyOfficial, persistCache, refreshPendingCount],
   )
 
   const resetProgress = useCallback(() => {

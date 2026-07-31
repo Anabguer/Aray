@@ -156,6 +156,7 @@ final class AdultDashboardService
                 'needsReview' => $needsReview,
                 'tables' => $tables,
                 'hardFacts' => $hardFacts,
+                'alphabet' => self::alphabetEducation($playerId),
             ],
             'reward' => $reward,
             'cycles' => $cycles,
@@ -351,6 +352,83 @@ final class AdultDashboardService
             return 'ENTRENANDO';
         }
         return 'ENTRENANDO';
+    }
+
+    private static function alphabetEducation(int $playerId): array
+    {
+        $snap = AlphabetSessionService::snapshotForPlayer($playerId);
+        $modesIn = is_object($snap['modes']) ? (array) $snap['modes'] : (array) ($snap['modes'] ?? []);
+        $labels = [
+            'missing' => 'Letra que falta',
+            'neighbor' => 'Siguiente / anterior',
+            'order-letters' => 'Ordena letras',
+            'order-words' => 'Ordena palabras',
+            'random' => 'Random',
+        ];
+        $modes = [];
+        $dominated = 0;
+        $needsReview = 0;
+        foreach ($labels as $key => $title) {
+            $row = isset($modesIn[$key]) && is_array($modesIn[$key]) ? $modesIn[$key] : null;
+            $ever = $row ? !empty($row['everMastered']) : false;
+            $cons = $row ? (int) ($row['consecutiveLowRounds'] ?? 0) : 0;
+            $last = $row && array_key_exists('lastRoundScore', $row) ? $row['lastRoundScore'] : null;
+            $label = 'Sin practicar';
+            if ($cons >= 2) {
+                $label = 'NECESITA REFUERZO';
+                $needsReview++;
+            } elseif ($ever && $cons >= 1) {
+                $label = 'NECESITA REFUERZO';
+                $needsReview++;
+            } elseif ($ever) {
+                $label = 'DOMADO';
+                $dominated++;
+            } elseif ($row && !empty($row['practiced'])) {
+                $label = 'ENTRENANDO';
+            }
+            $modes[] = [
+                'modeKey' => $key,
+                'title' => $title,
+                'label' => $label,
+                'practiced' => $row ? !empty($row['practiced']) : false,
+                'everMastered' => $ever,
+                'bestRoundScore' => $row ? (int) ($row['bestRoundScore'] ?? 0) : 0,
+                'lastRoundScore' => $last === null ? null : (int) $last,
+                'attempts' => $row ? (int) ($row['attempts'] ?? 0) : 0,
+                'correct' => $row ? (int) ($row['correct'] ?? 0) : 0,
+            ];
+        }
+
+        $lettersIn = is_object($snap['letters']) ? (array) $snap['letters'] : (array) ($snap['letters'] ?? []);
+        $hard = [];
+        foreach ($lettersIn as $letter => $stats) {
+            if (!is_array($stats) || (int) ($stats['wrong'] ?? 0) <= 0) {
+                continue;
+            }
+            $hard[] = [
+                'letter' => (string) $letter,
+                'wrong' => (int) $stats['wrong'],
+                'attempts' => (int) ($stats['attempts'] ?? 0),
+                'correct' => (int) ($stats['correct'] ?? 0),
+            ];
+        }
+        usort($hard, static function ($a, $b) {
+            if ($a['wrong'] === $b['wrong']) {
+                return $b['attempts'] <=> $a['attempts'];
+            }
+            return $b['wrong'] <=> $a['wrong'];
+        });
+        $hard = array_slice($hard, 0, 12);
+
+        return [
+            'roundsPlayed' => (int) ($snap['roundsPlayed'] ?? 0),
+            'perfectRounds' => (int) ($snap['perfectRounds'] ?? 0),
+            'bestStreak' => (int) ($snap['bestStreak'] ?? 0),
+            'dominatedModes' => $dominated,
+            'needsReviewModes' => $needsReview,
+            'modes' => $modes,
+            'hardLetters' => $hard,
+        ];
     }
 
     private static function pct(int $correct, int $total): ?int

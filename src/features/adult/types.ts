@@ -115,6 +115,30 @@ export type AdultOverview = {
       wrong: number
       accuracyPct: number | null
     }>
+    alphabet?: {
+      roundsPlayed: number
+      perfectRounds: number
+      bestStreak: number
+      dominatedModes: number
+      needsReviewModes: number
+      modes: Array<{
+        modeKey: string
+        title: string
+        label: string
+        practiced: boolean
+        everMastered: boolean
+        bestRoundScore: number
+        lastRoundScore: number | null
+        attempts: number
+        correct: number
+      }>
+      hardLetters: Array<{
+        letter: string
+        wrong: number
+        attempts: number
+        correct: number
+      }>
+    }
   }
   educationReport?: {
     scope: string

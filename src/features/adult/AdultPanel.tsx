@@ -51,6 +51,7 @@ import {
   alphabetModeStatus,
   hardAlphabetLetters,
   normalizeAlphabetModeProgress,
+  type AlphabetProgress,
 } from '@/alphabet/progress'
 import { useProgress } from '@/progress/ProgressContext'
 
@@ -735,19 +736,24 @@ export function AdultPanel() {
               title="Progreso ABC"
               description="Modos del abecedario, si conviene repasar y letras que más cuestan."
               summary={
-                progress.alphabet.roundsPlayed > 0
-                  ? `${progress.alphabet.roundsPlayed} rondas · ${
-                      ['missing', 'neighbor', 'order-letters', 'order-words'].filter((m) =>
-                        normalizeAlphabetModeProgress(progress.alphabet.modes[m]).everMastered,
-                      ).length
-                    } modos domados`
-                  : 'Aún sin rondas de ABC'
+                overview.education.alphabet && overview.education.alphabet.roundsPlayed > 0
+                  ? `${overview.education.alphabet.roundsPlayed} rondas · ${overview.education.alphabet.dominatedModes} modos domados`
+                  : progress.alphabet.roundsPlayed > 0
+                    ? `${progress.alphabet.roundsPlayed} rondas · ${
+                        ['missing', 'neighbor', 'order-letters', 'order-words'].filter((m) =>
+                          normalizeAlphabetModeProgress(progress.alphabet.modes[m]).everMastered,
+                        ).length
+                      } modos domados`
+                    : 'Aún sin rondas de ABC'
               }
               sectionRef={(el) => {
                 sectionRefs.current.abc = el
               }}
             >
-              <AlphabetProgressPanel alphabet={progress.alphabet} />
+              <AlphabetProgressPanel
+                server={overview.education.alphabet}
+                local={progress.alphabet}
+              />
             </AccordionSection>
 
             <AccordionSection
@@ -1393,10 +1399,53 @@ function ActivitiesPanel({
 }
 
 function AlphabetProgressPanel({
-  alphabet,
+  server,
+  local,
 }: {
-  alphabet: import('@/alphabet/progress').AlphabetProgress
+  server: NonNullable<AdultOverview['education']['alphabet']> | undefined
+  local: AlphabetProgress
 }) {
+  if (server && server.roundsPlayed > 0) {
+    return (
+      <div className="adult-abc-panel">
+        <p className="adult-abc-panel__meta">
+          {server.roundsPlayed} rondas · {server.perfectRounds} perfectas · mejor racha{' '}
+          {server.bestStreak}
+          {server.needsReviewModes > 0 ? ` · ${server.needsReviewModes} a repasar` : ''}
+        </p>
+        <ul className="adult-abc-panel__modes">
+          {server.modes.map((m) => (
+            <li key={m.modeKey}>
+              <strong>{m.title}</strong>
+              <span>{m.label}</span>
+              <span>
+                {m.lastRoundScore != null ? `Última ${m.lastRoundScore}/10` : 'Sin ronda'}
+                {m.everMastered ? ' · Domado' : ''}
+              </span>
+            </li>
+          ))}
+        </ul>
+        {server.hardLetters.length > 0 ? (
+          <div className="adult-abc-panel__hard">
+            <h3>Letras que más cuestan</h3>
+            <ul>
+              {server.hardLetters.map((h) => (
+                <li key={h.letter}>
+                  <strong>{h.letter}</strong>
+                  <span>
+                    {h.wrong} fallos / {h.attempts} intentos
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : (
+          <p className="adult-empty">Sin letras difíciles registradas aún.</p>
+        )}
+      </div>
+    )
+  }
+
   const modes: Array<{ id: string; title: string }> = [
     { id: 'missing', title: 'Letra que falta' },
     { id: 'neighbor', title: 'Siguiente / anterior' },
@@ -1404,13 +1453,13 @@ function AlphabetProgressPanel({
     { id: 'order-words', title: 'Ordena palabras' },
     { id: 'random', title: 'Random' },
   ]
-  const hard = hardAlphabetLetters(alphabet, 8)
+  const hard = hardAlphabetLetters(local, 8)
 
-  if (alphabet.roundsPlayed === 0) {
+  if (local.roundsPlayed === 0) {
     return (
       <p className="adult-empty">
-        Todavía no ha jugado rondas del ABC en este dispositivo. Cuando practique, aquí verás dominio
-        y letras difíciles.
+        Todavía no hay rondas de ABC en el servidor. Cuando practique online, aquí verás dominio y
+        letras difíciles.
       </p>
     )
   }
@@ -1418,12 +1467,12 @@ function AlphabetProgressPanel({
   return (
     <div className="adult-abc-panel">
       <p className="adult-abc-panel__meta">
-        {alphabet.roundsPlayed} rondas · {alphabet.perfectRounds} perfectas · mejor racha{' '}
-        {alphabet.bestStreak}
+        {local.roundsPlayed} rondas · {local.perfectRounds} perfectas · mejor racha {local.bestStreak}{' '}
+        (caché local)
       </p>
       <ul className="adult-abc-panel__modes">
         {modes.map((m) => {
-          const prog = normalizeAlphabetModeProgress(alphabet.modes[m.id])
+          const prog = normalizeAlphabetModeProgress(local.modes[m.id])
           const st = alphabetModeStatus(prog)
           return (
             <li key={m.id}>

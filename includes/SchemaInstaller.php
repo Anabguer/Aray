@@ -288,6 +288,9 @@ final class SchemaInstaller
             'course_activity_map',
             'player_course_history',
             'player_activity_assignments',
+            'skill_mode_mastery',
+            'letter_stats',
+            'alphabet_progress',
         ];
         $tables = self::listArayTables($pdo);
         $missing = [];

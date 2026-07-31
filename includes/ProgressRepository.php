@@ -106,6 +106,7 @@ final class ProgressRepository
             'syncEpoch' => SyncEpochService::current(),
             'facts' => (object) $facts,
             'tables' => (object) $tables,
+            'alphabet' => AlphabetSessionService::snapshotForPlayer($playerId),
             'reward' => $reward,
             'crates' => $crates,
             'missionsToday' => $missionsToday,
