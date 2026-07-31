@@ -5193,10 +5193,10 @@ a {
 
 .lobby-mission {
   display: grid;
-  grid-template-columns: minmax(3.5rem, 4.25rem) minmax(0, 1fr);
-  gap: 0.55rem 0.65rem;
+  grid-template-columns: minmax(3.5rem, 4.25rem) minmax(0, 1fr) auto;
+  gap: 0.55rem 0.75rem;
   align-items: center;
-  padding: 0.65rem 0.7rem;
+  padding: 0.65rem 0.75rem 0.65rem 0.7rem;
   border-radius: var(--radius-lg);
   border: 2px solid rgba(56, 189, 248, 0.4);
   background: linear-gradient(145deg, rgba(14, 165, 233, 0.28), rgba(139, 92, 246, 0.22), rgba(11, 31, 58, 0.96));
@@ -5235,6 +5235,8 @@ a {
 .lobby-mission__body {
   min-width: 0;
   overflow-wrap: anywhere;
+  display: grid;
+  align-content: center;
 }
 
 .lobby-mission__eyebrow {
@@ -5247,14 +5249,14 @@ a {
 }
 
 .lobby-mission__title {
-  margin: 0.15rem 0 0.25rem;
+  margin: 0.15rem 0 0.2rem;
   font-family: var(--font-display);
   font-size: clamp(1rem, 4vw, 1.25rem);
   line-height: 1.15;
 }
 
 .lobby-mission__rewards {
-  margin: 0 0 0.5rem;
+  margin: 0;
   color: var(--warn);
   font-size: 0.85rem;
   font-family: var(--font-display);
@@ -5266,11 +5268,12 @@ a {
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
+  width: auto;
+  max-width: none;
+  min-width: 6.5rem;
   min-height: 2.35rem;
-  padding: 0.45rem 0.85rem;
+  padding: 0.45rem 0.9rem;
+  justify-self: end;
   font-size: 0.88rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -5779,9 +5782,16 @@ a {
   }
 
   .lobby-mission {
-    grid-template-columns: minmax(3.75rem, 4.5rem) minmax(0, 1fr);
-    gap: 0.55rem;
-    padding: 0.75rem 0.65rem;
+    grid-template-columns: minmax(3.25rem, 3.75rem) minmax(0, 1fr) auto;
+    gap: 0.45rem 0.5rem;
+    padding: 0.6rem 0.55rem;
+  }
+
+  .lobby-mission__cta {
+    min-width: 0;
+    min-height: 2.15rem;
+    padding: 0.4rem 0.7rem;
+    font-size: 0.78rem;
   }
 
   .topbar {
@@ -5827,9 +5837,9 @@ a {
   }
 
   .lobby-mission {
-    grid-template-columns: auto 1fr;
-    gap: 0.75rem;
-    padding: 0.75rem 0.9rem;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 0.75rem 1rem;
+    padding: 0.75rem 1rem;
   }
 
   .lobby-mission__art {
@@ -5846,18 +5856,18 @@ a {
   }
 
   .lobby-mission__title {
-    margin: 0.2rem 0 0.3rem;
+    margin: 0.2rem 0 0.25rem;
     font-size: clamp(1.15rem, 2.4vw, 1.4rem);
     line-height: 1.1;
   }
 
   .lobby-mission__rewards {
-    margin: 0 0 0.55rem;
+    margin: 0;
     font-size: 0.92rem;
   }
 
   .lobby-mission__cta {
-    width: fit-content;
+    width: auto;
     min-width: 9.5rem;
     min-height: 2.55rem;
     padding: 0.5rem 1.1rem;
@@ -5914,9 +5924,9 @@ a {
   .lobby__main-left > .lobby-mission {
     flex: 1 1 0;
     min-height: 0;
-    padding: 0.85rem 1rem;
-    grid-template-columns: auto 1fr;
-    align-content: center;
+    padding: 0.85rem 1.1rem;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
   }
 
   .lobby__main-left > .zone-card {
@@ -6510,7 +6520,7 @@ a {
 
 @media (min-width: 720px) {
   .lobby-mission {
-    grid-template-columns: auto 1fr;
+    grid-template-columns: auto minmax(0, 1fr) auto;
   }
 }
 

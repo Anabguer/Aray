@@ -149,21 +149,21 @@ export function HomeScreen() {
                 <p className="lobby-mission__rewards">
                   {lobbyMissionDescription(primaryMission, sessionEnergy)}
                 </p>
-                <Link
-                  to={primaryMission?.path ?? '/missions/mates/tables'}
-                  className="btn btn-ghost lobby-mission__cta"
-                  onClick={(e) => {
-                    if (!primaryMission) return
-                    e.preventDefault()
-                    playMission(primaryMission)
-                  }}
-                >
-                  <span className="lobby-mission__play" aria-hidden="true">
-                    ▶
-                  </span>
-                  JUGAR
-                </Link>
               </div>
+              <Link
+                to={primaryMission?.path ?? '/missions/mates/tables'}
+                className="btn btn-ghost lobby-mission__cta"
+                onClick={(e) => {
+                  if (!primaryMission) return
+                  e.preventDefault()
+                  playMission(primaryMission)
+                }}
+              >
+                <span className="lobby-mission__play" aria-hidden="true">
+                  ▶
+                </span>
+                JUGAR
+              </Link>
             </article>
 
             {zoneLinks
