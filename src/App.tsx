@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { ScrollToTop } from '@/components/ScrollToTop'
 import { AccessScreen } from '@/features/access/AccessScreen'
 import { AuthGate } from '@/features/access/AuthGate'
@@ -38,10 +38,12 @@ import { SubjectPreviewScreen } from '@/features/missions/SubjectPreviewScreen'
 import { LumoGallery } from '@/lumo/LumoGallery'
 
 export default function App() {
+  const location = useLocation()
+
   return (
     <>
       <ScrollToTop />
-      <Routes>
+      <Routes location={location} key={location.pathname}>
       <Route path="/dev/lumo" element={<LumoGallery />} />
       <Route element={<AuthGate />}>
         <Route path="/access" element={<AccessScreen />} />
