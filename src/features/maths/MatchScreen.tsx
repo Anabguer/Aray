@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { AppShell } from '@/components/AppShell'
+import { RoundSummary } from '@/components/RoundSummary'
 import { StreakBadge } from '@/feedback/AnswerFx'
 import { SessionXpBar } from '@/feedback/SessionXpBar'
 import {
@@ -324,29 +325,35 @@ export function MatchScreen() {
       <section className={`match-arena${celebration ? ' is-dimmed' : ''}`} aria-label="Minijuego Empareja">
         <SessionXpBar totalXp={progress.xp} compact className="play-screen__xp" />
         {phase === 'victory' && victory && !celebration ? (
-          <div className="match-victory" role="status">
-            <Lumo state="celebration" intensity={4} size="md" />
-            <h2 className="match-victory__title">¡Tabla emparejada!</h2>
-            <p className="match-victory__summary">
-              {allPairs.length - missedIds.size}/{allPairs.length} a la primera
-              {bestStreak > 1 ? ` · Racha ${bestStreak}` : ''}
-            </p>
-            <ul className="match-victory__rewards">
-              <li>+{victory.xpEarned} XP</li>
-              <li>+{victory.rewardPointsEarned} energía</li>
-            </ul>
-            <div className="match-victory__actions">
-              <button type="button" className="btn btn-primary btn-block" onClick={replay}>
-                JUGAR OTRA VEZ
-              </button>
-              <Link to="/missions/mates/tables/modes" className="btn btn-secondary btn-block">
-                ELEGIR OTRO MODO
-              </Link>
-              <Link to="/" className="btn btn-ghost btn-block">
-                LOBBY
-              </Link>
-            </div>
-          </div>
+          <RoundSummary
+            title="¡Tabla emparejada!"
+            meta={
+              <>
+                {allPairs.length - missedIds.size}/{allPairs.length} a la primera
+                {bestStreak > 1 ? ` · Racha ${bestStreak}` : ''}
+              </>
+            }
+            lumoState="celebration"
+            celebrate
+            stats={[
+              { value: `+${victory.xpEarned}`, label: 'XP' },
+              { value: `+${victory.rewardPointsEarned}`, label: 'energía' },
+              { value: bestStreak, label: 'racha' },
+            ]}
+            actions={
+              <>
+                <button type="button" className="btn btn-primary btn-block" onClick={replay}>
+                  JUGAR OTRA VEZ
+                </button>
+                <Link to="/missions/mates/tables/modes" className="btn btn-secondary btn-block">
+                  ELEGIR OTRO MODO
+                </Link>
+                <Link to="/" className="btn btn-ghost btn-block">
+                  LOBBY
+                </Link>
+              </>
+            }
+          />
         ) : (
           <>
             <header className="match-hud">

@@ -2,18 +2,17 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { AppShell } from '@/components/AppShell'
 import { CrateReveal } from '@/components/CrateReveal'
+import { RoundSummary } from '@/components/RoundSummary'
 import { challengeModeConfig } from '@/config/playConfig'
 import { lumoMessages } from '@/config/lumoMessages'
 import { newRecordMessage, noMissesMessage } from '@/config/messages'
 import { energyCopy, rewardGoalConfig } from '@/config/rewardGoal'
-import { Lumo } from '@/lumo/Lumo'
 import { formatFact } from '@/math/tables'
 import { buildMissesQueue, buildTrainQueue } from '@/math/selector'
 import { useAuth } from '@/auth/AuthContext'
 import { usePlaySession } from '@/progress/PlayContext'
 import { useProgress } from '@/progress/ProgressContext'
 import { soundEngine } from '@/sound/soundEngine'
-import { useDailyMission } from '@/daily/DailyMissionContext'
 
 export function SessionSummaryScreen() {
   const navigate = useNavigate()
@@ -25,7 +24,6 @@ export function SessionSummaryScreen() {
   } = useProgress()
   const { lastResult, selection, setPendingQueue, setActiveMode, setLastResult, setSelection } =
     usePlaySession()
-  const { recordProgress } = useDailyMission()
   const { tutorDisplayName } = useAuth()
   const tutorName = tutorDisplayName?.trim() || 'un adulto'
   const [crateNote, setCrateNote] = useState<string | null>(null)
@@ -35,12 +33,11 @@ export function SessionSummaryScreen() {
       navigate('/missions/mates/tables/modes', { replace: true })
       return
     }
-    const correct = lastResult.answers.filter((a) => a.correct).length
-    if (correct > 0) recordProgress('tables', correct)
+    // La misión de tablas ya avanza en applySessionToProgress (slots = energía).
     if (lastResult.personalBest || lastResult.rewardPointsEarned > 0) {
       soundEngine.play('points-earned')
     }
-  }, [lastResult, navigate, recordProgress])
+  }, [lastResult, navigate])
 
   if (!lastResult) {
     return null
@@ -63,6 +60,9 @@ export function SessionSummaryScreen() {
           ? 'Empareja la tabla'
           : 'Entrena'
 
+  const celebrate = Boolean(
+    result.rewardGoalJustCompleted || result.personalBest || result.bestStreak >= 5,
+  )
   const lumoState = result.rewardGoalJustCompleted || result.personalBest
     ? 'celebration'
     : result.rewardDailyComplete
@@ -70,6 +70,16 @@ export function SessionSummaryScreen() {
       : result.bestStreak >= 3
         ? 'correct'
         : 'idle'
+
+  const title = result.personalBest
+    ? '¡Nuevo récord!'
+    : result.rewardGoalJustCompleted
+      ? '¡Drop desbloqueado!'
+      : isChallenge
+        ? `${result.score} pts`
+        : correctCount >= Math.max(1, totalAnswered - 1)
+          ? '¡Buenas tablas!'
+          : 'Ronda terminada'
 
   function repeat() {
     setLastResult(null)
@@ -97,115 +107,104 @@ export function SessionSummaryScreen() {
     navigate('/missions/mates/tables/train', { state: { fallbackMix: usedFallbackMix } })
   }
 
+  const stats = [
+    { value: correctCount, label: 'aciertos' },
+    { value: wrongCount, label: 'fallos' },
+    { value: result.bestStreak, label: 'mejor racha' },
+    isChallenge && result.personalBest
+      ? { value: '¡Nuevo!', label: 'récord' }
+      : { value: totalAnswered, label: 'respondidas' },
+  ]
+
   return (
     <AppShell
       title="Resumen"
       showBack
       backTo="/missions/mates/tables/modes"
     >
-      <section className="summary-screen">
-        {pending ? (
-          <CrateReveal
-            pending={pending}
-            onChoose={chooseCrate}
-            onOpen={openCrate}
-            onCollect={() => {
-              const note = collectCrate()
-              setCrateNote(note)
-            }}
-          />
-        ) : null}
-        {crateNote ? (
-          <p className="play-banner play-banner--info" role="status">
-            {crateNote}
-          </p>
-        ) : null}
+      {pending ? (
+        <CrateReveal
+          pending={pending}
+          onChoose={chooseCrate}
+          onOpen={openCrate}
+          onCollect={() => {
+            const note = collectCrate()
+            setCrateNote(note)
+          }}
+        />
+      ) : null}
+      {crateNote ? (
+        <p className="play-banner play-banner--info" role="status">
+          {crateNote}
+        </p>
+      ) : null}
 
-        <div className="summary-hero">
-          <Lumo state={lumoState} intensity={lumoState === 'celebration' ? 4 : 2} size="md" />
-          <p className="summary-hero__label">{modeLabel}</p>
-          <p className="summary-hero__score">
-            {isChallenge ? `${result.score} pts` : `${correctCount} aciertos`}
-          </p>
-          {result.personalBest ? <p className="summary-hero__record">{newRecordMessage}</p> : null}
-          {result.rewardGoalJustCompleted ? (
-            <p className="summary-hero__record">{energyCopy.dropUnlockedFor(tutorName)}</p>
-          ) : null}
-        </div>
-
-        <ul className="summary-stats">
-          <li>
-            <span>Aciertos</span>
-            <strong>{correctCount}</strong>
-          </li>
-          <li>
-            <span>Fallos</span>
-            <strong>{wrongCount}</strong>
-          </li>
-          <li>
-            <span>Mejor racha</span>
-            <strong>{result.bestStreak}</strong>
-          </li>
-          {isChallenge && result.personalBest ? (
-            <li>
-              <span>Récord</span>
-              <strong>¡Nuevo!</strong>
-            </li>
-          ) : (
-            <li>
-              <span>Respondidas</span>
-              <strong>{totalAnswered}</strong>
-            </li>
-          )}
-        </ul>
-
-        <div className="summary-reward-note" role="status">
-          <p>
-            {isChallenge
-              ? `Has conseguido ${result.xpEarned} XP — bonus Reto ×${challengeModeConfig.xpMultiplier} incluido`
-              : `Has conseguido ${result.xpEarned} XP`}
-          </p>
-          {result.rewardPointsEarned > 0 ? (
-            <p>{energyCopy.farmed(result.rewardPointsEarned)}</p>
-          ) : result.rewardPointsRequested > 0 || result.rewardDailyComplete ? (
-            <p>{energyCopy.playForFun}</p>
-          ) : (
-            <p>Sin energía nueva en esta sesión.</p>
-          )}
-          <p>{energyCopy.today(result.rewardDailyPoints, rewardGoalConfig.dailyCap)}</p>
-          <p>{energyCopy.total(result.rewardPointsTotal, rewardGoalConfig.targetPoints)}</p>
-        </div>
-
-        <div className="summary-misses">
-          <h2 className="section-title">Para repasar</h2>
-          {result.missedFacts.length === 0 ? (
-            <p className="page-intro__lead">{noMissesMessage}</p>
-          ) : (
-            <>
-              <p className="page-intro__lead">{lumoMessages.practiceMisses}</p>
-              <ul className="miss-list">
-                {result.missedFacts.map((fact) => (
-                  <li key={`${fact.a}x${fact.b}`}>
-                    {formatFact(fact)} = {fact.product}
-                  </li>
-                ))}
-              </ul>
-            </>
-          )}
-        </div>
-
-        <div className="summary-actions">
-          <button type="button" className="btn btn-primary btn-block" onClick={repeat}>
-            Repetir
-          </button>
-          <button type="button" className="btn btn-secondary btn-block" onClick={practiceMisses}>
-            Practicar mis fallos
-          </button>
-          <Link to="/missions/mates/tables" className="btn btn-ghost btn-block">
-            Volver a las tablas
-          </Link>
-        </div>
-      </section>
+      <RoundSummary
+        className="round-summary--tables"
+        title={title}
+        meta={
+          <>
+            {modeLabel}
+            {result.personalBest ? ` · ${newRecordMessage}` : null}
+            {result.rewardGoalJustCompleted
+              ? ` · ${energyCopy.dropUnlockedFor(tutorName)}`
+              : null}
+          </>
+        }
+        lumoState={lumoState}
+        celebrate={celebrate}
+        stats={stats}
+        note={
+          <div className="summary-reward-note" role="status">
+            <p>
+              {isChallenge
+                ? `Has conseguido ${result.xpEarned} XP — bonus Reto ×${challengeModeConfig.xpMultiplier} incluido`
+                : `Has conseguido ${result.xpEarned} XP`}
+            </p>
+            {result.rewardPointsEarned > 0 ? (
+              <p>{energyCopy.farmed(result.rewardPointsEarned)}</p>
+            ) : result.rewardPointsRequested > 0 || result.rewardDailyComplete ? (
+              <p>{energyCopy.playForFun}</p>
+            ) : (
+              <p>Sin energía nueva en esta sesión.</p>
+            )}
+            <p>{energyCopy.today(result.rewardDailyPoints, rewardGoalConfig.dailyCap)}</p>
+            <p>{energyCopy.total(result.rewardPointsTotal, rewardGoalConfig.targetPoints)}</p>
+          </div>
+        }
+        extra={
+          <div className="summary-misses">
+            <h3 className="section-title">Para repasar</h3>
+            {result.missedFacts.length === 0 ? (
+              <p className="page-intro__lead">{noMissesMessage}</p>
+            ) : (
+              <>
+                <p className="page-intro__lead">{lumoMessages.practiceMisses}</p>
+                <ul className="miss-list">
+                  {result.missedFacts.map((fact) => (
+                    <li key={`${fact.a}x${fact.b}`}>
+                      {formatFact(fact)} = {fact.product}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </div>
+        }
+        actions={
+          <>
+            <button type="button" className="btn btn-primary btn-block" onClick={repeat}>
+              Repetir
+            </button>
+            <button type="button" className="btn btn-secondary btn-block" onClick={practiceMisses}>
+              Practicar mis fallos
+            </button>
+            <Link to="/missions/mates/tables" className="btn btn-ghost btn-block">
+              Volver a las tablas
+            </Link>
+          </>
+        }
+      />
     </AppShell>
   )
 }
