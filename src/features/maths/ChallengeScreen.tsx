@@ -4,11 +4,10 @@ import { AppShell } from '@/components/AppShell'
 import {
   AnswerGrid,
   FactPrompt,
-  FeedbackBanner,
   useFlash,
   useKeyboardAnswers,
 } from '@/components/quiz/QuizWidgets'
-import { AnswerBurst, StreakBadge, XpFlyLabel } from '@/feedback/AnswerFx'
+import { AnswerBurst, XpFlyLabel } from '@/feedback/AnswerFx'
 import { SessionXpBar } from '@/feedback/SessionXpBar'
 import { sessionLeveledUp } from '@/feedback/sessionOutcome'
 import { LevelUpCelebration } from '@/feedback/TableCompleteCelebration'
@@ -16,7 +15,6 @@ import { pickWrongRetryMessage, sessionXpEarned, xpDeltaForAnswer } from '@/feed
 import { challengeModeConfig } from '@/config/playConfig'
 import { energyCopy } from '@/config/rewardGoal'
 import { praiseMessages, streakMessages } from '@/config/messages'
-import { Lumo } from '@/lumo/Lumo'
 import { useLumoController } from '@/lumo/useLumoController'
 import { pickNextFact, toQuestionCard } from '@/math/selector'
 import { factKeyOf, factsForTables } from '@/math/tables'
@@ -26,6 +24,9 @@ import { useProgress } from '@/progress/ProgressContext'
 import { newId } from '@/progress/repository'
 import { previewSessionLoad } from '@/reward/engine'
 import { soundEngine } from '@/sound/soundEngine'
+import { SideRunShell, prefersReducedMotion, useAnswerFx } from '@/run'
+
+const MODES_PATH = '/missions/mates/tables/modes'
 
 function pickPraise(streak: number): string {
   if (streak >= 5) return energyCopy.streakOnFire
@@ -42,6 +43,7 @@ export function ChallengeScreen() {
   const pool = factsForTables(selection.tables)
   const preferred = selection.tables.length === 1 ? selection.tables[0] : null
   const lumo = useLumoController('thinking')
+  const answerFx = useAnswerFx()
   const sessionIdRef = useRef(newId('challenge'))
   const maxLoad = previewSessionLoad(progress, challengeModeConfig.maxRewardFromItems)
 
@@ -63,6 +65,10 @@ export function ChallengeScreen() {
   const [pendingXp, setPendingXp] = useState(0)
   const [barHighlight, setBarHighlight] = useState(0)
   const [levelUpLevel, setLevelUpLevel] = useState<number | null>(null)
+  const [exitOpen, setExitOpen] = useState(false)
+  const [enterKey, setEnterKey] = useState(0)
+  const [hitFlash, setHitFlash] = useState(false)
+  const [missFlash, setMissFlash] = useState(false)
   const flash = useFlash(320)
   const finished = useRef(false)
   const answersRef = useRef(answers)
@@ -148,8 +154,12 @@ export function ChallengeScreen() {
     lastKeyRef.current = factKeyOf(fact)
     setCard(toQuestionCard(fact, preferred))
     setFlyAmount(0)
+    setHitFlash(false)
+    setMissFlash(false)
+    answerFx.clearFx()
+    setEnterKey((k) => k + 1)
     lumo.setThinking()
-  }, [lumo, pool, preferred, progress])
+  }, [answerFx, lumo, pool, preferred, progress])
 
   const onSelect = useCallback(
     (value: number) => {
@@ -170,6 +180,7 @@ export function ChallengeScreen() {
       const nextAnswers = [...prevAnswers, answer]
       setAnswers(nextAnswers)
       answersRef.current = nextAnswers
+      const optIndex = Math.max(0, card.options.indexOf(value))
 
       if (correct) {
         const nextStreak = streak + 1
@@ -179,24 +190,38 @@ export function ChallengeScreen() {
         setScore(nextScore)
         scoreRef.current = nextScore
         setFeedback(pickPraise(nextStreak))
+        setHitFlash(true)
+        setMissFlash(false)
         lumo.reactToAnswer({ correct: true, streak: nextStreak })
         soundEngine.play('answer-correct')
         const xpGain = xpDeltaForAnswer('challenge', prevAnswers, answer)
         setPendingXp(sessionXpEarned('challenge', nextAnswers, nextScore, progress.bestChallengeScore))
+        answerFx.spawn({
+          tone: 'hit',
+          optionIndex: optIndex,
+          nextStreak,
+          xpGranted: xpGain > 0 ? xpGain : undefined,
+        })
         if (xpGain > 0) {
           setFlyAmount(xpGain)
           setFlyKey((k) => k + 1)
           soundEngine.play('points-earned')
         }
-        const lvl = sessionLeveledUp(progress.xp, sessionXpEarned('challenge', nextAnswers, nextScore, progress.bestChallengeScore))
+        const lvl = sessionLeveledUp(
+          progress.xp,
+          sessionXpEarned('challenge', nextAnswers, nextScore, progress.bestChallengeScore),
+        )
         if (lvl.leveledUp) setLevelUpLevel(lvl.newLevel)
         setBurstKey((k) => k + 1)
         flash.trigger()
       } else {
         setStreak(0)
         setFeedback(pickWrongRetryMessage(value))
+        setHitFlash(false)
+        setMissFlash(true)
         lumo.reactToAnswer({ correct: false, streak: 0 })
         soundEngine.play('answer-wrong')
+        answerFx.spawn({ tone: 'miss', optionIndex: optIndex, nextStreak: 0 })
         setPendingXp(sessionXpEarned('challenge', nextAnswers, scoreRef.current, progress.bestChallengeScore))
       }
 
@@ -206,124 +231,162 @@ export function ChallengeScreen() {
         setSelected(null)
         setFeedback(null)
         nextCard()
-      }, 420)
+      }, prefersReducedMotion() ? 420 : 620)
     },
-    [card, flash, locked, lumo, nextCard, phase, progress.bestChallengeScore, progress.xp, remainingMs, streak],
+    [
+      answerFx,
+      card,
+      flash,
+      locked,
+      lumo,
+      nextCard,
+      phase,
+      progress.bestChallengeScore,
+      progress.xp,
+      remainingMs,
+      streak,
+    ],
   )
 
   useKeyboardAnswers(phase === 'play' && !locked && remainingMs > 0, card.options, onSelect)
 
   const secondsLeft = Math.ceil(remainingMs / 1000)
+  const hits = answers.filter((a) => a.correct).length
+  const hasProgress = answers.length > 0 || phase === 'play' || phase === 'countdown'
+  const isCorrectFlash = locked && selected === card.fact.product
 
   return (
-    <AppShell
-      title="Reto"
-      showBack
-      backTo="/missions/mates/tables/modes"
-    >
-      <section className="play-screen">
-        <SessionXpBar
-          totalXp={progress.xp + pendingXp}
-          highlightGain={barHighlight}
-          compact
-          className="play-screen__xp"
-        />
-        {phase === 'intro' ? (
-          <div className="countdown-overlay" role="dialog" aria-labelledby="challenge-intro-title">
-            <p id="challenge-intro-title" className="countdown-overlay__label">
-              ⚡ Reto rápido
-            </p>
-            <ul className="countdown-overlay__perks">
-              <li>XP ×{challengeModeConfig.xpMultiplier}</li>
-              <li>{energyCopy.sessionMax(maxLoad)}</li>
-            </ul>
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={() => {
-                soundEngine.unlock()
-                setCountdown(challengeModeConfig.countdownSec)
-                setPhase('countdown')
-                soundEngine.play('ui-click')
-              }}
-            >
-              Empezar
-            </button>
-          </div>
-        ) : null}
+    <AppShell title="Reto" showBack backTo={MODES_PATH}>
+      <SessionXpBar
+        totalXp={progress.xp + pendingXp}
+        highlightGain={barHighlight}
+        compact
+        className="play-screen__xp"
+      />
 
-        {phase === 'countdown' ? (
-          <div className="countdown-overlay" role="status" aria-live="assertive">
-            <p className="countdown-overlay__label">⚡ Reto rápido</p>
-            <p className="countdown-overlay__num">{countdown > 0 ? countdown : '¡YA!'}</p>
-          </div>
-        ) : null}
+      {phase === 'intro' ? (
+        <div className="countdown-overlay" role="dialog" aria-labelledby="challenge-intro-title">
+          <p id="challenge-intro-title" className="countdown-overlay__label">
+            ⚡ Reto rápido
+          </p>
+          <ul className="countdown-overlay__perks">
+            <li>XP ×{challengeModeConfig.xpMultiplier}</li>
+            <li>{energyCopy.sessionMax(maxLoad)}</li>
+          </ul>
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={() => {
+              soundEngine.unlock()
+              setCountdown(challengeModeConfig.countdownSec)
+              setPhase('countdown')
+              soundEngine.play('ui-click')
+            }}
+          >
+            Empezar
+          </button>
+        </div>
+      ) : null}
 
-        <div className="challenge-hud">
-          <div className="challenge-hud__left">
-            <span
-              className={`challenge-timer challenge-timer--${timerTone}`}
-              aria-live="polite"
-            >
+      {phase === 'countdown' ? (
+        <div className="countdown-overlay" role="status" aria-live="assertive">
+          <p className="countdown-overlay__label">⚡ Reto rápido</p>
+          <p className="countdown-overlay__num">{countdown > 0 ? countdown : '¡YA!'}</p>
+        </div>
+      ) : null}
+
+      {phase === 'play' || phase === 'ended' ? (
+        <SideRunShell
+          title="RETO"
+          current={Math.max(1, hits + (locked && isCorrectFlash ? 0 : 1))}
+          total={Math.max(hits + 1, 12)}
+          hits={hits}
+          streak={streak}
+          countLabel={
+            <span className={`challenge-timer challenge-timer--${timerTone}`} aria-live="polite">
               {secondsLeft}s
             </span>
-            <span className="challenge-mult" aria-label="Multiplicador de XP">
-              ×{challengeModeConfig.xpMultiplier} XP
-            </span>
-          </div>
-          <div className="challenge-score">
-            <span>{score} pts</span>
-            <StreakBadge streak={streak} />
-          </div>
-        </div>
-
-        <div
-          className={`timer-bar timer-bar--${timerTone}${timerTone === 'urgent' ? ' is-pulse' : ''}`}
-          role="progressbar"
-          aria-valuemin={0}
-          aria-valuemax={challengeModeConfig.durationSec}
-          aria-valuenow={secondsLeft}
-          aria-label={`Tiempo restante ${secondsLeft} segundos`}
-        >
-          <span style={{ width: `${fraction * 100}%` }} />
-        </div>
-
-        <div className="play-stage">
-          <Lumo state={lumo.state} intensity={lumo.intensity} size="md" />
-          <div className="play-stage__main">
-            <FactPrompt fact={card.fact} highlight={flash.on} />
-            <div className="xp-fly-anchor">
-              <XpFlyLabel
-                amount={flyAmount}
-                flyKey={flyKey}
-                onArrived={() => {
-                  setBarHighlight(flyAmount)
-                  window.setTimeout(() => setBarHighlight(0), 600)
-                }}
-              />
-              <AnswerBurst burstKey={burstKey} />
-            </div>
-            {lumo.message ? (
-              <p className="lumo-caption" aria-live="polite">
-                {lumo.message}
-              </p>
-            ) : null}
-          </div>
-        </div>
-        <AnswerGrid
-          options={card.options}
-          disabled={phase !== 'play' || locked || remainingMs <= 0}
-          correctValue={card.fact.product}
-          selectedValue={selected}
-          reveal={locked}
-          bounceCorrect={locked && selected === card.fact.product}
-          shakeWrong={locked && selected !== null && selected !== card.fact.product}
-          onSelect={onSelect}
+          }
+          note={
+            <>
+              {score} pts · ×{challengeModeConfig.xpMultiplier} XP
+              {streak >= 2 ? ` · Combo ×${streak}` : ''}
+            </>
+          }
+          lumoState={lumo.state}
+          lumoIntensity={lumo.intensity}
+          prompt="¿Cuánto es?"
+          detail={
+            <>
+              <FactPrompt fact={card.fact} highlight={flash.on} />
+              <span className="side-run__hint">{feedback ?? 'Teclado 1–4 · Acierto = puntos'}</span>
+            </>
+          }
+          extra={
+            <>
+              <div
+                className={`timer-bar timer-bar--${timerTone}${timerTone === 'urgent' ? ' is-pulse' : ''}`}
+                role="progressbar"
+                aria-valuemin={0}
+                aria-valuemax={challengeModeConfig.durationSec}
+                aria-valuenow={secondsLeft}
+                aria-label={`Tiempo restante ${secondsLeft} segundos`}
+              >
+                <span style={{ width: `${fraction * 100}%` }} />
+              </div>
+              <div className="xp-fly-anchor">
+                <XpFlyLabel
+                  amount={flyAmount}
+                  flyKey={flyKey}
+                  onArrived={() => {
+                    setBarHighlight(flyAmount)
+                    window.setTimeout(() => setBarHighlight(0), 600)
+                  }}
+                />
+                <AnswerBurst burstKey={burstKey} />
+              </div>
+            </>
+          }
+          fx={answerFx.fx}
+          lumoBoost={answerFx.lumoBoost}
+          hit={hitFlash}
+          miss={missFlash}
+          canPrev={false}
+          exitOpen={exitOpen}
+          onExitRequest={() => (hasProgress ? setExitOpen(true) : navigate(MODES_PATH))}
+          onConfirmExit={() => {
+            setExitOpen(false)
+            finished.current = true
+            navigate(MODES_PATH)
+          }}
+          onCancelExit={() => setExitOpen(false)}
+          enterKey={enterKey}
+          answers={
+            <AnswerGrid
+              options={card.options}
+              disabled={phase !== 'play' || locked || remainingMs <= 0}
+              correctValue={card.fact.product}
+              selectedValue={selected}
+              reveal={locked}
+              bounceCorrect={locked && selected === card.fact.product}
+              shakeWrong={locked && selected !== null && selected !== card.fact.product}
+              onSelect={onSelect}
+              nearFx={
+                answerFx.fx?.kind === 'near' && typeof answerFx.fx.optionIndex === 'number'
+                  ? {
+                      index: answerFx.fx.optionIndex,
+                      tone: answerFx.fx.tone,
+                      message: answerFx.fx.message,
+                      xp: answerFx.fx.xp,
+                      combo: answerFx.fx.combo,
+                    }
+                  : null
+              }
+            />
+          }
         />
-        {feedback ? (
-          <FeedbackBanner tone={selected === card.fact.product ? 'ok' : 'bad'} message={feedback} />
-        ) : null}
-      </section>
+      ) : null}
+
       <LevelUpCelebration
         open={levelUpLevel != null}
         level={levelUpLevel ?? 0}

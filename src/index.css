@@ -2889,8 +2889,36 @@ a {
   display: grid;
   place-items: center;
 }
-.side-run__extra .analog-clock {
-  max-width: min(100%, 11rem);
+.side-run__extra .timer-bar {
+  width: min(100%, 18rem);
+  margin: 0 auto 0.35rem;
+  font-size: 0;
+}
+.side-run__extra .xp-fly-anchor {
+  position: relative;
+  min-height: 0;
+}
+.side-run .fact-prompt {
+  margin: 0.15rem 0 0.25rem;
+  font-size: clamp(1.6rem, 7vw, 2.4rem);
+  justify-content: center;
+}
+.side-run__hint {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: clamp(0.85rem, 2.8vw, 1rem);
+  color: rgba(186, 230, 253, 0.88);
+  font-family: var(--font-body, inherit);
+}
+.side-run__extra .alphabet-chain,
+.side-run__extra .alphabet-neighbor,
+.side-run__extra .alphabet-picked {
+  margin: 0.1rem 0;
+}
+.side-run__extra .alphabet-chain__slot,
+.side-run__extra .alphabet-neighbor__letter,
+.side-run__extra .alphabet-neighbor__slot {
+  font-size: clamp(1.35rem, 5.5vw, 1.9rem);
 }
 .side-run__detail {
   margin: 0.25rem 0 0;

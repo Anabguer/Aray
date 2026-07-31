@@ -5,11 +5,10 @@ import { AppShell } from '@/components/AppShell'
 import {
   AnswerGrid,
   FactPrompt,
-  FeedbackBanner,
   useFlash,
   useKeyboardAnswers,
 } from '@/components/quiz/QuizWidgets'
-import { AnswerBurst, StreakBadge, XpFlyLabel } from '@/feedback/AnswerFx'
+import { AnswerBurst, XpFlyLabel } from '@/feedback/AnswerFx'
 import { SessionXpBar } from '@/feedback/SessionXpBar'
 import {
   isPerfectSession,
@@ -24,7 +23,6 @@ import {
 import { pickWrongRetryMessage, sessionXpEarned, xpDeltaForAnswer } from '@/feedback/xpPreview'
 import { energyCopy, trainSessionMeta } from '@/config/rewardGoal'
 import { praiseMessages, streakMessages } from '@/config/messages'
-import { Lumo } from '@/lumo/Lumo'
 import { useLumoController } from '@/lumo/useLumoController'
 import type { QuestionCard, SessionAnswer } from '@/math/types'
 import { formatFact } from '@/math/tables'
@@ -33,6 +31,9 @@ import { useProgress } from '@/progress/ProgressContext'
 import { newId } from '@/progress/repository'
 import { previewSessionLoad } from '@/reward/engine'
 import { soundEngine } from '@/sound/soundEngine'
+import { SideRunShell, prefersReducedMotion, useAnswerFx } from '@/run'
+
+const MODES_PATH = '/missions/mates/tables/modes'
 
 function pickPraise(streak: number): string {
   if (streak >= 5) return energyCopy.streakOnFire
@@ -48,6 +49,7 @@ export function TrainScreen() {
   const { selection, pendingQueue, setPendingQueue, setLastResult, activeMode, consumeMissionOfDay } =
     usePlaySession()
   const lumo = useLumoController('thinking')
+  const answerFx = useAnswerFx()
   const sessionIdRef = useRef(newId('train'))
   const openedRef = useRef(false)
 
@@ -72,6 +74,8 @@ export function TrainScreen() {
   const [pendingXp, setPendingXp] = useState(0)
   const [levelUpLevel, setLevelUpLevel] = useState<number | null>(null)
   const [celebration, setCelebration] = useState<TableCompleteInfo | null>(null)
+  const [exitOpen, setExitOpen] = useState(false)
+  const [enterKey, setEnterKey] = useState(0)
   const flash = useFlash()
   const maxLoad = previewSessionLoad(progress, trainSessionMeta.maxRewardFromItems)
 
@@ -162,9 +166,11 @@ export function TrainScreen() {
       setShowEquality(false)
       setFeedback(null)
       setFlyAmount(0)
+      answerFx.clearFx()
+      setEnterKey((k) => k + 1)
       lumo.setThinking()
     },
-    [finish, index, lumo, queue.length],
+    [answerFx, finish, index, lumo, queue.length],
   )
 
   const onSelect = useCallback(
@@ -181,6 +187,11 @@ export function TrainScreen() {
         setFeedback({ tone: 'bad', message: pickWrongRetryMessage(value + index) })
         lumo.reactToAnswer({ correct: false, streak: 0 })
         soundEngine.play('answer-wrong')
+        answerFx.spawn({
+          tone: 'miss',
+          optionIndex: Math.max(0, current.options.indexOf(value)),
+          nextStreak: 0,
+        })
 
         let nextAnswers = answers
         if (!recordedMiss) {
@@ -202,7 +213,8 @@ export function TrainScreen() {
           setLocked(false)
           setSelected(null)
           setRevealCorrect(false)
-        }, 450)
+          answerFx.clearFx()
+        }, prefersReducedMotion() ? 420 : 620)
         return
       }
 
@@ -233,6 +245,12 @@ export function TrainScreen() {
       if (!firstTry) setShowEquality(true)
       lumo.reactToAnswer({ correct: true, streak: nextStreak || 1 })
       soundEngine.play('answer-correct')
+      answerFx.spawn({
+        tone: 'hit',
+        optionIndex: Math.max(0, current.options.indexOf(value)),
+        nextStreak: nextStreak || 1,
+        xpGranted: xpGain > 0 ? xpGain : undefined,
+      })
       if (xpGain > 0) {
         setFlyAmount(xpGain)
         setFlyKey((k) => k + 1)
@@ -248,9 +266,10 @@ export function TrainScreen() {
 
       window.setTimeout(() => {
         goNext(nextAnswers)
-      }, failedThisQuestion ? 1100 : 700)
+      }, failedThisQuestion ? (prefersReducedMotion() ? 900 : 1100) : prefersReducedMotion() ? 700 : 950)
     },
     [
+      answerFx,
       answers,
       current,
       failedThisQuestion,
@@ -275,81 +294,115 @@ export function TrainScreen() {
 
   if (!current && !celebration) {
     return (
-      <AppShell title="Entrena" showBack backTo="/missions/mates/tables/modes">
+      <AppShell title="Entrena" showBack backTo={MODES_PATH}>
         <p className="page-intro__lead">Preparando preguntas…</p>
       </AppShell>
     )
   }
 
+  const hits = answers.filter((a) => a.correct && (a.firstTry ?? true)).length
+  const qNum = Math.min(solvedCount + 1, 10)
+  const isWrongFlash = locked && selected !== null && selected !== current?.fact.product && !revealCorrect
+
   return (
-    <AppShell
-      title="Entrena"
-      showBack
-      backTo="/missions/mates/tables/modes"
-    >
-      <section className={`play-screen${celebration ? ' is-dimmed' : ''}`}>
+    <AppShell title="Entrena" showBack backTo={MODES_PATH}>
+      <div className={celebration ? 'is-dimmed' : undefined}>
         <SessionXpBar
           totalXp={liveTotalXp}
           highlightGain={barHighlight}
           compact
           className="play-screen__xp"
         />
-        <p className="play-banner play-banner--info" role="status">
-          {energyCopy.sessionMax(maxLoad)}
-        </p>
         {fallbackMix ? (
           <p className="play-banner play-banner--info">Sin fallos guardados: practicando mezcla.</p>
         ) : null}
-        <div className="play-progress">
-          <span>
-            Pregunta {Math.min(solvedCount + 1, 10)} / 10
-          </span>
-          <StreakBadge streak={firstTryStreak} />
-        </div>
+
         {current ? (
-          <>
-            <div className="play-stage">
-              <Lumo state={lumo.state} intensity={lumo.intensity} size="md" />
-              <div className="play-stage__main">
+          <SideRunShell
+            title="ENTRENA"
+            current={qNum}
+            total={10}
+            hits={hits}
+            streak={firstTryStreak}
+            note={
+              <>
+                {energyCopy.sessionMax(maxLoad)}
+                {firstTryStreak >= 2 ? ` · Combo ×${firstTryStreak}` : ''}
+              </>
+            }
+            lumoState={lumo.state}
+            lumoIntensity={lumo.intensity}
+            prompt="¿Cuánto es?"
+            detail={
+              <>
                 <FactPrompt fact={current.fact} highlight={flash.on} />
                 {showEquality ? (
-                  <p className="equality-reveal" aria-live="polite">
+                  <span className="side-run__hint">
                     {formatFact(current.fact)} = {current.fact.product}
-                  </p>
-                ) : null}
-                <div className="xp-fly-anchor">
-                  <XpFlyLabel
-                    amount={flyAmount}
-                    flyKey={flyKey}
-                    onArrived={() => {
-                      setBarHighlight(flyAmount)
-                      window.setTimeout(() => setBarHighlight(0), 600)
-                    }}
-                  />
-                  <AnswerBurst burstKey={burstKey} />
-                </div>
-                {lumo.message ? (
-                  <p className="lumo-caption" aria-live="polite">
-                    {lumo.message}
-                  </p>
-                ) : null}
+                  </span>
+                ) : feedback ? (
+                  <span className="side-run__hint">{feedback.message}</span>
+                ) : (
+                  <span className="side-run__hint">Teclado 1–4 · Hay que acertar para avanzar</span>
+                )}
+              </>
+            }
+            extra={
+              <div className="xp-fly-anchor">
+                <XpFlyLabel
+                  amount={flyAmount}
+                  flyKey={flyKey}
+                  onArrived={() => {
+                    setBarHighlight(flyAmount)
+                    window.setTimeout(() => setBarHighlight(0), 600)
+                  }}
+                />
+                <AnswerBurst burstKey={burstKey} />
               </div>
-            </div>
-            <AnswerGrid
-              options={current.options}
-              disabled={locked || Boolean(celebration)}
-              correctValue={current.fact.product}
-              selectedValue={selected}
-              reveal={revealCorrect || (locked && selected !== null && selected !== current.fact.product)}
-              bounceCorrect={revealCorrect}
-              shakeWrong={locked && selected !== null && selected !== current.fact.product}
-              onSelect={onSelect}
-            />
-            {feedback ? <FeedbackBanner tone={feedback.tone} message={feedback.message} /> : null}
-            <p className="demo-note">Teclado: teclas 1–4 · Hay que acertar para avanzar</p>
-          </>
+            }
+            fx={answerFx.fx}
+            lumoBoost={answerFx.lumoBoost}
+            hit={revealCorrect}
+            miss={isWrongFlash}
+            canPrev={false}
+            exitOpen={exitOpen}
+            onExitRequest={() => {
+              if (answers.length > 0 || index > 0) setExitOpen(true)
+              else navigate(MODES_PATH)
+            }}
+            onConfirmExit={() => {
+              setExitOpen(false)
+              setPendingQueue(null)
+              navigate(MODES_PATH)
+            }}
+            onCancelExit={() => setExitOpen(false)}
+            enterKey={enterKey}
+            answers={
+              <AnswerGrid
+                options={current.options}
+                disabled={locked || Boolean(celebration)}
+                correctValue={current.fact.product}
+                selectedValue={selected}
+                reveal={revealCorrect || isWrongFlash}
+                bounceCorrect={revealCorrect}
+                shakeWrong={isWrongFlash}
+                onSelect={onSelect}
+                nearFx={
+                  answerFx.fx?.kind === 'near' && typeof answerFx.fx.optionIndex === 'number'
+                    ? {
+                        index: answerFx.fx.optionIndex,
+                        tone: answerFx.fx.tone,
+                        message: answerFx.fx.message,
+                        xp: answerFx.fx.xp,
+                        combo: answerFx.fx.combo,
+                      }
+                    : null
+                }
+              />
+            }
+          />
         ) : null}
-      </section>
+      </div>
 
       <TableCompleteCelebration
         open={Boolean(celebration)}

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import {
   ALPHABET_ROUND_SIZE,
@@ -10,11 +10,11 @@ import {
 } from '@/alphabet'
 import type { AlphabetAnswerRecord } from '@/alphabet/progress'
 import { AppShell } from '@/components/AppShell'
-import { Lumo } from '@/lumo/Lumo'
 import { useLumoController } from '@/lumo/useLumoController'
 import { newId } from '@/progress/repository'
 import { useProgress } from '@/progress/ProgressContext'
 import { soundEngine } from '@/sound/soundEngine'
+import { SideRunShell, prefersReducedMotion, useAnswerFx } from '@/run'
 
 const MODE_TITLES: Record<AlphabetPlayMode, string> = {
   missing: 'LETRA QUE FALTA',
@@ -23,6 +23,8 @@ const MODE_TITLES: Record<AlphabetPlayMode, string> = {
   'order-words': 'ORDENA PALABRAS',
   random: 'RANDOM',
 }
+
+const MODES_PATH = '/missions/languages/alphabet'
 
 function isPlayMode(value: string | undefined): value is AlphabetPlayMode {
   return (
@@ -63,6 +65,7 @@ export function AlphabetPlayScreen() {
   const { setLastSummary, setLastMode } = useAlphabetSession()
   const { applyAlphabetSession } = useProgress()
   const lumo = useLumoController('thinking')
+  const answerFx = useAnswerFx()
   const seedRef = useRef(Date.now())
   const sessionIdRef = useRef(newId('abc'))
   const answersRef = useRef<AlphabetAnswerRecord[]>([])
@@ -78,17 +81,22 @@ export function AlphabetPlayScreen() {
   const [locked, setLocked] = useState(false)
   const [selected, setSelected] = useState<string | null>(null)
   const [picked, setPicked] = useState<string[]>([])
-  const [, setCorrectCount] = useState(0)
+  const [correctCount, setCorrectCount] = useState(0)
   const [wrongCount, setWrongCount] = useState(0)
   const [streak, setStreak] = useState(0)
   const [, setBestStreak] = useState(0)
   const [feedback, setFeedback] = useState<string | null>(null)
   const [shakeId, setShakeId] = useState<string | null>(null)
+  const [hitFlash, setHitFlash] = useState(false)
+  const [missFlash, setMissFlash] = useState(false)
+  const [exitOpen, setExitOpen] = useState(false)
+  const [enterKey, setEnterKey] = useState(0)
   const openedRef = useRef(false)
   const finishedRef = useRef(false)
   const bestStreakRef = useRef(0)
   const correctCountRef = useRef(0)
   const wrongCountRef = useRef(0)
+  const streakRef = useRef(0)
 
   const question = queue[index]
 
@@ -106,14 +114,18 @@ export function AlphabetPlayScreen() {
     setFeedback(null)
     setLocked(false)
     setShakeId(null)
+    setHitFlash(false)
+    setMissFlash(false)
     orderMissedRef.current = false
+    answerFx.clearFx()
+    setEnterKey((k) => k + 1)
     lumo.setThinking()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index])
 
   useEffect(() => {
     if (!isPlayMode(modeParam)) {
-      navigate('/missions/languages/alphabet', { replace: true })
+      navigate(MODES_PATH, { replace: true })
     }
   }, [modeParam, navigate])
 
@@ -140,11 +152,13 @@ export function AlphabetPlayScreen() {
       recommendReview: result.recommendReview,
       statusLabel: result.statusLabel,
     })
-    navigate('/missions/languages/alphabet/summary', { replace: true })
+    navigate(`${MODES_PATH}/summary`, { replace: true })
   }, [question, mode, navigate, setLastSummary, applyAlphabetSession])
 
   if (!isPlayMode(modeParam)) return null
   if (!question) return null
+
+  const hasProgress = index > 0 || correctCount > 0 || wrongCount > 0
 
   function pushAnswer(correct: boolean, firstTry: boolean) {
     if (!question) return
@@ -159,28 +173,30 @@ export function AlphabetPlayScreen() {
   }
 
   function registerCorrect(firstTry = true) {
-    soundEngine.play('correct')
-    lumo.reactToAnswer({ correct: true, streak: streak + 1 })
+    soundEngine.play('answer-correct')
+    const ns = streakRef.current + 1
+    streakRef.current = ns
+    lumo.reactToAnswer({ correct: true, streak: ns })
     pushAnswer(true, firstTry)
     setCorrectCount((c) => {
       const next = c + 1
       correctCountRef.current = next
       return next
     })
-    setStreak((s) => {
-      const next = s + 1
-      setBestStreak((b) => {
-        const best = Math.max(b, next)
-        bestStreakRef.current = best
-        return best
-      })
-      return next
+    setStreak(ns)
+    setBestStreak((b) => {
+      const best = Math.max(b, ns)
+      bestStreakRef.current = best
+      return best
     })
     setFeedback('¡Bien!')
+    setHitFlash(true)
+    answerFx.spawn({ tone: 'hit', nextStreak: ns })
   }
 
   function registerWrong(message = '¡Casi! Prueba otra') {
-    soundEngine.play('wrong')
+    soundEngine.play('answer-wrong')
+    streakRef.current = 0
     lumo.reactToAnswer({ correct: false, streak: 0 })
     setStreak(0)
     setWrongCount((w) => {
@@ -189,6 +205,8 @@ export function AlphabetPlayScreen() {
       return next
     })
     setFeedback(message)
+    setMissFlash(true)
+    answerFx.spawn({ tone: 'miss', nextStreak: 0 })
   }
 
   function advance(delay: number) {
@@ -197,6 +215,9 @@ export function AlphabetPlayScreen() {
       setFeedback(null)
       setLocked(false)
       setPicked([])
+      setHitFlash(false)
+      setMissFlash(false)
+      answerFx.clearFx()
       setIndex((i) => i + 1)
     }, delay)
   }
@@ -209,11 +230,11 @@ export function AlphabetPlayScreen() {
     const ok = value === question.answer
     if (ok) {
       registerCorrect(true)
-      advance(700)
+      advance(prefersReducedMotion() ? 700 : 950)
     } else {
       pushAnswer(false, true)
       registerWrong('¡Uy! Sigue intentando')
-      advance(900)
+      advance(prefersReducedMotion() ? 800 : 1000)
     }
   }
 
@@ -232,9 +253,11 @@ export function AlphabetPlayScreen() {
       window.setTimeout(() => {
         setShakeId(null)
         setFeedback(null)
+        setMissFlash(false)
         setLocked(false)
+        answerFx.clearFx()
         lumo.setThinking()
-      }, 700)
+      }, prefersReducedMotion() ? 550 : 750)
       return
     }
 
@@ -242,7 +265,7 @@ export function AlphabetPlayScreen() {
     if (status === 'correct') {
       setLocked(true)
       registerCorrect(!orderMissedRef.current)
-      advance(800)
+      advance(prefersReducedMotion() ? 700 : 900)
     } else {
       soundEngine.play('ui-click')
     }
@@ -256,159 +279,159 @@ export function AlphabetPlayScreen() {
         ? question.words.filter((w) => !picked.includes(w))
         : []
 
-  return (
-    <AppShell
-      title={title}
-      shortTitle="Abc"
-      showBack
-      backTo="/missions/languages/alphabet"
-    >
-      <section className="alphabet-play" aria-label={title}>
-        <header className="alphabet-play__hud">
-          <p className="alphabet-play__count">
-            {index + 1} / {ALPHABET_ROUND_SIZE}
-          </p>
-          <p className="alphabet-play__misses" aria-live="polite">
-            Fallos {wrongCount}
-          </p>
-          <p className="alphabet-play__streak" aria-live="polite">
-            Racha {streak}
-          </p>
-        </header>
-
-        <div className="alphabet-play__stage">
-          <div className="alphabet-play__main">
-            <p className="alphabet-play__prompt">{promptFor(question)}</p>
-
-            {question.kind === 'missing' ? (
-              <div className="alphabet-chain" aria-label="Cadena de letras">
-                {question.sequence.map((letter, i) => (
-                  <span
-                    key={`${question.id}-seq-${i}`}
-                    className={
-                      letter == null
-                        ? 'alphabet-chain__slot is-blank'
-                        : 'alphabet-chain__slot'
-                    }
-                  >
-                    {letter ?? '?'}
-                  </span>
-                ))}
-              </div>
-            ) : null}
-
-            {question.kind === 'neighbor' ? (
-              <div className="alphabet-neighbor" aria-label="Letra de Lumo">
-                {question.direction === 'prev' ? (
-                  <>
-                    <span className="alphabet-neighbor__slot">?</span>
-                    <span className="alphabet-neighbor__gap" aria-hidden="true">
-                      →
-                    </span>
-                    <span className="alphabet-neighbor__letter">{question.letter}</span>
-                  </>
-                ) : (
-                  <>
-                    <span className="alphabet-neighbor__letter">{question.letter}</span>
-                    <span className="alphabet-neighbor__gap" aria-hidden="true">
-                      →
-                    </span>
-                    <span className="alphabet-neighbor__slot">?</span>
-                  </>
-                )}
-              </div>
-            ) : null}
-
-            {(question.kind === 'order-letters' || question.kind === 'order-words') &&
-            picked.length > 0 ? (
-              <ol className="alphabet-picked" aria-label="Tu orden">
-                {picked.map((item) => (
-                  <li key={`picked-${item}`} className="alphabet-picked__item">
-                    {item}
-                  </li>
-                ))}
-              </ol>
-            ) : null}
-          </div>
-          <div className="alphabet-play__lumo">
-            <Lumo state={lumo.state} intensity={lumo.intensity} size="sm" />
-          </div>
-        </div>
-
-        {question.kind === 'missing' || question.kind === 'neighbor' ? (
-          <div
-            className={`alphabet-options alphabet-options--scatter alphabet-options--d${question.difficulty}`}
-            role="group"
-            aria-label="Letras"
+  let visual: ReactNode = null
+  let detail: ReactNode = feedback
+  if (question.kind === 'missing') {
+    visual = (
+      <div className="alphabet-chain" aria-label="Cadena de letras">
+        {question.sequence.map((letter, i) => (
+          <span
+            key={`${question.id}-seq-${i}`}
+            className={letter == null ? 'alphabet-chain__slot is-blank' : 'alphabet-chain__slot'}
           >
-            {question.options.map((opt, i) => {
-              const isSel = selected === opt
-              const isCorrect = opt === question.answer
-              let cls = 'alphabet-chip'
-              if (selected != null && isSel && isCorrect) cls += ' is-ok'
-              if (selected != null && isSel && !isCorrect) cls += ' is-bad'
-              return (
+            {letter ?? '?'}
+          </span>
+        ))}
+      </div>
+    )
+    detail = feedback
+  } else if (question.kind === 'neighbor') {
+    visual = (
+      <div className="alphabet-neighbor" aria-label="Letra de Lumo">
+        {question.direction === 'prev' ? (
+          <>
+            <span className="alphabet-neighbor__slot">?</span>
+            <span className="alphabet-neighbor__gap" aria-hidden="true">
+              →
+            </span>
+            <span className="alphabet-neighbor__letter">{question.letter}</span>
+          </>
+        ) : (
+          <>
+            <span className="alphabet-neighbor__letter">{question.letter}</span>
+            <span className="alphabet-neighbor__gap" aria-hidden="true">
+              →
+            </span>
+            <span className="alphabet-neighbor__slot">?</span>
+          </>
+        )}
+      </div>
+    )
+    detail = feedback
+  } else if (picked.length > 0) {
+    visual = (
+      <ol className="alphabet-picked" aria-label="Tu orden">
+        {picked.map((item) => (
+          <li key={`picked-${item}`} className="alphabet-picked__item">
+            {item}
+          </li>
+        ))}
+      </ol>
+    )
+    detail = feedback
+  }
+
+  return (
+    <AppShell title={title} shortTitle="Abc" showBack backTo={MODES_PATH}>
+      <SideRunShell
+        title={title}
+        current={index + 1}
+        total={ALPHABET_ROUND_SIZE}
+        hits={correctCount}
+        streak={streak}
+        note={
+          <>
+            {correctCount} aciertos · fallos {wrongCount}
+            {streak >= 2 ? ` · Combo ×${streak}` : ''}
+          </>
+        }
+        lumoState={lumo.state}
+        lumoIntensity={lumo.intensity}
+        prompt={promptFor(question)}
+        extra={visual}
+        detail={detail}
+        fx={answerFx.fx}
+        lumoBoost={answerFx.lumoBoost}
+        hit={hitFlash}
+        miss={missFlash}
+        canPrev={index > 0 && !locked}
+        onPrev={() => {
+          if (locked || index === 0) return
+          setIndex((i) => i - 1)
+        }}
+        exitOpen={exitOpen}
+        onExitRequest={() => (hasProgress ? setExitOpen(true) : navigate(MODES_PATH))}
+        onConfirmExit={() => {
+          setExitOpen(false)
+          navigate(MODES_PATH)
+        }}
+        onCancelExit={() => setExitOpen(false)}
+        enterKey={enterKey}
+        answers={
+          question.kind === 'missing' || question.kind === 'neighbor' ? (
+            <div className="side-run-options" role="group" aria-label="Letras">
+              {question.options.map((opt, i) => {
+                const isSel = selected === opt
+                const isCorrect = opt === question.answer
+                let mark = ''
+                if (selected != null && isSel && isCorrect) mark = ' is-correct'
+                if (selected != null && isSel && !isCorrect) mark = ' is-wrong'
+                return (
+                  <button
+                    key={`${question.id}-opt-${opt}`}
+                    type="button"
+                    className={`answer-btn${mark}`}
+                    disabled={locked}
+                    onClick={() => onPickOption(opt)}
+                  >
+                    <span className="answer-btn__key" aria-hidden="true">
+                      {i + 1}
+                    </span>
+                    <span className="answer-btn__value">{opt}</span>
+                  </button>
+                )
+              })}
+            </div>
+          ) : question.kind === 'order-letters' ? (
+            <div className="side-run-options" role="group" aria-label="Letras">
+              {remainingPool.map((opt, i) => (
                 <button
-                  key={`${question.id}-opt-${opt}`}
+                  key={`${question.id}-L-${opt}`}
                   type="button"
-                  className={`${cls} alphabet-chip--pos-${i % 6}`}
+                  className={`answer-btn${shakeId === opt ? ' is-wrong' : ''}`}
                   disabled={locked}
-                  onClick={() => onPickOption(opt)}
+                  onClick={() => onPickOrderItem(opt)}
                 >
-                  {opt}
+                  <span className="answer-btn__key" aria-hidden="true">
+                    {i + 1}
+                  </span>
+                  <span className="answer-btn__value">{opt}</span>
                 </button>
-              )
-            })}
-          </div>
-        ) : null}
-
-        {question.kind === 'order-letters' ? (
-          <div className="alphabet-options alphabet-options--grid" role="group" aria-label="Letras">
-            {remainingPool.map((opt) => (
-              <button
-                key={`${question.id}-L-${opt}`}
-                type="button"
-                className={`alphabet-chip${shakeId === opt ? ' is-shake' : ''}`}
-                disabled={locked}
-                onClick={() => onPickOrderItem(opt)}
-              >
-                {opt}
-              </button>
-            ))}
-          </div>
-        ) : null}
-
-        {question.kind === 'order-words' ? (
-          <div className="alphabet-scatter" role="group" aria-label="Palabras">
-            {question.words.map((word, i) => {
-              if (picked.includes(word)) return null
-              const pos = question.positions[i]!
-              return (
-                <button
-                  key={`${question.id}-W-${word}`}
-                  type="button"
-                  className={`alphabet-word${shakeId === word ? ' is-shake' : ''}`}
-                  style={{
-                    left: `${pos.x}%`,
-                    top: `${pos.y}%`,
-                    transform: `rotate(${pos.rotate}deg)`,
-                  }}
-                  disabled={locked}
-                  onClick={() => onPickOrderItem(word)}
-                >
-                  {word}
-                </button>
-              )
-            })}
-          </div>
-        ) : null}
-
-        {feedback ? (
-          <p className="alphabet-play__feedback" role="status">
-            {feedback}
-          </p>
-        ) : null}
-      </section>
+              ))}
+            </div>
+          ) : (
+            <div className="side-run-options" role="group" aria-label="Palabras">
+              {question.words.map((word, i) => {
+                if (picked.includes(word)) return null
+                return (
+                  <button
+                    key={`${question.id}-W-${word}`}
+                    type="button"
+                    className={`answer-btn${shakeId === word ? ' is-wrong' : ''}`}
+                    disabled={locked}
+                    onClick={() => onPickOrderItem(word)}
+                  >
+                    <span className="answer-btn__key" aria-hidden="true">
+                      {i + 1}
+                    </span>
+                    <span className="answer-btn__value">{word}</span>
+                  </button>
+                )
+              })}
+            </div>
+          )
+        }
+      />
     </AppShell>
   )
 }
