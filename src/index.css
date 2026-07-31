@@ -8703,9 +8703,38 @@ a {
 
 .clock-learn__actions {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.65rem;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.55rem;
+}
+
+.clock-learn__actions .btn-primary {
+  width: 100%;
+  text-align: center;
+}
+
+.clock-learn__actions .btn-ghost {
+  align-self: center;
+}
+
+.clock-learn__lang-link {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 550;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  padding: 0.35rem 0.5rem;
+  cursor: pointer;
+  align-self: center;
+  opacity: 0.85;
+}
+
+.clock-learn__lang-link:hover {
+  color: #bae6fd;
+  opacity: 1;
 }
 
 .analog-clock {

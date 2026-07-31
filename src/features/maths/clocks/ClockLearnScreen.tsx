@@ -259,19 +259,6 @@ export function ClockLearnScreen() {
         </div>
 
         <div className="clock-learn__actions">
-          <button
-            type="button"
-            className="btn btn-ghost"
-            onClick={() => {
-              if (index === 0) {
-                setStarted(false)
-                return
-              }
-              setIndex((v) => Math.max(0, v - 1))
-            }}
-          >
-            {index === 0 ? 'Cambiar idioma' : 'Anterior'}
-          </button>
           {isLast ? (
             <Link to="/missions/mates/clocks/train" className="btn btn-primary">
               ¡A entrenar!
@@ -283,6 +270,23 @@ export function ClockLearnScreen() {
               onClick={() => setIndex((v) => Math.min(steps.length - 1, v + 1))}
             >
               Siguiente · {steps[Math.min(index + 1, steps.length - 1)]!.title}
+            </button>
+          )}
+          {index === 0 ? (
+            <button
+              type="button"
+              className="clock-learn__lang-link"
+              onClick={() => setStarted(false)}
+            >
+              Cambiar idioma
+            </button>
+          ) : (
+            <button
+              type="button"
+              className="btn btn-ghost"
+              onClick={() => setIndex((v) => Math.max(0, v - 1))}
+            >
+              Anterior
             </button>
           )}
         </div>
