@@ -4,69 +4,27 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from 'react'
 import { useAuth } from '@/auth/AuthContext'
-import { sideActivityEnergy } from '@/config/rewardGoal'
-import { useProgress } from '@/progress/ProgressContext'
+import { DAILY_TASKS, type DailySkillKey, type DailyTaskDef } from '@/daily/dailyTasks'
+import {
+  advanceMissionProgress,
+  loadDailyMissionSnapshot,
+  markChallengeDone,
+  saveDailyMissionSnapshot,
+  type DailyMissionSnapshot,
+} from '@/daily/missionEnergy'
 import { localDateString } from '@/reward/engine'
 
-export type DailySkillKey = 'tables' | 'calc' | 'spelling' | 'clocks' | 'money'
+export type { DailySkillKey, DailyTaskDef }
+export { DAILY_TASKS }
 
-export interface DailyTaskDef {
-  key: DailySkillKey
-  label: string
-  target: number
-  href: string
-}
-
-export const DAILY_TASKS: DailyTaskDef[] = [
-  { key: 'tables', label: 'Tablas', target: 6, href: '/missions/mates/tables' },
-  { key: 'calc', label: 'Cálculo', target: 5, href: '/missions/mates/calc/mix' },
-  { key: 'spelling', label: 'Ortografía', target: 4, href: '/missions/languages/spelling/mix' },
-  { key: 'clocks', label: 'Relojes', target: 2, href: '/missions/mates/clocks/train' },
-  { key: 'money', label: 'Dinero', target: 1, href: '/missions/mates/money/change' },
-]
-
-interface DailyState {
-  date: string
-  progress: Record<DailySkillKey, number>
-  bonusClaimed: boolean
-}
-
-function storageKey(playerId: number | null): string {
-  return playerId != null ? `aray.dailyMission.v1.p${playerId}` : 'aray.dailyMission.v1'
-}
-
-function emptyProgress(): Record<DailySkillKey, number> {
-  return { tables: 0, calc: 0, spelling: 0, clocks: 0, money: 0 }
-}
-
-function loadState(today: string, playerId: number | null): DailyState {
-  try {
-    const raw = localStorage.getItem(storageKey(playerId))
-    if (!raw) return { date: today, progress: emptyProgress(), bonusClaimed: false }
-    const parsed = JSON.parse(raw) as DailyState
-    if (parsed.date !== today) {
-      return { date: today, progress: emptyProgress(), bonusClaimed: false }
-    }
-    return {
-      date: today,
-      progress: { ...emptyProgress(), ...parsed.progress },
-      bonusClaimed: Boolean(parsed.bonusClaimed),
-    }
-  } catch {
-    return { date: today, progress: emptyProgress(), bonusClaimed: false }
-  }
-}
-
-function saveState(state: DailyState, playerId: number | null) {
-  try {
-    localStorage.setItem(storageKey(playerId), JSON.stringify(state))
-  } catch {
-    /* ignore */
-  }
+function sameDailySnapshot(a: DailyMissionSnapshot, b: DailyMissionSnapshot): boolean {
+  if (a.date !== b.date || a.challengeDone !== b.challengeDone) return false
+  return DAILY_TASKS.every((t) => (a.progress[t.key] ?? 0) === (b.progress[t.key] ?? 0))
 }
 
 interface DailyMissionContextValue {
@@ -75,9 +33,9 @@ interface DailyMissionContextValue {
   tasks: DailyTaskDef[]
   completedCount: number
   allDone: boolean
-  bonusClaimed: boolean
+  challengeDone: boolean
   recordProgress: (key: DailySkillKey, amount?: number) => void
-  claimBonusIfReady: () => boolean
+  markChallengeComplete: () => void
 }
 
 const DailyMissionContext = createContext<DailyMissionContextValue | null>(null)
@@ -85,60 +43,54 @@ const DailyMissionContext = createContext<DailyMissionContextValue | null>(null)
 export function DailyMissionProvider({ children }: { children: ReactNode }) {
   const { player } = useAuth()
   const playerId = player?.id ?? null
-  const { grantActivityEnergy } = useProgress()
-  const [state, setState] = useState<DailyState>(() =>
-    loadState(localDateString(), playerId),
+  const skipSaveRef = useRef(false)
+  const [state, setState] = useState<DailyMissionSnapshot>(() =>
+    loadDailyMissionSnapshot(playerId),
   )
 
+  // Al cambiar de niño: cargar su snapshot. No guardar el estado viejo encima.
   useEffect(() => {
-    setState(loadState(localDateString(), playerId))
+    skipSaveRef.current = true
+    setState(loadDailyMissionSnapshot(playerId))
   }, [playerId])
 
   useEffect(() => {
-    saveState(state, playerId)
+    if (skipSaveRef.current) {
+      skipSaveRef.current = false
+      return
+    }
+    saveDailyMissionSnapshot(state, playerId, { notify: false })
   }, [state, playerId])
 
-  const recordProgress = useCallback((key: DailySkillKey, amount = 1) => {
-    const add = Math.max(0, Math.floor(amount))
-    if (add <= 0) return
-    setState((prev) => {
-      const date = localDateString()
-      const base =
-        prev.date === date ? prev : { date, progress: emptyProgress(), bonusClaimed: false }
-      const task = DAILY_TASKS.find((t) => t.key === key)
-      const cap = task?.target ?? 99
-      const current = base.progress[key] ?? 0
-      if (current >= cap) return base
-      return {
-        ...base,
-        progress: {
-          ...base.progress,
-          [key]: Math.min(cap, current + add),
-        },
-      }
-    })
-  }, [])
+  useEffect(() => {
+    const refresh = () => {
+      setState((prev) => {
+        const next = loadDailyMissionSnapshot(playerId)
+        return sameDailySnapshot(prev, next) ? prev : next
+      })
+    }
+    window.addEventListener('aray-daily-mission-changed', refresh)
+    return () => window.removeEventListener('aray-daily-mission-changed', refresh)
+  }, [playerId])
+
+  const recordProgress = useCallback(
+    (key: DailySkillKey, amount = 1) => {
+      const add = Math.max(0, Math.floor(amount))
+      if (add <= 0) return
+      // Escritura atómica en storage (misma vía que tablas) + UI al día.
+      const next = advanceMissionProgress(playerId, key, add, localDateString())
+      setState(next)
+    },
+    [playerId],
+  )
+
+  const markChallengeComplete = useCallback(() => {
+    markChallengeDone(playerId, localDateString())
+    setState(loadDailyMissionSnapshot(playerId))
+  }, [playerId])
 
   const completedCount = DAILY_TASKS.filter((t) => (state.progress[t.key] ?? 0) >= t.target).length
   const allDone = completedCount >= DAILY_TASKS.length
-
-  const claimBonusIfReady = useCallback(() => {
-    if (!allDone || state.bonusClaimed || playerId == null) return false
-    grantActivityEnergy({
-      sessionId: `daily-bonus-${playerId}-${state.date}`,
-      requestedPoints: sideActivityEnergy.dailyBonus,
-      mode: 'daily_bonus',
-      correct: DAILY_TASKS.length,
-      wrong: 0,
-      statsDelta: {
-        dailyMissionsCompleted: 1,
-        playSeconds: 30,
-        sessionsCompleted: 0,
-      },
-    })
-    setState((prev) => ({ ...prev, bonusClaimed: true }))
-    return true
-  }, [allDone, state.bonusClaimed, state.date, grantActivityEnergy, playerId])
 
   const value = useMemo(
     () => ({
@@ -147,11 +99,11 @@ export function DailyMissionProvider({ children }: { children: ReactNode }) {
       tasks: DAILY_TASKS,
       completedCount,
       allDone,
-      bonusClaimed: state.bonusClaimed,
+      challengeDone: state.challengeDone,
       recordProgress,
-      claimBonusIfReady,
+      markChallengeComplete,
     }),
-    [state, completedCount, allDone, recordProgress, claimBonusIfReady],
+    [state, completedCount, allDone, recordProgress, markChallengeComplete],
   )
 
   return (

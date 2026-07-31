@@ -8,9 +8,10 @@ import { useLumoController } from '@/lumo/useLumoController'
 import { soundEngine } from '@/sound/soundEngine'
 import { useDailyMission } from '@/daily/DailyMissionContext'
 import { buildActivityStatsDelta } from '@/achievements/stats'
-import { sideActivityEnergy } from '@/config/rewardGoal'
+import { energyForMissionAttempt } from '@/daily/missionEnergy'
 import { rewardMatrix, sessionXpFromCorrects } from '@/config/rewardMatrix'
 import { useProgress } from '@/progress/ProgressContext'
+import { usePlaySession } from '@/progress/PlayContext'
 import { newId } from '@/progress/repository'
 import { SideRunShell, prefersReducedMotion, useAnswerFx } from '@/run'
 
@@ -21,7 +22,8 @@ export function ClockTrainScreen() {
   const navigate = useNavigate()
   const { lang, setLastSummary } = useClockSession()
   const { recordProgress } = useDailyMission()
-  const { grantActivityEnergy } = useProgress()
+  const { grantActivityEnergy, playerId } = useProgress()
+  const { consumeMissionOfDay } = usePlaySession()
   const lumo = useLumoController('thinking')
   const answerFx = useAnswerFx()
   const seedRef = useRef(Date.now())
@@ -67,11 +69,13 @@ export function ClockTrainScreen() {
       correct: correctRef.current,
       bestStreak: bestRef.current,
     })
-    recordProgress('clocks', correctRef.current > 0 ? 2 : 0)
     if (correctRef.current > 0) {
+      const energy = energyForMissionAttempt('clocks', 2, playerId)
+      const dailyChallenge = consumeMissionOfDay()
+      recordProgress('clocks', 2)
       grantActivityEnergy({
         sessionId: newId('clock'),
-        requestedPoints: sideActivityEnergy.clocks,
+        requestedPoints: energy,
         mode: 'clocks-train',
         correct: correctRef.current,
         wrong: Math.max(0, TRAIN_COUNT - correctRef.current),
@@ -79,6 +83,7 @@ export function ClockTrainScreen() {
           correctRef.current,
           rewardMatrix['clocks-train'].xpPerCorrect,
         ),
+        claimDailyChallenge: Boolean(dailyChallenge),
         statsDelta: buildActivityStatsDelta({
           feature: 'clocks',
           mode: 'train',
@@ -89,7 +94,7 @@ export function ClockTrainScreen() {
       })
     }
     navigate(`${MODES_PATH}/summary`, { replace: true })
-  }, [question, lang, navigate, setLastSummary, recordProgress, grantActivityEnergy])
+  }, [question, lang, navigate, setLastSummary, recordProgress, grantActivityEnergy, consumeMissionOfDay, playerId])
 
   useEffect(() => {
     setSelected(null)

@@ -17,6 +17,7 @@ import { rewardMatrix, sessionXpFromCorrects } from '@/config/rewardMatrix'
 import { buildActivityStatsDelta } from '@/achievements/stats'
 import { useDailyMission } from '@/daily/DailyMissionContext'
 import { useProgress } from '@/progress/ProgressContext'
+import { usePlaySession } from '@/progress/PlayContext'
 import { newId } from '@/progress/repository'
 import { SideRunShell, prefersReducedMotion, useAnswerFx } from '@/run'
 
@@ -44,6 +45,7 @@ export function CalcPlayScreen() {
   const { setLastSummary, setLastMode } = useCalcSession()
   const { recordProgress } = useDailyMission()
   const { grantActivityEnergy, playerId } = useProgress()
+  const { consumeMissionOfDay } = usePlaySession()
   const lumo = useLumoController('thinking')
   const answerFx = useAnswerFx()
   const seedRef = useRef(Date.now())
@@ -84,12 +86,14 @@ export function CalcPlayScreen() {
       bestStreak: bestStreakRef.current,
       durationSec: CALC_DURATION_SEC,
     })
-    recordProgress('calc', Math.min(5, correctRef.current))
     if (correctRef.current > 0) {
       const units = Math.min(5, correctRef.current)
+      const energy = energyForMissionAttempt('calc', units, playerId)
+      const dailyChallenge = consumeMissionOfDay()
+      recordProgress('calc', units)
       grantActivityEnergy({
         sessionId: newId('calc'),
-        requestedPoints: energyForMissionAttempt('calc', units, playerId),
+        requestedPoints: energy,
         mode: `calc-${mode}`.slice(0, 16),
         correct: correctRef.current,
         wrong: Math.max(0, attemptsRef.current - correctRef.current),
@@ -97,6 +101,7 @@ export function CalcPlayScreen() {
           correctRef.current,
           rewardMatrix.calc.xpPerCorrect,
         ),
+        claimDailyChallenge: Boolean(dailyChallenge),
         statsDelta: buildActivityStatsDelta({
           feature: 'calc',
           mode,

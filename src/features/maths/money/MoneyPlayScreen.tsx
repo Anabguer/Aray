@@ -16,9 +16,10 @@ import { useLumoController } from '@/lumo/useLumoController'
 import { soundEngine } from '@/sound/soundEngine'
 import { useDailyMission } from '@/daily/DailyMissionContext'
 import { buildActivityStatsDelta } from '@/achievements/stats'
-import { sideActivityEnergy } from '@/config/rewardGoal'
+import { energyForMissionAttempt } from '@/daily/missionEnergy'
 import { rewardMatrix, sessionXpFromCorrects } from '@/config/rewardMatrix'
 import { useProgress } from '@/progress/ProgressContext'
+import { usePlaySession } from '@/progress/PlayContext'
 import { newId } from '@/progress/repository'
 import { SideRunShell, prefersReducedMotion, useAnswerFx } from '@/run'
 import './money.css'
@@ -32,7 +33,8 @@ export function MoneyPlayScreen() {
   const navigate = useNavigate()
   const { setLastSummary, setLastMode } = useMoneySession()
   const { recordProgress } = useDailyMission()
-  const { grantActivityEnergy } = useProgress()
+  const { grantActivityEnergy, playerId } = useProgress()
+  const { consumeMissionOfDay } = usePlaySession()
   const lumo = useLumoController('thinking')
   const answerFx = useAnswerFx()
   const seedRef = useRef(Date.now())
@@ -92,10 +94,12 @@ export function MoneyPlayScreen() {
       bestStreak: bestRef.current,
     })
     if (correctRef.current > 0) {
+      const energy = energyForMissionAttempt('money', 1, playerId)
+      const dailyChallenge = consumeMissionOfDay()
       recordProgress('money', 1)
       grantActivityEnergy({
         sessionId: newId('money'),
-        requestedPoints: sideActivityEnergy.money,
+        requestedPoints: energy,
         mode: `money-${mode}`.slice(0, 16),
         correct: correctRef.current,
         wrong: Math.max(0, MONEY_ROUND_SIZE - correctRef.current),
@@ -103,6 +107,7 @@ export function MoneyPlayScreen() {
           correctRef.current,
           rewardMatrix.money.xpPerCorrect,
         ),
+        claimDailyChallenge: Boolean(dailyChallenge),
         statsDelta: buildActivityStatsDelta({
           feature: 'money',
           mode,
@@ -113,7 +118,7 @@ export function MoneyPlayScreen() {
       })
     }
     navigate(`${modesPath}/summary`, { replace: true })
-  }, [question, mode, navigate, setLastSummary, recordProgress, grantActivityEnergy])
+  }, [question, mode, navigate, setLastSummary, recordProgress, grantActivityEnergy, consumeMissionOfDay, playerId])
 
   if (!isMode(modeParam) || !question) return null
 

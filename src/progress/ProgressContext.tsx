@@ -46,6 +46,7 @@ import { achievementCatalog, achievementIsUnlocked } from '@/achievements/catalo
 import { applyStatsDelta, mergeStatsPreferHigher, normalizeStats } from '@/achievements/stats'
 import { LevelUpOverlay, type LevelUpFlash } from '@/components/LevelUpOverlay'
 import { applyLevelUpEnergyBonuses } from '@/progress/levelUpEnergy'
+import { takeDailyChallengeBonus } from '@/daily/missionEnergy'
 import { SYNC_META_KEY } from '@/sync/constants'
 import {
   clearProgressCache as clearSyncProgressCache,
@@ -64,7 +65,7 @@ import {
   syncLevelUpEnergyEvents,
   type ActivityEnergyGrant,
 } from '@/sync/rewardGrantSync'
-import { grantRewardPoints } from '@/reward/engine'
+import { grantRewardPoints, localDateString, syncRewardDay } from '@/reward/engine'
 import {
   buildSessionPayload,
   enqueueAndSyncSession,
@@ -163,6 +164,66 @@ function mapIfNeeded(snapshot: ServerProgressSnapshot, latest: ProgressState): P
   }
 }
 
+/**
+ * Al hidratar/sync, no pisar XP ni energía locales más altas (grants aún
+ * pendientes o recién aplicados en este dispositivo).
+ */
+function mergeProgressPreferLocal(server: ProgressState, local: ProgressState): ProgressState {
+  const today = localDateString()
+  const serverReward = syncRewardDay(server.reward, today)
+  const localReward = syncRewardDay(local.reward, today)
+  const sameDay =
+    (serverReward.dailyDate ?? today) === today && (localReward.dailyDate ?? today) === today
+
+  return {
+    ...server,
+    xp: Math.max(local.xp, server.xp),
+    coins: Math.max(local.coins, server.coins),
+    bestStreak: Math.max(local.bestStreak, server.bestStreak),
+    bestChallengeScore: Math.max(local.bestChallengeScore, server.bestChallengeScore),
+    lastPracticeAt:
+      local.lastPracticeAt && server.lastPracticeAt
+        ? local.lastPracticeAt > server.lastPracticeAt
+          ? local.lastPracticeAt
+          : server.lastPracticeAt
+        : (local.lastPracticeAt ?? server.lastPracticeAt),
+    reward: {
+      ...serverReward,
+      pointsTotal: Math.max(localReward.pointsTotal, serverReward.pointsTotal),
+      dailyPoints: sameDay
+        ? Math.max(localReward.dailyPoints, serverReward.dailyPoints)
+        : (serverReward.dailyDate ?? '') === today
+          ? serverReward.dailyPoints
+          : (localReward.dailyDate ?? '') === today
+            ? localReward.dailyPoints
+            : Math.max(localReward.dailyPoints, serverReward.dailyPoints),
+      dailyDate: today,
+      appliedSessionIds: Array.from(
+        new Set([...serverReward.appliedSessionIds, ...localReward.appliedSessionIds]),
+      ),
+      celebratedPendingCycles: Array.from(
+        new Set([
+          ...serverReward.celebratedPendingCycles,
+          ...localReward.celebratedPendingCycles,
+        ]),
+      ).filter((n) =>
+        Array.from(
+          new Set([...serverReward.pendingCycleNumbers, ...localReward.pendingCycleNumbers]),
+        ).includes(n),
+      ),
+      pendingCycleNumbers: Array.from(
+        new Set([...serverReward.pendingCycleNumbers, ...localReward.pendingCycleNumbers]),
+      ),
+      goalStatus:
+        serverReward.goalStatus === 'validated' || localReward.goalStatus === 'validated'
+          ? 'validated'
+          : serverReward.goalStatus === 'completed' || localReward.goalStatus === 'completed'
+            ? 'completed'
+            : serverReward.goalStatus,
+    },
+  }
+}
+
 export function ProgressProvider({
   children,
   store = defaultStore,
@@ -235,10 +296,11 @@ export function ProgressProvider({
         loadLocalClaimedAchievementIds(id),
       )
       const merged: ProgressState = {
-        ...next,
+        ...mergeProgressPreferLocal(next, progressRef.current),
         crates: mergeCratesState(next.crates, localCrates),
         achievements: { claimedIds },
         stats: mergeStatsPreferHigher(next.stats ?? normalizeStats(null), progressRef.current.stats),
+        soundMuted: progressRef.current.soundMuted,
       }
       persistCache(merged)
       setSyncEpoch(epoch)
@@ -495,7 +557,9 @@ export function ProgressProvider({
       },
     ) => {
       const current = progressRef.current
-      const { next, result } = applySessionToProgress(current, partial)
+      const { next, result } = applySessionToProgress(current, partial, localDateString(), {
+        playerId: playerIdRef.current ?? player?.id ?? null,
+      })
       const playerKey = String(playerIdRef.current ?? player?.id ?? 'local')
       const leveled = applyLevelUpEnergyBonuses(current, next, playerKey)
       if (leveled.events[0]) {
@@ -570,12 +634,10 @@ export function ProgressProvider({
                   celebratedPendingCycles: latest.reward.celebratedPendingCycles.filter((n) =>
                     syncResult.progress!.reward.pendingCycleNumbers.includes(n),
                   ),
-                  // Conservar level-up locales hasta que syncLevelUp las confirme
                   appliedSessionIds: Array.from(
                     new Set([
-                      ...latest.reward.appliedSessionIds.filter((sid) =>
-                        sid.startsWith('levelup-'),
-                      ),
+                      ...latest.reward.appliedSessionIds,
+                      ...syncResult.progress.reward.appliedSessionIds,
                     ]),
                   ),
                 },
@@ -678,9 +740,8 @@ export function ProgressProvider({
                   ),
                   appliedSessionIds: Array.from(
                     new Set([
-                      ...latest.reward.appliedSessionIds.filter((sid) =>
-                        sid.startsWith('levelup-'),
-                      ),
+                      ...latest.reward.appliedSessionIds,
+                      ...syncResult.progress.reward.appliedSessionIds,
                     ]),
                   ),
                 },
@@ -730,7 +791,12 @@ export function ProgressProvider({
 
   const grantActivityEnergy = useCallback(
     (input: ActivityEnergyGrant) => {
-      const requested = Math.max(0, Math.floor(input.requestedPoints))
+      const playerId = playerIdRef.current ?? player?.id ?? null
+      const challengeBonus = input.claimDailyChallenge
+        ? takeDailyChallengeBonus(playerId)
+        : 0
+      const requested =
+        Math.max(0, Math.floor(input.requestedPoints)) + Math.max(0, challengeBonus)
       const xpAdd = Math.max(0, Math.floor(input.xpEarned ?? 0))
       if ((requested <= 0 && xpAdd <= 0 && !input.statsDelta) || !input.sessionId) {
         return { granted: 0 }
@@ -751,6 +817,7 @@ export function ProgressProvider({
           requestedPoints: requested,
           sessionId: input.sessionId,
           attemptIds: [input.sessionId],
+          ignoreDailyCap: Boolean(input.ignoreDailyCap),
         })
         working = { ...working, reward: localGrant.reward }
         granted = localGrant.granted
@@ -991,6 +1058,7 @@ export function ProgressProvider({
         requestedPoints: energyAmt,
         sessionId,
         attemptIds: [sessionId],
+        ignoreDailyCap: true,
       })
       const claimedIds = mergeClaimedAchievementIds(current.achievements.claimedIds, [
         achievementId,
@@ -1013,6 +1081,7 @@ export function ProgressProvider({
             sessionId,
             requestedPoints: energyAmt,
             mode: 'achievement',
+            ignoreDailyCap: true,
           },
           appliedSessionIds: grant.reward.appliedSessionIds,
           localReward: grant.reward,

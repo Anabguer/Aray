@@ -9,9 +9,10 @@ import { useLumoController } from '@/lumo/useLumoController'
 import { soundEngine } from '@/sound/soundEngine'
 import { useDailyMission } from '@/daily/DailyMissionContext'
 import { buildActivityStatsDelta } from '@/achievements/stats'
-import { sideActivityEnergy } from '@/config/rewardGoal'
+import { energyForMissionAttempt } from '@/daily/missionEnergy'
 import { rewardMatrix, sessionXpFromCorrects } from '@/config/rewardMatrix'
 import { useProgress } from '@/progress/ProgressContext'
+import { usePlaySession } from '@/progress/PlayContext'
 import { newId } from '@/progress/repository'
 
 const PAIRS = 4
@@ -20,7 +21,8 @@ export function ClockMatchScreen() {
   const navigate = useNavigate()
   const { lang, setLastSummary } = useClockSession()
   const { recordProgress } = useDailyMission()
-  const { grantActivityEnergy } = useProgress()
+  const { grantActivityEnergy, playerId } = useProgress()
+  const { consumeMissionOfDay } = usePlaySession()
   const lumo = useLumoController('thinking')
   const seedRef = useRef(Date.now())
   const finishedRef = useRef(false)
@@ -64,15 +66,18 @@ export function ClockMatchScreen() {
       correct,
       bestStreak,
     })
-    recordProgress('clocks', correct > 0 ? 2 : 0)
     if (correct > 0) {
+      const energy = energyForMissionAttempt('clocks', 2, playerId)
+      const dailyChallenge = consumeMissionOfDay()
+      recordProgress('clocks', 2)
       grantActivityEnergy({
         sessionId: newId('clock'),
-        requestedPoints: sideActivityEnergy.clocks,
+        requestedPoints: energy,
         mode: 'clocks-match',
         correct,
         wrong: Math.max(0, attempts - correct),
         xpEarned: sessionXpFromCorrects(correct, rewardMatrix['clocks-match'].xpPerCorrect),
+        claimDailyChallenge: Boolean(dailyChallenge),
         statsDelta: buildActivityStatsDelta({
           feature: 'clocks',
           mode: 'match',
@@ -93,6 +98,8 @@ export function ClockMatchScreen() {
     setLastSummary,
     recordProgress,
     grantActivityEnergy,
+    consumeMissionOfDay,
+    playerId,
   ])
 
   function tryMatch(clockId: string, label: string) {

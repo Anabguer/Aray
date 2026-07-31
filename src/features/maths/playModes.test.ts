@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, beforeEach } from 'vitest'
 import { learnLayout, learnUnitSizePx, PLAYABLE_TABLES } from '@/config/playConfig'
 import { hasSavedMisses, listRandomMissions, pickRandomMission } from '@/math/randomMission'
 import { createInitialProgress } from '@/progress/repository'
@@ -80,7 +80,7 @@ describe('Entrena: reintentos', () => {
       sessionId: 'train-retry',
       answers: [ans(6, 7, false, 'm1', false), ans(6, 7, true, 'ok1', false)],
     })
-    expect(result.rewardPointsEarned).toBe(10)
+    expect(result.rewardPointsEarned).toBe(5)
     expect(result.xpEarned).toBe(10)
     expect(result.missedFacts).toHaveLength(1)
   })
@@ -102,7 +102,11 @@ describe('Entrena: reintentos', () => {
 })
 
 describe('Reto rápido: multiplicadores', () => {
-  it('concede XP ×2; energía ×1; sin monedas', () => {
+  beforeEach(() => {
+    localStorage.clear()
+  })
+
+  it('concede XP ×2; energía de unidad tablas; sin monedas', () => {
     const progress = createInitialProgress()
     const { result, next } = applySessionToProgress(progress, {
       mode: 'challenge',
@@ -116,7 +120,8 @@ describe('Reto rápido: multiplicadores', () => {
     expect(challengeModeConfig.rewardMultiplier).toBe(1)
     expect(result.xpEarned).toBe(20)
     expect(result.coinsEarned).toBe(0)
-    expect(result.rewardPointsEarned).toBe(10)
+    // 5 (unidad tablas); el Reto ya no suma cupo diario aparte
+    expect(result.rewardPointsEarned).toBe(5)
     expect(next.tables['4'].masteryScore).toBeGreaterThan(0)
   })
 
@@ -132,6 +137,24 @@ describe('Reto rápido: multiplicadores', () => {
     })
     expect(result.xpEarned).toBe(0)
     expect(result.rewardPointsEarned).toBe(0)
+  })
+
+  it('Reto del día del lobby (isMissionOfDay) suma +10 una vez', () => {
+    const progress = createInitialProgress()
+    const { result } = applySessionToProgress(
+      progress,
+      {
+        mode: 'train',
+        tables: [3],
+        score: 1,
+        bestStreak: 1,
+        sessionId: 'daily-chal-1',
+        answers: [ans(3, 3, true, 'a', true)],
+      },
+      undefined,
+      { isMissionOfDay: true },
+    )
+    expect(result.rewardPointsEarned).toBe(15)
   })
 
   it('respeta tope diario de energía 100', () => {
@@ -151,8 +174,34 @@ describe('Reto rápido: multiplicadores', () => {
   })
 })
 
+describe('Misión diaria tablas', () => {
+  beforeEach(() => {
+    localStorage.clear()
+  })
+
+  it('avanza slots de misión tablas al conceder energía', () => {
+    const progress = createInitialProgress()
+    applySessionToProgress(progress, {
+      mode: 'train',
+      tables: [2],
+      score: 2,
+      bestStreak: 1,
+      sessionId: 'mission-slots-1',
+      answers: [ans(2, 2, true, 'a', true), ans(2, 3, true, 'b', true)],
+    })
+    const raw = localStorage.getItem('aray.dailyMission.v1')
+    expect(raw).toBeTruthy()
+    const snap = JSON.parse(raw!) as { progress: { tables: number } }
+    expect(snap.progress.tables).toBe(2)
+  })
+})
+
 describe('Empareja la tabla — recompensa de sesión', () => {
-  it('concede recompensa fija al completar sin duplicar sesión', () => {
+  beforeEach(() => {
+    localStorage.clear()
+  })
+
+  it('concede energía por aciertos (slots misión) sin duplicar sesión', () => {
     const progress = createInitialProgress()
     const pairs = buildMatchPairs(2)
     const answers = pairs.flatMap((p, i) => [
@@ -168,6 +217,7 @@ describe('Empareja la tabla — recompensa de sesión', () => {
       answers,
       missedFacts: [pairs[0].fact],
     })
+    // Máx. 6 unidades × 5 = 30
     expect(first.result.rewardPointsEarned).toBe(30)
     expect(first.result.missedFacts).toHaveLength(1)
     const second = applySessionToProgress(first.next, {

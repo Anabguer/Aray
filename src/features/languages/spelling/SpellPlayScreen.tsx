@@ -16,9 +16,10 @@ import { useLumoController } from '@/lumo/useLumoController'
 import { soundEngine } from '@/sound/soundEngine'
 import { useDailyMission } from '@/daily/DailyMissionContext'
 import { buildActivityStatsDelta } from '@/achievements/stats'
-import { sideActivityEnergy } from '@/config/rewardGoal'
+import { energyForMissionAttempt } from '@/daily/missionEnergy'
 import { rewardMatrix, sessionXpFromCorrects } from '@/config/rewardMatrix'
 import { useProgress } from '@/progress/ProgressContext'
+import { usePlaySession } from '@/progress/PlayContext'
 import { newId } from '@/progress/repository'
 import { SideRunShell, prefersReducedMotion, useAnswerFx } from '@/run'
 import './spelling.css'
@@ -58,6 +59,7 @@ export function SpellPlayScreen() {
   const { setLastSummary, setLastMode } = useSpellSession()
   const { recordProgress } = useDailyMission()
   const { grantActivityEnergy, playerId } = useProgress()
+  const { consumeMissionOfDay } = usePlaySession()
   const pid = playerId ?? 'local'
   const lumo = useLumoController('thinking')
   const answerFx = useAnswerFx()
@@ -111,12 +113,15 @@ export function SpellPlayScreen() {
       correct: correctRef.current,
       bestStreak: bestRef.current,
     })
-    recordProgress('spelling', correctRef.current)
     if (correctRef.current > 0) {
+      const units = Math.min(4, correctRef.current)
+      const energy = energyForMissionAttempt('spelling', units, playerId)
       const playSeconds = Math.max(1, Math.round((Date.now() - startedAtRef.current) / 1000))
+      const dailyChallenge = consumeMissionOfDay()
+      recordProgress('spelling', units)
       grantActivityEnergy({
         sessionId: newId('spell'),
-        requestedPoints: sideActivityEnergy.spelling,
+        requestedPoints: energy,
         mode: `spell-${mode}`.slice(0, 16),
         correct: correctRef.current,
         wrong: Math.max(0, SPELL_ROUND_SIZE - correctRef.current),
@@ -124,6 +129,7 @@ export function SpellPlayScreen() {
           correctRef.current,
           rewardMatrix.spelling.xpPerCorrect,
         ),
+        claimDailyChallenge: Boolean(dailyChallenge),
         statsDelta: buildActivityStatsDelta({
           feature: 'spelling',
           mode,
@@ -134,7 +140,7 @@ export function SpellPlayScreen() {
       })
     }
     navigate(`${modesPath}/summary`, { replace: true })
-  }, [question, mode, navigate, setLastSummary, recordProgress, grantActivityEnergy])
+  }, [question, mode, navigate, setLastSummary, recordProgress, grantActivityEnergy, consumeMissionOfDay, playerId])
 
   useEffect(() => {
     setPicked(null)

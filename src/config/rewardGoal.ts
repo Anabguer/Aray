@@ -1,12 +1,13 @@
-/** Pesos de recompensa por tipo de actividad (tiempo estimado solo orientativo).
- * Escala ×10 respecto a v1 (números más visibles; misma cadencia real al premio).
+/**
+ * Economía premio Robux: misión del día + 1 reto ≈ tope diario;
+ * ~60 días a tope → premio (6000).
  */
 export const activityWeightDefaults = {
-  micro: 10, // 10–30 s
-  short: 20, // 1–2 min
-  medium: 30, // 3–5 min
-  long: 50, // 6–10 min
-  special: 80, // 10–15 min
+  micro: 5, // unidad misión (tablas / skill)
+  short: 5,
+  medium: 5,
+  long: 10,
+  special: 10, // reto diario
 } as const
 
 export type ActivityWeightTier = keyof typeof activityWeightDefaults
@@ -18,11 +19,27 @@ export const rewardGoalConfig = {
   adultNoteApproxEuro: 'Valor orientativo ≈ 6 € (solo para el adulto).',
   childNoteFor: (tutorName: string) =>
     `Cuando llegues al premio, avísale a ${tutorName} para recogerlo.`,
-  /** Escala ×10: mismos ~50 días a tope que con 500/10. */
-  targetPoints: 5000,
+  /** ~60 días × 100 = 6000. */
+  targetPoints: 6000,
   dailyCap: 100,
   dailyHint: 100,
   rewardLabel: '500 Robux',
+} as const
+
+/**
+ * Energía por unidad de misión del día + Reto del día (card aleatoria del lobby).
+ * 6×5 + 5×5 + 4×5 + 2×5 + 1×5 + 10 (reto) = 100.
+ */
+export const missionEnergyConfig = {
+  perUnit: {
+    tables: 5,
+    calc: 5,
+    spelling: 5,
+    clocks: 5,
+    money: 5,
+  },
+  /** Bonus al completar el Reto del día (card JUGAR del lobby). */
+  challengeDaily: 10,
 } as const
 
 /** Textos visibles (energía / premio). */
@@ -42,15 +59,17 @@ export const energyCopy = {
     `¡Premio conseguido! Avísale a ${tutorName} para recogerlo`,
   streakOnFire: 'Tu racha está on fire',
   sourcesHint:
-    'La energía sube al jugar, al subir de nivel, con cajas y al recoger logros.',
+    'La energía del premio sube con la misión del día y el Reto del día. Cajas y logros pueden sumar un poco extra.',
+  challengeCta: 'Reto del día',
+  challengeDone: 'Reto del día hecho',
 } as const
 
-/** Una multiplicación correcta = microejercicio. */
+/** Una multiplicación correcta = 1 unidad de misión tablas (si quedan slots). */
 export const tablesActivityMeta = {
   activityType: 'multiplication_item',
   subject: 'mates',
   skill: 'tablas',
-  rewardWeight: activityWeightDefaults.micro,
+  rewardWeight: missionEnergyConfig.perUnit.tables,
   estimatedDuration: '10-30s',
   difficulty: 'adaptive',
   completionCriteria: 'correct_answer',
@@ -61,7 +80,7 @@ export const trainSessionMeta = {
   activityType: 'train_session',
   subject: 'mates',
   skill: 'tablas',
-  maxRewardFromItems: 100,
+  maxRewardFromItems: 30, // 6 × 5
   estimatedDuration: '3-5min',
 } as const
 
@@ -70,7 +89,7 @@ export const challengeSessionMeta = {
   activityType: 'challenge_session',
   subject: 'mates',
   skill: 'tablas',
-  maxRewardFromItems: 100,
+  maxRewardFromItems: 30, // slots misión tablas
   estimatedDuration: '1min',
 } as const
 
@@ -79,18 +98,21 @@ export const matchSessionMeta = {
   activityType: 'match_table',
   subject: 'mates',
   skill: 'tablas',
-  rewardWeight: activityWeightDefaults.medium,
+  rewardWeight: missionEnergyConfig.perUnit.tables,
   estimatedDuration: '3-5min',
   difficulty: 'standard',
   completionCriteria: 'all_pairs_correct',
   maxRewardFromItems: 30,
 } as const
 
-/** Energía por ronda completada (actividades sin session-submit de tablas). Respeta dailyCap. */
+/**
+ * Energía máxima teórica por skill si completa todos los slots de misión
+ * (compat: callers que esperaban flat por ronda).
+ */
 export const sideActivityEnergy = {
-  calc: activityWeightDefaults.short, // 20
-  spelling: activityWeightDefaults.medium, // 30
-  money: activityWeightDefaults.short, // 20
-  clocks: activityWeightDefaults.short, // 20
-  dailyBonus: activityWeightDefaults.special, // 80
+  calc: missionEnergyConfig.perUnit.calc * 5,
+  spelling: missionEnergyConfig.perUnit.spelling * 4,
+  money: missionEnergyConfig.perUnit.money * 1,
+  clocks: missionEnergyConfig.perUnit.clocks * 2,
+  challengeDaily: missionEnergyConfig.challengeDaily,
 } as const

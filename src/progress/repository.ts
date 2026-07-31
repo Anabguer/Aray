@@ -1,7 +1,7 @@
 import { normalizeAlphabetProgress, emptyAlphabetProgress } from '@/alphabet/progress'
 import { createEmptyStats, normalizeStats } from '@/achievements/stats'
 import { challengeModeConfig } from '@/config/playConfig'
-import { matchSessionMeta, rewardGoalConfig } from '@/config/rewardGoal'
+import { missionEnergyConfig, rewardGoalConfig } from '@/config/rewardGoal'
 import { rewardRules } from '@/config/rewards'
 import { createInitialCratesState, normalizeCratesState } from '@/crates/engine'
 import {
@@ -9,6 +9,13 @@ import {
   normalizeActivityAssignments,
   normalizeSchoolProfile,
 } from '@/curriculum/school'
+import {
+  advanceMissionProgress,
+  challengeEnergyIfAvailable,
+  loadDailyMissionSnapshot,
+  markChallengeDone,
+  remainingMissionUnits,
+} from '@/daily/missionEnergy'
 import { computeMasteryScore, emptyFactStats, emptyTableProgress } from '@/math/selector'
 import {
   applyEvaluableRound,
@@ -227,6 +234,7 @@ export function applySessionToProgress(
     sessionId: string
   },
   today: string = localDateString(),
+  opts?: { playerId?: number | null; isMissionOfDay?: boolean },
 ): { next: ProgressState; result: SessionResult } {
   // Sesión ya aplicada: no duplicar XP/monedas/recompensa
   if (progress.reward.appliedSessionIds.includes(partial.sessionId)) {
@@ -264,24 +272,34 @@ export function applySessionToProgress(
       : {},
   )
 
+  const playerId = opts?.playerId ?? null
+  const mission = loadDailyMissionSnapshot(playerId, today)
+  const tablesRemaining = remainingMissionUnits('tables', mission.progress)
+  // +10 del Reto del día (card aleatoria del lobby), no del modo Reto rápido de tablas.
+  const challengeBonus = opts?.isMissionOfDay
+    ? challengeEnergyIfAvailable(mission)
+    : 0
+
   const rewardRequest =
     partial.mode === 'learn'
-      ? { requestedPoints: 0, creditedAttemptIds: [] as string[], creditedFactKeys: [] as string[] }
-      : partial.mode === 'match'
-        ? {
-            requestedPoints: matchSessionMeta.rewardWeight,
-            creditedAttemptIds: partial.answers.filter((a) => a.correct).map((a) => a.attemptId),
-            creditedFactKeys: [],
+      ? {
+          requestedPoints: 0,
+          creditedAttemptIds: [] as string[],
+          creditedFactKeys: [] as string[],
+          unitsCredited: 0,
+        }
+      : (() => {
+          const base = computeTablesRewardRequest(partial.answers, {
+            maxUnits: tablesRemaining,
+            weight: missionEnergyConfig.perUnit.tables,
+          })
+          const mult =
+            partial.mode === 'challenge' ? challengeModeConfig.rewardMultiplier : 1
+          return {
+            ...base,
+            requestedPoints: Math.round(base.requestedPoints * mult) + challengeBonus,
           }
-        : (() => {
-            const base = computeTablesRewardRequest(partial.answers)
-            const mult =
-              partial.mode === 'challenge' ? challengeModeConfig.rewardMultiplier : 1
-            return {
-              ...base,
-              requestedPoints: Math.round(base.requestedPoints * mult),
-            }
-          })()
+        })()
 
   const grant = grantRewardPoints(
     progress.reward,
@@ -292,6 +310,14 @@ export function applySessionToProgress(
     },
     today,
   )
+
+  if (rewardRequest.unitsCredited > 0) {
+    advanceMissionProgress(playerId, 'tables', rewardRequest.unitsCredited, today)
+  }
+
+  if (challengeBonus > 0 && grant.granted > rewardRequest.requestedPoints - challengeBonus) {
+    markChallengeDone(playerId, today)
+  }
 
   const next: ProgressState = {
     ...progress,
