@@ -18,8 +18,15 @@ if (Session::role() !== 'child' || Session::playerId() === null) {
 
 $playerId = Session::playerId();
 $active = !isset($body['active']) || (bool) $body['active'];
-$result = ActivityService::heartbeat($playerId, [
-    'active' => $active,
-    'mode' => isset($body['mode']) && is_string($body['mode']) ? $body['mode'] : null,
-]);
-Http::ok(['day' => $result]);
+
+try {
+    $result = ActivityService::heartbeat($playerId, [
+        'active' => $active,
+        'mode' => isset($body['mode']) && is_string($body['mode']) ? $body['mode'] : null,
+    ]);
+    Http::ok(['day' => $result]);
+} catch (Throwable $e) {
+    Http::error(500, 'heartbeat_failed', 'No se pudo registrar la presencia.', [
+        'where' => basename($e->getFile()) . ':' . $e->getLine(),
+    ]);
+}

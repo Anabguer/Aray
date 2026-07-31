@@ -27,9 +27,15 @@ final class MadridTime
     /** Fecha civil del día jugable (Y-m-d) en Madrid. */
     public static function playableDate(?DateTimeInterface $utcMoment = null): string
     {
-        $utc = $utcMoment
-            ? DateTimeImmutable::createFromInterface($utcMoment)->setTimezone(new DateTimeZone('UTC'))
-            : self::utcNow();
+        // Hostalia = PHP 7.4: no usar DateTimeImmutable::createFromInterface (PHP 8+).
+        if ($utcMoment === null) {
+            $utc = self::utcNow();
+        } elseif ($utcMoment instanceof DateTimeImmutable) {
+            $utc = $utcMoment->setTimezone(new DateTimeZone('UTC'));
+        } else {
+            $utc = (new DateTimeImmutable('@' . $utcMoment->getTimestamp()))
+                ->setTimezone(new DateTimeZone('UTC'));
+        }
         return $utc->setTimezone(self::playableTz())->format('Y-m-d');
     }
 

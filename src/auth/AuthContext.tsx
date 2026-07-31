@@ -187,7 +187,11 @@ export function AuthProvider({
     }
     let alive = true
     const ac = new AbortController()
-    const timer = window.setTimeout(() => ac.abort(), 12000)
+    const timer = window.setTimeout(() => ac.abort(), 8000)
+    // Red de seguridad: aunque el fetch no aborte bien, no dejar "Cargando…" eterno.
+    const failsafe = window.setTimeout(() => {
+      if (alive) setLoading(false)
+    }, 9000)
     ;(async () => {
       try {
         const data = await apiGet<MeResponse>('/auth/me.php', ac.signal)
@@ -204,12 +208,14 @@ export function AuthProvider({
         setTutorDisplayName(null)
       } finally {
         window.clearTimeout(timer)
+        window.clearTimeout(failsafe)
         if (alive) setLoading(false)
       }
     })()
     return () => {
       alive = false
       window.clearTimeout(timer)
+      window.clearTimeout(failsafe)
       ac.abort()
     }
     // Solo al montar / cambiar semilla: no re-disparar si cambia la identidad de refreshMe.

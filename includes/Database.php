@@ -29,12 +29,16 @@ final class Database
             defined('DB_CHARSET') ? DB_CHARSET : 'utf8mb4'
         );
 
+        $pdoOpts = [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES => false,
+            // Evitar que me.php/arranque se queden colgados minutos si MySQL no responde.
+            PDO::ATTR_TIMEOUT => 5,
+        ];
+
         try {
-            self::$pdo = new PDO($dsn, DB_USER, DB_PASSWORD, [
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                PDO::ATTR_EMULATE_PREPARES => false,
-            ]);
+            self::$pdo = new PDO($dsn, DB_USER, DB_PASSWORD, $pdoOpts);
         } catch (PDOException $e) {
             // Si la BD aún no existe y está permitido crearla, reintentar una vez
             if (
@@ -43,11 +47,7 @@ final class Database
                 && strpos($e->getMessage(), 'Unknown database') !== false
             ) {
                 SchemaInstaller::ensureDatabaseExists();
-                self::$pdo = new PDO($dsn, DB_USER, DB_PASSWORD, [
-                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                    PDO::ATTR_EMULATE_PREPARES => false,
-                ]);
+                self::$pdo = new PDO($dsn, DB_USER, DB_PASSWORD, $pdoOpts);
             } else {
                 throw $e;
             }

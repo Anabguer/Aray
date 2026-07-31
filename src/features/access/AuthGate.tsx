@@ -20,13 +20,15 @@ function EnsureChildForPlay() {
     if (path === '/adult' || path.startsWith('/adult/')) return
     if (path === '/pick-profile') return
     if (PUBLIC_PATHS.has(path)) return
-    if (familyPlayers.length !== 1 || !familyPlayers[0]?.slug) return
+    const slug = familyPlayers.length === 1 ? familyPlayers[0]?.slug : null
+    if (!slug) return
     if (enteringRef.current) return
     enteringRef.current = true
-    void enterAsChild(familyPlayers[0].slug).finally(() => {
+    void enterAsChild(slug).finally(() => {
       enteringRef.current = false
     })
-  }, [role, familyPlayers, location.pathname, enterAsChild])
+    // Usar length + slug (no el array) para no reintentar en cada render por referencia nueva.
+  }, [role, familyPlayers.length, familyPlayers[0]?.slug, location.pathname, enterAsChild])
 
   return null
 }
