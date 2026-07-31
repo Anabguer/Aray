@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import { useNavigate } from 'react-router-dom'
 import { ApiError } from '@/api/client'
 import { useAuth } from '@/auth/AuthContext'
+import { useProgress } from '@/progress/ProgressContext'
 
 type Props = {
   open: boolean
@@ -11,6 +12,7 @@ type Props = {
 
 export function AdultPinModal({ open, onClose }: Props) {
   const { loginAdultPin, deviceAuthorized, tutorDisplayName } = useAuth()
+  const { flushSyncQueue } = useProgress()
   const navigate = useNavigate()
   const inputRef = useRef<HTMLInputElement>(null)
   const titleId = useId()
@@ -40,6 +42,8 @@ export function AdultPinModal({ open, onClose }: Props) {
     setBusy(true)
     setError(null)
     try {
+      // Vaciar cola de partidas ANTES de pasar a adulto (si no, MySQL se queda sin el XP).
+      await flushSyncQueue()
       await loginAdultPin(pin)
       onClose()
       navigate('/adult')

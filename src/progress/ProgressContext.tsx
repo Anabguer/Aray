@@ -337,6 +337,13 @@ export function ProgressProvider({
   )
 
   const refreshFromServer = useCallback(async () => {
+    // En panel adulto el overview usa su propia API; no pisar el progreso del juego.
+    if (role === 'adult') {
+      setSyncError(null)
+      setSyncStatus('ready')
+      setHydrated(true)
+      return
+    }
     setSyncStatus('hydrating')
     setSyncError(null)
     const current = progressRef.current
@@ -391,7 +398,7 @@ export function ProgressProvider({
     setSyncError(result.error)
     setSyncStatus('error')
     setHydrated(true)
-  }, [applyOfficial, persistCache, player?.id, refreshPendingCount, store])
+  }, [applyOfficial, persistCache, player?.id, refreshPendingCount, role, store])
 
   const flushSyncQueue = useCallback(async () => {
     // Con sesión adulta (panel familiar) no forzar child-enter vía sync.
@@ -500,7 +507,8 @@ export function ProgressProvider({
     void refreshFromServer()
   }, [refreshFromServer, skipHydration, authKey])
 
-  // Al cambiar de niño: alinear playerId al instante y no mostrar números del hermano.
+  // Al cambiar de niño: alinear playerId. No poner XP a 0 (eso hacía perder el nivel
+  // al rehidratar desde MySQL si aún no se había flusheado la cola).
   useEffect(() => {
     if (skipHydration) return
     const nextId = player?.id ?? null
@@ -508,11 +516,9 @@ export function ProgressProvider({
     if (playerIdRef.current === nextId) return
     playerIdRef.current = nextId
     setPlayerId(nextId)
-    clearProgressCache()
-    persistCache(createInitialProgress())
     setSyncStatus('hydrating')
     setHydrated(false)
-  }, [player?.id, persistCache, skipHydration])
+  }, [player?.id, skipHydration])
 
   useEffect(() => {
     if (skipHydration) return

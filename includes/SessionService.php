@@ -23,7 +23,10 @@ final class SessionService
 {
     public const XP_PER_CORRECT = 10;
     public const STREAK_BONUS_EVERY = 5;
-    public const STREAK_BONUS_XP = 5;
+    /** Alineado con rewardRules.xpStreakBonus del cliente. */
+    public const STREAK_BONUS_XP = 10;
+    /** Alineado con challengeModeConfig.xpMultiplier del cliente. */
+    public const CHALLENGE_XP_MULTIPLIER = 2;
     public const MASTERY_THRESHOLD = 80;
     public const CONSECUTIVE_LOW_THRESHOLD = 50;
     public const MIN_OPERAND = 1;
@@ -78,6 +81,9 @@ final class SessionService
         }
 
         $calc = self::recalculate($answers);
+        if ($mode === 'challenge') {
+            $calc['xpEarned'] = (int) ($calc['xpEarned'] * self::CHALLENGE_XP_MULTIPLIER);
+        }
 
         $pdo->beginTransaction();
         try {
@@ -273,13 +279,19 @@ final class SessionService
             // Solo el correct recalculado en servidor
             if (!empty($ans['correct'])) {
                 $correctCount++;
-                $streak++;
                 $xp += self::XP_PER_CORRECT;
-                if ($streak % self::STREAK_BONUS_EVERY === 0) {
-                    $xp += self::STREAK_BONUS_XP;
-                }
-                if ($streak > $bestStreak) {
-                    $bestStreak = $streak;
+                // Racha solo en primer intento (igual que repository.ts del cliente).
+                $firstTry = !array_key_exists('firstTry', $ans) || !empty($ans['firstTry']);
+                if ($firstTry) {
+                    $streak++;
+                    if ($streak % self::STREAK_BONUS_EVERY === 0) {
+                        $xp += self::STREAK_BONUS_XP;
+                    }
+                    if ($streak > $bestStreak) {
+                        $bestStreak = $streak;
+                    }
+                } else {
+                    $streak = 0;
                 }
             } else {
                 $wrongCount++;

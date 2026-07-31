@@ -100,7 +100,7 @@ final class AdultDashboardService
         }
 
         $xp = (int) $progress['xp'];
-        $level = intdiv($xp, 100) + 1;
+        $level = intdiv($xp, 500) + 1;
         $reward = RewardCycleService::publicRewardState($playerId);
         $cycles = RewardCycleService::listCycles($playerId);
         $pending = array_values(array_filter(
