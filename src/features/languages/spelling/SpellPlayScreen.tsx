@@ -12,6 +12,7 @@ import { AppShell } from '@/components/AppShell'
 import { useLumoController } from '@/lumo/useLumoController'
 import { soundEngine } from '@/sound/soundEngine'
 import { useDailyMission } from '@/daily/DailyMissionContext'
+import { buildActivityStatsDelta } from '@/achievements/stats'
 import { sideActivityEnergy } from '@/config/rewardGoal'
 import { rewardMatrix, sessionXpFromCorrects } from '@/config/rewardMatrix'
 import { useProgress } from '@/progress/ProgressContext'
@@ -27,6 +28,23 @@ function isMode(v: string | undefined): v is SpellPlayMode {
     v === 'intruder' ||
     v === 'complete' ||
     v === 'mix'
+  )
+}
+
+/** Hueco visible como una sola casilla (ll/rr no se parten en L_L). */
+function SpellBlankDetail({ display }: { display: string }) {
+  const blankAt = display.indexOf('_')
+  if (blankAt < 0) return <>{display}</>
+  const before = display.slice(0, blankAt)
+  const after = display.slice(blankAt + 1)
+  return (
+    <div className="spell-blank" aria-label={`Palabra con hueco: ${before}…${after}`}>
+      {before ? <span className="spell-blank__text">{before}</span> : null}
+      <span className="spell-blank__slot" aria-hidden="true">
+        ?
+      </span>
+      {after ? <span className="spell-blank__text">{after}</span> : null}
+    </div>
   )
 }
 
@@ -57,6 +75,7 @@ export function SpellPlayScreen() {
   const bestRef = useRef(0)
   const streakRef = useRef(0)
   const openedRef = useRef(false)
+  const startedAtRef = useRef(Date.now())
 
   const question = queue[index]
   const modesPath = '/missions/languages/spelling'
@@ -84,6 +103,7 @@ export function SpellPlayScreen() {
     })
     recordProgress('spelling', correctRef.current)
     if (correctRef.current > 0) {
+      const playSeconds = Math.max(1, Math.round((Date.now() - startedAtRef.current) / 1000))
       grantActivityEnergy({
         sessionId: newId('spell'),
         requestedPoints: sideActivityEnergy.spelling,
@@ -94,6 +114,13 @@ export function SpellPlayScreen() {
           correctRef.current,
           rewardMatrix.spelling.xpPerCorrect,
         ),
+        statsDelta: buildActivityStatsDelta({
+          feature: 'spelling',
+          mode,
+          correct: correctRef.current,
+          total: SPELL_ROUND_SIZE,
+          playSeconds,
+        }),
       })
     }
     navigate(`${modesPath}/summary`, { replace: true })
@@ -193,7 +220,13 @@ export function SpellPlayScreen() {
           lumoIntensity={lumo.intensity}
           prompt={question.prompt}
           extra={question.emoji ? <span aria-hidden="true">{question.emoji}</span> : undefined}
-          detail={question.display}
+          detail={
+            question.display?.includes('_') ? (
+              <SpellBlankDetail display={question.display} />
+            ) : (
+              question.display
+            )
+          }
           fx={answerFx.fx}
           lumoBoost={answerFx.lumoBoost}
           hit={hitFlash}

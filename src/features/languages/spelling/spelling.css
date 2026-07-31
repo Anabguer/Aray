@@ -144,6 +144,32 @@
   padding: 0 0.5rem;
 }
 
+.spell-blank {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.spell-blank__text {
+  letter-spacing: 0.06em;
+}
+
+.spell-blank__slot {
+  min-width: 2.4rem;
+  padding: 0.15rem 0.45rem;
+  border-radius: 0.55rem;
+  border: 2px dashed rgba(251, 146, 60, 0.75);
+  background: rgba(251, 146, 60, 0.14);
+  color: #fdba74;
+  letter-spacing: 0;
+  text-align: center;
+}
+
 .spell-play__options {
   display: grid;
   grid-template-columns: 1fr 1fr;

@@ -1,5 +1,5 @@
 /* ARAY service worker — app shell only; never caches API. */
-const CACHE = 'aray-shell-v4'
+const CACHE = 'aray-shell-v6'
 
 self.addEventListener('install', (event) => {
   event.waitUntil(

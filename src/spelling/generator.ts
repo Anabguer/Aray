@@ -106,13 +106,21 @@ function rivalLetters(w: SpellWord, correct: string): string[] {
   }
 }
 
+/** Presenta dígrafo como una sola ficha (LL / RR), no dos letras sueltas. */
+function presentUnit(unit: string): string {
+  const lower = unit.toLowerCase()
+  if (lower === 'll' || lower === 'rr') return lower.toUpperCase()
+  return unit
+}
+
 function buildMissing(seed: number, used: Set<string>, mode: SpellPlayMode): SpellMcqQuestion {
   const rand = mulberry32(seed)
   const w = pickWord(rand, used)
   used.add(w.word)
-  const { unit: letter } = hardUnitAt(w.word, w.hardIndex)
-  const optionsSet = new Set<string>([letter, ...rivalLetters(w, letter)])
-  const pool = ['b', 'c', 'd', 'f', 'g', 'h', 'j', 'l', 'll', 'm', 'n', 'r', 'rr', 's', 't', 'v']
+  const letter = presentUnit(hardUnitAt(w.word, w.hardIndex).unit)
+  const rivals = rivalLetters(w, letter).map(presentUnit)
+  const optionsSet = new Set<string>([letter, ...rivals])
+  const pool = ['b', 'c', 'd', 'f', 'g', 'h', 'j', 'l', 'LL', 'm', 'n', 'r', 'RR', 's', 't', 'v']
   let guard = 0
   while (optionsSet.size < 4 && guard < 20) {
     guard += 1

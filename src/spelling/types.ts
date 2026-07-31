@@ -213,7 +213,7 @@ export const SPELL_BANK: SpellWord[] = [
     emoji: '🥄',
     rule: 'll-illa',
     tip: 'Muchas palabras en -illo / -illa se escriben con ll',
-    hardIndex: 6,
+    hardIndex: 7,
   },
   {
     word: 'bolsillo',

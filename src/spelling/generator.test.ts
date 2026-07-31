@@ -66,7 +66,8 @@ describe('ortografía 3.º (cuaderno real)', () => {
       const answer = q.options[q.correctIndex]!
       if (answer.toLowerCase() === 'll' || answer.toLowerCase() === 'rr') {
         expect(q.display).toMatch(/_/)
-        expect(answer).toMatch(/^(ll|rr)$/i)
+        expect(answer).toBe(answer.toUpperCase())
+        expect(answer).toMatch(/^(LL|RR)$/)
       }
     }
   })
