@@ -9424,10 +9424,11 @@ a {
 }
 
 .alphabet-play__prompt {
-  margin: 0;
+  margin: 0 0 1.15rem;
   font-weight: 700;
   font-size: 1.08rem;
   text-align: center;
+  line-height: 1.35;
 }
 
 .alphabet-chain {

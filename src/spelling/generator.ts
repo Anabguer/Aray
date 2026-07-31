@@ -32,16 +32,28 @@ function pickWord(rand: () => number, used: Set<string>): SpellWord {
   return list[Math.floor(rand() * list.length)]!
 }
 
+function fakeMisspell(word: string, rand: () => number): string {
+  const swaps = ['b', 'v', 'h', 'll', 'y', 'g', 'j', 'c', 'z', 's']
+  let guard = 0
+  while (guard < 12) {
+    guard += 1
+    const i = Math.floor(rand() * word.length)
+    const ch = swaps[Math.floor(rand() * swaps.length)]!
+    const candidate = `${word.slice(0, i)}${ch}${word.slice(i + 1)}`
+    if (candidate !== word && !SPELL_BANK.some((w) => w.word === candidate)) return candidate
+  }
+  return `${word}x`
+}
+
 function uniqueOptions(correct: string, wrongs: string[], rand: () => number): string[] {
   const set = new Set<string>([correct])
   for (const w of wrongs) {
-    if (w && w !== correct) set.add(w)
+    if (w && w !== correct && !SPELL_BANK.some((b) => b.word === w)) set.add(w)
   }
   let guard = 0
-  while (set.size < 4 && guard < 20) {
+  while (set.size < 4 && guard < 24) {
     guard += 1
-    const alt = SPELL_BANK[Math.floor(rand() * SPELL_BANK.length)]!.word
-    if (alt !== correct) set.add(alt)
+    set.add(fakeMisspell(correct, rand))
   }
   const opts = shuffle([...set].slice(0, 4), rand)
   if (!opts.includes(correct)) opts[0] = correct
@@ -116,17 +128,30 @@ function buildPicture(seed: number, used: Set<string>, mode: SpellPlayMode): Spe
 
 function buildIntruder(seed: number, used: Set<string>, mode: SpellPlayMode): SpellMcqQuestion {
   const rand = mulberry32(seed)
-  const w = pickWord(rand, used)
-  used.add(w.word)
-  const wrong = w.distractors[0] ?? `${w.word}x`
-  const options = uniqueOptions(w.word, [wrong, w.distractors[1] ?? wrong], rand)
+  const target = pickWord(rand, used)
+  used.add(target.word)
+  const intruder =
+    target.distractors.find((d) => d && d !== target.word && !SPELL_BANK.some((w) => w.word === d)) ??
+    `${target.word}x`
+
+  // 3 palabras bien escritas + 1 mal escrita (la intrusa)
+  const goods = new Set<string>([target.word])
+  let guard = 0
+  while (goods.size < 3 && guard < 40) {
+    guard += 1
+    const alt = SPELL_BANK[Math.floor(rand() * SPELL_BANK.length)]!.word
+    if (alt !== intruder) goods.add(alt)
+  }
+  const options = shuffle([...goods, intruder].slice(0, 4), rand)
+  if (!options.includes(intruder)) options[0] = intruder
+
   return {
     kind: 'mcq',
-    id: `in-${w.word}-${seed}`,
+    id: `in-${target.word}-${seed}`,
     mode,
-    prompt: 'Elige la palabra correcta (no la intrusa)',
+    prompt: '¿Cuál está mal escrita? (la intrusa)',
     options,
-    correctIndex: options.indexOf(w.word),
+    correctIndex: options.indexOf(intruder),
   }
 }
 

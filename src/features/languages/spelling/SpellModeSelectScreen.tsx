@@ -10,7 +10,7 @@ const MODES: Array<{ mode: SpellPlayMode; art: ModeArtId; className: string; tex
   { mode: 'missing', art: 'aprende', className: 'mode-poster--learn', text: 'ca_allo' },
   { mode: 'correct', art: 'entrena', className: 'mode-poster--train', text: 'vaca o baca' },
   { mode: 'picture', art: 'empareja', className: 'mode-poster--match', text: 'Imagen → palabra' },
-  { mode: 'intruder', art: 'mis-fallos', className: 'mode-poster--misses', text: 'Quita la incorrecta' },
+  { mode: 'intruder', art: 'mis-fallos', className: 'mode-poster--misses', text: '¿Cuál está mal?' },
   { mode: 'complete', art: 'reto-rapido', className: 'mode-poster--challenge', text: 'a _ ión' },
 ]
 

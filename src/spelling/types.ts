@@ -66,7 +66,7 @@ export const SPELL_BANK: SpellWord[] = [
   { word: 'vaso', distractors: ['baso', 'vazo'], emoji: '🥛', hardIndex: 0 },
   { word: 'abeja', distractors: ['aveja', 'abeha'], emoji: '🐝', hardIndex: 1 },
   { word: 'hada', distractors: ['ada', 'jada'], emoji: '🧚', hardIndex: 0 },
-  { word: 'ojo', distractors: ['oxo', 'hoyo'], emoji: '👁️', hardIndex: 0 },
+  { word: 'ojo', distractors: ['oxo', 'ojoo'], emoji: '👁️', hardIndex: 1 },
   { word: 'libro', distractors: ['livro', 'libbro'], emoji: '📖', hardIndex: 2 },
   { word: 'nube', distractors: ['nuve', 'ñube'], emoji: '☁️', hardIndex: 2 },
   { word: 'sol', distractors: ['zol', 'soll'], emoji: '☀️', hardIndex: 0 },
