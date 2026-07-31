@@ -1,98 +1,132 @@
 .spell-modes__lead {
-  margin: 0 0 0.75rem;
-  color: var(--text-muted);
-  font-size: 0.95rem;
+  margin: 0 0 0.85rem;
+  color: color-mix(in srgb, var(--cyan) 78%, #e2e8f0);
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 2.4vw, 1.12rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-align: center;
 }
 
-/* 4 columnas: cards compactas (6 modos → 4+2) */
+/* 3×2: rejilla equilibrada (6 modos), look arcade */
 .mode-posters--spell {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.4rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem;
   width: 100%;
-  max-width: none;
+  max-width: min(52rem, 100%);
+  margin-inline: auto;
+}
+
+.mode-posters--spell .mode-poster {
+  border-width: 2.5px;
+  border-radius: 1.05rem;
+  background:
+    radial-gradient(ellipse 80% 55% at 50% 0%, color-mix(in srgb, var(--mode-accent) 22%, transparent), transparent 70%),
+    rgba(6, 16, 34, 0.94);
+  box-shadow:
+    0 10px 0 rgba(0, 0, 0, 0.28),
+    0 14px 28px rgba(0, 8, 24, 0.45),
+    0 0 22px color-mix(in srgb, var(--mode-accent) 28%, transparent);
 }
 
 .mode-posters--spell .mode-poster__media {
   aspect-ratio: 1 / 1;
-  background: #050d18;
+  background:
+    radial-gradient(circle at 50% 70%, color-mix(in srgb, var(--mode-accent) 18%, transparent), transparent 62%),
+    #050d18;
 }
 
 .mode-posters--spell .mode-poster__img {
   object-fit: contain;
-  object-position: center 42%;
+  object-position: center 44%;
   transform: none;
-  padding: 0.08rem;
+  padding: 0.2rem;
+  filter: drop-shadow(0 0 12px color-mix(in srgb, var(--mode-accent) 35%, transparent));
 }
 
 .mode-posters--spell .mode-poster__body {
-  padding: 0.22rem 0.25rem 0.28rem;
+  padding: 0.45rem 0.5rem 0.55rem;
+  gap: 0.2rem;
+  background: linear-gradient(180deg, rgba(4, 12, 28, 0.2), rgba(4, 12, 28, 0.72));
 }
 
 .mode-posters--spell .mode-poster__title {
-  font-size: clamp(0.5rem, 2vw, 0.72rem);
+  font-size: clamp(0.62rem, 1.8vw, 0.88rem);
   line-height: 1.15;
+  letter-spacing: 0.03em;
+  text-shadow: 0 0 12px color-mix(in srgb, var(--mode-accent) 40%, transparent);
 }
 
 .mode-posters--spell .mode-poster__text {
-  font-size: clamp(0.45rem, 1.6vw, 0.62rem);
-  line-height: 1.2;
+  font-size: clamp(0.52rem, 1.4vw, 0.72rem);
+  line-height: 1.25;
+  color: rgba(186, 230, 253, 0.88);
 }
 
 .mode-posters--spell .mode-poster__go {
-  width: 1.05rem;
-  height: 1.05rem;
-  margin-top: 0.02rem;
+  width: 1.45rem;
+  height: 1.45rem;
+  margin-top: 0.15rem;
+  border: 1.5px solid color-mix(in srgb, var(--mode-accent) 55%, #fff);
+  background: linear-gradient(160deg, color-mix(in srgb, var(--mode-accent) 75%, #fff), var(--mode-accent));
+  color: #042033;
+  box-shadow: 0 0 12px color-mix(in srgb, var(--mode-accent) 45%, transparent);
 }
 
-@media (min-width: 640px) {
-  .mode-posters--spell {
-    gap: 0.55rem;
-    max-width: 44rem;
-    margin-inline: auto;
+@media (hover: hover) and (pointer: fine) {
+  .mode-posters--spell .mode-poster:hover {
+    transform: translateY(-5px) scale(1.02);
+    border-color: color-mix(in srgb, var(--mode-accent) 78%, #fff);
+    box-shadow:
+      0 14px 0 rgba(0, 0, 0, 0.22),
+      0 20px 36px rgba(0, 8, 24, 0.5),
+      0 0 28px color-mix(in srgb, var(--mode-accent) 42%, transparent);
   }
 
-  .mode-posters--spell .mode-poster__media {
-    aspect-ratio: 1 / 1;
+  .mode-posters--spell .mode-poster:hover .mode-poster__img {
+    transform: scale(1.04);
+  }
+
+  .mode-posters--spell .mode-poster:active {
+    transform: translateY(-1px) scale(0.99);
+  }
+}
+
+@media (min-width: 720px) {
+  .mode-posters--spell {
+    gap: 0.9rem;
+    max-width: 58rem;
   }
 
   .mode-posters--spell .mode-poster__title {
+    font-size: 0.98rem;
+  }
+
+  .mode-posters--spell .mode-poster__text {
     font-size: 0.78rem;
   }
 
-  .mode-posters--spell .mode-poster__text {
-    font-size: 0.64rem;
-  }
-
   .mode-posters--spell .mode-poster__go {
-    width: 1.2rem;
-    height: 1.2rem;
+    width: 1.65rem;
+    height: 1.65rem;
   }
 }
 
-@media (min-width: 900px) {
+@media (max-width: 420px) {
   .mode-posters--spell {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 0.7rem;
-    max-width: 56rem;
-  }
-
-  .mode-posters--spell .mode-poster__title {
-    font-size: 0.86rem;
-  }
-
-  .mode-posters--spell .mode-poster__text {
-    font-size: 0.7rem;
-  }
-
-  .mode-posters--spell .mode-poster__go {
-    width: 1.3rem;
-    height: 1.3rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
   }
 }
 
-@media (min-width: 360px) {
-  .mode-posters--spell .mode-poster:nth-child(5) {
-    grid-column: 2;
+@media (prefers-reduced-motion: reduce) {
+  .mode-posters--spell .mode-poster,
+  .mode-posters--spell .mode-poster:hover,
+  .mode-posters--spell .mode-poster:active {
+    transition: none;
+    transform: none;
+    animation: none;
   }
 }
 

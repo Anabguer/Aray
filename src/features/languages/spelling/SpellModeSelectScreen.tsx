@@ -11,7 +11,7 @@ const MODES: Array<{ mode: SpellPlayMode; art: ModeArtId; className: string; tex
   { mode: 'intruder', art: 'spell-intruder', className: 'mode-poster--misses', text: 'Encuentra la falta' },
   { mode: 'missing', art: 'spell-missing', className: 'mode-poster--learn', text: 'Letra de la regla' },
   { mode: 'picture', art: 'spell-picture', className: 'mode-poster--match', text: 'Imagen → escritura' },
-  { mode: 'mix', art: 'spell-mix', className: 'mode-poster--random', text: 'Repaso mezclado 3.º' },
+  { mode: 'mix', art: 'spell-mix', className: 'mode-poster--random', text: 'Todas las reglas' },
 ]
 
 function Poster({
@@ -47,9 +47,7 @@ function Poster({
 export function SpellModeSelectScreen() {
   return (
     <AppShell title="ORTOGRAFÍA" shortTitle="Ortografía" showBack backTo="/missions/languages">
-      <p className="spell-modes__lead">
-        Repaso 3.º (castellano): hay/ahí/ay, hecho/echo, r/rr, hie-hue… · como en el cuaderno
-      </p>
+      <p className="spell-modes__lead">Elige un modo y dispara</p>
       <div className="mode-posters mode-posters--spell" role="list">
         {MODES.map((m) => (
           <Poster

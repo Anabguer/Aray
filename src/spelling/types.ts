@@ -75,7 +75,7 @@ export const SPELL_MODE_LABELS: Record<SpellPlayMode, string> = {
   picture: 'Imagen y palabra',
   intruder: 'La intrusa',
   complete: 'Completa la frase',
-  mix: 'Repaso 3.º',
+  mix: 'Mezcla total',
 }
 
 /** Vocabulario / confusiones de cuaderno 3.º (no trampas con k). */
