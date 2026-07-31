@@ -130,6 +130,7 @@ export function SpellPlayScreen() {
           </p>
         </header>
         <p className="spell-play__prompt">{question.prompt}</p>
+        {question.tip ? <p className="spell-play__tip">{question.tip}</p> : null}
         {question.emoji ? <p className="spell-play__emoji">{question.emoji}</p> : null}
         {question.display ? <p className="spell-play__display">{question.display}</p> : null}
         <div className="spell-play__options">

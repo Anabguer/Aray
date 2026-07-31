@@ -22,7 +22,7 @@ const LANG_SHORT: Record<string, string> = {
   alphabet: 'Letras A–Z y Ñ',
   writing: 'Escribir con claridad',
   comprehension: 'Entender textos',
-  spelling: 'Escribir bien',
+  spelling: 'Repaso ortografía 3.º',
 }
 
 export function LanguagesHubScreen() {

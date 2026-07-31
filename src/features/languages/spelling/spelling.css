@@ -110,15 +110,24 @@
 .spell-play__prompt {
   text-align: center;
   font-weight: 700;
-  margin: 0 0 1.35rem;
+  margin: 0 0 0.45rem;
   line-height: 1.35;
   padding: 0 0.35rem;
+}
+
+.spell-play__tip {
+  text-align: center;
+  margin: 0 0 1.25rem;
+  padding: 0 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.35;
 }
 
 .spell-play__emoji {
   text-align: center;
   font-size: 3.5rem;
-  margin: 0.15rem 0 1.1rem;
+  margin: 0.15rem 0 1.35rem;
 }
 
 .spell-play__display {
@@ -126,14 +135,14 @@
   font-size: clamp(1.8rem, 7vw, 2.6rem);
   font-weight: 800;
   letter-spacing: 0.06em;
-  margin: 0 0 1.35rem;
+  margin: 0 0 1.45rem;
 }
 
 .spell-play__options {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.75rem;
-  margin-top: 0.25rem;
+  margin-top: 0.35rem;
 }
 
 .spell-play__btn {

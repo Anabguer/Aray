@@ -6,12 +6,12 @@ import { SPELL_MODE_LABELS, type SpellPlayMode } from '@/spelling'
 import './spelling.css'
 
 const MODES: Array<{ mode: SpellPlayMode; art: ModeArtId; className: string; text: string }> = [
-  { mode: 'mix', art: 'sorpresa', className: 'mode-poster--random', text: '12 preguntas mezcladas' },
-  { mode: 'missing', art: 'aprende', className: 'mode-poster--learn', text: 'ca_allo' },
-  { mode: 'correct', art: 'entrena', className: 'mode-poster--train', text: 'vaca o baca' },
-  { mode: 'picture', art: 'empareja', className: 'mode-poster--match', text: 'Imagen → palabra' },
+  { mode: 'missing', art: 'aprende', className: 'mode-poster--learn', text: 'Letra de la regla' },
+  { mode: 'correct', art: 'entrena', className: 'mode-poster--train', text: 'cantaba o cantava' },
+  { mode: 'picture', art: 'empareja', className: 'mode-poster--match', text: 'Imagen → ortografía' },
   { mode: 'intruder', art: 'mis-fallos', className: 'mode-poster--misses', text: '¿Cuál está mal?' },
-  { mode: 'complete', art: 'reto-rapido', className: 'mode-poster--challenge', text: 'a _ ión' },
+  { mode: 'complete', art: 'reto-rapido', className: 'mode-poster--challenge', text: 'Con pista de regla' },
+  { mode: 'mix', art: 'sorpresa', className: 'mode-poster--random', text: '12 de repaso mezclado' },
 ]
 
 function Poster({
@@ -47,7 +47,9 @@ function Poster({
 export function SpellModeSelectScreen() {
   return (
     <AppShell title="ORTOGRAFÍA" shortTitle="Ortografía" showBack backTo="/missions/languages">
-      <p className="spell-modes__lead">Elige la palabra bien escrita · sin dictados · solo botones</p>
+      <p className="spell-modes__lead">
+        Repaso de 3.º: b/v, g/j, h, ll/y, r/rr, mb/mp… · solo botones
+      </p>
       <div className="mode-posters mode-posters--spell" role="list">
         {MODES.map((m) => (
           <Poster
