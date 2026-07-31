@@ -49,46 +49,48 @@ export function AlphabetModeSelectScreen() {
       showBack
       backTo="/missions/languages"
     >
-      <p className="alphabet-modes__lead">
-        Repasa las letras sin prisa. Elige un juego o deja que Lumo mezcle.
-      </p>
-      <div className="mode-posters mode-posters--alphabet" role="list">
-        <ModePoster
-          art="abc-falta"
-          title="LETRA QUE FALTA"
-          text="Completa la cadena"
-          className="mode-poster--learn"
-          to="/missions/languages/alphabet/missing"
-        />
-        <ModePoster
-          art="abc-vecina"
-          title="SIGUIENTE / ANTERIOR"
-          text="Lumo saca una letra"
-          className="mode-poster--train"
-          to="/missions/languages/alphabet/neighbor"
-        />
-        <ModePoster
-          art="abc-letras"
-          title="ORDENA LETRAS"
-          text="De la A a la Z"
-          className="mode-poster--match"
-          to="/missions/languages/alphabet/order-letters"
-        />
-        <ModePoster
-          art="abc-palabras"
-          title="ORDENA PALABRAS"
-          text="A→Z o Z→A"
-          className="mode-poster--challenge"
-          to="/missions/languages/alphabet/order-words"
-        />
-        <ModePoster
-          art="abc-random"
-          title="RANDOM"
-          text="Cada ronda un juego distinto"
-          className="mode-poster--random"
-          to="/missions/languages/alphabet/random"
-        />
-      </div>
+      <section className="alphabet-modes mode-select--lobby" aria-label="Modos del ABC">
+        <p className="alphabet-modes__lead">
+          Repasa las letras sin prisa. Elige un juego o deja que Lumo mezcle.
+        </p>
+        <div className="mode-posters mode-posters--alphabet" role="list">
+          <ModePoster
+            art="abc-falta"
+            title="LETRA QUE FALTA"
+            text="Completa la cadena"
+            className="mode-poster--learn"
+            to="/missions/languages/alphabet/missing"
+          />
+          <ModePoster
+            art="abc-vecina"
+            title="SIGUIENTE / ANTERIOR"
+            text="Lumo saca una letra"
+            className="mode-poster--train"
+            to="/missions/languages/alphabet/neighbor"
+          />
+          <ModePoster
+            art="abc-letras"
+            title="ORDENA LETRAS"
+            text="De la A a la Z"
+            className="mode-poster--match"
+            to="/missions/languages/alphabet/order-letters"
+          />
+          <ModePoster
+            art="abc-palabras"
+            title="ORDENA PALABRAS"
+            text="A→Z o Z→A"
+            className="mode-poster--challenge"
+            to="/missions/languages/alphabet/order-words"
+          />
+          <ModePoster
+            art="abc-random"
+            title="RANDOM"
+            text="Cada ronda un juego distinto"
+            className="mode-poster--random"
+            to="/missions/languages/alphabet/random"
+          />
+        </div>
+      </section>
     </AppShell>
   )
 }
