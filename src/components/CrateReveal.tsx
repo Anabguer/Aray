@@ -4,6 +4,7 @@ import { crateArt, type CrateRarity } from '@/assets/rewards'
 import { crateConfig, type CrateRewardSpec } from '@/config/crateConfig'
 import type { PendingCrate } from '@/crates/engine'
 import { Lumo } from '@/lumo/Lumo'
+import { flyEnergyToBar } from '@/feedback/energyFly'
 import { soundEngine } from '@/sound/soundEngine'
 
 type CrateRevealProps = {
@@ -84,8 +85,18 @@ export function CrateReveal({ pending, onChoose, onOpen, onCollect }: CrateRevea
   }
 
   function handleCollect() {
+    const btn = document.querySelector('.crate-reveal__collect')
+    const fromRect = btn?.getBoundingClientRect()
     soundEngine.play('points-earned')
     onCollect()
+    if (pending.reward.kind === 'energy') {
+      flyEnergyToBar({
+        amount: pending.reward.amount,
+        fromPoint: fromRect
+          ? { x: fromRect.left + fromRect.width / 2, y: fromRect.top + fromRect.height / 2 }
+          : null,
+      })
+    }
   }
 
   return createPortal(

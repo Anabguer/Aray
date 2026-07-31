@@ -5057,6 +5057,67 @@ a {
   height: 100%;
   border-radius: inherit;
   position: relative;
+  transition: width 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.lobby-hud__bar--energy.is-charging {
+  box-shadow:
+    0 0 0 2px rgba(251, 191, 36, 0.55),
+    0 0 18px rgba(251, 191, 36, 0.55);
+  animation: energy-bar-charge 0.85s ease-out 1;
+}
+
+.lobby-hud__bars.is-energy-charging .lobby-hud__bolt {
+  color: #fbbf24;
+  filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.9));
+  transform: scale(1.15);
+  transition: transform 0.25s ease, filter 0.25s ease, color 0.25s ease;
+}
+
+.energy-fly-orb {
+  position: fixed;
+  z-index: 12000;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 30% 30%, #fff7d6 0%, #fbbf24 42%, #f59e0b 78%, transparent 100%);
+  box-shadow:
+    0 0 10px rgba(251, 191, 36, 0.95),
+    0 0 18px rgba(245, 158, 11, 0.55);
+  opacity: 1;
+  transform: translate(0, 0) scale(1);
+  transition:
+    transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 0.55s ease;
+}
+
+@keyframes energy-bar-charge {
+  0% {
+    filter: brightness(1);
+  }
+  35% {
+    filter: brightness(1.35);
+  }
+  100% {
+    filter: brightness(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lobby-hud__bar > span {
+    transition: none;
+  }
+
+  .lobby-hud__bar--energy.is-charging {
+    animation: none;
+  }
+
+  .energy-fly-orb {
+    display: none;
+  }
 }
 
 .lobby-hud__bar--xp > span {

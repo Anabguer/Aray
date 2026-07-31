@@ -9,6 +9,7 @@ import {
   type AchievementReward,
 } from '@/achievements/catalog'
 import { useProgress } from '@/progress/ProgressContext'
+import { flyEnergyToBar } from '@/feedback/energyFly'
 import { soundEngine } from '@/sound/soundEngine'
 
 type CollectionFilter = 'todo' | AchievementCategory
@@ -366,9 +367,7 @@ function AchievementDialog({
   const unlocked = achievementIsUnlocked(achievement, progress)
   const claimed = progress.achievements.claimedIds.includes(achievement.id)
   const current = Math.min(achievement.current(progress), achievement.target)
-  const [justClaimed, setJustClaimed] = useState(false)
-  const [energyGot, setEnergyGot] = useState(0)
-  const voice = lumoLine(achievement, unlocked || justClaimed)
+  const voice = lumoLine(achievement, unlocked)
 
   useEffect(() => {
     const closeOnEscape = (event: KeyboardEvent) => {
@@ -381,7 +380,7 @@ function AchievementDialog({
   return (
     <div className="achievement-dialog__backdrop" role="presentation" onMouseDown={onClose}>
       <section
-        className={`achievement-dialog ${justClaimed ? 'is-claimed-flash' : ''}`}
+        className="achievement-dialog"
         role="dialog"
         aria-modal="true"
         aria-labelledby="achievement-dialog-title"
@@ -398,17 +397,17 @@ function AchievementDialog({
 
         <PieceFrame
           image={achievement.image}
-          locked={!unlocked && !justClaimed}
+          locked={!unlocked}
           kind={achievement.category}
-          pulse={justClaimed}
+          pulse={false}
         />
 
         <h2 id="achievement-dialog-title" className="achievement-dialog__title">
-          {unlocked || justClaimed ? achievement.title : 'Pieza misteriosa'}
+          {unlocked ? achievement.title : 'Pieza misteriosa'}
         </h2>
 
         <p className="achievement-dialog__state">
-          {unlocked || justClaimed ? 'EN LA VITRINA' : 'BLOQUEADA'}
+          {unlocked ? 'EN LA VITRINA' : 'BLOQUEADA'}
         </p>
 
         <p className="achievement-dialog__description">{voice}</p>
@@ -430,28 +429,32 @@ function AchievementDialog({
           <RewardIcons reward={achievement.reward} />
         </div>
 
-        {unlocked && !claimed && !justClaimed ? (
+        {unlocked && !claimed ? (
           <button
             type="button"
             className="btn btn-primary achievement-dialog__claim"
-            onClick={() => {
+            onClick={(event) => {
+              const fromRect = event.currentTarget.getBoundingClientRect()
               const res = onClaim()
-              if (res.ok) {
-                setJustClaimed(true)
-                setEnergyGot(res.energyGranted)
-                soundEngine.play('points-earned')
-              }
+              if (!res.ok) return
+              soundEngine.play('points-earned')
+              onClose()
+              window.requestAnimationFrame(() => {
+                flyEnergyToBar({
+                  amount: res.energyGranted,
+                  fromPoint: {
+                    x: fromRect.left + fromRect.width / 2,
+                    y: fromRect.top + fromRect.height / 2,
+                  },
+                })
+              })
             }}
           >
             RECOGER PREMIO
           </button>
-        ) : unlocked || justClaimed ? (
+        ) : unlocked ? (
           <p className="achievement-dialog__claimed" role="status">
-            {justClaimed
-              ? energyGot > 0
-                ? `¡Listo! +${energyGot} energía en tu barra.`
-                : '¡Listo! Pieza iluminada en tu vitrina.'
-              : 'Premio recogido'}
+            Premio recogido
           </p>
         ) : (
           <button type="button" className="btn btn-secondary" onClick={onClose}>
