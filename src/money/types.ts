@@ -1,4 +1,4 @@
-export type MoneyPlayMode = 'change' | 'build' | 'spare' | 'sum' | 'mix'
+export type MoneyPlayMode = 'change' | 'build' | 'spare' | 'sum' | 'shortfall' | 'mix'
 
 export type CoinEuro = 200 | 100 | 50 | 20 | 10 | 5 | 2 | 1
 
@@ -39,6 +39,7 @@ export const MONEY_MODE_LABELS: Record<MoneyPlayMode, string> = {
   build: 'Construye el precio',
   spare: '¿Cuál sobra?',
   sum: '¿Cuánto dinero hay?',
+  shortfall: '¿Cuánto te falta?',
   mix: 'Todo mezclado',
 }
 

@@ -20,7 +20,7 @@ const HEROES: Array<{
     id: 'random',
     art: 'abc-random',
     title: 'RANDOM',
-    text: 'Cada ronda un juego distinto',
+    text: 'Mezcla de ordenación',
     className: 'mode-poster--random',
     tag: 'DESTACADO',
   },
@@ -62,7 +62,7 @@ const ROSTER: Array<{
     id: 'order-words',
     art: 'abc-palabras',
     title: 'ORDENA PALABRAS',
-    text: 'A→Z o Z→A',
+    text: 'Como en el diccionario',
     className: 'mode-poster--challenge',
     tag: '03',
   },
@@ -84,11 +84,11 @@ export function AlphabetModeSelectScreen() {
   })
 
   return (
-    <AppShell title="ABC" shortTitle="Abc" showBack backTo="/missions/languages">
+    <AppShell title="ORDENAR" shortTitle="Orden" showBack backTo="/missions/languages">
       <StageSelect
         note={
           <>
-            <span>Repasa las letras sin prisa. Elige un juego o deja que Lumo mezcle.</span>
+            <span>Ordena como en el diccionario (3.º). No es aprender el abecedario.</span>
             {reviewHint ? (
               <p className="alphabet-modes__review" role="status" style={{ marginTop: '0.45rem' }}>
                 Hay modos que conviene repasar (marcados abajo).

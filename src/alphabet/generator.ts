@@ -239,8 +239,8 @@ export function buildOrderWordsQuestion(
   const rand = mulberry32(seed)
   const direction: AlphabetDirection =
     forcedDirection ?? (difficulty >= 2 && rand() < 0.4 ? 'desc' : 'asc')
-  const count = difficulty === 1 ? 6 : difficulty === 2 ? 8 : 10
-  // Preferir palabras con inicial distinta
+  const count = difficulty === 1 ? 4 : difficulty === 2 ? 5 : 6
+  // Preferir palabras con inicial distinta (diccionario 3.º)
   const pool = shuffle([...PRACTICE_WORDS], rand)
   const chosen: string[] = []
   const usedInitial = new Set<string>()

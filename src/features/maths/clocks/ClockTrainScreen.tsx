@@ -156,6 +156,8 @@ export function ClockTrainScreen() {
     )
   }
 
+  const isConvert = question.kind === 'convert24'
+
   return (
     <AppShell title="ENTRENA" shortTitle="Entrena" showBack backTo={MODES_PATH}>
       <SideRunShell
@@ -166,9 +168,15 @@ export function ClockTrainScreen() {
         streak={streak}
         lumoState={lumo.state}
         lumoIntensity={lumo.intensity}
-        prompt={lang === 'ca' ? 'Quina hora és?' : '¿Qué hora es?'}
+        prompt={
+          isConvert
+            ? (question.prompt ?? '¿Cómo se escribe en 24 h?')
+            : lang === 'ca'
+              ? 'Quina hora és?'
+              : '¿Qué hora es?'
+        }
         detail={feedback ?? undefined}
-        extra={<AnalogClock time={question.time} size={220} />}
+        extra={isConvert ? undefined : <AnalogClock time={question.time} size={220} />}
         fx={answerFx.fx}
         lumoBoost={answerFx.lumoBoost}
         hit={hitFlash}

@@ -111,10 +111,10 @@ export const blocks: BlockDefinition[] = [
   {
     id: 'alphabet',
     subjectId: 'languages',
-    title: 'ABC',
-    description: 'Letras y sonidos',
+    title: 'Ordenar (diccionario)',
+    description: 'Ordenar letras y palabras como en el diccionario',
     status: 'active',
-    sortOrder: 10,
+    sortOrder: 20,
   },
   {
     id: 'writing',
@@ -122,7 +122,7 @@ export const blocks: BlockDefinition[] = [
     title: 'Escritura',
     description: 'Escribir con claridad',
     status: 'future',
-    sortOrder: 20,
+    sortOrder: 30,
   },
   {
     id: 'comprehension',
@@ -130,7 +130,7 @@ export const blocks: BlockDefinition[] = [
     title: 'Comprensión',
     description: 'Entender textos',
     status: 'future',
-    sortOrder: 30,
+    sortOrder: 40,
   },
   {
     id: 'spelling',
@@ -138,7 +138,7 @@ export const blocks: BlockDefinition[] = [
     title: 'Ortografía',
     description: 'Escribir correctamente eligiendo',
     status: 'active',
-    sortOrder: 40,
+    sortOrder: 10,
   },
   {
     id: 'vocabulary',
@@ -240,8 +240,8 @@ export const skills: SkillDefinition[] = [
   {
     id: 'alphabet-letters',
     blockId: 'alphabet',
-    title: 'ABC',
-    description: 'Repasar letras A–Z y Ñ',
+    title: 'Orden del diccionario',
+    description: 'Ordenar letras y palabras A–Z (como en el diccionario)',
     progressKey: 'alphabet-letters',
     progressKind: 'generic',
     recommendedCourses: ['primary-3', 'primary-4'],

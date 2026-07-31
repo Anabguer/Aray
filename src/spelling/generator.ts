@@ -1,4 +1,5 @@
 import { SPELL_BANK as WORDS } from '@/spelling/bank'
+import { isJunkSpelling, makeDistractors } from '@/spelling/distract'
 import {
   SPELL_CONTEXTS,
   SPELL_ROUND_SIZE,
@@ -101,19 +102,43 @@ function pickContext(rand: () => number, used: Set<string>, opts?: PickOpts): Sp
 
 function wordOptions(w: SpellWord, rand: () => number): string[] {
   const wrongs = w.distractors.filter(
-    (d) => d.toLowerCase() !== w.word.toLowerCase() && !BANK_WORDS.has(d.toLowerCase()),
+    (d) =>
+      d.toLowerCase() !== w.word.toLowerCase() &&
+      !BANK_WORDS.has(d.toLowerCase()) &&
+      !isJunkSpelling(d),
   )
   const set = new Set<string>([w.word, ...wrongs])
-  let n = 0
-  while (set.size < 4 && n < 6) {
-    n += 1
-    const extra =
-      n === 1 ? w.word.replace(/rr/i, 'r') : n === 2 ? w.word.replace(/^h/i, '') : `${w.word}s`
-    if (extra && extra !== w.word && !BANK_WORDS.has(extra.toLowerCase())) set.add(extra)
+  const extras = [
+    ...makeDistractors(w.word, w.rule),
+    w.word.replace(/rr/i, 'r'),
+    w.word.replace(/^h/i, ''),
+    w.word.replace(/b/i, 'v'),
+    w.word.replace(/v/i, 'b'),
+    w.word.replace(/ll/i, 'y'),
+    w.word.replace(/m([bp])/i, 'n$1'),
+    w.word.normalize('NFD').replace(/\u0301/g, ''),
+  ]
+  for (const extra of extras) {
+    if (set.size >= 4) break
+    if (
+      extra &&
+      extra.toLowerCase() !== w.word.toLowerCase() &&
+      !BANK_WORDS.has(extra.toLowerCase()) &&
+      !isJunkSpelling(extra)
+    ) {
+      set.add(extra)
+    }
+  }
+  let guard = 0
+  while (set.size < 4 && guard < 10) {
+    guard += 1
+    const pad = `${w.word.normalize('NFD').replace(/\u0301/g, '')}${guard === 1 ? 'ón' : guard === 2 ? 'ito' : 'ía'}`
+    if (!isJunkSpelling(pad) && pad.toLowerCase() !== w.word.toLowerCase()) set.add(pad)
   }
   const opts = shuffle([...set].slice(0, 4), rand)
   if (!opts.includes(w.word)) opts[0] = w.word
-  return opts
+  while (opts.length < 4) opts.push(`${w.word}ía`)
+  return opts.slice(0, 4)
 }
 
 const SPELL_DIGRAPHS = ['ll', 'rr'] as const
@@ -157,6 +182,8 @@ function rivalLetters(w: SpellWord, correct: string): string[] {
       return ['g', 'j'].filter((x) => x !== c)
     case 'd-z':
       return ['c', 'z', 's'].filter((x) => x !== c)
+    case 'tilde':
+      return ['´', ''].filter((x) => x !== c)
     default:
       return ['b', 'v', 'h', 'r'].filter((x) => x !== c)
   }
@@ -283,7 +310,7 @@ function buildIntruder(
     id: `in-${target.word}-${seed}`,
     mode,
     prompt: '¿Cuál está mal escrita?',
-    tip: 'Busca la falta: r/rr, h muda, b/v…',
+    tip: target.tip ?? 'Busca el error de la regla (b/v, r/rr, h…)',
     rule: target.rule,
     options,
     correctIndex: options.indexOf(intruder),

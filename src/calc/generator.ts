@@ -36,9 +36,10 @@ function uniqueOptions(correct: number, distractors: number[], rand: () => numbe
     if (d !== correct && d >= 0) set.add(d)
   }
   let guard = 0
-  while (set.size < 4 && guard < 30) {
+  while (set.size < 4 && guard < 40) {
     guard += 1
-    const alt = correct + randInt(rand, -6, 6)
+    const span = Math.max(3, Math.floor(correct / 20) || 3)
+    const alt = correct + randInt(rand, -span, span)
     if (alt >= 0 && alt !== correct) set.add(alt)
   }
   const nums = shuffle([...set].slice(0, 4), rand)
@@ -46,12 +47,25 @@ function uniqueOptions(correct: number, distractors: number[], rand: () => numbe
   return nums.map(String)
 }
 
+/** Sumando 2–4 cifras (nivel ciclo medio). Evita sumas de una cifra. */
+function twoThreeDigit(rand: () => number): number {
+  const roll = rand()
+  if (roll < 0.3) return randInt(rand, 20, 99)
+  if (roll < 0.75) return randInt(rand, 100, 899)
+  if (roll < 0.92) return randInt(rand, 900, 1999)
+  return randInt(rand, 2000, 4999)
+}
+
 function buildAdd(seed: number, mode: CalcPlayMode = 'add'): CalcMcqQuestion {
   const rand = mulberry32(seed)
-  const a = randInt(rand, 2, 12)
-  const b = randInt(rand, 2, 12)
+  const a = twoThreeDigit(rand)
+  const b = twoThreeDigit(rand)
   const correct = a + b
-  const options = uniqueOptions(correct, [correct + 1, correct - 1, a + b + 2, Math.abs(a - b)], rand)
+  const options = uniqueOptions(
+    correct,
+    [correct + 10, correct - 10, correct + 1, a + b + 100, Math.abs(a - b)],
+    rand,
+  )
   return {
     kind: 'mcq',
     id: `add-${seed}`,
@@ -65,10 +79,20 @@ function buildAdd(seed: number, mode: CalcPlayMode = 'add'): CalcMcqQuestion {
 
 function buildSub(seed: number, mode: CalcPlayMode = 'sub'): CalcMcqQuestion {
   const rand = mulberry32(seed)
-  const a = randInt(rand, 8, 20)
-  const b = randInt(rand, 1, Math.min(9, a - 1))
+  let a = twoThreeDigit(rand)
+  let b = twoThreeDigit(rand)
+  if (b >= a) {
+    const t = a
+    a = Math.max(b + randInt(rand, 5, 80), b + 1)
+    b = t
+  }
+  // Preferir restas con “llevada” mental (unidades de b > unidades de a a veces).
+  if (rand() < 0.35 && a > 50) {
+    a = randInt(rand, 50, 999)
+    b = randInt(rand, 15, Math.min(199, a - 1))
+  }
   const correct = a - b
-  const options = uniqueOptions(correct, [correct + 1, correct - 1, a + b, b], rand)
+  const options = uniqueOptions(correct, [correct + 10, correct - 10, correct + 1, a + b, b], rand)
   return {
     kind: 'mcq',
     id: `sub-${seed}`,
@@ -82,12 +106,12 @@ function buildSub(seed: number, mode: CalcPlayMode = 'sub'): CalcMcqQuestion {
 
 function buildMissing(seed: number, mode: CalcPlayMode = 'missing'): CalcMcqQuestion {
   const rand = mulberry32(seed)
-  const variant = rand() < 0.5 ? 'add' : 'sub'
+  const variant = rand() < 0.55 ? 'add' : rand() < 0.7 ? 'sub' : 'mul'
   if (variant === 'add') {
-    const a = randInt(rand, 3, 12)
-    const total = a + randInt(rand, 3, 12)
-    const missing = total - a
-    const options = uniqueOptions(missing, [missing + 1, missing - 1, total, a], rand)
+    const a = twoThreeDigit(rand)
+    const missing = twoThreeDigit(rand)
+    const total = a + missing
+    const options = uniqueOptions(missing, [missing + 10, missing - 10, total, a], rand)
     return {
       kind: 'mcq',
       id: `miss-add-${seed}`,
@@ -98,10 +122,25 @@ function buildMissing(seed: number, mode: CalcPlayMode = 'missing'): CalcMcqQues
       correctIndex: options.indexOf(String(missing)),
     }
   }
-  const result = randInt(rand, 3, 12)
-  const b = randInt(rand, 2, 9)
+  if (variant === 'mul') {
+    const a = randInt(rand, 2, 9)
+    const missing = randInt(rand, 2, 10)
+    const total = a * missing
+    const options = uniqueOptions(missing, [missing + 1, missing - 1, total, a], rand)
+    return {
+      kind: 'mcq',
+      id: `miss-mul-${seed}`,
+      mode,
+      prompt: '¿Qué número falta?',
+      expression: `${a} × ? = ${total}`,
+      options,
+      correctIndex: options.indexOf(String(missing)),
+    }
+  }
+  const result = twoThreeDigit(rand)
+  const b = randInt(rand, 12, 199)
   const start = result + b
-  const options = uniqueOptions(start, [start + 1, start - 1, result, b], rand)
+  const options = uniqueOptions(start, [start + 10, start - 10, result, b], rand)
   return {
     kind: 'mcq',
     id: `miss-sub-${seed}`,
@@ -115,9 +154,24 @@ function buildMissing(seed: number, mode: CalcPlayMode = 'missing'): CalcMcqQues
 
 function buildDoubles(seed: number, mode: CalcPlayMode = 'doubles'): CalcMcqQuestion {
   const rand = mulberry32(seed)
-  const n = randInt(rand, 2, 12)
+  // Dobles útiles en 3.º: 15–99 (y a veces casi-doble).
+  const n = randInt(rand, 15, 99)
+  const almost = rand() < 0.35
+  if (almost) {
+    const correct = n + (n + 1)
+    const options = uniqueOptions(correct, [n + n, correct + 1, correct - 1, n * 2 + 2], rand)
+    return {
+      kind: 'mcq',
+      id: `dbl-near-${seed}`,
+      mode,
+      prompt: 'Casi doble',
+      expression: `${n} + ${n + 1}`,
+      options,
+      correctIndex: options.indexOf(String(correct)),
+    }
+  }
   const correct = n + n
-  const options = uniqueOptions(correct, [correct + 1, correct - 1, n, n * 2 + 2], rand)
+  const options = uniqueOptions(correct, [correct + 1, correct - 1, n, correct + 10], rand)
   return {
     kind: 'mcq',
     id: `dbl-${seed}`,
@@ -131,9 +185,9 @@ function buildDoubles(seed: number, mode: CalcPlayMode = 'doubles'): CalcMcqQues
 
 function buildHalves(seed: number, mode: CalcPlayMode = 'halves'): CalcMcqQuestion {
   const rand = mulberry32(seed)
-  const half = randInt(rand, 2, 12)
+  const half = randInt(rand, 15, 99)
   const n = half * 2
-  const options = uniqueOptions(half, [half + 1, half - 1, n, half + 2], rand)
+  const options = uniqueOptions(half, [half + 1, half - 1, n, half + 10], rand)
   return {
     kind: 'mcq',
     id: `half-${seed}`,
@@ -145,9 +199,24 @@ function buildHalves(seed: number, mode: CalcPlayMode = 'halves'): CalcMcqQuesti
   }
 }
 
-/** Pares que suman 10 (completar decenas). */
+/** Completar a 100 (ciclo medio). Hasta 10 solo residual (~8 %). */
 function buildNear10(seed: number, mode: CalcPlayMode = 'near10'): CalcMcqQuestion {
   const rand = mulberry32(seed)
+  const to100 = rand() < 0.92
+  if (to100) {
+    const a = randInt(rand, 1, 99)
+    const b = 100 - a
+    const options = uniqueOptions(b, [b + 1, b - 1, 100, a, 10 - (a % 10)], rand)
+    return {
+      kind: 'mcq',
+      id: `n100-${seed}`,
+      mode,
+      prompt: 'Completa hasta 100',
+      expression: `${a} + ? = 100`,
+      options,
+      correctIndex: options.indexOf(String(b)),
+    }
+  }
   const a = randInt(rand, 1, 9)
   const b = 10 - a
   const options = uniqueOptions(b, [b + 1, b - 1, 10, a], rand)
@@ -164,9 +233,17 @@ function buildNear10(seed: number, mode: CalcPlayMode = 'near10'): CalcMcqQuesti
 
 function buildCompare(seed: number, mode: CalcPlayMode = 'compare'): CalcCompareQuestion {
   const rand = mulberry32(seed)
-  let left = randInt(rand, 5, 99)
-  let right = randInt(rand, 5, 99)
+  // 3–4 cifras (temario hasta 9999).
+  let left = rand() < 0.55 ? randInt(rand, 100, 999) : randInt(rand, 1000, 9999)
+  let right = rand() < 0.55 ? randInt(rand, 100, 999) : randInt(rand, 1000, 9999)
   if (left === right) right = left + (rand() < 0.5 ? 1 : -1)
+  // A veces números cercanos (mismo millar) para forzar valor posicional.
+  if (rand() < 0.4) {
+    left = randInt(rand, 1000, 9000)
+    right = left + randInt(rand, -80, 80)
+    if (right === left) right = left + 1
+    if (right < 100) right = left + 10
+  }
   return {
     kind: 'compare',
     id: `cmp-${seed}`,
@@ -181,8 +258,9 @@ function buildCompare(seed: number, mode: CalcPlayMode = 'compare'): CalcCompare
 function buildOrder(seed: number, mode: CalcPlayMode = 'order'): CalcOrderQuestion {
   const rand = mulberry32(seed)
   const set = new Set<number>()
+  const fourDigit = rand() < 0.65
   while (set.size < 4) {
-    set.add(randInt(rand, 1, 50))
+    set.add(fourDigit ? randInt(rand, 1000, 9999) : randInt(rand, 100, 999))
   }
   const items = shuffle([...set], rand)
   const answer = [...items].sort((a, b) => a - b)
@@ -198,29 +276,39 @@ function buildOrder(seed: number, mode: CalcPlayMode = 'order'): CalcOrderQuesti
 
 function buildTrueFalse(seed: number, mode: CalcPlayMode = 'truefalse'): CalcTrueFalseQuestion {
   const rand = mulberry32(seed)
-  const kind = rand() < 0.55 ? 'mul' : rand() < 0.5 ? 'add' : 'sub'
+  const kind = rand() < 0.4 ? 'mul' : rand() < 0.55 ? 'add' : rand() < 0.75 ? 'sub' : 'times10'
   let expression: string
   let isTrue: boolean
   if (kind === 'mul') {
     const a = randInt(rand, 2, 9)
-    const b = randInt(rand, 2, 9)
+    const b = randInt(rand, 2, 10)
     const real = a * b
     isTrue = rand() < 0.45
-    const shown = isTrue ? real : real + (rand() < 0.5 ? 1 : -1) * randInt(rand, 1, 3)
+    const shown = isTrue ? real : real + (rand() < 0.5 ? 1 : -1) * randInt(rand, 1, 4)
     expression = `${a} × ${b} = ${shown}`
+  } else if (kind === 'times10') {
+    const a = randInt(rand, 12, 99)
+    const factor = rand() < 0.6 ? 10 : 100
+    const real = a * factor
+    isTrue = rand() < 0.45
+    const shown = isTrue ? real : real + (rand() < 0.5 ? factor : -factor)
+    expression = `${a} × ${factor} = ${shown}`
   } else if (kind === 'add') {
-    const a = randInt(rand, 3, 15)
-    const b = randInt(rand, 3, 15)
+    const a = twoThreeDigit(rand)
+    const b = twoThreeDigit(rand)
     const real = a + b
     isTrue = rand() < 0.45
-    const shown = isTrue ? real : real + randInt(rand, 1, 3)
+    const shown = isTrue ? real : real + (rand() < 0.5 ? 10 : -10) * randInt(rand, 1, 3)
     expression = `${a} + ${b} = ${shown}`
   } else {
-    const a = randInt(rand, 10, 20)
-    const b = randInt(rand, 2, 9)
+    let a = twoThreeDigit(rand)
+    let b = randInt(rand, 15, Math.min(299, a - 1))
+    if (b >= a) {
+      a = b + randInt(rand, 10, 80)
+    }
     const real = a - b
     isTrue = rand() < 0.45
-    const shown = isTrue ? real : Math.max(0, real + (rand() < 0.5 ? 1 : -1))
+    const shown = isTrue ? real : Math.max(0, real + (rand() < 0.5 ? 10 : -10))
     expression = `${a} − ${b} = ${shown}`
   }
   return {

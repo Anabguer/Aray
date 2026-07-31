@@ -19,6 +19,7 @@ const RULE_BADGE: Record<SpellRuleId, string> = {
   'mb-mp': 'm antes de p/b',
   'g-j': 'g / j',
   'bu-bur': 'bu · bur · bus',
+  tilde: 'tilde',
 }
 
 function norm(s: string) {

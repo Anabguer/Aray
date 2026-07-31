@@ -34,9 +34,9 @@ const ROSTER: CalcPoster[] = [
   { mode: 'missing', art: 'calc-missing', className: 'mode-poster--learn', text: '8 + ? = 15', tag: '02' },
   { mode: 'doubles', art: 'calc-doubles', className: 'mode-poster--match', text: '9 + 9', tag: '03' },
   { mode: 'halves', art: 'calc-halves', className: 'mode-poster--random', text: 'Mitad de 18', tag: '04' },
-  { mode: 'near10', art: 'calc-near10', className: 'mode-poster--train', text: 'Completa hasta 10', tag: '05' },
-  { mode: 'compare', art: 'calc-compare', className: 'mode-poster--learn', text: '¿Cuál es mayor?', tag: '06' },
-  { mode: 'order', art: 'calc-order', className: 'mode-poster--match', text: 'Menor → mayor', tag: '07' },
+  { mode: 'near10', art: 'calc-near10', className: 'mode-poster--train', text: 'Hasta 10 o 100', tag: '05' },
+  { mode: 'compare', art: 'calc-compare', className: 'mode-poster--learn', text: '3–4 cifras', tag: '06' },
+  { mode: 'order', art: 'calc-order', className: 'mode-poster--match', text: 'Hasta 9999', tag: '07' },
   {
     mode: 'truefalse',
     art: 'calc-truefalse',

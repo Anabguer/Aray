@@ -35,15 +35,55 @@ describe('calc generator', () => {
     }
   })
 
-  it('cerca de 10 completa decenas', () => {
+  it('sumas de 3.º no son de una cifra', () => {
+    for (let i = 0; i < 40; i += 1) {
+      const q = buildCalcQuestion('add', 200 + i)
+      expect(q.kind).toBe('mcq')
+      if (q.kind !== 'mcq') continue
+      const m = /(\d+) \+ (\d+)/.exec(q.expression ?? '')
+      expect(m).toBeTruthy()
+      const a = Number(m![1])
+      const b = Number(m![2])
+      expect(a).toBeGreaterThanOrEqual(20)
+      expect(b).toBeGreaterThanOrEqual(20)
+      expect(q.options[q.correctIndex]).toBe(String(a + b))
+    }
+  })
+
+  it('ordenar usa al menos 3 cifras', () => {
     for (let i = 0; i < 20; i += 1) {
+      const q = buildCalcQuestion('order', 300 + i)
+      expect(q.kind).toBe('order')
+      if (q.kind !== 'order') continue
+      expect(Math.min(...q.items)).toBeGreaterThanOrEqual(100)
+    }
+  })
+
+  it('comparar usa al menos 3 cifras', () => {
+    for (let i = 0; i < 20; i += 1) {
+      const q = buildCalcQuestion('compare', 400 + i)
+      expect(q.kind).toBe('compare')
+      if (q.kind !== 'compare') continue
+      expect(q.left).toBeGreaterThanOrEqual(100)
+      expect(q.right).toBeGreaterThanOrEqual(100)
+    }
+  })
+
+  it('cerca de 10/100 completa decenas o centenas', () => {
+    for (let i = 0; i < 30; i += 1) {
       const q = buildCalcQuestion('near10', 100 + i)
       expect(q.kind).toBe('mcq')
       if (q.kind !== 'mcq') continue
-      const m = /(\d+) \+ \? = 10/.exec(q.expression ?? '')
-      expect(m).toBeTruthy()
-      const a = Number(m![1])
-      expect(q.options[q.correctIndex]).toBe(String(10 - a))
+      const m10 = /(\d+) \+ \? = 10$/.exec(q.expression ?? '')
+      const m100 = /(\d+) \+ \? = 100$/.exec(q.expression ?? '')
+      expect(m10 || m100).toBeTruthy()
+      if (m100) {
+        const a = Number(m100[1])
+        expect(q.options[q.correctIndex]).toBe(String(100 - a))
+      } else if (m10) {
+        const a = Number(m10[1])
+        expect(q.options[q.correctIndex]).toBe(String(10 - a))
+      }
     }
   })
 

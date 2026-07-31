@@ -1,6 +1,70 @@
-import { expandLemmas } from '@/spelling/distract'
+import { expandLemmas, type SpellLemma } from '@/spelling/distract'
 import { SPELL_LEMMAS } from '@/spelling/lemmas.generated'
 import type { SpellWord } from '@/spelling/types'
 
-/** Banco ampliado (~1000+) para 3.º / cicle mitjà. */
-export const SPELL_BANK: SpellWord[] = expandLemmas(SPELL_LEMMAS)
+/** Tildes de 3.º (agudas / llanas / esdrújulas frecuentes). */
+export const TILDE_LEMMAS: SpellLemma[] = [
+  { word: 'árbol', rule: 'tilde' },
+  { word: 'lápiz', rule: 'tilde' },
+  { word: 'fácil', rule: 'tilde' },
+  { word: 'difícil', rule: 'tilde' },
+  { word: 'rápido', rule: 'tilde' },
+  { word: 'música', rule: 'tilde' },
+  { word: 'médico', rule: 'tilde' },
+  { word: 'número', rule: 'tilde' },
+  { word: 'última', rule: 'tilde' },
+  { word: 'próximo', rule: 'tilde' },
+  { word: 'pájaro', rule: 'tilde' },
+  { word: 'cámara', rule: 'tilde' },
+  { word: 'máquina', rule: 'tilde' },
+  { word: 'teléfono', rule: 'tilde' },
+  { word: 'bolígrafo', rule: 'tilde' },
+  { word: 'página', rule: 'tilde' },
+  { word: 'lámpara', rule: 'tilde' },
+  { word: 'sábado', rule: 'tilde' },
+  { word: 'miércoles', rule: 'tilde' },
+  { word: 'también', rule: 'tilde' },
+  { word: 'después', rule: 'tilde' },
+  { word: 'además', rule: 'tilde' },
+  { word: 'jamás', rule: 'tilde' },
+  { word: 'café', rule: 'tilde' },
+  { word: 'sofá', rule: 'tilde' },
+  { word: 'bebé', rule: 'tilde' },
+  { word: 'menú', rule: 'tilde' },
+  { word: 'autobús', rule: 'tilde' },
+  { word: 'compás', rule: 'tilde' },
+  { word: 'inglés', rule: 'tilde' },
+  { word: 'francés', rule: 'tilde' },
+  { word: 'interés', rule: 'tilde' },
+  { word: 'camión', rule: 'tilde' },
+  { word: 'avión', rule: 'tilde' },
+  { word: 'ratón', rule: 'tilde' },
+  { word: 'león', rule: 'tilde' },
+  { word: 'canción', rule: 'tilde' },
+  { word: 'corazón', rule: 'tilde' },
+  { word: 'estación', rule: 'tilde' },
+  { word: 'información', rule: 'tilde' },
+  { word: 'matemáticas', rule: 'tilde' },
+  { word: 'geografía', rule: 'tilde' },
+  { word: 'próxima', rule: 'tilde' },
+  { word: 'público', rule: 'tilde' },
+  { word: 'tráfico', rule: 'tilde' },
+  { word: 'ángulo', rule: 'tilde' },
+  { word: 'círculo', rule: 'tilde' },
+  { word: 'héroe', rule: 'tilde' },
+  { word: 'océano', rule: 'tilde' },
+  { word: 'país', rule: 'tilde' },
+  { word: 'raíz', rule: 'tilde' },
+  { word: 'maíz', rule: 'tilde' },
+  { word: 'baúl', rule: 'tilde' },
+  { word: 'día', rule: 'tilde' },
+  { word: 'río', rule: 'tilde' },
+  { word: 'frío', rule: 'tilde' },
+  { word: 'tío', rule: 'tilde' },
+  { word: 'María', rule: 'tilde' },
+  { word: 'José', rule: 'tilde' },
+  { word: 'Ángel', rule: 'tilde' },
+]
+
+/** Banco ampliado (~1000+) + tildes para 3.º / cicle mitjà. */
+export const SPELL_BANK: SpellWord[] = expandLemmas([...SPELL_LEMMAS, ...TILDE_LEMMAS])

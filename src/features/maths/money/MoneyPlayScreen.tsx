@@ -26,7 +26,14 @@ import { sideRunEnergyForProgress } from '@/reward/sideRunSettle'
 import './money.css'
 
 function isMode(v: string | undefined): v is MoneyPlayMode {
-  return v === 'change' || v === 'build' || v === 'spare' || v === 'sum' || v === 'mix'
+  return (
+    v === 'change' ||
+    v === 'build' ||
+    v === 'spare' ||
+    v === 'sum' ||
+    v === 'shortfall' ||
+    v === 'mix'
+  )
 }
 
 export function MoneyPlayScreen() {

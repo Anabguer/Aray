@@ -18,20 +18,20 @@ const LANG_MARKS = {
 } as const
 
 const LANG_SLOTS: Record<string, MapSlot> = {
-  alphabet: 'start',
-  spelling: 'mid-high',
+  spelling: 'start',
+  alphabet: 'mid-high',
   writing: 'mid-low',
   comprehension: 'end',
 }
 
 const LANG_SHORT: Record<string, string> = {
-  alphabet: 'Letras A–Z y Ñ',
+  alphabet: 'Ordenar como en el diccionario',
   writing: 'Escribir con claridad',
   comprehension: 'Entender textos',
-  spelling: 'Repaso ortografía 3.º',
+  spelling: 'Ortografía de 3.º',
 }
 
-const LANG_ZONES: HubZoneId[] = ['alphabet', 'spelling']
+const LANG_ZONES: HubZoneId[] = ['spelling', 'alphabet']
 
 export function LanguagesHubScreen() {
   const { progress } = useProgress()
@@ -43,23 +43,6 @@ export function LanguagesHubScreen() {
     const mapSlot = LANG_SLOTS[block.id] ?? 'end'
     const short = LANG_SHORT[block.id] ?? block.description
 
-    if (block.id === 'alphabet' && block.status === 'active') {
-      return {
-        id: block.id,
-        title: block.title,
-        description: short,
-        status: resolveHubZoneStatus(progress, 'alphabet', {
-          playable: true,
-          isStarter: true,
-          anyWeakInHub: anyWeak,
-        }),
-        mark,
-        mapSlot,
-        href: '/missions/languages/alphabet',
-        ctaLabel: 'JUGAR ABC',
-      }
-    }
-
     if (block.id === 'spelling' && block.status === 'active') {
       return {
         id: block.id,
@@ -67,12 +50,29 @@ export function LanguagesHubScreen() {
         description: short,
         status: resolveHubZoneStatus(progress, 'spelling', {
           playable: true,
+          isStarter: true,
           anyWeakInHub: anyWeak,
         }),
         mark,
         mapSlot,
         href: '/missions/languages/spelling',
         ctaLabel: 'JUGAR ORTOGRAFÍA',
+      }
+    }
+
+    if (block.id === 'alphabet' && block.status === 'active') {
+      return {
+        id: block.id,
+        title: block.title,
+        description: short,
+        status: resolveHubZoneStatus(progress, 'alphabet', {
+          playable: true,
+          anyWeakInHub: anyWeak,
+        }),
+        mark,
+        mapSlot,
+        href: '/missions/languages/alphabet',
+        ctaLabel: 'ORDENAR',
       }
     }
 

@@ -80,7 +80,7 @@ export const CALC_MODE_LABELS: Record<CalcPlayMode, string> = {
   missing: '¿Qué falta?',
   doubles: 'Dobles',
   halves: 'Mitades',
-  near10: 'Cerca de 10',
+  near10: 'Hasta 10 / 100',
   compare: 'Comparar',
   order: 'Ordena',
   truefalse: 'Verdadero / falso',

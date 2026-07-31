@@ -10,7 +10,7 @@ export type SpellPlayMode =
 /**
  * Bloques alineados con 3.º / cicle mitjà (Catalunya + cuadernos CEIP Diputació / Maspe 3):
  * r-rr, hie-/hue-, ahí-hay-ay, hacer-echar, -aba, -illo/-illa, haber/hablar,
- * b/v, mb/mp, g/j, bu/bur/bus, c/z.
+ * b/v, mb/mp, g/j, bu/bur/bus, c/z, tildes.
  */
 export type SpellRuleId =
   | 'r-rr'
@@ -25,6 +25,7 @@ export type SpellRuleId =
   | 'mb-mp'
   | 'g-j'
   | 'bu-bur'
+  | 'tilde'
 
 export interface SpellWord {
   word: string
@@ -249,7 +250,7 @@ export const SPELL_CONTEXTS: SpellContext[] = [
   {
     id: 'hemos-1',
     sentence: 'Ya ___ terminado el dibujo del mapa.',
-    options: ['hemos', 'emos', 'haymos', 'hemosh'],
+    options: ['hemos', 'emos', 'haymos', 'abemos'],
     correctIndex: 0,
     tip: 'formas de haber llevan h',
     rule: 'haber-hablar',
@@ -267,7 +268,7 @@ export const SPELL_CONTEXTS: SpellContext[] = [
   {
     id: 'perro-ctx',
     sentence: 'El ___ llegó corriendo hasta el carro.',
-    options: ['perro', 'pero', 'perroo', 'perrro'],
+    options: ['perro', 'pero', 'péro', 'peró'],
     correctIndex: 0,
     tip: 'Entre vocales, sonido fuerte → rr',
     rule: 'r-rr',
@@ -283,7 +284,7 @@ export const SPELL_CONTEXTS: SpellContext[] = [
   {
     id: 'tierra-ctx',
     sentence: 'Plantamos semillas en la ___.',
-    options: ['tierra', 'tiera', 'tierrra', 'tyerra'],
+    options: ['tierra', 'tiera', 'tyerra', 'tiéra'],
     correctIndex: 0,
     tip: 'Entre vocales, sonido fuerte → rr',
     rule: 'r-rr',
@@ -301,7 +302,7 @@ export const SPELL_CONTEXTS: SpellContext[] = [
   {
     id: 'cantaba-ctx',
     sentence: 'Ayer ella ___ una canción en el patio.',
-    options: ['cantaba', 'cantava', 'cantába', 'cantabah'],
+    options: ['cantaba', 'cantava', 'cantáva', 'kantaba'],
     correctIndex: 0,
     tip: 'Pretérito -aba con b',
     rule: 'aba',
@@ -309,7 +310,7 @@ export const SPELL_CONTEXTS: SpellContext[] = [
   {
     id: 'jugaba-ctx',
     sentence: 'Cuando éramos pequeños, ___ en la plaza.',
-    options: ['jugábamos', 'jugávamos', 'jugabamos', 'jugábamoss'],
+    options: ['jugábamos', 'jugávamos', 'jugabamos', 'jugavamos'],
     correctIndex: 0,
     tip: 'Pretérito -ábamos con b',
     rule: 'aba',
@@ -317,7 +318,7 @@ export const SPELL_CONTEXTS: SpellContext[] = [
   {
     id: 'saltaba-ctx',
     sentence: 'El gato ___ de silla en silla.',
-    options: ['saltaba', 'saltava', 'saltába', 'saltabah'],
+    options: ['saltaba', 'saltava', 'saltáva', 'sáltava'],
     correctIndex: 0,
     tip: 'Pretérito -aba con b',
     rule: 'aba',
@@ -327,7 +328,7 @@ export const SPELL_CONTEXTS: SpellContext[] = [
   {
     id: 'amarillo-ctx',
     sentence: 'El sol se veía ___ entre las nubes.',
-    options: ['amarillo', 'amariyo', 'amarilo', 'amarrillo'],
+    options: ['amarillo', 'amariyo', 'amarilo', 'amaríyo'],
     correctIndex: 0,
     tip: '-illo / -illa con ll',
     rule: 'll-illa',
@@ -335,7 +336,7 @@ export const SPELL_CONTEXTS: SpellContext[] = [
   {
     id: 'tortilla-ctx',
     sentence: 'De merienda comimos una ___ de patatas.',
-    options: ['tortilla', 'tortiya', 'tortila', 'torrtilla'],
+    options: ['tortilla', 'tortiya', 'tortila', 'tortíya'],
     correctIndex: 0,
     tip: '-illo / -illa con ll',
     rule: 'll-illa',
@@ -353,7 +354,7 @@ export const SPELL_CONTEXTS: SpellContext[] = [
   {
     id: 'campo-ctx',
     sentence: 'El tractor trabaja en el ___.',
-    options: ['campo', 'canpo', 'campó', 'cammpo'],
+    options: ['campo', 'canpo', 'cámpo', 'campó'],
     correctIndex: 0,
     tip: 'Antes de b/p va m',
     rule: 'mb-mp',
@@ -361,7 +362,7 @@ export const SPELL_CONTEXTS: SpellContext[] = [
   {
     id: 'tiempo-ctx',
     sentence: 'Hoy hace buen ___ para salir.',
-    options: ['tiempo', 'tienpo', 'tiempó', 'tiiempo'],
+    options: ['tiempo', 'tienpo', 'tiempó', 'tíempo'],
     correctIndex: 0,
     tip: 'Antes de b/p va m',
     rule: 'mb-mp',
@@ -379,7 +380,7 @@ export const SPELL_CONTEXTS: SpellContext[] = [
   {
     id: 'hielo-ctx',
     sentence: 'En invierno el lago se llena de ___.',
-    options: ['hielo', 'ielo', 'yelo', 'hieloh'],
+    options: ['hielo', 'ielo', 'yelo', 'hieló'],
     correctIndex: 0,
     tip: 'hie- lleva h',
     rule: 'hie-hue',
@@ -387,7 +388,7 @@ export const SPELL_CONTEXTS: SpellContext[] = [
   {
     id: 'huella-ctx',
     sentence: 'En la arena quedó la ___ del pie.',
-    options: ['huella', 'uella', 'güella', 'huellaa'],
+    options: ['huella', 'uella', 'güella', 'huélla'],
     correctIndex: 0,
     tip: 'hue- lleva h',
     rule: 'hie-hue',
@@ -397,7 +398,7 @@ export const SPELL_CONTEXTS: SpellContext[] = [
   {
     id: 'caballo-ctx',
     sentence: 'El ___ galopa por el campo.',
-    options: ['caballo', 'cavallo', 'cabayo', 'caballoh'],
+    options: ['caballo', 'cavallo', 'cabayo', 'cavayo'],
     correctIndex: 0,
     tip: 'Esta palabra va con b',
     rule: 'b-v',
@@ -405,7 +406,7 @@ export const SPELL_CONTEXTS: SpellContext[] = [
   {
     id: 'ventana-ctx',
     sentence: 'Abre la ___ : hace calor.',
-    options: ['ventana', 'bentana', 'ventanna', 'ventaná'],
+    options: ['ventana', 'bentana', 'ventána', 'bentána'],
     correctIndex: 0,
     tip: 'Esta palabra va con v',
     rule: 'b-v',
@@ -415,7 +416,7 @@ export const SPELL_CONTEXTS: SpellContext[] = [
   {
     id: 'gente-ctx',
     sentence: 'Había mucha ___ en la fiesta del pueblo.',
-    options: ['gente', 'jente', 'gentte', 'genteh'],
+    options: ['gente', 'jente', 'génté', 'jénté'],
     correctIndex: 0,
     tip: 'gente se escribe con g',
     rule: 'g-j',
@@ -423,7 +424,7 @@ export const SPELL_CONTEXTS: SpellContext[] = [
   {
     id: 'jirafa-ctx',
     sentence: 'En el zoo vimos una ___ altísima.',
-    options: ['jirafa', 'girafa', 'jirraffa', 'jirafá'],
+    options: ['jirafa', 'girafa', 'jírafa', 'giraffa'],
     correctIndex: 0,
     tip: 'jirafa se escribe con j',
     rule: 'g-j',
@@ -433,7 +434,7 @@ export const SPELL_CONTEXTS: SpellContext[] = [
   {
     id: 'buscar-ctx',
     sentence: 'Vamos a ___ las llaves en el bolsillo.',
-    options: ['buscar', 'vuscar', 'buscarr', 'buzcar'],
+    options: ['buscar', 'vuscar', 'buzcar', 'buskar'],
     correctIndex: 0,
     tip: 'buscar empieza por bus-',
     rule: 'bu-bur',
@@ -441,7 +442,7 @@ export const SPELL_CONTEXTS: SpellContext[] = [
   {
     id: 'bosque-ctx',
     sentence: 'Paseamos por el ___ después de llover.',
-    options: ['bosque', 'vosque', 'bosqe', 'bosquee'],
+    options: ['bosque', 'vosque', 'bósqe', 'vosqué'],
     correctIndex: 0,
     tip: 'bosque va con b',
     rule: 'bu-bur',
@@ -451,7 +452,7 @@ export const SPELL_CONTEXTS: SpellContext[] = [
   {
     id: 'zapato-ctx',
     sentence: 'Se me ha roto el ___ izquierdo.',
-    options: ['zapato', 'capato', 'sappato', 'zapatto'],
+    options: ['zapato', 'capato', 'sapato', 'zápató'],
     correctIndex: 0,
     tip: 'za- con z',
     rule: 'd-z',
@@ -467,7 +468,7 @@ export const SPELL_CONTEXTS: SpellContext[] = [
   {
     id: 'lapiz-ctx',
     sentence: 'Escribe con un ___ de color azul.',
-    options: ['lápiz', 'lápis', 'lapiz', 'lápizz'],
+    options: ['lápiz', 'lápis', 'lapiz', 'lápic'],
     correctIndex: 0,
     tip: 'Algunas palabras terminan en z',
     rule: 'd-z',

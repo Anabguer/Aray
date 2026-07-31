@@ -15,11 +15,35 @@ const ES_HOUR: Record<ClockHour, string> = {
   12: 'doce',
 }
 
-const ES_MINUTE: Record<Exclude<ClockMinute, 0 | 15 | 30 | 45>, string> = {
+const ES_MINUTE_WORD: Record<number, string> = {
+  1: 'uno',
+  2: 'dos',
+  3: 'tres',
+  4: 'cuatro',
   5: 'cinco',
+  6: 'seis',
+  7: 'siete',
+  8: 'ocho',
+  9: 'nueve',
   10: 'diez',
+  11: 'once',
+  12: 'doce',
+  13: 'trece',
+  14: 'catorce',
+  16: 'dieciséis',
+  17: 'diecisiete',
+  18: 'dieciocho',
+  19: 'diecinueve',
   20: 'veinte',
+  21: 'veintiuno',
+  22: 'veintidós',
+  23: 'veintitrés',
+  24: 'veinticuatro',
   25: 'veinticinco',
+  26: 'veintiséis',
+  27: 'veintisiete',
+  28: 'veintiocho',
+  29: 'veintinueve',
   35: 'treinta y cinco',
   40: 'cuarenta',
   50: 'diez',
@@ -41,7 +65,6 @@ const CA_HOUR_NOUN: Record<ClockHour, string> = {
   12: 'dotze',
 }
 
-/** Preposición + hora destino en sistema de campanar. */
 const CA_OF_HOUR: Record<ClockHour, string> = {
   1: "d'una",
   2: 'de les dues',
@@ -57,15 +80,9 @@ const CA_OF_HOUR: Record<ClockHour, string> = {
   12: 'de les dotze',
 }
 
-const CA_MINUTE: Record<5 | 10 | 20 | 25 | 35 | 40 | 50 | 55, string> = {
+const CA_MINUTE: Record<5 | 10, string> = {
   5: 'cinc',
   10: 'deu',
-  20: 'vint',
-  25: 'vint-i-cinc',
-  35: 'cinc',
-  40: 'deu',
-  50: 'cinc',
-  55: 'deu',
 }
 
 export function nextClockHour(hour: ClockHour): ClockHour {
@@ -83,13 +100,30 @@ function caEnPunt(hour: ClockHour): string {
 }
 
 function caPastHourAndMinutes(hour: ClockHour, minute: 5 | 10): string {
-  const base =
-    hour === 1 ? `la ${CA_HOUR_NOUN[hour]}` : `les ${CA_HOUR_NOUN[hour]}`
+  const base = hour === 1 ? `la ${CA_HOUR_NOUN[hour]}` : `les ${CA_HOUR_NOUN[hour]}`
   return `${base} i ${CA_MINUTE[minute]}`
 }
 
+function esMinuteWord(n: number): string {
+  return ES_MINUTE_WORD[n] ?? String(n)
+}
+
+/** Digital 24 h (0–23). */
+export function toHour24(hour12: ClockHour, afternoon: boolean): number {
+  if (hour12 === 12) return afternoon ? 12 : 0
+  return afternoon ? hour12 + 12 : hour12
+}
+
+export function formatDigital24(hour24: number, minute: number): string {
+  return `${String(hour24).padStart(2, '0')}:${String(minute).padStart(2, '0')}`
+}
+
+export function formatDigital12(time: ClockTime): string {
+  return `${time.hour}:${String(time.minute).padStart(2, '0')}`
+}
+
 /**
- * Castellano escolar: y cuarto / y media; a partir de menos cuarto usa la hora siguiente.
+ * Castellano escolar: y cuarto / y media; minutos finos con “y N”.
  */
 export function formatTimeEs(time: ClockTime): string {
   const { hour, minute } = time
@@ -100,20 +134,22 @@ export function formatTimeEs(time: ClockTime): string {
   if (minute === 45) {
     return `${esArticleHour(nextClockHour(hour))} menos cuarto`
   }
-  if (minute > 45) {
-    const rem = (60 - minute) as 5 | 10
-    return `${esArticleHour(nextClockHour(hour))} menos ${ES_MINUTE[rem === 5 ? 55 : 50]}`
+  if (minute > 45 && minute % 5 === 0) {
+    const rem = 60 - minute
+    return `${esArticleHour(nextClockHour(hour))} menos ${esMinuteWord(rem)}`
   }
-  // 5, 10, 20, 25, 35, 40
-  return `${base} y ${ES_MINUTE[minute as keyof typeof ES_MINUTE]}`
+  return `${base} y ${esMinuteWord(minute)}`
 }
 
 /**
- * Catalán sistema de campanar: los quarts miran a la hora siguiente.
- * Antes del primer quart se suma a la hora pasada (la una i cinc…).
+ * Catalán sistema de campanar (pasos de 5).
+ * Minutos finos → lectura digital (saberes 12/24).
  */
 export function formatTimeCaCampanar(time: ClockTime): string {
   const { hour, minute } = time
+  if (minute % 5 !== 0) {
+    return formatDigital12(time)
+  }
   if (minute === 0) return caEnPunt(hour)
   if (minute === 5 || minute === 10) {
     return caPastHourAndMinutes(hour, minute)
@@ -128,13 +164,11 @@ export function formatTimeCaCampanar(time: ClockTime): string {
     quarter === 1 ? 'un quart' : quarter === 2 ? 'dos quarts' : 'tres quarts'
 
   if (rem === 0) return `${quartWord} ${of}`
-  return `${quartWord} i ${CA_MINUTE[rem]} ${of}`
+  if (rem === 5 || rem === 10) return `${quartWord} i ${CA_MINUTE[rem]} ${of}`
+  return formatDigital12(time)
 }
 
-export function formatClockTime(
-  time: ClockTime,
-  lang: 'es' | 'ca',
-): string {
+export function formatClockTime(time: ClockTime, lang: 'es' | 'ca'): string {
   return lang === 'ca' ? formatTimeCaCampanar(time) : formatTimeEs(time)
 }
 
@@ -148,6 +182,6 @@ export function parseClockKey(key: string): ClockTime | null {
   const hour = Number(m[1])
   const minute = Number(m[2])
   if (hour < 1 || hour > 12) return null
-  if (minute < 0 || minute > 55 || minute % 5 !== 0) return null
+  if (minute < 0 || minute > 59) return null
   return { hour: hour as ClockHour, minute: minute as ClockMinute }
 }
