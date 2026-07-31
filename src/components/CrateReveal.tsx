@@ -1,4 +1,4 @@
-import { useEffect, useId, useState } from 'react'
+import { useEffect, useId, useMemo, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { crateArt, type CrateRarity } from '@/assets/rewards'
 import { crateConfig, type CrateRewardSpec } from '@/config/crateConfig'
@@ -30,17 +30,36 @@ function collectLabel(reward: CrateRewardSpec): string {
 }
 
 function rarityLabel(r: CrateRarity): string {
-  if (r === 'epica') return 'Épica'
-  if (r === 'especial') return 'Especial'
-  return 'Normal'
+  if (r === 'epica') return 'Legendaria'
+  if (r === 'especial') return 'Épica'
+  return 'Buena'
+}
+
+const CHOICE_LEADS = [
+  'Una está bien… y la otra es LEGENDARIA. ¿Cuál eliges, crack?',
+  '¡Drop! Una da más energía. ¿Izquierda o derecha?',
+  'Modo Random: elige una y ¡a ver qué te toca!',
+  'Dos cofres, un premio gordo. ¿Cuál abres?',
+  '¡Streamy vibes! Confía en tu intuición… o ve a lo loco.',
+  'Como cuando cae loot: una normalita y otra pro. ¡Elige!',
+] as const
+
+function choiceLeadFor(completionId: string): string {
+  let hash = 0
+  for (let i = 0; i < completionId.length; i += 1) {
+    hash = (hash * 31 + completionId.charCodeAt(i)) >>> 0
+  }
+  return CHOICE_LEADS[hash % CHOICE_LEADS.length]!
 }
 
 const CONFETTI = Array.from({ length: 18 }, (_, i) => i)
 
 export function CrateReveal({ pending, onChoose, onOpen, onCollect }: CrateRevealProps) {
   const titleId = useId()
+  const leadId = useId()
   const [phase, setPhase] = useState<'enter' | 'idle' | 'open' | 'reveal'>('enter')
   const [party, setParty] = useState(false)
+  const choiceLead = useMemo(() => choiceLeadFor(pending.completionId), [pending.completionId])
   const reduced =
     typeof window !== 'undefined' &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -104,6 +123,7 @@ export function CrateReveal({ pending, onChoose, onOpen, onCollect }: CrateRevea
       <section
         className={`crate-reveal${party ? ' is-party' : ''}`}
         aria-labelledby={titleId}
+        aria-describedby={showChoice ? leadId : undefined}
         role="dialog"
         aria-modal="true"
       >
@@ -132,31 +152,37 @@ export function CrateReveal({ pending, onChoose, onOpen, onCollect }: CrateRevea
 
         <h2 id={titleId} className="crate-reveal__title">
           {showChoice
-            ? 'Elige una'
+            ? '¡Qué suerte!'
             : phase === 'reveal'
               ? '¡Premio encontrado!'
               : '¡Te ha caído una caja!'}
         </h2>
 
         {showChoice ? (
-          <div className="crate-reveal__choice">
-            {pending.options.map((opt, i) => (
-              <button
-                key={`${opt.rarity}-${i}`}
-                type="button"
-                className={`crate-pick crate-pick--${opt.rarity}`}
-                onClick={() => onChoose(i)}
-              >
-                <img
-                  src={crateArt[opt.rarity]}
-                  alt={`Caja ${rarityLabel(opt.rarity)}`}
-                  className="crate-pick__img"
-                  draggable={false}
-                />
-                <span>Caja {i + 1}</span>
-              </button>
-            ))}
-          </div>
+          <>
+            <p id={leadId} className="crate-reveal__lead">
+              {choiceLead}
+            </p>
+            <div className="crate-reveal__choice">
+              {pending.options.map((opt, i) => (
+                <button
+                  key={`${opt.rarity}-${i}`}
+                  type="button"
+                  className="crate-pick crate-pick--mystery"
+                  onClick={() => onChoose(i)}
+                >
+                  <img
+                    src={crateArt.especial}
+                    alt={`Caja misteriosa ${i === 0 ? 'A' : 'B'}`}
+                    className="crate-pick__img"
+                    draggable={false}
+                  />
+                  <span className="crate-pick__name">Caja {i === 0 ? 'A' : 'B'}</span>
+                  <span className="crate-pick__hint">¿Será la pro?</span>
+                </button>
+              ))}
+            </div>
+          </>
         ) : (
           <>
             <div

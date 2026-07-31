@@ -10,7 +10,8 @@ Centralizada en [`src/config/crateConfig.ts`](../src/config/crateConfig.ts):
 - Pity: tras 5 actividades sin caja → caja normal garantizada.
 - Rarezas: normal 72 / especial 23 / épica 5.
 - Elección entre dos: 30 % cuando ya cae caja.
-- Tablas de premios (monedas / energía / XP).
+- En la elección: **siempre** una caja normal (“buena”) y otra especial/épica (“legendaria”), barajadas; la mejor da **más energía**. En la UI las dos se ven iguales (misterio) hasta elegir.
+- Tablas de premios (energía por rareza).
 
 ## Flujo
 

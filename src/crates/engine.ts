@@ -156,6 +156,57 @@ export function makeCrateOption(random: () => number = Math.random): PendingCrat
   return { rarity, reward: pickReward(rarity, random) }
 }
 
+const RARITY_RANK: Record<CrateRarity, number> = {
+  normal: 0,
+  especial: 1,
+  epica: 2,
+}
+
+function makeOptionOfRarity(rarity: CrateRarity, random: () => number): PendingCrateOption {
+  return { rarity, reward: pickReward(rarity, random) }
+}
+
+/**
+ * Pareja para el modal de elección: una “buena” (normal) y otra mejor
+ * (especial/épica) con más energía. El lado se baraja.
+ */
+export function makeChoiceCratePair(random: () => number = Math.random): PendingCrateOption[] {
+  const safe = makeOptionOfRarity('normal', random)
+  const jackpotRarity: CrateRarity = random() < 0.65 ? 'especial' : 'epica'
+  let jackpot = makeOptionOfRarity(jackpotRarity, random)
+
+  if (jackpot.reward.amount <= safe.reward.amount) {
+    const betterPool = crateConfig.rewards[jackpotRarity].filter(
+      (r) => r.amount > safe.reward.amount,
+    )
+    if (betterPool.length > 0) {
+      jackpot = {
+        rarity: jackpotRarity,
+        reward: { ...betterPool[Math.floor(random() * betterPool.length)]! },
+      }
+    } else {
+      const epicPool = crateConfig.rewards.epica.filter((r) => r.amount > safe.reward.amount)
+      jackpot = {
+        rarity: 'epica',
+        reward: { ...(epicPool[Math.floor(random() * epicPool.length)] ?? crateConfig.rewards.epica.at(-1)!) },
+      }
+    }
+  }
+
+  // Defensa extra: rareza del jackpot siempre estrictamente mayor.
+  if (RARITY_RANK[jackpot.rarity] <= RARITY_RANK[safe.rarity]) {
+    jackpot = makeOptionOfRarity('epica', random)
+    if (jackpot.reward.amount <= safe.reward.amount) {
+      jackpot = {
+        rarity: 'epica',
+        reward: { ...crateConfig.rewards.epica[crateConfig.rewards.epica.length - 1]! },
+      }
+    }
+  }
+
+  return random() < 0.5 ? [safe, jackpot] : [jackpot, safe]
+}
+
 export interface RollCrateInput {
   completionId: string
   activity: CrateActivityKey
@@ -216,9 +267,7 @@ export function rollCrateForCompletion(input: RollCrateInput): RollCrateResult {
   }
 
   const isChoice = random() < crateConfig.choiceBetweenTwoChance
-  const options = isChoice
-    ? [makeCrateOption(random), makeCrateOption(random)]
-    : [makeCrateOption(random)]
+  const options = isChoice ? makeChoiceCratePair(random) : [makeCrateOption(random)]
 
   const primary = options[0]!
   const pending: PendingCrate = {

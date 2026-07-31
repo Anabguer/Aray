@@ -7,6 +7,7 @@ import {
   chooseCrateOption,
   collectPendingCrate,
   createInitialCratesState,
+  makeChoiceCratePair,
   markCrateOpened,
   mergeCratesState,
   rollCrateForCompletion,
@@ -140,6 +141,59 @@ describe('sistema de cajas', () => {
     expect(first.applied).toBe(true)
     const second = collectPendingCrate(first.crates)
     expect(second.applied).toBe(false)
+  })
+
+  it('la pareja de elección siempre tiene una mejor y con más energía', () => {
+    for (let i = 0; i < 80; i += 1) {
+      let n = 0
+      const random = () => {
+        n += 1
+        return ((i * 17 + n * 31) % 97) / 97
+      }
+      const pair = makeChoiceCratePair(random)
+      expect(pair).toHaveLength(2)
+      const [a, b] = pair
+      const ranks = { normal: 0, especial: 1, epica: 2 } as const
+      expect(Math.abs(ranks[a!.rarity] - ranks[b!.rarity])).toBeGreaterThan(0)
+      expect(Math.max(a!.reward.amount, b!.reward.amount)).toBeGreaterThan(
+        Math.min(a!.reward.amount, b!.reward.amount),
+      )
+      const better = a!.reward.amount > b!.reward.amount ? a! : b!
+      const worse = a!.reward.amount > b!.reward.amount ? b! : a!
+      expect(ranks[better.rarity]).toBeGreaterThan(ranks[worse.rarity])
+      expect(worse.rarity).toBe('normal')
+      expect(better.rarity === 'especial' || better.rarity === 'epica').toBe(true)
+    }
+  })
+
+  it('si toca elegir entre dos, las opciones no son iguales', () => {
+    let crates = createInitialCratesState()
+    let found = false
+    for (let i = 0; i < 60; i += 1) {
+      let n = 0
+      const random = () => {
+        n += 1
+        // drop sí + choice sí + rellenos
+        if (n === 1) return 0.01
+        if (n === 2) return 0.01
+        return ((i * 13 + n * 19) % 89) / 89
+      }
+      const roll = rollCrateForCompletion({
+        completionId: `choice-pair-${i}`,
+        activity: 'firstMastery',
+        crates: createInitialCratesState(),
+        newlyMasteredTable: String(2 + (i % 7)),
+        random,
+      })
+      if (!roll.pending?.isChoice) continue
+      found = true
+      const [a, b] = roll.pending.options
+      expect(a!.rarity).not.toBe(b!.rarity)
+      expect(a!.reward.amount).not.toBe(b!.reward.amount)
+      crates = roll.crates
+    }
+    expect(found).toBe(true)
+    expect(crates.pending).toBeTruthy()
   })
 
   it('no reabre una caja ya recogida al fusionar con el servidor', () => {

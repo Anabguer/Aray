@@ -6481,6 +6481,13 @@ a {
   margin-top: -0.15rem;
 }
 .crate-reveal__title { margin: 0; font-family: var(--font-display); font-size: 1.25rem; color: var(--lilac); }
+.crate-reveal__lead {
+  margin: -0.15rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.35;
+  text-wrap: balance;
+}
 .crate-reveal__collect {
   animation: crate-collect-pulse 900ms ease-in-out infinite;
 }
@@ -6524,8 +6531,43 @@ a {
   50% { transform: scale(1.03); box-shadow: 0 0 0 8px rgba(56, 189, 248, 0); }
 }
 .crate-reveal__choice { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-.crate-pick { display: grid; gap: 0.35rem; justify-items: center; padding: 0.75rem; border-radius: var(--radius-md); border: 1px solid rgba(56,189,248,.25); background: rgba(7,21,40,.55); color: var(--text); cursor: pointer; font: inherit; }
+.crate-pick {
+  display: grid;
+  gap: 0.2rem;
+  justify-items: center;
+  padding: 0.75rem 0.55rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(56,189,248,.25);
+  background: rgba(7,21,40,.55);
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  transition: transform 140ms ease, border-color 140ms ease, box-shadow 140ms ease;
+}
+.crate-pick:hover,
+.crate-pick:focus-visible {
+  transform: translateY(-2px) scale(1.02);
+  outline: none;
+}
+.crate-pick--mystery {
+  border-color: rgba(167, 139, 250, 0.45);
+  box-shadow: 0 0 16px rgba(167, 139, 250, 0.14);
+}
+.crate-pick--mystery:hover,
+.crate-pick--mystery:focus-visible {
+  border-color: rgba(251, 191, 36, 0.55);
+  box-shadow: 0 0 20px rgba(251, 191, 36, 0.2);
+}
 .crate-pick__img { width: min(100%, 7.5rem); height: auto; object-fit: contain; }
+.crate-pick__name {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+.crate-pick__hint {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
 .crate-stage { position: relative; min-height: 10rem; display: grid; place-items: center; }
 .crate-stage__img { width: min(70%, 10rem); height: auto; object-fit: contain; position: relative; z-index: 1; }
 .crate-stage.is-enter .crate-stage__img { animation: crate-enter 400ms ease both; }

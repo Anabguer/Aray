@@ -113,11 +113,7 @@ final class CrateService
         }
 
         $isChoice = $rng() < self::CHOICE_CHANCE;
-        $options = [];
-        $count = $isChoice ? 2 : 1;
-        for ($i = 0; $i < $count; $i++) {
-            $options[] = self::makeOption($rng);
-        }
+        $options = $isChoice ? self::makeChoicePair($rng) : [self::makeOption($rng)];
         $primary = $options[0];
         $status = $isChoice ? 'pending_choice' : 'pending_open';
         $chosen = $isChoice ? null : 0;
@@ -300,12 +296,8 @@ final class CrateService
             $ins->execute([':k' => $dedupeKey, ':now' => MadridTime::utcNowString()]);
             if ($ins->rowCount() > 0) {
                 $grantId = 'crate-energy-' . $completionId;
-                $grant = RewardCycleService::grantPoints($playerId, $energyToGrant, $grantId, null);
+                $grant = RewardCycleService::grantPoints($playerId, $energyToGrant, $grantId, null, true);
                 $granted = (int) ($grant['granted'] ?? 0);
-                $overflow = max(0, $energyToGrant - $granted);
-                if ($overflow > 0) {
-                    $note = "Tope de energía de hoy: +{$granted} de {$energyToGrant}";
-                }
                 $applied = true;
             } else {
                 $applied = false;
@@ -395,7 +387,60 @@ final class CrateService
     private static function makeOption(callable $rng): array
     {
         $rarity = self::pickRarity($rng);
-        $pool = self::REWARDS[$rarity];
+        return self::makeOptionOfRarity($rarity, $rng);
+    }
+
+    /**
+     * Pareja del modal: una normal (“buena”) y otra especial/épica con más energía.
+     *
+     * @param callable(): float $rng
+     * @return list<array{rarity:string,reward:array{kind:string,amount:int}}>
+     */
+    private static function makeChoicePair(callable $rng): array
+    {
+        $safe = self::makeOptionOfRarity('normal', $rng);
+        $jackpotRarity = $rng() < 0.65 ? 'especial' : 'epica';
+        $jackpot = self::makeOptionOfRarity($jackpotRarity, $rng);
+
+        $safeAmount = (int) $safe['reward']['amount'];
+        if ((int) $jackpot['reward']['amount'] <= $safeAmount) {
+            $better = [];
+            foreach (self::REWARDS[$jackpotRarity] as $reward) {
+                if ((int) $reward['amount'] > $safeAmount) {
+                    $better[] = $reward;
+                }
+            }
+            if ($better !== []) {
+                $jackpot = [
+                    'rarity' => $jackpotRarity,
+                    'reward' => $better[(int) floor($rng() * count($better))],
+                ];
+            } else {
+                $epicBetter = [];
+                foreach (self::REWARDS['epica'] as $reward) {
+                    if ((int) $reward['amount'] > $safeAmount) {
+                        $epicBetter[] = $reward;
+                    }
+                }
+                $jackpot = [
+                    'rarity' => 'epica',
+                    'reward' => $epicBetter !== []
+                        ? $epicBetter[(int) floor($rng() * count($epicBetter))]
+                        : self::REWARDS['epica'][count(self::REWARDS['epica']) - 1],
+                ];
+            }
+        }
+
+        return $rng() < 0.5 ? [$safe, $jackpot] : [$jackpot, $safe];
+    }
+
+    /**
+     * @param callable(): float $rng
+     * @return array{rarity:string,reward:array{kind:string,amount:int}}
+     */
+    private static function makeOptionOfRarity(string $rarity, callable $rng): array
+    {
+        $pool = self::REWARDS[$rarity] ?? self::REWARDS['normal'];
         $reward = $pool[(int) floor($rng() * count($pool))];
         return ['rarity' => $rarity, 'reward' => $reward];
     }
