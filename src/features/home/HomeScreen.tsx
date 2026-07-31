@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { AppShell } from '@/components/AppShell'
 import { ArayHubIcon } from '@/components/ArayHubIcon'
-import { BrandLogo } from '@/components/BrandLogo'
+import { PlayerAvatar } from '@/components/PlayerAvatar'
 import { CrateReveal } from '@/components/CrateReveal'
 import { GoalCard } from '@/components/GoalCard'
 import { ResetProgressControl } from '@/components/ResetProgressControl'
@@ -14,6 +14,7 @@ import { zoneLinks } from '@/data/demo'
 import { launchLobbyMission } from '@/features/home/launchMission'
 import { DailyMissionCard } from '@/features/home/DailyMissionCard'
 import { Lumo } from '@/lumo/Lumo'
+import { useAuth } from '@/auth/AuthContext'
 import { usePlaySession } from '@/progress/PlayContext'
 import { useProgress } from '@/progress/ProgressContext'
 import { normalizeRewardCycles, previewSessionLoad } from '@/reward/engine'
@@ -50,6 +51,9 @@ function challengeHubIcon(mission: LobbyMissionCard | null): HubIconId {
 export function HomeScreen() {
   const navigate = useNavigate()
   const { progress, chooseCrate, openCrate, collectCrate } = useProgress()
+  const { player, familyPlayers } = useAuth()
+  const active = player ?? familyPlayers[0] ?? null
+  const childName = active?.displayName?.trim() || 'campeón'
   const { setSelection, setActiveMode, setPendingQueue, setLastResult, setMissionOfDay } =
     usePlaySession()
   const lobby = buildLobbyMissions(progress, 4)
@@ -96,7 +100,7 @@ export function HomeScreen() {
           />
           <div className="lobby__welcome-copy">
             <h2 id="home-greeting" className="lobby__greeting">
-              ¡Ey, Aray!
+              ¡Ey, {childName}!
             </h2>
             <p className="lobby__welcome-lead">
               {reward.dailyPoints >= rewardGoalConfig.dailyCap
@@ -109,7 +113,11 @@ export function HomeScreen() {
             </p>
           </div>
           <div className="hero__logo-wrap lobby__logo">
-            <BrandLogo variant="hero" />
+            <PlayerAvatar
+              url={active?.avatarUrl}
+              name={childName}
+              size="lg"
+            />
           </div>
         </div>
 
@@ -237,6 +245,21 @@ export function HomeScreen() {
             ))}
           </div>
         </section>
+
+        <footer className="lobby-legal">
+          <p>
+            © {new Date().getFullYear()} AFK Academy. Todos los derechos reservados a{' '}
+            <a
+              href="https://intocables13.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="lobby-legal__link"
+            >
+              @intocables13
+            </a>
+            .
+          </p>
+        </footer>
       </section>
 
       {import.meta.env.DEV ? (

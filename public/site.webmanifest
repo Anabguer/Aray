@@ -1,7 +1,7 @@
 {
-  "name": "ARAY",
-  "short_name": "ARAY",
-  "description": "El espacio digital de Aray",
+  "name": "AFK Academy",
+  "short_name": "AFK Academy",
+  "description": "AFK Academy — el espacio digital de Aray",
   "lang": "es",
   "start_url": "./",
   "display": "standalone",
