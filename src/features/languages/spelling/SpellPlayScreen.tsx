@@ -9,7 +9,6 @@ import {
 } from '@/spelling'
 import { explainSpellMistake, type SpellExplainCard } from '@/spelling/explain'
 import { AppShell } from '@/components/AppShell'
-import { QuizArena } from '@/components/quiz/QuizArena'
 import { useLumoController } from '@/lumo/useLumoController'
 import { soundEngine } from '@/sound/soundEngine'
 import { useDailyMission } from '@/daily/DailyMissionContext'
@@ -17,6 +16,7 @@ import { sideActivityEnergy } from '@/config/rewardGoal'
 import { rewardMatrix, sessionXpFromCorrects } from '@/config/rewardMatrix'
 import { useProgress } from '@/progress/ProgressContext'
 import { newId } from '@/progress/repository'
+import { SideRunShell, prefersReducedMotion, useAnswerFx } from '@/run'
 import './spelling.css'
 
 function isMode(v: string | undefined): v is SpellPlayMode {
@@ -37,6 +37,7 @@ export function SpellPlayScreen() {
   const { recordProgress } = useDailyMission()
   const { grantActivityEnergy } = useProgress()
   const lumo = useLumoController('thinking')
+  const answerFx = useAnswerFx()
   const seedRef = useRef(Date.now())
   const mode: SpellPlayMode = isMode(modeParam) ? modeParam : 'mix'
   const queue = useMemo(() => buildSpellRound(mode, SPELL_ROUND_SIZE, seedRef.current), [mode])
@@ -45,10 +46,12 @@ export function SpellPlayScreen() {
   const [locked, setLocked] = useState(false)
   const [correctCount, setCorrectCount] = useState(0)
   const [streak, setStreak] = useState(0)
-  const [bestStreak, setBestStreak] = useState(0)
   const [picked, setPicked] = useState<number | null>(null)
   const [showWhy, setShowWhy] = useState(false)
   const [explain, setExplain] = useState<SpellExplainCard | null>(null)
+  const [exitOpen, setExitOpen] = useState(false)
+  const [enterKey, setEnterKey] = useState(0)
+  const [hitFlash, setHitFlash] = useState(false)
   const finishedRef = useRef(false)
   const correctRef = useRef(0)
   const bestRef = useRef(0)
@@ -56,9 +59,10 @@ export function SpellPlayScreen() {
   const openedRef = useRef(false)
 
   const question = queue[index]
+  const modesPath = '/missions/languages/spelling'
 
   useEffect(() => {
-    if (!isMode(modeParam)) navigate('/missions/languages/spelling', { replace: true })
+    if (!isMode(modeParam)) navigate(modesPath, { replace: true })
   }, [modeParam, navigate])
 
   useEffect(() => {
@@ -92,7 +96,7 @@ export function SpellPlayScreen() {
         ),
       })
     }
-    navigate('/missions/languages/spelling/summary', { replace: true })
+    navigate(`${modesPath}/summary`, { replace: true })
   }, [question, mode, navigate, setLastSummary, recordProgress, grantActivityEnergy])
 
   useEffect(() => {
@@ -100,27 +104,48 @@ export function SpellPlayScreen() {
     setShowWhy(false)
     setExplain(null)
     setLocked(false)
+    setHitFlash(false)
+    answerFx.clearFx()
+    setEnterKey((k) => k + 1)
+    lumo.setThinking()
   }, [index])
 
   if (!isMode(modeParam) || !question) return null
 
   const waitingAfterMiss = picked !== null && picked !== question.correctIndex
+  const hasProgress = index > 0 || correctCount > 0 || picked !== null
 
   function goNext() {
     setPicked(null)
     setShowWhy(false)
     setExplain(null)
     setLocked(false)
+    setHitFlash(false)
+    answerFx.clearFx()
     setIndex((x) => x + 1)
   }
 
+  function goPrev() {
+    if (locked || waitingAfterMiss || hitFlash || index === 0) return
+    answerFx.clearFx()
+    setIndex((x) => x - 1)
+  }
+
+  function requestExit() {
+    if (hasProgress) {
+      setExitOpen(true)
+      return
+    }
+    navigate(modesPath)
+  }
+
   function onPick(i: number) {
-    if (locked || waitingAfterMiss) return
+    if (locked || waitingAfterMiss || hitFlash) return
     setLocked(true)
     setPicked(i)
     const ok = i === question.correctIndex
     if (ok) {
-      soundEngine.play('correct')
+      soundEngine.play('answer-correct')
       const ns = streakRef.current + 1
       streakRef.current = ns
       bestRef.current = Math.max(bestRef.current, ns)
@@ -128,15 +153,17 @@ export function SpellPlayScreen() {
       lumo.reactToAnswer({ correct: true, streak: ns })
       setCorrectCount(correctRef.current)
       setStreak(ns)
-      setBestStreak(bestRef.current)
-      window.setTimeout(goNext, 380)
+      setHitFlash(true)
+      answerFx.spawn({ tone: 'hit', optionIndex: i, nextStreak: ns })
+      window.setTimeout(goNext, prefersReducedMotion() ? 700 : 950)
       return
     }
 
-    soundEngine.play('wrong')
+    soundEngine.play('answer-wrong')
     streakRef.current = 0
     lumo.reactToAnswer({ correct: false, streak: 0 })
     setStreak(0)
+    answerFx.spawn({ tone: 'miss', optionIndex: i, nextStreak: 0 })
     setExplain(
       explainSpellMistake({
         mode: question.mode === 'mix' ? mode : question.mode,
@@ -153,24 +180,36 @@ export function SpellPlayScreen() {
       title={SPELL_MODE_LABELS[mode].toUpperCase()}
       shortTitle="Ortografía"
       showBack
-      backTo="/missions/languages/spelling"
+      backTo={modesPath}
     >
       <div className="spell-play">
-        <QuizArena
+        <SideRunShell
+          title={SPELL_MODE_LABELS[mode].toUpperCase()}
+          current={index + 1}
+          total={SPELL_ROUND_SIZE}
+          hits={correctCount}
+          streak={streak}
           lumoState={lumo.state}
           lumoIntensity={lumo.intensity}
-          hudRight={
-            <p>
-              {index + 1}/{SPELL_ROUND_SIZE} · {correctCount} ok · racha {streak}
-              {bestStreak > streak ? ` · mejor ${bestStreak}` : ''}
-            </p>
-          }
           prompt={question.prompt}
           extra={question.emoji ? <span aria-hidden="true">{question.emoji}</span> : undefined}
           detail={question.display}
-          answersLabel="Elige una respuesta"
+          fx={answerFx.fx}
+          lumoBoost={answerFx.lumoBoost}
+          hit={hitFlash}
+          miss={waitingAfterMiss}
+          canPrev={index > 0 && !locked && !waitingAfterMiss && !hitFlash}
+          onPrev={goPrev}
+          exitOpen={exitOpen}
+          onExitRequest={requestExit}
+          onConfirmExit={() => {
+            setExitOpen(false)
+            navigate(modesPath)
+          }}
+          onCancelExit={() => setExitOpen(false)}
+          enterKey={enterKey}
           answers={
-            <div className="quiz-arena__options">
+            <div className="side-run-options" role="group" aria-label="Respuestas">
               {question.options.map((opt, i) => {
                 const isCorrect = i === question.correctIndex
                 const isPicked = picked === i
@@ -178,63 +217,82 @@ export function SpellPlayScreen() {
                   picked === null
                     ? ''
                     : isCorrect
-                      ? ' is-ok'
+                      ? ' is-correct'
                       : isPicked
-                        ? ' is-bad'
-                        : ' is-dim'
+                        ? ' is-wrong'
+                        : ''
+                const near =
+                  answerFx.fx?.kind === 'near' && answerFx.fx.optionIndex === i
+                    ? answerFx.fx
+                    : null
                 return (
                   <button
                     key={`${question.id}-${i}`}
                     type="button"
-                    className={`quiz-arena__btn${mark}`}
-                    disabled={locked || waitingAfterMiss}
+                    className={`answer-btn${mark}${near ? ' has-near-fx' : ''}`}
+                    disabled={locked || waitingAfterMiss || hitFlash}
                     onClick={() => onPick(i)}
                   >
-                    {opt}
+                    <span className="answer-btn__key" aria-hidden="true">
+                      {i + 1}
+                    </span>
+                    <span className="answer-btn__value">{opt}</span>
+                    {near ? (
+                      <span
+                        className={`answer-btn__near answer-btn__near--${near.tone}`}
+                        role="status"
+                      >
+                        <span className="answer-btn__near-msg">{near.message}</span>
+                        {near.combo != null ? (
+                          <span className="answer-btn__near-combo">COMBO ×{near.combo}</span>
+                        ) : null}
+                      </span>
+                    ) : null}
                   </button>
                 )
               })}
             </div>
           }
+          footer={
+            waitingAfterMiss ? (
+              <div className="spell-why" role="region" aria-label="Explicación">
+                {!showWhy ? (
+                  <div className="spell-why__actions">
+                    <button
+                      type="button"
+                      className="btn btn-secondary btn-block"
+                      onClick={() => setShowWhy(true)}
+                    >
+                      ¿Por qué he fallado?
+                    </button>
+                    <button type="button" className="btn btn-primary btn-block" onClick={goNext}>
+                      Seguir
+                    </button>
+                  </div>
+                ) : explain ? (
+                  <div className="spell-why__card">
+                    <p className="spell-why__badge">{explain.badge}</p>
+                    <div className="spell-why__row spell-why__row--bad">
+                      <span className="spell-why__icon" aria-hidden="true">
+                        ✕
+                      </span>
+                      <p>{explain.whyWrong}</p>
+                    </div>
+                    <div className="spell-why__row spell-why__row--ok">
+                      <span className="spell-why__icon" aria-hidden="true">
+                        ✓
+                      </span>
+                      <p>{explain.whyRight}</p>
+                    </div>
+                    <button type="button" className="btn btn-primary btn-block" onClick={goNext}>
+                      ¡Ya lo pillo! Seguir
+                    </button>
+                  </div>
+                ) : null}
+              </div>
+            ) : null
+          }
         />
-
-        {waitingAfterMiss ? (
-          <div className="spell-why" role="region" aria-label="Explicación">
-            {!showWhy ? (
-              <div className="spell-why__actions">
-                <button
-                  type="button"
-                  className="btn btn-secondary btn-block"
-                  onClick={() => setShowWhy(true)}
-                >
-                  ¿Por qué he fallado?
-                </button>
-                <button type="button" className="btn btn-primary btn-block" onClick={goNext}>
-                  Seguir
-                </button>
-              </div>
-            ) : explain ? (
-              <div className="spell-why__card">
-                <p className="spell-why__badge">{explain.badge}</p>
-                <div className="spell-why__row spell-why__row--bad">
-                  <span className="spell-why__icon" aria-hidden="true">
-                    ✕
-                  </span>
-                  <p>{explain.whyWrong}</p>
-                </div>
-                <div className="spell-why__row spell-why__row--ok">
-                  <span className="spell-why__icon" aria-hidden="true">
-                    ✓
-                  </span>
-                  <p>{explain.whyRight}</p>
-                </div>
-                <button type="button" className="btn btn-primary btn-block" onClick={goNext}>
-                  ¡Ya lo pillo! Seguir
-                </button>
-              </div>
-            ) : null}
-          </div>
-        ) : null}
       </div>
     </AppShell>
   )

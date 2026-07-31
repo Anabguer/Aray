@@ -12,7 +12,6 @@ import {
   type MoneyQuestion,
 } from '@/money'
 import { AppShell } from '@/components/AppShell'
-import { QuizArena } from '@/components/quiz/QuizArena'
 import { useLumoController } from '@/lumo/useLumoController'
 import { soundEngine } from '@/sound/soundEngine'
 import { useDailyMission } from '@/daily/DailyMissionContext'
@@ -20,6 +19,7 @@ import { sideActivityEnergy } from '@/config/rewardGoal'
 import { rewardMatrix, sessionXpFromCorrects } from '@/config/rewardMatrix'
 import { useProgress } from '@/progress/ProgressContext'
 import { newId } from '@/progress/repository'
+import { SideRunShell, prefersReducedMotion, useAnswerFx } from '@/run'
 import './money.css'
 
 function isMode(v: string | undefined): v is MoneyPlayMode {
@@ -33,6 +33,7 @@ export function MoneyPlayScreen() {
   const { recordProgress } = useDailyMission()
   const { grantActivityEnergy } = useProgress()
   const lumo = useLumoController('thinking')
+  const answerFx = useAnswerFx()
   const seedRef = useRef(Date.now())
   const mode: MoneyPlayMode = isMode(modeParam) ? modeParam : 'mix'
   const queue = useMemo(() => buildMoneyRound(mode, MONEY_ROUND_SIZE, seedRef.current), [mode])
@@ -43,16 +44,21 @@ export function MoneyPlayScreen() {
   const [streak, setStreak] = useState(0)
   const [built, setBuilt] = useState(0)
   const [pickedCoins, setPickedCoins] = useState<CoinEuro[]>([])
+  const [hitFlash, setHitFlash] = useState(false)
+  const [missFlash, setMissFlash] = useState(false)
+  const [exitOpen, setExitOpen] = useState(false)
+  const [enterKey, setEnterKey] = useState(0)
   const finishedRef = useRef(false)
   const correctRef = useRef(0)
   const bestRef = useRef(0)
   const streakRef = useRef(0)
   const openedRef = useRef(false)
+  const modesPath = '/missions/mates/money'
 
   const question = queue[index] as MoneyQuestion | undefined
 
   useEffect(() => {
-    if (!isMode(modeParam)) navigate('/missions/mates/money', { replace: true })
+    if (!isMode(modeParam)) navigate(modesPath, { replace: true })
   }, [modeParam, navigate])
 
   useEffect(() => {
@@ -67,6 +73,11 @@ export function MoneyPlayScreen() {
     setBuilt(0)
     setPickedCoins([])
     setLocked(false)
+    setHitFlash(false)
+    setMissFlash(false)
+    answerFx.clearFx()
+    setEnterKey((k) => k + 1)
+    lumo.setThinking()
   }, [index])
 
   useEffect(() => {
@@ -92,13 +103,19 @@ export function MoneyPlayScreen() {
         ),
       })
     }
-    navigate('/missions/mates/money/summary', { replace: true })
+    navigate(`${modesPath}/summary`, { replace: true })
   }, [question, mode, navigate, setLastSummary, recordProgress, grantActivityEnergy])
 
   if (!isMode(modeParam) || !question) return null
 
+  const hasProgress = index > 0 || correctCount > 0 || built > 0
+
+  function advanceAfter(delay: number) {
+    window.setTimeout(() => setIndex((i) => i + 1), delay)
+  }
+
   function markCorrect() {
-    soundEngine.play('correct')
+    soundEngine.play('answer-correct')
     const ns = streakRef.current + 1
     streakRef.current = ns
     bestRef.current = Math.max(bestRef.current, ns)
@@ -107,16 +124,20 @@ export function MoneyPlayScreen() {
     setCorrectCount(correctRef.current)
     setStreak(ns)
     setLocked(true)
-    window.setTimeout(() => setIndex((i) => i + 1), 350)
+    setHitFlash(true)
+    answerFx.spawn({ tone: 'hit', nextStreak: ns })
+    advanceAfter(prefersReducedMotion() ? 700 : 950)
   }
 
   function markWrong() {
-    soundEngine.play('wrong')
+    soundEngine.play('answer-wrong')
     streakRef.current = 0
     lumo.reactToAnswer({ correct: false, streak: 0 })
     setStreak(0)
     setLocked(true)
-    window.setTimeout(() => setIndex((i) => i + 1), 520)
+    setMissFlash(true)
+    answerFx.spawn({ tone: 'miss', nextStreak: 0 })
+    advanceAfter(prefersReducedMotion() ? 700 : 900)
   }
 
   function onMcq(i: number) {
@@ -145,55 +166,75 @@ export function MoneyPlayScreen() {
       title={MONEY_MODE_LABELS[mode].toUpperCase()}
       shortTitle="Dinero"
       showBack
-      backTo="/missions/mates/money"
+      backTo={modesPath}
     >
-      <QuizArena
-        className={locked ? 'is-locked' : ''}
+      <SideRunShell
+        title={MONEY_MODE_LABELS[mode].toUpperCase()}
+        current={index + 1}
+        total={MONEY_ROUND_SIZE}
+        hits={correctCount}
+        streak={streak}
         lumoState={lumo.state}
         lumoIntensity={lumo.intensity}
-        hudRight={
-          <p>
-            {index + 1}/{MONEY_ROUND_SIZE} · {correctCount} ok · racha {streak}
-          </p>
-        }
         prompt={question.prompt}
-        detail={question.kind === 'mcq' ? question.detail : undefined}
-        answersLabel={question.kind === 'mcq' ? 'Elige una respuesta' : 'Suma monedas'}
+        detail={question.kind === 'mcq' ? question.detail : `Llevas ${formatEuro(built)}`}
+        fx={answerFx.fx}
+        lumoBoost={answerFx.lumoBoost}
+        hit={hitFlash}
+        miss={missFlash}
+        canPrev={index > 0 && !locked}
+        onPrev={() => {
+          if (locked || index === 0) return
+          setIndex((i) => i - 1)
+        }}
+        exitOpen={exitOpen}
+        onExitRequest={() => (hasProgress ? setExitOpen(true) : navigate(modesPath))}
+        onConfirmExit={() => {
+          setExitOpen(false)
+          navigate(modesPath)
+        }}
+        onCancelExit={() => setExitOpen(false)}
+        enterKey={enterKey}
         answers={
           question.kind === 'mcq' ? (
-            <div className="quiz-arena__options">
+            <div className="side-run-options" role="group">
               {question.options.map((opt, i) => (
                 <button
                   key={`${question.id}-${i}`}
                   type="button"
-                  className="quiz-arena__btn"
+                  className="answer-btn"
                   disabled={locked}
                   onClick={() => onMcq(i)}
                 >
-                  {opt}
+                  <span className="answer-btn__key" aria-hidden="true">
+                    {i + 1}
+                  </span>
+                  <span className="answer-btn__value">{opt}</span>
                 </button>
               ))}
             </div>
           ) : (
             <>
-              <p className="quiz-arena__built">Llevas {formatEuro(built)}</p>
-              <div className="quiz-arena__options quiz-arena__options--coins">
-                {question.coins.map((c) => (
+              <div className="side-run-options" role="group">
+                {question.coins.map((c, i) => (
                   <button
                     key={`${question.id}-${c}`}
                     type="button"
-                    className="quiz-arena__btn"
+                    className="answer-btn"
                     disabled={locked}
                     onClick={() => onCoin(c)}
                   >
-                    {COIN_LABEL[c]}
+                    <span className="answer-btn__key" aria-hidden="true">
+                      {i + 1}
+                    </span>
+                    <span className="answer-btn__value">{COIN_LABEL[c]}</span>
                   </button>
                 ))}
               </div>
-              <div className="quiz-arena__footer">
+              <div style={{ marginTop: '0.55rem' }}>
                 <button
                   type="button"
-                  className="btn btn-ghost"
+                  className="btn btn-ghost btn-block"
                   disabled={locked || built === 0}
                   onClick={() => {
                     setBuilt(0)

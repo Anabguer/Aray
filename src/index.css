@@ -2881,6 +2881,48 @@ a {
   margin-top: 0.1rem;
 }
 
+/* Side-runs (ortografía, calc…): texto largo en consola + grid tipo Learn */
+.side-run__extra {
+  font-size: clamp(2rem, 8vw, 2.8rem);
+  line-height: 1;
+  margin: 0.15rem 0 0.35rem;
+  display: grid;
+  place-items: center;
+}
+.side-run__extra .analog-clock {
+  max-width: min(100%, 11rem);
+}
+.side-run__detail {
+  margin: 0.25rem 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 4.2vw, 1.55rem);
+  color: #e0f2fe;
+  line-height: 1.25;
+  word-break: break-word;
+}
+.side-run .learn-lab__eyebrow {
+  text-transform: none;
+  letter-spacing: 0.02em;
+  font-size: clamp(0.95rem, 3.2vw, 1.1rem);
+  color: rgba(125, 211, 252, 0.92);
+}
+.side-run-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
+}
+.side-run-options .answer-btn {
+  min-height: 3.6rem;
+}
+.side-run-options .answer-btn__value {
+  font-size: clamp(0.95rem, 3.6vw, 1.2rem);
+  text-transform: none;
+  letter-spacing: 0.01em;
+  white-space: normal;
+  line-height: 1.2;
+  padding: 0 0.25rem;
+}
+
 .learn-lab .answer-btn.has-near-fx {
   display: flex;
   flex-direction: column;
@@ -8087,11 +8129,12 @@ a {
 .game-header .lobby-hud__bars--compact .lobby-hud__xp-top,
 .game-header .lobby-hud__bars--compact .lobby-hud__energy-top {
   font-size: 0.72rem;
-  gap: 0.3rem;
+  gap: 0.45rem;
 }
 
 .game-header .lobby-hud__bars--compact .lobby-hud__level {
   font-size: 0.95rem;
+  margin-inline-end: 0.55rem;
 }
 
 .game-header .lobby-hud__bars--compact .lobby-hud__bar {

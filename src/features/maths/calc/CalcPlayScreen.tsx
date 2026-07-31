@@ -10,7 +10,6 @@ import {
   type CalcQuestion,
 } from '@/calc'
 import { AppShell } from '@/components/AppShell'
-import { QuizArena } from '@/components/quiz/QuizArena'
 import { useLumoController } from '@/lumo/useLumoController'
 import { soundEngine } from '@/sound/soundEngine'
 import { sideActivityEnergy } from '@/config/rewardGoal'
@@ -18,8 +17,10 @@ import { rewardMatrix, sessionXpFromCorrects } from '@/config/rewardMatrix'
 import { useDailyMission } from '@/daily/DailyMissionContext'
 import { useProgress } from '@/progress/ProgressContext'
 import { newId } from '@/progress/repository'
+import { SideRunShell, prefersReducedMotion, useAnswerFx } from '@/run'
 
 const QUEUE_SIZE = 40
+const MODES_PATH = '/missions/mates/calc'
 
 function isPlayMode(value: string | undefined): value is CalcPlayMode {
   return (
@@ -43,6 +44,7 @@ export function CalcPlayScreen() {
   const { recordProgress } = useDailyMission()
   const { grantActivityEnergy } = useProgress()
   const lumo = useLumoController('thinking')
+  const answerFx = useAnswerFx()
   const seedRef = useRef(Date.now())
   const mode: CalcPlayMode = isPlayMode(modeParam) ? modeParam : 'mix'
 
@@ -58,6 +60,8 @@ export function CalcPlayScreen() {
   const [streak, setStreak] = useState(0)
   const [picked, setPicked] = useState<number[]>([])
   const [flash, setFlash] = useState<'ok' | 'bad' | null>(null)
+  const [exitOpen, setExitOpen] = useState(false)
+  const [enterKey, setEnterKey] = useState(0)
 
   const openedRef = useRef(false)
   const finishedRef = useRef(false)
@@ -92,12 +96,12 @@ export function CalcPlayScreen() {
         ),
       })
     }
-    navigate('/missions/mates/calc/summary', { replace: true })
+    navigate(`${MODES_PATH}/summary`, { replace: true })
   }
 
   useEffect(() => {
     if (!isPlayMode(modeParam)) {
-      navigate('/missions/mates/calc', { replace: true })
+      navigate(MODES_PATH, { replace: true })
     }
   }, [modeParam, navigate])
 
@@ -132,6 +136,8 @@ export function CalcPlayScreen() {
     setPicked([])
     setFlash(null)
     setLocked(false)
+    answerFx.clearFx()
+    setEnterKey((k) => k + 1)
     lumo.setThinking()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index])
@@ -146,7 +152,7 @@ export function CalcPlayScreen() {
   }
 
   function onCorrect() {
-    soundEngine.play('correct')
+    soundEngine.play('answer-correct')
     const nextStreak = streakRef.current + 1
     streakRef.current = nextStreak
     bestStreakRef.current = Math.max(bestStreakRef.current, nextStreak)
@@ -157,54 +163,60 @@ export function CalcPlayScreen() {
     setStreak(nextStreak)
     setFlash('ok')
     setLocked(true)
+    answerFx.spawn({ tone: 'hit', nextStreak })
     window.setTimeout(() => {
       setLocked(false)
       setFlash(null)
+      answerFx.clearFx()
       advance()
-    }, 320)
+    }, prefersReducedMotion() ? 500 : 750)
   }
 
   function onWrong() {
-    soundEngine.play('wrong')
+    soundEngine.play('answer-wrong')
     streakRef.current = 0
     attemptsRef.current += 1
     lumo.reactToAnswer({ correct: false, streak: 0 })
     setStreak(0)
     setFlash('bad')
     setLocked(true)
+    answerFx.spawn({ tone: 'miss', nextStreak: 0 })
     window.setTimeout(() => {
       setLocked(false)
       setFlash(null)
       setPicked([])
+      answerFx.clearFx()
       advance()
-    }, 480)
+    }, prefersReducedMotion() ? 550 : 800)
   }
 
   if (!isPlayMode(modeParam) || !question) return null
 
   const sec = Math.ceil(remainingMs / 1000)
+  const hasProgress = correctCount > 0 || attemptsRef.current > 0 || index > 0
 
   return (
     <AppShell
       title={CALC_MODE_LABELS[mode].toUpperCase()}
       shortTitle="Cálculo"
       showBack
-      backTo="/missions/mates/calc"
+      backTo={MODES_PATH}
     >
-      <QuizArena
-        className={`${flash === 'ok' ? 'is-ok' : ''}${flash === 'bad' ? ' is-bad' : ''}`}
+      <SideRunShell
+        title={CALC_MODE_LABELS[mode].toUpperCase()}
+        current={index + 1}
+        total={QUEUE_SIZE}
+        hits={correctCount}
+        streak={streak}
+        countLabel={<span className={sec <= 10 ? 'calc-play__timer is-low' : 'calc-play__timer'}>{sec}s</span>}
+        note={
+          <>
+            {correctCount} aciertos · racha {streak}
+            {streak >= 2 ? ` · Combo ×${streak}` : ''}
+          </>
+        }
         lumoState={lumo.state}
         lumoIntensity={lumo.intensity}
-        hudRight={
-          <div>
-            <p className={`calc-play__timer${sec <= 10 ? ' is-low' : ''}`} aria-live="polite">
-              {sec}s
-            </p>
-            <p>
-              {correctCount} aciertos · racha {streak}
-            </p>
-          </div>
-        }
         prompt={question.prompt}
         detail={
           question.kind === 'mcq' && question.expression
@@ -217,15 +229,19 @@ export function CalcPlayScreen() {
                   : picked.join(' → ')
                 : undefined
         }
-        answersLabel={
-          question.kind === 'compare'
-            ? '¿Cuál es mayor?'
-            : question.kind === 'truefalse'
-              ? '¿Es correcto?'
-              : question.kind === 'order'
-                ? 'Ordena'
-                : 'Elige una respuesta'
-        }
+        fx={answerFx.fx}
+        lumoBoost={answerFx.lumoBoost}
+        hit={flash === 'ok'}
+        miss={flash === 'bad'}
+        canPrev={false}
+        exitOpen={exitOpen}
+        onExitRequest={() => (hasProgress ? setExitOpen(true) : navigate(MODES_PATH))}
+        onConfirmExit={() => {
+          setExitOpen(false)
+          finish()
+        }}
+        onCancelExit={() => setExitOpen(false)}
+        enterKey={enterKey}
         answers={
           <CalcAnswers
             question={question}
