@@ -11,16 +11,16 @@ const MODES: Array<{
   className: string
   text: string
 }> = [
-  { mode: 'mix', art: 'reto-rapido', className: 'mode-poster--challenge', text: `${CALC_DURATION_SEC}s · todo mezclado` },
-  { mode: 'add', art: 'entrena', className: 'mode-poster--train', text: 'Suma y elige' },
-  { mode: 'sub', art: 'mis-fallos', className: 'mode-poster--misses', text: 'Resta y elige' },
-  { mode: 'missing', art: 'aprende', className: 'mode-poster--learn', text: '8 + ? = 15' },
-  { mode: 'doubles', art: 'empareja', className: 'mode-poster--match', text: '9 + 9' },
-  { mode: 'halves', art: 'sorpresa', className: 'mode-poster--random', text: 'Mitad de 18' },
-  { mode: 'near10', art: 'entrena', className: 'mode-poster--train', text: 'Completa hasta 10' },
-  { mode: 'compare', art: 'aprende', className: 'mode-poster--learn', text: '¿Cuál es mayor?' },
-  { mode: 'order', art: 'empareja', className: 'mode-poster--match', text: 'Menor → mayor' },
-  { mode: 'truefalse', art: 'reto-rapido', className: 'mode-poster--challenge', text: '¿Correcto o no?' },
+  { mode: 'mix', art: 'calc-mix', className: 'mode-poster--challenge', text: `${CALC_DURATION_SEC}s · todo mezclado` },
+  { mode: 'add', art: 'calc-add', className: 'mode-poster--train', text: 'Suma y elige' },
+  { mode: 'sub', art: 'calc-sub', className: 'mode-poster--misses', text: 'Resta y elige' },
+  { mode: 'missing', art: 'calc-missing', className: 'mode-poster--learn', text: '8 + ? = 15' },
+  { mode: 'doubles', art: 'calc-doubles', className: 'mode-poster--match', text: '9 + 9' },
+  { mode: 'halves', art: 'calc-halves', className: 'mode-poster--random', text: 'Mitad de 18' },
+  { mode: 'near10', art: 'calc-near10', className: 'mode-poster--train', text: 'Completa hasta 10' },
+  { mode: 'compare', art: 'calc-compare', className: 'mode-poster--learn', text: '¿Cuál es mayor?' },
+  { mode: 'order', art: 'calc-order', className: 'mode-poster--match', text: 'Menor → mayor' },
+  { mode: 'truefalse', art: 'calc-truefalse', className: 'mode-poster--challenge', text: '¿Correcto o no?' },
 ]
 
 function ModePoster({
