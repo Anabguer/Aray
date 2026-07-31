@@ -1,27 +1,88 @@
 .money-modes__lead {
-  margin: 0 0 0.85rem;
+  margin: 0 0 0.75rem;
   color: var(--text-muted);
+  font-size: 0.95rem;
 }
 
+/* 4 columnas: cards compactas (5 modos → 4+1) */
 .mode-posters--money {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.5rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.4rem;
+  width: 100%;
+  max-width: none;
 }
 
 .mode-posters--money .mode-poster__media {
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1 / 1;
+  background: #050d18;
 }
 
 .mode-posters--money .mode-poster__img {
   object-fit: contain;
   object-position: center 42%;
   transform: none;
-  padding: 0.15rem;
+  padding: 0.08rem;
+}
+
+.mode-posters--money .mode-poster__body {
+  padding: 0.22rem 0.25rem 0.28rem;
+}
+
+.mode-posters--money .mode-poster__title {
+  font-size: clamp(0.5rem, 2vw, 0.72rem);
+  line-height: 1.15;
+}
+
+.mode-posters--money .mode-poster__text {
+  font-size: clamp(0.45rem, 1.6vw, 0.62rem);
+  line-height: 1.2;
+}
+
+.mode-posters--money .mode-poster__go {
+  width: 1.05rem;
+  height: 1.05rem;
+  margin-top: 0.02rem;
+}
+
+@media (min-width: 640px) {
+  .mode-posters--money {
+    gap: 0.55rem;
+    max-width: 44rem;
+    margin-inline: auto;
+  }
+
+  .mode-posters--money .mode-poster__title {
+    font-size: 0.78rem;
+  }
+
+  .mode-posters--money .mode-poster__text {
+    font-size: 0.64rem;
+  }
+
+  .mode-posters--money .mode-poster__go {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
 }
 
 @media (min-width: 900px) {
   .mode-posters--money {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.7rem;
+    max-width: 56rem;
+  }
+
+  .mode-posters--money .mode-poster__title {
+    font-size: 0.86rem;
+  }
+
+  .mode-posters--money .mode-poster__text {
+    font-size: 0.7rem;
+  }
+
+  .mode-posters--money .mode-poster__go {
+    width: 1.3rem;
+    height: 1.3rem;
   }
 }
 
