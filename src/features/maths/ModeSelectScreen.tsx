@@ -1,7 +1,8 @@
-import { Link, useNavigate } from 'react-router-dom'
-import { modeArtUrl, type ModeArtId } from '@/assets/modes'
+import { useNavigate } from 'react-router-dom'
+import type { ModeArtId } from '@/assets/modes'
 import { AppShell } from '@/components/AppShell'
-import { IconPlay, IconReview } from '@/components/Icons'
+import { IconReview } from '@/components/Icons'
+import { StageSelect, StageSlot } from '@/components/stage/StageSelect'
 import { challengeModeConfig } from '@/config/playConfig'
 import { hasSavedMisses, pickRandomMission } from '@/math/randomMission'
 import { buildMissesQueue, buildTrainQueue } from '@/math/selector'
@@ -21,65 +22,15 @@ function selectionSubtitle(selection: TablesSelection): string {
   return `Tablas ${head} y del ${tables[tables.length - 1]}`
 }
 
-function ModePoster({
-  art,
-  title,
-  text,
-  className,
-  flip = false,
-  onClick,
-  to,
-}: {
+type Poster = {
+  id: string
   art: ModeArtId
   title: string
   text: string
   className: string
-  flip?: boolean
-  onClick?: () => void
+  tag: string
   to?: string
-}) {
-  const body = (
-    <>
-      <span className="mode-poster__media" aria-hidden="true">
-        <img
-          src={modeArtUrl(art)}
-          alt=""
-          className="mode-poster__img"
-          width={512}
-          height={512}
-          draggable={false}
-          decoding="async"
-        />
-        <span className="mode-poster__fade" />
-      </span>
-      <span className="mode-poster__body">
-        <span className="mode-poster__title">{title}</span>
-        <span className="mode-poster__text">{text}</span>
-        <span className="mode-poster__go" aria-hidden="true">
-          <IconPlay className="mode-poster__go-icon" />
-        </span>
-      </span>
-    </>
-  )
-
-  const label = `${title}. ${text}`
-  const classes = ['mode-poster', className, flip ? 'mode-poster--flip' : '']
-    .filter(Boolean)
-    .join(' ')
-
-  if (to) {
-    return (
-      <Link to={to} className={classes} aria-label={label}>
-        {body}
-      </Link>
-    )
-  }
-
-  return (
-    <button type="button" className={classes} onClick={onClick} aria-label={label}>
-      {body}
-    </button>
-  )
+  onClick?: () => void
 }
 
 export function ModeSelectScreen() {
@@ -152,75 +103,111 @@ export function ModeSelectScreen() {
     navigate('/missions/mates/tables/train')
   }
 
+  const heroes: Poster[] = [
+    {
+      id: 'train',
+      art: 'entrena',
+      title: 'ENTRENA',
+      text: '10 preguntas · Gana energía',
+      className: 'mode-poster--train',
+      tag: 'DESTACADO',
+      onClick: startTrain,
+    },
+    {
+      id: 'challenge',
+      art: 'reto-rapido',
+      title: 'RETO RÁPIDO',
+      text: `${challengeModeConfig.durationSec} segundos · XP extra`,
+      className: 'mode-poster--challenge',
+      tag: 'RÁPIDO',
+      onClick: startChallenge,
+    },
+  ]
+
+  const roster: Poster[] = [
+    {
+      id: 'learn',
+      art: 'aprende',
+      title: 'APRENDE',
+      text: 'Mira, toca y descubre',
+      className: 'mode-poster--learn',
+      tag: '01',
+      to: '/missions/mates/tables/learn',
+    },
+    {
+      id: 'match',
+      art: 'empareja',
+      title: 'EMPAREJA',
+      text: 'Encuentra las parejas',
+      className: 'mode-poster--match',
+      tag: '02',
+      onClick: startMatch,
+    },
+    ...(canPracticeMisses
+      ? [
+          {
+            id: 'misses',
+            art: 'mis-fallos' as ModeArtId,
+            title: 'MIS FALLOS',
+            text: 'Refuerza lo difícil',
+            className: 'mode-poster--misses',
+            tag: '03',
+            onClick: startMisses,
+          },
+        ]
+      : []),
+    {
+      id: 'random',
+      art: 'sorpresa',
+      title: 'RANDOM',
+      text: 'Lumo elige por ti',
+      className: 'mode-poster--random',
+      tag: canPracticeMisses ? '04' : '03',
+      onClick: startRandom,
+    },
+  ]
+
   return (
-    <AppShell
-      title="Elige tu modo"
-      shortTitle="MODO"
-      showBack
-      backTo="/missions/mates/tables"
-    >
-      <section className="mode-select mode-select--lobby" aria-label="Elige tu modo">
-        <header className="mode-select__head">
-          <p className="mode-select__tables">{subtitle}</p>
-        </header>
-
-        {reviewHint ? (
-          <p className="review-notice" role="status">
-            <IconReview className="review-notice__icon" />
-            <span>{reviewHint}</span>
-          </p>
-        ) : null}
-
-        <div className="mode-posters">
-          <ModePoster
-            art="aprende"
-            title="APRENDE"
-            text="Mira, toca y descubre"
-            className="mode-poster--learn"
-            to="/missions/mates/tables/learn"
+    <AppShell title="Elige tu modo" shortTitle="MODO" showBack backTo="/missions/mates/tables">
+      <StageSelect
+        note={
+          <>
+            <span>{subtitle}</span>
+            {reviewHint ? (
+              <p className="review-notice" role="status" style={{ marginTop: '0.55rem' }}>
+                <IconReview className="review-notice__icon" />
+                <span>{reviewHint}</span>
+              </p>
+            ) : null}
+          </>
+        }
+        heroes={heroes.map((m) => (
+          <StageSlot
+            key={m.id}
+            art={m.art}
+            title={m.title}
+            text={m.text}
+            className={m.className}
+            tag={m.tag}
+            featured
+            to={m.to}
+            onClick={m.onClick}
           />
-          <ModePoster
-            art="entrena"
-            title="ENTRENA"
-            text="10 preguntas · Gana energía"
-            className="mode-poster--train"
-            flip
-            onClick={startTrain}
+        ))}
+        roster={roster.map((m) => (
+          <StageSlot
+            key={m.id}
+            art={m.art}
+            title={m.title}
+            text={m.text}
+            className={m.className}
+            tag={m.tag}
+            to={m.to}
+            onClick={m.onClick}
           />
-          <ModePoster
-            art="reto-rapido"
-            title="RETO RÁPIDO"
-            text={`${challengeModeConfig.durationSec} segundos · XP extra`}
-            className="mode-poster--challenge"
-            onClick={startChallenge}
-          />
-          <ModePoster
-            art="empareja"
-            title="EMPAREJA"
-            text="Encuentra las parejas"
-            className="mode-poster--match"
-            flip
-            onClick={startMatch}
-          />
-          {canPracticeMisses ? (
-            <ModePoster
-              art="mis-fallos"
-              title="MIS FALLOS"
-              text="Refuerza lo difícil"
-              className="mode-poster--misses"
-              onClick={startMisses}
-            />
-          ) : null}
-          <ModePoster
-            art="sorpresa"
-            title="RANDOM"
-            text="Lumo elige por ti"
-            className="mode-poster--random"
-            flip={!canPracticeMisses}
-            onClick={startRandom}
-          />
-        </div>
-      </section>
+        ))}
+        rosterCols={roster.length >= 4 ? 4 : roster.length === 3 ? 3 : 2}
+      />
     </AppShell>
   )
 }
