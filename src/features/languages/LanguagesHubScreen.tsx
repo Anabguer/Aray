@@ -13,9 +13,9 @@ const LANG_MARKS = {
 
 const LANG_SLOTS: Record<string, MapSlot> = {
   alphabet: 'start',
-  writing: 'mid-high',
-  comprehension: 'mid-low',
-  spelling: 'end',
+  spelling: 'mid-high',
+  writing: 'mid-low',
+  comprehension: 'end',
 }
 
 const LANG_SHORT: Record<string, string> = {
