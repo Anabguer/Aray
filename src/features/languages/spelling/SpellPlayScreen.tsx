@@ -7,6 +7,7 @@ import {
   useSpellSession,
   type SpellPlayMode,
 } from '@/spelling'
+import { explainSpellMistake, type SpellExplainCard } from '@/spelling/explain'
 import { AppShell } from '@/components/AppShell'
 import { Lumo } from '@/lumo/Lumo'
 import { useLumoController } from '@/lumo/useLumoController'
@@ -44,6 +45,9 @@ export function SpellPlayScreen() {
   const [correctCount, setCorrectCount] = useState(0)
   const [streak, setStreak] = useState(0)
   const [bestStreak, setBestStreak] = useState(0)
+  const [picked, setPicked] = useState<number | null>(null)
+  const [showWhy, setShowWhy] = useState(false)
+  const [explain, setExplain] = useState<SpellExplainCard | null>(null)
   const finishedRef = useRef(false)
   const correctRef = useRef(0)
   const bestRef = useRef(0)
@@ -86,11 +90,29 @@ export function SpellPlayScreen() {
     navigate('/missions/languages/spelling/summary', { replace: true })
   }, [question, mode, navigate, setLastSummary, recordProgress, grantActivityEnergy])
 
+  useEffect(() => {
+    setPicked(null)
+    setShowWhy(false)
+    setExplain(null)
+    setLocked(false)
+  }, [index])
+
   if (!isMode(modeParam) || !question) return null
 
+  const waitingAfterMiss = picked !== null && picked !== question.correctIndex
+
+  function goNext() {
+    setPicked(null)
+    setShowWhy(false)
+    setExplain(null)
+    setLocked(false)
+    setIndex((x) => x + 1)
+  }
+
   function onPick(i: number) {
-    if (locked) return
+    if (locked || waitingAfterMiss) return
     setLocked(true)
+    setPicked(i)
     const ok = i === question.correctIndex
     if (ok) {
       soundEngine.play('correct')
@@ -102,16 +124,23 @@ export function SpellPlayScreen() {
       setCorrectCount(correctRef.current)
       setStreak(ns)
       setBestStreak(bestRef.current)
-    } else {
-      soundEngine.play('wrong')
-      streakRef.current = 0
-      lumo.reactToAnswer({ correct: false, streak: 0 })
-      setStreak(0)
+      window.setTimeout(goNext, 380)
+      return
     }
-    window.setTimeout(() => {
-      setLocked(false)
-      setIndex((x) => x + 1)
-    }, ok ? 320 : 520)
+
+    soundEngine.play('wrong')
+    streakRef.current = 0
+    lumo.reactToAnswer({ correct: false, streak: 0 })
+    setStreak(0)
+    setExplain(
+      explainSpellMistake({
+        mode: question.mode === 'mix' ? mode : question.mode,
+        rule: question.rule,
+        tip: question.tip,
+        correct: question.options[question.correctIndex]!,
+        chosen: question.options[i]!,
+      }),
+    )
   }
 
   return (
@@ -130,22 +159,71 @@ export function SpellPlayScreen() {
           </p>
         </header>
         <p className="spell-play__prompt">{question.prompt}</p>
-        {question.tip ? <p className="spell-play__tip">{question.tip}</p> : null}
         {question.emoji ? <p className="spell-play__emoji">{question.emoji}</p> : null}
         {question.display ? <p className="spell-play__display">{question.display}</p> : null}
         <div className="spell-play__options">
-          {question.options.map((opt, i) => (
-            <button
-              key={`${question.id}-${i}`}
-              type="button"
-              className="spell-play__btn"
-              disabled={locked}
-              onClick={() => onPick(i)}
-            >
-              {opt}
-            </button>
-          ))}
+          {question.options.map((opt, i) => {
+            const isCorrect = i === question.correctIndex
+            const isPicked = picked === i
+            const mark =
+              picked === null
+                ? ''
+                : isCorrect
+                  ? ' is-ok'
+                  : isPicked
+                    ? ' is-bad'
+                    : ' is-dim'
+            return (
+              <button
+                key={`${question.id}-${i}`}
+                type="button"
+                className={`spell-play__btn${mark}`}
+                disabled={locked || waitingAfterMiss}
+                onClick={() => onPick(i)}
+              >
+                {opt}
+              </button>
+            )
+          })}
         </div>
+
+        {waitingAfterMiss ? (
+          <div className="spell-why" role="region" aria-label="Explicación">
+            {!showWhy ? (
+              <div className="spell-why__actions">
+                <button
+                  type="button"
+                  className="btn btn-secondary btn-block"
+                  onClick={() => setShowWhy(true)}
+                >
+                  ¿Por qué he fallado?
+                </button>
+                <button type="button" className="btn btn-primary btn-block" onClick={goNext}>
+                  Seguir
+                </button>
+              </div>
+            ) : explain ? (
+              <div className="spell-why__card">
+                <p className="spell-why__badge">{explain.badge}</p>
+                <div className="spell-why__row spell-why__row--bad">
+                  <span className="spell-why__icon" aria-hidden="true">
+                    ✕
+                  </span>
+                  <p>{explain.whyWrong}</p>
+                </div>
+                <div className="spell-why__row spell-why__row--ok">
+                  <span className="spell-why__icon" aria-hidden="true">
+                    ✓
+                  </span>
+                  <p>{explain.whyRight}</p>
+                </div>
+                <button type="button" className="btn btn-primary btn-block" onClick={goNext}>
+                  ¡Ya lo pillo! Seguir
+                </button>
+              </div>
+            ) : null}
+          </div>
+        ) : null}
       </section>
     </AppShell>
   )

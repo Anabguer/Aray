@@ -107,6 +107,7 @@ function buildMissing(seed: number, used: Set<string>, mode: SpellPlayMode): Spe
     mode,
     prompt: '¿Qué falta? Piensa la regla',
     tip: w.tip,
+    rule: w.rule,
     display: blankAt(w.word, w.hardIndex),
     options: options.slice(0, 4),
     correctIndex: options.indexOf(letter),
@@ -124,6 +125,7 @@ function buildCorrect(seed: number, used: Set<string>, mode: SpellPlayMode): Spe
     mode,
     prompt: '¿Cuál está bien escrita?',
     tip: w.tip,
+    rule: w.rule,
     options,
     correctIndex: options.indexOf(w.word),
   }
@@ -140,6 +142,7 @@ function buildPicture(seed: number, used: Set<string>, mode: SpellPlayMode): Spe
     mode,
     prompt: '¿Cómo se escribe?',
     tip: w.tip,
+    rule: w.rule,
     emoji: w.emoji,
     options,
     correctIndex: options.indexOf(w.word),
@@ -174,8 +177,8 @@ function buildIntruder(seed: number, used: Set<string>, mode: SpellPlayMode): Sp
     id: `in-${target.word}-${seed}`,
     mode,
     prompt: '¿Cuál está mal escrita?',
-    // Tip genérico del bloque, sin nombrar la palabra
     tip: 'Busca la falta: r/rr, h muda, b/v…',
+    rule: target.rule,
     options,
     correctIndex: options.indexOf(intruder),
   }
@@ -194,6 +197,7 @@ function buildComplete(seed: number, used: Set<string>, mode: SpellPlayMode): Sp
     mode,
     prompt: 'Elige la forma que encaja en la frase',
     tip: ctx.tip,
+    rule: ctx.rule,
     display: ctx.sentence,
     options,
     correctIndex: options.indexOf(correct),

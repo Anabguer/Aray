@@ -162,6 +162,84 @@
   cursor: pointer;
 }
 
+.spell-play__btn.is-ok {
+  border-color: rgba(52, 211, 153, 0.85);
+  background: rgba(6, 78, 59, 0.55);
+}
+
+.spell-play__btn.is-bad {
+  border-color: rgba(248, 113, 113, 0.85);
+  background: rgba(127, 29, 29, 0.45);
+}
+
+.spell-play__btn.is-dim {
+  opacity: 0.45;
+}
+
+.spell-why {
+  margin-top: 1rem;
+}
+
+.spell-why__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.spell-why__card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 0.9rem 1rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(56, 189, 248, 0.28);
+  background: rgba(8, 28, 52, 0.72);
+}
+
+.spell-why__badge {
+  margin: 0;
+  align-self: flex-start;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #e0f2fe;
+  background: rgba(14, 116, 144, 0.55);
+}
+
+.spell-why__row {
+  display: grid;
+  grid-template-columns: 1.6rem 1fr;
+  gap: 0.55rem;
+  align-items: start;
+  margin: 0;
+  padding: 0.55rem 0.65rem;
+  border-radius: 0.75rem;
+}
+
+.spell-why__row p {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.35;
+}
+
+.spell-why__icon {
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.spell-why__row--bad {
+  background: rgba(127, 29, 29, 0.35);
+  border: 1px solid rgba(248, 113, 113, 0.35);
+}
+
+.spell-why__row--ok {
+  background: rgba(6, 78, 59, 0.4);
+  border: 1px solid rgba(52, 211, 153, 0.35);
+}
+
 .spell-summary {
   max-width: 28rem;
   margin: 0 auto;

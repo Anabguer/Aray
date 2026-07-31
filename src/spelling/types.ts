@@ -50,6 +50,7 @@ export interface SpellMcqQuestion {
   mode: SpellPlayMode
   prompt: string
   tip?: string
+  rule?: SpellRuleId
   /** Frase con ___ o patrón con _ */
   display?: string
   emoji?: string
