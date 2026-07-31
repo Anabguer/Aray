@@ -12,7 +12,7 @@ import {
   type MoneyQuestion,
 } from '@/money'
 import { AppShell } from '@/components/AppShell'
-import { Lumo } from '@/lumo/Lumo'
+import { QuizArena } from '@/components/quiz/QuizArena'
 import { useLumoController } from '@/lumo/useLumoController'
 import { soundEngine } from '@/sound/soundEngine'
 import { useDailyMission } from '@/daily/DailyMissionContext'
@@ -142,62 +142,66 @@ export function MoneyPlayScreen() {
       showBack
       backTo="/missions/mates/money"
     >
-      <section className="money-play">
-        <header className="money-play__hud">
-          <Lumo state={lumo.state} intensity={lumo.intensity} size="sm" />
+      <QuizArena
+        className={locked ? 'is-locked' : ''}
+        lumoState={lumo.state}
+        lumoIntensity={lumo.intensity}
+        hudRight={
           <p>
             {index + 1}/{MONEY_ROUND_SIZE} · {correctCount} ok · racha {streak}
           </p>
-        </header>
-        <p className="money-play__prompt">{question.prompt}</p>
-        {question.kind === 'mcq' && question.detail ? (
-          <p className="money-play__detail">{question.detail}</p>
-        ) : null}
-
-        {question.kind === 'mcq' ? (
-          <div className="money-play__options">
-            {question.options.map((opt, i) => (
-              <button
-                key={`${question.id}-${i}`}
-                type="button"
-                className="money-play__btn"
-                disabled={locked}
-                onClick={() => onMcq(i)}
-              >
-                {opt}
-              </button>
-            ))}
-          </div>
-        ) : (
-          <>
-            <p className="money-play__built">Llevas {formatEuro(built)}</p>
-            <div className="money-play__coins">
-              {question.coins.map((c) => (
+        }
+        prompt={question.prompt}
+        detail={question.kind === 'mcq' ? question.detail : undefined}
+        answersLabel={question.kind === 'mcq' ? 'Elige una respuesta' : 'Suma monedas'}
+        answers={
+          question.kind === 'mcq' ? (
+            <div className="quiz-arena__options">
+              {question.options.map((opt, i) => (
                 <button
-                  key={`${question.id}-${c}`}
+                  key={`${question.id}-${i}`}
                   type="button"
-                  className="money-play__coin"
+                  className="quiz-arena__btn"
                   disabled={locked}
-                  onClick={() => onCoin(c)}
+                  onClick={() => onMcq(i)}
                 >
-                  {COIN_LABEL[c]}
+                  {opt}
                 </button>
               ))}
             </div>
-            <button
-              type="button"
-              className="btn btn-ghost"
-              disabled={locked || built === 0}
-              onClick={() => {
-                setBuilt(0)
-                setPickedCoins([])
-              }}
-            >
-              Reiniciar monedas
-            </button>
-          </>
-        )}
-      </section>
+          ) : (
+            <>
+              <p className="quiz-arena__built">Llevas {formatEuro(built)}</p>
+              <div className="quiz-arena__options quiz-arena__options--coins">
+                {question.coins.map((c) => (
+                  <button
+                    key={`${question.id}-${c}`}
+                    type="button"
+                    className="quiz-arena__btn"
+                    disabled={locked}
+                    onClick={() => onCoin(c)}
+                  >
+                    {COIN_LABEL[c]}
+                  </button>
+                ))}
+              </div>
+              <div className="quiz-arena__footer">
+                <button
+                  type="button"
+                  className="btn btn-ghost"
+                  disabled={locked || built === 0}
+                  onClick={() => {
+                    setBuilt(0)
+                    setPickedCoins([])
+                  }}
+                >
+                  Reiniciar monedas
+                </button>
+              </div>
+            </>
+          )
+        }
+      />
     </AppShell>
   )
 }

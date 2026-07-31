@@ -10,7 +10,7 @@ import {
   type CalcQuestion,
 } from '@/calc'
 import { AppShell } from '@/components/AppShell'
-import { Lumo } from '@/lumo/Lumo'
+import { QuizArena } from '@/components/quiz/QuizArena'
 import { useLumoController } from '@/lumo/useLumoController'
 import { soundEngine } from '@/sound/soundEngine'
 import { sideActivityEnergy } from '@/config/rewardGoal'
@@ -186,54 +186,78 @@ export function CalcPlayScreen() {
       showBack
       backTo="/missions/mates/calc"
     >
-      <section className={`calc-play${flash === 'ok' ? ' is-ok' : ''}${flash === 'bad' ? ' is-bad' : ''}`}>
-        <header className="calc-play__hud">
-          <Lumo state={lumo.state} intensity={lumo.intensity} size="sm" />
-          <div className="calc-play__meters">
+      <QuizArena
+        className={`${flash === 'ok' ? 'is-ok' : ''}${flash === 'bad' ? ' is-bad' : ''}`}
+        lumoState={lumo.state}
+        lumoIntensity={lumo.intensity}
+        hudRight={
+          <div>
             <p className={`calc-play__timer${sec <= 10 ? ' is-low' : ''}`} aria-live="polite">
               {sec}s
             </p>
-            <p className="calc-play__score">
+            <p>
               {correctCount} aciertos · racha {streak}
             </p>
           </div>
-        </header>
-
-        <QuestionView
-          question={question}
-          locked={locked}
-          picked={picked}
-          onPickMcq={(i) => {
-            if (locked || question.kind !== 'mcq') return
-            if (i === question.correctIndex) onCorrect()
-            else onWrong()
-          }}
-          onCompare={(side) => {
-            if (locked || question.kind !== 'compare') return
-            if (side === question.greater) onCorrect()
-            else onWrong()
-          }}
-          onTrueFalse={(value) => {
-            if (locked || question.kind !== 'truefalse') return
-            if (value === question.isTrue) onCorrect()
-            else onWrong()
-          }}
-          onOrderTap={(n) => {
-            if (locked || question.kind !== 'order') return
-            if (picked.includes(n)) return
-            const next = [...picked, n]
-            setPicked(next)
-            if (next.length < question.answer.length) return
-            if (isOrderCorrect(next, question.answer)) onCorrect()
-            else onWrong()
-          }}
-        />
-      </section>
+        }
+        prompt={question.prompt}
+        detail={
+          question.kind === 'mcq' && question.expression
+            ? question.expression
+            : question.kind === 'truefalse'
+              ? question.expression
+              : question.kind === 'order'
+                ? picked.length === 0
+                  ? 'Toca en orden…'
+                  : picked.join(' → ')
+                : undefined
+        }
+        answersLabel={
+          question.kind === 'compare'
+            ? '¿Cuál es mayor?'
+            : question.kind === 'truefalse'
+              ? '¿Es correcto?'
+              : question.kind === 'order'
+                ? 'Ordena'
+                : 'Elige una respuesta'
+        }
+        answers={
+          <CalcAnswers
+            question={question}
+            locked={locked}
+            picked={picked}
+            onPickMcq={(i) => {
+              if (locked || question.kind !== 'mcq') return
+              if (i === question.correctIndex) onCorrect()
+              else onWrong()
+            }}
+            onCompare={(side) => {
+              if (locked || question.kind !== 'compare') return
+              if (side === question.greater) onCorrect()
+              else onWrong()
+            }}
+            onTrueFalse={(value) => {
+              if (locked || question.kind !== 'truefalse') return
+              if (value === question.isTrue) onCorrect()
+              else onWrong()
+            }}
+            onOrderTap={(n) => {
+              if (locked || question.kind !== 'order') return
+              if (picked.includes(n)) return
+              const next = [...picked, n]
+              setPicked(next)
+              if (next.length < question.answer.length) return
+              if (isOrderCorrect(next, question.answer)) onCorrect()
+              else onWrong()
+            }}
+          />
+        }
+      />
     </AppShell>
   )
 }
 
-function QuestionView({
+function CalcAnswers({
   question,
   locked,
   picked,
@@ -250,99 +274,86 @@ function QuestionView({
   onTrueFalse: (value: boolean) => void
   onOrderTap: (n: number) => void
 }) {
+  if (question.kind === 'mcq') {
+    return (
+      <div className="quiz-arena__options" role="group">
+        {question.options.map((opt, i) => (
+          <button
+            key={`${question.id}-${i}`}
+            type="button"
+            className="quiz-arena__btn"
+            disabled={locked}
+            onClick={() => onPickMcq(i)}
+          >
+            {opt}
+          </button>
+        ))}
+      </div>
+    )
+  }
+
+  if (question.kind === 'compare') {
+    return (
+      <div className="quiz-arena__options quiz-arena__options--compare" role="group">
+        <button
+          type="button"
+          className="quiz-arena__btn quiz-arena__btn--big"
+          disabled={locked}
+          onClick={() => onCompare('left')}
+        >
+          {question.left}
+        </button>
+        <span className="quiz-arena__vs" aria-hidden="true">
+          vs
+        </span>
+        <button
+          type="button"
+          className="quiz-arena__btn quiz-arena__btn--big"
+          disabled={locked}
+          onClick={() => onCompare('right')}
+        >
+          {question.right}
+        </button>
+      </div>
+    )
+  }
+
+  if (question.kind === 'truefalse') {
+    return (
+      <div className="quiz-arena__options" role="group">
+        <button
+          type="button"
+          className="quiz-arena__btn quiz-arena__btn--ok"
+          disabled={locked}
+          onClick={() => onTrueFalse(true)}
+        >
+          Correcto
+        </button>
+        <button
+          type="button"
+          className="quiz-arena__btn quiz-arena__btn--bad"
+          disabled={locked}
+          onClick={() => onTrueFalse(false)}
+        >
+          Incorrecto
+        </button>
+      </div>
+    )
+  }
+
   return (
-    <div className="calc-play__stage">
-      <p className="calc-play__prompt">{question.prompt}</p>
-
-      {question.kind === 'mcq' ? (
-        <>
-          {question.expression ? (
-            <p className="calc-play__expr">{question.expression}</p>
-          ) : null}
-          <div className="calc-play__options" role="group">
-            {question.options.map((opt, i) => (
-              <button
-                key={`${question.id}-${i}`}
-                type="button"
-                className="calc-play__btn"
-                disabled={locked}
-                onClick={() => onPickMcq(i)}
-              >
-                {opt}
-              </button>
-            ))}
-          </div>
-        </>
-      ) : null}
-
-      {question.kind === 'compare' ? (
-        <div className="calc-play__compare" role="group">
-          <button
-            type="button"
-            className="calc-play__btn calc-play__btn--big"
-            disabled={locked}
-            onClick={() => onCompare('left')}
-          >
-            {question.left}
-          </button>
-          <span className="calc-play__vs" aria-hidden="true">
-            vs
-          </span>
-          <button
-            type="button"
-            className="calc-play__btn calc-play__btn--big"
-            disabled={locked}
-            onClick={() => onCompare('right')}
-          >
-            {question.right}
-          </button>
-        </div>
-      ) : null}
-
-      {question.kind === 'truefalse' ? (
-        <>
-          <p className="calc-play__expr">{question.expression}</p>
-          <div className="calc-play__tf" role="group">
-            <button
-              type="button"
-              className="calc-play__btn calc-play__btn--ok"
-              disabled={locked}
-              onClick={() => onTrueFalse(true)}
-            >
-              Correcto
-            </button>
-            <button
-              type="button"
-              className="calc-play__btn calc-play__btn--bad"
-              disabled={locked}
-              onClick={() => onTrueFalse(false)}
-            >
-              Incorrecto
-            </button>
-          </div>
-        </>
-      ) : null}
-
-      {question.kind === 'order' ? (
-        <>
-          <p className="calc-play__picked" aria-live="polite">
-            {picked.length === 0 ? 'Toca en orden…' : picked.join(' → ')}
-          </p>
-          <div className="calc-play__options" role="group">
-            {question.items.map((n) => (
-              <button
-                key={`${question.id}-${n}`}
-                type="button"
-                className={`calc-play__btn${picked.includes(n) ? ' is-picked' : ''}`}
-                disabled={locked || picked.includes(n)}
-                onClick={() => onOrderTap(n)}
-              >
-                {n}
-              </button>
-            ))}
-          </div>
-        </>
-      ) : null}
+    <div className="quiz-arena__options" role="group">
+      {question.items.map((n) => (
+        <button
+          key={`${question.id}-${n}`}
+          type="button"
+          className={`quiz-arena__btn${picked.includes(n) ? ' is-picked' : ''}`}
+          disabled={locked || picked.includes(n)}
+          onClick={() => onOrderTap(n)}
+        >
+          {n}
+        </button>
+      ))}
     </div>
   )
 }

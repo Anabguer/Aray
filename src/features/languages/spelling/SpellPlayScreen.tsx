@@ -9,7 +9,7 @@ import {
 } from '@/spelling'
 import { explainSpellMistake, type SpellExplainCard } from '@/spelling/explain'
 import { AppShell } from '@/components/AppShell'
-import { Lumo } from '@/lumo/Lumo'
+import { QuizArena } from '@/components/quiz/QuizArena'
 import { useLumoController } from '@/lumo/useLumoController'
 import { soundEngine } from '@/sound/soundEngine'
 import { useDailyMission } from '@/daily/DailyMissionContext'
@@ -150,42 +150,48 @@ export function SpellPlayScreen() {
       showBack
       backTo="/missions/languages/spelling"
     >
-      <section className="spell-play">
-        <header className="spell-play__hud">
-          <Lumo state={lumo.state} intensity={lumo.intensity} size="sm" />
-          <p>
-            {index + 1}/{SPELL_ROUND_SIZE} · {correctCount} ok · racha {streak}
-            {bestStreak > streak ? ` · mejor ${bestStreak}` : ''}
-          </p>
-        </header>
-        <p className="spell-play__prompt">{question.prompt}</p>
-        {question.emoji ? <p className="spell-play__emoji">{question.emoji}</p> : null}
-        {question.display ? <p className="spell-play__display">{question.display}</p> : null}
-        <div className="spell-play__options">
-          {question.options.map((opt, i) => {
-            const isCorrect = i === question.correctIndex
-            const isPicked = picked === i
-            const mark =
-              picked === null
-                ? ''
-                : isCorrect
-                  ? ' is-ok'
-                  : isPicked
-                    ? ' is-bad'
-                    : ' is-dim'
-            return (
-              <button
-                key={`${question.id}-${i}`}
-                type="button"
-                className={`spell-play__btn${mark}`}
-                disabled={locked || waitingAfterMiss}
-                onClick={() => onPick(i)}
-              >
-                {opt}
-              </button>
-            )
-          })}
-        </div>
+      <div className="spell-play">
+        <QuizArena
+          lumoState={lumo.state}
+          lumoIntensity={lumo.intensity}
+          hudRight={
+            <p>
+              {index + 1}/{SPELL_ROUND_SIZE} · {correctCount} ok · racha {streak}
+              {bestStreak > streak ? ` · mejor ${bestStreak}` : ''}
+            </p>
+          }
+          prompt={question.prompt}
+          extra={question.emoji ? <span aria-hidden="true">{question.emoji}</span> : undefined}
+          detail={question.display}
+          answersLabel="Elige una respuesta"
+          answers={
+            <div className="quiz-arena__options">
+              {question.options.map((opt, i) => {
+                const isCorrect = i === question.correctIndex
+                const isPicked = picked === i
+                const mark =
+                  picked === null
+                    ? ''
+                    : isCorrect
+                      ? ' is-ok'
+                      : isPicked
+                        ? ' is-bad'
+                        : ' is-dim'
+                return (
+                  <button
+                    key={`${question.id}-${i}`}
+                    type="button"
+                    className={`quiz-arena__btn${mark}`}
+                    disabled={locked || waitingAfterMiss}
+                    onClick={() => onPick(i)}
+                  >
+                    {opt}
+                  </button>
+                )
+              })}
+            </div>
+          }
+        />
 
         {waitingAfterMiss ? (
           <div className="spell-why" role="region" aria-label="Explicación">
@@ -224,7 +230,7 @@ export function SpellPlayScreen() {
             ) : null}
           </div>
         ) : null}
-      </section>
+      </div>
     </AppShell>
   )
 }

@@ -2,9 +2,9 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AnalogClock } from '@/components/AnalogClock'
 import { AppShell } from '@/components/AppShell'
+import { QuizArena } from '@/components/quiz/QuizArena'
 import { buildTrainQueue } from '@/clock/generator'
 import { useClockSession } from '@/clock/ClockSessionContext'
-import { Lumo } from '@/lumo/Lumo'
 import { useLumoController } from '@/lumo/useLumoController'
 import { soundEngine } from '@/sound/soundEngine'
 import { useDailyMission } from '@/daily/DailyMissionContext'
@@ -116,54 +116,44 @@ export function ClockTrainScreen() {
 
   return (
     <AppShell title="ENTRENA" shortTitle="Entrena" showBack backTo="/missions/mates/clocks">
-      <section className="clock-train" aria-label="Entrena horas">
-        <header className="clock-train__hud">
-          <p className="clock-train__count">
-            {index + 1} / {TRAIN_COUNT}
+      <QuizArena
+        className="clock-train-arena"
+        lumoState={lumo.state}
+        lumoIntensity={lumo.intensity}
+        hudRight={
+          <p>
+            {index + 1}/{TRAIN_COUNT} · racha {streak}
+            {bestStreak > streak ? ` · mejor ${bestStreak}` : ''}
           </p>
-          <p className="clock-train__streak" aria-live="polite">
-            Racha {streak}
-          </p>
-        </header>
-
-        <div className="clock-train__stage">
-          <div className="clock-train__lumo">
-            <Lumo state={lumo.state} intensity={lumo.intensity} size="sm" />
+        }
+        prompt={lang === 'ca' ? 'Quina hora és?' : '¿Qué hora es?'}
+        detail={feedback ?? undefined}
+        extra={<AnalogClock time={question.time} size={200} />}
+        answersLabel={lang === 'ca' ? 'Tria una resposta' : 'Elige una respuesta'}
+        answers={
+          <div className="quiz-arena__options" role="group" aria-label="Opciones">
+            {question.options.map((opt, i) => {
+              const isSel = selected === i
+              const isCorrect = i === question.correctIndex
+              let mark = ''
+              if (selected != null && isSel && isCorrect) mark = ' is-ok'
+              if (selected != null && isSel && !isCorrect) mark = ' is-bad'
+              if (selected != null && !isSel && isCorrect && locked) mark = ' is-ok'
+              return (
+                <button
+                  key={`${question.id}-${i}`}
+                  type="button"
+                  className={`quiz-arena__btn${mark}`}
+                  disabled={locked}
+                  onClick={() => onPick(i)}
+                >
+                  {opt}
+                </button>
+              )
+            })}
           </div>
-          <AnalogClock time={question.time} size={220} />
-          <p className="clock-train__prompt">
-            {lang === 'ca' ? 'Quina hora és?' : '¿Qué hora es?'}
-          </p>
-        </div>
-
-        <div className="clock-train__options" role="group" aria-label="Opciones">
-          {question.options.map((opt, i) => {
-            const isSel = selected === i
-            const isCorrect = i === question.correctIndex
-            let cls = 'clock-train__option'
-            if (selected != null && isSel && isCorrect) cls += ' is-ok'
-            if (selected != null && isSel && !isCorrect) cls += ' is-bad'
-            if (selected != null && !isSel && isCorrect && locked) cls += ' is-reveal'
-            return (
-              <button
-                key={`${question.id}-${i}`}
-                type="button"
-                className={cls}
-                disabled={locked}
-                onClick={() => onPick(i)}
-              >
-                {opt}
-              </button>
-            )
-          })}
-        </div>
-
-        {feedback ? (
-          <p className="clock-train__feedback" role="status">
-            {feedback}
-          </p>
-        ) : null}
-      </section>
+        }
+      />
     </AppShell>
   )
 }
