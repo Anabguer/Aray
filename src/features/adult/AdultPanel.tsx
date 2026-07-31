@@ -9,16 +9,10 @@ import {
 } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ApiError, apiGet, apiPost } from '@/api/client'
+import type { HubIconId } from '@/assets/icons/hub'
 import { useAuth } from '@/auth/AuthContext'
 import { ArayHubIcon } from '@/components/ArayHubIcon'
-import {
-  IconBook,
-  IconBolt,
-  IconCalc,
-  IconFlag,
-  IconGem,
-  IconSpark,
-} from '@/components/Icons'
+import { IconBolt, IconGem } from '@/components/Icons'
 import { rewardGoalConfig } from '@/config/rewardGoal'
 import { ConfirmDialog } from '@/features/adult/ConfirmDialog'
 import {
@@ -57,6 +51,8 @@ import { useProgress } from '@/progress/ProgressContext'
 
 type ActivityRange = '7d' | '30d' | 'custom'
 type PanelSection = 'activities' | 'tables' | 'abc' | 'report' | 'course' | null
+type AccTone = 'mates' | 'tablas' | 'lengua' | 'misiones' | 'informe' | 'curso'
+type KpiTone = 'ok' | 'warn' | 'bad' | 'neutral'
 
 const SECTION_STORAGE_KEY = 'aray-adult-open-section'
 
@@ -86,6 +82,62 @@ function masteryTone(label: string): 'refuerzo' | 'progreso' | 'domada' {
   if (label === 'NECESITA REFUERZO') return 'refuerzo'
   if (label === 'DOMADA') return 'domada'
   return 'progreso'
+}
+
+function tablesKpi(needs: number, dominated: number, practiced: number): {
+  tone: KpiTone
+  status: string
+  detail: string
+} {
+  if (practiced === 0) {
+    return { tone: 'neutral', status: 'Sin datos', detail: 'Aún no ha practicado' }
+  }
+  if (needs > 0) {
+    return {
+      tone: needs >= 2 ? 'bad' : 'warn',
+      status: needs === 1 ? '1 a reforzar' : `${needs} a reforzar`,
+      detail: dominated > 0 ? `${dominated} ya domina` : 'Conviene repasar',
+    }
+  }
+  if (dominated > 0) {
+    return {
+      tone: 'ok',
+      status: 'Va bien',
+      detail: `${dominated} tabla${dominated === 1 ? '' : 's'} dominada${dominated === 1 ? '' : 's'}`,
+    }
+  }
+  return { tone: 'warn', status: 'En progreso', detail: 'Sigue entrenando' }
+}
+
+function alphabetKpi(
+  server: NonNullable<AdultOverview['education']['alphabet']> | undefined,
+  local: AlphabetProgress,
+): { tone: KpiTone; status: string; detail: string } {
+  const rounds = server?.roundsPlayed ?? local.roundsPlayed
+  if (rounds <= 0) {
+    return { tone: 'neutral', status: 'Sin datos', detail: 'Aún no ha jugado ABC' }
+  }
+  const needs = server?.needsReviewModes ?? 0
+  const dominated =
+    server?.dominatedModes ??
+    ['missing', 'neighbor', 'order-letters', 'order-words'].filter((m) =>
+      normalizeAlphabetModeProgress(local.modes[m]).everMastered,
+    ).length
+  if (needs > 0) {
+    return {
+      tone: needs >= 2 ? 'bad' : 'warn',
+      status: needs === 1 ? '1 modo flojo' : `${needs} modos flojos`,
+      detail: `${rounds} rondas jugadas`,
+    }
+  }
+  return {
+    tone: 'ok',
+    status: dominated > 0 ? 'Va bien' : 'En progreso',
+    detail:
+      dominated > 0
+        ? `${dominated} modo${dominated === 1 ? '' : 's'} domado${dominated === 1 ? '' : 's'}`
+        : `${rounds} rondas jugadas`,
+  }
 }
 
 function readStoredSection(): PanelSection {
@@ -459,6 +511,50 @@ export function AdultPanel() {
             }}
           />
 
+          <SubjectKpiStrip
+            maths={(() => {
+              const practiced = overview.education.tables.filter((t) => t.practiced).length
+              if (practiced === 0) {
+                return { tone: 'neutral' as const, status: 'Sin datos', detail: 'Aún sin partidas' }
+              }
+              if (needsReview.length > 0) {
+                return {
+                  tone: (needsReview.length >= 2 ? 'bad' : 'warn') as KpiTone,
+                  status: 'A mejorar',
+                  detail: `${dominated.length} ok · ${needsReview.length} flojas`,
+                }
+              }
+              return {
+                tone: 'ok' as const,
+                status: 'Va bien',
+                detail: `${dominated.length} tabla${dominated.length === 1 ? '' : 's'} ok`,
+              }
+            })()}
+            tables={tablesKpi(
+              needsReview.length,
+              dominated.length,
+              overview.education.tables.filter((t) => t.practiced).length,
+            )}
+            alphabet={alphabetKpi(overview.education.alphabet, progress.alphabet)}
+            activities={activityAssignmentSummary(
+              school.currentCourseId as CourseId,
+              assignmentMap,
+            )}
+            courseLabel={courseLabel(school.currentCourseId as CourseId)}
+            onOpen={(section) => {
+              setOpenSection(section)
+              requestAnimationFrame(() => {
+                const el = sectionRefs.current[section]
+                if (!el) return
+                const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+                el.scrollIntoView({
+                  behavior: reduced ? 'auto' : 'smooth',
+                  block: 'start',
+                })
+              })
+            }}
+          />
+
           <section className="adult-overview" aria-labelledby="adult-overview-title">
             <div className="adult-overview__head">
               <h2 id="adult-overview-title" className="adult-overview__title">
@@ -469,14 +565,20 @@ export function AdultPanel() {
               <SummaryCard
                 label="Última vez que jugó"
                 value={formatFriendlyWhen(summary.lastActivityAt)}
+                iconId="misiones"
+                tone="misiones"
               />
               <SummaryCard
                 label="Tiempo esta semana"
                 value={formatPlayDuration(weekPlaySeconds)}
+                iconId="coleccion"
+                tone="curso"
               />
               <SummaryCard
                 label="Energía para el próximo premio"
                 value={`${summary.rewardPointsCurrent} / ${summary.rewardTarget}`}
+                iconId="drop_robot"
+                tone="informe"
               />
               <SummaryCard
                 label="Necesita más refuerzo"
@@ -487,6 +589,8 @@ export function AdultPanel() {
                       ? 'Va bien · sin alertas'
                       : 'Aún sin datos'
                 }
+                iconId="tablas"
+                tone={reinforcementLabel ? 'tablas' : 'mates'}
               />
             </div>
 
@@ -596,7 +700,8 @@ export function AdultPanel() {
               id="activities"
               open={openSection === 'activities'}
               onToggle={() => toggleSection('activities')}
-              icon={<IconFlag />}
+              hubIcon="misiones"
+              tone="misiones"
               title="Actividades asignadas"
               description="Decide qué actividades aparecen en el juego."
               summary={activityAssignmentSummary(school.currentCourseId as CourseId, assignmentMap)}
@@ -621,7 +726,8 @@ export function AdultPanel() {
               id="tables"
               open={openSection === 'tables'}
               onToggle={() => toggleSection('tables')}
-              icon={<IconCalc />}
+              hubIcon="tablas"
+              tone="tablas"
               title="Progreso en tablas"
               description="Consulta qué tablas domina y cuáles debe repasar."
               summary={`${dominated.length} dominadas · ${needsReview.length} necesitan refuerzo`}
@@ -643,7 +749,8 @@ export function AdultPanel() {
               id="abc"
               open={openSection === 'abc'}
               onToggle={() => toggleSection('abc')}
-              icon={<IconBook />}
+              hubIcon="castellano"
+              tone="lengua"
               title="Progreso ABC"
               description="Modos del abecedario, si conviene repasar y letras que más cuestan."
               summary={
@@ -671,7 +778,8 @@ export function AdultPanel() {
               id="report"
               open={openSection === 'report'}
               onToggle={() => toggleSection('report')}
-              icon={<IconBook />}
+              hubIcon="matematicas"
+              tone="informe"
               title="Informe escolar"
               description="Revisa su progreso por curso y asignatura."
               summary={`${courseLabel(school.currentCourseId as CourseId)} · histórico global`}
@@ -701,7 +809,8 @@ export function AdultPanel() {
               id="course"
               open={openSection === 'course'}
               onToggle={() => toggleSection('course')}
-              icon={<IconSpark />}
+              hubIcon="coleccion"
+              tone="curso"
               title="Curso y configuración"
               description="Gestiona el curso y otras opciones del juego."
               summary={courseLabel(school.currentCourseId as CourseId)}
@@ -847,23 +956,158 @@ function SummaryCard({
   label,
   value,
   compact = false,
+  iconId,
+  tone,
 }: {
   label: string
   value: string
   compact?: boolean
+  iconId?: HubIconId
+  tone?: AccTone
 }) {
   return (
-    <article className={`adult-stat${compact ? ' adult-stat--compact' : ''}`}>
-      <p className="adult-stat__label">{label}</p>
-      <p className="adult-stat__value">{value}</p>
+    <article
+      className={`adult-stat${compact ? ' adult-stat--compact' : ''}${
+        tone ? ` adult-stat--${tone}` : ''
+      }`}
+    >
+      {iconId && !compact ? (
+        <span className="adult-stat__icon" aria-hidden="true">
+          <ArayHubIcon id={iconId} className="adult-stat__hub" />
+        </span>
+      ) : null}
+      <div className="adult-stat__body">
+        <p className="adult-stat__label">{label}</p>
+        <p className="adult-stat__value">{value}</p>
+      </div>
     </article>
+  )
+}
+
+function SubjectKpiStrip({
+  maths,
+  tables,
+  alphabet,
+  activities,
+  courseLabel: courseText,
+  onOpen,
+}: {
+  maths: { tone: KpiTone; status: string; detail: string }
+  tables: { tone: KpiTone; status: string; detail: string }
+  alphabet: { tone: KpiTone; status: string; detail: string }
+  activities: string
+  courseLabel: string
+  onOpen: (section: NonNullable<PanelSection>) => void
+}) {
+  const items: Array<{
+    key: string
+    section: NonNullable<PanelSection>
+    hubIcon: HubIconId
+    title: string
+    tone: KpiTone
+    status: string
+    detail: string
+    accent: AccTone
+  }> = [
+    {
+      key: 'mates',
+      section: 'tables',
+      hubIcon: 'matematicas',
+      title: 'Matemáticas',
+      tone: maths.tone,
+      status: maths.status,
+      detail: maths.detail,
+      accent: 'mates',
+    },
+    {
+      key: 'tablas',
+      section: 'tables',
+      hubIcon: 'tablas',
+      title: 'Tablas',
+      tone: tables.tone,
+      status: tables.status,
+      detail: tables.detail,
+      accent: 'tablas',
+    },
+    {
+      key: 'lengua',
+      section: 'abc',
+      hubIcon: 'castellano',
+      title: 'Lengua · ABC',
+      tone: alphabet.tone,
+      status: alphabet.status,
+      detail: alphabet.detail,
+      accent: 'lengua',
+    },
+    {
+      key: 'ingles',
+      section: 'report',
+      hubIcon: 'ingles',
+      title: 'Inglés',
+      tone: 'neutral',
+      status: 'Sin datos',
+      detail: 'Aún sin actividad',
+      accent: 'informe',
+    },
+    {
+      key: 'acts',
+      section: 'activities',
+      hubIcon: 'misiones',
+      title: 'Actividades',
+      tone: 'neutral',
+      status: 'Asignadas',
+      detail: activities,
+      accent: 'misiones',
+    },
+    {
+      key: 'curso',
+      section: 'course',
+      hubIcon: 'coleccion',
+      title: 'Curso',
+      tone: 'ok',
+      status: courseText,
+      detail: 'Configuración',
+      accent: 'curso',
+    },
+  ]
+
+  return (
+    <section className="adult-kpi" aria-labelledby="adult-kpi-title">
+      <div className="adult-kpi__head">
+        <h2 id="adult-kpi-title" className="adult-kpi__title">
+          Cómo va en cada mundo
+        </h2>
+        <p className="adult-kpi__lead">Toca una tarjeta para ver el detalle.</p>
+      </div>
+      <div className="adult-kpi__row" role="list">
+        {items.map((item) => (
+          <button
+            key={item.key}
+            type="button"
+            role="listitem"
+            className={`adult-kpi__card adult-kpi__card--${item.accent} adult-kpi__card--${item.tone}`}
+            onClick={() => onOpen(item.section)}
+          >
+            <span className="adult-kpi__icon" aria-hidden="true">
+              <ArayHubIcon id={item.hubIcon} className="adult-kpi__hub" />
+            </span>
+            <span className="adult-kpi__label">{item.title}</span>
+            <span className={`adult-kpi__status adult-kpi__status--${item.tone}`}>
+              {item.status}
+            </span>
+            <span className="adult-kpi__detail">{item.detail}</span>
+          </button>
+        ))}
+      </div>
+    </section>
   )
 }
 
 function AccordionSection({
   open,
   onToggle,
-  icon,
+  hubIcon,
+  tone,
   title,
   description,
   summary,
@@ -873,7 +1117,8 @@ function AccordionSection({
   id: string
   open: boolean
   onToggle: () => void
-  icon: ReactNode
+  hubIcon: HubIconId
+  tone: AccTone
   title: string
   description: string
   summary: string
@@ -884,7 +1129,7 @@ function AccordionSection({
   const headerId = useId()
   return (
     <section
-      className={`adult-acc${open ? ' is-open' : ''}`}
+      className={`adult-acc adult-acc--${tone}${open ? ' is-open' : ''}`}
       ref={sectionRef}
       aria-labelledby={headerId}
     >
@@ -897,8 +1142,8 @@ function AccordionSection({
           aria-controls={panelId}
           onClick={onToggle}
         >
-          <span className="adult-acc__icon" aria-hidden="true">
-            {icon}
+          <span className={`adult-acc__icon adult-acc__icon--${tone}`} aria-hidden="true">
+            <ArayHubIcon id={hubIcon} className="adult-acc__hub" />
           </span>
           <span className="adult-acc__text">
             <span className="adult-acc__title">{title}</span>
