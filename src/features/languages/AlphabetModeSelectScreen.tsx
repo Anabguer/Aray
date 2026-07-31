@@ -44,7 +44,7 @@ function ModePoster({
 export function AlphabetModeSelectScreen() {
   return (
     <AppShell
-      title="ABECEDARIO"
+      title="ABC"
       shortTitle="Abc"
       showBack
       backTo="/missions/languages"

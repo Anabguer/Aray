@@ -42,7 +42,7 @@ export function LanguagesHubScreen() {
         mark,
         mapSlot,
         href: '/missions/languages/alphabet',
-        ctaLabel: 'JUGAR ABECEDARIO',
+        ctaLabel: 'JUGAR ABC',
       }
     }
 

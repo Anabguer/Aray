@@ -111,7 +111,7 @@ export const blocks: BlockDefinition[] = [
   {
     id: 'alphabet',
     subjectId: 'languages',
-    title: 'Abecedario',
+    title: 'ABC',
     description: 'Letras y sonidos',
     status: 'active',
     sortOrder: 10,
@@ -207,7 +207,7 @@ export const skills: SkillDefinition[] = [
   {
     id: 'alphabet-letters',
     blockId: 'alphabet',
-    title: 'Abecedario',
+    title: 'ABC',
     description: 'Repasar letras A–Z y Ñ',
     progressKey: 'alphabet-letters',
     progressKind: 'generic',
@@ -455,7 +455,7 @@ export const activities: ActivityDefinition[] = [
   },
   {
     id: 'alphabet-random',
-    title: 'Abecedario random',
+    title: 'ABC random',
     description: 'Cada ronda un juego distinto de letras',
     skillId: 'alphabet-letters',
     exerciseType: 'mixed',
