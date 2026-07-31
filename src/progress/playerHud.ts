@@ -12,19 +12,25 @@ export type PlayerHudSnapshot = {
   xpIntoLevel: number
   xpPerLevel: number
   xpPct: number
-  energyToday: number
-  energyCap: number
+  /** Energía del ciclo actual hacia el premio (misma que el drop). */
+  energyTotal: number
+  energyTarget: number
   energyBarPct: number
+  /** Tope diario (informativo; no llena la barra del header). */
+  energyToday: number
+  energyDailyCap: number
 }
 
-/** Deriva nivel, XP y energía del mismo progreso que usa el Lobby. */
+/** Deriva nivel, XP y energía del mismo progreso que usa el Lobby / drop. */
 export function derivePlayerHud(progress: ProgressState): PlayerHudSnapshot {
   const reward = normalizeRewardCycles(progress.reward)
   const energyToday = Math.min(reward.dailyPoints, rewardGoalConfig.dailyCap)
+  const energyTotal = Math.max(0, reward.pointsTotal)
+  const energyTarget = rewardGoalConfig.targetPoints
   const level = Math.floor(progress.xp / XP_PER_LEVEL) + 1
   const xpIntoLevel = progress.xp % XP_PER_LEVEL
   const xpPct = Math.min(100, Math.round((xpIntoLevel / XP_PER_LEVEL) * 100))
-  const energyBarPct = Math.min(100, Math.round((energyToday / rewardGoalConfig.dailyCap) * 100))
+  const energyBarPct = Math.min(100, Math.round((energyTotal / energyTarget) * 100))
 
   return {
     coins: progress.coins,
@@ -33,8 +39,10 @@ export function derivePlayerHud(progress: ProgressState): PlayerHudSnapshot {
     xpIntoLevel,
     xpPerLevel: XP_PER_LEVEL,
     xpPct,
-    energyToday,
-    energyCap: rewardGoalConfig.dailyCap,
+    energyTotal,
+    energyTarget,
     energyBarPct,
+    energyToday,
+    energyDailyCap: rewardGoalConfig.dailyCap,
   }
 }

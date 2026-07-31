@@ -17,6 +17,9 @@ export function PlayerHudBars({
         <div className="lobby-hud__xp-top">
           <span className="lobby-hud__level">Nv. {hud.level}</span>
           <span className="lobby-hud__xp-label">XP</span>
+          <span className="lobby-hud__bar-nums" aria-hidden="true">
+            {hud.xpIntoLevel}/{hud.xpPerLevel}
+          </span>
         </div>
         <div
           className="lobby-hud__bar lobby-hud__bar--xp"
@@ -28,33 +31,26 @@ export function PlayerHudBars({
         >
           <span style={{ width: `${hud.xpPct}%` }} />
         </div>
-        {compact ? null : (
-          <p className="lobby-hud__bar-text">
-            {hud.xpIntoLevel} / {hud.xpPerLevel} XP
-          </p>
-        )}
       </div>
 
       <div className="lobby-hud__energy">
         <div className="lobby-hud__energy-top">
           <IconBolt className="lobby-hud__bolt" aria-hidden />
           <span className="lobby-hud__energy-label">Energía</span>
+          <span className="lobby-hud__bar-nums" aria-hidden="true">
+            {hud.energyTotal}/{hud.energyTarget}
+          </span>
         </div>
         <div
           className="lobby-hud__bar lobby-hud__bar--energy"
           role="progressbar"
           aria-valuemin={0}
-          aria-valuemax={hud.energyCap}
-          aria-valuenow={hud.energyToday}
-          aria-label={`Energía: ${hud.energyToday} de ${hud.energyCap}`}
+          aria-valuemax={hud.energyTarget}
+          aria-valuenow={hud.energyTotal}
+          aria-label={`Energía del premio: ${hud.energyTotal} de ${hud.energyTarget}. Hoy ${hud.energyToday} de ${hud.energyDailyCap}`}
         >
           <span style={{ width: `${hud.energyBarPct}%` }} />
         </div>
-        {compact ? null : (
-          <p className="lobby-hud__bar-text">
-            {hud.energyToday} / {hud.energyCap}
-          </p>
-        )}
       </div>
     </div>
   )
