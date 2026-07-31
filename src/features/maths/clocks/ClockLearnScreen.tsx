@@ -12,9 +12,11 @@ interface LearnStep {
   title: string
   body: string
   tip: string
-  demo: ClockTime
+  demo: ClockTime | null
   /** Trozo de pizza iluminados (0–4). Solo ayuda catalana. */
   pizzaSlices?: 0 | 1 | 2 | 3 | 4
+  /** Solo pizza (sin reloj analógico): paso introductorio. */
+  pizzaOnly?: boolean
 }
 
 const STEPS_ES: LearnStep[] = [
@@ -48,15 +50,16 @@ const STEPS_ES: LearnStep[] = [
   },
 ]
 
-/** Ayuda catalana: metáfora «pizza de la hora» (miramos la hora a la que vamos). */
+/** Ayuda catalana: primero la pizza; después el reloj con ejemplos. */
 const STEPS_CA: LearnStep[] = [
   {
     id: 'pizza',
     title: 'La pizza de la hora',
     body: 'Imagina la hora como una pizza de 4 trozos. Cada trozo es un quart. Cuando comes los 4, ¡llegas a la hora nueva!',
-    tip: '1 trozo = un quart · 2 = dos · 3 = tres · 4 = hora nueva',
-    demo: { hour: 1, minute: 0 },
+    tip: 'Primero entiende la pizza. Luego veremos el reloj.',
+    demo: null,
     pizzaSlices: 0,
+    pizzaOnly: true,
   },
   {
     id: 'un-quart',
@@ -93,37 +96,68 @@ const STEPS_CA: LearnStep[] = [
 ]
 
 /** Pizza de 4 quarts: trozos “comidos” = camino hacia la hora siguiente. */
-function HourPizza({ slices }: { slices: 0 | 1 | 2 | 3 | 4 }) {
+function HourPizza({
+  slices,
+  size = 148,
+  showNumbers = false,
+}: {
+  slices: 0 | 1 | 2 | 3 | 4
+  size?: number
+  showNumbers?: boolean
+}) {
   return (
-    <div className="hour-pizza" aria-hidden="true">
-      <svg className="hour-pizza__svg" viewBox="0 0 120 120" width="148" height="148">
+    <div className="hour-pizza">
+      <svg
+        className="hour-pizza__svg"
+        viewBox="0 0 120 120"
+        width={size}
+        height={size}
+        role="img"
+        aria-label="Pizza de la hora: 4 trozos iguales"
+      >
         <circle cx="60" cy="60" r="54" fill="#fff7ed" stroke="#9a3412" strokeWidth="3" />
-        {/* 4 sectores: 12→3, 3→6, 6→9, 9→12 */}
         {[0, 1, 2, 3].map((i) => {
           const start = (i * 90 - 90) * (Math.PI / 180)
           const end = ((i + 1) * 90 - 90) * (Math.PI / 180)
+          const mid = (i * 90 + 45 - 90) * (Math.PI / 180)
           const x1 = 60 + Math.cos(start) * 54
           const y1 = 60 + Math.sin(start) * 54
           const x2 = 60 + Math.cos(end) * 54
           const y2 = 60 + Math.sin(end) * 54
           const filled = i < slices
+          const lx = 60 + Math.cos(mid) * 28
+          const ly = 60 + Math.sin(mid) * 28
           return (
-            <path
-              key={i}
-              d={`M60 60 L${x1} ${y1} A54 54 0 0 1 ${x2} ${y2} Z`}
-              fill={filled ? '#fb923c' : '#ffedd5'}
-              stroke="#9a3412"
-              strokeWidth="2"
-            />
+            <g key={i}>
+              <path
+                d={`M60 60 L${x1} ${y1} A54 54 0 0 1 ${x2} ${y2} Z`}
+                fill={filled ? '#fb923c' : '#ffedd5'}
+                stroke="#9a3412"
+                strokeWidth="2"
+              />
+              {showNumbers ? (
+                <text
+                  x={lx}
+                  y={ly}
+                  textAnchor="middle"
+                  dominantBaseline="central"
+                  fill="#9a3412"
+                  fontSize="16"
+                  fontWeight="800"
+                >
+                  {i + 1}
+                </text>
+              ) : null}
+            </g>
           )
         })}
         <circle cx="60" cy="60" r="8" fill="#fdba74" stroke="#9a3412" strokeWidth="2" />
       </svg>
       <ul className="hour-pizza__legend">
-        <li className={slices >= 1 ? 'is-on' : ''}>1 trozo = un quart</li>
-        <li className={slices >= 2 ? 'is-on' : ''}>2 trozos = dos quarts</li>
-        <li className={slices >= 3 ? 'is-on' : ''}>3 trozos = tres quarts</li>
-        <li className={slices >= 4 ? 'is-on' : ''}>4 trozos = ¡hora nueva!</li>
+        <li className={slices >= 1 || showNumbers ? 'is-on' : ''}>1 trozo = un quart</li>
+        <li className={slices >= 2 || showNumbers ? 'is-on' : ''}>2 trozos = dos quarts</li>
+        <li className={slices >= 3 || showNumbers ? 'is-on' : ''}>3 trozos = tres quarts</li>
+        <li className={slices >= 4 || showNumbers ? 'is-on' : ''}>4 trozos = ¡hora nueva!</li>
       </ul>
     </div>
   )
@@ -136,10 +170,15 @@ export function ClockLearnScreen() {
 
   const steps = lang === 'ca' ? STEPS_CA : STEPS_ES
   const step = steps[Math.min(index, steps.length - 1)]!
-  const phrase = useMemo(() => formatClockTime(step.demo, lang), [step.demo, lang])
+  const phrase = useMemo(
+    () => (step.demo ? formatClockTime(step.demo, lang) : ''),
+    [step.demo, lang],
+  )
 
   const isLast = index >= steps.length - 1
+  const pizzaOnly = Boolean(step.pizzaOnly)
   const showPizza = lang === 'ca' && step.pizzaSlices != null
+  const showClock = Boolean(step.demo) && !pizzaOnly
 
   function startWith(next: 'es' | 'ca') {
     setLang(next)
@@ -191,11 +230,25 @@ export function ClockLearnScreen() {
         </div>
 
         <div className="clock-learn__stage">
-          <div className={`clock-learn__visuals${showPizza ? ' clock-learn__visuals--split' : ''}`}>
-            <AnalogClock time={step.demo} size={showPizza ? 200 : 240} label={`Ejemplo: ${phrase}`} />
-            {showPizza ? <HourPizza slices={step.pizzaSlices!} /> : null}
-          </div>
-          <p className="clock-learn__phrase">{phrase}</p>
+          {pizzaOnly && showPizza ? (
+            <div className="clock-learn__visuals clock-learn__visuals--pizza-first">
+              <HourPizza slices={step.pizzaSlices!} size={200} showNumbers />
+            </div>
+          ) : (
+            <div
+              className={`clock-learn__visuals${showClock && showPizza ? ' clock-learn__visuals--split' : ''}`}
+            >
+              {showClock && step.demo ? (
+                <AnalogClock
+                  time={step.demo}
+                  size={showPizza ? 200 : 240}
+                  label={`Ejemplo: ${phrase}`}
+                />
+              ) : null}
+              {showPizza ? <HourPizza slices={step.pizzaSlices!} size={120} /> : null}
+            </div>
+          )}
+          {phrase ? <p className="clock-learn__phrase">{phrase}</p> : null}
           <p className="clock-learn__tip">{step.tip}</p>
         </div>
 
