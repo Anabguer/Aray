@@ -89,7 +89,7 @@ export function ClockTrainScreen() {
   }
 
   return (
-    <AppShell title="ENTRENA" shortTitle="Entrena" showBack backTo="/missions/mates/clocks/modes">
+    <AppShell title="ENTRENA" shortTitle="Entrena" showBack backTo="/missions/mates/clocks">
       <section className="clock-train" aria-label="Entrena horas">
         <header className="clock-train__hud">
           <p className="clock-train__count">

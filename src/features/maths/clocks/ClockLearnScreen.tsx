@@ -132,25 +132,56 @@ function HourPizza({ slices }: { slices: 0 | 1 | 2 | 3 | 4 }) {
 }
 
 export function ClockLearnScreen() {
-  const { lang } = useClockSession()
-  const steps = lang === 'ca' ? STEPS_CA : STEPS_ES
+  const { lang, setLang } = useClockSession()
+  const [started, setStarted] = useState(false)
   const [index, setIndex] = useState(0)
 
-  // Reinicia el tutorial al cambiar idioma
-  const [langSeen, setLangSeen] = useState(lang)
-  if (langSeen !== lang) {
-    setLangSeen(lang)
-    setIndex(0)
-  }
-
+  const steps = lang === 'ca' ? STEPS_CA : STEPS_ES
   const step = steps[Math.min(index, steps.length - 1)]!
   const phrase = useMemo(() => formatClockTime(step.demo, lang), [step.demo, lang])
 
   const isLast = index >= steps.length - 1
   const showPizza = lang === 'ca' && step.pizzaSlices != null
 
+  function startWith(next: 'es' | 'ca') {
+    setLang(next)
+    setIndex(0)
+    setStarted(true)
+  }
+
+  if (!started) {
+    return (
+      <AppShell title="APRENDE" shortTitle="Aprende" showBack backTo="/missions/mates/clocks">
+        <section className="clock-lang" aria-labelledby="clock-lang-title">
+          <div className="clock-learn__lumo" style={{ marginBottom: '1rem' }}>
+            <Lumo state="thinking" size="md" />
+            <p className="clock-learn__bubble" id="clock-lang-title">
+              ¿Qué quieres que te explique: las horas en castellano o en catalán?
+            </p>
+          </div>
+          <div className="clock-lang__grid">
+            <button type="button" className="clock-lang__card" onClick={() => startWith('es')}>
+              <span className="clock-lang__flag" aria-hidden="true">
+                ES
+              </span>
+              <span className="clock-lang__name">Castellano</span>
+              <span className="clock-lang__sample">la una y cuarto · y media · menos cuarto</span>
+            </button>
+            <button type="button" className="clock-lang__card" onClick={() => startWith('ca')}>
+              <span className="clock-lang__flag" aria-hidden="true">
+                CA
+              </span>
+              <span className="clock-lang__name">Català</span>
+              <span className="clock-lang__sample">la pizza de quarts · un quart de les dues</span>
+            </button>
+          </div>
+        </section>
+      </AppShell>
+    )
+  }
+
   return (
-    <AppShell title="APRENDE" shortTitle="Aprende" showBack backTo="/missions/mates/clocks/modes">
+    <AppShell title="APRENDE" shortTitle="Aprende" showBack backTo="/missions/mates/clocks">
       <section className="clock-learn" aria-labelledby="clock-learn-title">
         <div className="clock-learn__lumo">
           <Lumo state="thinking" size="md" />
@@ -181,10 +212,15 @@ export function ClockLearnScreen() {
           <button
             type="button"
             className="btn btn-ghost"
-            disabled={index === 0}
-            onClick={() => setIndex((v) => Math.max(0, v - 1))}
+            onClick={() => {
+              if (index === 0) {
+                setStarted(false)
+                return
+              }
+              setIndex((v) => Math.max(0, v - 1))
+            }}
           >
-            Anterior
+            {index === 0 ? 'Cambiar idioma' : 'Anterior'}
           </button>
           {isLast ? (
             <Link to="/missions/mates/clocks/train" className="btn btn-primary">

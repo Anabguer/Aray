@@ -3,6 +3,7 @@ import { modeArtUrl, type ModeArtId } from '@/assets/modes'
 import { AppShell } from '@/components/AppShell'
 import { IconPlay } from '@/components/Icons'
 import { useClockSession } from '@/clock/ClockSessionContext'
+import type { ClockLang } from '@/clock/types'
 
 function ModePoster({
   art,
@@ -43,25 +44,36 @@ function ModePoster({
 }
 
 export function ClockModeSelectScreen() {
-  const { lang } = useClockSession()
-  const langLabel = lang === 'ca' ? 'Català' : 'Castellano'
+  const { lang, setLang } = useClockSession()
+
+  function pickLang(next: ClockLang) {
+    setLang(next)
+  }
 
   return (
-    <AppShell title="MODO" shortTitle="Modo" showBack backTo="/missions/mates/clocks">
+    <AppShell title="HORAS" shortTitle="Horas" showBack backTo="/missions/mates">
       <p className="clock-modes__lang">
-        Idioma: <strong>{langLabel}</strong>
-        {' · '}
-        <Link to="/missions/mates/clocks">Cambiar</Link>
+        Para Entrena y Empareja:{' '}
+        <button
+          type="button"
+          className={`clock-modes__lang-btn${lang === 'es' ? ' is-on' : ''}`}
+          onClick={() => pickLang('es')}
+        >
+          Castellano
+        </button>
+        <button
+          type="button"
+          className={`clock-modes__lang-btn${lang === 'ca' ? ' is-on' : ''}`}
+          onClick={() => pickLang('ca')}
+        >
+          Català
+        </button>
       </p>
       <div className="mode-posters mode-posters--clocks" role="list">
         <ModePoster
           art="aprende"
           title="APRENDE"
-          text={
-            lang === 'ca'
-              ? 'Lumo te enseña los quarts'
-              : 'Lumo te enseña a decir la hora'
-          }
+          text="Elige castellano o catalán y Lumo te explica"
           className="mode-poster--learn"
           to="/missions/mates/clocks/learn"
         />

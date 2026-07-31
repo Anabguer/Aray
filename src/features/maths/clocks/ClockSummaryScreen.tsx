@@ -11,7 +11,7 @@ export function ClockSummaryScreen() {
 
   useEffect(() => {
     if (!lastSummary) {
-      navigate('/missions/mates/clocks/modes', { replace: true })
+      navigate('/missions/mates/clocks', { replace: true })
       return
     }
     soundEngine.play('points-earned')
@@ -41,7 +41,7 @@ export function ClockSummaryScreen() {
   }
 
   return (
-    <AppShell title="RESUMEN" shortTitle="Resumen" showBack backTo="/missions/mates/clocks/modes">
+    <AppShell title="RESUMEN" shortTitle="Resumen" showBack backTo="/missions/mates/clocks">
       <section className="clock-summary" aria-labelledby="clock-summary-title">
         <Lumo state={pct >= 80 ? 'celebration' : 'correct'} size="lg" />
         <h2 id="clock-summary-title" className="clock-summary__title">
@@ -76,7 +76,7 @@ export function ClockSummaryScreen() {
           <button type="button" className="btn btn-primary btn-block" onClick={repeat}>
             Repetir
           </button>
-          <Link to="/missions/mates/clocks/modes" className="btn btn-ghost btn-block">
+          <Link to="/missions/mates/clocks" className="btn btn-ghost btn-block">
             Otros modos
           </Link>
           <Link to="/missions/mates" className="btn btn-ghost btn-block">

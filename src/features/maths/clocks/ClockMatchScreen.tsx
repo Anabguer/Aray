@@ -109,7 +109,7 @@ export function ClockMatchScreen() {
   }
 
   return (
-    <AppShell title="EMPAREJA" shortTitle="Empareja" showBack backTo="/missions/mates/clocks/modes">
+    <AppShell title="EMPAREJA" shortTitle="Empareja" showBack backTo="/missions/mates/clocks">
       <section className="clock-match" aria-label="Empareja horas">
         <header className="clock-match__hud">
           <Lumo state={lumo.state} intensity={lumo.intensity} size="sm" />
