@@ -241,11 +241,23 @@ export function AlphabetPlayScreen() {
 
             {question.kind === 'neighbor' ? (
               <div className="alphabet-neighbor" aria-label="Letra de Lumo">
-                <span className="alphabet-neighbor__letter">{question.letter}</span>
-                <span className="alphabet-neighbor__gap" aria-hidden="true">
-                  {question.direction === 'next' ? '→' : '←'}
-                </span>
-                <span className="alphabet-neighbor__slot">?</span>
+                {question.direction === 'prev' ? (
+                  <>
+                    <span className="alphabet-neighbor__slot">?</span>
+                    <span className="alphabet-neighbor__gap" aria-hidden="true">
+                      →
+                    </span>
+                    <span className="alphabet-neighbor__letter">{question.letter}</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="alphabet-neighbor__letter">{question.letter}</span>
+                    <span className="alphabet-neighbor__gap" aria-hidden="true">
+                      →
+                    </span>
+                    <span className="alphabet-neighbor__slot">?</span>
+                  </>
+                )}
               </div>
             ) : null}
 
