@@ -68,14 +68,12 @@ export async function apiGet<T extends Record<string, unknown> = Record<string, 
   return (await parseJson(res)) as T
 }
 
-export async function apiPost<T extends Record<string, unknown> = Record<string, unknown>>(
-  path: string,
-  body: Record<string, unknown> = {},
+async function postOnce<T extends Record<string, unknown>>(
+  url: string,
+  body: Record<string, unknown>,
+  csrf: string,
   signal?: AbortSignal,
 ): Promise<T> {
-  const url = path.startsWith('http') ? path : `${API_ROOT}${path.startsWith('/') ? path : `/${path}`}`
-  const csrf =
-    typeof body.csrf === 'string' && body.csrf !== '' ? body.csrf : await getCsrf()
   const res = await fetch(url, {
     method: 'POST',
     credentials: 'include',
@@ -89,6 +87,27 @@ export async function apiPost<T extends Record<string, unknown> = Record<string,
   return (await parseJson(res)) as T
 }
 
+export async function apiPost<T extends Record<string, unknown> = Record<string, unknown>>(
+  path: string,
+  body: Record<string, unknown> = {},
+  signal?: AbortSignal,
+): Promise<T> {
+  const url = path.startsWith('http') ? path : `${API_ROOT}${path.startsWith('/') ? path : `/${path}`}`
+  const explicit =
+    typeof body.csrf === 'string' && body.csrf !== '' ? body.csrf : null
+  let csrf = explicit ?? (await getCsrf())
+  try {
+    return await postOnce<T>(url, body, csrf, signal)
+  } catch (err) {
+    // PC nuevo / carrera me.php+csrf: token desfasado respecto a la cookie de sesión.
+    if (!(err instanceof ApiError) || err.code !== 'csrf_invalid' || signal?.aborted) {
+      throw err
+    }
+    csrf = await getCsrf(true)
+    return await postOnce<T>(url, body, csrf, signal)
+  }
+}
+
 /** POST multipart (p. ej. avatar). No fuerza Content-Type: lo pone el navegador con boundary. */
 export async function apiUpload<T extends Record<string, unknown> = Record<string, unknown>>(
   path: string,
@@ -96,21 +115,32 @@ export async function apiUpload<T extends Record<string, unknown> = Record<strin
   signal?: AbortSignal,
 ): Promise<T> {
   const url = path.startsWith('http') ? path : `${API_ROOT}${path.startsWith('/') ? path : `/${path}`}`
-  const csrf = await getCsrf()
-  form.set('csrf', csrf)
-  const res = await fetch(url, {
-    method: 'POST',
-    credentials: 'include',
-    headers: { Accept: 'application/json' },
-    body: form,
-    signal,
-  })
-  return (await parseJson(res)) as T
+  const attempt = async (forceCsrf: boolean) => {
+    const csrf = await getCsrf(forceCsrf)
+    form.set('csrf', csrf)
+    const res = await fetch(url, {
+      method: 'POST',
+      credentials: 'include',
+      headers: { Accept: 'application/json' },
+      body: form,
+      signal,
+    })
+    return (await parseJson(res)) as T
+  }
+  try {
+    return await attempt(false)
+  } catch (err) {
+    if (!(err instanceof ApiError) || err.code !== 'csrf_invalid' || signal?.aborted) {
+      throw err
+    }
+    return await attempt(true)
+  }
 }
 
 /** Obtiene (o renueva) el token CSRF de sesión. */
 export async function getCsrf(force = false): Promise<string> {
   if (!force && csrfCache) return csrfCache
+  if (force) csrfCache = null
   const data = await apiGet<{ csrf: string }>('/csrf.php')
   if (typeof data.csrf !== 'string' || data.csrf === '') {
     throw new ApiError(500, 'csrf_missing', 'No se pudo obtener el token de seguridad.')

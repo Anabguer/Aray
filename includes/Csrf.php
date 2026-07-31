@@ -18,12 +18,11 @@ final class Csrf
     public static function requireValid(?string $provided): void
     {
         Session::start();
-        $expected = $_SESSION[self::SESSION_KEY] ?? null;
-        if (!is_string($expected) || !is_string($provided) || $provided === '') {
-            Http::error(403, 'csrf_invalid', 'Sesión no válida. Recarga e inténtalo de nuevo.');
-        }
-        if (!hash_equals($expected, $provided)) {
-            Http::error(403, 'csrf_invalid', 'Sesión no válida. Recarga e inténtalo de nuevo.');
+        $expected = self::token();
+        if (!is_string($provided) || $provided === '' || !hash_equals($expected, $provided)) {
+            Http::error(403, 'csrf_invalid', 'Sesión no válida. Recarga e inténtalo de nuevo.', [
+                'csrf' => $expected,
+            ]);
         }
     }
 

@@ -34,11 +34,15 @@ export function AccessScreen() {
       await refreshFromServer()
       navigate('/', { replace: true })
     } catch (err) {
-      setError(
-        err instanceof ApiError && err.message.trim() !== ''
-          ? err.message
-          : 'No se pudo iniciar sesión.',
-      )
+      if (err instanceof ApiError && err.code === 'csrf_invalid') {
+        setError('No se pudo validar la sesión. Recarga la página (F5) e inténtalo otra vez. Si sigue fallando, permite cookies para este sitio.')
+      } else {
+        setError(
+          err instanceof ApiError && err.message.trim() !== ''
+            ? err.message
+            : 'No se pudo iniciar sesión.',
+        )
+      }
     } finally {
       setBusy(false)
     }

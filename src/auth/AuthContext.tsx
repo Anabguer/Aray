@@ -7,7 +7,7 @@ import {
   useState,
   type ReactNode,
 } from 'react'
-import { apiGet, apiPost, peekCsrf, setCsrf } from '@/api/client'
+import { apiGet, apiPost, getCsrf, peekCsrf, setCsrf } from '@/api/client'
 import { authorizeCurrentDevice } from '@/sync/playSession'
 import { startPlayHeartbeat, stopPlayHeartbeat } from '@/sync/playHeartbeat'
 
@@ -230,6 +230,7 @@ export function AuthProvider({
 
   const loginAdult = useCallback(
     async (login: string, password: string) => {
+      await getCsrf(true)
       const data = await apiPost<MeResponse>('/auth/adult-login.php', { login, password })
       if (data.role !== 'adult') {
         throw new Error('No se pudo iniciar sesión.')
@@ -248,6 +249,7 @@ export function AuthProvider({
       pin: string
       children: RegisterChildInput[]
     }) => {
+      await getCsrf(true)
       const data = await apiPost<MeResponse>('/auth/register.php', {
         login: input.login,
         password: input.password,
@@ -266,6 +268,7 @@ export function AuthProvider({
 
   const loginAdultPin = useCallback(
     async (pin: string) => {
+      await getCsrf(true)
       const data = await apiPost<MeResponse>('/auth/pin-login.php', { pin })
       if (data.role !== 'adult') {
         throw new Error('PIN incorrecto')
@@ -277,6 +280,7 @@ export function AuthProvider({
 
   const enterAsChild = useCallback(
     async (playerSlug: string) => {
+      await getCsrf(true)
       const data = await apiPost<MeResponse>('/auth/child-enter.php', { playerSlug })
       applyMe(data)
     },
