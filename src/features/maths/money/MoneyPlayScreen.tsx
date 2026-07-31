@@ -15,6 +15,7 @@ import { AppShell } from '@/components/AppShell'
 import { useLumoController } from '@/lumo/useLumoController'
 import { soundEngine } from '@/sound/soundEngine'
 import { useDailyMission } from '@/daily/DailyMissionContext'
+import { buildActivityStatsDelta } from '@/achievements/stats'
 import { sideActivityEnergy } from '@/config/rewardGoal'
 import { rewardMatrix, sessionXpFromCorrects } from '@/config/rewardMatrix'
 import { useProgress } from '@/progress/ProgressContext'
@@ -53,6 +54,7 @@ export function MoneyPlayScreen() {
   const bestRef = useRef(0)
   const streakRef = useRef(0)
   const openedRef = useRef(false)
+  const startedAtRef = useRef(Date.now())
   const modesPath = '/missions/mates/money'
 
   const question = queue[index] as MoneyQuestion | undefined
@@ -101,6 +103,13 @@ export function MoneyPlayScreen() {
           correctRef.current,
           rewardMatrix.money.xpPerCorrect,
         ),
+        statsDelta: buildActivityStatsDelta({
+          feature: 'money',
+          mode,
+          correct: correctRef.current,
+          total: MONEY_ROUND_SIZE,
+          playSeconds: Math.max(1, Math.round((Date.now() - startedAtRef.current) / 1000)),
+        }),
       })
     }
     navigate(`${modesPath}/summary`, { replace: true })

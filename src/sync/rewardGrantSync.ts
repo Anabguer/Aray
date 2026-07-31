@@ -20,6 +20,8 @@ export type ActivityEnergyGrant = {
   wrong?: number
   /** XP de juego a sumar en local (economía: XP solo al jugar). */
   xpEarned?: number
+  /** Delta de stats de logros (tiempo, feature, racha buena…). */
+  statsDelta?: import('@/achievements/stats').StatsDelta
 }
 
 type ServerReward = {
@@ -36,6 +38,8 @@ type GrantResponse = {
   granted?: number
   skippedDuplicate?: boolean
   reward?: ServerReward
+  achievements?: { claimedIds?: string[] }
+  stats?: unknown
 }
 
 type PendingOp = {
@@ -144,13 +148,59 @@ async function submitGrant(
     sessionId: grant.sessionId,
     requestedPoints: grant.requestedPoints,
     appliedSessionIds: priorOnly,
+    ...(typeof grant.xpEarned === 'number' && grant.xpEarned > 0
+      ? { xpEarned: Math.max(0, Math.floor(grant.xpEarned)) }
+      : {}),
     activity: {
       mode: grant.mode,
       correct: grant.correct ?? 0,
       wrong: grant.wrong ?? 0,
       rewardPoints: grant.requestedPoints,
     },
+    ...(grant.statsDelta ? { statsDelta: grant.statsDelta } : {}),
   })
+}
+
+/** Energía por subir de nivel: stub mode=levelup, idempotente por sessionId. */
+export async function syncLevelUpEnergyEvents(args: {
+  playerId: number
+  playerSlug?: string | null
+  playerKey: string
+  events: Array<{ newLevel: number; energyRequested: number }>
+  appliedSessionIds: string[]
+  localReward: RewardProgress
+}): Promise<{ reward: RewardProgress | null; error: string | null }> {
+  if (args.events.length === 0) {
+    return { reward: null, error: null }
+  }
+  let reward = args.localReward
+  let applied = [...args.appliedSessionIds]
+  let lastError: string | null = null
+  for (const ev of args.events) {
+    const sessionId = `levelup-${args.playerKey}-${ev.newLevel}`.slice(0, 64)
+    const result = await enqueueAndSyncRewardGrant({
+      playerId: args.playerId,
+      playerSlug: args.playerSlug,
+      grant: {
+        sessionId,
+        requestedPoints: Math.max(0, ev.energyRequested),
+        mode: 'levelup',
+      },
+      appliedSessionIds: applied,
+      localReward: reward,
+    })
+    if (result.reward) {
+      reward = {
+        ...result.reward,
+        appliedSessionIds: Array.from(
+          new Set([...reward.appliedSessionIds, ...result.reward.appliedSessionIds, sessionId]),
+        ),
+      }
+      applied = reward.appliedSessionIds
+    }
+    if (result.error) lastError = result.error
+  }
+  return { reward, error: lastError }
 }
 
 export async function enqueueAndSyncRewardGrant(args: {
@@ -164,6 +214,8 @@ export async function enqueueAndSyncRewardGrant(args: {
   reward: RewardProgress | null
   granted: number
   error: string | null
+  achievementsClaimedIds: string[] | null
+  stats: unknown | null
 }> {
   const epoch = currentLocalEpoch()
   purgeStaleLocalSync(epoch, args.playerId)
@@ -198,6 +250,10 @@ export async function enqueueAndSyncRewardGrant(args: {
       reward: mapGrantReward(res.reward, withApplied),
       granted: typeof res.granted === 'number' ? res.granted : 0,
       error: null,
+      achievementsClaimedIds: Array.isArray(res.achievements?.claimedIds)
+        ? res.achievements!.claimedIds.filter((id): id is string => typeof id === 'string')
+        : null,
+      stats: res.stats ?? null,
     }
   } catch (e) {
     const msg =
@@ -213,7 +269,14 @@ export async function enqueueAndSyncRewardGrant(args: {
         ),
       )
     }
-    return { synced: false, reward: null, granted: 0, error: msg }
+    return {
+      synced: false,
+      reward: null,
+      granted: 0,
+      error: msg,
+      achievementsClaimedIds: null,
+      stats: null,
+    }
   }
 }
 

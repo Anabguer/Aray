@@ -9,6 +9,8 @@ import { normalizeAlphabetProgress } from '@/alphabet/progress'
 import type { ProgressState, RewardProgress, TableProgress } from '@/math/types'
 import { normalizeTableProgress } from '@/math/tableMastery'
 import { createInitialRewardProgress, normalizeRewardCycles, syncRewardDay, localDateString } from '@/reward/engine'
+import { mergeClaimedAchievementIds } from '@/achievements/claimedLocal'
+import { createEmptyStats, normalizeStats } from '@/achievements/stats'
 import { createInitialProgress } from '@/progress/repository'
 
 type ServerReward = {
@@ -39,6 +41,10 @@ export type ServerProgressSnapshot = {
     pending?: ProgressState['crates']['pending']
     pityWithout?: number
   }
+  achievements?: {
+    claimedIds?: string[]
+  }
+  stats?: unknown
   school?: unknown
   activityAssignments?: unknown
 }
@@ -146,12 +152,30 @@ export function mapServerProgressToState(
     soundMuted: typeof opts.soundMuted === 'boolean' ? opts.soundMuted : Boolean(snapshot.soundMuted),
     reward,
     crates,
-    achievements: opts.achievements ?? { claimedIds: [] },
+    achievements: {
+      claimedIds: mergeClaimedAchievementIds(
+        Array.isArray(snapshot.achievements?.claimedIds)
+          ? snapshot.achievements!.claimedIds.filter((id): id is string => typeof id === 'string')
+          : [],
+        opts.achievements?.claimedIds,
+      ),
+    },
+    stats:
+      snapshot.stats != null
+        ? normalizeStats(snapshot.stats)
+        : opts.achievements
+          ? createEmptyStats()
+          : createEmptyStats(),
     school: snapshot.school
       ? normalizeSchoolProfile(snapshot.school)
       : createDefaultSchoolProfile(),
-    activityAssignments: snapshot.activityAssignments
-      ? normalizeActivityAssignments(snapshot.activityAssignments)
-      : {},
+    activityAssignments: normalizeActivityAssignments(
+      snapshot.activityAssignments ??
+        (snapshot.school &&
+        typeof snapshot.school === 'object' &&
+        !Array.isArray(snapshot.school)
+          ? (snapshot.school as { activityAssignments?: unknown }).activityAssignments
+          : undefined),
+    ),
   }
 }

@@ -128,6 +128,23 @@ final class AlphabetSessionService
             'rewardPoints' => is_array($saved) ? (int) ($saved['energy_granted'] ?? 0) : 0,
         ]);
 
+        $totalN = max(1, (int) $calc['correctCount'] + (int) $calc['wrongCount']);
+        $correctN = (int) $calc['correctCount'];
+        $perfect = $correctN >= $totalN;
+        $good = ($correctN / $totalN) >= 0.8;
+        $playSeconds = isset($payload['durationSeconds'])
+            ? max(0, (int) $payload['durationSeconds'])
+            : 90;
+        AchievementService::mergeStatsDelta($playerId, [
+            'playSeconds' => max(1, $playSeconds),
+            'sessionsCompleted' => 1,
+            'goodSession' => $good,
+            'feature' => 'alphabet',
+            'featureSessions' => 1,
+            'featurePerfect' => $perfect ? 1 : 0,
+            'mode' => $mode,
+        ]);
+
         return self::buildResult(is_array($saved) ? $saved : [], false);
     }
 

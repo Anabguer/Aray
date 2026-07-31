@@ -42,7 +42,7 @@ export const energyCopy = {
     `¡Premio conseguido! Avísale a ${tutorName} para recogerlo`,
   streakOnFire: 'Tu racha está on fire',
   sourcesHint:
-    'La energía sube al jugar, al subir de nivel, con cajas y al recoger logros en Mi colección.',
+    'La energía sube al jugar, al subir de nivel, con cajas y al recoger logros.',
 } as const
 
 /** Una multiplicación correcta = microejercicio. */

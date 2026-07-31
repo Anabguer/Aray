@@ -8,6 +8,7 @@ import { Lumo } from '@/lumo/Lumo'
 import { useLumoController } from '@/lumo/useLumoController'
 import { soundEngine } from '@/sound/soundEngine'
 import { useDailyMission } from '@/daily/DailyMissionContext'
+import { buildActivityStatsDelta } from '@/achievements/stats'
 import { sideActivityEnergy } from '@/config/rewardGoal'
 import { rewardMatrix, sessionXpFromCorrects } from '@/config/rewardMatrix'
 import { useProgress } from '@/progress/ProgressContext'
@@ -23,6 +24,7 @@ export function ClockMatchScreen() {
   const lumo = useLumoController('thinking')
   const seedRef = useRef(Date.now())
   const finishedRef = useRef(false)
+  const startedAtRef = useRef(Date.now())
 
   const pairs = useMemo(
     () => buildMatchPairs(lang, PAIRS, seedRef.current),
@@ -71,6 +73,13 @@ export function ClockMatchScreen() {
         correct,
         wrong: Math.max(0, attempts - correct),
         xpEarned: sessionXpFromCorrects(correct, rewardMatrix['clocks-match'].xpPerCorrect),
+        statsDelta: buildActivityStatsDelta({
+          feature: 'clocks',
+          mode: 'match',
+          correct,
+          total: Math.max(1, attempts),
+          playSeconds: Math.max(1, Math.round((Date.now() - startedAtRef.current) / 1000)),
+        }),
       })
     }
     navigate('/missions/mates/clocks/summary', { replace: true })

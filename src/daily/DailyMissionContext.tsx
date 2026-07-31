@@ -7,6 +7,7 @@ import {
   useState,
   type ReactNode,
 } from 'react'
+import { useAuth } from '@/auth/AuthContext'
 import { sideActivityEnergy } from '@/config/rewardGoal'
 import { useProgress } from '@/progress/ProgressContext'
 import { localDateString } from '@/reward/engine'
@@ -34,15 +35,17 @@ interface DailyState {
   bonusClaimed: boolean
 }
 
-const STORAGE_KEY = 'aray.dailyMission.v1'
+function storageKey(playerId: number | null): string {
+  return playerId != null ? `aray.dailyMission.v1.p${playerId}` : 'aray.dailyMission.v1'
+}
 
 function emptyProgress(): Record<DailySkillKey, number> {
   return { tables: 0, calc: 0, spelling: 0, clocks: 0, money: 0 }
 }
 
-function loadState(today: string): DailyState {
+function loadState(today: string, playerId: number | null): DailyState {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY)
+    const raw = localStorage.getItem(storageKey(playerId))
     if (!raw) return { date: today, progress: emptyProgress(), bonusClaimed: false }
     const parsed = JSON.parse(raw) as DailyState
     if (parsed.date !== today) {
@@ -58,9 +61,9 @@ function loadState(today: string): DailyState {
   }
 }
 
-function saveState(state: DailyState) {
+function saveState(state: DailyState, playerId: number | null) {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
+    localStorage.setItem(storageKey(playerId), JSON.stringify(state))
   } catch {
     /* ignore */
   }
@@ -80,16 +83,20 @@ interface DailyMissionContextValue {
 const DailyMissionContext = createContext<DailyMissionContextValue | null>(null)
 
 export function DailyMissionProvider({ children }: { children: ReactNode }) {
+  const { player } = useAuth()
+  const playerId = player?.id ?? null
   const { grantActivityEnergy } = useProgress()
-  const [state, setState] = useState<DailyState>(() => loadState(localDateString()))
+  const [state, setState] = useState<DailyState>(() =>
+    loadState(localDateString(), playerId),
+  )
 
   useEffect(() => {
-    setState(loadState(localDateString()))
-  }, [])
+    setState(loadState(localDateString(), playerId))
+  }, [playerId])
 
   useEffect(() => {
-    saveState(state)
-  }, [state])
+    saveState(state, playerId)
+  }, [state, playerId])
 
   const recordProgress = useCallback((key: DailySkillKey, amount = 1) => {
     const add = Math.max(0, Math.floor(amount))
@@ -116,17 +123,22 @@ export function DailyMissionProvider({ children }: { children: ReactNode }) {
   const allDone = completedCount >= DAILY_TASKS.length
 
   const claimBonusIfReady = useCallback(() => {
-    if (!allDone || state.bonusClaimed) return false
+    if (!allDone || state.bonusClaimed || playerId == null) return false
     grantActivityEnergy({
-      sessionId: `daily-bonus-${state.date}`,
+      sessionId: `daily-bonus-${playerId}-${state.date}`,
       requestedPoints: sideActivityEnergy.dailyBonus,
       mode: 'daily_bonus',
       correct: DAILY_TASKS.length,
       wrong: 0,
+      statsDelta: {
+        dailyMissionsCompleted: 1,
+        playSeconds: 30,
+        sessionsCompleted: 0,
+      },
     })
     setState((prev) => ({ ...prev, bonusClaimed: true }))
     return true
-  }, [allDone, state.bonusClaimed, state.date, grantActivityEnergy])
+  }, [allDone, state.bonusClaimed, state.date, grantActivityEnergy, playerId])
 
   const value = useMemo(
     () => ({

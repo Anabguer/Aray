@@ -1,10 +1,12 @@
 import { achievementImages } from '@/assets/achievements'
+import { dailySkillIcons } from '@/assets/daily'
 import { modeArtUrl } from '@/assets/modes'
 import { tableArtUrl } from '@/assets/tables'
 import { normalizeAlphabetModeProgress } from '@/alphabet/progress'
+import { createEmptyStats } from '@/achievements/stats'
 import type { ProgressState } from '@/math/types'
 
-export type AchievementCategory = 'insignias' | 'tablas' | 'lenguas'
+export type AchievementCategory = 'insignias' | 'tablas' | 'mates' | 'lenguas'
 
 export interface AchievementReward {
   energy: number
@@ -20,6 +22,10 @@ export interface AchievementDefinition {
   reward: AchievementReward
   current: (progress: ProgressState) => number
   target: number
+}
+
+function statsOf(progress: ProgressState) {
+  return progress.stats ?? createEmptyStats()
 }
 
 const generalAchievements: AchievementDefinition[] = [
@@ -81,7 +87,7 @@ const generalAchievements: AchievementDefinition[] = [
   {
     id: 'todas-domadas',
     title: 'Domador supremo',
-    shortDescription: 'Todas las tablas están domadas. Colección épica.',
+    shortDescription: 'Todas las tablas están domadas. Logro épico.',
     howToUnlock: 'Doma las tablas del 2 al 9.',
     category: 'insignias',
     image: achievementImages.todasDomadas,
@@ -91,6 +97,105 @@ const generalAchievements: AchievementDefinition[] = [
         (table) => progress.tables[String(table)]?.everMastered,
       ).length,
     target: 8,
+  },
+  {
+    id: 'play-10min',
+    title: 'Calentando motores',
+    shortDescription: 'Diez minutos de farmeo. Empieza la sesión.',
+    howToUnlock: 'Acumula 10 minutos jugando.',
+    category: 'insignias',
+    image: achievementImages.racha5,
+    reward: { energy: 15 },
+    current: (progress) => Math.floor(statsOf(progress).playSeconds / 60),
+    target: 10,
+  },
+  {
+    id: 'play-30min',
+    title: 'Sesión seria',
+    shortDescription: 'Media hora de práctica. Nivel pro.',
+    howToUnlock: 'Acumula 30 minutos jugando.',
+    category: 'insignias',
+    image: achievementImages.racha10,
+    reward: { energy: 25 },
+    current: (progress) => Math.floor(statsOf(progress).playSeconds / 60),
+    target: 30,
+  },
+  {
+    id: 'play-60min',
+    title: 'Maratón AFK',
+    shortDescription: 'Una hora total. El lobby te echa de menos… casi.',
+    howToUnlock: 'Acumula 60 minutos jugando.',
+    category: 'insignias',
+    image: achievementImages.retoPerfecto,
+    reward: { energy: 40 },
+    current: (progress) => Math.floor(statsOf(progress).playSeconds / 60),
+    target: 60,
+  },
+  {
+    id: 'sessions-10',
+    title: 'Diez partidas',
+    shortDescription: 'Diez actividades completadas. Ritmo constante.',
+    howToUnlock: 'Completa 10 actividades (cualquier mundo).',
+    category: 'insignias',
+    image: achievementImages.primeraMision,
+    reward: { energy: 15 },
+    current: (progress) => statsOf(progress).sessionsCompleted,
+    target: 10,
+  },
+  {
+    id: 'sessions-25',
+    title: 'Veinticinco partidas',
+    shortDescription: 'Ya conoces el mapa. Sigue farmeando.',
+    howToUnlock: 'Completa 25 actividades.',
+    category: 'insignias',
+    image: achievementImages.retoRapido,
+    reward: { energy: 25 },
+    current: (progress) => statsOf(progress).sessionsCompleted,
+    target: 25,
+  },
+  {
+    id: 'good-streak-3',
+    title: 'Racha de tres',
+    shortDescription: 'Tres partidas seguidas con buen resultado (≥80%).',
+    howToUnlock: 'Completa 3 actividades seguidas con al menos 80% de aciertos.',
+    category: 'insignias',
+    image: achievementImages.racha5,
+    reward: { energy: 20 },
+    current: (progress) => statsOf(progress).bestGoodSessionStreak,
+    target: 3,
+  },
+  {
+    id: 'good-streak-5',
+    title: 'Racha de cinco',
+    shortDescription: 'Cinco partidas buenas seguidas. Combo de verdad.',
+    howToUnlock: 'Completa 5 actividades seguidas con al menos 80% de aciertos.',
+    category: 'insignias',
+    image: achievementImages.racha10,
+    reward: { energy: 30 },
+    current: (progress) => statsOf(progress).bestGoodSessionStreak,
+    target: 5,
+  },
+  {
+    id: 'daily-primera',
+    title: 'Misión diaria hecha',
+    shortDescription: 'Completaste la misión diaria. Bonus merecido.',
+    howToUnlock: 'Completa la misión diaria una vez.',
+    category: 'insignias',
+    image: dailySkillIcons.tables,
+    reward: { energy: 15 },
+    current: (progress) => Math.min(1, statsOf(progress).dailyMissionsCompleted),
+    target: 1,
+  },
+  {
+    id: 'daily-5',
+    title: 'Cinco días de misión',
+    shortDescription: 'Cinco misiones diarias completadas. Constancia.',
+    howToUnlock: 'Completa la misión diaria 5 veces.',
+    category: 'insignias',
+    image: dailySkillIcons.calc,
+    reward: { energy: 35 },
+    current: (progress) => statsOf(progress).dailyMissionsCompleted,
+    target: 5,
   },
 ]
 
@@ -195,11 +300,127 @@ const languageAchievements: AchievementDefinition[] = [
       ).length,
     target: 4,
   },
+  {
+    id: 'spell-primera',
+    title: 'Ortografía on',
+    shortDescription: 'Primera ronda de ortografía completada.',
+    howToUnlock: 'Completa una actividad de ortografía.',
+    category: 'lenguas',
+    image: dailySkillIcons.spelling,
+    reward: { energy: 10 },
+    current: (progress) => Math.min(1, statsOf(progress).byFeature.spelling.sessions),
+    target: 1,
+  },
+  {
+    id: 'spell-perfecto',
+    title: 'Sin faltas',
+    shortDescription: 'Una ronda de ortografía perfecta.',
+    howToUnlock: 'Acaba una ronda de ortografía sin fallos.',
+    category: 'lenguas',
+    image: modeArtUrl('spell-correct'),
+    reward: { energy: 25 },
+    current: (progress) => Math.min(1, statsOf(progress).byFeature.spelling.perfect),
+    target: 1,
+  },
+  {
+    id: 'spell-3-modos',
+    title: 'Explorador de reglas',
+    shortDescription: 'Has tocado tres modos distintos de ortografía.',
+    howToUnlock: 'Juega 3 modos diferentes de ortografía.',
+    category: 'lenguas',
+    image: modeArtUrl('spell-mix'),
+    reward: { energy: 20 },
+    current: (progress) => statsOf(progress).byFeature.spelling.modes.length,
+    target: 3,
+  },
+]
+
+const matesAchievements: AchievementDefinition[] = [
+  {
+    id: 'calc-primera',
+    title: 'Cálculo on',
+    shortDescription: 'Primera partida de cálculo.',
+    howToUnlock: 'Completa una actividad de cálculo.',
+    category: 'mates',
+    image: dailySkillIcons.calc,
+    reward: { energy: 10 },
+    current: (progress) => Math.min(1, statsOf(progress).byFeature.calc.sessions),
+    target: 1,
+  },
+  {
+    id: 'calc-mix',
+    title: 'Mezcla mental',
+    shortDescription: 'Has jugado el modo mezcla de cálculo.',
+    howToUnlock: 'Completa una ronda de cálculo en modo mezcla.',
+    category: 'mates',
+    image: modeArtUrl('calc-mix'),
+    reward: { energy: 15 },
+    current: (progress) =>
+      statsOf(progress).byFeature.calc.modes.includes('mix') ? 1 : 0,
+    target: 1,
+  },
+  {
+    id: 'calc-3-modos',
+    title: 'Calculadora humana',
+    shortDescription: 'Tres modos de cálculo distintos.',
+    howToUnlock: 'Juega 3 modos diferentes de cálculo.',
+    category: 'mates',
+    image: modeArtUrl('calc-add'),
+    reward: { energy: 20 },
+    current: (progress) => statsOf(progress).byFeature.calc.modes.length,
+    target: 3,
+  },
+  {
+    id: 'clocks-primera',
+    title: 'Hora punta',
+    shortDescription: 'Primera partida de relojes.',
+    howToUnlock: 'Completa una actividad de relojes.',
+    category: 'mates',
+    image: dailySkillIcons.clocks,
+    reward: { energy: 10 },
+    current: (progress) => Math.min(1, statsOf(progress).byFeature.clocks.sessions),
+    target: 1,
+  },
+  {
+    id: 'clocks-3',
+    title: 'Relojero en prácticas',
+    shortDescription: 'Tres partidas de relojes.',
+    howToUnlock: 'Completa 3 actividades de relojes.',
+    category: 'mates',
+    image: dailySkillIcons.clocks,
+    reward: { energy: 20 },
+    current: (progress) => statsOf(progress).byFeature.clocks.sessions,
+    target: 3,
+  },
+  {
+    id: 'money-primera',
+    title: 'Monedero listo',
+    shortDescription: 'Primera partida de dinero.',
+    howToUnlock: 'Completa una actividad de dinero.',
+    category: 'mates',
+    image: dailySkillIcons.money,
+    reward: { energy: 10 },
+    current: (progress) => Math.min(1, statsOf(progress).byFeature.money.sessions),
+    target: 1,
+  },
+  {
+    id: 'money-mix',
+    title: 'Cajero experto',
+    shortDescription: 'Has jugado el modo mezcla de dinero.',
+    howToUnlock: 'Completa una ronda de dinero en modo mezcla.',
+    category: 'mates',
+    image: dailySkillIcons.money,
+    reward: { energy: 15 },
+    current: (progress) =>
+      statsOf(progress).byFeature.money.modes.includes('mix') ? 1 : 0,
+    target: 1,
+  },
 ]
 
 export const achievementCatalog = [
   ...generalAchievements,
   ...tableAchievements,
+  ...matesAchievements,
   ...languageAchievements,
 ]
 

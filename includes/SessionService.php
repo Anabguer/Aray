@@ -142,6 +142,31 @@ final class SessionService
             $savedRow = $existing->fetch();
         }
 
+        // Stats de logros (tiempo / sesiones / rachas buenas).
+        $playMs = 0;
+        $correctN = 0;
+        foreach ($answers as $answer) {
+            $playMs += max(0, (int) ($answer['elapsedMs'] ?? 0));
+            if (!empty($answer['correct'])) {
+                $correctN++;
+            }
+        }
+        $totalN = count($answers);
+        $perfect = $totalN > 0 && $correctN >= $totalN;
+        $good = $totalN > 0 && ($correctN / $totalN) >= 0.8;
+        $playSeconds = isset($payload['durationSeconds'])
+            ? max(0, (int) $payload['durationSeconds'])
+            : (int) round($playMs / 1000);
+        AchievementService::mergeStatsDelta($playerId, [
+            'playSeconds' => max(1, $playSeconds),
+            'sessionsCompleted' => 1,
+            'goodSession' => $good,
+            'feature' => 'tables',
+            'featureSessions' => 1,
+            'featurePerfect' => $perfect ? 1 : 0,
+            'mode' => $mode,
+        ]);
+
         return self::buildResult(is_array($savedRow) ? $savedRow : [], false);
     }
 

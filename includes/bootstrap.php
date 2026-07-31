@@ -28,6 +28,8 @@ require_once __DIR__ . '/Session.php';
 require_once __DIR__ . '/Csrf.php';
 require_once __DIR__ . '/RateLimit.php';
 require_once __DIR__ . '/AuthService.php';
+require_once __DIR__ . '/AvatarService.php';
+require_once __DIR__ . '/FamilyRegisterService.php';
 require_once __DIR__ . '/PinAuthService.php';
 require_once __DIR__ . '/CurriculumCatalogService.php';
 require_once __DIR__ . '/PlayerCourseService.php';
@@ -38,6 +40,7 @@ require_once __DIR__ . '/SessionService.php';
 require_once __DIR__ . '/AlphabetSessionService.php';
 require_once __DIR__ . '/CrateService.php';
 require_once __DIR__ . '/SyncEpochService.php';
+require_once __DIR__ . '/AchievementService.php';
 require_once __DIR__ . '/ProgressRepository.php';
 require_once __DIR__ . '/Database.php';
 if (!defined('DB_PREFIX')) {

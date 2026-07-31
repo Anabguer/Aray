@@ -73,6 +73,8 @@ export interface ProgressState {
   achievements: {
     claimedIds: string[]
   }
+  /** Contadores para desbloquear logros (tiempo, sesiones, features). */
+  stats: import('@/achievements/stats').ProgressStats
   /** Curso activo e historial; el cambio de curso no reinicia recompensas ni dominio. */
   school: import('@/curriculum/types').SchoolProfile
   /** Overrides del panel adulto por activityId. */

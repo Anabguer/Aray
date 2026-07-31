@@ -14,6 +14,7 @@ import { useLumoController } from '@/lumo/useLumoController'
 import { soundEngine } from '@/sound/soundEngine'
 import { sideActivityEnergy } from '@/config/rewardGoal'
 import { rewardMatrix, sessionXpFromCorrects } from '@/config/rewardMatrix'
+import { buildActivityStatsDelta } from '@/achievements/stats'
 import { useDailyMission } from '@/daily/DailyMissionContext'
 import { useProgress } from '@/progress/ProgressContext'
 import { newId } from '@/progress/repository'
@@ -67,6 +68,7 @@ export function CalcPlayScreen() {
   const finishedRef = useRef(false)
   const correctRef = useRef(0)
   const attemptsRef = useRef(0)
+  const startedAtRef = useRef(Date.now())
   const bestStreakRef = useRef(0)
   const streakRef = useRef(0)
 
@@ -94,6 +96,13 @@ export function CalcPlayScreen() {
           correctRef.current,
           rewardMatrix.calc.xpPerCorrect,
         ),
+        statsDelta: buildActivityStatsDelta({
+          feature: 'calc',
+          mode,
+          correct: correctRef.current,
+          total: Math.max(1, attemptsRef.current),
+          playSeconds: Math.max(1, Math.round((Date.now() - startedAtRef.current) / 1000)),
+        }),
       })
     }
     navigate(`${MODES_PATH}/summary`, { replace: true })

@@ -109,6 +109,10 @@ final class ProgressRepository
             'alphabet' => AlphabetSessionService::snapshotForPlayer($playerId),
             'reward' => $reward,
             'crates' => $crates,
+            'achievements' => [
+                'claimedIds' => AchievementService::claimedIds($playerId),
+            ],
+            'stats' => AchievementService::statsForPlayer($playerId),
             'missionsToday' => $missionsToday,
             'school' => PlayerCourseService::getSchoolProfile($playerId),
             'playableDate' => MadridTime::playableDate(),

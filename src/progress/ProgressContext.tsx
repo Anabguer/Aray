@@ -27,6 +27,11 @@ import {
 import { applyCrateRewardToProgress } from '@/crates/apply'
 import { postCrateChoose, postCrateClaim, postCrateOpen } from '@/crates/api'
 import { loadLocalClaimedCrateIds, rememberLocalClaimedCrate } from '@/crates/claimedLocal'
+import {
+  loadLocalClaimedAchievementIds,
+  mergeClaimedAchievementIds,
+  rememberLocalClaimedAchievement,
+} from '@/achievements/claimedLocal'
 import type { ActivityAssignmentMap, SchoolProfile } from '@/curriculum/types'
 import type { ProgressState, RewardProgress, SessionResult } from '@/math/types'
 import {
@@ -38,6 +43,7 @@ import {
 } from '@/progress/repository'
 import { soundEngine } from '@/sound/soundEngine'
 import { achievementCatalog, achievementIsUnlocked } from '@/achievements/catalog'
+import { applyStatsDelta, mergeStatsPreferHigher, normalizeStats } from '@/achievements/stats'
 import { LevelUpOverlay, type LevelUpFlash } from '@/components/LevelUpOverlay'
 import { applyLevelUpEnergyBonuses } from '@/progress/levelUpEnergy'
 import { SYNC_META_KEY } from '@/sync/constants'
@@ -222,9 +228,16 @@ export function ProgressProvider({
         localCrates.claimedCompletionIds.includes(next.crates.pending.completionId)
           ? next.crates.pending.completionId
           : null
+      const claimedIds = mergeClaimedAchievementIds(
+        next.achievements.claimedIds,
+        progressRef.current.achievements.claimedIds,
+        loadLocalClaimedAchievementIds(id),
+      )
       const merged: ProgressState = {
         ...next,
         crates: mergeCratesState(next.crates, localCrates),
+        achievements: { claimedIds },
+        stats: mergeStatsPreferHigher(next.stats ?? normalizeStats(null), progressRef.current.stats),
       }
       persistCache(merged)
       setSyncEpoch(epoch)
@@ -264,9 +277,15 @@ export function ProgressProvider({
     setSyncStatus('hydrating')
     setSyncError(null)
     const current = progressRef.current
+    const activeId = playerIdRef.current ?? player?.id ?? null
     const result = await hydrateOfficialProgress({
       soundMuted: current.soundMuted,
-      achievements: current.achievements,
+      achievements: {
+        claimedIds: mergeClaimedAchievementIds(
+          current.achievements.claimedIds,
+          loadLocalClaimedAchievementIds(activeId),
+        ),
+      },
       celebratedPendingCycles: current.reward.celebratedPendingCycles,
     })
 
@@ -309,7 +328,7 @@ export function ProgressProvider({
     setSyncError(result.error)
     setSyncStatus('error')
     setHydrated(true)
-  }, [applyOfficial, persistCache, refreshPendingCount, store])
+  }, [applyOfficial, persistCache, player?.id, refreshPendingCount, store])
 
   const flushSyncQueue = useCallback(async () => {
     const id = playerIdRef.current
@@ -649,13 +668,18 @@ export function ProgressProvider({
     (input: ActivityEnergyGrant) => {
       const requested = Math.max(0, Math.floor(input.requestedPoints))
       const xpAdd = Math.max(0, Math.floor(input.xpEarned ?? 0))
-      if ((requested <= 0 && xpAdd <= 0) || !input.sessionId) return { granted: 0 }
+      if ((requested <= 0 && xpAdd <= 0 && !input.statsDelta) || !input.sessionId) {
+        return { granted: 0 }
+      }
 
       const current = progressRef.current
       let working: ProgressState = {
         ...current,
         xp: current.xp + xpAdd,
         lastPracticeAt: xpAdd > 0 || requested > 0 ? new Date().toISOString() : current.lastPracticeAt,
+        stats: input.statsDelta
+          ? applyStatsDelta(current.stats ?? normalizeStats(null), input.statsDelta)
+          : current.stats,
       }
       let granted = 0
       if (requested > 0) {
@@ -682,34 +706,47 @@ export function ProgressProvider({
       persistCache(leveled.next)
 
       const id = playerIdRef.current ?? player?.id ?? null
-      if (id !== null && requested > 0) {
+      if (id !== null && (requested > 0 || input.statsDelta)) {
         void (async () => {
           setSyncStatus('syncing')
           const syncResult = await enqueueAndSyncRewardGrant({
             playerId: id,
             playerSlug: player?.slug ?? null,
-            grant: { ...input, requestedPoints: requested },
+            grant: { ...input, requestedPoints: Math.max(requested, input.statsDelta ? 0 : requested) },
             appliedSessionIds: leveled.next.reward.appliedSessionIds,
             localReward: leveled.next.reward,
           })
           refreshPendingCount()
-          if (syncResult.reward) {
+          if (syncResult.reward || syncResult.stats != null || syncResult.achievementsClaimedIds) {
             const latest = progressRef.current
             persistCache({
               ...latest,
-              reward: {
-                ...syncResult.reward,
-                celebratedPendingCycles: latest.reward.celebratedPendingCycles.filter((n) =>
-                  syncResult.reward!.pendingCycleNumbers.includes(n),
-                ),
-                appliedSessionIds: Array.from(
-                  new Set([
-                    ...latest.reward.appliedSessionIds,
-                    ...syncResult.reward.appliedSessionIds,
-                    input.sessionId,
-                  ]),
+              stats:
+                syncResult.stats != null
+                  ? normalizeStats(syncResult.stats)
+                  : latest.stats,
+              achievements: {
+                claimedIds: mergeClaimedAchievementIds(
+                  latest.achievements.claimedIds,
+                  syncResult.achievementsClaimedIds ?? [],
+                  loadLocalClaimedAchievementIds(id),
                 ),
               },
+              reward: syncResult.reward
+                ? {
+                    ...syncResult.reward,
+                    celebratedPendingCycles: latest.reward.celebratedPendingCycles.filter((n) =>
+                      syncResult.reward!.pendingCycleNumbers.includes(n),
+                    ),
+                    appliedSessionIds: Array.from(
+                      new Set([
+                        ...latest.reward.appliedSessionIds,
+                        ...syncResult.reward.appliedSessionIds,
+                        input.sessionId,
+                      ]),
+                    ),
+                  }
+                : latest.reward,
             })
             setSyncStatus('ready')
             setSyncError(null)
@@ -865,7 +902,8 @@ export function ProgressProvider({
         return { ok: false, energyGranted: 0 }
       }
 
-      const playerKey = String(playerIdRef.current ?? player?.id ?? 'local')
+      const id = playerIdRef.current ?? player?.id ?? null
+      const playerKey = String(id ?? 'local')
       const sessionId = `achievement-${achievementId}-${playerKey}`.slice(0, 64)
       const energyAmt = Math.max(0, achievement.reward.energy)
       const grant = grantRewardPoints(current.reward, {
@@ -873,17 +911,20 @@ export function ProgressProvider({
         sessionId,
         attemptIds: [sessionId],
       })
+      const claimedIds = mergeClaimedAchievementIds(current.achievements.claimedIds, [
+        achievementId,
+      ])
+      rememberLocalClaimedAchievement(id, achievementId)
       const next: ProgressState = {
         ...current,
         reward: grant.reward,
-        achievements: {
-          claimedIds: [...current.achievements.claimedIds, achievementId],
-        },
+        achievements: { claimedIds },
       }
       persistCache(next)
 
-      const id = playerIdRef.current ?? player?.id ?? null
-      if (id !== null && energyAmt > 0 && grant.granted > 0) {
+      // Siempre sincronizar el claim (aunque el tope diario dé 0 energía):
+      // el stub de sesión mode=achievement es lo que persiste la colección en MySQL.
+      if (id !== null) {
         void enqueueAndSyncRewardGrant({
           playerId: id,
           playerSlug: player?.slug ?? null,
@@ -896,23 +937,33 @@ export function ProgressProvider({
           localReward: grant.reward,
         }).then((syncResult) => {
           refreshPendingCount()
-          if (syncResult.reward) {
+          if (syncResult.reward || syncResult.achievementsClaimedIds) {
             const latest = progressRef.current
             persistCache({
               ...latest,
-              reward: {
-                ...syncResult.reward,
-                celebratedPendingCycles: latest.reward.celebratedPendingCycles.filter((n) =>
-                  syncResult.reward!.pendingCycleNumbers.includes(n),
-                ),
-                appliedSessionIds: Array.from(
-                  new Set([
-                    ...latest.reward.appliedSessionIds,
-                    ...syncResult.reward.appliedSessionIds,
-                    sessionId,
-                  ]),
+              achievements: {
+                claimedIds: mergeClaimedAchievementIds(
+                  latest.achievements.claimedIds,
+                  [achievementId],
+                  syncResult.achievementsClaimedIds ?? [],
+                  loadLocalClaimedAchievementIds(id),
                 ),
               },
+              reward: syncResult.reward
+                ? {
+                    ...syncResult.reward,
+                    celebratedPendingCycles: latest.reward.celebratedPendingCycles.filter((n) =>
+                      syncResult.reward!.pendingCycleNumbers.includes(n),
+                    ),
+                    appliedSessionIds: Array.from(
+                      new Set([
+                        ...latest.reward.appliedSessionIds,
+                        ...syncResult.reward.appliedSessionIds,
+                        sessionId,
+                      ]),
+                    ),
+                  }
+                : latest.reward,
             })
           }
         })

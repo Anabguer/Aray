@@ -26,8 +26,8 @@ export const zoneLinks: ZoneLink[] = [
   },
   {
     id: 'collection',
-    title: 'Mi colección',
-    description: 'Drops, logros y premios',
+    title: 'Logros',
+    description: 'Insignias, rachas y premios',
     status: 'active',
     path: '/collection',
   },
@@ -73,8 +73,8 @@ export const subjectPreviews: SubjectPreview[] = [
 
 export const comingSoonCopy: Record<string, { title: string; body: string }> = {
   collection: {
-    title: 'Mi colección',
-    body: 'Aquí aparecerán los tesoros y recompensas que vayas consiguiendo. Todavía no está listo.',
+    title: 'Logros',
+    body: 'Aquí aparecen las insignias y premios que vayas consiguiendo.',
   },
   subject: {
     title: 'Asignatura',

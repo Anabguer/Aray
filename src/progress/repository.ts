@@ -1,4 +1,5 @@
 import { normalizeAlphabetProgress, emptyAlphabetProgress } from '@/alphabet/progress'
+import { createEmptyStats, normalizeStats } from '@/achievements/stats'
 import { challengeModeConfig } from '@/config/playConfig'
 import { matchSessionMeta, rewardGoalConfig } from '@/config/rewardGoal'
 import { rewardRules } from '@/config/rewards'
@@ -42,6 +43,7 @@ export function createInitialProgress(): ProgressState {
     reward: createInitialRewardProgress(),
     crates: createInitialCratesState(),
     achievements: { claimedIds: [] },
+    stats: createEmptyStats(),
     school: createDefaultSchoolProfile(),
     activityAssignments: {},
     alphabet: emptyAlphabetProgress(),
@@ -97,6 +99,7 @@ export function normalizeProgress(raw: unknown, today: string = localDateString(
           )
         : [],
     },
+    stats: normalizeStats((parsed as { stats?: unknown }).stats),
     school: normalizeSchoolProfile((parsed as { school?: unknown }).school),
     activityAssignments: normalizeActivityAssignments(
       (parsed as { activityAssignments?: unknown }).activityAssignments,

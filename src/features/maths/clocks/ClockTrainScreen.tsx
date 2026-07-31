@@ -7,6 +7,7 @@ import { useClockSession } from '@/clock/ClockSessionContext'
 import { useLumoController } from '@/lumo/useLumoController'
 import { soundEngine } from '@/sound/soundEngine'
 import { useDailyMission } from '@/daily/DailyMissionContext'
+import { buildActivityStatsDelta } from '@/achievements/stats'
 import { sideActivityEnergy } from '@/config/rewardGoal'
 import { rewardMatrix, sessionXpFromCorrects } from '@/config/rewardMatrix'
 import { useProgress } from '@/progress/ProgressContext'
@@ -25,6 +26,7 @@ export function ClockTrainScreen() {
   const answerFx = useAnswerFx()
   const seedRef = useRef(Date.now())
   const finishedRef = useRef(false)
+  const startedAtRef = useRef(Date.now())
 
   const queue = useMemo(
     () => buildTrainQueue(lang, TRAIN_COUNT, seedRef.current),
@@ -36,7 +38,6 @@ export function ClockTrainScreen() {
   const [selected, setSelected] = useState<number | null>(null)
   const [correctCount, setCorrectCount] = useState(0)
   const [streak, setStreak] = useState(0)
-  const [bestStreak, setBestStreak] = useState(0)
   const [feedback, setFeedback] = useState<string | null>(null)
   const [hitFlash, setHitFlash] = useState(false)
   const [missFlash, setMissFlash] = useState(false)
@@ -78,6 +79,13 @@ export function ClockTrainScreen() {
           correctRef.current,
           rewardMatrix['clocks-train'].xpPerCorrect,
         ),
+        statsDelta: buildActivityStatsDelta({
+          feature: 'clocks',
+          mode: 'train',
+          correct: correctRef.current,
+          total: TRAIN_COUNT,
+          playSeconds: Math.max(1, Math.round((Date.now() - startedAtRef.current) / 1000)),
+        }),
       })
     }
     navigate(`${MODES_PATH}/summary`, { replace: true })
@@ -112,7 +120,6 @@ export function ClockTrainScreen() {
       lumo.reactToAnswer({ correct: true, streak: ns })
       setCorrectCount(correctRef.current)
       setStreak(ns)
-      setBestStreak(bestRef.current)
       setHitFlash(true)
       setFeedback(lang === 'ca' ? 'Molt bé!' : '¡Bien!')
       answerFx.spawn({ tone: 'hit', optionIndex, nextStreak: ns })

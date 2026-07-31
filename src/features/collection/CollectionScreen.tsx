@@ -33,12 +33,17 @@ function lumoLine(achievement: AchievementDefinition, unlocked: boolean): string
     if (achievement.id === 'abc-primera') return 'Juega una ronda del ABC y la sacamos.'
     if (achievement.id === 'abc-crack') return 'Una ronda perfecta y es tuya.'
     if (achievement.id === 'abc-todos-domados') return 'Doma los cuatro modos y Lumo aplaude.'
-    return 'Domina ese modo del ABC y la pieza entra.'
+    if (achievement.id.startsWith('spell-')) return 'Practica ortografía y este logro cae.'
+    return 'Domina ese modo del ABC y el logro entra.'
+  }
+
+  if (achievement.category === 'mates') {
+    return 'Juega cálculo, relojes o dinero y lo desbloqueas.'
   }
 
   switch (achievement.id) {
     case 'primera-mision':
-      return 'Esta pieza todavía se está escondiendo.'
+      return 'Este logro todavía se está escondiendo.'
     case 'racha-5':
       return 'Le falta un empujoncito para salir de la sombra.'
     case 'racha-10':
@@ -46,11 +51,21 @@ function lumoLine(achievement: AchievementDefinition, unlocked: boolean): string
     case 'reto-5':
       return 'Completa el reto y hacemos como que fue facilísimo.'
     case 'reto-perfecto':
-      return 'Esta insignia se cree muy exclusiva.'
+      return 'Este logro se cree muy exclusivo.'
     case 'todas-domadas':
-      return 'Casi la tienes. Lumo no ha tocado nada…'
+      return 'Casi lo tienes. Lumo no ha tocado nada…'
+    case 'play-10min':
+    case 'play-30min':
+    case 'play-60min':
+      return 'Sigue jugando un rato y el reloj hace el resto.'
+    case 'good-streak-3':
+    case 'good-streak-5':
+      return 'Varias partidas buenas seguidas. Sin fallar el combo.'
+    case 'daily-primera':
+    case 'daily-5':
+      return 'Completa la misión diaria del lobby.'
     default:
-      return 'Completa el objetivo y esta joyita entra en tu colección.'
+      return 'Completa el objetivo y este logro entra en tu vitrina.'
   }
 }
 
@@ -102,11 +117,28 @@ function FilterIcon({ kind }: { kind: CollectionFilter }) {
           y="16"
           textAnchor="middle"
           fill="currentColor"
-          fontSize="11"
+          fontSize="9"
           fontWeight="800"
           fontFamily="system-ui,sans-serif"
         >
           ABC
+        </text>
+      </svg>
+    )
+  }
+  if (kind === 'mates') {
+    return (
+      <svg className="collection-filter__icon" viewBox="0 0 24 24" aria-hidden="true">
+        <text
+          x="12"
+          y="16"
+          textAnchor="middle"
+          fill="currentColor"
+          fontSize="11"
+          fontWeight="800"
+          fontFamily="system-ui,sans-serif"
+        >
+          +
         </text>
       </svg>
     )
@@ -210,25 +242,26 @@ export function CollectionScreen() {
   )
 
   const filters: Array<{ id: CollectionFilter; label: string }> = [
-    { id: 'todo', label: 'TODAS' },
+    { id: 'todo', label: 'TODOS' },
     { id: 'insignias', label: 'INSIGNIAS' },
     { id: 'tablas', label: 'TABLAS' },
-    { id: 'lenguas', label: 'ABC' },
+    { id: 'mates', label: 'MATES' },
+    { id: 'lenguas', label: 'LENGUAS' },
   ]
 
   return (
-    <AppShell title="Mi colección" shortTitle="Colección" showBack backTo="/">
+    <AppShell title="Logros" shortTitle="Logros" showBack backTo="/">
       <section className="collection" aria-labelledby="collection-counter-label">
         <div className="collection-toolbar">
           <div
             className="collection-meter"
             aria-labelledby="collection-counter-label"
-            title={`${unlockedCount} de ${achievementCatalog.length} piezas`}
+            title={`${unlockedCount} de ${achievementCatalog.length} logros`}
           >
             <span id="collection-counter-label" className="collection-meter__count">
               {unlockedCount}/{achievementCatalog.length}
             </span>
-            <span className="collection-meter__label">PIEZAS</span>
+            <span className="collection-meter__label">LOGROS</span>
             <span
               className="collection-meter__bar"
               role="progressbar"
@@ -240,7 +273,7 @@ export function CollectionScreen() {
             </span>
           </div>
 
-          <div className="collection-filters" role="group" aria-label="Filtrar colección">
+          <div className="collection-filters" role="group" aria-label="Filtrar logros">
             {filters.map((item) => (
               <button
                 key={item.id}

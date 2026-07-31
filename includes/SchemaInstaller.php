@@ -291,6 +291,7 @@ final class SchemaInstaller
             'skill_mode_mastery',
             'letter_stats',
             'alphabet_progress',
+            'player_achievements',
         ];
         $tables = self::listArayTables($pdo);
         $missing = [];
