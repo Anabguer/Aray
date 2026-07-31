@@ -1,4 +1,5 @@
 import { useEffect, useId, useRef, useState, type FormEvent } from 'react'
+import { createPortal } from 'react-dom'
 import { useNavigate } from 'react-router-dom'
 import { ApiError } from '@/api/client'
 import { useAuth } from '@/auth/AuthContext'
@@ -50,7 +51,8 @@ export function AdultPinModal({ open, onClose }: Props) {
     }
   }
 
-  return (
+  // Portal a body: evita que backdrop-filter del header recorte position:fixed.
+  return createPortal(
     <div className="adult-pin-modal" role="presentation" onClick={onClose}>
       <div
         className="adult-pin-modal__card"
@@ -98,6 +100,7 @@ export function AdultPinModal({ open, onClose }: Props) {
           </button>
         </form>
       </div>
-    </div>
+    </div>,
+    document.body,
   )
 }

@@ -1,4 +1,5 @@
 import { useEffect, useId, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { soundEngine } from '@/sound/soundEngine'
 import type { AudioPrefs } from '@/sound/audioPrefs'
 import { useProgress } from '@/progress/ProgressContext'
@@ -95,7 +96,8 @@ export function SoundSettingsModal({ open, onClose }: Props) {
     }
   }
 
-  return (
+  // Portal a body: el header usa backdrop-filter y ancla position:fixed al topbar.
+  return createPortal(
     <div className="sound-settings" role="presentation" onClick={onClose}>
       <div
         className="sound-settings__card"
@@ -141,6 +143,7 @@ export function SoundSettingsModal({ open, onClose }: Props) {
           Listo
         </button>
       </div>
-    </div>
+    </div>,
+    document.body,
   )
 }

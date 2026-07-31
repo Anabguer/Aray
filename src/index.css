@@ -7373,7 +7373,7 @@ a {
 .adult-pin-modal {
   position: fixed;
   inset: 0;
-  z-index: 80;
+  z-index: 200;
   display: grid;
   place-items: center;
   padding: 1rem;
@@ -7445,7 +7445,7 @@ a {
 .sound-settings {
   position: fixed;
   inset: 0;
-  z-index: 120;
+  z-index: 200;
   display: flex;
   align-items: center;
   justify-content: center;
