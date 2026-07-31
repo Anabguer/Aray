@@ -2,11 +2,12 @@ import { Link, useNavigate } from 'react-router-dom'
 import { AppShell } from '@/components/AppShell'
 import { PlayerAvatar } from '@/components/PlayerAvatar'
 import { CrateReveal } from '@/components/CrateReveal'
+import { DailyEnergyNote } from '@/components/DailyEnergyNote'
 import { GoalCard } from '@/components/GoalCard'
 import { ResetProgressControl } from '@/components/ResetProgressControl'
 import { SyncStatusBanner } from '@/components/SyncStatusBanner'
 import { ZoneCard } from '@/components/ZoneCard'
-import { energyCopy, rewardGoalConfig } from '@/config/rewardGoal'
+import { rewardGoalConfig } from '@/config/rewardGoal'
 import { buildLobbyMissions, pickDailyChallenge, type LobbyMissionCard } from '@/curriculum'
 import { zoneLinks } from '@/data/demo'
 import { challengeArtUrl } from '@/features/home/challengeArt'
@@ -96,13 +97,15 @@ export function HomeScreen() {
               ¡Ey, {childName}!
             </h2>
             <p className="lobby__welcome-lead">
-              {reward.dailyPoints >= rewardGoalConfig.dailyCap
-                ? energyCopy.playForFun
-                : (
-                  <>
-                    Soy <span className="lobby__lumo-name">Lumo</span>. ¿Qué vamos a farmear hoy?
-                  </>
-                )}
+              {reward.dailyPoints >= rewardGoalConfig.dailyCap ? (
+                <>
+                  Soy <span className="lobby__lumo-name">Lumo</span>. ¡Barra llena! Sigue por vicio.
+                </>
+              ) : (
+                <>
+                  Soy <span className="lobby__lumo-name">Lumo</span>. ¿Qué vamos a farmear hoy?
+                </>
+              )}
             </p>
           </div>
           <div className="hero__logo-wrap lobby__logo">
@@ -113,6 +116,8 @@ export function HomeScreen() {
             />
           </div>
         </div>
+
+        <DailyEnergyNote />
 
         {pendingCrate ? (
           <CrateReveal
