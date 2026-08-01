@@ -28,7 +28,9 @@ Spec: `JSON_SPEC.md` (congelado)
 
 **No**, para el modo «¿Cuál está bien escrita?» el `JSON_SPEC` v1 es suficiente.
 
-Pendientes de otros modos (no bloquean este piloto ni obligan a cambiar el schema aún):
+Validación exhaustiva y veredicto: ver [`PILOTO_RR_VALIDACION.md`](./PILOTO_RR_VALIDACION.md) — **piloto aprobado**.
+
+Pendientes de otros modos (no bloquean conversión de bancos):
 
 - `image.ref` real → modo imagen
 - posible `graphemeTargets` → modo letra que falta (sigue siendo derivable en adaptador)
