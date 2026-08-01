@@ -1,0 +1,515 @@
+{
+  "schemaVersion": 1,
+  "pack": {
+    "id": "ortografia-bv",
+    "title": "B / V",
+    "ownerBank": "ERRORES_REALES_BV.md",
+    "ruleFamily": "b-v",
+    "level": "3-primaria",
+    "locale": "es-ES",
+    "revisionStatus": "approved",
+    "contentVersion": 1,
+    "sourceEditorialPhase": "fase-editorial-base",
+    "notes": "Convertido tras H. Sin colisiones de slug. No conectado a minijuegos todavía."
+  },
+  "lemmas": [
+    {
+      "id": "bv-caballo",
+      "lemma": "caballo",
+      "errors": [
+        "cavallo"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Caballo se escribe con b.",
+      "frequency": "muy_frecuente",
+      "category": "animales",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo/ampliación; Vicens (caballos); contexto Aray caballo-ctx."
+    },
+    {
+      "id": "bv-vaca",
+      "lemma": "vaca",
+      "errors": [
+        "baca"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Vaca se escribe con v. (Baca es otra palabra.)",
+      "frequency": "muy_frecuente",
+      "category": "animales",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA ampliación («La vaca come…»). Homófonos reales vaca/baca."
+    },
+    {
+      "id": "bv-burro",
+      "lemma": "burro",
+      "errors": [
+        "vurro"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Burro se escribe con b.",
+      "frequency": "frecuente",
+      "category": "animales",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Fábula del material 3.º (niño, viejo y burro)."
+    },
+    {
+      "id": "bv-ventana",
+      "lemma": "ventana",
+      "errors": [
+        "bentana"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Ventana se escribe con v.",
+      "frequency": "muy_frecuente",
+      "category": "casa",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo (modismo con «ventana»); fitxes/lecturas del repo; contexto Aray ventana-ctx."
+    },
+    {
+      "id": "bv-abuelo",
+      "lemma": "abuelo",
+      "errors": [
+        "avuelo"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Abuelo se escribe con b.",
+      "frequency": "muy_frecuente",
+      "category": "casa",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo («Querido abuelo…»)."
+    },
+    {
+      "id": "bv-abuela",
+      "lemma": "abuela",
+      "errors": [
+        "avuela"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Abuela se escribe con b.",
+      "frequency": "muy_frecuente",
+      "category": "casa",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Vicens («Mi abuela se llama…»); lecturas del tomo 3."
+    },
+    {
+      "id": "bv-biblioteca",
+      "lemma": "biblioteca",
+      "errors": [
+        "viblioteca"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Biblioteca se escribe con b.",
+      "frequency": "muy_frecuente",
+      "category": "colegio",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo; Savia; tomo 3 (sección biblioteca)."
+    },
+    {
+      "id": "bv-barco",
+      "lemma": "barco",
+      "errors": [
+        "varco"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Barco se escribe con b.",
+      "frequency": "frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Vicens («viajar en barco»)."
+    },
+    {
+      "id": "bv-botella",
+      "lemma": "botella",
+      "errors": [
+        "votella"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Botella se escribe con b.",
+      "frequency": "frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Vicens (utensilio para abrir botellas)."
+    },
+    {
+      "id": "bv-llave",
+      "lemma": "llave",
+      "errors": [
+        "llabe"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Llave se escribe con v.",
+      "frequency": "frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Vicens (lista de palabras: pelota, llave…)."
+    },
+    {
+      "id": "bv-libro",
+      "lemma": "libro",
+      "errors": [
+        "livro"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Libro se escribe con b.",
+      "frequency": "muy_frecuente",
+      "category": "colegio",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Vocabulario de biblioteca / lecturas escolares 3.º."
+    },
+    {
+      "id": "bv-verano",
+      "lemma": "verano",
+      "errors": [
+        "berano"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Verano se escribe con v.",
+      "frequency": "muy_frecuente",
+      "category": "naturaleza",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA / Savia / fábulas (verano e invierno)."
+    },
+    {
+      "id": "bv-invierno",
+      "lemma": "invierno",
+      "errors": [
+        "inbierno"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Invierno se escribe con v.",
+      "frequency": "muy_frecuente",
+      "category": "naturaleza",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Fábula hormiga/escarabajo (tomo 3)."
+    },
+    {
+      "id": "bv-verde",
+      "lemma": "verde",
+      "errors": [
+        "berde"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Verde se escribe con v.",
+      "frequency": "frecuente",
+      "category": "naturaleza",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA ampliación (poema «verde»); ANAYA refuerzo (falda verde)."
+    },
+    {
+      "id": "bv-cebada",
+      "lemma": "cebada",
+      "errors": [
+        "cevada"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Cebada se escribe con b.",
+      "frequency": "frecuente",
+      "category": "naturaleza",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Fábula hormiga (trigo y cebada) en material 3.º."
+    },
+    {
+      "id": "bv-escribir",
+      "lemma": "escribir",
+      "errors": [
+        "escrivir"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Los verbos terminados en -bir se escriben con b (escribir, recibir, subir…).",
+      "frequency": "muy_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "notes": "ANAYA ampliación (completar verbos en -bir: «Voy a ___ una carta…»)."
+    },
+    {
+      "id": "bv-recibir",
+      "lemma": "recibir",
+      "errors": [
+        "recivir"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Los verbos terminados en -bir se escriben con b.",
+      "frequency": "muy_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Los verbos terminados en -bir se escriben con b.",
+      "notes": "ANAYA ampliación («La actriz va a ___ un premio»)."
+    },
+    {
+      "id": "bv-subir",
+      "lemma": "subir",
+      "errors": [
+        "suvir"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Los verbos terminados en -bir se escriben con b.",
+      "frequency": "muy_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Los verbos terminados en -bir se escriben con b.",
+      "notes": "ANAYA ampliación («vuelven a ___ los precios»)."
+    },
+    {
+      "id": "bv-vivir",
+      "lemma": "vivir",
+      "errors": [
+        "bibir"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Vivir se escribe con v.",
+      "frequency": "muy_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo (definición «Vivir con alguien» junto a ejercicio b/v)."
+    },
+    {
+      "id": "bv-volver",
+      "lemma": "volver",
+      "errors": [
+        "bolver"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Volver se escribe con v.",
+      "frequency": "frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo (serie de verbos: volver, volar, valor…)."
+    },
+    {
+      "id": "bv-volar",
+      "lemma": "volar",
+      "errors": [
+        "bolar"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Volar se escribe con v.",
+      "frequency": "frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "notes": "Misma serie ANAYA refuerzo."
+    },
+    {
+      "id": "bv-viaje",
+      "lemma": "viaje",
+      "errors": [
+        "biaje"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Viaje se escribe con v.",
+      "frequency": "frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo (entrada «viaje:»); ANAYA ampliación (texto del viaje)."
+    },
+    {
+      "id": "bv-valor",
+      "lemma": "valor",
+      "errors": [
+        "balor"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Valor se escribe con v.",
+      "frequency": "frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo p.11 (PDF): serie «volver … volar valor tambor». Validado contra PDF original."
+    },
+    {
+      "id": "bv-pueblo",
+      "lemma": "pueblo",
+      "errors": [
+        "puevlo"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Pueblo se escribe con b.",
+      "frequency": "frecuente",
+      "category": "ciudad",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Fábula del burro (viaje al pueblo) en material 3.º."
+    },
+    {
+      "id": "bv-viejo",
+      "lemma": "viejo",
+      "errors": [
+        "biejo"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Viejo se escribe con v.",
+      "frequency": "poco_frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Fábula del burro (el niño, el viejo y el burro). Prioridad menor que núcleo caballo/ventana."
+    },
+    {
+      "id": "bv-burbuja",
+      "lemma": "burbuja",
+      "errors": [
+        "vurbuja"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Burbuja se escribe con b.",
+      "frequency": "poco_frecuente",
+      "category": "naturaleza",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo (lista con burbuja). Prioridad menor; error verosímil pero menos “top” que cavallo/bentana."
+    },
+    {
+      "id": "bv-barro",
+      "lemma": "barro",
+      "errors": [
+        "varro"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Barro se escribe con b.",
+      "frequency": "frecuente",
+      "category": "naturaleza",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Mismo poema ANAYA («casa de barro»)."
+    },
+    {
+      "id": "bv-servicio",
+      "lemma": "servicio",
+      "errors": [
+        "serbicio"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Servicio se escribe con v.",
+      "frequency": "frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo p.11 (PDF original): «ser icio» → servicio. Validado contra PDF."
+    },
+    {
+      "id": "bv-recibo",
+      "lemma": "recibo",
+      "errors": [
+        "recivo"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Recibo se escribe con b (familia de recibir / -bir).",
+      "frequency": "frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo p.11 (PDF original): «reci o» → recibo. Validado contra PDF."
+    },
+    {
+      "id": "bv-subida",
+      "lemma": "subida",
+      "errors": [
+        "suvida"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Subida se escribe con b (familia de subir).",
+      "frequency": "frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo p.11 (PDF original): «su ida» → subida. Validado contra PDF."
+    },
+    {
+      "id": "bv-vivienda",
+      "lemma": "vivienda",
+      "errors": [
+        "bibienda"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Vivienda se escribe con v.",
+      "frequency": "frecuente",
+      "category": "casa",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo p.11 (PDF original): «i ienda» → vivienda. Validado contra PDF."
+    }
+  ]
+}
