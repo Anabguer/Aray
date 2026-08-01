@@ -8,9 +8,12 @@ Este documento es la fuente oficial para crear posteriormente los bancos JSON.
 
 Nunca debe contener palabras inventadas.
 
+**Metodología:** antes de cada registro, contrastar con fichas/materiales del repositorio (ver `editorial/README.md`). No copiar ejercicios; extraer solo vocabulario, errores y reglas de 3.º.
+
 ---
 
-<!-- Plantilla de registro: duplicar desde "## Correcta" hasta el separador "---" por cada entrada. Campos vacíos a propósito; no inventar contenido. -->
+<!-- Plantilla de registro: duplicar desde "## Correcta" hasta el separador "---" por cada entrada.
+Solo rellenar con palabras respaldadas por fichas del repo. Campos vacíos a propósito hasta el relleno editorial. -->
 
 ## Correcta
 
@@ -54,3 +57,10 @@ Sí / No
 
 
 ---
+
+## Resumen editorial (al completar el documento)
+
+- **Fichas / fuentes revisadas:** _(pendiente)_
+- **Temas encontrados:** _(pendiente)_
+- **Criterios de selección del vocabulario:** _(pendiente)_
+- **Número de registros:** 0
