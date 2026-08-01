@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import {
-  buildSpellRound,
   listActiveSpellMisses,
   recordSpellHit,
   recordSpellMiss,
@@ -10,6 +9,7 @@ import {
   useSpellSession,
   type SpellPlayMode,
 } from '@/spelling'
+import { buildRound, spellingMinigameId } from '@/minigames'
 import { explainSpellMistake, type SpellExplainCard } from '@/spelling/explain'
 import { AppShell } from '@/components/AppShell'
 import { useLumoController } from '@/lumo/useLumoController'
@@ -68,9 +68,15 @@ export function SpellPlayScreen() {
   const mode: SpellPlayMode = isMode(modeParam) ? modeParam : 'mix'
   const queue = useMemo(() => {
     const preferMisses = listActiveSpellMisses(pid)
-    return buildSpellRound(mode, SPELL_ROUND_SIZE, seedRef.current, {
+    const round = buildRound(spellingMinigameId(mode), {
+      count: SPELL_ROUND_SIZE,
+      seed: seedRef.current,
       preferMisses: mode === 'review' ? preferMisses : undefined,
     })
+    if (round.kind !== 'spell-mcq') {
+      throw new Error(`[spelling] ronda inesperada: ${round.kind}`)
+    }
+    return round.questions
   }, [mode, pid])
 
   const [index, setIndex] = useState(0)
