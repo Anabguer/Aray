@@ -100,7 +100,7 @@ Las palabras que empiezan por hue- se escriben con h.
 
 ## Frecuencia
 
-Muy frecuente
+Frecuente
 
 ## Categoría
 
@@ -138,7 +138,7 @@ Muy frecuente
 
 ## Categoría
 
-Cuerpo humano
+Cuerpo
 
 ## Imagen recomendable
 
@@ -168,7 +168,7 @@ Las palabras que empiezan por hie- se escriben con h.
 
 ## Frecuencia
 
-Muy frecuente
+Frecuente
 
 ## Categoría
 
@@ -236,7 +236,7 @@ Las palabras que empiezan por hui- se escriben con h.
 
 ## Frecuencia
 
-Frecuente
+Poco frecuente
 
 ## Categoría
 
@@ -508,7 +508,7 @@ Echa (echar) va sin h. Hecha es de hacer / participio con h.
 
 ## Frecuencia
 
-Muy frecuente
+Frecuente
 
 ## Categoría
 
@@ -542,7 +542,7 @@ Echo (echar, 1.ª persona) va sin h. Hecho es de hacer.
 
 ## Frecuencia
 
-Muy frecuente
+Frecuente
 
 ## Categoría
 
@@ -712,7 +712,7 @@ Formas de haber se escriben con h.
 
 ## Frecuencia
 
-Frecuente
+Poco frecuente
 
 ## Categoría
 
@@ -1018,7 +1018,7 @@ Hola (saludo) lleva h. Ola (mar) es otra palabra.
 
 ## Frecuencia
 
-Muy frecuente
+Frecuente
 
 ## Categoría
 
@@ -1086,7 +1086,7 @@ Hija se escribe con h.
 
 ## Frecuencia
 
-Muy frecuente
+Frecuente
 
 ## Categoría
 
@@ -1120,7 +1120,7 @@ Las palabras con herm- se escriben con h.
 
 ## Frecuencia
 
-Muy frecuente
+Frecuente
 
 ## Categoría
 
@@ -1154,7 +1154,7 @@ Las palabras con herm- se escriben con h.
 
 ## Frecuencia
 
-Muy frecuente
+Frecuente
 
 ## Categoría
 
@@ -1188,7 +1188,7 @@ Hombre lleva h aunque no se oye.
 
 ## Frecuencia
 
-Muy frecuente
+Frecuente
 
 ## Categoría
 
@@ -1222,7 +1222,7 @@ Hogar lleva h aunque no se oye.
 
 ## Frecuencia
 
-Frecuente
+Poco frecuente
 
 ## Categoría
 
@@ -1256,11 +1256,11 @@ Hambre lleva h aunque no se oye.
 
 ## Frecuencia
 
-Muy frecuente
+Frecuente
 
 ## Categoría
 
-Cuerpo humano
+Cuerpo
 
 ## Imagen recomendable
 
@@ -1290,7 +1290,7 @@ Higo lleva h aunque no se oye.
 
 ## Frecuencia
 
-Frecuente
+Poco frecuente
 
 ## Categoría
 
@@ -1358,7 +1358,7 @@ Las palabras con horm- se escriben con h.
 
 ## Frecuencia
 
-Muy frecuente
+Frecuente
 
 ## Categoría
 
@@ -1392,7 +1392,7 @@ Las palabras con horm- se escriben con h.
 
 ## Frecuencia
 
-Frecuente
+Poco frecuente
 
 ## Categoría
 
@@ -1426,11 +1426,11 @@ Hombro lleva h aunque no se oye.
 
 ## Frecuencia
 
-Frecuente
+Poco frecuente
 
 ## Categoría
 
-Cuerpo humano
+Cuerpo
 
 ## Imagen recomendable
 
@@ -1494,7 +1494,7 @@ Herramienta lleva h (herr-).
 
 ## Frecuencia
 
-Frecuente
+Poco frecuente
 
 ## Categoría
 
@@ -1596,7 +1596,7 @@ Hacia (preposición) lleva h aunque no se oye.
 
 ## Frecuencia
 
-Frecuente
+Poco frecuente
 
 ## Categoría
 
@@ -1664,7 +1664,7 @@ Zanahoria lleva h intercalada.
 
 ## Frecuencia
 
-Muy frecuente
+Frecuente
 
 ## Categoría
 
@@ -1700,13 +1700,14 @@ ANAYA refuerzo (lista de verduras). Error típico de h intercalada.
 - **Registros añadidos:** 5 — hormiguero, hoja, horno, hacia, horas
 - **No añadidos:** humo (no localizado en extracts castellano revisados)
 - **Pendientes de revisar:** ninguno bloqueante; *han* y *hubo* quedan con frecuencia «Poco frecuente» a propósito
-- **Calidad editorial estimada:** 88 / 100
+- **Normalización editorial (pre-MP/MB):** categoría unificada «Cuerpo»; frecuencias reequilibradas a Muy frecuente 19 · Frecuente 20 · Poco frecuente 10 (sin cambiar lemas ni errores).
+- **Calidad editorial estimada:** 90 / 100
 - **Observaciones para el siguiente banco (BV):**
   - Partir solo de fichas del repo (ANAYA / Vicens / lecturas), no del bank técnico monolítico.
   - Evitar conjugaciones de relleno: preferir infinitivo + 2–4 formas realmente atestiguadas.
   - Separar bien pares de confusión (como aquí hacer/echar).
   - Citar ficha en Observaciones cuando el respaldo no sea obvio.
-  - Autoevaluar categoría (evitar meter «persona» en Cuerpo humano).
+  - Autoevaluar categoría (evitar meter «persona» en Cuerpo).
   - Añadir al final Estado editorial + resumen de descartes.
 
 ### Autoauditoría post-corrección
