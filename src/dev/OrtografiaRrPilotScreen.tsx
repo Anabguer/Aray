@@ -14,8 +14,8 @@ assertValidOrtographyLemmaPack(rrPackJson)
 const RR_PACK = rrPackJson as OrtographyLemmaPack
 
 /**
- * Pantalla DEV temporal: valida el pack piloto RR en MCQ.
- * No usa spelling legacy ni progreso.
+ * Pantalla DEV sandbox: pack piloto RR en MCQ aislado.
+ * La Ortografía de producto ya consume el corpus JSON (Fase 3).
  * Ruta: /dev/ortografia-rr
  */
 export function OrtografiaRrPilotScreen() {

@@ -1,10 +1,9 @@
 /**
  * Utilidades compartidas de adaptadores ortografía JSON → SpellMcqQuestion.
- * No importa SPELL_BANK / makeDistractors / lemmas.generated.
+ * No importa el banco legacy ni generateDistractors heurísticos.
  */
 import type { OrtographyCorpusEntry } from '@/feinetas/ortographyCorpus'
 import { getOrtographyCorpus, ortographyMissKey } from '@/feinetas/ortographyCorpus'
-import type { OrtographyLemma } from '@/feinetas/ortographyLemmaPack'
 import type { SpellMcqQuestion, SpellPlayMode, SpellRuleId } from '@/spelling/types'
 
 const KNOWN_RULES = new Set<SpellRuleId>([
@@ -118,12 +117,4 @@ export function baseMcqFields(
     rule: mapPackRuleId(entry.lemma.ruleId),
     targetKey: ortographyMissKey(entry.packId, entry.lemma.id),
   }
-}
-
-export function lemmaErrorsAreAttested(lemma: OrtographyLemma, options: string[]): boolean {
-  const allowed = new Set(
-    [lemma.lemma, ...lemma.errors].map((s) => s.toLocaleLowerCase('es')),
-  )
-  // distractors may come from other lemmas' errors — caller checks separately
-  return options.some((o) => o.toLocaleLowerCase('es') === lemma.lemma.toLocaleLowerCase('es'))
 }

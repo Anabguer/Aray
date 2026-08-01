@@ -1,6 +1,6 @@
 /**
  * Corpus unificado de lemas ortográficos (unión de packs aprobados).
- * Fuente única para modos JSON de Ortografía. No usa SPELL_BANK.
+ * Fuente única para modos JSON de Ortografía. No usa el banco legacy.
  */
 import type { OrtographyLemma, OrtographyLemmaPack } from '@/feinetas/ortographyLemmaPack'
 import { listOrtographyPacks, ORTOGRAPHY_PACK_IDS } from '@/feinetas/ortographyRegistry'

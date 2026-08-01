@@ -1,6 +1,6 @@
 /**
  * Adaptador JSON → SpellMcqQuestion (modo «forma correcta»).
- * Distractores solo desde errors[] del corpus. Sin SPELL_BANK.
+ * Distractores solo desde errors[] del corpus. Sin banco legacy de lemas.
  */
 import { ortographyMissKey } from '@/feinetas/ortographyCorpus'
 import type { OrtographyCorpusEntry } from '@/feinetas/ortographyCorpus'

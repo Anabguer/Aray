@@ -21,7 +21,12 @@ Ver [`README.md`](./README.md) y [`JSON_SPEC.md`](./JSON_SPEC.md).
 | `ERRORES_REALES_TILDES.md` | Congelado (Fase 2) | `ortografia/tildes.json` | 11 |
 | `ERRORES_REALES_GU.md` | Congelado (Fase 2) | `ortografia/gu.json` | 9 |
 
-**Total lemas JSON:** 216 (ninguno conectado al juego todavía).
+**Total lemas JSON:** 216.
+
+## Fase 3 (integración juego)
+
+Ver [`FASE3_INTEGRACION.md`](./FASE3_INTEGRACION.md).  
+Modos Ortografía (salvo `complete`) consumen el corpus JSON. `complete` permanece legacy temporal (`SPELL_CONTEXTS`).
 
 ## Descartados / no creados
 
