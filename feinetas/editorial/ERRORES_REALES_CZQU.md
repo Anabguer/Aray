@@ -1084,7 +1084,7 @@ Savia u3 (caramelos).
 
 ## Resumen editorial
 
-- **Número de registros (borrador 1):** 30
+- **Número de registros (borrador 1):** 31
 - **Fichas / PDFs revisados:**
   - `Lengua 3º-ANAYA refuerzo.pdf` p.5 (c/qu y c/z)
   - `Lengua 3º-ANAYA ampliacion.pdf` p.5 (c/z/qu + animales)
@@ -1113,5 +1113,5 @@ Savia u3 (caramelos).
 - Sin bicicleta / cigüeña / nombres.
 - Errores orientados a c↔z↔qu.
 - Vocabulario 3.º respaldado.
-- Frecuencias: Muy frecuente 10 · Frecuente 17 · Poco frecuente 3.
+- Frecuencias: Muy frecuente 10 · Frecuente 18 · Poco frecuente 3.
 - Pendiente de congelar tras auditoría humana.
