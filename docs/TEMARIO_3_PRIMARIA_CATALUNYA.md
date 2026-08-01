@@ -109,9 +109,9 @@ Reglas de uso frecuente: **r/rr, b/v, h muda, g/j, mb/mp, ll/y o -illo/-illa, c/
 |--------|----------------------|-----------|
 | **Tablas 2–9** | Automatización de tablas = ciclo medio | **OK** |
 | **Cálculo mental** (`src/calc/generator.ts`) | **Actualizado 2026-07-31** a 2–3 cifras, ordenar/comparar 3–4 cifras, completar a 100, casi-dobles, ×10/×100, missing multiplicativo | **OK tras fix** (antes era 1.º–2.º) |
-| **Dinero** | Cambio euros/céntimos; precios ~5–18 € | **Bajo-medio** — endurecer |
-| **Relojes** | Analógico ES/CA; minutos de **5 en 5**; sin 12↔24 h | **Bajo-medio** |
-| **Problemas** | `future` en catálogo | **Hueco** |
+| **Dinero** | Bloque curricular propio `money` (activo); precios 12–80 €; build siempre resoluble | **OK tras fase 1–2** |
+| **Relojes** | Analógico ES/CA; formato homogéneo por pregunta; 12↔24 en Entrena | **OK tras fase 1–2** |
+| **Problemas** | `future` en catálogo (reservado; ya no se reutiliza como Dinero en el hub) | **Hueco intencional** |
 | **División** | No en app | **OK** (decisión de producto) |
 
 #### Rangos de cálculo (tras fix)
@@ -122,7 +122,7 @@ Reglas de uso frecuente: **r/rr, b/v, h muda, g/j, mb/mp, ll/y o -illo/-illa, c/
 | `sub` | ≤20 | 2–3 cifras |
 | `missing` | totales pequeños | 2–3 cifras + `a × ? = n` |
 | `doubles` / `halves` | ≤12 | 15–99 (+ casi-dobles) |
-| `near10` | solo =10 | **75 % hasta 100**, resto hasta 10 |
+| `near10` | triviales tipo 6+?=100 | **ambos sumandos [15,85] hacia 100**; hasta 10 solo easy residual |
 | `compare` / `order` | ≤99 / ≤50 | **100–9999** |
 | `truefalse` | sumas chicas | 2–3 cifras + tablas + ×10/×100 |
 

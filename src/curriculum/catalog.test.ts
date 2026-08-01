@@ -31,11 +31,15 @@ describe('catálogo curricular', () => {
     expect(mathsBlocks).toEqual([
       'multiplication-tables',
       'calculation',
+      'money',
       'problems',
       'clocks-hours',
     ])
     expect(blocks.find((b) => b.id === 'clocks-hours')?.status).toBe('active')
     expect(blocks.find((b) => b.id === 'calculation')?.status).toBe('active')
+    expect(blocks.find((b) => b.id === 'money')?.status).toBe('active')
+    expect(blocks.find((b) => b.id === 'problems')?.status).toBe('future')
+    expect(getSkill('money-euros')?.blockId).toBe('money')
     expect(blocks.find((b) => b.id === 'alphabet')?.status).toBe('active')
     expect(blocks.find((b) => b.id === 'spelling')?.status).toBe('active')
     expect(blocks.find((b) => b.id === 'words')?.status).toBe('active')

@@ -7,6 +7,7 @@ export type SubjectId = 'maths' | 'languages' | 'english'
 export type BlockId =
   | 'multiplication-tables'
   | 'calculation'
+  | 'money'
   | 'problems'
   | 'clocks-hours'
   | 'alphabet'

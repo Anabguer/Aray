@@ -13,22 +13,25 @@ import { useProgress } from '@/progress/ProgressContext'
 const MATH_MARKS = {
   'multiplication-tables': 'tables',
   calculation: 'calc',
-  problems: 'problems',
+  money: 'money',
   'clocks-hours': 'clocks',
+  problems: 'problems',
 } as const
 
 const MATH_SLOTS: Record<string, MapSlot> = {
   'multiplication-tables': 'start',
   calculation: 'mid-high',
-  problems: 'mid-low',
+  money: 'mid-low',
   'clocks-hours': 'end',
+  problems: 'end',
 }
 
 const MATH_SHORT_DESC: Record<string, string> = {
   'multiplication-tables': 'Tablas del 2 al 9',
   calculation: 'Piensa rápido',
-  problems: 'Retos con números',
+  money: 'Euros, cambio y monedas',
   'clocks-hours': 'Leer la hora',
+  problems: 'Situaciones con números',
 }
 
 const MATH_ZONES: HubZoneId[] = ['tables', 'calc', 'money', 'clocks']
@@ -36,14 +39,15 @@ const MATH_ZONES: HubZoneId[] = ['tables', 'calc', 'money', 'clocks']
 function zoneForMathBlock(blockId: string): HubZoneId | null {
   if (blockId === 'multiplication-tables') return 'tables'
   if (blockId === 'calculation') return 'calc'
-  if (blockId === 'problems') return 'money'
+  if (blockId === 'money') return 'money'
   if (blockId === 'clocks-hours') return 'clocks'
   return null
 }
 
 export function MathsHubScreen() {
   const { progress } = useProgress()
-  const mathsBlocks = blocksForSubject('maths')
+  /** Solo zonas activas en el mapa (Problemas queda en catálogo como future). */
+  const mathsBlocks = blocksForSubject('maths').filter((b) => b.status === 'active')
   const anyWeak = hubHasWeakZones(progress, MATH_ZONES)
 
   const stations: WorldStation[] = mathsBlocks.map((block) => {
@@ -52,7 +56,7 @@ export function MathsHubScreen() {
     const short = MATH_SHORT_DESC[block.id] ?? block.description
     const zone = zoneForMathBlock(block.id)
 
-    if (block.id === 'multiplication-tables' && block.status === 'active' && zone) {
+    if (block.id === 'multiplication-tables' && zone) {
       return {
         id: block.id,
         title: block.title,
@@ -69,7 +73,7 @@ export function MathsHubScreen() {
       }
     }
 
-    if (block.id === 'clocks-hours' && block.status === 'active' && zone) {
+    if (block.id === 'clocks-hours' && zone) {
       return {
         id: block.id,
         title: block.title,
@@ -85,7 +89,7 @@ export function MathsHubScreen() {
       }
     }
 
-    if (block.id === 'calculation' && block.status === 'active' && zone) {
+    if (block.id === 'calculation' && zone) {
       return {
         id: block.id,
         title: block.title,
@@ -101,16 +105,16 @@ export function MathsHubScreen() {
       }
     }
 
-    if (block.id === 'problems' && zone) {
+    if (block.id === 'money' && zone) {
       return {
-        id: 'money-euros',
-        title: 'Dinero',
-        description: 'Euros, cambio y monedas',
+        id: block.id,
+        title: block.title,
+        description: short,
         status: resolveHubZoneStatus(progress, zone, {
           playable: true,
           anyWeakInHub: anyWeak,
         }),
-        mark: 'money',
+        mark,
         mapSlot,
         href: '/missions/mates/money',
         ctaLabel: 'JUGAR DINERO',
@@ -139,11 +143,7 @@ export function MathsHubScreen() {
       shortTitle={maths?.shortTitle ?? 'Mates'}
       showBack
     >
-      <WorldLevelMap
-        theme="maths"
-        guideTip={guideTip}
-        stations={stations}
-      />
+      <WorldLevelMap theme="maths" guideTip={guideTip} stations={stations} />
     </AppShell>
   )
 }

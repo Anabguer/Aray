@@ -97,7 +97,7 @@ describe('hubRecommendations', () => {
     expect(zoneNeedsRecommendation(progress, 'money')).toBe(false)
   })
 
-  it('recomienda dinero por override adulto aunque el skill viva en calculation', () => {
+  it('recomienda dinero por override adulto en el bloque money', () => {
     const progress = createInitialProgress()
     progress.activityAssignments = {
       'money-change': 'recommended',

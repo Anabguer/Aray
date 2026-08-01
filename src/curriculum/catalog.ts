@@ -74,7 +74,7 @@ export const subjects: SubjectDefinition[] = [
   },
 ]
 
-/** Estructura preparada: solo multiplication-tables tiene actividades reales. */
+/** Bloques de mates: tablas, cálculo, dinero y horas activos; problemas reservado. */
 export const blocks: BlockDefinition[] = [
   {
     id: 'multiplication-tables',
@@ -93,12 +93,20 @@ export const blocks: BlockDefinition[] = [
     sortOrder: 20,
   },
   {
+    id: 'money',
+    subjectId: 'maths',
+    title: 'Dinero',
+    description: 'Euros, céntimos, cambio y monedas',
+    status: 'active',
+    sortOrder: 30,
+  },
+  {
     id: 'problems',
     subjectId: 'maths',
     title: 'Problemas',
-    description: 'Resolver situaciones con números',
+    description: 'Resolver situaciones con números (problemas verbales)',
     status: 'future',
-    sortOrder: 30,
+    sortOrder: 40,
   },
   {
     id: 'clocks-hours',
@@ -106,7 +114,7 @@ export const blocks: BlockDefinition[] = [
     title: 'Relojes y horas',
     description: 'Leer la hora en castellano y catalán',
     status: 'active',
-    sortOrder: 40,
+    sortOrder: 50,
   },
   {
     id: 'spelling',
@@ -220,14 +228,14 @@ export const skills: SkillDefinition[] = [
   },
   {
     id: 'money-euros',
-    blockId: 'calculation',
+    blockId: 'money',
     title: 'Dinero',
     description: 'Euros, cambio y monedas',
     progressKey: 'money-euros',
     progressKind: 'generic',
     recommendedCourses: ['primary-3', 'primary-4'],
     status: 'active',
-    sortOrder: 20,
+    sortOrder: 10,
   },
   {
     id: 'alphabet-letters',
