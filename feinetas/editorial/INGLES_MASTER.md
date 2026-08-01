@@ -1,307 +1,399 @@
 # Inglés — Banco maestro editorial (3.º Primaria · Cataluña)
 
-**Estado:** diseño editorial · **no** es contenido jugable · **no** hay JSON · **no** hay pantallas.  
-**Fecha:** 2026-08-01  
-**Decisión de producto:** el siguiente gran módulo tras Ortografía / Mates (calidad) es **Inglés**.  
-**Problemas verbales:** **fuera del roadmap** como siguiente bloque (no desarrollar).
+**Estado:** Fase 1 · arquitectura editorial **cerrada** · listo para abrir el primer banco Markdown.  
+**No** es contenido jugable · **no** hay JSON · **no** hay pantallas · **no** hay vocabulario todavía.  
+**Actualizado:** 2026-08-01 (Fase 1 — decisiones cerradas).
 
-Este documento **no lo usa el juego en runtime**. Sigue el flujo de [`README.md`](./README.md):
+Este documento **no lo usa el juego en runtime**. Flujo: [`README.md`](./README.md).
 
-1. Diseño (este archivo) → 2. Bancos Markdown → 3. Revisión humana → 4. JSON → 5. Adaptadores / minijuegos.
+---
+
+## 0. Decisiones editoriales cerradas (Fase 1)
+
+| # | Tema | Decisión |
+|---|------|----------|
+| 1 | Idioma base | **Inglés británico (`en-GB`)** |
+| 2 | Glosas | **Solo español (`glossEs`)**. Sin catalán. |
+| 3 | Números | Primer pack de números: **solo 1–20**. Sin decenas 30–100 en E1. |
+| 4 | Fuentes | **No esperar libros nuevos.** Vicens + Wonder + material ya en el repo. |
+| 5 | Imágenes | Capacidad **futura** del sistema: el lema *puede* llevar `image.ref`; **origen de assets no decidido**. |
+| 6 | Listening / Phonics | **Fase posterior.** Primera versión = **100 % offline, sin audio**. |
+| 7 | CLIL | **Fuera de alcance** inicial (mating8/11 ciencia en inglés descartados). |
+
+**Contrato de lema (diseño; sin JSON aún):**
+
+`id` · `lemma` (EN-GB) · `glossEs` · `topicIds[]` · `image.ref?` · `audio.ref?` (solo packs futuros) · `level: 3-primaria` · `locale: en-GB`
 
 ---
 
 ## 1. Objetivo y límites
 
 ### Qué es
-Arquitectura editorial del módulo de **Llengua Estrangera (inglés)** para el perfil Aray: niño ~9 años, **3.º de Primaria Cataluña** (ciclo medio **3.º–4.º**, Decret 175/2022).
+Arquitectura editorial del módulo **Llengua Estrangera (inglés)** para Aray: ~9 años, **3.º Primaria Cataluña** (ciclo medio 3.º–4.º, Decret 175/2022).
 
-### Qué no es
-- No copiar ejercicios de fichas ni editoriales.
-- No generar vocabulario cerrado todavía.
-- No crear packs JSON, mecánicas ni pantallas.
-- No modificar `MINIGAME_CATALOG`, Matemáticas ni Ortografía.
+### Qué no es (esta fase)
+- No copiar ejercicios.
+- No listar palabras ni distractores.
+- No crear Markdown de banco ni JSON.
+- No pantallas, catálogo, Matemáticas ni Ortografía.
 
-### Principio pedagógico (igual que Ortografía)
-Las fichas del repo y las editoriales son **referencia de temas, nivel y tipología**.  
-Aray enseñará **los mismos contenidos** con formato de videojuego, no fotocopia digital.
+### Principio
+Las fichas son referencia de **temas y nivel**. Aray enseña lo mismo en formato videojuego.
 
----
-
-## 2. Fuentes revisadas
-
-### 2.1 Currículum oficial (Cataluña)
-
-| Fuente | Uso |
-|--------|-----|
-| **Decret 175/2022** (educació bàsica) | Área **Llengua Estrangera**; 3.º = **segon cicle** (3r–4t) |
-| Annex 2 — competències específiques LE | Comunicación oral/escrita, mediación, plurilingüismo, reflexión sobre el aprendizaje |
-| Sabers LE (segon cicle) | Uso en aula, comprensión/producción guiada, léxico de vida cotidiana, estrategias, aspectos socioculturales básicos |
-| [`docs/TEMARIO_3_PRIMARIA_CATALUNYA.md`](../../docs/TEMARIO_3_PRIMARIA_CATALUNYA.md) | Calibrado de nivel ciclo medio (hoy centrado en mates/lengua; este MD amplía inglés) |
-
-**Lectura operativa para Aray (ciclo medio):**
-
-- Inglés = **comunicación funcional** (saludos, preguntar/responder, describir lo cercano), no gramática explícita tipo ESO.
-- Prioridad: **léxico + estructuras fijas** + comprensión con apoyo visual.
-- Oral/listening aparecen en currículum → en producto: **fase 1 offline (lectura/imagen)**; **audio en fase posterior**.
-- Error = parte del aprendizaje (alineado con Mis fallos futuros).
-
-### 2.2 Materiales del repositorio
-
-| Ubicación | Editorial / tipo | Qué aporta | Límite |
-|-----------|------------------|------------|--------|
-| `feinetas/Ingles/*.pdf` (`1`–`8`, `01.pdf`) | Fichas escaneadas en repo | Nivel 3.º visual; **OCR vacío** (imagen) | Hay que revisar en mesa / OCR futuro; **no inventar** vocabulario solo desde el nombre del archivo |
-| `verano_aray/banc_exercicis/03_angles.md` | Índice BEX | Tipología EN-001… tipificada | Enunciados resumidos; no copiar |
-| `…/_extraccio_raw/angles_cuaderno-de-verano-ingles-3-ep.txt` | Cuaderno verano 3 EP (PlanetaSaber / genérico) | Colores, números 1–10, familia, ropa, frutas, colegio, estaciones, cuerpo, días | Buen banco de **temas base** |
-| `…/angles_mating3.txt` | **Vicens Vives** (reinforcement/extension) | School areas, house/materials, family, safety gear, food scramble, animals/can, clothes, routines/time | Fuente **principal** de unidades 0–6 tipo curso |
-| `…/angles_Mc-Millan-wonder-3-teacher-resource.txt` | **Wonder 3** · Richmond / **Santillana** | Feelings, appearance (`have got`), food (sweet/sour/salty), winter sports/clothes, instruments + prepositions, farm animals… | Fuente **principal** de tipología “coursebook moderno” + **phonics/listening** (reservado audio) |
-| `…/angles_mating8.txt`, `angles_mating11.txt` | Vicens (marcado ©) | Contenido tipo **Science/CLIL** (huesos, músculos, school staff…) | **No** usar como núcleo de Inglés L2; opcional “English across the curriculum” mucho más tarde |
-| Índice `indice_pdfs.md` | Inventario | Lista PDFs `Ingles\mating*.pdf`, cuaderno verano | Orientativo |
-
-### 2.3 Editoriales pedidas (cobertura real en repo)
-
-| Editorial | Hallazgo en repo | Uso editorial propuesto |
-|-----------|------------------|-------------------------|
-| **Vicens Vives** | Fuerte (`mating3` y familia) | Ancla de **unidades temáticas** y estructuras (`have got`, `there is/are`, `can`, school) |
-| **Santillana / Richmond (Wonder 3)** | Fuerte (Teacher Resource) | Ancla de **feelings, food, phonics, skills** (R/W/L/S) |
-| **SM** | Poco inglés L2 explícito en extracciones; SM aparece más en mates/medi | Consultar fichas físicas / futuros PDF; **no forzar** vocabulario SM sin fuente |
-| **ANAYA** | Extracciones ANAYA del repo = lengua/mates/medi, **no** inglés L2 claro | Igual: pendiente de material inglés ANAYA si se añade al repo |
-| **Savia** | Presente en medi/naturales (atención a la diversidad), **no** como coursebook inglés | No mezclar con packs de Inglés salvo CLIL medi en inglés (fuera de v1) |
-
-**Conclusión de cobertura:** el diseño v1 se apoya en **Vicens + Wonder/Santillana + cuaderno verano + fichas `feinetas/Ingles`**. ANAYA / SM / Savia se documentan como **huecos a completar** cuando haya PDFs de inglés en el repo (sin inventar listas).
-
----
-
-## 3. Bloques de contenido (mapa editorial)
-
-Bloques = **familias de léxico / uso**, no “unidades de libro” copiadas.  
-Orden = progresión recomendada para Aray (de más concreto / visual a más estructural).
-
-| # | Bloque editorial | ID propuesto | Temas (síntesis de fuentes) | Offline v1 | Audio futuro |
-|---|------------------|--------------|-----------------------------|:----------:|:------------:|
-| B1 | Yo y saludos | `en-me` | name, age, hello/bye, I am… | ✅ | 🎧 diálogos |
-| B2 | Colores y números | `en-colours-numbers` | colours; 1–20 (hasta ~100 lectura en Vicens U5) | ✅ | 🎧 |
-| B3 | Colegio y aula | `en-school` | classroom objects, school areas, teacher… | ✅ | 🎧 |
-| B4 | Familia | `en-family` | mum, dad, sister…; “He’s my…” | ✅ | 🎧 |
-| B5 | Cuerpo y cara | `en-body` | eyes, nose, hair… | ✅ | 🎧 |
-| B6 | Ropa | `en-clothes` | dress, shoes, hat, gloves…; I’m wearing… | ✅ | 🎧 |
-| B7 | Casa y habitaciones | `en-home` | rooms; there is/are; prepositions (on/under/behind) | ✅ | 🎧 |
-| B8 | Comida | `en-food` | fruit, sandwich, sweet/salty…; I like / Can I have… | ✅ | 🎧 |
-| B9 | Animales y habilidades | `en-animals-can` | pets/farm; I can / can’t | ✅ | 🎧 |
-| B10 | Días, estaciones, rutinas | `en-time-routines` | days, seasons; It’s … o’clock + acción | ✅ parcial | 🎧 fuerte |
-| B11 | Sentimientos y descripción | `en-feelings` | happy, sad, scared…; has got glasses/hair | ✅ | 🎧 |
-| B12 | Frases útiles (chunks) | `en-chunks` | What’s your name?, How old…?, Have you got…? | ✅ texto | 🎧 **prioridad** |
-| B13 | Phonics (sonidos) | `en-phonics` | sonidos iniciales (Wonder) | ⚠️ solo visual | 🎧 **obligatorio** |
-| B14 | Listening / Speaking | `en-oral` | skills worksheets Wonder | ❌ | 🎧 **núcleo** |
-
-**Fuera de v1 (explícito):**
-
-- CLIL ciencia en inglés (mating8/11: huesos, músculos…).
-- Writing libre largo / surveys de compañeros (EN-001) → no encaja en minijuego corto.
-- Draw & colour como mecánica principal (se puede sustituir por elegir imagen).
-
----
-
-## 4. Orden recomendado de publicación
-
-### Fase E0 — Diseño (ahora)
-Este `INGLES_MASTER.md` + decisión de packs. Sin JSON.
-
-### Fase E1 — Vocabulario visual offline (MVP jugable futuro)
-Orden de packs a llenar (Markdown → JSON **después**):
-
-1. `en-colours-numbers`  
-2. `en-school`  
-3. `en-family`  
-4. `en-body`  
-5. `en-clothes`  
-6. `en-food`  
-7. `en-animals-can`  
-8. `en-me` + `en-chunks` (mínimo de frases fijas)
-
-Mecánicas: **MCQ / match palabra–imagen / ordenar letras** (reuso).
-
-### Fase E2 — Casa, rutinas, feelings
-9. `en-home`  
-10. `en-time-routines` (sin reloj hablado)  
-11. `en-feelings`
-
-### Fase E3 — Audio
-12. `en-chunks` con audio  
-13. `en-phonics`  
-14. `en-oral` (listening MCQ)
-
-### No planificar aún
-Problemas verbales (mates), CLIL medi en inglés, segunda lengua extranjera.
-
----
-
-## 5. Qué reutiliza el motor de Ortografía
-
-El pipeline Ortografía ya separa **banco de lemas** vs **vista de mecánica** ([`JSON_SPEC.md`](./JSON_SPEC.md)).
-
-| Capacidad Ortografía / minijuegos | Reutilizable en Inglés | Cómo |
-|-----------------------------------|------------------------|------|
-| Pack JSON + `buildRound` + adaptadores | ✅ | Nuevo `mechanicId` o categoría `english` con source `pack` (más adelante; **no ahora**) |
-| MCQ “elige la correcta” | ✅ | Lema EN + distractores **editoriales** (nunca inventados) |
-| Letra que falta / scramble (`ordenar-letras`) | ✅ | Spelling de palabras EN cortas (school objects, colours) |
-| La intrusa | ✅ | 3 palabras del campo semántico + 1 fuera |
-| Completa la frase | ✅ parcial | Solo con **frases plantilla** del pack `en-chunks` / `en-food` |
-| Imagen y palabra (`picture`) | ✅ **prioridad EN** | Hoy coming-soon en orto; en inglés es **mecánica estrella** si hay `image.ref` |
-| Mis fallos (streak clear) | ✅ patrón | Keys por `lemmaId` / `chunkId` (como `targetKey` orto) |
-| Distractores ortográficos ES (b/v, h…) | ❌ | No aplicar reglas de castellano a inglés |
-
-**Contrato de lema inglés (propuesta, no JSON aún):**
-
-- `id`, `lemma` (EN), `glossEs` y/o `glossCa` (para adulto/ayuda), `topicIds[]`, `image.ref?`, `audio.ref?`, `chunk?`, `level: 3-primaria`, `locale: en-GB` (o `en-US` — **duda editorial**).
-
----
-
-## 6. Qué necesita mecánica propia
-
-| Mecánica | Por qué no basta Ortografía | Offline | Audio |
-|----------|----------------------------|---------|-------|
-| **Match palabra ↔ imagen** (grid) | Ortografía picture aún no productiva; inglés es L2 + iconografía | ✅ | opcional |
-| **Listen & choose** | Requiere clip + timing | ❌ | ✅ |
-| **Say & check** (hablar) | STT / adulto / futuro | ❌ | ✅ |
-| **Phonics: sonido → letra/palabra** | Distinto de “letra que falta” ES | parcial | ✅ |
-| **Prepositions on picture** | “The ball is under the table” + hotspots | ✅ | opcional |
-| **Have you got…? cards** | Microdiálogo 2 turnos | texto ✅ | 🎧 mejor |
-
----
-
-## 7. Imágenes y audio
-
-### Imágenes (v1 offline)
-Campos semánticos **claramente ilustrables**: colours, school objects, body, clothes, food, animals, rooms, feelings (caras).  
-Regla: cada lema jugable en modo imagen **debe** tener `image.ref` aprobado (mismo rigor que ortografía picture).
-
-### Audio (futuro)
-Obligatorio para: listening, phonics, pronunciación de chunks, dictado suave.  
-Conveniente para: feedback Lumo en inglés, “repeat after me”.  
-Arquitectura futura: `audio.ref` en lema/chunk; **no** bloquear E1 offline.
-
----
-
-## 8. Propuesta de packs editoriales
-
-Un pack = un archivo JSON futuro bajo p. ej. `feinetas/ingles/…` (ruta orientativa).
-
-| Pack ID | Título humano | Bloque | Ítems aprox. | Notas |
-|---------|---------------|--------|-------------:|-------|
-| `ingles-colours-numbers` | Colours & numbers | B2 | 25–40 | Colores + 1–20 (+ decenas) |
-| `ingles-school` | School | B3 | 30–50 | Objetos + áreas (Vicens) |
-| `ingles-family` | Family | B4 | 15–25 | Relaciones básicas |
-| `ingles-body` | Body & face | B5 | 15–25 | |
-| `ingles-clothes` | Clothes | B6 | 20–35 | + winter clothes Wonder |
-| `ingles-home` | Home | B7 | 25–40 | Rooms + prepositions set |
-| `ingles-food` | Food | B8 | 30–45 | + I like / Can I have… chunks |
-| `ingles-animals` | Animals & can | B9 | 25–40 | Pets/farm + verbos can |
-| `ingles-me-chunks` | Me & useful phrases | B1+B12 | 20–35 | Frases fijas cerradas |
-| `ingles-time-days` | Days & seasons | B10 | 15–25 | |
-| `ingles-feelings` | Feelings & looks | B11 | 20–30 | Wonder U1 |
-| `ingles-phonics-a` | Phonics starter | B13 | 12–20 | **Solo con audio** |
-| `ingles-listening-a` | Listening pack A | B14 | 10–15 escenas | **Solo con audio** |
-
-**Tamaño total v1 (E1+E2, sin phonics/listening):** ~240–380 lemas/chunks.  
-**Con E3 audio:** +30–50 ítems orales.
-
----
-
-## 9. Propuesta de IDs y categorías
-
-### 9.1 IDs de contenido
-- Lema: `en:{packShort}:{slug}` — ej. `en:school:pencil-case`
-- Chunk: `en:chunk:{slug}` — ej. `en:chunk:whats-your-name`
-- Miss key: mismo id (estable; no texto visible solo)
-
-### 9.2 Categorías de producto (futuro catálogo — **no implementar ahora**)
-
-Alineado con bloques ya esbozados en curriculum (`vocabulary`, `word-image`, `simple-phrases` = future):
-
-| category | title (producto) | Presentación |
-|----------|------------------|--------------|
-| `english-vocab` | Vocabulario | MCQ / scramble |
-| `english-picture` | Palabra e imagen | Match / picture MCQ |
-| `english-phrases` | Frases útiles | Complete / order words |
-| `english-listen` | Escucha (futuro) | Listen MCQ |
-| `english-review` | Mis fallos | Review bank |
-
-### 9.3 skillIds curriculares (orientativos, sin tocar `catalog.ts` ahora)
-- `english-vocab-core`
-- `english-vocab-school`
-- `english-phrases-basic`
-- `english-listen-a` (futuro)
-
----
-
-## 10. Offline vs audio — frontera clara
-
-| Completamente offline (E1–E2) | Dejar para versión con audio (E3+) |
-|-------------------------------|-------------------------------------|
-| Vocab MCQ con texto + imagen | Listening comprehension |
-| Match palabra–imagen | Phonics por sonido |
-| Ordenar letras de lemas EN | “Repeat / speak” |
-| Completar chunk escrito | Dictation |
-| True/false sobre frase corta escrita | Pronunciation feedback |
-| Prepositions sobre ilustración estática | Diálogos largos orales |
-
-**Regla de producto:** ningún pack E1 debe **requerir** `audio.ref` para ser jugable.
-
----
-
-## 11. Relación con el curriculum interno actual
-
-En `src/curriculum/catalog.ts` (solo lectura; **no modificado en esta entrega**):
-
-- Subject `english` ya existe (`/missions/english`).
-- Bloques `vocabulary`, `word-image`, `simple-phrases` están en `future`.
-
-Este master **valida** esos tres bloques como fachada de producto y los desglosa en packs editoriales anteriores.  
-Cuando se active el módulo, se mapearán packs → actividades **sin** inventar un cuarto bloque “Problemas” en mates.
-
----
-
-## 12. Dudas editoriales (para decidir antes de bancos)
-
-1. **Variedad EN:** ¿`en-GB` (Vicens/Wonder UK) o `en-US`? Recomendación: **en-GB** coherente con fichas Vicens/Wonder.
-2. **Glosas:** ¿ayuda en castellano, catalán o ambas? (Perfil Cataluña → **CA + ES** en metadatos adulto.)
-3. **Números:** ¿tope 1–20 en E1 o incluir decenas 30–100 (Vicens U5)? Recomendación: **1–20 en E1**; 30–100 en E2.
-4. **ANAYA / SM / Savia inglés:** ¿se añadirán PDFs al repo antes de congelar packs? Si no, congelar solo con Vicens + Wonder + verano + `feinetas/Ingles`.
-5. **OCR `feinetas/Ingles`:** priorizar mesa de revisión visual vs OCR batch.
-6. **Phonics:** ¿entrar en E3 o nunca en Aray móvil sin micrófono?
-7. **CLIL (mating8/11):** ¿descartado definitivo o “English Club” opcional años después?
-8. **Locale de imágenes:** ¿pack de iconos propio Aray o banco con licencia clara?
-
----
-
-## 13. Resumen ejecutivo
-
-- **Siguiente módulo grande = Inglés**; problemas verbales **no** son el siguiente bloque.
-- Currículum Cataluña (Decret 175/2022) pide LE comunicativa en ciclo medio → Aray debe priorizar **léxico + chunks + imagen**, y dejar **listening/speaking/phonics** para cuando haya audio.
-- Fuentes fuertes en repo: **Vicens (`mating3`)**, **Wonder 3 (Santillana/Richmond)**, **cuaderno verano 3 EP**, fichas `feinetas/Ingles` (escaneadas).
-- **ANAYA / SM / Savia** aún no aportan coursebook de inglés usable en extracciones → hueco documentado.
-- Reutilizar pipeline Ortografía (packs, MCQ, scramble, miss store, picture).
-- Mecánicas propias: match imagen, listening, phonics, prepositions hotspot.
-- ~**12 packs** editoriales; **~240–380** ítems offline antes de audio.
-
----
-
-## 14. Checklist de siguiente paso editorial (humano)
-
-- [ ] Resolver dudas §12 (locale, glosas, tope números).
-- [ ] Revisar visualmente `feinetas/Ingles/01.pdf` y `1.pdf`–`8.pdf`.
-- [ ] Abrir primer banco Markdown p. ej. `BANCO_INGLES_COLOURS_NUMBERS.md` (aún no).
-- [ ] Congelar lemas solo con respaldo de ficha (regla README editorial).
-- [ ] Solo entonces JSON + adaptadores (otra fase de ingeniería).
-
----
-
-## 15. Cambio de planificación (registro)
-
+### Planificación de producto
 | Antes | Ahora |
 |-------|--------|
-| Siguiente bloque mates ≈ Problemas verbales | **Cancelado** como siguiente gran módulo |
+| Problemas verbales como siguiente gran bloque | **Cancelado** |
 | — | **Inglés** = siguiente gran módulo de contenido |
-| — | Mates: calidad UX / packs futuros sin problemas |
-| — | Ortografía: intacta |
+
+---
+
+## 2. Fuentes (cerradas para construcción)
+
+| Fuente | Rol |
+|--------|-----|
+| Decret 175/2022 · Llengua Estrangera | Marco competencial ciclo medio |
+| Vicens Vives (`angles_mating3`) | Unidades temáticas y estructuras |
+| Wonder 3 · Richmond/Santillana | Feelings, food, tipología coursebook |
+| Cuaderno verano 3 EP | Temas base (colores, familia, ropa…) |
+| `feinetas/Ingles/*.pdf` | Revisión visual de mesa (escaneos; sin OCR usable) |
+| BEX `03_angles.md` | Tipología de ejercicios (no copiar) |
+
+**No** se espera ANAYA / SM / Savia inglés para congelar packs.  
+**No** se usan mating8/11 (CLIL).
+
+---
+
+## 3. Índice definitivo de packs
+
+Un pack = futuro archivo editorial → JSON bajo ruta orientativa `feinetas/ingles/`.  
+**Ningún pack de la ola offline requiere audio para ser jugable.**
+
+### Leyenda
+
+- **Reuso Ortografía:** sí = MCQ / scramble / intrusa / miss-keys vía mismo estilo de adaptadores; parcial = solo algunas mecánicas; no = necesita motor distinto o audio.
+- **Imagen:** el campo `image.ref` es opcional en el contrato; la mecánica Imagen/Match se activa cuando existan assets (origen TBD).
+
+---
+
+### Pack 1 — `ingles-colours-numbers`
+
+| Campo | Valor |
+|-------|--------|
+| **Nombre** | Colours & numbers (1–20) |
+| **Objetivo** | Colores básicos + números **one–twenty** (lectura/escritura de palabra). Base visual y ortográfica corta. |
+| **Prioridad** | **Alta** (primer pack a construir) |
+| **Tamaño** | mín. **28** · máx. **40** (≈ 10–12 colores + 20 números; sin 30–100) |
+| **Mecánicas compatibles** | MCQ · Scramble · Intrusa · Imagen (futuro) · Match (futuro) |
+| **Audio futuro** | Conveniente (pronunciación); **no bloqueante** |
+| **Reuso Ortografía** | **Sí, completo** (mismo patrón de lemas) |
+| **Depende de** | — (pack raíz) |
+
+---
+
+### Pack 2 — `ingles-school`
+
+| Campo | Valor |
+|-------|--------|
+| **Nombre** | School |
+| **Objetivo** | Objetos de aula y zonas del colegio (classroom, playground, library…). |
+| **Prioridad** | **Alta** |
+| **Tamaño** | mín. **28** · máx. **45** |
+| **Mecánicas** | MCQ · Scramble · Intrusa · Imagen · Match · Completar (frases muy cortas del propio pack) |
+| **Audio futuro** | Conveniente |
+| **Reuso Ortografía** | **Sí, completo** |
+| **Depende de** | Ideal tras Pack 1 (mismas mecánicas; no dependencia de lemas) |
+
+---
+
+### Pack 3 — `ingles-family`
+
+| Campo | Valor |
+|-------|--------|
+| **Nombre** | Family |
+| **Objetivo** | Miembros de la familia y relaciones simples (*mum, dad, sister…*). |
+| **Prioridad** | **Alta** |
+| **Tamaño** | mín. **14** · máx. **24** |
+| **Mecánicas** | MCQ · Scramble · Intrusa · Imagen · Match |
+| **Audio futuro** | Conveniente |
+| **Reuso Ortografía** | **Sí, completo** |
+| **Depende de** | — (independiente de lemas; conviene tras Pack 1–2 por hábito de juego) |
+
+---
+
+### Pack 4 — `ingles-body`
+
+| Campo | Valor |
+|-------|--------|
+| **Nombre** | Body & face |
+| **Objetivo** | Partes del cuerpo y cara (*eyes, nose, hair…*). |
+| **Prioridad** | **Alta** |
+| **Tamaño** | mín. **14** · máx. **24** |
+| **Mecánicas** | MCQ · Scramble · Intrusa · Imagen · Match |
+| **Audio futuro** | Conveniente |
+| **Reuso Ortografía** | **Sí, completo** |
+| **Depende de** | — |
+
+---
+
+### Pack 5 — `ingles-clothes`
+
+| Campo | Valor |
+|-------|--------|
+| **Nombre** | Clothes |
+| **Objetivo** | Ropa cotidiana (+ invierno básico: *hat, gloves…* según Wonder/Vicens). |
+| **Prioridad** | **Media** |
+| **Tamaño** | mín. **18** · máx. **32** |
+| **Mecánicas** | MCQ · Scramble · Intrusa · Imagen · Match · Completar (*I'm wearing…* plantillas del pack) |
+| **Audio futuro** | Conveniente |
+| **Reuso Ortografía** | **Sí** (Completar = parcial, plantillas del pack) |
+| **Depende de** | Pack 4 recomendable antes si se cruzan *hair/eyes* en descripción; **no obligatorio** |
+
+---
+
+### Pack 6 — `ingles-food`
+
+| Campo | Valor |
+|-------|--------|
+| **Nombre** | Food |
+| **Objetivo** | Alimentos frecuentes; gustos (*I like / I don't like*); petición simple (*Can I have…?*) como chunks del pack. |
+| **Prioridad** | **Alta** |
+| **Tamaño** | mín. **28** · máx. **42** (lemas + pocos chunks) |
+| **Mecánicas** | MCQ · Scramble · Intrusa · Imagen · Match · Completar |
+| **Audio futuro** | Muy útil en chunks; **no bloqueante** en v1 |
+| **Reuso Ortografía** | **Sí** (Completar parcial) |
+| **Depende de** | Pack 1 útil si se cruzan colores (*a red apple*); **no obligatorio** |
+
+---
+
+### Pack 7 — `ingles-animals`
+
+| Campo | Valor |
+|-------|--------|
+| **Nombre** | Animals & can |
+| **Objetivo** | Animales (pets/farm) + verbos de habilidad en chunks cortos (*I can swim*). |
+| **Prioridad** | **Media** |
+| **Tamaño** | mín. **22** · máx. **38** |
+| **Mecánicas** | MCQ · Scramble · Intrusa · Imagen · Match · Completar |
+| **Audio futuro** | Conveniente |
+| **Reuso Ortografía** | **Sí** (Completar parcial) |
+| **Depende de** | — |
+
+---
+
+### Pack 8 — `ingles-me-chunks`
+
+| Campo | Valor |
+|-------|--------|
+| **Nombre** | Me & useful phrases |
+| **Objetivo** | Saludos y **chunks fijos** (*What's your name?, How old are you?, Have you got…?*). Lista cerrada, no escritura libre. |
+| **Prioridad** | **Alta** |
+| **Tamaño** | mín. **16** · máx. **30** (casi todo chunks) |
+| **Mecánicas** | Completar · Ordenar palabras · MCQ de respuesta fija · (Imagen solo si hay escena) |
+| **Audio futuro** | **Alta prioridad** cuando exista audio; v1 = solo texto |
+| **Reuso Ortografía** | **Parcial** (Completar / ordenar como frases; no scramble de letra suelta como lema corto) |
+| **Depende de** | Packs 1–3 **recomendados** (edad, colores, familia refuerzan contexto); chunks pueden existir solos |
+
+---
+
+### Pack 9 — `ingles-home`
+
+| Campo | Valor |
+|-------|--------|
+| **Nombre** | Home |
+| **Objetivo** | Habitaciones y objetos de casa; *there is/are*; preposiciones (*on / under / behind*) en MCQ o escena. |
+| **Prioridad** | **Media** |
+| **Tamaño** | mín. **24** · máx. **40** |
+| **Mecánicas** | MCQ · Scramble · Intrusa · Imagen · Match · Completar · **Prepositions** (mecánica propia futura, opcional) |
+| **Audio futuro** | Conveniente |
+| **Reuso Ortografía** | **Parcial** (léxico sí; preposiciones hotspot = propia) |
+| **Depende de** | Pack 2 (school) opcional por contraste *classroom/house* |
+
+---
+
+### Pack 10 — `ingles-time-days`
+
+| Campo | Valor |
+|-------|--------|
+| **Nombre** | Days & seasons |
+| **Objetivo** | Días de la semana y estaciones. **Sin** listening de la hora; reloj hablado fuera de esta ola. |
+| **Prioridad** | **Media** |
+| **Tamaño** | mín. **12** · máx. **20** (7 días + 4 estaciones ± extras) |
+| **Mecánicas** | MCQ · Scramble · Intrusa · Completar · (Imagen débil salvo iconos estación) |
+| **Audio futuro** | Útil (días); no bloqueante |
+| **Reuso Ortografía** | **Sí** |
+| **Depende de** | — |
+
+---
+
+### Pack 11 — `ingles-feelings`
+
+| Campo | Valor |
+|-------|--------|
+| **Nombre** | Feelings & looks |
+| **Objetivo** | Emociones (*happy, sad, scared…*) y descripción simple (*has got glasses / long hair*). |
+| **Prioridad** | **Media** |
+| **Tamaño** | mín. **18** · máx. **30** |
+| **Mecánicas** | MCQ · Intrusa · Imagen · Match · Completar |
+| **Audio futuro** | Conveniente |
+| **Reuso Ortografía** | **Sí** (Completar parcial) |
+| **Depende de** | Pack 4–5 recomendables (*hair, glasses, clothes*) |
+
+---
+
+### Pack 12 — `ingles-phonics-a` · **APLAZADO**
+
+| Campo | Valor |
+|-------|--------|
+| **Nombre** | Phonics starter |
+| **Objetivo** | Sonidos iniciales (estilo Wonder). |
+| **Prioridad** | **Baja** (fuera de la primera versión offline) |
+| **Tamaño** | mín. **12** · máx. **20** |
+| **Mecánicas** | Phonics sonido→opción (**propia**) |
+| **Audio futuro** | **Obligatorio** |
+| **Reuso Ortografía** | **No** |
+| **Depende de** | Infra audio + decisión de producto |
+
+---
+
+### Pack 13 — `ingles-listening-a` · **APLAZADO**
+
+| Campo | Valor |
+|-------|--------|
+| **Nombre** | Listening pack A |
+| **Objetivo** | Comprensión oral con escenas cortas. |
+| **Prioridad** | **Baja** (fase audio) |
+| **Tamaño** | mín. **10** · máx. **15** escenas |
+| **Mecánicas** | Listen & choose (**propia**) |
+| **Audio futuro** | **Obligatorio** |
+| **Reuso Ortografía** | **No** |
+| **Depende de** | Infra audio; conviene tener Packs 1–8 con lemas ya congelados |
+
+---
+
+### Totales orientativos
+
+| Ámbito | Packs | Ítems (suma mín–máx) |
+|--------|------:|----------------------|
+| Offline construibles ahora (1–11) | 11 | **~232 – 365** |
+| Aplazados audio (12–13) | 2 | ~22 – 35 |
+
+---
+
+## 4. Orden recomendado de desarrollo (editorial)
+
+Solo packs **offline**. Sin palabras todavía: este orden es el de **abrir bancos Markdown**.
+
+| Paso | Pack | Prioridad | Motivo |
+|-----:|------|-----------|--------|
+| 1 | `ingles-colours-numbers` | Alta | Raíz; números acotados 1–20; palabras cortas |
+| 2 | `ingles-school` | Alta | Volumen alto; muy presente en Vicens |
+| 3 | `ingles-family` | Alta | Banco pequeño; rápido de congelar |
+| 4 | `ingles-body` | Alta | Visual; refuerza descripción |
+| 5 | `ingles-food` | Alta | Enganche + chunks cortos |
+| 6 | `ingles-me-chunks` | Alta | Frases útiles; cierra el “puedo presentarme” |
+| 7 | `ingles-clothes` | Media | Amplía descripción |
+| 8 | `ingles-animals` | Media | Variedad y *can* |
+| 9 | `ingles-home` | Media | Estructuras *there is* / prep. |
+| 10 | `ingles-time-days` | Media | Banco pequeño |
+| 11 | `ingles-feelings` | Media | Cierra ola offline |
+| — | `ingles-phonics-a` | Baja | Tras audio |
+| — | `ingles-listening-a` | Baja | Tras audio |
+
+---
+
+## 5. Dependencias entre packs
+
+```
+ingles-colours-numbers          (raíz)
+        │
+        ├─(recomendado)──► ingles-school
+        │
+        ├─(recomendado)──► ingles-food  (colores en comida)
+        │
+ingles-family ──┐
+ingles-body ────┼─(recomendado)──► ingles-me-chunks
+ingles-school ──┘                  ingles-feelings
+ingles-clothes ───────────────────► ingles-feelings
+ingles-body / clothes ─(recomendado)► ingles-feelings
+
+ingles-home          (casi independiente; opcional tras school)
+ingles-animals       (independiente)
+ingles-time-days     (independiente)
+
+ingles-phonics-a     ── requiere audio (no depende de lemas concretos)
+ingles-listening-a   ── requiere audio + conviene lemas 1–8 congelados
+```
+
+**Regla:** ninguna dependencia es bloqueante técnica para escribir un banco; las flechas son **pedagógicas** (mejor experiencia si el niño ya vio el léxico previo).
+
+---
+
+## 6. Mecánicas: mapa global
+
+| Mecánica | Packs offline | Reuso Ortografía | Notas |
+|----------|---------------|------------------|-------|
+| MCQ | 1–11 | Sí | Distractores **solo** editoriales del pack |
+| Scramble / letra que falta | 1–7, 9–10 | Sí | Palabras cortas EN-GB |
+| Intrusa | 1–7, 9–11 | Sí | Mismo campo semántico |
+| Completar frase | 5–9, 11 | Parcial | Plantillas cerradas del pack |
+| Ordenar palabras | 8 | Parcial | Chunks |
+| Imagen / Match | 1–7, 9, 11 | Sí cuando haya `image.ref` | Origen assets **TBD** |
+| Prepositions hotspot | 9 | No (propia) | Futuro; mientras tanto MCQ texto |
+| Phonics / Listen | 12–13 | No | Fuera de v1 |
+
+---
+
+## 7. Offline vs audio (frontera fija)
+
+| Incluido en primera versión | Aplazado |
+|-----------------------------|----------|
+| Packs 1–11 | Packs 12–13 |
+| Texto + glosa ES | Listening |
+| Mecánicas tipo Ortografía | Phonics por sonido |
+| `image.ref` opcional (sin decidir assets) | Speak / dictado |
+| Sin `audio.ref` obligatorio | Diálogos orales |
+
+---
+
+## 8. IDs y categorías (futuro producto — no implementar)
+
+- Lema: `en:{packShort}:{slug}` → `en:school:pencil-case`
+- Chunk: `en:chunk:{slug}` → `en:chunk:whats-your-name`
+- Miss key = mismo id
+
+Categorías futuras (sin tocar catálogo ahora): `english-vocab` · `english-picture` · `english-phrases` · `english-listen` · `english-review`
+
+Curriculum interno ya tiene bloques `vocabulary` / `word-image` / `simple-phrases` en `future` — este master los respalda.
+
+---
+
+## 9. Dudas editoriales pendientes
+
+Solo quedan puntos **no bloqueantes** para abrir el Pack 1:
+
+1. **Origen de assets de imagen** (cuándo se active Imagen/Match): pack propio Aray vs banco con licencia — **aplazado a propósito**.
+2. **Revisión visual** de `feinetas/Ingles/*.pdf` en mesa al llenar cada banco (proceso, no decisión abierta).
+
+**Cerradas y no reabrir sin cambio de producto:** locale `en-GB`, glosas solo ES, números 1–20 en primer pack, fuentes actuales, sin audio/phonics/listening/CLIL en v1.
+
+---
+
+## 10. Checklist — siguiente paso humano
+
+- [x] Decisiones §0 cerradas  
+- [x] Índice definitivo de packs  
+- [x] Orden y dependencias  
+- [ ] Abrir `BANCO_INGLES_COLOURS_NUMBERS.md` (o nombre acordado) — **aún no en esta entrega**  
+- [ ] Congelar lemas Pack 1 con respaldo de ficha  
+- [ ] Solo después: JSON + ingeniería de juego  
+
+---
+
+## 11. Resumen
+
+Arquitectura editorial de Inglés **cerrada para Fase 1**.  
+**11 packs offline** listos para bancos Markdown; **2 aplazados** (phonics/listening).  
+Primer desarrollo: **`ingles-colours-numbers`** (colores + **1–20**).  
+Motor Ortografía reusable en la mayoría de packs léxicos; chunks = parcial; audio = fase aparte.  
+Sin JSON, sin pantallas, sin vocabulario todavía.
