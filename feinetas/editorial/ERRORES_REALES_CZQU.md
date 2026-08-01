@@ -17,14 +17,13 @@ Nunca debe contener palabras inventadas.
 | haber, hacer, echar | `ERRORES_REALES_H.md` |
 | hay / ahí / ay | `ERRORES_REALES_HAY_AHI_AY.md` |
 | caballo, llave, botella… | `ERRORES_REALES_BV.md` |
+| bicicleta (si se incorpora) | `ERRORES_REALES_BV.md` |
 | cigüeña / guitarra (gü/gu) | futuro GU/GÜ |
 
 **Cruces (sin duplicar contenido):**
 - Foco: **ca/co/cu** vs **que/qui**; **za/zo/zu** vs **ce/ci**; finales en **-z**.
-- **cigüeña** → gü (fuera).
-- **bicicleta** → fuera (sin drill lengua c/z; además b).
-- **quinto** → fuera (sin drill ortográfico claro).
-- Nombres propios y conjugaciones → fuera.
+- **bicicleta**, **cigüeña**, **quincena**, **ceniza**, **cepillo**, **quinto** → fuera.
+- Sin distractores artificiales tipo *quasa* / *qubo* / *qumpleaños*.
 
 ---
 
@@ -58,7 +57,7 @@ Sí
 
 ## Observaciones
 
-ANAYA refuerzo; Savia; Vicens; `formar-palabras.json`.
+ANAYA; Savia; Vicens; `formar-palabras.json`.
 
 ---
 
@@ -92,7 +91,7 @@ Sí
 
 ## Observaciones
 
-Vicens (_apato). Aray `zapato-ctx`; `formar-palabras.json`.
+Vicens; Aray `zapato-ctx`; `formar-palabras.json`.
 
 ---
 
@@ -126,7 +125,7 @@ Sí
 
 ## Observaciones
 
-Vicens (co_ina). `formar-palabras.json`.
+Vicens; `formar-palabras.json`.
 
 ---
 
@@ -160,7 +159,7 @@ Sí
 
 ## Observaciones
 
-Vicens (_umo).
+Vicens.
 
 ---
 
@@ -194,41 +193,7 @@ Sí
 
 ## Observaciones
 
-ANAYA refuerzo (_ielo).
-
----
-
-## Correcta
-
-casa
-
-## Error frecuente 1
-
-quasa
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Ante a, o, u el sonido /k/ se escribe c (no qu).
-
-## Frecuencia
-
-Muy frecuente
-
-## Categoría
-
-Casa
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-ANAYA refuerzo (_asa); Savia.
+ANAYA refuerzo.
 
 ---
 
@@ -262,7 +227,7 @@ Sí
 
 ## Observaciones
 
-Aray `lapiz-ctx`; Vicens; Savia; `formar-palabras.json`.
+Aray; Vicens; Savia; `formar-palabras.json`.
 
 ---
 
@@ -330,7 +295,7 @@ Sí
 
 ## Observaciones
 
-Savia u3 (cocodrilos).
+Savia u3.
 
 ---
 
@@ -352,7 +317,7 @@ Ante e el sonido /θ/~/s/ se escribe c (no z).
 
 ## Frecuencia
 
-Muy frecuente
+Frecuente
 
 ## Categoría
 
@@ -364,7 +329,7 @@ Sí
 
 ## Observaciones
 
-Vicens (_ebolla).
+Vicens.
 
 ---
 
@@ -398,7 +363,7 @@ No
 
 ## Observaciones
 
-ANAYA refuerzo (pe_ueño).
+ANAYA refuerzo. Sin categoría más específica en el set.
 
 ---
 
@@ -432,7 +397,7 @@ Sí
 
 ## Observaciones
 
-ANAYA refuerzo (ma_arrones).
+ANAYA refuerzo.
 
 ---
 
@@ -466,7 +431,7 @@ Sí
 
 ## Observaciones
 
-Vicens (a_ul).
+Vicens. Color: sin categoría más específica en el set.
 
 ---
 
@@ -500,41 +465,7 @@ Sí
 
 ## Observaciones
 
-Vicens (_isne).
-
----
-
-## Correcta
-
-cubo
-
-## Error frecuente 1
-
-qubo
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Ante u el sonido /k/ se escribe c (no qu).
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Objetos
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-Vicens (_ubo).
+Vicens.
 
 ---
 
@@ -568,41 +499,7 @@ Sí
 
 ## Observaciones
 
-Vicens (a_úcar).
-
----
-
-## Correcta
-
-cazo
-
-## Error frecuente 1
-
-caso
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Ante o el sonido /θ/~/s/ se escribe z.
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Casa
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-ANAYA refuerzo (ca_o). Caso es otra palabra.
+Vicens.
 
 ---
 
@@ -636,7 +533,7 @@ Sí
 
 ## Observaciones
 
-ANAYA refuerzo (ma_eta).
+ANAYA refuerzo.
 
 ---
 
@@ -670,75 +567,7 @@ Sí
 
 ## Observaciones
 
-ANAYA refuerzo (re_eta).
-
----
-
-## Correcta
-
-ciervo
-
-## Error frecuente 1
-
-ziervo
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Ante i el sonido /θ/~/s/ se escribe c (no z).
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Animales
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-ANAYA ampliación (_ier_o).
-
----
-
-## Correcta
-
-cazuela
-
-## Error frecuente 1
-
-cacuela
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Ante a, o, u el sonido /θ/~/s/ se escribe z.
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Casa
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-ANAYA ampliación (ca_uela).
+ANAYA refuerzo.
 
 ---
 
@@ -772,7 +601,7 @@ Sí
 
 ## Observaciones
 
-Savia u3; Vicens.
+Savia; Vicens.
 
 ---
 
@@ -806,7 +635,7 @@ Sí
 
 ## Observaciones
 
-Savia u3; Vicens (es_quina).
+Savia; Vicens.
 
 ---
 
@@ -840,7 +669,7 @@ Sí
 
 ## Observaciones
 
-ANAYA refuerzo (cerezas).
+ANAYA refuerzo.
 
 ---
 
@@ -874,17 +703,17 @@ Sí
 
 ## Observaciones
 
-`formar-palabras.json`; Naturales 3.º. Foco z (no b/v).
+`formar-palabras.json`; Naturales 3.º. Foco z.
 
 ---
 
 ## Correcta
 
-culebra
+ciervo
 
 ## Error frecuente 1
 
-qulebra
+ziervo
 
 ## Error frecuente 2
 
@@ -892,11 +721,11 @@ qulebra
 
 ## Regla
 
-Ante u el sonido /k/ se escribe c (no qu).
+Ante i el sonido /θ/~/s/ se escribe c (no z).
 
 ## Frecuencia
 
-Frecuente
+Poco frecuente
 
 ## Categoría
 
@@ -908,7 +737,41 @@ Sí
 
 ## Observaciones
 
-Savia u3 (la culebra).
+ANAYA ampliación. Menos nuclear que cocodrilo/cebolla.
+
+---
+
+## Correcta
+
+cazo
+
+## Error frecuente 1
+
+caso
+
+## Error frecuente 2
+
+
+
+## Regla
+
+Ante o el sonido /θ/~/s/ se escribe z.
+
+## Frecuencia
+
+Poco frecuente
+
+## Categoría
+
+Casa
+
+## Imagen recomendable
+
+Sí
+
+## Observaciones
+
+ANAYA refuerzo. Homófono *caso* (otra palabra): útil para practicar z.
 
 ---
 
@@ -930,7 +793,7 @@ Ante e, i el sonido /k/ se escribe qu.
 
 ## Frecuencia
 
-Frecuente
+Poco frecuente
 
 ## Categoría
 
@@ -942,41 +805,7 @@ No
 
 ## Observaciones
 
-Savia (quince minutos). Quincena aparece en ANAYA amp.; se prefiere el lema *quince*.
-
----
-
-## Correcta
-
-cumpleaños
-
-## Error frecuente 1
-
-qumpleaños
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Ante a el sonido /k/ se escribe c (no qu).
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Otros
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-Savia u3 (cumpleaños).
+Savia. No se añade *quincena*.
 
 ---
 
@@ -1010,7 +839,7 @@ Sí
 
 ## Observaciones
 
-ANAYA ampliación (animal con rayas → cebra).
+ANAYA ampliación (animales con c o z).
 
 ---
 
@@ -1044,74 +873,40 @@ Sí
 
 ## Observaciones
 
-ANAYA ampliación (mamífero con púas → erizo).
-
----
-
-## Correcta
-
-caramelo
-
-## Error frecuente 1
-
-quaramelo
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Ante a el sonido /k/ se escribe c (no qu).
-
-## Frecuencia
-
-Poco frecuente
-
-## Categoría
-
-Comida
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-Savia u3 (caramelos).
+ANAYA ampliación (animales con c o z).
 
 ---
 
 ## Resumen editorial
 
-- **Número de registros (borrador 1):** 31
-- **Fichas / PDFs revisados:**
-  - `Lengua 3º-ANAYA refuerzo.pdf` p.5 (c/qu y c/z)
-  - `Lengua 3º-ANAYA ampliacion.pdf` p.5 (c/z/qu + animales)
-  - `refuerzo_ampliacion_lengua_3.pdf` (Vicens: c/z + ca/que/qui)
-  - `lengua_3_savia.pdf` u3 (ca/co/cu/que/qui)
-  - Aray `zapato-ctx`, `ciudad-ctx`, `lapiz-ctx`
-  - `formar-palabras.json` (queso, cocina, zapato, lápiz, corazón)
-  - `docs/TEMARIO_3_PRIMARIA_CATALUNYA.md`
-- **No incluidos:** bicicleta, quinto, ceniza, cepillo; cigüeña (gü); nombres; conjugaciones; cola ANAYA dudosa (cerveza, cizaña, zurcir…).
-- **Criterios:** solo c/z/qu; lemas; sin inventar.
+- **Número de registros:** 25
+- **Fichas revisadas (correcciones):** ANAYA refuerzo/ampliación; Vicens; Savia u3; Aray; `formar-palabras.json`.
+- **Eliminados tras auditoría:** casa, cumpleaños, culebra, caramelo (distractores artificiales); cubo (*qubo* artificial, sin error infantil respaldado); cazuela (fuera del set aprobado de mantenimiento).
+- **Mantenidos clave:** cazo (homófono *caso*); corazón (foco z); quince (sin quincena).
+- **Fuera definitivo:** bicicleta (BV si se incorpora), cigüeña (GU/GÜ), quincena, ceniza, cepillo, quinto.
 
-### Dudas editoriales
+### Estado editorial
 
-- **casa / cumpleaños / culebra / caramelo:** ¿errores (*quasa*, *qumpleaños*, *qulebra*, *quaramelo*) suficientemente naturales?
-- **cazo / caso:** homófonos; ¿mantener con nota?
-- **corazón:** ¿OK en CZ/QU o demasiado “Naturales”?
-- **quince vs quincena:** ¿lema correcto?
-- **cebra / erizo / caramelo:** cola; ¿recortar?
-- **ceniza, cepillo, quinto, cocodrilo (ya incluido), bicicleta:** brief; fuera salvo cocodrilo.
-- **OCR ANAYA amp.** (cerveza, zarzamora…): no forzados; confirmar en auditoría si se recuperan.
-- **Categoría Otros** (pequeño, azul, quince, cumpleaños): reasignar si cabe.
+- **Registros finales:** 25
+- **Eliminados:** 6 (casa, cumpleaños, culebra, caramelo, cubo, cazuela)
+- **Añadidos:** 0
+- **Modificados:** frecuencias reequilibradas; nota homófono en *cazo*
+- **Pendientes:** ninguno bloqueante
+- **Calidad editorial:** 92 / 100
+- **Observaciones para el siguiente banco (MP/MB):**
+  - Rechazar distractores artificiales aunque “cierren” el hueco de la ficha.
+  - Un lema = un propietario; no mezclar gu/gü ni b/v.
+  - Homófonos útiles solo con observación clara (*cazo/caso*).
+  - Equilibrar MF / F / PF desde el borrador.
+  - No incorporar lemas de mates/naturales sin drill ortográfico.
 
-### Autoauditoría (borrador 1)
+### Autoauditoría post-corrección
 
 - Sin duplicados.
-- Sin bicicleta / cigüeña / nombres.
-- Errores orientados a c↔z↔qu.
+- Sin errores artificiales.
+- Sin nombres propios.
+- Sin vocabulario demasiado específico.
+- Propietario único; bicicleta/cigüeña fuera.
 - Vocabulario 3.º respaldado.
-- Frecuencias: Muy frecuente 10 · Frecuente 18 · Poco frecuente 3.
-- Pendiente de congelar tras auditoría humana.
+- Frecuencias: Muy frecuente 8 · Frecuente 12 · Poco frecuente 5.
+- Otros: solo pequeño, azul, quince.
