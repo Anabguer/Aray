@@ -8,7 +8,7 @@ Este documento es la fuente oficial para crear posteriormente los bancos JSON.
 
 Nunca debe contener palabras inventadas.
 
-**Metodología:** misma que los bancos H, BV, GJ, RR, LL/Y y C/Z/QU — fichas del repositorio primero; no copiar ejercicios; sin conjugaciones de relleno.
+**Metodología:** misma que los bancos H, BV, GJ, RR, LL/Y y C/Z/QU — fichas del repositorio primero; no copiar ejercicios; sin conjugaciones de relleno; **calidad antes que cantidad**.
 
 **Propiedad de lemas (norma del proyecto):** cada palabra tiene un único banco propietario. No se duplican registros.
 
@@ -24,7 +24,8 @@ Nunca debe contener palabras inventadas.
 - Foco: **m** ante **b/p**; **n** ante **v**.
 - **invierno** → BV (error *inbierno*), no aquí.
 - **hombre / hombro** → H (h muda), aunque lleven *mb*.
-- Sin conjugaciones; sin nombres propios; sin lemas de naturales/mates sin drill ortográfico.
+- Sin conjugaciones; sin nombres propios.
+- No rellenar el banco solo porque una palabra contenga mp/mb/nv: hace falta uso cotidiano en 3.º y respaldo útil en fichas.
 
 ---
 
@@ -126,7 +127,7 @@ Sí
 
 ## Observaciones
 
-`formar-palabras.json` (fp-141); fábula tomo2 («rondaba el campo»); contexto Aray `campo-ctx`.
+`formar-palabras.json`; fábula tomo2; contexto Aray `campo-ctx`.
 
 ---
 
@@ -160,7 +161,7 @@ No
 
 ## Observaciones
 
-Materiales de lengua 3.º y contexto Aray `tiempo-ctx`. Vocabulario habitual de calendario / duración.
+Vocabulario habitual de calendario / duración en materiales de 3.º; contexto Aray `tiempo-ctx`.
 
 ---
 
@@ -194,7 +195,7 @@ No
 
 ## Observaciones
 
-ANAYA refuerzo (infinitivo en conjugación); Savia (texto de compra). Infinitivo; no se añaden conjugaciones.
+ANAYA refuerzo (infinitivo); Savia (texto de compra). Infinitivo; sin conjugaciones.
 
 ---
 
@@ -228,7 +229,7 @@ No
 
 ## Observaciones
 
-ANAYA refuerzo (definición de frase hecha: «cambiar de opinión»). Infinitivo.
+ANAYA refuerzo (frase hecha: «cambiar de opinión»). Infinitivo.
 
 ---
 
@@ -262,7 +263,7 @@ Sí
 
 ## Observaciones
 
-ANAYA refuerzo; Savia; Vicens (juegos en pareja).
+ANAYA refuerzo; Savia; Vicens (juegos en pareja). Uso diario de aula.
 
 ---
 
@@ -296,7 +297,7 @@ No
 
 ## Observaciones
 
-Tomo2 (carta: «Si vas a enviar esta carta»); Vicens (enviar mensaje / enviarte). Infinitivo.
+Tomo2 (carta); Vicens (enviar mensaje). Infinitivo.
 
 ---
 
@@ -330,7 +331,7 @@ Sí
 
 ## Observaciones
 
-ANAYA refuerzo: lista alfabética + pedir palabras con mb/nv; serie no-verbos p.11.
+ANAYA refuerzo: lista + pedir palabras con mb/nv; serie no-verbos. Ejemplo canónico de mb.
 
 ---
 
@@ -364,7 +365,7 @@ Sí
 
 ## Observaciones
 
-ANAYA refuerzo (tabla de género: pintores / campeón). Lleva tilde; foco mp.
+ANAYA refuerzo (tabla de género). Lleva tilde; foco mp. Uso escolar habitual.
 
 ---
 
@@ -398,41 +399,7 @@ Sí
 
 ## Observaciones
 
-ANAYA ampliación («envases vacíos de vidrio»).
-
----
-
-## Correcta
-
-ambos
-
-## Error frecuente 1
-
-anbos
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Antes de b se escribe m (ambos).
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Otros
-
-## Imagen recomendable
-
-No
-
-## Observaciones
-
-Tomo2, unidad «Uso de mb y nv» / fábula («montar ambos»).
+ANAYA ampliación («envases vacíos de vidrio»). Cotidiano (reciclaje / casa).
 
 ---
 
@@ -466,7 +433,7 @@ Sí
 
 ## Observaciones
 
-Tomo2 (carta «21 de noviembre»; calendario).
+Tomo2 (carta y calendario). Mes del año: uso real en escritura de 3.º.
 
 ---
 
@@ -500,7 +467,7 @@ Sí
 
 ## Observaciones
 
-ANAYA ampliación (texto: «el campamento»).
+ANAYA ampliación (texto: «el campamento»). Experiencia habitual de edad escolar.
 
 ---
 
@@ -534,75 +501,7 @@ Sí
 
 ## Observaciones
 
-Vicens refuerzo/ampliación (clasificación semántica: comba / bombero / baloncesto).
-
----
-
-## Correcta
-
-trompeta
-
-## Error frecuente 1
-
-tronpeta
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Antes de p se escribe m (trompeta).
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Objetos
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-Vicens (listado instrumental: violines, trompeta…).
-
----
-
-## Correcta
-
-embudo
-
-## Error frecuente 1
-
-enbudo
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Antes de b se escribe m (embudo).
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Objetos
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-ANAYA refuerzo (lista mb junto a tambor, empanada…).
+Vicens (clasificación semántica: bombero…). Profesión conocida por el alumnado.
 
 ---
 
@@ -636,75 +535,7 @@ Sí
 
 ## Observaciones
 
-ANAYA refuerzo (lista); familias léxicas en ampliación.
-
----
-
-## Correcta
-
-ambiente
-
-## Error frecuente 1
-
-anbiente
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Antes de b se escribe m (ambiente).
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Naturaleza
-
-## Imagen recomendable
-
-No
-
-## Observaciones
-
-ANAYA refuerzo (lista mb/nv).
-
----
-
-## Correcta
-
-compartir
-
-## Error frecuente 1
-
-conpartir
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Antes de p se escribe m (compartir).
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Acciones
-
-## Imagen recomendable
-
-No
-
-## Observaciones
-
-`formar-palabras.json`. Infinitivo.
+ANAYA refuerzo (lista mb/mp). Comida cotidiana; dibujable.
 
 ---
 
@@ -738,17 +569,17 @@ Sí
 
 ## Observaciones
 
-ANAYA refuerzo (diminutivos / mercado–sombrero).
+ANAYA refuerzo (mercado / diminutivos). Objeto cotidiano.
 
 ---
 
 ## Correcta
 
-conversación
+compartir
 
 ## Error frecuente 1
 
-comversación
+conpartir
 
 ## Error frecuente 2
 
@@ -756,7 +587,41 @@ comversación
 
 ## Regla
 
-Antes de v se escribe n (conversación).
+Antes de p se escribe m (compartir).
+
+## Frecuencia
+
+Frecuente
+
+## Categoría
+
+Acciones
+
+## Imagen recomendable
+
+No
+
+## Observaciones
+
+`formar-palabras.json`. Infinitivo de uso escolar diario. Respaldo editorial más débil que ANAYA/Vicens: revisar en auditoría.
+
+---
+
+## Correcta
+
+ambos
+
+## Error frecuente 1
+
+anbos
+
+## Error frecuente 2
+
+
+
+## Regla
+
+Antes de b se escribe m (ambos).
 
 ## Frecuencia
 
@@ -772,17 +637,17 @@ No
 
 ## Observaciones
 
-ANAYA refuerzo (frase hecha / onomatopeya: «Ruido de conversación ¡pumba!»). Lleva tilde; foco nv.
+Tomo2, unidad «Uso de mb y nv» / fábula («montar ambos»). Cuantificador frecuente en lectura.
 
 ---
 
 ## Correcta
 
-invernadero
+embudo
 
 ## Error frecuente 1
 
-imvernadero
+enbudo
 
 ## Error frecuente 2
 
@@ -790,7 +655,7 @@ imvernadero
 
 ## Regla
 
-Antes de v se escribe n (invernadero).
+Antes de b se escribe m (embudo).
 
 ## Frecuencia
 
@@ -798,7 +663,7 @@ Poco frecuente
 
 ## Categoría
 
-Naturaleza
+Objetos
 
 ## Imagen recomendable
 
@@ -806,41 +671,7 @@ Sí
 
 ## Observaciones
 
-ANAYA ampliación (completar mb/nv: i_ernadero). Distinto de *invierno* (BV).
-
----
-
-## Correcta
-
-combate
-
-## Error frecuente 1
-
-conbate
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Antes de b se escribe m (combate).
-
-## Frecuencia
-
-Poco frecuente
-
-## Categoría
-
-Otros
-
-## Imagen recomendable
-
-No
-
-## Observaciones
-
-ANAYA ampliación (completar: co_ate).
+ANAYA refuerzo (lista mb). Objeto concreto; menos central que tambor/sombrero.
 
 ---
 
@@ -874,143 +705,7 @@ No
 
 ## Observaciones
 
-ANAYA ampliación (completar: e_olver). Infinitivo.
-
----
-
-## Correcta
-
-invencible
-
-## Error frecuente 1
-
-imvencible
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Antes de v se escribe n (invencible).
-
-## Frecuencia
-
-Poco frecuente
-
-## Categoría
-
-Otros
-
-## Imagen recomendable
-
-No
-
-## Observaciones
-
-ANAYA ampliación (completar: in_encible). Revisar si el léxico es demasiado específico para 3.º.
-
----
-
-## Correcta
-
-impar
-
-## Error frecuente 1
-
-inpar
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Antes de p se escribe m (impar).
-
-## Frecuencia
-
-Poco frecuente
-
-## Categoría
-
-Colegio
-
-## Imagen recomendable
-
-No
-
-## Observaciones
-
-ANAYA refuerzo (lista alfabética con tambor, empanada…). Concepto numérico; se mantiene por drill ortográfico explícito.
-
----
-
-## Correcta
-
-cumbre
-
-## Error frecuente 1
-
-cunbre
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Antes de b se escribe m (cumbre).
-
-## Frecuencia
-
-Poco frecuente
-
-## Categoría
-
-Naturaleza
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-ANAYA refuerzo (lista mb).
-
----
-
-## Correcta
-
-impresora
-
-## Error frecuente 1
-
-inpresora
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Antes de p se escribe m (impresora).
-
-## Frecuencia
-
-Poco frecuente
-
-## Categoría
-
-Objetos
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-Vicens (listado: teclado, impresora…).
+ANAYA ampliación (completar nv). Infinitivo útil (regalos / paquetes); prioridad menor.
 
 ---
 
@@ -1044,101 +739,65 @@ Sí
 
 ## Observaciones
 
-Vicens (plurales); ANAYA ampliación (lombri_es en texto de humedad).
-
----
-
-## Correcta
-
-embarcadero
-
-## Error frecuente 1
-
-enbarcadero
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Antes de b se escribe m (embarcadero).
-
-## Frecuencia
-
-Poco frecuente
-
-## Categoría
-
-Ciudad
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-ANAYA ampliación (completar: e_arcadero). Palabra larga; prioridad baja.
+Vicens (plurales); ANAYA ampliación. Animal conocido; no es relleno abstracto.
 
 ---
 
 ## Resumen editorial
 
-- **Número de registros (borrador v1):** 31
+- **Número de registros (borrador v1):** 21
+- **Criterio:** calidad antes que cantidad; uso cotidiano en 3.º; no incluir lemas solo por contener mp/mb/nv.
 - **Fichas / fuentes revisadas:**
   - `castellano_Lengua_3º-ANAYA_refuerzo.txt` (lista mb + pedir mb/nv)
   - `castellano_Lengua_3º-ANAYA_ampliacion.txt` (completar mb/nv; envase; campamento)
   - `castellano_lenguaje3_tomo2_pdf.txt` (regla «Uso de mb y nv»; fábula; noviembre; enviar)
-  - `castellano_refuerzo_ampliacion_lengua_3.txt` (Vicens: también, bombero, trompeta, impresora, enviar)
+  - `castellano_refuerzo_ampliacion_lengua_3.txt` (Vicens: también, bombero, enviar…)
   - `castellano_lengua_3_savia.txt` (compañero, comprar, siempre)
   - `feinetas/formar-palabras.json` (campo, compartir)
   - `docs/TEMARIO_3_PRIMARIA_CATALUNYA.md` (regla mb/mp en ciclo medio)
-- **No incluidos (sin respaldo útil o fuera de foco):** campana, inventor, invitado/invitar, ambulancia, bomba, templo, bombilla (solo Naturales), invierno (BV), hombre/hombro (H).
-- **No incluidos del drill ANAYA (pendiente auditoría):** bambú, tómbola, envidioso, imperdible.
+- **No incluidos (sin respaldo / otro banco / poco interés pedagógico):** campana, inventor, invitado/invitar, ambulancia, bomba, templo, bombilla (solo Naturales), invierno (BV), hombre/hombro (H).
+- **Descartados del drill ANAYA pese a aparecer (relleno / demasiado específicos):** invernadero, combate, invencible, impar, cumbre, embarcadero, bambú, tómbola, envidioso, imperdible, ambiente, conversación, trompeta, impresora.
 
 ### Estado editorial
 
-- **Registros borrador:** 31
-- **Eliminados:** 0 (primera versión)
-- **Añadidos:** 31
+- **Registros borrador:** 21
+- **Eliminados respecto al set amplio inicial:** 10+ (filtro de calidad)
+- **Añadidos:** 21
 - **Pendientes:** ver Dudas editoriales
-- **Calidad editorial estimada:** 78 / 100 (borrador previo a auditoría)
+- **Calidad editorial estimada:** 85 / 100 (borrador previo a auditoría)
 - **Observaciones para la auditoría:**
-  - Rechazar distractores artificiales aunque “cierren” el hueco.
+  - Rechazar distractores artificiales.
   - Un lema = un propietario; no mezclar b/v ni h muda.
-  - Homófonos / tildes (*también*, *campeón*, *conversación*) solo con observación clara.
-  - Equilibrar MF / F / PF si la auditoría lo pide.
-  - No incorporar lemas de mates/naturales sin drill ortográfico.
+  - Tildes (*también*, *campeón*) documentadas; no son el foco del banco.
+  - Equilibrar MF / F / PF si hace falta tras revisión humana.
+  - No incorporar mates/naturales sin drill ortográfico y uso cotidiano.
 
 ### Autoauditoría previa
 
 - Sin duplicados de «Correcta» en este banco.
 - Sin duplicados exactos frente a H / BV / GJ / RR / LL/Y / C/Z/QU.
-- Sin conjugaciones de relleno (solo infinitivos cuando el verbo está respaldado).
+- Sin conjugaciones de relleno.
 - Sin nombres propios.
-- Sin errores artificiales tipo *mmb* / *nnv*.
-- Errores = n ante b/p o m ante v (regla infantil habitual).
-- Categorías revisadas (Acciones / Objetos / Naturaleza / Colegio / Ciudad / Comida / Animales / Otros).
-- Frecuencias borrador: Muy frecuente 9 · Frecuente 13 · Poco frecuente 9.
-- Imagen: Sí en concretos dibujables; No en adverbios, verbos abstractos y cuantificadores.
-- Vocabulario orientado a 3.º; los más dudosos van en PF o en Dudas.
+- Sin errores artificiales.
+- Errores = n ante b/p o m ante v (fallo infantil habitual).
+- Categorías revisadas.
+- Frecuencias borrador: Muy frecuente 9 · Frecuente 9 · Poco frecuente 3.
+- Imagen: Sí en concretos dibujables; No en adverbios, verbos y cuantificadores.
+- Vocabulario orientado a uso cotidiano de 3.º; lemas de drill aislado fuera.
 
 ---
 
 ## Dudas editoriales
 
-1. **también / campeón / conversación:** llevan tilde. ¿Se dejan aquí (foco mb/mp/nv) y se documenta la tilde solo en Observaciones, o se duplica/reserva en `ERRORES_REALES_TILDES.md`?
-2. **invencible:** aparece en el drill ANAYA completar mb/nv, pero puede ser léxico denso para 3.º. ¿Mantener en PF o sacar?
-3. **impar:** drill ortográfico claro, pero es concepto de mates. ¿Mantener por la lista ANAYA o sacar?
-4. **embarcadero:** palabra larga del completar ANAYA. ¿Mantener en PF o sustituir por otra del mismo ejercicio (*bambú*, *tómbola*, *envidioso*)?
-5. **bambú / tómbola / envidioso / imperdible:** están en fichas ANAYA y no entraron al borrador. ¿Cuáles incorporar en auditoría?
-6. **bombilla:** solo Naturales ANAYA (energía). Criterio CZQU desaconseja naturales sin drill ortográfico — ¿confirmar exclusión?
-7. **campana / inventor / invitado:** esperables pedagógicamente, pero sin respaldo en extractos de lengua castellana del repo. ¿Buscar más fuentes (p. ej. `feinetas/lengua/3_sm_repaso.pdf`) antes de descartarlos?
-8. **lámpara:** en `formar-palabras.json` y listas ANAYA; no entró por posible conflicto con tilde. ¿Incluir con foco mp?
-9. **noviembre:** el grupo es *mbr*; el error propuesto es *novienbre*. ¿Validar si el fallo infantil real en aula es ese u otro?
-10. **ambos:** aparece en la fábula de la unidad mb/nv, pero no es drill de hueco. ¿Prioridad F correcta?
-11. **compartir:** solo `formar-palabras.json` (sin extracto editorial explícito de mb/mp). ¿Suficiente respaldo?
-12. **SM:** no se pudo contrastar a fondo el PDF `feinetas/lengua/3_sm_repaso.pdf` en esta pasada. Revisar en auditoría si aporta lemas mp/mb/nv adicionales.
-13. **Distribución de frecuencias:** 9 / 13 / 9. Ajustar tras auditoría si se quiere acercar más a otros bancos.
-14. **Categoría de *campeón*:** Otros vs Colegio / Acciones. Confirmar.
-15. **Error 2 vacío** en todos los registros (como en otros bancos). ¿Añadir segundo distractor solo cuando esté atestiguado (p. ej. *tambien* sin tilde para *también*)?
+1. **también / campeón:** llevan tilde. ¿Solo aquí (foco mb/mp) o también reserva en `ERRORES_REALES_TILDES.md`?
+2. **compartir:** respaldo solo en `formar-palabras.json`. ¿Suficiente o sacar?
+3. **ambos:** en la fábula de la unidad mb/nv, no en hueco de completar. ¿Mantener F?
+4. **noviembre:** error propuesto *novienbre* — ¿es el fallo real de aula?
+5. **embudo / envolver / lombriz:** PF por menor centralidad. ¿Alguno subir a F o alguno fuera?
+6. **trompeta / impresora / conversación / ambiente:** descartados por lista aislada o léxico poco cotidiano. ¿Reincorporar alguno?
+7. **invernadero / combate / invencible / impar / cumbre / embarcadero:** en completar ANAYA pero fuera por calidad. Confirmar exclusión.
+8. **campana / inventor / invitado / bombilla:** esperables, sin respaldo útil en lengua castellana del repo. ¿Buscar SM (`feinetas/lengua/3_sm_repaso.pdf`) antes de cerrar?
+9. **lámpara:** en JSON/listas; fuera por tilde + no prioridad. ¿Incluir con foco mp?
+10. **Distribución 9 / 9 / 3:** PF bajo a propósito (pocos lemas «cola»). ¿Añadir 1–2 PF de calidad o dejarlo?
+11. **Error 2 vacío:** ¿añadir segundo distractor solo si está atestiguado (p. ej. *tambien* sin tilde)?
+12. **Categoría de *campeón*:** Otros vs Colegio. Confirmar.
