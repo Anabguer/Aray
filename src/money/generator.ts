@@ -1,3 +1,4 @@
+import { mulberry32, randInt, shuffle } from '@/math/rng'
 import {
   COIN_LABEL,
   MONEY_ROUND_SIZE,
@@ -8,34 +9,29 @@ import {
   type MoneyQuestion,
 } from '@/money/types'
 
-function mulberry32(seed: number): () => number {
-  let t = seed >>> 0
-  return () => {
-    t += 0x6d2b79f5
-    let r = Math.imul(t ^ (t >>> 15), 1 | t)
-    r ^= r + Math.imul(r ^ (r >>> 7), 61 | r)
-    return ((r ^ (r >>> 14)) >>> 0) / 4294967296
-  }
-}
-
-function shuffle<T>(items: T[], rand: () => number): T[] {
-  const arr = [...items]
-  for (let i = arr.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(rand() * (i + 1))
-    ;[arr[i], arr[j]] = [arr[j]!, arr[i]!]
-  }
-  return arr
-}
-
-function randInt(rand: () => number, min: number, max: number) {
-  return min + Math.floor(rand() * (max - min + 1))
-}
-
 export function formatEuro(cents: number): string {
   const euros = Math.floor(cents / 100)
   const c = cents % 100
   if (c === 0) return `${euros} €`
   return `${euros},${String(c).padStart(2, '0')} €`
+}
+
+/** Cambio exacto con monedas ilimitadas de las denominaciones dadas (como en UI). */
+export function canMakeExact(targetCents: number, denoms: readonly CoinEuro[]): boolean {
+  if (targetCents < 0) return false
+  if (targetCents === 0) return true
+  if (denoms.length === 0) return false
+  const uniq = [...new Set(denoms)].filter((d) => d > 0).sort((a, b) => a - b)
+  const dp = new Uint8Array(targetCents + 1)
+  dp[0] = 1
+  for (let a = 0; a <= targetCents; a += 1) {
+    if (!dp[a]) continue
+    for (const c of uniq) {
+      const next = a + c
+      if (next <= targetCents) dp[next] = 1
+    }
+  }
+  return dp[targetCents] === 1
 }
 
 function uniqueEuroOptions(correctCents: number, rand: () => number): string[] {
@@ -44,15 +40,37 @@ function uniqueEuroOptions(correctCents: number, rand: () => number): string[] {
   for (const d of deltas) {
     const v = correctCents + d
     if (v >= 0) set.add(v)
-    if (set.size >= 4) break
+    if (set.size >= 8) break
   }
   while (set.size < 4) set.add(correctCents + randInt(rand, 1, 12) * 10)
-  const vals = shuffle([...set].slice(0, 4), rand)
+  const labels = new Set<string>()
+  const vals: number[] = []
+  for (const v of shuffle([...set], rand)) {
+    const label = formatEuro(v)
+    if (labels.has(label)) continue
+    labels.add(label)
+    vals.push(v)
+    if (vals.length >= 4) break
+  }
+  while (vals.length < 4) {
+    const v = correctCents + (vals.length + 1) * 10
+    const label = formatEuro(v)
+    if (!labels.has(label)) {
+      labels.add(label)
+      vals.push(v)
+    } else {
+      vals.push(correctCents + vals.length * 7 + 3)
+    }
+  }
   if (!vals.includes(correctCents)) vals[0] = correctCents
-  return vals.map(formatEuro)
+  const options = vals.slice(0, 4).map(formatEuro)
+  // Garantizar etiqueta correcta única.
+  const correctLabel = formatEuro(correctCents)
+  if (!options.includes(correctLabel)) options[0] = correctLabel
+  return options
 }
 
-/** Precio 12–80 € con céntimos a veces “sucios”. */
+/** Precio 12–80 € con céntimos “realistas” de 3.º. */
 function randomPriceCents(rand: () => number): number {
   const euros = randInt(rand, 12, 80)
   const dirty = rand()
@@ -65,6 +83,21 @@ function randomPriceCents(rand: () => number): number {
           ? randInt(rand, 1, 99)
           : 0
   return euros * 100 + cents
+}
+
+const ALL_COINS: CoinEuro[] = [200, 100, 50, 20, 10, 5, 2, 1]
+
+/** Descompone target en monedas (greedy euro) → denominaciones necesarias. */
+function greedyCoins(targetCents: number): CoinEuro[] {
+  let left = targetCents
+  const used: CoinEuro[] = []
+  for (const c of ALL_COINS) {
+    while (left >= c) {
+      used.push(c)
+      left -= c
+    }
+  }
+  return used
 }
 
 function buildChange(seed: number, mode: MoneyPlayMode): MoneyMcqQuestion {
@@ -87,7 +120,6 @@ function buildChange(seed: number, mode: MoneyPlayMode): MoneyMcqQuestion {
   }
 }
 
-/** ¿Cuánto falta para pagar el precio? */
 function buildShortfall(seed: number, mode: MoneyPlayMode): MoneyMcqQuestion {
   const rand = mulberry32(seed)
   const price = randomPriceCents(rand)
@@ -107,13 +139,45 @@ function buildShortfall(seed: number, mode: MoneyPlayMode): MoneyMcqQuestion {
   }
 }
 
+/**
+ * Construye el precio: el pool de monedas SIEMPRE permite el target
+ * (incluye las denominaciones de una solución greedy + señuelos).
+ */
 function buildBuild(seed: number, mode: MoneyPlayMode): MoneyBuildQuestion {
   const rand = mulberry32(seed)
   const euros = randInt(rand, 3, 25)
-  const cents = [0, 5, 10, 20, 25, 50, 75, 80, 1, 2][randInt(rand, 0, 9)]!
+  const centsChoices = [0, 5, 10, 20, 25, 50, 75, 80, 1, 2, 15, 35, 45]
+  const cents = centsChoices[randInt(rand, 0, centsChoices.length - 1)]!
   const target = euros * 100 + cents
-  const pool: CoinEuro[] = [200, 100, 50, 20, 10, 5, 2, 1]
-  const coins = shuffle(pool, rand).slice(0, 6) as CoinEuro[]
+
+  const solution = greedyCoins(target)
+  const required = [...new Set(solution)] as CoinEuro[]
+  // Evitar una sola moneda repetida de forma absurda: si solo hay un tipo, añade vecinos.
+  const decoys = shuffle(
+    ALL_COINS.filter((c) => !required.includes(c)),
+    rand,
+  )
+  const poolSet = new Set<CoinEuro>(required)
+  for (const d of decoys) {
+    if (poolSet.size >= 6) break
+    poolSet.add(d)
+  }
+  // Si el target es múltiplo de una sola moneda grande, incluir monedas pequeñas educativas.
+  if (required.length <= 1) {
+    for (const c of [100, 50, 20, 10, 5, 1] as CoinEuro[]) {
+      poolSet.add(c)
+      if (poolSet.size >= 5) break
+    }
+  }
+  let coins = shuffle([...poolSet], rand).slice(0, 6) as CoinEuro[]
+  // Garantía dura: si por recorte fallara, forzar required.
+  if (!canMakeExact(target, coins)) {
+    coins = shuffle([...new Set([...required, ...coins])], rand).slice(0, Math.max(6, required.length)) as CoinEuro[]
+  }
+  if (!canMakeExact(target, coins)) {
+    coins = [...ALL_COINS]
+  }
+
   return {
     kind: 'build',
     id: `bd-${seed}`,
@@ -130,6 +194,15 @@ function buildSpare(seed: number, mode: MoneyPlayMode): MoneyMcqQuestion {
   const spare = coins[Math.floor(rand() * coins.length)]!
   const rest = coins.filter((c) => c !== spare)
   const sumRest = rest.reduce((a, b) => a + b, 0)
+  // Evitar ambigüedad: ninguna otra moneda puede ser “la que sobra” para el mismo total.
+  const ambiguous = coins.some((c) => {
+    if (c === spare) return false
+    const altSum = coins.filter((x) => x !== c).reduce((a, b) => a + b, 0)
+    return altSum === sumRest
+  })
+  if (ambiguous) {
+    return buildSpare(seed + 917, mode)
+  }
   const options = shuffle(
     coins.map((c) => COIN_LABEL[c]),
     rand,
