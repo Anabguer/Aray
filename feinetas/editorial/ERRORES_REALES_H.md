@@ -78,7 +78,7 @@ Sí
 
 ## Observaciones
 
-Misma ficha ANAYA; errores coherentes con opciones ya usadas en contextos Aray 3.º.
+Misma ficha ANAYA; errores ielo / yelo habituales en Primaria.
 
 ---
 
@@ -104,7 +104,7 @@ Muy frecuente
 
 ## Categoría
 
-Objetos
+Otros
 
 ## Imagen recomendable
 
@@ -112,7 +112,7 @@ Sí
 
 ## Observaciones
 
-ANAYA ampliación 3.º (serie hierba / hueco / hielo / hueso).
+ANAYA ampliación 3.º (serie hierba / hueco / hielo / hueso). Categoría Otros: concepto espacial, no objeto concreto.
 
 ---
 
@@ -180,7 +180,7 @@ Sí
 
 ## Observaciones
 
-ANAYA ampliación 3.º (metal que se oxida); contexto Aray hierro-ctx.
+ANAYA ampliación 3.º (metal que se oxida).
 
 ---
 
@@ -214,109 +214,7 @@ Sí
 
 ## Observaciones
 
-Nivel hie-/hue- (Vicens Vives 3.º pide listas hue-); contexto Aray huevo-ctx.
-
----
-
-## Correcta
-
-huella
-
-## Error frecuente 1
-
-uella
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Las palabras que empiezan por hue- se escriben con h.
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Naturaleza
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-Contexto Aray huella-ctx (misma regla hue-).
-
----
-
-## Correcta
-
-huerto
-
-## Error frecuente 1
-
-uerto
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Las palabras que empiezan por hue- se escriben con h.
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Naturaleza
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-Aparece en contexto Aray junto a hierro (valla del huerto).
-
----
-
-## Correcta
-
-huerta
-
-## Error frecuente 1
-
-uerta
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Las palabras que empiezan por hue- se escriben con h.
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Naturaleza
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-Misma familia / regla hue- que huerto (vocabulario escolar de 3.º).
+Vicens Vives 3.º (listas hue-); error güevo coloquial real.
 
 ---
 
@@ -351,40 +249,6 @@ No
 ## Observaciones
 
 ANAYA ampliación 3.º (completar con huir).
-
----
-
-## Correcta
-
-huida
-
-## Error frecuente 1
-
-uida
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Las palabras que empiezan por hui- se escriben con h.
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Acciones
-
-## Imagen recomendable
-
-No
-
-## Observaciones
-
-Derivado de huir; misma regla hui- trabajada en 3.º.
 
 ---
 
@@ -452,41 +316,7 @@ No
 
 ## Observaciones
 
-Contexto Aray hace-1; ficha de verbos con h.
-
----
-
-## Correcta
-
-hago
-
-## Error frecuente 1
-
-ago
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Las formas del verbo hacer se escriben con h.
-
-## Frecuencia
-
-Muy frecuente
-
-## Categoría
-
-Acciones
-
-## Imagen recomendable
-
-No
-
-## Observaciones
-
-
+Forma muy frecuente en enunciados y textos de 3.º.
 
 ---
 
@@ -520,7 +350,7 @@ No
 
 ## Observaciones
 
-Contexto Aray hizo-1; aparece en textos ANAYA («la gallina hizo…»).
+Textos ANAYA («la gallina hizo…»).
 
 ---
 
@@ -622,41 +452,7 @@ No
 
 ## Observaciones
 
-Contexto Aray hecho-1. No mezclar con la regla de echar: aquí la forma correcta es de hacer.
-
----
-
-## Correcta
-
-hechas
-
-## Error frecuente 1
-
-echas
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Hechas (hacer) lleva h. No confundir con formas de echar.
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Acciones
-
-## Imagen recomendable
-
-No
-
-## Observaciones
-
-Contexto Aray hecho-2 / hechas.
+Confusión top de Primaria; pareja pedagógica con «echo».
 
 ---
 
@@ -724,7 +520,7 @@ No
 
 ## Observaciones
 
-Contexto Aray echa-1.
+Pareja frecuente echa / hecha.
 
 ---
 
@@ -758,41 +554,7 @@ No
 
 ## Observaciones
 
-Contexto Aray echo-1. Pareja pedagógica con «hecho», sin fusionar reglas.
-
----
-
-## Correcta
-
-echaron
-
-## Error frecuente 1
-
-hecharon
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Formas de echar van sin h.
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Acciones
-
-## Imagen recomendable
-
-No
-
-## Observaciones
-
-Contexto Aray echaron-1.
+Pareja pedagógica con «hecho», sin fusionar reglas.
 
 ---
 
@@ -826,109 +588,7 @@ No
 
 ## Observaciones
 
-Vicens Vives 3.º (haber / hablar / hacer).
-
----
-
-## Correcta
-
-hablo
-
-## Error frecuente 1
-
-ablo
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Las formas del verbo hablar se escriben con h.
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Acciones
-
-## Imagen recomendable
-
-No
-
-## Observaciones
-
-
-
----
-
-## Correcta
-
-habla
-
-## Error frecuente 1
-
-abla
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Las formas del verbo hablar se escriben con h.
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Acciones
-
-## Imagen recomendable
-
-No
-
-## Observaciones
-
-
-
----
-
-## Correcta
-
-hablamos
-
-## Error frecuente 1
-
-ablamos
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Las formas del verbo hablar se escriben con h.
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Acciones
-
-## Imagen recomendable
-
-No
-
-## Observaciones
-
-
+Vicens Vives 3.º (haber / hablar / hacer). Sin conjugaciones de relleno.
 
 ---
 
@@ -962,7 +622,7 @@ No
 
 ## Observaciones
 
-Vicens Vives 3.º. Cruce: ver ERRORES_REALES_HAY_AHI_AY.md para hay / ahí / ay.
+Vicens Vives 3.º. Cruce: ver ERRORES_REALES_HAY_AHI_AY.md.
 
 ---
 
@@ -996,7 +656,7 @@ No
 
 ## Observaciones
 
-Forma de haber habitual en 3.º; no es el trío hay/ahí/ay.
+Forma de haber esencial en 3.º; no es el trío hay/ahí/ay.
 
 ---
 
@@ -1064,7 +724,7 @@ No
 
 ## Observaciones
 
-Contexto Aray hemos-1.
+Forma de haber habitual en textos de 3.º.
 
 ---
 
@@ -1086,7 +746,7 @@ Formas de haber se escriben con h.
 
 ## Frecuencia
 
-Frecuente
+Poco frecuente
 
 ## Categoría
 
@@ -1098,7 +758,7 @@ No
 
 ## Observaciones
 
-
+Prioridad menor que ha / he / había; se mantiene por ser forma básica de haber.
 
 ---
 
@@ -1154,7 +814,7 @@ Formas de haber se escriben con h.
 
 ## Frecuencia
 
-Frecuente
+Poco frecuente
 
 ## Categoría
 
@@ -1166,7 +826,7 @@ No
 
 ## Observaciones
 
-
+Prioridad menor que había en producción de 3.º; se mantiene como forma de haber.
 
 ---
 
@@ -1200,17 +860,17 @@ Sí
 
 ## Observaciones
 
-ANAYA refuerzo / ampliación (¿Qué hora es?, oraciones con hora).
+ANAYA refuerzo / ampliación (¿Qué hora es?).
 
 ---
 
 ## Correcta
 
-horario
+horas
 
 ## Error frecuente 1
 
-orario
+oras
 
 ## Error frecuente 2
 
@@ -1218,7 +878,7 @@ orario
 
 ## Regla
 
-Horario lleva h (familia de hora).
+Horas lleva h (como hora).
 
 ## Frecuencia
 
@@ -1226,7 +886,7 @@ Frecuente
 
 ## Categoría
 
-Colegio
+Otros
 
 ## Imagen recomendable
 
@@ -1234,7 +894,7 @@ Sí
 
 ## Observaciones
 
-Vocabulario escolar coherente con hora en fichas 3.º.
+ANAYA refuerzo («dos horas»); tomo 3 («el reloj marca las horas»).
 
 ---
 
@@ -1336,7 +996,7 @@ No
 
 ## Observaciones
 
-Presente en materiales 3.º (p. ej. Savia / lecturas). Homófonos reales.
+Presente en materiales 3.º. Homófonos reales.
 
 ---
 
@@ -1370,7 +1030,7 @@ No
 
 ## Observaciones
 
-Pareja homófona típica de h muda en Primaria; alineada con temario Aray.
+Pareja homófona típica de h muda en Primaria.
 
 ---
 
@@ -1404,7 +1064,7 @@ Sí
 
 ## Observaciones
 
-Fábulas / lecturas del material 3.º (pastor e hijo, etc.).
+Fábulas / lecturas del material 3.º.
 
 ---
 
@@ -1532,7 +1192,7 @@ Muy frecuente
 
 ## Categoría
 
-Cuerpo humano
+Otros
 
 ## Imagen recomendable
 
@@ -1540,7 +1200,7 @@ Sí
 
 ## Observaciones
 
-Lecturas 3.º (hombre, pastor, etc.).
+Lecturas 3.º. Categoría Otros (persona, no parte del cuerpo).
 
 ---
 
@@ -1574,7 +1234,7 @@ Sí
 
 ## Observaciones
 
-Aparece en lecturas del tomo/material 3.º.
+Aparece en lecturas del material 3.º.
 
 ---
 
@@ -1604,7 +1264,7 @@ Cuerpo humano
 
 ## Imagen recomendable
 
-No
+Sí
 
 ## Observaciones
 
@@ -1716,6 +1376,40 @@ ANAYA ampliación (hormigas / hormiguero); fábula en material 3.º.
 
 ## Correcta
 
+hormiguero
+
+## Error frecuente 1
+
+ormiguero
+
+## Error frecuente 2
+
+
+
+## Regla
+
+Las palabras con horm- se escriben con h.
+
+## Frecuencia
+
+Frecuente
+
+## Categoría
+
+Animales
+
+## Imagen recomendable
+
+Sí
+
+## Observaciones
+
+ANAYA ampliación («granos de trigo a su hormiguero»).
+
+---
+
+## Correcta
+
 hombro
 
 ## Error frecuente 1
@@ -1818,6 +1512,108 @@ ANAYA ampliación (herramientas: martillo…).
 
 ## Correcta
 
+hoja
+
+## Error frecuente 1
+
+oja
+
+## Error frecuente 2
+
+
+
+## Regla
+
+Hoja lleva h aunque no se oye.
+
+## Frecuencia
+
+Muy frecuente
+
+## Categoría
+
+Naturaleza
+
+## Imagen recomendable
+
+Sí
+
+## Observaciones
+
+ANAYA refuerzo («La hoja del árbol»).
+
+---
+
+## Correcta
+
+horno
+
+## Error frecuente 1
+
+orno
+
+## Error frecuente 2
+
+
+
+## Regla
+
+Horno lleva h aunque no se oye.
+
+## Frecuencia
+
+Frecuente
+
+## Categoría
+
+Casa
+
+## Imagen recomendable
+
+Sí
+
+## Observaciones
+
+ANAYA refuerzo (vocabulario: horno).
+
+---
+
+## Correcta
+
+hacia
+
+## Error frecuente 1
+
+acia
+
+## Error frecuente 2
+
+
+
+## Regla
+
+Hacia (preposición) lleva h aunque no se oye.
+
+## Frecuencia
+
+Frecuente
+
+## Categoría
+
+Otros
+
+## Imagen recomendable
+
+No
+
+## Observaciones
+
+ANAYA refuerzo («Mover hacia arriba»); lecturas del tomo 3 («caminando hacia…»).
+
+---
+
+## Correcta
+
 historia
 
 ## Error frecuente 1
@@ -1846,7 +1642,7 @@ No
 
 ## Observaciones
 
-Vicens Vives / lecturas («historias»).
+Vicens Vives / lecturas («historias») — asignatura y relatos escolares.
 
 ---
 
@@ -1880,44 +1676,44 @@ Sí
 
 ## Observaciones
 
-ANAYA refuerzo (lista de verduras). Error típico de h muda intercalada en Primaria.
+ANAYA refuerzo (lista de verduras). Error típico de h intercalada.
 
 ---
 
 ## Resumen editorial
 
-- **Número final de registros:** 55
-- **Fichas o carpetas revisadas:**
-  - `verano_aray/banc_exercicis/_extraccio_raw/castellano_Lengua_3º-ANAYA_ampliacion.txt` (palabras con h; hierba/hueco/hielo/hueso; huir; hospital; hormiga; hombro; herramientas; hora…)
-  - `verano_aray/banc_exercicis/_extraccio_raw/castellano_Lengua_3º-ANAYA_refuerzo.txt` (hambre, higos, hora, zanahoria)
-  - `verano_aray/banc_exercicis/_extraccio_raw/castellano_refuerzo_ampliacion_lengua_3.txt` (Vicens Vives: listas hie-/hue-; haber/hablar/hacer; helados)
-  - `verano_aray/banc_exercicis/_extraccio_raw/castellano_lenguaje3_tomo2_pdf.txt` y `castellano_lengua_3_savia.txt` (vocabulario en contexto: hijo, hermano, hombre, hogar, hormiga, hablar, había…)
-  - `verano_aray/banc_exercicis/02_castellano.md` (índice BEX / fuentes)
-  - `docs/TEMARIO_3_PRIMARIA_CATALUNYA.md` (h muda, hacer/echar, haber/hablar)
-  - Contextos ortográficos Aray en `src/spelling/types.ts` (hecho/echo, echa, hizo, huevo, hielo, huella, hierro, hemos…) — como alineación de nivel, no como copia de enunciados
-  - `feinetas/lengua/3_sm_repaso.pdf` (inventariado; extracción priorizada vía BEX/raw ya indexados)
-- **Bloques trabajados:**
-  1. hie- / hue- / hui-
-  2. hacer (con h) frente a echar (sin h) — reglas separadas
-  3. hablar
-  4. haber (sin duplicar hay/ahí/ay)
-  5. h muda inicial / intercalada en vocabulario habitual de las fichas
-- **Palabras descartadas y motivo:**
-  - *hay, ahí, ay* → banco propio `ERRORES_REALES_HAY_AHI_AY.md`
-  - Lemas avanzados del bank técnico Aray no vistos como foco H en fichas 3.º (p. ej. hidrógeno, helicóptero, hormigón, huésped, huérfano, huelga…) → nivel o rareza
-  - Conjugaciones largas poco prioritarias (haré, hagáis, echaríamos…) → no aportan error nuevo distinto de la raíz ya cubierta
-  - Errores artificiales tipo *heco*, *haecho*, *huebo* → descartados aunque aparezcan como distractores malos en algún contexto
-  - *almohada*, *hamburguesa*, *horchata*, *búho*… → no localizadas como práctica de H en las extracciones revisadas
-- **Huecos detectados en las fuentes:**
-  - Pocas fitxes PDF catalanas en `feinetas/WEB` dedicadas solo a la *h* (sí hay r-rr, c-qu, g-gu, s-ss)
-  - Vicens pide “cinco palabras hie-/hue-” sin listar el inventario completo → se cubre con las explicitadas en ANAYA + contextos de nivel
-  - H intercalada poco ejercitada más allá de casos como zanahoria
-- **Confirmación:** no hay contenido generado automáticamente ni inventado fuera de las fuentes citadas; los errores 1/2 son omisión de h, confusión hie/y, o pares reales hacer↔echar.
+- **Número final de registros:** 49
+- **Fichas o carpetas revisadas:** (mismas que la versión previa + rechequeo ANAYA refuerzo para hoja, horno, hacia, horas, hormiguero)
+  - `castellano_Lengua_3º-ANAYA_ampliacion.txt`
+  - `castellano_Lengua_3º-ANAYA_refuerzo.txt`
+  - `castellano_refuerzo_ampliacion_lengua_3.txt` (Vicens Vives)
+  - `castellano_lenguaje3_tomo2_pdf.txt`, `castellano_lengua_3_savia.txt`
+  - `docs/TEMARIO_3_PRIMARIA_CATALUNYA.md`
+  - `verano_aray/banc_exercicis/02_castellano.md`
+- **Bloques trabajados:** hie-/hue-/hui- · hacer ≠ echar · hablar (infinitivo) · haber (sin hay/ahí/ay) · h muda / intercalada
+- **Confirmación:** sin generación automática; errores = omisión de h, confusión hie/y, o pares reales hacer↔echar / homófonos.
 
-### Autoauditoría
+### Estado editorial
 
-- Sin duplicados de “Correcta”.
-- Error 2 solo cuando es un segundo fallo verosímil distinto (yerba, yelo, güevo, yerro).
-- Hacer y echar en registros separados con reglas distintas.
-- Haber/hablar separados; hay/ahí/ay fuera (solo nota de cruce).
-- Categorías revisadas (naturaleza, comida, casa, acciones, colegio, ciudad, cuerpo, objetos, otros).
+- **Registros finales:** 49
+- **Registros eliminados:** 11 — huerta, huida, hablo, habla, hablamos, hechas, huella, huerto, hago, echaron, horario
+- **Registros añadidos:** 5 — hormiguero, hoja, horno, hacia, horas
+- **No añadidos:** humo (no localizado en extracts castellano revisados)
+- **Pendientes de revisar:** ninguno bloqueante; *han* y *hubo* quedan con frecuencia «Poco frecuente» a propósito
+- **Calidad editorial estimada:** 88 / 100
+- **Observaciones para el siguiente banco (BV):**
+  - Partir solo de fichas del repo (ANAYA / Vicens / lecturas), no del bank técnico monolítico.
+  - Evitar conjugaciones de relleno: preferir infinitivo + 2–4 formas realmente atestiguadas.
+  - Separar bien pares de confusión (como aquí hacer/echar).
+  - Citar ficha en Observaciones cuando el respaldo no sea obvio.
+  - Autoevaluar categoría (evitar meter «persona» en Cuerpo humano).
+  - Añadir al final Estado editorial + resumen de descartes.
+
+### Autoauditoría post-corrección
+
+- Sin duplicados de «Correcta».
+- Sin conjugaciones de relleno de *hablar*.
+- Sin errores artificiales.
+- Vocabulario de 3.º respaldado por fichas.
+- Categorías corregidas (*hombre* → Otros; *hueco* → Otros).
+- Equilibrio: Naturaleza, Animales, Casa, Acciones, Comida, Cuerpo, Objetos, Colegio, Ciudad, Otros.
