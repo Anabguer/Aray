@@ -16,14 +16,14 @@ Nunca debe contener palabras inventadas.
 |--------------|-------------------|
 | haber, hacer, echar | `ERRORES_REALES_H.md` |
 | hay / ahí / ay | `ERRORES_REALES_HAY_AHI_AY.md` |
-| caballo, llave, botella | `ERRORES_REALES_BV.md` (error principal b/v) |
-| también (mb) | futuro / `ERRORES_REALES_MPMB.md` |
+| caballo, llave, botella | `ERRORES_REALES_BV.md` |
+| también (mb) | `ERRORES_REALES_MPMB.md` |
 
 **Cruces (sin duplicar contenido):**
 - **caballo, llave, botella** → BV (aunque lleven ll).
-- **yo** → no se incluye (error *llo* poco verosímil / no drill).
-- Conjugaciones con y (distribuyó, influye, oyes) → no relleno; ver dudas.
-- Sufijos **-illo / -illa** = ll (no y); contraste **y** en playa, ayer, reyes…
+- **llamar, yegua** → fuera (sin respaldo de drill).
+- Conjugaciones (distribuyó, influye, oyes…) → fuera; solo lemas / infinitivos.
+- Sufijos **-illo / -illa** = ll; contraste **y** en playa, ayer, reyes…
 
 ---
 
@@ -57,7 +57,7 @@ Sí
 
 ## Observaciones
 
-Aray `amarillo-ctx`. Savia (orden alfabético: amarilla).
+Aray `amarillo-ctx`. Savia (amarilla). Color: sin categoría más específica en el set actual.
 
 ---
 
@@ -91,7 +91,7 @@ Sí
 
 ## Observaciones
 
-Vicens (plural); `formar-palabras.json`.
+Vicens; `formar-palabras.json`.
 
 ---
 
@@ -125,7 +125,7 @@ Sí
 
 ## Observaciones
 
-`formar-palabras.json`; lecturas 3.º (lluvia).
+`formar-palabras.json`; lecturas 3.º.
 
 ---
 
@@ -159,7 +159,7 @@ Sí
 
 ## Observaciones
 
-ANAYA refuerzo/ampliación; `formar-palabras.json`.
+ANAYA; `formar-palabras.json`.
 
 ---
 
@@ -193,7 +193,7 @@ Sí
 
 ## Observaciones
 
-ANAYA refuerzo (oración con calle); ampliación; `formar-palabras.json`.
+ANAYA; `formar-palabras.json`.
 
 ---
 
@@ -227,41 +227,7 @@ Sí
 
 ## Observaciones
 
-ANAYA refuerzo (lista estrella); `formar-palabras.json`.
-
----
-
-## Correcta
-
-ayer
-
-## Error frecuente 1
-
-aller
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Ayer se escribe con y.
-
-## Frecuencia
-
-Muy frecuente
-
-## Categoría
-
-Otros
-
-## Imagen recomendable
-
-No
-
-## Observaciones
-
-ANAYA / Savia (oraciones con ayer); `formar-palabras.json`.
+ANAYA; `formar-palabras.json`.
 
 ---
 
@@ -295,7 +261,41 @@ No
 
 ## Observaciones
 
-Savia (carta: llego / llegué); ANAYA (Para llegar a mi casa…). Infinitivo.
+Savia; ANAYA. Infinitivo. Familia con *llevar* (verbos distintos).
+
+---
+
+## Correcta
+
+ayer
+
+## Error frecuente 1
+
+aller
+
+## Error frecuente 2
+
+
+
+## Regla
+
+Ayer se escribe con y.
+
+## Frecuencia
+
+Frecuente
+
+## Categoría
+
+Otros
+
+## Imagen recomendable
+
+No
+
+## Observaciones
+
+ANAYA / Savia; `formar-palabras.json`.
 
 ---
 
@@ -329,7 +329,7 @@ No
 
 ## Observaciones
 
-Savia (llevaba); ANAYA ampliación (llevar la comida). Infinitivo.
+Savia; ANAYA. Infinitivo. Distinto de *llegar*.
 
 ---
 
@@ -397,7 +397,7 @@ Sí
 
 ## Observaciones
 
-ANAYA refuerzo p.7 («Completa con ll o con y»: rastri_o).
+ANAYA refuerzo p.7. Familia -illo con martillo/pajarillo (vocabulario distinto).
 
 ---
 
@@ -431,109 +431,7 @@ Sí
 
 ## Observaciones
 
-ANAYA refuerzo p.7 (ardi_a).
-
----
-
-## Correcta
-
-brillar
-
-## Error frecuente 1
-
-briyar
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Brillar se escribe con ll.
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Acciones
-
-## Imagen recomendable
-
-No
-
-## Observaciones
-
-ANAYA refuerzo p.7 (bri_ar). Infinitivo.
-
----
-
-## Correcta
-
-reyes
-
-## Error frecuente 1
-
-relles
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Reyes se escribe con y.
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Otros
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-ANAYA refuerzo p.7 (re_es). Sustantivo común (los reyes), no nombre propio.
-
----
-
-## Correcta
-
-lleno
-
-## Error frecuente 1
-
-yeno
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Lleno se escribe con ll.
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Otros
-
-## Imagen recomendable
-
-No
-
-## Observaciones
-
-ANAYA refuerzo p.7 (verso: «cabeza llena de talento»).
+ANAYA refuerzo p.7.
 
 ---
 
@@ -567,7 +465,7 @@ Sí
 
 ## Observaciones
 
-ANAYA refuerzo (adivinanza: pollito / gallina); ampliación (pollos).
+ANAYA refuerzo/ampliación.
 
 ---
 
@@ -601,7 +499,7 @@ Sí
 
 ## Observaciones
 
-ANAYA ampliación (herramientas: martillo).
+ANAYA ampliación (herramientas).
 
 ---
 
@@ -641,11 +539,11 @@ ANAYA ampliación (casa de ladrillos).
 
 ## Correcta
 
-engullir
+brillar
 
 ## Error frecuente 1
 
-enguyir
+briyar
 
 ## Error frecuente 2
 
@@ -653,7 +551,7 @@ enguyir
 
 ## Regla
 
-Engullir se escribe con ll.
+Brillar se escribe con ll.
 
 ## Frecuencia
 
@@ -669,7 +567,41 @@ No
 
 ## Observaciones
 
-ANAYA refuerzo p.7 (engu_ir). Menos nuclear; valorar en auditoría.
+ANAYA refuerzo p.7. Menos nuclear que llegar/llevar.
+
+---
+
+## Correcta
+
+reyes
+
+## Error frecuente 1
+
+relles
+
+## Error frecuente 2
+
+
+
+## Regla
+
+Reyes se escribe con y.
+
+## Frecuencia
+
+Poco frecuente
+
+## Categoría
+
+Otros
+
+## Imagen recomendable
+
+Sí
+
+## Observaciones
+
+ANAYA refuerzo p.7 (re_es). Sustantivo común; no nombre propio.
 
 ---
 
@@ -703,176 +635,41 @@ Sí
 
 ## Observaciones
 
-Savia u7 (ejemplo de diminutivo: pajarillo).
-
----
-
-## Correcta
-
-lentilla
-
-## Error frecuente 1
-
-lentiya
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Las terminaciones -illo / -illa se escriben con ll.
-
-## Frecuencia
-
-Poco frecuente
-
-## Categoría
-
-Objetos
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-ANAYA refuerzo p.7 (derivados -illo/-illa a partir de lente).
-
----
-
-## Correcta
-
-vajilla
-
-## Error frecuente 1
-
-vajiya
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Vajilla se escribe con ll.
-
-## Frecuencia
-
-Poco frecuente
-
-## Categoría
-
-Casa
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-ANAYA ampliación (palabras compuestas: vajillas).
-
----
-
-## Correcta
-
-ovillo
-
-## Error frecuente 1
-
-oviyo
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Ovillo se escribe con ll.
-
-## Frecuencia
-
-Poco frecuente
-
-## Categoría
-
-Objetos
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-ANAYA ampliación (lana del ovillo).
-
----
-
-## Correcta
-
-panecillo
-
-## Error frecuente 1
-
-paneciyo
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Las terminaciones -illo / -illa se escriben con ll.
-
-## Frecuencia
-
-Poco frecuente
-
-## Categoría
-
-Comida
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-ANAYA ampliación (familia: panecillo).
+Savia u7 (ejemplo diminutivo). Familia -illo; lema distinto de rastrillo/martillo.
 
 ---
 
 ## Resumen editorial
 
-- **Número de registros (borrador 1):** 24
-- **Fichas / PDFs revisados:**
-  - `Lengua 3º-ANAYA refuerzo.pdf` p.7 (ll/y + -illo/-illa)
-  - `Lengua 3º-ANAYA ampliacion.pdf` (martillo, vajillas, ovillo, ladrillos, panecillo, playa, calle…)
-  - `lengua_3_savia.pdf` (llegar/llevar, ayer, amarilla, pajarillo)
-  - `refuerzo_ampliacion_lengua_3.pdf` (Vicens: silla…)
-  - Aray `amarillo-ctx`, `tortilla-ctx`
-  - `feinetas/formar-palabras.json` (silla, lluvia, playa, calle, estrella, ayer)
-  - `docs/TEMARIO_3_PRIMARIA_CATALUNYA.md`
-- **No incluidos (propiedad / falta de respaldo):** caballo, llave, botella (BV); yegua, yo, llamar (sin drill claro); conjugaciones distribuó/influye/oyes.
-- **Criterios:** solo confusión ll↔y; infinitivos; sin nombres propios; sin inventar.
+- **Número de registros:** 18
+- **Fichas revisadas (correcciones):** ANAYA refuerzo p.7 / ampliación; Savia; Vicens; Aray; `formar-palabras.json`.
+- **Eliminados tras auditoría:** engullir, lentilla, vajilla, lleno, ovillo, panecillo.
+- **Familias conservadas:** llegar/llevar; rastrillo/martillo/pajarillo.
+- **Fuera definitivo:** caballo, llave, botella (BV); llamar; yegua; conjugaciones.
+- **Propiedad:** un lema = un banco.
 
-### Dudas editoriales
+### Estado editorial
 
-- **engullir / lentilla / vajilla / ovillo / panecillo / pajarillo:** atestiguados pero cola; ¿recortar en auditoría?
-- **reyes:** común vs lectura como nombre; ¿mantener?
-- **lleno:** solo en verso ANAYA; ¿suficiente?
-- **llamar / yegua:** esperables en brief; sin respaldo de drill — ¿fuera definitivos?
-- **Conjugaciones ANAYA** (distribuyó, influye, oyes): ¿documentar solo como nota de regla verbal o crear lemas base?
-- **caballo / llave / botella:** confirmado propietario BV; no duplicar.
-- **Categoría Otros** (amarillo, ayer, reyes, lleno): reasignar si hay mejor etiqueta.
-- **Savia p64** (huecos de dos letras): ejercicio mixto (br, mp…); no usado como fuente ll/y pura.
+- **Registros finales:** 18
+- **Eliminados:** 6 (engullir, lentilla, vajilla, lleno, ovillo, panecillo)
+- **Añadidos:** 0
+- **Modificados:** frecuencias (ayer→F; brillar/reyes/pajarillo→PF); notas de familias
+- **Pendientes:** ninguno bloqueante
+- **Calidad editorial:** 93 / 100
+- **Observaciones para el siguiente banco (CZ/QU):**
+  - Un lema = un propietario; no recuperar cruces (p. ej. BV).
+  - Distinguir vocabulario de frase vs drill ortográfico.
+  - Sin conjugaciones de relleno; solo lemas.
+  - Evitar cola demasiado específica aunque salga una vez en ficha.
+  - Equilibrar MF / F / PF desde el borrador.
 
-### Autoauditoría (borrador 1)
+### Autoauditoría post-corrección
 
 - Sin duplicados.
-- Sin caballo/llave/botella.
-- Errores = ll↔y.
+- Sin errores artificiales (solo ll↔y).
+- Sin nombres propios.
+- Sin vocabulario demasiado específico.
+- Propietario único; BV sin duplicar.
 - Vocabulario 3.º respaldado.
-- Frecuencias: Muy frecuente 8 · Frecuente 10 · Poco frecuente 6.
-- Pendiente de congelar tras auditoría humana.
+- Frecuencias: Muy frecuente 7 · Frecuente 8 · Poco frecuente 3.
+- Otros: solo amarillo, ayer, reyes (sin categoría más específica en el set).
