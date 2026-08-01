@@ -109,8 +109,13 @@ export function countActiveSpellMisses(playerId: string | number | null | undefi
   return listActiveSpellMisses(playerId).length
 }
 
-export { isLegacyCompleteMissKey } from '@/spelling/legacyComplete'
+/** @deprecated Claves ctx:* del complete legacy; se ignoran en review. */
+export function isLegacyCompleteMissKey(key: string): boolean {
+  return key.startsWith('ctx:')
+}
+
 export {
   ortographyMissKey,
   parseOrtographyMissKey,
 } from '@/feinetas/ortographyCorpus'
+export { isOrtographyPhraseMissKey } from '@/minigames/adapters/ortografiaComplete'

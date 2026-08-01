@@ -1,11 +1,11 @@
 /**
- * Test de arquitectura Fase 3: modos JSON no dependen del bank legacy.
- * Única excepción documentada: legacyComplete / spelling-complete.
+ * Test de arquitectura Fase 4: Ortografía sin legacy de frases ni bank en adaptadores JSON.
  */
-import { readFileSync, readdirSync } from 'node:fs'
+import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import path from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { getMinigame, listMinigames } from '@/minigames/catalog'
+import { SPELL_CONTEXTS } from '@/spelling/types'
 import type { SpellPlayMode } from '@/spelling/types'
 
 const ROOT = path.resolve(__dirname, '../..')
@@ -20,13 +20,12 @@ const JSON_ADAPTER_FILES = [
   'ortografiaMix.ts',
   'ortografiaReview.ts',
   'ortografiaShared.ts',
+  'ortografiaComplete.ts',
 ]
 
-const JSON_CORPUS_FILES = ['ortographyCorpus.ts', 'ortographyRegistry.ts']
-
 const FORBIDDEN_IMPORT_RE =
-  /from\s+['"]@\/spelling\/(bank|distract|generator|lemmas\.generated)['"]/
-const FORBIDDEN_SYMBOL_RE = /\b(SPELL_BANK|makeDistractors)\b/
+  /from\s+['"]@\/spelling\/(bank|distract|generator|lemmas\.generated|legacyComplete)['"]/
+const FORBIDDEN_SYMBOL_RE = /\b(SPELL_BANK|makeDistractors|SPELL_CONTEXTS)\b/
 
 function readSrc(filePath: string): string {
   return readFileSync(filePath, 'utf8')
@@ -35,45 +34,47 @@ function readSrc(filePath: string): string {
 function assertNoLegacyDeps(label: string, src: string) {
   expect(FORBIDDEN_IMPORT_RE.test(src), `${label}: import legacy`).toBe(false)
   expect(FORBIDDEN_SYMBOL_RE.test(src), `${label}: símbolo legacy`).toBe(false)
-  expect(src.includes('lemmas.generated'), `${label}: lemmas.generated`).toBe(false)
 }
 
-describe('arquitectura ortografía JSON', () => {
-  it('adaptadores JSON no importan bank / distract / generator / lemmas.generated', () => {
+describe('arquitectura ortografía JSON (Fase 4)', () => {
+  it('adaptadores JSON no importan bank / distract / generator / contexts', () => {
     for (const name of JSON_ADAPTER_FILES) {
       assertNoLegacyDeps(name, readSrc(path.join(ADAPTERS_DIR, name)))
     }
-    for (const name of JSON_CORPUS_FILES) {
-      assertNoLegacyDeps(name, readSrc(path.join(FEINETAS_DIR, name)))
-    }
+    assertNoLegacyDeps(
+      'ortographyCorpus.ts',
+      readSrc(path.join(FEINETAS_DIR, 'ortographyCorpus.ts')),
+    )
   })
 
-  it('legacyComplete es la única excepción documentada (frases, no bank de lemas)', () => {
-    const src = readSrc(path.join(ROOT, 'src/spelling/legacyComplete.ts'))
-    expect(src.includes('SPELL_COMPLETE_USES_LEGACY')).toBe(true)
-    expect(src.includes('SPELL_CONTEXTS')).toBe(true)
-    assertNoLegacyDeps('legacyComplete.ts', src)
+  it('legacyComplete y legacySpell ya no existen', () => {
+    expect(existsSync(path.join(ROOT, 'src/spelling/legacyComplete.ts'))).toBe(false)
+    expect(existsSync(path.join(ROOT, 'src/minigames/adapters/legacySpell.ts'))).toBe(false)
   })
 
-  it('catalog: solo spelling-complete es legacy-spell', () => {
+  it('SPELL_CONTEXTS está vacío (retirado)', () => {
+    expect(SPELL_CONTEXTS).toEqual([])
+  })
+
+  it('catalog: ningún spelling es legacy', () => {
     const spelling = listMinigames().filter((m) => m.category === 'spelling')
-    const legacy = spelling.filter((m) => m.source === 'legacy')
-    expect(legacy.map((m) => m.id)).toEqual(['spelling-complete'])
-    expect(getMinigame('spelling-complete').mechanicId).toBe('legacy-spell')
+    expect(spelling.every((m) => m.source === 'pack')).toBe(true)
+    expect(spelling.every((m) => m.mechanicId === 'ortografia-lemma-mcq')).toBe(true)
+    expect(getMinigame('spelling-complete').packIds).toContain(
+      'ortografia-frases-completar',
+    )
 
-    const jsonModes: SpellPlayMode[] = [
+    const modes: SpellPlayMode[] = [
       'correct',
       'missing',
       'picture',
       'intruder',
+      'complete',
       'mix',
       'review',
     ]
-    for (const mode of jsonModes) {
-      const g = getMinigame(`spelling-${mode}`)
-      expect(g.source).toBe('pack')
-      expect(g.mechanicId).toBe('ortografia-lemma-mcq')
-      expect(g.packIds.length).toBe(10)
+    for (const mode of modes) {
+      expect(getMinigame(`spelling-${mode}`).source).toBe('pack')
     }
   })
 

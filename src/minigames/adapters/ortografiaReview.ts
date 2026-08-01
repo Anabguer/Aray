@@ -1,18 +1,18 @@
 /**
- * Mis fallos: claves JSON (`packId:lemmaId`) vs legacy complete (`ctx:*`).
- * Pipelines separados; sin rehidratar el banco legacy de lemas.
+ * Mis fallos: claves JSON de lemas (`packId:lemmaId`) y de frases
+ * (`ortografia-frases-completar:frase-*`). Sin banco legacy.
  */
 import { getLemmaByRef, parseOrtographyMissKey } from '@/feinetas/ortographyCorpus'
+import {
+  buildOrtografiaCompleteQuestion,
+  isOrtographyPhraseMissKey,
+} from '@/minigames/adapters/ortografiaComplete'
 import { buildOrtografiaCorrectQuestion } from '@/minigames/adapters/ortografiaCorrect'
 import { buildOrtografiaIntruderQuestion } from '@/minigames/adapters/ortografiaIntruder'
 import { buildOrtografiaMissingQuestion } from '@/minigames/adapters/ortografiaMissing'
 import { buildOrtografiaPictureQuestion } from '@/minigames/adapters/ortografiaPicture'
 import { mulberry32 } from '@/minigames/adapters/ortografiaShared'
 import { buildOrtografiaMixRound } from '@/minigames/adapters/ortografiaMix'
-import {
-  buildLegacyCompleteQuestion,
-  isLegacyCompleteMissKey,
-} from '@/spelling/legacyComplete'
 import type { SpellMissEntry } from '@/spelling/missStore'
 import { SPELL_ROUND_SIZE, type SpellMcqQuestion, type SpellQuestion } from '@/spelling/types'
 
@@ -47,14 +47,14 @@ export function buildOrtografiaReviewRound(
   preferMisses: SpellMissEntry[] = [],
 ): SpellQuestion[] {
   const usedRefs = new Set<string>()
-  const usedCtx = new Set<string>()
+  const usedPhraseIds = new Set<string>()
   const out: SpellQuestion[] = []
 
   const jsonMisses = preferMisses.filter((m) => parseOrtographyMissKey(m.key))
-  const ctxMisses = preferMisses.filter((m) => isLegacyCompleteMissKey(m.key))
-  // Claves huérfanas del bank antiguo (palabra suelta): se ignoran a propósito.
+  const phraseMisses = preferMisses.filter((m) => isOrtographyPhraseMissKey(m.key))
+  // Claves ctx:* u huérfanas del bank antiguo: ignorar.
 
-  const prioritized = [...jsonMisses, ...ctxMisses]
+  const prioritized = [...jsonMisses, ...phraseMisses]
 
   for (let i = 0; i < count; i += 1) {
     const qSeed = seed + i * 9173
@@ -62,9 +62,9 @@ export function buildOrtografiaReviewRound(
 
     if (i < prioritized.length) {
       const miss = prioritized[i]!
-      if (isLegacyCompleteMissKey(miss.key)) {
+      if (isOrtographyPhraseMissKey(miss.key)) {
         out.push(
-          buildLegacyCompleteQuestion(qSeed, usedCtx, 'review', [miss.key]),
+          buildOrtografiaCompleteQuestion(qSeed, usedPhraseIds, 'review', [miss.key]),
         )
         continue
       }
@@ -76,12 +76,10 @@ export function buildOrtografiaReviewRound(
       }
     }
 
-    // Relleno: mix JSON + complete (misma orquestación, sin bank)
     const fill = buildOrtografiaMixRound(1, qSeed)[0]!
-    // Re-tag mode review
     out.push({ ...fill, mode: 'review' })
-    if (fill.targetKey?.startsWith('ctx:')) {
-      usedCtx.add(fill.targetKey.slice(4))
+    if (fill.targetKey && isOrtographyPhraseMissKey(fill.targetKey)) {
+      usedPhraseIds.add(fill.targetKey.split(':').slice(1).join(':'))
     } else if (fill.targetKey) {
       usedRefs.add(fill.targetKey)
     }

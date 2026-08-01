@@ -2,18 +2,8 @@
 
 ## Estado del documento
 
-**Borrador editorial completo (Fase 4).**  
-Aún **no** es banco aprobado para JSON ni para el juego.
-
-Decisiones de alcance:
-
-- Tipos: **homófonos en contexto** + **grafía en contexto**.
-- Frases adaptadas (nivel 3.º); vocabulario/reglas de fichas y bancos `ERRORES_REALES_*`; sin copiar ejercicios; sin distractores artificiales.
-- hay/ahí/ay ≤ ~20–25 %; sin `ay` y `¡ay!` como opciones distintas; signos en la frase.
-- Incluir hacer/echar y haber/hablar; no mezclar reglas ambiguas en la misma pregunta.
-- **Excluidos:** -aba y bu/bur.
-- 4 opciones fijas por ítem; explicación solo **después** de responder (no tip previo revelador).
-- Objetivo: 24–30; mínimo 24 aprobables para retirar legacy más adelante.
+**Congelado.** Banco editorial aprobado. Fuente para `feinetas/ortografia/frases-completar.json`.
+No -aba / bu-bur. Sin distractores artificiales. Sin ay/¡ay! duplicados.
 
 ---
 
@@ -62,7 +52,7 @@ Temario 3.º; ANAYA/Vicens (uso de hay); ERRORES_REALES_HAY_AHI_AY.md
 
 ## Estado revisión
 
-borrador
+aprobado
 
 ## Observaciones
 
@@ -113,7 +103,7 @@ Temario 3.º; tomo2 (uso de ahí); ERRORES_REALES_HAY_AHI_AY.md
 
 ## Estado revisión
 
-borrador
+aprobado
 
 ## Observaciones
 
@@ -164,7 +154,7 @@ Vicens (uso de ¡ay!); ERRORES_REALES_HAY_AHI_AY.md
 
 ## Estado revisión
 
-borrador
+aprobado
 
 ## Observaciones
 
@@ -217,7 +207,7 @@ Temario; ERRORES_REALES_HAY_AHI_AY.md
 
 ## Estado revisión
 
-borrador
+aprobado
 
 ## Observaciones
 
@@ -268,62 +258,10 @@ Temario; ERRORES_REALES_HAY_AHI_AY.md
 
 ## Estado revisión
 
-borrador
+aprobado
 
 ## Observaciones
 
----
-
-## id
-
-frase-ay-02
-
-## Frase
-
-¡___ , me he pillado el dedo con la puerta!
-
-## Opciones
-
-1. Ay
-2. Hay
-3. Ahí
-4. Ahy
-
-## Correcta
-
-Ay
-
-## Índice correcta
-
-0
-
-## Regla principal
-
-hay-ahi-ay
-
-## Tipo
-
-homofonos
-
-## Dificultad
-
-1
-
-## Explicación
-
-Ay expresa dolor.
-
-## Fuente
-
-Vicens; ERRORES_REALES_HAY_AHI_AY.md
-
-## Estado revisión
-
-borrador
-
-## Observaciones
-
-Bloque hay/ahí/ay: 6 / 28 ≈ 21 %.
 
 ---
 
@@ -372,7 +310,7 @@ ERRORES_REALES_H.md (hecho/echo); Vicens
 
 ## Estado revisión
 
-borrador
+aprobado
 
 ## Observaciones
 
@@ -423,7 +361,7 @@ ERRORES_REALES_H.md (echo/hecho)
 
 ## Estado revisión
 
-borrador
+aprobado
 
 ## Observaciones
 
@@ -474,7 +412,7 @@ Vicens; ERRORES_REALES_H.md
 
 ## Estado revisión
 
-borrador
+aprobado
 
 ## Observaciones
 
@@ -525,7 +463,7 @@ ERRORES_REALES_H.md (echa/hecha; hechar)
 
 ## Estado revisión
 
-borrador
+aprobado
 
 ## Observaciones
 
@@ -537,14 +475,14 @@ frase-habia-01
 
 ## Frase
 
-En el hueco de la escalera ___ un hierro retorcido.
+Ayer ___ tres pájaros en el árbol.
 
 ## Opciones
 
 1. había
-2. avía
+2. abía
 3. habia
-4. a ver
+4. avía
 
 ## Correcta
 
@@ -576,11 +514,11 @@ Vicens; ERRORES_REALES_H.md (había)
 
 ## Estado revisión
 
-borrador
+aprobado
 
 ## Observaciones
 
-Contraste haber / a ver; sin mezclar hacer/echar.
+Reescrita para eliminar el hueco forzado con «a ver»; el contraste ahora es solo entre había/abía/habia/avía.
 
 ---
 
@@ -590,18 +528,18 @@ frase-hablar-01
 
 ## Frase
 
-La maestra ___ muy bajito en la biblioteca.
+Nos gusta ___ bajito en la biblioteca.
 
 ## Opciones
 
-1. hablaba
-2. ablaba
-3. hablava
-4. ablava
+1. hablar
+2. ablar
+3. avlar
+4. habar
 
 ## Correcta
 
-hablaba
+hablar
 
 ## Índice correcta
 
@@ -629,9 +567,11 @@ Vicens; ERRORES_REALES_H.md
 
 ## Estado revisión
 
-borrador
+aprobado
 
 ## Observaciones
+
+Reescrita en infinitivo (hablar) en lugar de la forma conjugada hablaba, para evitar la interferencia con «hablava/ablava» del catalán.
 
 ---
 
@@ -680,7 +620,7 @@ Vicens; ERRORES_REALES_H.md
 
 ## Estado revisión
 
-borrador
+aprobado
 
 ## Observaciones
 
@@ -731,7 +671,7 @@ ANAYA ampliación; ERRORES_REALES_H.md (huevo)
 
 ## Estado revisión
 
-borrador
+aprobado
 
 ## Observaciones
 
@@ -782,7 +722,7 @@ ANAYA ampliación; ERRORES_REALES_H.md (hielo)
 
 ## Estado revisión
 
-borrador
+aprobado
 
 ## Observaciones
 
@@ -833,7 +773,7 @@ ANAYA; ERRORES_REALES_H.md (hierro)
 
 ## Estado revisión
 
-borrador
+aprobado
 
 ## Observaciones
 
@@ -853,8 +793,8 @@ El ___ llegó corriendo hasta el carro.
 
 1. perro
 2. pero
-3. perra
-4. pedro
+3. péri
+4. perró
 
 ## Correcta
 
@@ -886,11 +826,11 @@ ANAYA; ERRORES_REALES_RR.md (perro/pero)
 
 ## Estado revisión
 
-borrador
+aprobado
 
 ## Observaciones
 
-«pedro» y «perra» son palabras reales distintas (no grafías absurdas); el error pedagógico principal es pero.
+Distractores sustituidos (sin perra/pedro, que desviaban a léxico en vez de ortografía): pero es el error real; péri/perró son grafías inventadas centradas en r/rr.
 
 ---
 
@@ -939,7 +879,7 @@ ERRORES_REALES_RR.md (alrededor)
 
 ## Estado revisión
 
-borrador
+aprobado
 
 ## Observaciones
 
@@ -947,22 +887,22 @@ borrador
 
 ## id
 
-frase-tierra-01
+frase-carro-01
 
 ## Frase
 
-Plantamos semillas en la ___.
+El ___ llegó cargado de fruta.
 
 ## Opciones
 
-1. tierra
-2. tiera
-3. tiérra
-4. tieera
+1. carro
+2. caro
+3. caró
+4. cáro
 
 ## Correcta
 
-tierra
+carro
 
 ## Índice correcta
 
@@ -982,19 +922,19 @@ grafia-contexto
 
 ## Explicación
 
-Entre vocales, el sonido fuerte va con rr.
+Entre vocales, el sonido fuerte de la r se escribe rr.
 
 ## Fuente
 
-ERRORES_REALES_RR.md (tierra)
+ERRORES_REALES_RR.md (carro/caro)
 
 ## Estado revisión
 
-revisar
+aprobado
 
 ## Observaciones
 
-Núcleo tierra/tiera sólido; opciones 3–4 más débiles (tilde / vocal extra). Candidata a pulir distractores 3–4.
+Ítem nuevo que sustituye a frase-tierra-01 (distractores 3-4 poco naturales); caro está documentado como error real en el banco RR.
 
 ---
 
@@ -1043,7 +983,7 @@ ERRORES_REALES_MPMB.md (también)
 
 ## Estado revisión
 
-borrador
+aprobado
 
 ## Observaciones
 
@@ -1094,60 +1034,10 @@ ERRORES_REALES_MPMB.md (campo)
 
 ## Estado revisión
 
-borrador
+aprobado
 
 ## Observaciones
 
----
-
-## id
-
-frase-tiempo-01
-
-## Frase
-
-Hoy hace buen ___ para salir.
-
-## Opciones
-
-1. tiempo
-2. tienpo
-3. tiempó
-4. tíempo
-
-## Correcta
-
-tiempo
-
-## Índice correcta
-
-0
-
-## Regla principal
-
-mb-mp
-
-## Tipo
-
-grafia-contexto
-
-## Dificultad
-
-1
-
-## Explicación
-
-Antes de p se escribe m.
-
-## Fuente
-
-ERRORES_REALES_MPMB.md (tiempo)
-
-## Estado revisión
-
-borrador
-
-## Observaciones
 
 ---
 
@@ -1196,7 +1086,7 @@ ERRORES_REALES_CZQU.md (zapato)
 
 ## Estado revisión
 
-borrador
+aprobado
 
 ## Observaciones
 
@@ -1247,7 +1137,7 @@ ERRORES_REALES_CZQU.md (ciudad)
 
 ## Estado revisión
 
-borrador
+aprobado
 
 ## Observaciones
 
@@ -1298,7 +1188,7 @@ ERRORES_REALES_LLY.md (lluvia)
 
 ## Estado revisión
 
-borrador
+aprobado
 
 ## Observaciones
 
@@ -1349,7 +1239,7 @@ ERRORES_REALES_LLY.md (amarillo)
 
 ## Estado revisión
 
-borrador
+aprobado
 
 ## Observaciones
 
@@ -1402,7 +1292,7 @@ ERRORES_REALES_BV.md (caballo)
 
 ## Estado revisión
 
-borrador
+aprobado
 
 ## Observaciones
 
@@ -1453,7 +1343,7 @@ ERRORES_REALES_BV.md (ventana)
 
 ## Estado revisión
 
-borrador
+aprobado
 
 ## Observaciones
 
@@ -1504,7 +1394,7 @@ ERRORES_REALES_GJ.md (gente)
 
 ## Estado revisión
 
-borrador
+aprobado
 
 ## Observaciones
 
@@ -1523,7 +1413,7 @@ En el zoo vimos una ___ altísima.
 1. jirafa
 2. girafa
 3. jiráfa
-4. xirafa
+4. giráfa
 
 ## Correcta
 
@@ -1555,11 +1445,11 @@ ERRORES_REALES_GJ.md (jirafa)
 
 ## Estado revisión
 
-borrador
+aprobado
 
 ## Observaciones
 
-«xirafa»: posible interferencia catalán/castellano en Cataluña.
+Distractor «xirafa» sustituido por «giráfa» (interferencia catalán/castellano no respaldada en el banco GJ).
 
 ---
 
@@ -1576,7 +1466,7 @@ En clase de música tocamos la ___.
 1. guitarra
 2. gitarra
 3. guitara
-4. guittarra
+4. guítarra
 
 ## Correcta
 
@@ -1608,11 +1498,11 @@ ERRORES_REALES_GU.md (guitarra); ANAYA gu/diéresis
 
 ## Estado revisión
 
-borrador
+aprobado
 
 ## Observaciones
 
-«guittarra» es alargamiento; si se considera débil, sustituir en revisión por «guitarras» (n.º) no sirve. Se acepta como confusión de rr.
+Distractor «guittarra» (alargamiento no respaldado en el banco GU) sustituido por «guítarra».
 
 ---
 
@@ -1661,78 +1551,17 @@ ERRORES_REALES_GU.md (cigüeña)
 
 ## Estado revisión
 
-borrador
+aprobado
 
 ## Observaciones
 
 ---
 
-# Auditoría interna
+# Congelación
 
-## Número de frases
-
-**28** registros en este borrador.
-
-## Reparto por regla
-
-| Regla | N | % |
-|-------|--:|--:|
-| hay-ahi-ay | 6 | 21 |
-| hacer-echar | 4 | 14 |
-| haber-hablar | 3 | 11 |
-| hie-hue | 3 | 11 |
-| r-rr | 3 | 11 |
-| mb-mp | 3 | 11 |
-| c-z-qu | 2 | 7 |
-| ll-y | 2 | 7 |
-| b-v | 2 | 7 |
-| g-j | 2 | 7 |
-| gu-gue | 2 | 7 |
-| **Total** | **28** | 100 |
-
-hay/ahí/ay dentro del tope 20–25 %.
-
-## Frases dudosas (estado `revisar` o distractores flojos)
-
-| id | Motivo |
-|----|--------|
-| frase-tierra-01 | Distractores 3–4 (tiérra / tieera) más débiles que tiera |
-| frase-perro-01 | perra/pedro son palabras reales; no son errores de rr tan directos como pero |
-| frase-guitarra-01 | guittarra algo forzado |
-| frase-jirafa-01 | xirafa (interferencia CAT) — útil en Cataluña, discutir |
-
-Ninguna de estas bloquea el mínimo de 24 si se cuentan como aprobables con pulido menor; **tierra-01** es la más dudosa.
-
-## Frases descartadas (no incluidas)
-
-Del legacy `SPELL_CONTEXTS` / alcance:
-
-- Todas las de **-aba** (cantaba, jugaba, saltaba).
-- Todas las de **bu/bur** (buscar, bosque).
-- **hola** (ambigüedad Hola / ¡Hola!).
-- Variantes redundantes del trío con `hai`, `¡ay!` duplicado, etc.
-- **bosque** mal etiquetado como bu-bur.
-- **enrique** (nombre propio).
-- Opciones absurdas legacy: echaó, hai, a vía, kantaba, buskar, hacharón, giraffa, Olaa…
-
-## Confirmación: opciones artificiales prohibidas
-
-No constan en este borrador: echaó, hai, a vía, kantaba, buskar, hacharón ni equivalentes (k por c, tilde inventada extrema, particiones absurdas).
-
-Distractores = confusiones reales de los bancos editoriales, omisión de h, nasal m/n, g/j, ll/y, diéresis, o palabras reales cercanas (pero, perra, a ver).
-
-## Confirmación: ≥ 24 ítems aprobables
-
-- Total: **28**.
-- Estado `borrador` (aprobables pendientes de revisión humana): **27**.
-- Estado `revisar`: **1** (frase-tierra-01).
-- **Aprobables ≥ 24: sí** (27 ≥ 24).
-
-Tras una pasada humana que acepte o sustituya tierra-01 / pulidos menores, el banco puede congelarse hacia JSON.
-
-## Dudas editoriales abiertas
-
-1. ¿Aceptamos «pedro» / «perra» como distractores de perro, o solo grafías erróneas del mismo lema?
-2. ¿«xirafa» (interferencia catalán) es deseable en el banco castellano de Cataluña?
-3. ¿«guittarra» se sustituye o se deja?
-4. ¿Prioridad siguiente: pulir las 4 dudosas o pasar a JSON de las 24–27 más sólidas?
+- **Total:** 30 frases aprobadas (congelado).
+- Recorte de calidad al tope 24–30: eliminados frase-ay-02 (gemelo estructural) y frase-tiempo-01 (distractores de tilde débiles).
+- Eliminados antes: frase-tierra-01; distractores perra/pedro, xirafa, guittarra; «a ver» forzado.
+- Reescritos: frase-habia-01, frase-hablar-01 (infinitivo).
+- Añadido: frase-carro-01.
+- Sin -aba / bu-bur. Ortografía completa sobre contenido editorial aprobado.

@@ -1,18 +1,17 @@
 /**
- * Mezcla total: mecánicas JSON + complete legacy explícito.
- * Sin fallback silencioso hacia el banco legacy de lemas.
+ * Mezcla total: mecánicas JSON de lemas + Completa la frase (pack frases).
+ * Sin banco legacy de lemas ni frases TS.
  */
+import { buildOrtografiaCompleteQuestion } from '@/minigames/adapters/ortografiaComplete'
 import { buildOrtografiaCorrectQuestion } from '@/minigames/adapters/ortografiaCorrect'
 import { buildOrtografiaIntruderQuestion } from '@/minigames/adapters/ortografiaIntruder'
 import { buildOrtografiaMissingQuestion } from '@/minigames/adapters/ortografiaMissing'
 import { buildOrtografiaPictureQuestion } from '@/minigames/adapters/ortografiaPicture'
 import { mulberry32 } from '@/minigames/adapters/ortografiaShared'
-import { buildLegacyCompleteQuestion } from '@/spelling/legacyComplete'
 import { SPELL_ROUND_SIZE, type SpellMcqQuestion, type SpellQuestion } from '@/spelling/types'
 
 type MixerKind = 'complete' | 'correct' | 'intruder' | 'missing' | 'picture'
 
-/** Misma distribución que MIXERS legacy (complete×3, correct×2, …). */
 const MIXER_WEIGHTS: MixerKind[] = [
   'complete',
   'complete',
@@ -24,34 +23,14 @@ const MIXER_WEIGHTS: MixerKind[] = [
   'correct',
 ]
 
-const JSON_MIXERS: MixerKind[] = ['correct', 'intruder', 'missing', 'picture']
-
-function buildJsonMixer(
-  kind: MixerKind,
-  seed: number,
-  usedRefs: Set<string>,
-  usedCtx: Set<string>,
-): SpellMcqQuestion {
-  switch (kind) {
-    case 'correct':
-      return buildOrtografiaCorrectQuestion(seed, usedRefs, 'mix')
-    case 'intruder':
-      return buildOrtografiaIntruderQuestion(seed, usedRefs, 'mix')
-    case 'missing':
-      return buildOrtografiaMissingQuestion(seed, usedRefs, 'mix')
-    case 'picture':
-      return buildOrtografiaPictureQuestion(seed, usedRefs, 'mix')
-    case 'complete':
-      return buildLegacyCompleteQuestion(seed, usedCtx, 'mix')
-  }
-}
+const JSON_MIXERS: MixerKind[] = ['correct', 'intruder', 'missing', 'picture', 'complete']
 
 export function buildOrtografiaMixRound(
   count = SPELL_ROUND_SIZE,
   seed = Date.now(),
 ): SpellQuestion[] {
   const usedRefs = new Set<string>()
-  const usedCtx = new Set<string>()
+  const usedPhraseIds = new Set<string>()
   const out: SpellQuestion[] = []
 
   for (let i = 0; i < count; i += 1) {
@@ -63,10 +42,22 @@ export function buildOrtografiaMixRound(
     while (q == null && attempts < 12) {
       attempts += 1
       try {
-        if (kind === 'complete') {
-          q = buildLegacyCompleteQuestion(qSeed + attempts, usedCtx, 'mix')
-        } else {
-          q = buildJsonMixer(kind, qSeed + attempts, usedRefs, usedCtx)
+        switch (kind) {
+          case 'complete':
+            q = buildOrtografiaCompleteQuestion(qSeed + attempts, usedPhraseIds, 'mix')
+            break
+          case 'correct':
+            q = buildOrtografiaCorrectQuestion(qSeed + attempts, usedRefs, 'mix')
+            break
+          case 'intruder':
+            q = buildOrtografiaIntruderQuestion(qSeed + attempts, usedRefs, 'mix')
+            break
+          case 'missing':
+            q = buildOrtografiaMissingQuestion(qSeed + attempts, usedRefs, 'mix')
+            break
+          case 'picture':
+            q = buildOrtografiaPictureQuestion(qSeed + attempts, usedRefs, 'mix')
+            break
         }
       } catch {
         kind = JSON_MIXERS[Math.floor(rand() * JSON_MIXERS.length)]!

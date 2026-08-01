@@ -1,9 +1,7 @@
 import { SPELL_BANK as WORDS } from '@/spelling/bank'
 import { isJunkSpelling, makeDistractors } from '@/spelling/distract'
 import {
-  SPELL_CONTEXTS,
   SPELL_ROUND_SIZE,
-  type SpellContext,
   type SpellMcqQuestion,
   type SpellPlayMode,
   type SpellQuestion,
@@ -37,20 +35,12 @@ function usedRules(used: Set<string>): Set<string> {
   for (const w of WORDS) {
     if (used.has(w.word)) rules.add(w.rule)
   }
-  for (const c of SPELL_CONTEXTS) {
-    if (used.has(c.id)) rules.add(c.rule)
-  }
   return rules
 }
 
 function wordByKey(key: string): SpellWord | undefined {
   const k = key.toLowerCase()
   return WORDS.find((w) => w.word.toLowerCase() === k)
-}
-
-function contextByKey(key: string): SpellContext | undefined {
-  const id = key.startsWith('ctx:') ? key.slice(4) : key
-  return SPELL_CONTEXTS.find((c) => c.id === id)
 }
 
 type PickOpts = {
@@ -76,27 +66,6 @@ function pickWord(rand: () => number, used: Set<string>, opts?: PickOpts): Spell
     if (byRule.length > 0) pool = byRule
   }
   if (pool.length === 0) pool = unused.length > 0 ? unused : WORDS
-  return pool[Math.floor(rand() * pool.length)]!
-}
-
-function pickContext(rand: () => number, used: Set<string>, opts?: PickOpts): SpellContext {
-  const prefer =
-    opts?.preferKeys
-      ?.map((k) => contextByKey(k))
-      .filter((c): c is SpellContext => c != null)
-      .filter((c) => !used.has(c.id)) ?? []
-  if (prefer.length > 0) {
-    return prefer[Math.floor(rand() * prefer.length)]!
-  }
-
-  const unused = SPELL_CONTEXTS.filter((c) => !used.has(c.id))
-  const seenRules = usedRules(used)
-  let pool = unused.filter((c) => !seenRules.has(c.rule))
-  if (opts?.preferRules?.length) {
-    const byRule = unused.filter((c) => opts.preferRules!.includes(c.rule))
-    if (byRule.length > 0) pool = byRule
-  }
-  if (pool.length === 0) pool = unused.length > 0 ? unused : SPELL_CONTEXTS
   return pool[Math.floor(rand() * pool.length)]!
 }
 
@@ -319,44 +288,21 @@ function buildIntruder(
 }
 
 function buildComplete(
-  seed: number,
-  used: Set<string>,
-  mode: SpellPlayMode,
-  pick?: PickOpts,
+  _seed: number,
+  _used: Set<string>,
+  _mode: SpellPlayMode,
+  _pick?: PickOpts,
 ): SpellMcqQuestion {
-  const rand = mulberry32(seed)
-  const ctx = pickContext(rand, used, pick)
-  used.add(ctx.id)
-  const options = shuffle([...ctx.options], rand)
-  const correct = ctx.options[ctx.correctIndex]!
-  return {
-    kind: 'mcq',
-    id: `ctx-${ctx.id}-${seed}`,
-    mode,
-    prompt: 'Elige la forma que encaja en la frase',
-    tip: ctx.tip,
-    rule: ctx.rule,
-    display: ctx.sentence,
-    options,
-    correctIndex: options.indexOf(correct),
-    targetKey: `ctx:${ctx.id}`,
-  }
+  throw new Error(
+    '[generator] complete retirado: usar buildOrtografiaCompleteRound (pack frases-completar.json)',
+  )
 }
 
 const MIXERS: Array<
   (seed: number, used: Set<string>, mode: SpellPlayMode, pick?: PickOpts) => SpellQuestion
-> = [
-  buildComplete,
-  buildComplete,
-  buildCorrect,
-  buildIntruder,
-  buildMissing,
-  buildPicture,
-  buildComplete,
-  buildCorrect,
-]
+> = [buildCorrect, buildIntruder, buildMissing, buildPicture, buildCorrect]
 
-const REVIEW_MIXERS = [buildCorrect, buildMissing, buildComplete, buildPicture, buildIntruder]
+const REVIEW_MIXERS = [buildCorrect, buildMissing, buildPicture, buildIntruder]
 
 export type BuildSpellRoundOptions = {
   preferMisses?: SpellMissEntry[]

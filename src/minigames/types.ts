@@ -8,10 +8,8 @@ export type AreaId = 'languages' | 'maths' | 'english' | 'medi'
 export type MechanicId =
   | 'mcq'
   | 'ordenar-letras'
-  /** Ortografía alimentada por packs de lemas JSON. */
+  /** Ortografía alimentada por packs de lemas / frases JSON. */
   | 'ortografia-lemma-mcq'
-  /** Adaptador temporal: solo «completa la frase» (SPELL_CONTEXTS). */
-  | 'legacy-spell'
 
 export type PackRevisionStatus = 'draft' | 'approved'
 

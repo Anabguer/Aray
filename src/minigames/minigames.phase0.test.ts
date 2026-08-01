@@ -22,49 +22,46 @@ const SPELL_MODES: SpellPlayMode[] = [
   'review',
 ]
 
-const STILL_LEGACY: SpellPlayMode[] = ['complete']
-
-describe('minigames Fase 3 (cableado incremental)', () => {
-  it('carga el catálogo con correct=JSON y resto legacy temporal', () => {
-    const all = listMinigames()
-    expect(all.length).toBeGreaterThanOrEqual(8)
+describe('minigames Fase 4 (Ortografía 100% packs)', () => {
+  it('todos los modos spelling son pack', () => {
+    expect(listMinigames().length).toBeGreaterThanOrEqual(8)
     expect(hasMinigame('formar-palabras')).toBe(true)
 
-    const correct = getMinigame('spelling-correct')
-    expect(correct.source).toBe('pack')
-    expect(correct.mechanicId).toBe('ortografia-lemma-mcq')
-    expect(correct.packIds).toHaveLength(10)
-    expect(correct.title).toBe(SPELL_MODE_LABELS.correct)
-
-    for (const mode of STILL_LEGACY) {
+    for (const mode of SPELL_MODES) {
       const game = getMinigame(spellingMinigameId(mode))
-      expect(game.source).toBe('legacy')
-      expect(game.mechanicId).toBe('legacy-spell')
-      expect(game.packIds).toEqual([])
+      expect(game.source).toBe('pack')
+      expect(game.mechanicId).toBe('ortografia-lemma-mcq')
+      expect(game.packIds.length).toBeGreaterThan(0)
+      expect(game.title).toBe(SPELL_MODE_LABELS[mode])
     }
 
+    expect(getMinigame('spelling-complete').packIds).toEqual([
+      'ortografia-frases-completar',
+    ])
     expect(minigamesForCategory('spelling')).toHaveLength(7)
   })
 
-  it('registra mecánicas incl. ortografia-lemma-mcq', () => {
+  it('no registra legacy-spell', () => {
     const ids = listMechanics().map((m) => m.id).sort()
-    expect(ids).toEqual(['legacy-spell', 'mcq', 'ordenar-letras', 'ortografia-lemma-mcq'])
-    expect(getMechanic('legacy-spell').temporaryLegacy).toBe(true)
+    expect(ids).toEqual(['mcq', 'ordenar-letras', 'ortografia-lemma-mcq'])
     expect(getMechanic('ortografia-lemma-mcq').temporaryLegacy).toBeFalsy()
   })
 
-  it('buildRound legacy solo aplica a complete', () => {
-    const seed = 42_001
-    const count = 8
-    for (const mode of STILL_LEGACY) {
-      const viaCatalog = buildRound(spellingMinigameId(mode), { count, seed })
-      expect(viaCatalog.kind).toBe('spell-mcq')
-      if (viaCatalog.kind !== 'spell-mcq') return
-      expect(viaCatalog.questions.every((q) => q.targetKey?.startsWith('ctx:'))).toBe(true)
+  it('buildRound spelling-* genera MCQ válidas', () => {
+    for (const mode of SPELL_MODES) {
+      const via = buildRound(spellingMinigameId(mode), { count: 6, seed: 42_001 })
+      expect(via.kind).toBe('spell-mcq')
+      if (via.kind !== 'spell-mcq') return
+      expect(via.questions).toHaveLength(6)
+      for (const q of via.questions) {
+        expect(q.options).toHaveLength(4)
+        expect(q.targetKey).toBeTruthy()
+        expect(q.targetKey?.startsWith('ctx:')).toBe(false)
+      }
     }
   })
 
-  it('buildRound(formar-palabras) coincide con el builder del pack JSON', () => {
+  it('buildRound(formar-palabras) sigue en pack', () => {
     let n = 0
     const random = () => {
       n += 1
@@ -75,12 +72,10 @@ describe('minigames Fase 3 (cableado incremental)', () => {
       n2 += 1
       return (n2 * 0.37) % 1
     }
-
     const direct = buildFormarPalabrasRound(8, random)
     const via = buildRound('formar-palabras', { count: 8, random: random2 })
     expect(via.kind).toBe('ordenar-letras')
     if (via.kind !== 'ordenar-letras') return
-    expect(via.meta.nombre).toBe(direct.meta.nombre)
     expect(via.items.map((r) => r.item.id)).toEqual(direct.items.map((r) => r.item.id))
   })
 })

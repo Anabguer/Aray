@@ -6,18 +6,20 @@ import {
   buildFormarPalabrasRoundForMinigame,
   type FormarPalabrasRoundOptions,
 } from '@/minigames/adapters/formarPalabras'
-import {
-  buildLegacySpellRoundForMinigame,
-  type LegacySpellRoundOptions,
-} from '@/minigames/adapters/legacySpell'
+import { buildOrtografiaCompleteRound } from '@/minigames/adapters/ortografiaComplete'
 import { buildOrtografiaCorrectRound } from '@/minigames/adapters/ortografiaCorrect'
 import { buildOrtografiaIntruderRound } from '@/minigames/adapters/ortografiaIntruder'
 import { buildOrtografiaMissingRound } from '@/minigames/adapters/ortografiaMissing'
 import { buildOrtografiaPictureRound } from '@/minigames/adapters/ortografiaPicture'
 import { buildOrtografiaMixRound } from '@/minigames/adapters/ortografiaMix'
 import { buildOrtografiaReviewRound } from '@/minigames/adapters/ortografiaReview'
+import type { SpellMissEntry } from '@/spelling/missStore'
 
-export type BuildRoundOptions = LegacySpellRoundOptions & FormarPalabrasRoundOptions
+export type BuildRoundOptions = FormarPalabrasRoundOptions & {
+  count?: number
+  seed?: number
+  preferMisses?: SpellMissEntry[]
+}
 
 export type SpellMcqRound = {
   kind: 'spell-mcq'
@@ -36,7 +38,7 @@ export type RoundResult = SpellMcqRound | OrdenarLetrasRound
 
 function buildOrtografiaLemmaRound(
   mode: SpellPlayMode,
-  opts: LegacySpellRoundOptions,
+  opts: BuildRoundOptions,
 ): SpellQuestion[] {
   const count = opts.count
   const seed = opts.seed ?? Date.now()
@@ -49,18 +51,22 @@ function buildOrtografiaLemmaRound(
       return buildOrtografiaMissingRound(count, seed, 'missing')
     case 'picture':
       return buildOrtografiaPictureRound(count, seed, 'picture')
+    case 'complete': {
+      const preferKeys = opts.preferMisses?.map((m) => m.key)
+      return buildOrtografiaCompleteRound(count, seed, preferKeys)
+    }
     case 'mix':
       return buildOrtografiaMixRound(count, seed)
     case 'review':
       return buildOrtografiaReviewRound(count, seed, opts.preferMisses ?? [])
     default:
-      throw new Error(`[minigames] Modo ortografía JSON aún no cableado: ${mode}`)
+      throw new Error(`[minigames] Modo ortografía desconocido: ${mode}`)
   }
 }
 
 /**
  * Punto único: buildRound(minigameId).
- * Fase 3 — Ortografía JSON + complete legacy + Formar palabras.
+ * Fase 4 — Ortografía 100 % packs editoriales + Formar palabras.
  */
 export function buildRound(minigameId: string, opts: BuildRoundOptions = {}): RoundResult {
   const game = getMinigame(minigameId)
@@ -71,14 +77,6 @@ export function buildRound(minigameId: string, opts: BuildRoundOptions = {}): Ro
       kind: 'spell-mcq',
       minigameId,
       questions: buildOrtografiaLemmaRound(mode, opts),
-    }
-  }
-
-  if (game.mechanicId === 'legacy-spell') {
-    return {
-      kind: 'spell-mcq',
-      minigameId,
-      questions: buildLegacySpellRoundForMinigame(minigameId, opts),
     }
   }
 

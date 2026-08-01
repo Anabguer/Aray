@@ -1,0 +1,527 @@
+{
+  "schemaVersion": 1,
+  "pack": {
+    "id": "ortografia-frases-completar",
+    "title": "Completa la frase",
+    "ownerBank": "FRASES_COMPLETAR_ORTOGRAFIA.md",
+    "ruleFamily": "mixed-ortografia",
+    "level": "3-primaria",
+    "locale": "es-ES",
+    "revisionStatus": "approved",
+    "contentVersion": 1,
+    "sourceEditorialPhase": "fase-4-frases",
+    "notes": "Banco de frases MCQ con distractores fijos. Sustituye SPELL_CONTEXTS. Congelado tras auditoría final."
+  },
+  "items": [
+    {
+      "id": "frase-hay-01",
+      "sentence": "En la calle ___ varios perros.",
+      "options": [
+        "hay",
+        "ahí",
+        "ay",
+        "ahy"
+      ],
+      "correctIndex": 0,
+      "ruleId": "hay-ahi-ay",
+      "itemType": "homophones",
+      "difficulty": 1,
+      "explanation": "Hay es una forma del verbo haber.",
+      "sourceNotes": "Temario 3.º; ANAYA/Vicens (uso de hay); ERRORES_REALES_HAY_AHI_AY.md",
+      "status": "approved"
+    },
+    {
+      "id": "frase-ahi-01",
+      "sentence": "He dejado el libro ___ encima de la mesa.",
+      "options": [
+        "ahí",
+        "hay",
+        "ay",
+        "ahi"
+      ],
+      "correctIndex": 0,
+      "ruleId": "hay-ahi-ay",
+      "itemType": "homophones",
+      "difficulty": 1,
+      "explanation": "Ahí indica un lugar.",
+      "sourceNotes": "Temario 3.º; tomo2 (uso de ahí); ERRORES_REALES_HAY_AHI_AY.md",
+      "status": "approved"
+    },
+    {
+      "id": "frase-ay-01",
+      "sentence": "¡___ qué pisotón me has dado!",
+      "options": [
+        "Ay",
+        "Hay",
+        "Ahí",
+        "Ahy"
+      ],
+      "correctIndex": 0,
+      "ruleId": "hay-ahi-ay",
+      "itemType": "homophones",
+      "difficulty": 1,
+      "explanation": "Ay expresa dolor o sorpresa.",
+      "sourceNotes": "Vicens (uso de ¡ay!); ERRORES_REALES_HAY_AHI_AY.md",
+      "status": "approved"
+    },
+    {
+      "id": "frase-hay-02",
+      "sentence": "¿___ algún asiento libre a la sombra?",
+      "options": [
+        "Hay",
+        "Ahí",
+        "Ay",
+        "Ahy"
+      ],
+      "correctIndex": 0,
+      "ruleId": "hay-ahi-ay",
+      "itemType": "homophones",
+      "difficulty": 1,
+      "explanation": "Hay pregunta por la existencia de algo.",
+      "sourceNotes": "Temario; ERRORES_REALES_HAY_AHI_AY.md",
+      "status": "approved"
+    },
+    {
+      "id": "frase-ahi-02",
+      "sentence": "Siéntate ___ , junto a la ventana.",
+      "options": [
+        "ahí",
+        "hay",
+        "ay",
+        "ahi"
+      ],
+      "correctIndex": 0,
+      "ruleId": "hay-ahi-ay",
+      "itemType": "homophones",
+      "difficulty": 1,
+      "explanation": "Ahí señala el sitio.",
+      "sourceNotes": "Temario; ERRORES_REALES_HAY_AHI_AY.md",
+      "status": "approved"
+    },
+    {
+      "id": "frase-hecho-01",
+      "sentence": "Luisa ha ___ una pajarita de papel.",
+      "options": [
+        "hecho",
+        "echo",
+        "hecha",
+        "echa"
+      ],
+      "correctIndex": 0,
+      "ruleId": "hacer-echar",
+      "itemType": "homophones",
+      "difficulty": 2,
+      "explanation": "Hecho es del verbo hacer.",
+      "sourceNotes": "ERRORES_REALES_H.md (hecho/echo); Vicens",
+      "status": "approved"
+    },
+    {
+      "id": "frase-echo-01",
+      "sentence": "Yo ___ la basura en el contenedor cada tarde.",
+      "options": [
+        "echo",
+        "hecho",
+        "hecha",
+        "echa"
+      ],
+      "correctIndex": 0,
+      "ruleId": "hacer-echar",
+      "itemType": "homophones",
+      "difficulty": 2,
+      "explanation": "Echo es del verbo echar.",
+      "sourceNotes": "ERRORES_REALES_H.md (echo/hecho)",
+      "status": "approved"
+    },
+    {
+      "id": "frase-hace-01",
+      "sentence": "Mi hermano ___ los deberes después del cole.",
+      "options": [
+        "hace",
+        "echa",
+        "ace",
+        "hase"
+      ],
+      "correctIndex": 0,
+      "ruleId": "hacer-echar",
+      "itemType": "spelling-in-context",
+      "difficulty": 1,
+      "explanation": "Hacer se escribe con h; no confundir con echar.",
+      "sourceNotes": "Vicens; ERRORES_REALES_H.md",
+      "status": "approved"
+    },
+    {
+      "id": "frase-echa-01",
+      "sentence": "Ramona ___ el ramo de flores al agua.",
+      "options": [
+        "echa",
+        "hecha",
+        "hace",
+        "hechar"
+      ],
+      "correctIndex": 0,
+      "ruleId": "hacer-echar",
+      "itemType": "homophones",
+      "difficulty": 2,
+      "explanation": "Echa es de echar (sin h).",
+      "sourceNotes": "ERRORES_REALES_H.md (echa/hecha; hechar)",
+      "status": "approved"
+    },
+    {
+      "id": "frase-habia-01",
+      "sentence": "Ayer ___ tres pájaros en el árbol.",
+      "options": [
+        "había",
+        "abía",
+        "habia",
+        "avía"
+      ],
+      "correctIndex": 0,
+      "ruleId": "haber-hablar",
+      "itemType": "homophones",
+      "difficulty": 2,
+      "explanation": "Había es una forma del verbo haber.",
+      "sourceNotes": "Vicens; ERRORES_REALES_H.md (había)",
+      "status": "approved"
+    },
+    {
+      "id": "frase-hablar-01",
+      "sentence": "Nos gusta ___ bajito en la biblioteca.",
+      "options": [
+        "hablar",
+        "ablar",
+        "avlar",
+        "habar"
+      ],
+      "correctIndex": 0,
+      "ruleId": "haber-hablar",
+      "itemType": "spelling-in-context",
+      "difficulty": 2,
+      "explanation": "Hablar se escribe con h.",
+      "sourceNotes": "Vicens; ERRORES_REALES_H.md",
+      "status": "approved"
+    },
+    {
+      "id": "frase-hemos-01",
+      "sentence": "Ya ___ terminado el dibujo del mapa.",
+      "options": [
+        "hemos",
+        "emos",
+        "abemos",
+        "haymos"
+      ],
+      "correctIndex": 0,
+      "ruleId": "haber-hablar",
+      "itemType": "spelling-in-context",
+      "difficulty": 1,
+      "explanation": "Hemos es una forma del verbo haber.",
+      "sourceNotes": "Vicens; ERRORES_REALES_H.md",
+      "status": "approved"
+    },
+    {
+      "id": "frase-huevo-01",
+      "sentence": "La gallina puso un ___ en el nido.",
+      "options": [
+        "huevo",
+        "uevo",
+        "güevo",
+        "huebo"
+      ],
+      "correctIndex": 0,
+      "ruleId": "hie-hue",
+      "itemType": "spelling-in-context",
+      "difficulty": 1,
+      "explanation": "Las palabras con hue- llevan h.",
+      "sourceNotes": "ANAYA ampliación; ERRORES_REALES_H.md (huevo)",
+      "status": "approved"
+    },
+    {
+      "id": "frase-hielo-01",
+      "sentence": "En invierno el lago se llena de ___.",
+      "options": [
+        "hielo",
+        "ielo",
+        "yelo",
+        "hieló"
+      ],
+      "correctIndex": 0,
+      "ruleId": "hie-hue",
+      "itemType": "spelling-in-context",
+      "difficulty": 1,
+      "explanation": "Las palabras con hie- llevan h.",
+      "sourceNotes": "ANAYA ampliación; ERRORES_REALES_H.md (hielo)",
+      "status": "approved"
+    },
+    {
+      "id": "frase-hierro-01",
+      "sentence": "La valla del huerto es de ___.",
+      "options": [
+        "hierro",
+        "yerro",
+        "ierro",
+        "hiero"
+      ],
+      "correctIndex": 0,
+      "ruleId": "hie-hue",
+      "itemType": "spelling-in-context",
+      "difficulty": 2,
+      "explanation": "Hierro lleva h al inicio.",
+      "sourceNotes": "ANAYA; ERRORES_REALES_H.md (hierro)",
+      "status": "approved"
+    },
+    {
+      "id": "frase-perro-01",
+      "sentence": "El ___ llegó corriendo hasta el carro.",
+      "options": [
+        "perro",
+        "pero",
+        "péri",
+        "perró"
+      ],
+      "correctIndex": 0,
+      "ruleId": "r-rr",
+      "itemType": "spelling-in-context",
+      "difficulty": 1,
+      "explanation": "Entre vocales, el sonido fuerte de la r se escribe rr.",
+      "sourceNotes": "ANAYA; ERRORES_REALES_RR.md (perro/pero)",
+      "status": "approved"
+    },
+    {
+      "id": "frase-alrededor-01",
+      "sentence": "Los gorriones volaban ___ de la torre.",
+      "options": [
+        "alrededor",
+        "arrededor",
+        "alededor",
+        "alrrededor"
+      ],
+      "correctIndex": 0,
+      "ruleId": "r-rr",
+      "itemType": "spelling-in-context",
+      "difficulty": 2,
+      "explanation": "Tras l va una sola r.",
+      "sourceNotes": "ERRORES_REALES_RR.md (alrededor)",
+      "status": "approved"
+    },
+    {
+      "id": "frase-carro-01",
+      "sentence": "El ___ llegó cargado de fruta.",
+      "options": [
+        "carro",
+        "caro",
+        "caró",
+        "cáro"
+      ],
+      "correctIndex": 0,
+      "ruleId": "r-rr",
+      "itemType": "spelling-in-context",
+      "difficulty": 1,
+      "explanation": "Entre vocales, el sonido fuerte de la r se escribe rr.",
+      "sourceNotes": "ERRORES_REALES_RR.md (carro/caro)",
+      "status": "approved"
+    },
+    {
+      "id": "frase-tambien-01",
+      "sentence": "Yo ___ quiero ir al parque.",
+      "options": [
+        "también",
+        "tanbién",
+        "tambien",
+        "tanbien"
+      ],
+      "correctIndex": 0,
+      "ruleId": "mb-mp",
+      "itemType": "spelling-in-context",
+      "difficulty": 1,
+      "explanation": "Antes de b se escribe m.",
+      "sourceNotes": "ERRORES_REALES_MPMB.md (también)",
+      "status": "approved"
+    },
+    {
+      "id": "frase-campo-01",
+      "sentence": "El tractor trabaja en el ___.",
+      "options": [
+        "campo",
+        "canpo",
+        "cambo",
+        "campó"
+      ],
+      "correctIndex": 0,
+      "ruleId": "mb-mp",
+      "itemType": "spelling-in-context",
+      "difficulty": 1,
+      "explanation": "Antes de p se escribe m.",
+      "sourceNotes": "ERRORES_REALES_MPMB.md (campo)",
+      "status": "approved"
+    },
+    {
+      "id": "frase-zapato-01",
+      "sentence": "Se me ha roto el ___ izquierdo.",
+      "options": [
+        "zapato",
+        "sapato",
+        "capato",
+        "zapáto"
+      ],
+      "correctIndex": 0,
+      "ruleId": "c-z-qu",
+      "itemType": "spelling-in-context",
+      "difficulty": 1,
+      "explanation": "El sonido /θa/ al inicio se escribe za-.",
+      "sourceNotes": "ERRORES_REALES_CZQU.md (zapato)",
+      "status": "approved"
+    },
+    {
+      "id": "frase-ciudad-01",
+      "sentence": "Barcelona es una ___ grande.",
+      "options": [
+        "ciudad",
+        "ziudad",
+        "siudad",
+        "ciudád"
+      ],
+      "correctIndex": 0,
+      "ruleId": "c-z-qu",
+      "itemType": "spelling-in-context",
+      "difficulty": 1,
+      "explanation": "Antes de i el sonido /θ/ se escribe c.",
+      "sourceNotes": "ERRORES_REALES_CZQU.md (ciudad)",
+      "status": "approved"
+    },
+    {
+      "id": "frase-lluvia-01",
+      "sentence": "Hoy cae mucha ___ en el patio.",
+      "options": [
+        "lluvia",
+        "yuvia",
+        "llubia",
+        "luvia"
+      ],
+      "correctIndex": 0,
+      "ruleId": "ll-y",
+      "itemType": "spelling-in-context",
+      "difficulty": 1,
+      "explanation": "Lluvia se escribe con ll.",
+      "sourceNotes": "ERRORES_REALES_LLY.md (lluvia)",
+      "status": "approved"
+    },
+    {
+      "id": "frase-amarillo-01",
+      "sentence": "El sol se veía ___ entre las nubes.",
+      "options": [
+        "amarillo",
+        "amariyo",
+        "amarilo",
+        "amaríyo"
+      ],
+      "correctIndex": 0,
+      "ruleId": "ll-y",
+      "itemType": "spelling-in-context",
+      "difficulty": 1,
+      "explanation": "Amarillo se escribe con ll.",
+      "sourceNotes": "ERRORES_REALES_LLY.md (amarillo)",
+      "status": "approved"
+    },
+    {
+      "id": "frase-caballo-01",
+      "sentence": "El ___ galopa por el campo.",
+      "options": [
+        "caballo",
+        "cavallo",
+        "cabayo",
+        "cavayo"
+      ],
+      "correctIndex": 0,
+      "ruleId": "b-v",
+      "itemType": "spelling-in-context",
+      "difficulty": 1,
+      "explanation": "Caballo se escribe con b.",
+      "sourceNotes": "ERRORES_REALES_BV.md (caballo)",
+      "status": "approved"
+    },
+    {
+      "id": "frase-ventana-01",
+      "sentence": "Abre la ___ : hace calor.",
+      "options": [
+        "ventana",
+        "bentana",
+        "ventána",
+        "bentána"
+      ],
+      "correctIndex": 0,
+      "ruleId": "b-v",
+      "itemType": "spelling-in-context",
+      "difficulty": 1,
+      "explanation": "Ventana se escribe con v.",
+      "sourceNotes": "ERRORES_REALES_BV.md (ventana)",
+      "status": "approved"
+    },
+    {
+      "id": "frase-gente-01",
+      "sentence": "Había mucha ___ en la fiesta del pueblo.",
+      "options": [
+        "gente",
+        "jente",
+        "giente",
+        "jénte"
+      ],
+      "correctIndex": 0,
+      "ruleId": "g-j",
+      "itemType": "spelling-in-context",
+      "difficulty": 1,
+      "explanation": "Gente se escribe con g.",
+      "sourceNotes": "ERRORES_REALES_GJ.md (gente)",
+      "status": "approved"
+    },
+    {
+      "id": "frase-jirafa-01",
+      "sentence": "En el zoo vimos una ___ altísima.",
+      "options": [
+        "jirafa",
+        "girafa",
+        "jiráfa",
+        "giráfa"
+      ],
+      "correctIndex": 0,
+      "ruleId": "g-j",
+      "itemType": "spelling-in-context",
+      "difficulty": 1,
+      "explanation": "Jirafa se escribe con j.",
+      "sourceNotes": "ERRORES_REALES_GJ.md (jirafa)",
+      "status": "approved"
+    },
+    {
+      "id": "frase-guitarra-01",
+      "sentence": "En clase de música tocamos la ___.",
+      "options": [
+        "guitarra",
+        "gitarra",
+        "guitara",
+        "guítarra"
+      ],
+      "correctIndex": 0,
+      "ruleId": "gu-gue",
+      "itemType": "spelling-in-context",
+      "difficulty": 1,
+      "explanation": "Guitarra se escribe con gu.",
+      "sourceNotes": "ERRORES_REALES_GU.md (guitarra); ANAYA gu/diéresis",
+      "status": "approved"
+    },
+    {
+      "id": "frase-ciguena-01",
+      "sentence": "En el nido del campanario vimos una ___.",
+      "options": [
+        "cigüeña",
+        "cigueña",
+        "cigüena",
+        "siguena"
+      ],
+      "correctIndex": 0,
+      "ruleId": "gu-gue",
+      "itemType": "spelling-in-context",
+      "difficulty": 2,
+      "explanation": "La u se oye: se escribe gü.",
+      "sourceNotes": "ERRORES_REALES_GU.md (cigüeña)",
+      "status": "approved"
+    }
+  ]
+}

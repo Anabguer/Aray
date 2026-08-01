@@ -11,12 +11,7 @@ const MECHANICS: Record<MechanicId, MechanicDefinition> = {
   },
   'ortografia-lemma-mcq': {
     id: 'ortografia-lemma-mcq',
-    label: 'Ortografía desde packs de lemas JSON',
-  },
-  'legacy-spell': {
-    id: 'legacy-spell',
-    label: 'Ortografía legacy — solo completa la frase',
-    temporaryLegacy: true,
+    label: 'Ortografía desde packs editoriales JSON',
   },
 }
 

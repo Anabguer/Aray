@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { isJunkSpelling, makeDistractors } from '@/spelling/distract'
 import { SPELL_BANK } from '@/spelling/bank'
-import { SPELL_CONTEXTS } from '@/spelling/types'
 import { buildSpellQuestion } from '@/spelling/generator'
 
 describe('spelling distractors (calidad 3.º)', () => {
@@ -22,10 +21,11 @@ describe('spelling distractors (calidad 3.º)', () => {
     }
   })
 
-  it('contextos complete sin triples ni digitos', () => {
-    for (const ctx of SPELL_CONTEXTS) {
-      for (const opt of ctx.options) {
-        expect(isJunkSpelling(opt), `${ctx.id}: ${opt}`).toBe(false)
+  it('opciones del pack de frases sin basura tipográfica', async () => {
+    const { listActivePhraseItems } = await import('@/minigames/adapters/ortografiaComplete')
+    for (const item of listActivePhraseItems()) {
+      for (const opt of item.options) {
+        expect(isJunkSpelling(opt), `${item.id}: ${opt}`).toBe(false)
       }
     }
   })
