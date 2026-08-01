@@ -70,6 +70,7 @@ Hasta que un documento de esta carpeta esté revisado y convertido a JSON, no fo
 
 | Archivo | Uso editorial |
 |---------|----------------|
+| `INGLES_MASTER.md` | **Diseño maestro Inglés 3.º (Cataluña)** — arquitectura de packs; sin JSON aún |
 | `BANCO_MAESTRO_ORTOGRAFIA.md` | Índice / maestro de Ortografía |
 | `ERRORES_REALES_H.md` | Errores reales — h |
 | `ERRORES_REALES_BV.md` | Errores reales — b/v |
