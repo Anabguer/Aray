@@ -86,6 +86,10 @@ export const SPELL_MODE_LABELS: Record<SpellPlayMode, string> = {
   review: 'Mis fallos',
 }
 
+/**
+ * Frases legacy SOLO para el modo `complete` (SPELL_COMPLETE_USES_LEGACY).
+ * No son contenido editorial aprobado; no migrar a JSON sin auditoría.
+ */
 export const SPELL_CONTEXTS: SpellContext[] = [
   // hay / ahí / ¡ay!
   {
