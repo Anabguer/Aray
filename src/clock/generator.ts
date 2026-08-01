@@ -1,4 +1,9 @@
-import { formatClockTime, formatDigital24, toHour24 } from '@/clock/format'
+import {
+  formatClockTime,
+  formatDigital12,
+  formatDigital24,
+  toHour24,
+} from '@/clock/format'
 import {
   CLOCK_MINUTES,
   CLOCK_MINUTES_TRAIN,
@@ -9,16 +14,7 @@ import {
   type ClockMinute,
   type ClockTime,
 } from '@/clock/types'
-
-function mulberry32(seed: number): () => number {
-  let t = seed >>> 0
-  return () => {
-    t += 0x6d2b79f5
-    let r = Math.imul(t ^ (t >>> 15), 1 | t)
-    r ^= r + Math.imul(r ^ (r >>> 7), 61 | r)
-    return ((r ^ (r >>> 14)) >>> 0) / 4294967296
-  }
-}
+import { mulberry32, shuffle } from '@/math/rng'
 
 function pickHour(rand: () => number): ClockHour {
   return (1 + Math.floor(rand() * 12)) as ClockHour
@@ -36,7 +32,7 @@ export function randomClockTime(rand: () => number = Math.random, fine = false):
 function shiftMinute(time: ClockTime, deltaSteps: number): ClockTime {
   const idx = CLOCK_MINUTES.indexOf(time.minute)
   if (idx < 0) {
-    const next = (time.minute + deltaSteps * 5 + 60) % 60
+    const next = (((time.minute + deltaSteps * 5) % 60) + 60) % 60
     let hour = time.hour
     if (time.minute + deltaSteps * 5 >= 60) hour = (hour === 12 ? 1 : hour + 1) as ClockHour
     if (time.minute + deltaSteps * 5 < 0) hour = (hour === 1 ? 12 : hour - 1) as ClockHour
@@ -50,34 +46,69 @@ function shiftMinute(time: ClockTime, deltaSteps: number): ClockTime {
   return { hour, minute: CLOCK_MINUTES[nextIdx]! }
 }
 
+/** Estilo de etiqueta homogéneo dentro de una pregunta. */
+export type ClockLabelStyle = 'natural' | 'digital'
+
+export function clockLabelStyle(lang: ClockLang, time: ClockTime): ClockLabelStyle {
+  if (lang === 'ca' && time.minute % 5 !== 0) return 'digital'
+  return 'natural'
+}
+
+export function formatClockOption(
+  time: ClockTime,
+  lang: ClockLang,
+  style: ClockLabelStyle,
+): string {
+  if (style === 'digital') return formatDigital12(time)
+  return formatClockTime(time, lang)
+}
+
+function looksDigital(label: string): boolean {
+  return /^\d{1,2}:\d{2}$/.test(label.trim())
+}
+
+/** Todas las opciones del mismo estilo; sin equivalentes duplicados. */
+export function assertUniformClockOptions(options: string[]): void {
+  if (options.length !== 4) throw new Error('need 4 options')
+  if (new Set(options).size !== 4) throw new Error('duplicate options')
+  const digitalCount = options.filter(looksDigital).length
+  if (digitalCount !== 0 && digitalCount !== 4) {
+    throw new Error(`mixed formats: ${options.join(' | ')}`)
+  }
+}
+
 function uniqueLabels(
   correct: string,
-  distractors: string[],
+  distractorTimes: ClockTime[],
   lang: ClockLang,
+  style: ClockLabelStyle,
   seedTime: ClockTime,
   rand: () => number,
 ): string[] {
   const set = new Set<string>([correct])
-  for (const d of distractors) {
-    if (d !== correct) set.add(d)
+  for (const t of distractorTimes) {
+    if (t.hour === seedTime.hour && t.minute === seedTime.minute) continue
+    // Natural CA solo con pasos de 5.
+    if (style === 'natural' && lang === 'ca' && t.minute % 5 !== 0) continue
+    set.add(formatClockOption(t, lang, style))
   }
   let guard = 0
-  while (set.size < 4 && guard < 40) {
+  while (set.size < 4 && guard < 60) {
     guard += 1
-    const alt = randomClockTime(rand, true)
+    const fine = style === 'digital'
+    const alt = randomClockTime(rand, fine)
     if (alt.hour === seedTime.hour && alt.minute === seedTime.minute) continue
-    set.add(formatClockTime(alt, lang))
+    if (style === 'natural' && lang === 'ca' && alt.minute % 5 !== 0) {
+      const snapped: ClockTime = {
+        hour: alt.hour,
+        minute: CLOCK_MINUTES[Math.floor(rand() * CLOCK_MINUTES.length)]!,
+      }
+      set.add(formatClockOption(snapped, lang, style))
+      continue
+    }
+    set.add(formatClockOption(alt, lang, style))
   }
   return [...set].slice(0, 4)
-}
-
-function shuffle<T>(items: T[], rand: () => number): T[] {
-  const arr = [...items]
-  for (let i = arr.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(rand() * (i + 1))
-    ;[arr[i], arr[j]] = [arr[j]!, arr[i]!]
-  }
-  return arr
 }
 
 export function buildMcqQuestion(
@@ -88,27 +119,41 @@ export function buildMcqQuestion(
 ): ClockMcqQuestion {
   const rand = mulberry32(seed)
   const time = fixed ?? randomClockTime(rand, fine)
-  const correct = formatClockTime(time, lang)
-  const distractorTimes = [
+  const style = clockLabelStyle(lang, time)
+  const correct = formatClockOption(time, lang, style)
+  const distractorTimes: ClockTime[] = [
     shiftMinute(time, 1),
     shiftMinute(time, -1),
     shiftMinute(time, 3),
-    { hour: time.hour, minute: (time.minute + 7) % 60 },
+    style === 'digital'
+      ? { hour: time.hour, minute: (time.minute + 7) % 60 }
+      : shiftMinute(time, 2),
     {
       hour: (time.hour === 12 ? 1 : time.hour + 1) as ClockHour,
-      minute: time.minute,
+      minute: style === 'natural' && lang === 'ca' && time.minute % 5 !== 0
+        ? 0
+        : time.minute,
     },
   ]
-  const distractors = distractorTimes.map((t) => formatClockTime(t, lang))
-  const labels = uniqueLabels(correct, distractors, lang, time, rand)
+  const labels = uniqueLabels(correct, distractorTimes, lang, style, time, rand)
   const options = shuffle(labels, rand)
   if (!options.includes(correct)) options[0] = correct
-  const correctIndex = options.indexOf(correct)
+  while (options.length < 4) {
+    options.push(formatClockOption(randomClockTime(rand, style === 'digital'), lang, style))
+  }
+  const uniq = [...new Set(options)].slice(0, 4)
+  while (uniq.length < 4) {
+    uniq.push(formatClockOption(randomClockTime(rand, style === 'digital'), lang, style))
+  }
+  if (!uniq.includes(correct)) uniq[0] = correct
+  const finalOpts = shuffle(uniq.slice(0, 4), rand)
+  if (!finalOpts.includes(correct)) finalOpts[0] = correct
+  assertUniformClockOptions(finalOpts)
   return {
     id: `mcq-${time.hour}-${time.minute}-${seed}`,
     time,
-    correctIndex,
-    options,
+    correctIndex: finalOpts.indexOf(correct),
+    options: finalOpts,
     kind: 'read',
   }
 }
@@ -132,6 +177,7 @@ export function buildConvert24Question(seed: number): ClockMcqQuestion {
   const set = new Set<string>([correct, ...wrongs])
   const options = shuffle([...set].slice(0, 4), rand)
   if (!options.includes(correct)) options[0] = correct
+  assertUniformClockOptions(options)
 
   const period =
     hour12 === 12
@@ -163,7 +209,6 @@ export function buildTrainQueue(
   let n = 0
   while (queue.length < count && n < count * 10) {
     n += 1
-    // ~30 % equivalencia 12↔24
     if (rand() < 0.3) {
       const q = buildConvert24Question(seed + n * 4243)
       if (seen.has(q.id)) continue
@@ -194,6 +239,7 @@ export function buildMatchPairs(
   let n = 0
   while (pairs.length < count && n < count * 12) {
     n += 1
+    // Empareja: pasos de 5 → formato natural homogéneo.
     const time = randomClockTime(rand, false)
     const key = `${time.hour}:${time.minute}`
     if (seen.has(key)) continue
@@ -201,7 +247,7 @@ export function buildMatchPairs(
     pairs.push({
       id: `pair-${key}`,
       time,
-      label: formatClockTime(time, lang),
+      label: formatClockOption(time, lang, 'natural'),
     })
   }
   return pairs
