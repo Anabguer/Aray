@@ -170,7 +170,7 @@ export function HomeScreen() {
                 aria-label={
                   challengeDone
                     ? 'Reto del día hecho. Jugar otra vez sin bonus'
-                    : 'Jugar el reto del día'
+                    : undefined
                 }
                 onClick={(e) => {
                   if (!primaryMission) return

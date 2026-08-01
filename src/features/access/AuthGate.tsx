@@ -2,8 +2,19 @@ import { useEffect, useRef } from 'react'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from '@/auth/AuthContext'
 import { AccessScreen } from '@/features/access/AccessScreen'
+import {
+  isPendingAdultPanel,
+  setPendingAdultPanel,
+} from '@/features/access/pendingAdultPanel'
 
 const PUBLIC_PATHS = new Set(['/access', '/register'])
+
+function ClearPendingAdultPanel() {
+  useEffect(() => {
+    setPendingAdultPanel(false)
+  }, [])
+  return null
+}
 
 /**
  * Si el adulto llega al juego (p. ej. un solo niño) sin child-enter,
@@ -16,6 +27,8 @@ function EnsureChildForPlay() {
 
   useEffect(() => {
     if (role !== 'adult') return
+    // Acceso adulto (PIN): no convertir a niño mientras vamos a /adult.
+    if (isPendingAdultPanel()) return
     const path = location.pathname
     if (path === '/adult' || path.startsWith('/adult/')) return
     if (path === '/pick-profile') return
@@ -71,7 +84,12 @@ export function AuthGate() {
     if (role !== 'adult') {
       return canPlay ? <Navigate to="/" replace /> : <AccessScreen />
     }
-    return outlet
+    return (
+      <>
+        <ClearPendingAdultPanel />
+        {outlet}
+      </>
+    )
   }
 
   if (isPicker) {
@@ -86,8 +104,11 @@ export function AuthGate() {
     return <AccessScreen />
   }
 
-  // Adulto con varios niños: debe elegir perfil antes de jugar.
+  // Adulto con varios niños: panel familiar (PIN) o elegir perfil para jugar.
   if (role === 'adult' && familyPlayers.length > 1) {
+    if (isPendingAdultPanel()) {
+      return <Navigate to="/adult" replace />
+    }
     return <Navigate to="/pick-profile" replace />
   }
 

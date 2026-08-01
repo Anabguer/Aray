@@ -3,12 +3,15 @@ import { createPortal } from 'react-dom'
 import { useNavigate } from 'react-router-dom'
 import { ApiError } from '@/api/client'
 import { useAuth } from '@/auth/AuthContext'
+import { setPendingAdultPanel } from '@/features/access/pendingAdultPanel'
 import { useProgress } from '@/progress/ProgressContext'
 
 type Props = {
   open: boolean
   onClose: () => void
 }
+
+const SYNC_BUDGET_MS = 6000
 
 export function AdultPinModal({ open, onClose }: Props) {
   const { loginAdultPin, deviceAuthorized, tutorDisplayName } = useAuth()
@@ -39,15 +42,27 @@ export function AdultPinModal({ open, onClose }: Props) {
   async function onSubmit(e: FormEvent) {
     e.preventDefault()
     if (busy) return
+    if (pin.length !== 4) return
     setBusy(true)
     setError(null)
+    // Marca ANTES del login: AuthGate no debe convertir a niño / pick-profile en el lobby.
+    setPendingAdultPanel(true)
     try {
-      // Vaciar cola de partidas ANTES de pasar a adulto (si no, MySQL se queda sin el XP).
-      await flushSyncQueue()
+      try {
+        await Promise.race([
+          flushSyncQueue(),
+          new Promise<void>((resolve) => {
+            window.setTimeout(resolve, SYNC_BUDGET_MS)
+          }),
+        ])
+      } catch {
+        /* Sync falló o timeout: igual entramos al panel. */
+      }
       await loginAdultPin(pin)
       onClose()
-      navigate('/adult')
+      navigate('/adult', { replace: true })
     } catch (err) {
+      setPendingAdultPanel(false)
       const message =
         err instanceof ApiError && err.message.trim() !== ''
           ? err.message
@@ -80,6 +95,7 @@ export function AdultPinModal({ open, onClose }: Props) {
           className="adult-pin-modal__close"
           aria-label="Cerrar"
           onClick={onClose}
+          disabled={busy}
         >
           ×
         </button>
@@ -103,6 +119,11 @@ export function AdultPinModal({ open, onClose }: Props) {
           {error ? (
             <p className="adult-pin-modal__error" role="alert">
               {error}
+            </p>
+          ) : null}
+          {busy ? (
+            <p className="adult-pin-modal__hint" role="status">
+              Entrando…
             </p>
           ) : null}
           <button

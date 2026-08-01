@@ -277,8 +277,8 @@ export function SideRunShell({
 
       <ConfirmDialog
         open={exitOpen}
-        title="¿Abandonas la run?"
-        body="Si sales ahora, se pierde el progreso de esta run."
+        title="¿Sales de la run?"
+        body="Se guarda lo que hayas acertado (misión, XP y energía). Lo que quede a medias no cuenta."
         confirmLabel="SALIR"
         cancelLabel="SEGUIR JUGANDO"
         cancelIsPrimary
