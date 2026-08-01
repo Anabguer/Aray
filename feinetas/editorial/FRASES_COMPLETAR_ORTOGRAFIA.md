@@ -1306,22 +1306,22 @@ borrador
 
 ## id
 
-frase-llave-01
+frase-amarillo-01
 
 ## Frase
 
-No encuentro la ___ de casa.
+El sol se veía ___ entre las nubes.
 
 ## Opciones
 
-1. llave
-2. yave
-3. llabe
-4. llabé
+1. amarillo
+2. amariyo
+3. amarilo
+4. amaríyo
 
 ## Correcta
 
-llave
+amarillo
 
 ## Índice correcta
 
@@ -1341,17 +1341,19 @@ grafia-contexto
 
 ## Explicación
 
-Llave se escribe con ll.
+Amarillo se escribe con ll.
 
 ## Fuente
 
-ERRORES_REALES_LLY.md (llave)
+ERRORES_REALES_LLY.md (amarillo)
 
 ## Estado revisión
 
 borrador
 
 ## Observaciones
+
+No usar llave aquí: propietario BV.
 
 ---
 
