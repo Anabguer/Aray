@@ -15,16 +15,21 @@ export type SpellPlayMode =
 export type SpellRuleId =
   | 'r-rr'
   | 'hie-hue'
+  | 'h'
   | 'hay-ahi-ay'
   | 'hacer-echar'
   | 'aba'
   | 'll-illa'
+  | 'll-y'
   | 'haber-hablar'
   | 'b-v'
   | 'd-z'
+  | 'c-z-qu'
   | 'mb-mp'
+  | 'mb-mp-nv'
   | 'g-j'
   | 'bu-bur'
+  | 'gu-gue'
   | 'tilde'
 
 export interface SpellWord {

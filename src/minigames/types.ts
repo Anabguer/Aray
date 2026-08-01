@@ -8,7 +8,9 @@ export type AreaId = 'languages' | 'maths' | 'english' | 'medi'
 export type MechanicId =
   | 'mcq'
   | 'ordenar-letras'
-  /** Adaptador temporal: ronda de Ortografía legacy (generator TS). */
+  /** Ortografía alimentada por packs de lemas JSON. */
+  | 'ortografia-lemma-mcq'
+  /** Adaptador temporal: solo «completa la frase» (SPELL_CONTEXTS). */
   | 'legacy-spell'
 
 export type PackRevisionStatus = 'draft' | 'approved'

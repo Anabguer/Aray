@@ -9,9 +9,13 @@ const MECHANICS: Record<MechanicId, MechanicDefinition> = {
     id: 'ordenar-letras',
     label: 'Ordenar letras para formar palabra',
   },
+  'ortografia-lemma-mcq': {
+    id: 'ortografia-lemma-mcq',
+    label: 'Ortografía desde packs de lemas JSON',
+  },
   'legacy-spell': {
     id: 'legacy-spell',
-    label: 'Ortografía legacy (generator TS)',
+    label: 'Ortografía legacy — solo completa la frase',
     temporaryLegacy: true,
   },
 }

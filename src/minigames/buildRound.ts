@@ -1,6 +1,6 @@
 import type { FormarPalabrasRoundItem } from '@/feinetas'
 import type { FormarPalabrasFeineta } from '@/feinetas/types'
-import type { SpellQuestion } from '@/spelling/types'
+import type { SpellPlayMode, SpellQuestion } from '@/spelling/types'
 import { getMinigame } from '@/minigames/catalog'
 import {
   buildFormarPalabrasRoundForMinigame,
@@ -10,6 +10,7 @@ import {
   buildLegacySpellRoundForMinigame,
   type LegacySpellRoundOptions,
 } from '@/minigames/adapters/legacySpell'
+import { buildOrtografiaCorrectRound } from '@/minigames/adapters/ortografiaCorrect'
 
 export type BuildRoundOptions = LegacySpellRoundOptions & FormarPalabrasRoundOptions
 
@@ -28,12 +29,35 @@ export type OrdenarLetrasRound = {
 
 export type RoundResult = SpellMcqRound | OrdenarLetrasRound
 
+function buildOrtografiaLemmaRound(
+  mode: SpellPlayMode,
+  opts: LegacySpellRoundOptions,
+): SpellQuestion[] {
+  const count = opts.count
+  const seed = opts.seed ?? Date.now()
+  switch (mode) {
+    case 'correct':
+      return buildOrtografiaCorrectRound(count, seed, 'correct')
+    default:
+      throw new Error(`[minigames] Modo ortografía JSON aún no cableado: ${mode}`)
+  }
+}
+
 /**
  * Punto único: buildRound(minigameId).
- * Fase 0 — Ortografía legacy vía adaptador; Formar palabras vía pack existente.
+ * Fase 3 — Ortografía JSON + complete legacy + Formar palabras.
  */
 export function buildRound(minigameId: string, opts: BuildRoundOptions = {}): RoundResult {
   const game = getMinigame(minigameId)
+
+  if (game.mechanicId === 'ortografia-lemma-mcq') {
+    const mode = (game.legacySpellMode ?? 'correct') as SpellPlayMode
+    return {
+      kind: 'spell-mcq',
+      minigameId,
+      questions: buildOrtografiaLemmaRound(mode, opts),
+    }
+  }
 
   if (game.mechanicId === 'legacy-spell') {
     return {

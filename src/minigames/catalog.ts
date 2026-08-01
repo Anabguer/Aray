@@ -1,4 +1,5 @@
 import { SPELL_MODE_LABELS, type SpellPlayMode } from '@/spelling/types'
+import { ORTOGRAPHY_PACK_IDS } from '@/feinetas/ortographyRegistry'
 import type { MinigameDefinition } from '@/minigames/types'
 
 const SPELL_MODES: SpellPlayMode[] = [
@@ -11,7 +12,24 @@ const SPELL_MODES: SpellPlayMode[] = [
   'review',
 ]
 
+/** Modos ya migrados a packs JSON (Fase 3 — cableado incremental). */
+const JSON_SPELL_MODES = new Set<SpellPlayMode>(['correct'])
+
 function spellingMinigame(mode: SpellPlayMode): MinigameDefinition {
+  if (JSON_SPELL_MODES.has(mode)) {
+    return {
+      id: `spelling-${mode}`,
+      area: 'languages',
+      category: 'spelling',
+      title: SPELL_MODE_LABELS[mode],
+      href: `/missions/languages/spelling/${mode}`,
+      mechanicId: 'ortografia-lemma-mcq',
+      source: 'pack',
+      status: 'active',
+      legacySpellMode: mode,
+      packIds: [...ORTOGRAPHY_PACK_IDS],
+    }
+  }
   return {
     id: `spelling-${mode}`,
     area: 'languages',
@@ -28,7 +46,7 @@ function spellingMinigame(mode: SpellPlayMode): MinigameDefinition {
 
 /**
  * Catálogo único de minijuegos.
- * Fase 0: Ortografía = adaptadores legacy; Formar palabras = referencia pack+mecánica.
+ * Fase 3: Ortografía migra a packs; `complete` permanece legacy temporal.
  */
 export const MINIGAME_CATALOG: MinigameDefinition[] = [
   ...SPELL_MODES.map(spellingMinigame),
@@ -71,4 +89,13 @@ export function spellingMinigameId(mode: SpellPlayMode): string {
 
 export function isSpellPlayMode(value: string): value is SpellPlayMode {
   return (SPELL_MODES as string[]).includes(value)
+}
+
+export function isJsonSpellMode(mode: SpellPlayMode): boolean {
+  return JSON_SPELL_MODES.has(mode)
+}
+
+/** Registra un modo como JSON (cableado incremental Fase 3). Solo para tests/migración. */
+export function _jsonSpellModesForTests(): Set<SpellPlayMode> {
+  return JSON_SPELL_MODES
 }

@@ -9,16 +9,21 @@ export type SpellExplainCard = {
 const RULE_BADGE: Record<SpellRuleId, string> = {
   'r-rr': 'r / rr',
   'hie-hue': 'h muda',
+  h: 'h muda',
   'hay-ahi-ay': 'hay · ahí · ¡ay!',
   'hacer-echar': 'hacer · echar',
   aba: '-aba con b',
   'll-illa': 'll',
+  'll-y': 'll / y',
   'haber-hablar': 'con h',
   'b-v': 'b / v',
   'd-z': 'c / z',
+  'c-z-qu': 'c / z / qu',
   'mb-mp': 'm antes de p/b',
+  'mb-mp-nv': 'mb / mp / nv',
   'g-j': 'g / j',
   'bu-bur': 'bu · bur · bus',
+  'gu-gue': 'gu / gü',
   tilde: 'tilde',
 }
 
