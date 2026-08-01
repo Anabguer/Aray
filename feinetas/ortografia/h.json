@@ -1,0 +1,993 @@
+{
+  "schemaVersion": 1,
+  "pack": {
+    "id": "ortografia-h",
+    "title": "H",
+    "ownerBank": "ERRORES_REALES_H.md",
+    "ruleFamily": "h",
+    "level": "3-primaria",
+    "locale": "es-ES",
+    "revisionStatus": "approved",
+    "contentVersion": 1,
+    "sourceEditorialPhase": "fase-editorial-base",
+    "notes": "Convertido tras piloto RR. No conectado a minijuegos todavía."
+  },
+  "lemmas": [
+    {
+      "id": "h-hierba",
+      "lemma": "hierba",
+      "errors": [
+        "ierba",
+        "yerba"
+      ],
+      "ruleId": "h",
+      "ruleText": "Las palabras que empiezan por hie- se escriben con h.",
+      "frequency": "muy_frecuente",
+      "category": "naturaleza",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Las palabras que empiezan por hie- se escriben con h.",
+      "tags": [
+        "hie-hue",
+        "h-inicial"
+      ],
+      "notes": "ANAYA ampliación 3.º: ejercicio de palabras con h y pregunta explícita (hierba, hueco, hielo, hueso)."
+    },
+    {
+      "id": "h-hielo",
+      "lemma": "hielo",
+      "errors": [
+        "ielo",
+        "yelo"
+      ],
+      "ruleId": "h",
+      "ruleText": "Las palabras que empiezan por hie- se escriben con h.",
+      "frequency": "muy_frecuente",
+      "category": "naturaleza",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Las palabras que empiezan por hie- se escriben con h.",
+      "tags": [
+        "hie-hue",
+        "h-inicial"
+      ],
+      "notes": "Misma ficha ANAYA; errores ielo / yelo habituales en Primaria."
+    },
+    {
+      "id": "h-hueco",
+      "lemma": "hueco",
+      "errors": [
+        "ueco"
+      ],
+      "ruleId": "h",
+      "ruleText": "Las palabras que empiezan por hue- se escriben con h.",
+      "frequency": "frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Las palabras que empiezan por hue- se escriben con h.",
+      "tags": [
+        "hie-hue",
+        "h-inicial"
+      ],
+      "notes": "ANAYA ampliación 3.º (serie hierba / hueco / hielo / hueso). Categoría Otros: concepto espacial, no objeto concreto."
+    },
+    {
+      "id": "h-hueso",
+      "lemma": "hueso",
+      "errors": [
+        "ueso"
+      ],
+      "ruleId": "h",
+      "ruleText": "Las palabras que empiezan por hue- se escriben con h.",
+      "frequency": "muy_frecuente",
+      "category": "cuerpo",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Las palabras que empiezan por hue- se escriben con h.",
+      "tags": [
+        "hie-hue",
+        "h-inicial"
+      ],
+      "notes": "ANAYA ampliación 3.º («se rompió un ___ de la mano»)."
+    },
+    {
+      "id": "h-hierro",
+      "lemma": "hierro",
+      "errors": [
+        "ierro",
+        "yerro"
+      ],
+      "ruleId": "h",
+      "ruleText": "Las palabras que empiezan por hie- se escriben con h.",
+      "frequency": "frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Las palabras que empiezan por hie- se escriben con h.",
+      "tags": [
+        "hie-hue",
+        "h-inicial"
+      ],
+      "notes": "ANAYA ampliación 3.º (metal que se oxida)."
+    },
+    {
+      "id": "h-huevo",
+      "lemma": "huevo",
+      "errors": [
+        "uevo",
+        "güevo"
+      ],
+      "ruleId": "h",
+      "ruleText": "Las palabras que empiezan por hue- se escriben con h.",
+      "frequency": "muy_frecuente",
+      "category": "comida",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Las palabras que empiezan por hue- se escriben con h.",
+      "tags": [
+        "hie-hue",
+        "h-inicial"
+      ],
+      "notes": "Vicens Vives 3.º (listas hue-); error güevo coloquial real."
+    },
+    {
+      "id": "h-huir",
+      "lemma": "huir",
+      "errors": [
+        "uir"
+      ],
+      "ruleId": "h",
+      "ruleText": "Las palabras que empiezan por hui- se escriben con h.",
+      "frequency": "poco_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Las palabras que empiezan por hui- se escriben con h.",
+      "tags": [
+        "hie-hue",
+        "h-inicial"
+      ],
+      "notes": "ANAYA ampliación 3.º (completar con huir)."
+    },
+    {
+      "id": "h-hacer",
+      "lemma": "hacer",
+      "errors": [
+        "acer"
+      ],
+      "ruleId": "h",
+      "ruleText": "Las formas del verbo hacer se escriben con h. No confundir con echar (sin h).",
+      "frequency": "muy_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tags": [
+        "hacer-echar",
+        "h-inicial"
+      ],
+      "notes": "Vicens Vives 3.º: completar formas de haber / hablar / hacer."
+    },
+    {
+      "id": "h-hace",
+      "lemma": "hace",
+      "errors": [
+        "ace"
+      ],
+      "ruleId": "h",
+      "ruleText": "Las formas del verbo hacer se escriben con h.",
+      "frequency": "muy_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tags": [
+        "hacer-echar",
+        "h-inicial"
+      ],
+      "notes": "Forma muy frecuente en enunciados y textos de 3.º."
+    },
+    {
+      "id": "h-hizo",
+      "lemma": "hizo",
+      "errors": [
+        "izo"
+      ],
+      "ruleId": "h",
+      "ruleText": "Las formas del verbo hacer se escriben con h.",
+      "frequency": "muy_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Las formas del verbo hacer se escriben con h.",
+      "tags": [
+        "hacer-echar",
+        "h-inicial"
+      ],
+      "notes": "Textos ANAYA («la gallina hizo…»)."
+    },
+    {
+      "id": "h-hice",
+      "lemma": "hice",
+      "errors": [
+        "ice"
+      ],
+      "ruleId": "h",
+      "ruleText": "Las formas del verbo hacer se escriben con h.",
+      "frequency": "frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Las formas del verbo hacer se escriben con h.",
+      "tags": [
+        "hacer-echar",
+        "h-inicial"
+      ],
+      "notes": "ANAYA ampliación (texto: «allí hice muchos amigos»)."
+    },
+    {
+      "id": "h-hacia-tilde",
+      "lemma": "hacía",
+      "errors": [
+        "acía"
+      ],
+      "ruleId": "h",
+      "ruleText": "Las formas del verbo hacer se escriben con h.",
+      "frequency": "frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Las formas del verbo hacer se escriben con h.",
+      "tags": [
+        "hacer-echar",
+        "tilde",
+        "h-inicial"
+      ],
+      "secondaryRuleIds": [
+        "tilde"
+      ],
+      "notes": "ANAYA ampliación (texto: «la primera vez que hacía este viaje»)."
+    },
+    {
+      "id": "h-hecho",
+      "lemma": "hecho",
+      "errors": [
+        "echo"
+      ],
+      "ruleId": "h",
+      "ruleText": "Hecho (hacer) lleva h. Echo (echar) no lleva h. Son verbos distintos.",
+      "frequency": "muy_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tags": [
+        "hacer-echar",
+        "h-inicial"
+      ],
+      "notes": "Confusión top de Primaria; pareja pedagógica con «echo»."
+    },
+    {
+      "id": "h-echar",
+      "lemma": "echar",
+      "errors": [
+        "hechar"
+      ],
+      "ruleId": "h",
+      "ruleText": "Echar se escribe sin h. El error frecuente es añadir una h (hechar).",
+      "frequency": "muy_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tags": [
+        "hacer-echar"
+      ],
+      "notes": "Regla hacer/echar separada: aquí la correcta es echar (sin h)."
+    },
+    {
+      "id": "h-echa",
+      "lemma": "echa",
+      "errors": [
+        "hecha"
+      ],
+      "ruleId": "h",
+      "ruleText": "Echa (echar) va sin h. Hecha es de hacer / participio con h.",
+      "frequency": "frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tags": [
+        "hacer-echar"
+      ],
+      "notes": "Pareja frecuente echa / hecha."
+    },
+    {
+      "id": "h-echo",
+      "lemma": "echo",
+      "errors": [
+        "hecho"
+      ],
+      "ruleId": "h",
+      "ruleText": "Echo (echar, 1.ª persona) va sin h. Hecho es de hacer.",
+      "frequency": "frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tags": [
+        "hacer-echar"
+      ],
+      "notes": "Pareja pedagógica con «hecho», sin fusionar reglas."
+    },
+    {
+      "id": "h-hablar",
+      "lemma": "hablar",
+      "errors": [
+        "ablar"
+      ],
+      "ruleId": "h",
+      "ruleText": "Las formas del verbo hablar se escriben con h.",
+      "frequency": "muy_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tags": [
+        "haber-hablar",
+        "h-inicial"
+      ],
+      "notes": "Vicens Vives 3.º (haber / hablar / hacer). Sin conjugaciones de relleno."
+    },
+    {
+      "id": "h-haber",
+      "lemma": "haber",
+      "errors": [
+        "aber"
+      ],
+      "ruleId": "h",
+      "ruleText": "Las formas del verbo haber se escriben con h. (El uso de «hay» se detalla en su banco propio.)",
+      "frequency": "muy_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tags": [
+        "haber-hablar",
+        "h-inicial"
+      ],
+      "notes": "Vicens Vives 3.º. Cruce: ver ERRORES_REALES_HAY_AHI_AY.md."
+    },
+    {
+      "id": "h-ha",
+      "lemma": "ha",
+      "errors": [
+        "a"
+      ],
+      "ruleId": "h",
+      "ruleText": "Ha (haber) lleva h. La preposición a no lleva h.",
+      "frequency": "muy_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tags": [
+        "haber-hablar",
+        "h-inicial"
+      ],
+      "notes": "Forma de haber esencial en 3.º; no es el trío hay/ahí/ay."
+    },
+    {
+      "id": "h-he",
+      "lemma": "he",
+      "errors": [
+        "e"
+      ],
+      "ruleId": "h",
+      "ruleText": "He (haber) lleva h.",
+      "frequency": "muy_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tags": [
+        "haber-hablar",
+        "h-inicial"
+      ],
+      "notes": "ANAYA ampliación («Hoy he ido al hospital…»)."
+    },
+    {
+      "id": "h-hemos",
+      "lemma": "hemos",
+      "errors": [
+        "emos"
+      ],
+      "ruleId": "h",
+      "ruleText": "Formas de haber se escriben con h.",
+      "frequency": "poco_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Formas de haber se escriben con h.",
+      "tags": [
+        "haber-hablar",
+        "h-inicial"
+      ],
+      "notes": "Forma de haber habitual en textos de 3.º."
+    },
+    {
+      "id": "h-han",
+      "lemma": "han",
+      "errors": [
+        "an"
+      ],
+      "ruleId": "h",
+      "ruleText": "Formas de haber se escriben con h.",
+      "frequency": "poco_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Formas de haber se escriben con h.",
+      "tags": [
+        "haber-hablar",
+        "h-inicial"
+      ],
+      "notes": "Prioridad menor que ha / he / había; se mantiene por ser forma básica de haber."
+    },
+    {
+      "id": "h-habia-tilde",
+      "lemma": "había",
+      "errors": [
+        "abía"
+      ],
+      "ruleId": "h",
+      "ruleText": "Formas de haber se escriben con h.",
+      "frequency": "muy_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Formas de haber se escriben con h.",
+      "tags": [
+        "haber-hablar",
+        "tilde",
+        "h-inicial"
+      ],
+      "secondaryRuleIds": [
+        "tilde"
+      ],
+      "notes": "Muy presente en textos ANAYA / fábulas del material 3.º."
+    },
+    {
+      "id": "h-hubo",
+      "lemma": "hubo",
+      "errors": [
+        "ubo"
+      ],
+      "ruleId": "h",
+      "ruleText": "Formas de haber se escriben con h.",
+      "frequency": "poco_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Formas de haber se escriben con h.",
+      "tags": [
+        "haber-hablar",
+        "h-inicial"
+      ],
+      "notes": "Prioridad menor que había en producción de 3.º; se mantiene como forma de haber."
+    },
+    {
+      "id": "h-hora",
+      "lemma": "hora",
+      "errors": [
+        "ora"
+      ],
+      "ruleId": "h",
+      "ruleText": "Hora lleva h aunque no se oye.",
+      "frequency": "muy_frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tags": [
+        "h-inicial"
+      ],
+      "notes": "ANAYA refuerzo / ampliación (¿Qué hora es?)."
+    },
+    {
+      "id": "h-horas",
+      "lemma": "horas",
+      "errors": [
+        "oras"
+      ],
+      "ruleId": "h",
+      "ruleText": "Horas lleva h (como hora).",
+      "frequency": "frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tags": [
+        "h-inicial"
+      ],
+      "notes": "ANAYA refuerzo («dos horas»); tomo 3 («el reloj marca las horas»)."
+    },
+    {
+      "id": "h-hoy",
+      "lemma": "hoy",
+      "errors": [
+        "oy"
+      ],
+      "ruleId": "h",
+      "ruleText": "Hoy lleva h aunque no se oye.",
+      "frequency": "muy_frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tags": [
+        "h-inicial"
+      ],
+      "notes": "ANAYA ampliación («Hoy he ido al hospital…»)."
+    },
+    {
+      "id": "h-ahora",
+      "lemma": "ahora",
+      "errors": [
+        "aora"
+      ],
+      "ruleId": "h",
+      "ruleText": "Ahora lleva h intercalada.",
+      "frequency": "muy_frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "notes": "Aparece en textos de refuerzo/ampliación 3.º."
+    },
+    {
+      "id": "h-hasta",
+      "lemma": "hasta",
+      "errors": [
+        "asta"
+      ],
+      "ruleId": "h",
+      "ruleText": "Hasta (preposición) lleva h. Asta (cuerno) es otra palabra.",
+      "frequency": "frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tags": [
+        "h-inicial"
+      ],
+      "notes": "Presente en materiales 3.º. Homófonos reales."
+    },
+    {
+      "id": "h-hola",
+      "lemma": "hola",
+      "errors": [
+        "ola"
+      ],
+      "ruleId": "h",
+      "ruleText": "Hola (saludo) lleva h. Ola (mar) es otra palabra.",
+      "frequency": "frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tags": [
+        "h-inicial"
+      ],
+      "notes": "Pareja homófona típica de h muda en Primaria."
+    },
+    {
+      "id": "h-hijo",
+      "lemma": "hijo",
+      "errors": [
+        "ijo"
+      ],
+      "ruleId": "h",
+      "ruleText": "Hijo se escribe con h.",
+      "frequency": "muy_frecuente",
+      "category": "casa",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tags": [
+        "h-inicial"
+      ],
+      "notes": "Fábulas / lecturas del material 3.º."
+    },
+    {
+      "id": "h-hija",
+      "lemma": "hija",
+      "errors": [
+        "ija"
+      ],
+      "ruleId": "h",
+      "ruleText": "Hija se escribe con h.",
+      "frequency": "frecuente",
+      "category": "casa",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tags": [
+        "h-inicial"
+      ],
+      "notes": "Pareja de hijo en vocabulario familiar de 3.º."
+    },
+    {
+      "id": "h-hermano",
+      "lemma": "hermano",
+      "errors": [
+        "ermano"
+      ],
+      "ruleId": "h",
+      "ruleText": "Las palabras con herm- se escriben con h.",
+      "frequency": "frecuente",
+      "category": "casa",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Las palabras con herm- se escriben con h.",
+      "tags": [
+        "h-inicial"
+      ],
+      "notes": "Vicens / ANAYA / Savia (hermano, hermanos en textos)."
+    },
+    {
+      "id": "h-hermana",
+      "lemma": "hermana",
+      "errors": [
+        "ermana"
+      ],
+      "ruleId": "h",
+      "ruleText": "Las palabras con herm- se escriben con h.",
+      "frequency": "frecuente",
+      "category": "casa",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Las palabras con herm- se escriben con h.",
+      "tags": [
+        "h-inicial"
+      ],
+      "notes": "---"
+    },
+    {
+      "id": "h-hombre",
+      "lemma": "hombre",
+      "errors": [
+        "ombre"
+      ],
+      "ruleId": "h",
+      "ruleText": "Hombre lleva h aunque no se oye.",
+      "frequency": "frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tags": [
+        "h-inicial"
+      ],
+      "notes": "Lecturas 3.º. Categoría Otros (persona, no parte del cuerpo)."
+    },
+    {
+      "id": "h-hogar",
+      "lemma": "hogar",
+      "errors": [
+        "ogar"
+      ],
+      "ruleId": "h",
+      "ruleText": "Hogar lleva h aunque no se oye.",
+      "frequency": "poco_frecuente",
+      "category": "casa",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tags": [
+        "h-inicial"
+      ],
+      "notes": "Aparece en lecturas del material 3.º."
+    },
+    {
+      "id": "h-hambre",
+      "lemma": "hambre",
+      "errors": [
+        "ambre"
+      ],
+      "ruleId": "h",
+      "ruleText": "Hambre lleva h aunque no se oye.",
+      "frequency": "frecuente",
+      "category": "cuerpo",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tags": [
+        "h-inicial"
+      ],
+      "notes": "ANAYA refuerzo («No tengo hambre»)."
+    },
+    {
+      "id": "h-higo",
+      "lemma": "higo",
+      "errors": [
+        "igo"
+      ],
+      "ruleId": "h",
+      "ruleText": "Higo lleva h aunque no se oye.",
+      "frequency": "poco_frecuente",
+      "category": "comida",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tags": [
+        "h-inicial"
+      ],
+      "notes": "ANAYA refuerzo («¿Cuántos higos te comiste?»)."
+    },
+    {
+      "id": "h-helado",
+      "lemma": "helado",
+      "errors": [
+        "elado"
+      ],
+      "ruleId": "h",
+      "ruleText": "Helado lleva h aunque no se oye.",
+      "frequency": "frecuente",
+      "category": "comida",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tags": [
+        "h-inicial"
+      ],
+      "notes": "Vicens Vives 3.º (texto con helados)."
+    },
+    {
+      "id": "h-hormiga",
+      "lemma": "hormiga",
+      "errors": [
+        "ormiga"
+      ],
+      "ruleId": "h",
+      "ruleText": "Las palabras con horm- se escriben con h.",
+      "frequency": "frecuente",
+      "category": "animales",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Las palabras con horm- se escriben con h.",
+      "tags": [
+        "h-inicial"
+      ],
+      "notes": "ANAYA ampliación (hormigas / hormiguero); fábula en material 3.º."
+    },
+    {
+      "id": "h-hormiguero",
+      "lemma": "hormiguero",
+      "errors": [
+        "ormiguero"
+      ],
+      "ruleId": "h",
+      "ruleText": "Las palabras con horm- se escriben con h.",
+      "frequency": "poco_frecuente",
+      "category": "animales",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Las palabras con horm- se escriben con h.",
+      "tags": [
+        "h-inicial"
+      ],
+      "notes": "ANAYA ampliación («granos de trigo a su hormiguero»)."
+    },
+    {
+      "id": "h-hombro",
+      "lemma": "hombro",
+      "errors": [
+        "ombro"
+      ],
+      "ruleId": "h",
+      "ruleText": "Hombro lleva h aunque no se oye.",
+      "frequency": "poco_frecuente",
+      "category": "cuerpo",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tags": [
+        "h-inicial"
+      ],
+      "notes": "ANAYA ampliación (definición: mano al hombro)."
+    },
+    {
+      "id": "h-hospital",
+      "lemma": "hospital",
+      "errors": [
+        "ospital"
+      ],
+      "ruleId": "h",
+      "ruleText": "Hospital lleva h aunque no se oye.",
+      "frequency": "frecuente",
+      "category": "ciudad",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tags": [
+        "h-inicial"
+      ],
+      "notes": "ANAYA ampliación («Hoy he ido al hospital…»)."
+    },
+    {
+      "id": "h-herramienta",
+      "lemma": "herramienta",
+      "errors": [
+        "erramienta"
+      ],
+      "ruleId": "h",
+      "ruleText": "Herramienta lleva h (herr-).",
+      "frequency": "poco_frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tags": [
+        "h-inicial"
+      ],
+      "notes": "ANAYA ampliación (herramientas: martillo…)."
+    },
+    {
+      "id": "h-hoja",
+      "lemma": "hoja",
+      "errors": [
+        "oja"
+      ],
+      "ruleId": "h",
+      "ruleText": "Hoja lleva h aunque no se oye.",
+      "frequency": "muy_frecuente",
+      "category": "naturaleza",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tags": [
+        "h-inicial"
+      ],
+      "notes": "ANAYA refuerzo («La hoja del árbol»)."
+    },
+    {
+      "id": "h-horno",
+      "lemma": "horno",
+      "errors": [
+        "orno"
+      ],
+      "ruleId": "h",
+      "ruleText": "Horno lleva h aunque no se oye.",
+      "frequency": "frecuente",
+      "category": "casa",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tags": [
+        "h-inicial"
+      ],
+      "notes": "ANAYA refuerzo (vocabulario: horno)."
+    },
+    {
+      "id": "h-hacia",
+      "lemma": "hacia",
+      "errors": [
+        "acia"
+      ],
+      "ruleId": "h",
+      "ruleText": "Hacia (preposición) lleva h aunque no se oye.",
+      "frequency": "poco_frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tags": [
+        "h-inicial"
+      ],
+      "notes": "ANAYA refuerzo («Mover hacia arriba»); lecturas del tomo 3 («caminando hacia…»)."
+    },
+    {
+      "id": "h-historia",
+      "lemma": "historia",
+      "errors": [
+        "istoria"
+      ],
+      "ruleId": "h",
+      "ruleText": "Historia lleva h aunque no se oye.",
+      "frequency": "frecuente",
+      "category": "colegio",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tags": [
+        "h-inicial"
+      ],
+      "notes": "Vicens Vives / lecturas («historias») — asignatura y relatos escolares."
+    },
+    {
+      "id": "h-zanahoria",
+      "lemma": "zanahoria",
+      "errors": [
+        "zanaoria"
+      ],
+      "ruleId": "h",
+      "ruleText": "Zanahoria lleva h intercalada.",
+      "frequency": "frecuente",
+      "category": "comida",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo (lista de verduras). Error típico de h intercalada."
+    }
+  ]
+}
