@@ -28,6 +28,11 @@ siempre se leen desde aquí.
 - `familias-palabras.json`
 - `sinonimos.json`
 
+## Documentación editorial
+
+Los borradores humanos viven en [`editorial/`](./editorial/). **No** los carga el juego.
+Flujo: diseño → Markdown editorial → revisión → JSON → runtime.
+
 ## Cómo se consume en código
 
 ```ts
