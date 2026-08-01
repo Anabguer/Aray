@@ -31,7 +31,8 @@ siempre se leen desde aquí.
 ## Documentación editorial
 
 Los borradores humanos viven en [`editorial/`](./editorial/). **No** los carga el juego.
-Flujo: diseño → Markdown editorial → revisión → JSON → runtime.
+Flujo: diseño → fichas del repo → Markdown editorial → revisión → JSON → runtime.
+Metodología detallada: [`editorial/README.md`](./editorial/README.md).
 
 ## Cómo se consume en código
 

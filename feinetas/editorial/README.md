@@ -8,17 +8,61 @@ El cliente **solo** consume JSON revisados (p. ej. `feinetas/*.json` o packs fut
 ## Flujo oficial del proyecto
 
 1. **Diseño del ejercicio** (aprobado).
-2. **Banco editorial en Markdown** (esta carpeta).
+2. **Banco editorial en Markdown** (esta carpeta), a partir de las **fichas del repositorio**.
 3. **Revisión humana**.
 4. **Conversión a JSON** (pack de datos).
 5. **El juego consume únicamente el JSON**.
 
+## Metodología: fichas del repositorio primero
+
+Dentro del repo hay fichas y materiales de **3.º de Primaria (Cataluña)**.  
+Esos materiales son la **referencia principal** para construir los bancos editoriales.
+
+### Reglas obligatorias
+
+1. **Antes** de añadir un registro al Banco Maestro / errores reales, revisar si existe un ejemplo equivalente en las fichas del repositorio.
+2. Usar esas fichas para identificar:
+   - vocabulario habitual;
+   - errores ortográficos realmente trabajados;
+   - nivel de dificultad;
+   - progresión pedagógica.
+3. **NO** copiar literalmente los ejercicios.
+4. Extraer únicamente el **conocimiento pedagógico**:
+   - qué palabras trabajan;
+   - qué errores aparecen;
+   - qué reglas se practican;
+   - qué nivel corresponde a 3.º de Primaria.
+5. Adaptar ese contenido al **formato editorial de Aray** (plantillas de esta carpeta).
+6. Si una palabra o un tipo de error **no** aparece habitualmente en esas fichas, **evitar** incluirlo salvo razón clara documentada en Observaciones.
+7. Al completar un documento editorial (p. ej. `ERRORES_REALES_H.md`), incluir al final un resumen:
+   - número de fichas / fuentes revisadas;
+   - temas encontrados;
+   - criterios seguidos para seleccionar el vocabulario.
+
+### Objetivo pedagógico
+
+No copiar las fichas.  
+Conseguir que **Aray enseñe los mismos contenidos** con formato de videojuego.
+
+### Fuentes habituales en el repo (orientativas)
+
+| Ubicación | Qué aporta |
+|-----------|------------|
+| `feinetas/lengua/` | PDFs de lengua / repaso 3.º |
+| `feinetas/WEB/fitxes-ortografia-*.pdf` | Fitxes d’ortografia 3r–4t |
+| `verano_aray/banc_exercicis/` | Índice BEX + extracciones de editoriales (ANAYA, SM, Vicens Vives…) |
+| `verano_aray/fichas_repaso/` | Fitxes de repaso propias |
+| `docs/TEMARIO_3_PRIMARIA_CATALUNYA.md` | Calibrado de nivel ciclo medio |
+
+Al citar una fuente en Observaciones o en el resumen final, indicar ruta o nombre de ficha/PDF, no pegar el ejercicio completo.
+
 ## Reglas para Cursor / agentes
 
-- **Nunca** generar contenido educativo automáticamente.
+- **Nunca** generar contenido educativo automáticamente «de la nada».
 - **Nunca** inventar distractores.
 - **Nunca** inventar frases.
-- **Todo** el contenido del juego procederá de documentos editoriales **aprobados**.
+- **Nunca** inventar vocabulario que no esté respaldado por fichas/temario del repo (salvo excepción justificada).
+- **Todo** el contenido del juego procederá de documentos editoriales **aprobados** tras revisión humana.
 
 Hasta que un documento de esta carpeta esté revisado y convertido a JSON, no forma parte del producto jugable.
 
@@ -37,4 +81,4 @@ Hasta que un documento de esta carpeta esté revisado y convertido a JSON, no fo
 | `ERRORES_REALES_TILDES.md` | Errores reales — tildes |
 | `ERRORES_REALES_HAY_AHI_AY.md` | Errores reales — hay / ahí / ay |
 
-Los archivos de errores empiezan vacíos a propósito: se rellenan en el proceso editorial, no por generación automática.
+Los archivos de errores se rellenan con la metodología de fichas; no por generación libre de listas.
