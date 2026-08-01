@@ -39,6 +39,7 @@ import { SpellSummaryScreen } from '@/features/languages/spelling/SpellSummarySc
 import { MissionsScreen } from '@/features/missions/MissionsScreen'
 import { SubjectPreviewScreen } from '@/features/missions/SubjectPreviewScreen'
 import { LumoGallery } from '@/lumo/LumoGallery'
+import { OrtografiaRrPilotScreen } from '@/dev/OrtografiaRrPilotScreen'
 
 export default function App() {
   const location = useLocation()
@@ -48,6 +49,7 @@ export default function App() {
       <ScrollToTop />
       <Routes location={location} key={location.pathname}>
       <Route path="/dev/lumo" element={<LumoGallery />} />
+      <Route path="/dev/ortografia-rr" element={<OrtografiaRrPilotScreen />} />
       <Route element={<AuthGate />}>
         <Route path="/access" element={<AccessScreen />} />
         <Route path="/register" element={<RegisterScreen />} />
