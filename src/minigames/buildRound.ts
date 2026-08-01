@@ -11,6 +11,9 @@ import {
   type LegacySpellRoundOptions,
 } from '@/minigames/adapters/legacySpell'
 import { buildOrtografiaCorrectRound } from '@/minigames/adapters/ortografiaCorrect'
+import { buildOrtografiaIntruderRound } from '@/minigames/adapters/ortografiaIntruder'
+import { buildOrtografiaMissingRound } from '@/minigames/adapters/ortografiaMissing'
+import { buildOrtografiaPictureRound } from '@/minigames/adapters/ortografiaPicture'
 
 export type BuildRoundOptions = LegacySpellRoundOptions & FormarPalabrasRoundOptions
 
@@ -38,6 +41,12 @@ function buildOrtografiaLemmaRound(
   switch (mode) {
     case 'correct':
       return buildOrtografiaCorrectRound(count, seed, 'correct')
+    case 'intruder':
+      return buildOrtografiaIntruderRound(count, seed, 'intruder')
+    case 'missing':
+      return buildOrtografiaMissingRound(count, seed, 'missing')
+    case 'picture':
+      return buildOrtografiaPictureRound(count, seed, 'picture')
     default:
       throw new Error(`[minigames] Modo ortografía JSON aún no cableado: ${mode}`)
   }

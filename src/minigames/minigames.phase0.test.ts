@@ -23,7 +23,7 @@ const SPELL_MODES: SpellPlayMode[] = [
   'review',
 ]
 
-const STILL_LEGACY: SpellPlayMode[] = SPELL_MODES.filter((m) => m !== 'correct')
+const STILL_LEGACY: SpellPlayMode[] = ['complete', 'mix', 'review']
 
 describe('minigames Fase 3 (cableado incremental)', () => {
   it('carga el catálogo con correct=JSON y resto legacy temporal', () => {

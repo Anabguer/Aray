@@ -13,7 +13,12 @@ const SPELL_MODES: SpellPlayMode[] = [
 ]
 
 /** Modos ya migrados a packs JSON (Fase 3 — cableado incremental). */
-const JSON_SPELL_MODES = new Set<SpellPlayMode>(['correct'])
+const JSON_SPELL_MODES = new Set<SpellPlayMode>([
+  'correct',
+  'intruder',
+  'missing',
+  'picture',
+])
 
 function spellingMinigame(mode: SpellPlayMode): MinigameDefinition {
   if (JSON_SPELL_MODES.has(mode)) {
