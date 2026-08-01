@@ -72,7 +72,7 @@ export function buildRound(minigameId: string, opts: BuildRoundOptions = {}): Ro
   const game = getMinigame(minigameId)
 
   if (game.mechanicId === 'ortografia-lemma-mcq') {
-    const mode = (game.legacySpellMode ?? 'correct') as SpellPlayMode
+    const mode = (game.spellPlayMode ?? 'correct') as SpellPlayMode
     return {
       kind: 'spell-mcq',
       minigameId,

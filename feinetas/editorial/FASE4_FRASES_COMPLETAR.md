@@ -12,11 +12,12 @@
 
 ## Legacy retirado
 
-- `SPELL_CONTEXTS` vacío (sin frases TS).
+- `SPELL_CONTEXTS` / `SpellContext` eliminados (no stub vacío).
 - Eliminados `legacyComplete.ts` y `legacySpell.ts`.
-- Catálogo: ningún `spelling-*` es `source: 'legacy'`.
+- Catálogo: todos los `spelling-*` son `source: 'pack'` con `spellPlayMode`.
 - Miss keys de frase: `ortografia-frases-completar:frase-*`.
 - Claves `ctx:*` antiguas se ignoran en review.
+- Ortografía del juego = packs editoriales aprobados (lemas + frases).
 
 ## Condición cumplida
 

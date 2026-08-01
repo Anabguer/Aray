@@ -1,14 +1,20 @@
 import { describe, expect, it } from 'vitest'
 import { buildSpellQuestion, buildSpellRound, hardUnitAt } from '@/spelling/generator'
 import { SPELL_BANK } from '@/spelling/bank'
-import { SPELL_CONTEXTS, type SpellPlayMode } from '@/spelling/types'
+import type { SpellPlayMode } from '@/spelling/types'
+import { readFileSync } from 'node:fs'
+import path from 'node:path'
 
-/** Generator legacy residual (banco TS); complete ya no vive aquí. */
+/** Generator residual (banco TS); no alimenta buildRound del juego. */
 const MODES: SpellPlayMode[] = ['missing', 'correct', 'picture', 'intruder', 'mix', 'review']
 
 describe('generator residual (no complete)', () => {
-  it('SPELL_CONTEXTS vacío tras Fase 4', () => {
-    expect(SPELL_CONTEXTS).toEqual([])
+  it('SPELL_CONTEXTS eliminado; bank residual sigue existiendo', () => {
+    const typesSrc = readFileSync(
+      path.resolve(__dirname, 'types.ts'),
+      'utf8',
+    )
+    expect(typesSrc).not.toMatch(/\bSPELL_CONTEXTS\b/)
     expect(SPELL_BANK.length).toBeGreaterThanOrEqual(900)
   })
 

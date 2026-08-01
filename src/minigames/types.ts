@@ -62,11 +62,8 @@ export type MinigameDefinition = {
   mechanicId: MechanicId
   source: MinigameSource
   status: MinigameStatus
-  /**
-   * Modo legacy de Ortografía (`SpellPlayMode`).
-   * Solo cuando `source === 'legacy'` y `mechanicId === 'legacy-spell'`.
-   */
-  legacySpellMode?: string
-  /** Packs asociados (vacío mientras el minijuego sea legacy). */
+  /** Modo de Ortografía (`SpellPlayMode`) cuando `mechanicId === 'ortografia-lemma-mcq'`. */
+  spellPlayMode?: string
+  /** Packs editoriales asociados. */
   packIds: string[]
 }

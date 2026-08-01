@@ -27,7 +27,7 @@ Ver [`README.md`](./README.md) y [`JSON_SPEC.md`](./JSON_SPEC.md).
 ## Fase 3–4 (integración juego)
 
 Ver [`FASE3_INTEGRACION.md`](./FASE3_INTEGRACION.md) y [`FASE4_FRASES_COMPLETAR.md`](./FASE4_FRASES_COMPLETAR.md).  
-**Toda** Ortografía (incl. Completa la frase) consume packs editoriales JSON. Sin `SPELL_CONTEXTS` activos.
+**Toda** Ortografía (incl. Completa la frase) consume packs editoriales JSON. Sin `SPELL_CONTEXTS` ni adaptadores legacy.
 
 ## Descartados / no creados
 

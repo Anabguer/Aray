@@ -8,4 +8,4 @@ Todos los modos (`correct`, `missing`, `picture`, `intruder`, `complete`, `mix`,
 
 - Lemas: `feinetas/ortografia/{rr,h,bv,…}.json`
 - Frases: `feinetas/ortografia/frases-completar.json`
-- Sin `SPELL_BANK` / `makeDistractors` / `SPELL_CONTEXTS` en el pipeline de juego.
+- Sin `SPELL_BANK` / `makeDistractors` / `SPELL_CONTEXTS` en el pipeline de juego (Fase 4: `SPELL_CONTEXTS` eliminado por completo).

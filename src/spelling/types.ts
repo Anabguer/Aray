@@ -41,15 +41,6 @@ export interface SpellWord {
   hardIndex: number
 }
 
-export interface SpellContext {
-  id: string
-  sentence: string
-  options: [string, string, string, string]
-  correctIndex: number
-  tip: string
-  rule: SpellRuleId
-}
-
 export interface SpellMcqQuestion {
   kind: 'mcq'
   id: string
@@ -85,8 +76,3 @@ export const SPELL_MODE_LABELS: Record<SpellPlayMode, string> = {
   mix: 'Mezcla total',
   review: 'Mis fallos',
 }
-
-/**
- * Retirado en Fase 4. Completa la frase usa feinetas/ortografia/frases-completar.json.
- */
-export const SPELL_CONTEXTS: SpellContext[] = []

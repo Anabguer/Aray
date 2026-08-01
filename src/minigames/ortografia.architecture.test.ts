@@ -5,7 +5,6 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import path from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { getMinigame, listMinigames } from '@/minigames/catalog'
-import { SPELL_CONTEXTS } from '@/spelling/types'
 import type { SpellPlayMode } from '@/spelling/types'
 
 const ROOT = path.resolve(__dirname, '../..')
@@ -52,8 +51,10 @@ describe('arquitectura ortografía JSON (Fase 4)', () => {
     expect(existsSync(path.join(ROOT, 'src/minigames/adapters/legacySpell.ts'))).toBe(false)
   })
 
-  it('SPELL_CONTEXTS está vacío (retirado)', () => {
-    expect(SPELL_CONTEXTS).toEqual([])
+  it('SPELL_CONTEXTS ya no existe en types', () => {
+    const typesSrc = readSrc(path.join(ROOT, 'src/spelling/types.ts'))
+    expect(typesSrc).not.toMatch(/\bSPELL_CONTEXTS\b/)
+    expect(typesSrc).not.toMatch(/\bSpellContext\b/)
   })
 
   it('catalog: ningún spelling es legacy', () => {

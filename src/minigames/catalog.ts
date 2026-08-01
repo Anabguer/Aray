@@ -33,7 +33,7 @@ function spellingMinigame(mode: SpellPlayMode): MinigameDefinition {
     mechanicId: 'ortografia-lemma-mcq',
     source: 'pack',
     status: 'active',
-    legacySpellMode: mode,
+    spellPlayMode: mode,
     packIds: packIdsForMode(mode),
   }
 }
