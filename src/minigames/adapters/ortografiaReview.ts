@@ -10,13 +10,17 @@ import {
 import { buildOrtografiaCorrectQuestion } from '@/minigames/adapters/ortografiaCorrect'
 import { buildOrtografiaIntruderQuestion } from '@/minigames/adapters/ortografiaIntruder'
 import { buildOrtografiaMissingQuestion } from '@/minigames/adapters/ortografiaMissing'
-import { buildOrtografiaPictureQuestion } from '@/minigames/adapters/ortografiaPicture'
 import { mulberry32 } from '@/minigames/adapters/ortografiaShared'
+import {
+  canBuildBareCorrectQuestion,
+  canBuildIntruderQuestion,
+  canBuildMissingQuestion,
+} from '@/minigames/adapters/ortografiaShared'
 import { buildOrtografiaMixRound } from '@/minigames/adapters/ortografiaMix'
 import type { SpellMissEntry } from '@/spelling/missStore'
 import { SPELL_ROUND_SIZE, type SpellMcqQuestion, type SpellQuestion } from '@/spelling/types'
 
-const REVIEW_JSON_KINDS = ['correct', 'missing', 'picture', 'intruder'] as const
+const REVIEW_JSON_KINDS = ['correct', 'missing', 'intruder'] as const
 
 function buildJsonForEntry(
   kind: (typeof REVIEW_JSON_KINDS)[number],
@@ -31,12 +35,19 @@ function buildJsonForEntry(
   }
   switch (kind) {
     case 'correct':
+      if (!canBuildBareCorrectQuestion(entry)) {
+        return buildOrtografiaMissingQuestion(seed, usedRefs, 'review', entry)
+      }
       return buildOrtografiaCorrectQuestion(seed, usedRefs, 'review', entry)
     case 'missing':
+      if (!canBuildMissingQuestion(entry)) {
+        return buildOrtografiaIntruderQuestion(seed, usedRefs, 'review', entry)
+      }
       return buildOrtografiaMissingQuestion(seed, usedRefs, 'review', entry)
-    case 'picture':
-      return buildOrtografiaPictureQuestion(seed, usedRefs, 'review', entry)
     case 'intruder':
+      if (!canBuildIntruderQuestion(entry)) {
+        return buildOrtografiaMissingQuestion(seed, usedRefs, 'review', entry)
+      }
       return buildOrtografiaIntruderQuestion(seed, usedRefs, 'review', entry)
   }
 }

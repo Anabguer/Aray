@@ -1,6 +1,6 @@
 /**
  * Utilidades compartidas de adaptadores ortografía JSON → SpellMcqQuestion.
- * No importa el banco legacy ni generateDistractors heurísticos.
+ * Distractores: solo `item.errors[]` del lema (sin heurísticas ni relleno).
  */
 import type { OrtographyCorpusEntry } from '@/feinetas/ortographyCorpus'
 import { getOrtographyCorpus, ortographyMissKey } from '@/feinetas/ortographyCorpus'
@@ -27,6 +27,48 @@ const KNOWN_RULES = new Set<SpellRuleId>([
   'tilde',
 ])
 
+/** Superficies españolas frecuentes que no deben ser distractores ambiguos en MCQ sin contexto. */
+const FREQUENT_ES_SURFACES = new Set(
+  [
+    'caso',
+    'caco',
+    'caza',
+    'casa',
+    'pero',
+    'perro',
+    'echo',
+    'hecho',
+    'echa',
+    'hecha',
+    'hola',
+    'ola',
+    'haya',
+    'halla',
+    'aya',
+    'hay',
+    'ahí',
+    'ay',
+    'vaca',
+    'baca',
+    'hierro',
+    'yerro',
+    'honda',
+    'onda',
+    'hojear',
+    'ojear',
+    'hasta',
+    'asta',
+    'haber',
+    'a ver',
+    'había',
+    'avía',
+    'tubo',
+    'tuvo',
+    'bien',
+    'viento',
+  ].map((s) => s.toLocaleLowerCase('es')),
+)
+
 export function mapPackRuleId(ruleId: string): SpellRuleId {
   if (KNOWN_RULES.has(ruleId as SpellRuleId)) return ruleId as SpellRuleId
   return 'tilde'
@@ -51,45 +93,84 @@ export function shuffle<T>(items: T[], random: () => number): T[] {
   return out
 }
 
-/** Distractores solo desde errors[] del corpus (sin inventar). */
-export function collectCorpusDistractors(
-  entry: OrtographyCorpusEntry,
-  max = 3,
-  preferSameRule = true,
-): string[] {
-  const corpus = getOrtographyCorpus()
-  const correct = entry.lemma.lemma.toLocaleLowerCase('es')
-  const seen = new Set<string>([correct])
-  const out: string[] = []
+function norm(s: string): string {
+  return s.toLocaleLowerCase('es')
+}
 
-  const push = (raw: string) => {
-    const key = raw.toLocaleLowerCase('es')
-    if (!raw.trim() || seen.has(key)) return
+/** Errores únicos del propio ítem (nunca de otros lemas, nunca inventados). */
+export function itemApprovedErrors(entry: OrtographyCorpusEntry): string[] {
+  const lemma = norm(entry.lemma.lemma)
+  const seen = new Set<string>()
+  const out: string[] = []
+  for (const raw of entry.lemma.errors) {
+    const key = norm(raw)
+    if (!raw.trim() || key === lemma || seen.has(key)) continue
     seen.add(key)
     out.push(raw)
   }
+  return out
+}
 
-  for (const err of entry.lemma.errors) push(err)
+function notesMarkIndependentWord(notes: string | undefined, err: string): boolean {
+  if (!notes) return false
+  if (!/hom[oó]fono|otra palabra|palabra distinta|hom[oó]nimo/i.test(notes)) return false
+  return notes.toLocaleLowerCase('es').includes(norm(err))
+}
 
-  const others = preferSameRule
-    ? [
-        ...corpus.entries.filter(
-          (e) => e.lemma.ruleId === entry.lemma.ruleId && e.lemma.id !== entry.lemma.id,
-        ),
-        ...corpus.entries.filter((e) => e.lemma.ruleId !== entry.lemma.ruleId),
-      ]
-    : corpus.entries
-
-  for (const other of others) {
-    if (out.length >= max) break
-    if (other.lemma.id === entry.lemma.id && other.packId === entry.packId) continue
-    for (const err of other.lemma.errors) {
-      if (out.length >= max) break
-      push(err)
-    }
+/**
+ * Forma que, sin imagen/frase, podría defenderse como respuesta «bien escrita».
+ * No inventa; solo filtra distractores ambiguos del pool editorial.
+ */
+export function isAmbiguousRealWordDistractor(
+  entry: OrtographyCorpusEntry,
+  err: string,
+): boolean {
+  const key = norm(err)
+  if (FREQUENT_ES_SURFACES.has(key)) return true
+  if (notesMarkIndependentWord(entry.lemma.notes, err)) return true
+  const corpus = getOrtographyCorpus()
+  for (const e of corpus.entries) {
+    if (norm(e.lemma.lemma) === key) return true
   }
+  return false
+}
 
-  return out.slice(0, max)
+/** Errores del ítem aptos para «¿Cuál está bien escrita?» sin contexto visual/frase. */
+export function itemSafeMisspellingsForBareMcq(entry: OrtographyCorpusEntry): string[] {
+  return itemApprovedErrors(entry).filter((e) => !isAmbiguousRealWordDistractor(entry, e))
+}
+
+export function canBuildBareCorrectQuestion(entry: OrtographyCorpusEntry): boolean {
+  return itemSafeMisspellingsForBareMcq(entry).length >= 1
+}
+
+export function canBuildIntruderQuestion(entry: OrtographyCorpusEntry): boolean {
+  // La intrusa debe ser claramente una forma mal escrita, no otra palabra válida.
+  return itemSafeMisspellingsForBareMcq(entry).length >= 1
+}
+
+export function canBuildMissingQuestion(entry: OrtographyCorpusEntry): boolean {
+  return itemApprovedErrors(entry).length >= 1
+}
+
+/** Imagen solo con ref real (no emoji de categoría). */
+export function canBuildPictureQuestion(entry: OrtographyCorpusEntry): boolean {
+  const ref = entry.lemma.image?.ref
+  return typeof ref === 'string' && ref.trim().length > 0
+}
+
+export const PICTURE_MODE_ENABLED = false
+
+/**
+ * @deprecated No usar: pedía errores de otros lemas. Mantener nombre solo si tests antiguos.
+ * Preferir `itemApprovedErrors` / `itemSafeMisspellingsForBareMcq`.
+ */
+export function collectCorpusDistractors(
+  entry: OrtographyCorpusEntry,
+  max = 3,
+  _preferSameRule = true,
+): string[] {
+  return itemApprovedErrors(entry).slice(0, max)
 }
 
 export function pickCorpusEntry(
@@ -100,7 +181,18 @@ export function pickCorpusEntry(
   const source = pool ?? getOrtographyCorpus().entries
   const unused = source.filter((e) => !usedRefs.has(ortographyMissKey(e.packId, e.lemma.id)))
   const list = unused.length > 0 ? unused : source
+  if (list.length === 0) {
+    throw new Error('[ortografia] Pool vacío: ningún lema elegible para la mecánica')
+  }
   return list[Math.floor(random() * list.length)]!
+}
+
+export function pickEligibleCorpusEntry(
+  random: () => number,
+  usedRefs: Set<string>,
+  eligible: OrtographyCorpusEntry[],
+): OrtographyCorpusEntry {
+  return pickCorpusEntry(random, usedRefs, eligible)
 }
 
 export function baseMcqFields(
@@ -117,4 +209,39 @@ export function baseMcqFields(
     rule: mapPackRuleId(entry.lemma.ruleId),
     targetKey: ortographyMissKey(entry.packId, entry.lemma.id),
   }
+}
+
+/** 1 correcta + N distractores editoriales (2–4 opciones). Sin relleno. */
+export function buildEditorialOptions(
+  correct: string,
+  distractors: string[],
+  random: () => number,
+): { options: string[]; correctIndex: number } {
+  const uniqueWrong = distractors.slice(0, 3)
+  if (uniqueWrong.length < 1) {
+    throw new Error('[ortografia] Sin distractores editoriales suficientes')
+  }
+  const options = shuffle([correct, ...uniqueWrong], random)
+  const correctIndex = options.findIndex((o) => norm(o) === norm(correct))
+  if (correctIndex < 0) {
+    throw new Error('[ortografia] La forma correcta no está en las opciones')
+  }
+  const lower = options.map(norm)
+  if (new Set(lower).size !== options.length) {
+    throw new Error('[ortografia] Opciones duplicadas')
+  }
+  return { options, correctIndex }
+}
+
+export function listExcludedForBareCorrect(): {
+  excluded: OrtographyCorpusEntry[]
+  eligible: OrtographyCorpusEntry[]
+} {
+  const excluded: OrtographyCorpusEntry[] = []
+  const eligible: OrtographyCorpusEntry[] = []
+  for (const e of getOrtographyCorpus().entries) {
+    if (canBuildBareCorrectQuestion(e)) eligible.push(e)
+    else excluded.push(e)
+  }
+  return { excluded, eligible }
 }

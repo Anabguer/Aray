@@ -19,6 +19,12 @@
 - Claves `ctx:*` antiguas se ignoran en review.
 - Ortografía del juego = packs editoriales aprobados (lemas + frases).
 
+## Hotfix calidad (post v1.0)
+
+- Modo **Imagen** desactivado (`coming-soon`) y fuera de Mezcla hasta `image.ref` reales.
+- Distractores de lema: solo `errors[]` del propio ítem (sin heurísticas `-ón` / otros lemas).
+- Lemas con errores ambiguos (palabra real / homófono) excluidos de Forma correcta e Intrusa.
+
 ## Condición cumplida
 
 ≥ 24 frases aprobadas → legacy de complete retirado.

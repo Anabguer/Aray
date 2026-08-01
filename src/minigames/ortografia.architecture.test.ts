@@ -57,18 +57,18 @@ describe('arquitectura ortografía JSON (Fase 4)', () => {
     expect(typesSrc).not.toMatch(/\bSpellContext\b/)
   })
 
-  it('catalog: ningún spelling es legacy', () => {
+  it('catalog: ningún spelling activo es legacy; picture coming-soon', () => {
     const spelling = listMinigames().filter((m) => m.category === 'spelling')
     expect(spelling.every((m) => m.source === 'pack')).toBe(true)
     expect(spelling.every((m) => m.mechanicId === 'ortografia-lemma-mcq')).toBe(true)
     expect(getMinigame('spelling-complete').packIds).toContain(
       'ortografia-frases-completar',
     )
+    expect(getMinigame('spelling-picture').status).toBe('coming-soon')
 
     const modes: SpellPlayMode[] = [
       'correct',
       'missing',
-      'picture',
       'intruder',
       'complete',
       'mix',
@@ -76,6 +76,7 @@ describe('arquitectura ortografía JSON (Fase 4)', () => {
     ]
     for (const mode of modes) {
       expect(getMinigame(`spelling-${mode}`).source).toBe('pack')
+      expect(getMinigame(`spelling-${mode}`).status).toBe('active')
     }
   })
 

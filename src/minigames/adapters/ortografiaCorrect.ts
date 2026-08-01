@@ -1,15 +1,17 @@
 /**
  * Adaptador JSON → SpellMcqQuestion (modo «forma correcta»).
- * Distractores solo desde errors[] del corpus. Sin banco legacy de lemas.
+ * Distractores: solo errors[] del propio ítem, no ambiguos como palabra real.
  */
 import { ortographyMissKey } from '@/feinetas/ortographyCorpus'
 import type { OrtographyCorpusEntry } from '@/feinetas/ortographyCorpus'
 import {
   baseMcqFields,
-  collectCorpusDistractors,
+  buildEditorialOptions,
+  canBuildBareCorrectQuestion,
+  itemSafeMisspellingsForBareMcq,
+  listExcludedForBareCorrect,
   mulberry32,
-  pickCorpusEntry,
-  shuffle,
+  pickEligibleCorpusEntry,
 } from '@/minigames/adapters/ortografiaShared'
 import { SPELL_ROUND_SIZE, type SpellMcqQuestion, type SpellPlayMode } from '@/spelling/types'
 
@@ -20,21 +22,23 @@ export function buildOrtografiaCorrectQuestion(
   forced?: OrtographyCorpusEntry,
 ): SpellMcqQuestion {
   const random = mulberry32(seed)
-  const entry = forced ?? pickCorpusEntry(random, usedRefs)
+  const { eligible } = listExcludedForBareCorrect()
+  const entry =
+    forced ??
+    pickEligibleCorpusEntry(random, usedRefs, eligible)
+  if (!canBuildBareCorrectQuestion(entry)) {
+    throw new Error(
+      `[ortografia-correct] Lema excluido (sin errores editoriales no ambiguos): ${entry.lemma.id}`,
+    )
+  }
   usedRefs.add(ortographyMissKey(entry.packId, entry.lemma.id))
 
-  const distractors = collectCorpusDistractors(entry, 3)
-  while (distractors.length < 3) {
-    // Si el corpus no aporta 3 errores distintos, repetir el primero atestiguado (no inventar).
-    distractors.push(distractors[0] ?? entry.lemma.errors[0]!)
-  }
-  const options = shuffle([entry.lemma.lemma, ...distractors.slice(0, 3)], random)
-  const correctIndex = options.findIndex(
-    (o) => o.toLocaleLowerCase('es') === entry.lemma.lemma.toLocaleLowerCase('es'),
+  const distractors = itemSafeMisspellingsForBareMcq(entry)
+  const { options, correctIndex } = buildEditorialOptions(
+    entry.lemma.lemma,
+    distractors,
+    random,
   )
-  if (correctIndex < 0) {
-    throw new Error(`[ortografia-correct] Sin correcta para ${entry.lemma.id}`)
-  }
 
   return {
     ...baseMcqFields(entry, mode, seed, 'ok'),

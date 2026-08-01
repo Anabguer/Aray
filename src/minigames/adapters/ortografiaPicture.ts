@@ -1,34 +1,24 @@
 /**
  * Adaptador JSON → «Imagen y palabra».
- * Pool: image.recommended === true. Emoji por categoría (puente temporal JSON_SPEC).
+ * Desactivado hasta que existan image.ref reales por lema (sin emoji genérico).
  */
 import { getOrtographyCorpus, ortographyMissKey } from '@/feinetas/ortographyCorpus'
 import type { OrtographyCorpusEntry } from '@/feinetas/ortographyCorpus'
-import type { OrtographyCategory } from '@/feinetas/ortographyLemmaPack'
 import {
   baseMcqFields,
-  collectCorpusDistractors,
+  buildEditorialOptions,
+  canBuildPictureQuestion,
+  itemSafeMisspellingsForBareMcq,
   mulberry32,
+  PICTURE_MODE_ENABLED,
   pickCorpusEntry,
-  shuffle,
 } from '@/minigames/adapters/ortografiaShared'
 import { SPELL_ROUND_SIZE, type SpellMcqQuestion, type SpellPlayMode } from '@/spelling/types'
 
-const CATEGORY_EMOJI: Record<OrtographyCategory, string> = {
-  animales: '🐾',
-  casa: '🏠',
-  colegio: '📚',
-  comida: '🍎',
-  objetos: '📦',
-  naturaleza: '🌿',
-  acciones: '🏃',
-  ciudad: '🏙️',
-  cuerpo: '👤',
-  otros: '🔤',
-}
+export { PICTURE_MODE_ENABLED }
 
-export function emojiForEntry(entry: OrtographyCorpusEntry): string {
-  return CATEGORY_EMOJI[entry.lemma.category] ?? '🔤'
+export function listPictureReadyEntries(): OrtographyCorpusEntry[] {
+  return getOrtographyCorpus().entries.filter(canBuildPictureQuestion)
 }
 
 export function buildOrtografiaPictureQuestion(
@@ -37,24 +27,33 @@ export function buildOrtografiaPictureQuestion(
   mode: SpellPlayMode = 'picture',
   forced?: OrtographyCorpusEntry,
 ): SpellMcqQuestion {
+  if (!PICTURE_MODE_ENABLED) {
+    throw new Error(
+      '[ortografia-picture] Modo Imagen desactivado hasta disponer de image.ref reales',
+    )
+  }
   const random = mulberry32(seed)
-  const pool = getOrtographyCorpus().pictureEntries
-  const entry = forced ?? pickCorpusEntry(random, usedRefs, pool.length > 0 ? pool : undefined)
+  const pool = listPictureReadyEntries()
+  const entry = forced ?? pickCorpusEntry(random, usedRefs, pool)
+  if (!canBuildPictureQuestion(entry)) {
+    throw new Error(`[ortografia-picture] Sin image.ref real: ${entry.lemma.id}`)
+  }
+  const distractors = itemSafeMisspellingsForBareMcq(entry)
+  if (distractors.length < 1) {
+    throw new Error(`[ortografia-picture] Sin errores editoriales aptos: ${entry.lemma.id}`)
+  }
   usedRefs.add(ortographyMissKey(entry.packId, entry.lemma.id))
 
-  const distractors = collectCorpusDistractors(entry, 3)
-  while (distractors.length < 3) {
-    distractors.push(distractors[0] ?? entry.lemma.errors[0]!)
-  }
-  const options = shuffle([entry.lemma.lemma, ...distractors.slice(0, 3)], random)
-  const correctIndex = options.findIndex(
-    (o) => o.toLocaleLowerCase('es') === entry.lemma.lemma.toLocaleLowerCase('es'),
+  const { options, correctIndex } = buildEditorialOptions(
+    entry.lemma.lemma,
+    distractors,
+    random,
   )
 
   return {
     ...baseMcqFields(entry, mode, seed, 'pic'),
     prompt: '¿Cómo se escribe?',
-    emoji: emojiForEntry(entry),
+    /** Sin emoji genérico: la UI solo mostrará asset cuando haya image.ref. */
     options,
     correctIndex,
   }
@@ -65,6 +64,11 @@ export function buildOrtografiaPictureRound(
   seed = Date.now(),
   mode: SpellPlayMode = 'picture',
 ): SpellMcqQuestion[] {
+  if (!PICTURE_MODE_ENABLED) {
+    throw new Error(
+      '[ortografia-picture] Modo Imagen desactivado hasta disponer de image.ref reales',
+    )
+  }
   const used = new Set<string>()
   const out: SpellMcqQuestion[] = []
   for (let i = 0; i < count; i += 1) {

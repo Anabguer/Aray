@@ -10,7 +10,6 @@ import { buildOrtografiaCompleteRound } from '@/minigames/adapters/ortografiaCom
 import { buildOrtografiaCorrectRound } from '@/minigames/adapters/ortografiaCorrect'
 import { buildOrtografiaIntruderRound } from '@/minigames/adapters/ortografiaIntruder'
 import { buildOrtografiaMissingRound } from '@/minigames/adapters/ortografiaMissing'
-import { buildOrtografiaPictureRound } from '@/minigames/adapters/ortografiaPicture'
 import { buildOrtografiaMixRound } from '@/minigames/adapters/ortografiaMix'
 import { buildOrtografiaReviewRound } from '@/minigames/adapters/ortografiaReview'
 import type { SpellMissEntry } from '@/spelling/missStore'
@@ -50,7 +49,9 @@ function buildOrtografiaLemmaRound(
     case 'missing':
       return buildOrtografiaMissingRound(count, seed, 'missing')
     case 'picture':
-      return buildOrtografiaPictureRound(count, seed, 'picture')
+      throw new Error(
+        '[minigames] Modo Imagen desactivado hasta disponer de image.ref reales por lema',
+      )
     case 'complete': {
       const preferKeys = opts.preferMisses?.map((m) => m.key)
       return buildOrtografiaCompleteRound(count, seed, preferKeys)

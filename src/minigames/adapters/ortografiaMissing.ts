@@ -2,10 +2,11 @@
  * Adaptador JSON → «Letra de la regla» (hueco).
  * Posición: diff lemma vs errors[0]; rivales por familia de regla (tabla local).
  */
-import { ortographyMissKey } from '@/feinetas/ortographyCorpus'
+import { ortographyMissKey, getOrtographyCorpus } from '@/feinetas/ortographyCorpus'
 import type { OrtographyCorpusEntry } from '@/feinetas/ortographyCorpus'
 import {
   baseMcqFields,
+  itemApprovedErrors,
   mulberry32,
   pickCorpusEntry,
   shuffle,
@@ -167,10 +168,11 @@ export function buildOrtografiaMissingQuestion(
   forced?: OrtographyCorpusEntry,
 ): SpellMcqQuestion {
   const random = mulberry32(seed)
-  const entry = forced ?? pickCorpusEntry(random, usedRefs)
+  const pool = getOrtographyCorpus().entries.filter((e) => itemApprovedErrors(e).length >= 1)
+  const entry = forced ?? pickCorpusEntry(random, usedRefs, pool)
   usedRefs.add(ortographyMissKey(entry.packId, entry.lemma.id))
 
-  const wrong = entry.lemma.errors[0] ?? ''
+  const wrong = itemApprovedErrors(entry)[0] ?? ''
   const hard =
     (wrong ? diffHardUnit(entry.lemma.lemma, wrong) : null) ??
     hardUnitForRule(entry.lemma.lemma, entry.lemma.ruleId)

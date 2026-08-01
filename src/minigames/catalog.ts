@@ -24,6 +24,7 @@ function packIdsForMode(mode: SpellPlayMode): string[] {
 }
 
 function spellingMinigame(mode: SpellPlayMode): MinigameDefinition {
+  const pictureLocked = mode === 'picture'
   return {
     id: `spelling-${mode}`,
     area: 'languages',
@@ -32,7 +33,7 @@ function spellingMinigame(mode: SpellPlayMode): MinigameDefinition {
     href: `/missions/languages/spelling/${mode}`,
     mechanicId: 'ortografia-lemma-mcq',
     source: 'pack',
-    status: 'active',
+    status: pictureLocked ? 'coming-soon' : 'active',
     spellPlayMode: mode,
     packIds: packIdsForMode(mode),
   }

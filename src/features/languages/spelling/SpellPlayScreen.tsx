@@ -67,6 +67,7 @@ export function SpellPlayScreen() {
   const seedRef = useRef(Date.now())
   const mode: SpellPlayMode = isMode(modeParam) ? modeParam : 'mix'
   const queue = useMemo(() => {
+    if (mode === 'picture') return []
     const preferMisses = listActiveSpellMisses(pid)
     const round = buildRound(spellingMinigameId(mode), {
       count: SPELL_ROUND_SIZE,
@@ -101,6 +102,7 @@ export function SpellPlayScreen() {
 
   useEffect(() => {
     if (!isMode(modeParam)) navigate(modesPath, { replace: true })
+    else if (modeParam === 'picture') navigate(modesPath, { replace: true })
   }, [modeParam, navigate])
 
   useEffect(() => {
@@ -112,9 +114,10 @@ export function SpellPlayScreen() {
   }, [mode, setLastMode])
 
   useEffect(() => {
+    if (mode === 'picture') return
     if (question || finishedRef.current) return
     finish()
-  }, [question])
+  }, [question, mode])
 
   function finish(opts?: { early?: boolean }) {
     if (finishedRef.current) return

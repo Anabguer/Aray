@@ -1,16 +1,14 @@
 /**
- * Mezcla total: mecánicas JSON de lemas + Completa la frase (pack frases).
- * Sin banco legacy de lemas ni frases TS.
+ * Mezcla total: mecánicas JSON elegibles (sin Imagen hasta image.ref reales).
  */
 import { buildOrtografiaCompleteQuestion } from '@/minigames/adapters/ortografiaComplete'
 import { buildOrtografiaCorrectQuestion } from '@/minigames/adapters/ortografiaCorrect'
 import { buildOrtografiaIntruderQuestion } from '@/minigames/adapters/ortografiaIntruder'
 import { buildOrtografiaMissingQuestion } from '@/minigames/adapters/ortografiaMissing'
-import { buildOrtografiaPictureQuestion } from '@/minigames/adapters/ortografiaPicture'
 import { mulberry32 } from '@/minigames/adapters/ortografiaShared'
 import { SPELL_ROUND_SIZE, type SpellMcqQuestion, type SpellQuestion } from '@/spelling/types'
 
-type MixerKind = 'complete' | 'correct' | 'intruder' | 'missing' | 'picture'
+type MixerKind = 'complete' | 'correct' | 'intruder' | 'missing'
 
 const MIXER_WEIGHTS: MixerKind[] = [
   'complete',
@@ -18,12 +16,12 @@ const MIXER_WEIGHTS: MixerKind[] = [
   'correct',
   'intruder',
   'missing',
-  'picture',
   'complete',
   'correct',
+  'intruder',
 ]
 
-const JSON_MIXERS: MixerKind[] = ['correct', 'intruder', 'missing', 'picture', 'complete']
+const JSON_MIXERS: MixerKind[] = ['correct', 'intruder', 'missing', 'complete']
 
 export function buildOrtografiaMixRound(
   count = SPELL_ROUND_SIZE,
@@ -54,9 +52,6 @@ export function buildOrtografiaMixRound(
             break
           case 'missing':
             q = buildOrtografiaMissingQuestion(qSeed + attempts, usedRefs, 'mix')
-            break
-          case 'picture':
-            q = buildOrtografiaPictureQuestion(qSeed + attempts, usedRefs, 'mix')
             break
         }
       } catch {

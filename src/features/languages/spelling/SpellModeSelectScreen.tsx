@@ -67,7 +67,7 @@ const ROSTER: SpellPoster[] = [
     mode: 'picture',
     art: 'spell-picture',
     className: 'mode-poster--match',
-    text: 'Imagen → escritura',
+    text: 'Pronto: imagen real de cada palabra',
     tag: '05',
   },
 ]
@@ -105,7 +105,8 @@ export function SpellModeSelectScreen() {
             text={m.text}
             className={m.className}
             tag={m.tag}
-            to={`/missions/languages/spelling/${m.mode}`}
+            locked={m.mode === 'picture'}
+            to={m.mode === 'picture' ? undefined : `/missions/languages/spelling/${m.mode}`}
           />
         ))}
         rosterCols={3}
