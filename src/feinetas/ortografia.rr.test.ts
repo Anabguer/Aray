@@ -45,7 +45,7 @@ describe('feinetas / ortografia / rr (pack piloto)', () => {
     expect(pack.pack.id).toBe('ortografia-rr')
     expect(pack.pack.ownerBank).toBe('ERRORES_REALES_RR.md')
     expect(pack.pack.ruleFamily).toBe('r-rr')
-    expect(pack.pack.revisionStatus).toBe('draft')
+    expect(pack.pack.revisionStatus).toBe('approved')
     expect(pack.pack.contentVersion).toBe(1)
     expect(pack.pack.level).toBe('3-primaria')
     expect(pack.pack.locale).toBe('es-ES')

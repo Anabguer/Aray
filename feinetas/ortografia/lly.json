@@ -1,0 +1,310 @@
+{
+  "schemaVersion": 1,
+  "pack": {
+    "id": "ortografia-lly",
+    "title": "LL / Y",
+    "ownerBank": "ERRORES_REALES_LLY.md",
+    "ruleFamily": "ll-y",
+    "level": "3-primaria",
+    "locale": "es-ES",
+    "revisionStatus": "approved",
+    "contentVersion": 1,
+    "sourceEditorialPhase": "fase-editorial-base",
+    "notes": "Convertido en lote post-piloto. Colisiones: 0. No conectado a minijuegos."
+  },
+  "lemmas": [
+    {
+      "id": "lly-amarillo",
+      "lemma": "amarillo",
+      "errors": [
+        "amariyo"
+      ],
+      "ruleId": "ll-y",
+      "ruleText": "Las terminaciones -illo / -illa se escriben con ll.",
+      "frequency": "muy_frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Las terminaciones -illo / -illa se escriben con ll.",
+      "notes": "Aray `amarillo-ctx`. Savia (amarilla). Color: sin categoría más específica en el set actual."
+    },
+    {
+      "id": "lly-silla",
+      "lemma": "silla",
+      "errors": [
+        "siya"
+      ],
+      "ruleId": "ll-y",
+      "ruleText": "Silla se escribe con ll.",
+      "frequency": "muy_frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Vicens; `formar-palabras.json`."
+    },
+    {
+      "id": "lly-lluvia",
+      "lemma": "lluvia",
+      "errors": [
+        "yuvia"
+      ],
+      "ruleId": "ll-y",
+      "ruleText": "Lluvia se escribe con ll.",
+      "frequency": "muy_frecuente",
+      "category": "naturaleza",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "`formar-palabras.json`; lecturas 3.º."
+    },
+    {
+      "id": "lly-playa",
+      "lemma": "playa",
+      "errors": [
+        "plalla"
+      ],
+      "ruleId": "ll-y",
+      "ruleText": "Playa se escribe con y.",
+      "frequency": "muy_frecuente",
+      "category": "naturaleza",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA; `formar-palabras.json`."
+    },
+    {
+      "id": "lly-calle",
+      "lemma": "calle",
+      "errors": [
+        "caye"
+      ],
+      "ruleId": "ll-y",
+      "ruleText": "Calle se escribe con ll.",
+      "frequency": "muy_frecuente",
+      "category": "ciudad",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA; `formar-palabras.json`."
+    },
+    {
+      "id": "lly-estrella",
+      "lemma": "estrella",
+      "errors": [
+        "estreya"
+      ],
+      "ruleId": "ll-y",
+      "ruleText": "Estrella se escribe con ll.",
+      "frequency": "muy_frecuente",
+      "category": "naturaleza",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA; `formar-palabras.json`."
+    },
+    {
+      "id": "lly-llegar",
+      "lemma": "llegar",
+      "errors": [
+        "yegar"
+      ],
+      "ruleId": "ll-y",
+      "ruleText": "Llegar se escribe con ll.",
+      "frequency": "muy_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "notes": "Savia; ANAYA. Infinitivo. Familia con *llevar* (verbos distintos)."
+    },
+    {
+      "id": "lly-ayer",
+      "lemma": "ayer",
+      "errors": [
+        "aller"
+      ],
+      "ruleId": "ll-y",
+      "ruleText": "Ayer se escribe con y.",
+      "frequency": "frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "notes": "ANAYA / Savia; `formar-palabras.json`."
+    },
+    {
+      "id": "lly-llevar",
+      "lemma": "llevar",
+      "errors": [
+        "yevar"
+      ],
+      "ruleId": "ll-y",
+      "ruleText": "Llevar se escribe con ll.",
+      "frequency": "frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "notes": "Savia; ANAYA. Infinitivo. Distinto de *llegar*."
+    },
+    {
+      "id": "lly-tortilla",
+      "lemma": "tortilla",
+      "errors": [
+        "tortiya"
+      ],
+      "ruleId": "ll-y",
+      "ruleText": "Las terminaciones -illo / -illa se escriben con ll.",
+      "frequency": "frecuente",
+      "category": "comida",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Las terminaciones -illo / -illa se escriben con ll.",
+      "notes": "Aray `tortilla-ctx`."
+    },
+    {
+      "id": "lly-rastrillo",
+      "lemma": "rastrillo",
+      "errors": [
+        "rastriyo"
+      ],
+      "ruleId": "ll-y",
+      "ruleText": "Las terminaciones -illo / -illa se escriben con ll.",
+      "frequency": "frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Las terminaciones -illo / -illa se escriben con ll.",
+      "notes": "ANAYA refuerzo p.7. Familia -illo con martillo/pajarillo (vocabulario distinto)."
+    },
+    {
+      "id": "lly-ardilla",
+      "lemma": "ardilla",
+      "errors": [
+        "ardiya"
+      ],
+      "ruleId": "ll-y",
+      "ruleText": "Ardilla se escribe con ll.",
+      "frequency": "frecuente",
+      "category": "animales",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo p.7."
+    },
+    {
+      "id": "lly-pollo",
+      "lemma": "pollo",
+      "errors": [
+        "poyo"
+      ],
+      "ruleId": "ll-y",
+      "ruleText": "Pollo se escribe con ll.",
+      "frequency": "frecuente",
+      "category": "animales",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo/ampliación."
+    },
+    {
+      "id": "lly-martillo",
+      "lemma": "martillo",
+      "errors": [
+        "martiyo"
+      ],
+      "ruleId": "ll-y",
+      "ruleText": "Las terminaciones -illo / -illa se escriben con ll.",
+      "frequency": "frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Las terminaciones -illo / -illa se escriben con ll.",
+      "notes": "ANAYA ampliación (herramientas)."
+    },
+    {
+      "id": "lly-ladrillo",
+      "lemma": "ladrillo",
+      "errors": [
+        "ladriyo"
+      ],
+      "ruleId": "ll-y",
+      "ruleText": "Ladrillo se escribe con ll.",
+      "frequency": "frecuente",
+      "category": "casa",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA ampliación (casa de ladrillos)."
+    },
+    {
+      "id": "lly-brillar",
+      "lemma": "brillar",
+      "errors": [
+        "briyar"
+      ],
+      "ruleId": "ll-y",
+      "ruleText": "Brillar se escribe con ll.",
+      "frequency": "poco_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo p.7. Menos nuclear que llegar/llevar."
+    },
+    {
+      "id": "lly-reyes",
+      "lemma": "reyes",
+      "errors": [
+        "relles"
+      ],
+      "ruleId": "ll-y",
+      "ruleText": "Reyes se escribe con y.",
+      "frequency": "poco_frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo p.7 (re_es). Sustantivo común; no nombre propio."
+    },
+    {
+      "id": "lly-pajarillo",
+      "lemma": "pajarillo",
+      "errors": [
+        "pajariyo"
+      ],
+      "ruleId": "ll-y",
+      "ruleText": "Las terminaciones -illo / -illa se escriben con ll.",
+      "frequency": "poco_frecuente",
+      "category": "animales",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Las terminaciones -illo / -illa se escriben con ll.",
+      "notes": "Savia u7 (ejemplo diminutivo). Familia -illo; lema distinto de rastrillo/martillo."
+    }
+  ]
+}

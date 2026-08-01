@@ -1,0 +1,460 @@
+{
+  "schemaVersion": 1,
+  "pack": {
+    "id": "ortografia-czqu",
+    "title": "C / Z / QU",
+    "ownerBank": "ERRORES_REALES_CZQU.md",
+    "ruleFamily": "c-z-qu",
+    "level": "3-primaria",
+    "locale": "es-ES",
+    "revisionStatus": "approved",
+    "contentVersion": 1,
+    "sourceEditorialPhase": "fase-editorial-base",
+    "notes": "Convertido en lote post-piloto. Colisiones: 0. No conectado a minijuegos."
+  },
+  "lemmas": [
+    {
+      "id": "czqu-queso",
+      "lemma": "queso",
+      "errors": [
+        "ceso"
+      ],
+      "ruleId": "c-z-qu",
+      "ruleText": "Ante e, i el sonido /k/ se escribe qu.",
+      "frequency": "muy_frecuente",
+      "category": "comida",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Ante e, i el sonido /k/ se escribe qu.",
+      "notes": "ANAYA; Savia; Vicens; `formar-palabras.json`."
+    },
+    {
+      "id": "czqu-zapato",
+      "lemma": "zapato",
+      "errors": [
+        "capato"
+      ],
+      "ruleId": "c-z-qu",
+      "ruleText": "Ante a, o, u el sonido /θ/~/s/ se escribe z.",
+      "frequency": "muy_frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Ante a, o, u el sonido /θ/~/s/ se escribe z.",
+      "notes": "Vicens; Aray `zapato-ctx`; `formar-palabras.json`."
+    },
+    {
+      "id": "czqu-cocina",
+      "lemma": "cocina",
+      "errors": [
+        "cozina"
+      ],
+      "ruleId": "c-z-qu",
+      "ruleText": "Ante i el sonido /θ/~/s/ se escribe c (no z).",
+      "frequency": "muy_frecuente",
+      "category": "casa",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Ante i el sonido /θ/~/s/ se escribe c (no z).",
+      "notes": "Vicens; `formar-palabras.json`."
+    },
+    {
+      "id": "czqu-zumo",
+      "lemma": "zumo",
+      "errors": [
+        "cumo"
+      ],
+      "ruleId": "c-z-qu",
+      "ruleText": "Ante u el sonido /θ/~/s/ se escribe z.",
+      "frequency": "muy_frecuente",
+      "category": "comida",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Ante u el sonido /θ/~/s/ se escribe z.",
+      "notes": "Vicens."
+    },
+    {
+      "id": "czqu-cielo",
+      "lemma": "cielo",
+      "errors": [
+        "zielo"
+      ],
+      "ruleId": "c-z-qu",
+      "ruleText": "Ante e, i el sonido /θ/~/s/ se escribe c (no z).",
+      "frequency": "muy_frecuente",
+      "category": "naturaleza",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Ante e, i el sonido /θ/~/s/ se escribe c (no z).",
+      "notes": "ANAYA refuerzo."
+    },
+    {
+      "id": "czqu-lapiz",
+      "lemma": "lápiz",
+      "errors": [
+        "lápis"
+      ],
+      "ruleId": "c-z-qu",
+      "ruleText": "Algunas palabras terminan en z.",
+      "frequency": "muy_frecuente",
+      "category": "colegio",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Algunas palabras terminan en z.",
+      "notes": "Aray; Vicens; Savia; `formar-palabras.json`.",
+      "tags": [
+        "tilde"
+      ],
+      "secondaryRuleIds": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "czqu-ciudad",
+      "lemma": "ciudad",
+      "errors": [
+        "ziudad"
+      ],
+      "ruleId": "c-z-qu",
+      "ruleText": "Ante e, i el sonido /θ/~/s/ se escribe c (no z).",
+      "frequency": "muy_frecuente",
+      "category": "ciudad",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Ante e, i el sonido /θ/~/s/ se escribe c (no z).",
+      "notes": "Aray `ciudad-ctx`."
+    },
+    {
+      "id": "czqu-cocodrilo",
+      "lemma": "cocodrilo",
+      "errors": [
+        "cozodrilo"
+      ],
+      "ruleId": "c-z-qu",
+      "ruleText": "Ante o el sonido /k/ se escribe c.",
+      "frequency": "muy_frecuente",
+      "category": "animales",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Ante o el sonido /k/ se escribe c.",
+      "notes": "Savia u3."
+    },
+    {
+      "id": "czqu-cebolla",
+      "lemma": "cebolla",
+      "errors": [
+        "zebolla"
+      ],
+      "ruleId": "c-z-qu",
+      "ruleText": "Ante e el sonido /θ/~/s/ se escribe c (no z).",
+      "frequency": "frecuente",
+      "category": "comida",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Ante e el sonido /θ/~/s/ se escribe c (no z).",
+      "notes": "Vicens."
+    },
+    {
+      "id": "czqu-pequeno",
+      "lemma": "pequeño",
+      "errors": [
+        "peceño"
+      ],
+      "ruleId": "c-z-qu",
+      "ruleText": "Ante e, i el sonido /k/ se escribe qu.",
+      "frequency": "frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Ante e, i el sonido /k/ se escribe qu.",
+      "notes": "ANAYA refuerzo. Sin categoría más específica en el set."
+    },
+    {
+      "id": "czqu-macarrones",
+      "lemma": "macarrones",
+      "errors": [
+        "maquarrones"
+      ],
+      "ruleId": "c-z-qu",
+      "ruleText": "Ante a el sonido /k/ se escribe c (no qu).",
+      "frequency": "frecuente",
+      "category": "comida",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Ante a el sonido /k/ se escribe c (no qu).",
+      "notes": "ANAYA refuerzo."
+    },
+    {
+      "id": "czqu-azul",
+      "lemma": "azul",
+      "errors": [
+        "acul"
+      ],
+      "ruleId": "c-z-qu",
+      "ruleText": "Ante u el sonido /θ/~/s/ se escribe z.",
+      "frequency": "frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Ante u el sonido /θ/~/s/ se escribe z.",
+      "notes": "Vicens. Color: sin categoría más específica en el set."
+    },
+    {
+      "id": "czqu-cisne",
+      "lemma": "cisne",
+      "errors": [
+        "zisne"
+      ],
+      "ruleId": "c-z-qu",
+      "ruleText": "Ante i el sonido /θ/~/s/ se escribe c (no z).",
+      "frequency": "frecuente",
+      "category": "animales",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Ante i el sonido /θ/~/s/ se escribe c (no z).",
+      "notes": "Vicens."
+    },
+    {
+      "id": "czqu-azucar",
+      "lemma": "azúcar",
+      "errors": [
+        "acúcar"
+      ],
+      "ruleId": "c-z-qu",
+      "ruleText": "Ante u el sonido /θ/~/s/ se escribe z.",
+      "frequency": "frecuente",
+      "category": "comida",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Ante u el sonido /θ/~/s/ se escribe z.",
+      "notes": "Vicens.",
+      "tags": [
+        "tilde"
+      ],
+      "secondaryRuleIds": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "czqu-maceta",
+      "lemma": "maceta",
+      "errors": [
+        "mazeta"
+      ],
+      "ruleId": "c-z-qu",
+      "ruleText": "Ante e el sonido /θ/~/s/ se escribe c (no z).",
+      "frequency": "frecuente",
+      "category": "casa",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Ante e el sonido /θ/~/s/ se escribe c (no z).",
+      "notes": "ANAYA refuerzo."
+    },
+    {
+      "id": "czqu-receta",
+      "lemma": "receta",
+      "errors": [
+        "rezeta"
+      ],
+      "ruleId": "c-z-qu",
+      "ruleText": "Ante e el sonido /θ/~/s/ se escribe c (no z).",
+      "frequency": "frecuente",
+      "category": "comida",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Ante e el sonido /θ/~/s/ se escribe c (no z).",
+      "notes": "ANAYA refuerzo."
+    },
+    {
+      "id": "czqu-paquete",
+      "lemma": "paquete",
+      "errors": [
+        "pacete"
+      ],
+      "ruleId": "c-z-qu",
+      "ruleText": "Ante e, i el sonido /k/ se escribe qu.",
+      "frequency": "frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Ante e, i el sonido /k/ se escribe qu.",
+      "notes": "Savia; Vicens."
+    },
+    {
+      "id": "czqu-esquina",
+      "lemma": "esquina",
+      "errors": [
+        "escina"
+      ],
+      "ruleId": "c-z-qu",
+      "ruleText": "Ante e, i el sonido /k/ se escribe qu.",
+      "frequency": "frecuente",
+      "category": "ciudad",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Ante e, i el sonido /k/ se escribe qu.",
+      "notes": "Savia; Vicens."
+    },
+    {
+      "id": "czqu-cereza",
+      "lemma": "cereza",
+      "errors": [
+        "zereza"
+      ],
+      "ruleId": "c-z-qu",
+      "ruleText": "Ante e el sonido /θ/~/s/ se escribe c (no z).",
+      "frequency": "frecuente",
+      "category": "comida",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Ante e el sonido /θ/~/s/ se escribe c (no z).",
+      "notes": "ANAYA refuerzo."
+    },
+    {
+      "id": "czqu-corazon",
+      "lemma": "corazón",
+      "errors": [
+        "corasón"
+      ],
+      "ruleId": "c-z-qu",
+      "ruleText": "Algunas palabras se escriben con z.",
+      "frequency": "frecuente",
+      "category": "cuerpo",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Algunas palabras se escriben con z.",
+      "notes": "`formar-palabras.json`; Naturales 3.º. Foco z.",
+      "tags": [
+        "tilde"
+      ],
+      "secondaryRuleIds": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "czqu-ciervo",
+      "lemma": "ciervo",
+      "errors": [
+        "ziervo"
+      ],
+      "ruleId": "c-z-qu",
+      "ruleText": "Ante i el sonido /θ/~/s/ se escribe c (no z).",
+      "frequency": "poco_frecuente",
+      "category": "animales",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Ante i el sonido /θ/~/s/ se escribe c (no z).",
+      "notes": "ANAYA ampliación. Menos nuclear que cocodrilo/cebolla."
+    },
+    {
+      "id": "czqu-cazo",
+      "lemma": "cazo",
+      "errors": [
+        "caso"
+      ],
+      "ruleId": "c-z-qu",
+      "ruleText": "Ante o el sonido /θ/~/s/ se escribe z.",
+      "frequency": "poco_frecuente",
+      "category": "casa",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Ante o el sonido /θ/~/s/ se escribe z.",
+      "notes": "ANAYA refuerzo. Homófono *caso* (otra palabra): útil para practicar z."
+    },
+    {
+      "id": "czqu-quince",
+      "lemma": "quince",
+      "errors": [
+        "cince"
+      ],
+      "ruleId": "c-z-qu",
+      "ruleText": "Ante e, i el sonido /k/ se escribe qu.",
+      "frequency": "poco_frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Ante e, i el sonido /k/ se escribe qu.",
+      "notes": "Savia. No se añade *quincena*."
+    },
+    {
+      "id": "czqu-cebra",
+      "lemma": "cebra",
+      "errors": [
+        "zebra"
+      ],
+      "ruleId": "c-z-qu",
+      "ruleText": "Ante e el sonido /θ/~/s/ se escribe c (no z).",
+      "frequency": "poco_frecuente",
+      "category": "animales",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Ante e el sonido /θ/~/s/ se escribe c (no z).",
+      "notes": "ANAYA ampliación (animales con c o z)."
+    },
+    {
+      "id": "czqu-erizo",
+      "lemma": "erizo",
+      "errors": [
+        "erico"
+      ],
+      "ruleId": "c-z-qu",
+      "ruleText": "Algunas palabras se escriben con z.",
+      "frequency": "poco_frecuente",
+      "category": "animales",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Algunas palabras se escriben con z.",
+      "notes": "ANAYA ampliación (animales con c o z)."
+    }
+  ]
+}

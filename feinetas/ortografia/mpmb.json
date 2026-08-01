@@ -1,0 +1,317 @@
+{
+  "schemaVersion": 1,
+  "pack": {
+    "id": "ortografia-mpmb",
+    "title": "MP / MB / NV",
+    "ownerBank": "ERRORES_REALES_MPMB.md",
+    "ruleFamily": "mb-mp-nv",
+    "level": "3-primaria",
+    "locale": "es-ES",
+    "revisionStatus": "approved",
+    "contentVersion": 1,
+    "sourceEditorialPhase": "fase-editorial-base",
+    "notes": "Convertido en lote post-piloto. Colisiones: 0. No conectado a minijuegos."
+  },
+  "lemmas": [
+    {
+      "id": "mpmb-tambien",
+      "lemma": "también",
+      "errors": [
+        "tanbién"
+      ],
+      "ruleId": "mb-mp-nv",
+      "ruleText": "Antes de b se escribe m (también).",
+      "frequency": "muy_frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "notes": "Reservado desde LL/Y. Vicens refuerzo/ampliación («también sirve…»). Contexto Aray `tambien-ctx`. Lleva tilde; el foco de este banco es mb.",
+      "tags": [
+        "tilde"
+      ],
+      "secondaryRuleIds": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "mpmb-siempre",
+      "lemma": "siempre",
+      "errors": [
+        "sienpre"
+      ],
+      "ruleId": "mb-mp-nv",
+      "ruleText": "Antes de p se escribe m (siempre).",
+      "frequency": "muy_frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "notes": "ANAYA ampliación; Savia; Vicens; regla tomo2 («siempre se escribe m/n»)."
+    },
+    {
+      "id": "mpmb-campo",
+      "lemma": "campo",
+      "errors": [
+        "canpo"
+      ],
+      "ruleId": "mb-mp-nv",
+      "ruleText": "Antes de p se escribe m (campo).",
+      "frequency": "muy_frecuente",
+      "category": "naturaleza",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "`formar-palabras.json`; fábula tomo2; contexto Aray `campo-ctx`."
+    },
+    {
+      "id": "mpmb-tiempo",
+      "lemma": "tiempo",
+      "errors": [
+        "tienpo"
+      ],
+      "ruleId": "mb-mp-nv",
+      "ruleText": "Antes de p se escribe m (tiempo).",
+      "frequency": "frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "notes": "Vocabulario habitual de calendario / duración en materiales de 3.º; contexto Aray `tiempo-ctx`."
+    },
+    {
+      "id": "mpmb-comprar",
+      "lemma": "comprar",
+      "errors": [
+        "conprar"
+      ],
+      "ruleId": "mb-mp-nv",
+      "ruleText": "Antes de p se escribe m (comprar).",
+      "frequency": "muy_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo (infinitivo); Savia (texto de compra). Infinitivo; sin conjugaciones."
+    },
+    {
+      "id": "mpmb-cambiar",
+      "lemma": "cambiar",
+      "errors": [
+        "canbiar"
+      ],
+      "ruleId": "mb-mp-nv",
+      "ruleText": "Antes de b se escribe m (cambiar).",
+      "frequency": "muy_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo (frase hecha: «cambiar de opinión»). Infinitivo."
+    },
+    {
+      "id": "mpmb-companero",
+      "lemma": "compañero",
+      "errors": [
+        "conpañero"
+      ],
+      "ruleId": "mb-mp-nv",
+      "ruleText": "Antes de p se escribe m (compañero).",
+      "frequency": "muy_frecuente",
+      "category": "colegio",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo; Savia; Vicens (juegos en pareja). Uso diario de aula."
+    },
+    {
+      "id": "mpmb-enviar",
+      "lemma": "enviar",
+      "errors": [
+        "emviar"
+      ],
+      "ruleId": "mb-mp-nv",
+      "ruleText": "Antes de v se escribe n (enviar).",
+      "frequency": "muy_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "notes": "Tomo2 (carta); Vicens (enviar mensaje). Infinitivo."
+    },
+    {
+      "id": "mpmb-tambor",
+      "lemma": "tambor",
+      "errors": [
+        "tanbor"
+      ],
+      "ruleId": "mb-mp-nv",
+      "ruleText": "Antes de b se escribe m (tambor).",
+      "frequency": "muy_frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo: lista + pedir palabras con mb/nv; serie no-verbos. Ejemplo canónico de mb."
+    },
+    {
+      "id": "mpmb-campeon",
+      "lemma": "campeón",
+      "errors": [
+        "canpeón"
+      ],
+      "ruleId": "mb-mp-nv",
+      "ruleText": "Antes de p se escribe m (campeón).",
+      "frequency": "frecuente",
+      "category": "colegio",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo (tabla de género). Lleva tilde; foco mp. Uso escolar habitual.",
+      "tags": [
+        "tilde"
+      ],
+      "secondaryRuleIds": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "mpmb-envase",
+      "lemma": "envase",
+      "errors": [
+        "emvase"
+      ],
+      "ruleId": "mb-mp-nv",
+      "ruleText": "Antes de v se escribe n (envase).",
+      "frequency": "frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA ampliación («envases vacíos de vidrio»). Cotidiano (reciclaje / casa)."
+    },
+    {
+      "id": "mpmb-noviembre",
+      "lemma": "noviembre",
+      "errors": [
+        "novienbre"
+      ],
+      "ruleId": "mb-mp-nv",
+      "ruleText": "Antes de b se escribe m (noviembre).",
+      "frequency": "frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Tomo2 (carta y calendario). Mes del año: uso real en escritura de 3.º."
+    },
+    {
+      "id": "mpmb-campamento",
+      "lemma": "campamento",
+      "errors": [
+        "canpamento"
+      ],
+      "ruleId": "mb-mp-nv",
+      "ruleText": "Antes de p se escribe m (campamento).",
+      "frequency": "frecuente",
+      "category": "naturaleza",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA ampliación (texto: «el campamento»). Experiencia habitual de edad escolar."
+    },
+    {
+      "id": "mpmb-bombero",
+      "lemma": "bombero",
+      "errors": [
+        "bonbero"
+      ],
+      "ruleId": "mb-mp-nv",
+      "ruleText": "Antes de b se escribe m (bombero).",
+      "frequency": "frecuente",
+      "category": "ciudad",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Vicens (clasificación semántica: bombero…). Profesión conocida por el alumnado."
+    },
+    {
+      "id": "mpmb-empanada",
+      "lemma": "empanada",
+      "errors": [
+        "enpanada"
+      ],
+      "ruleId": "mb-mp-nv",
+      "ruleText": "Antes de p se escribe m (empanada).",
+      "frequency": "frecuente",
+      "category": "comida",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo (lista mb/mp). Comida cotidiana; dibujable."
+    },
+    {
+      "id": "mpmb-sombrero",
+      "lemma": "sombrero",
+      "errors": [
+        "sonbrero"
+      ],
+      "ruleId": "mb-mp-nv",
+      "ruleText": "Antes de b se escribe m (sombrero).",
+      "frequency": "frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo (mercado / diminutivos). Objeto cotidiano."
+    },
+    {
+      "id": "mpmb-embudo",
+      "lemma": "embudo",
+      "errors": [
+        "enbudo"
+      ],
+      "ruleId": "mb-mp-nv",
+      "ruleText": "Antes de b se escribe m (embudo).",
+      "frequency": "poco_frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo (lista mb). Objeto concreto; menos central que tambor/sombrero."
+    },
+    {
+      "id": "mpmb-lombriz",
+      "lemma": "lombriz",
+      "errors": [
+        "lonbriz"
+      ],
+      "ruleId": "mb-mp-nv",
+      "ruleText": "Antes de b se escribe m (lombriz).",
+      "frequency": "poco_frecuente",
+      "category": "animales",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Vicens (plurales); ANAYA ampliación. Animal conocido; no es relleno abstracto."
+    }
+  ]
+}

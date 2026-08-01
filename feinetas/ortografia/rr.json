@@ -7,10 +7,10 @@
     "ruleFamily": "r-rr",
     "level": "3-primaria",
     "locale": "es-ES",
-    "revisionStatus": "draft",
+    "revisionStatus": "approved",
     "contentVersion": 1,
     "sourceEditorialPhase": "fase-editorial-base",
-    "notes": "Pack piloto. No conectado a minijuegos todavía."
+    "notes": "Convertido en lote post-piloto. Colisiones: 0. No conectado a minijuegos."
   },
   "lemmas": [
     {
@@ -28,9 +28,6 @@
         "ref": null
       },
       "tip": "Entre vocales, el sonido fuerte de la r se escribe rr.",
-      "tags": [
-        "rr-entre-vocales"
-      ],
       "notes": "Savia u5 (regla). Vicens; ANAYA; Aray `perro-ctx`; `formar-palabras.json`."
     },
     {
@@ -48,9 +45,6 @@
         "ref": null
       },
       "tip": "Entre vocales, el sonido fuerte de la r se escribe rr.",
-      "tags": [
-        "rr-entre-vocales"
-      ],
       "notes": "Savia u5; Aray (perro/carro). Familia distinta de carrera/correr/carretera."
     },
     {
@@ -68,9 +62,6 @@
         "ref": null
       },
       "tip": "Entre vocales, el sonido fuerte de la r se escribe rr.",
-      "tags": [
-        "rr-entre-vocales"
-      ],
       "notes": "Savia u5; `formar-palabras.json`. Infinitivo."
     },
     {
@@ -88,9 +79,6 @@
         "ref": null
       },
       "tip": "Entre vocales, el sonido fuerte de la r se escribe rr.",
-      "tags": [
-        "rr-entre-vocales"
-      ],
       "notes": "Savia u5 (ca_e_a). Situación distinta a *correr* / *carro*."
     },
     {
@@ -109,9 +97,6 @@
         "ref": null
       },
       "tip": "Tras l, n o s el sonido fuerte se escribe con una sola r.",
-      "tags": [
-        "r-tras-lns"
-      ],
       "notes": "Savia u5 (regla). Aray `alrededor-ctx`. Sustituye ejemplos con nombres propios."
     },
     {
@@ -129,9 +114,6 @@
         "ref": null
       },
       "tip": "Entre vocales, el sonido fuerte de la r se escribe rr.",
-      "tags": [
-        "rr-entre-vocales"
-      ],
       "notes": "Aray `tierra-ctx`; `formar-palabras.json`."
     },
     {
@@ -149,9 +131,6 @@
         "ref": null
       },
       "tip": "Entre vocales, el sonido fuerte de la r se escribe rr.",
-      "tags": [
-        "rr-entre-vocales"
-      ],
       "notes": "Vicens; `formar-palabras.json`."
     },
     {
@@ -169,9 +148,6 @@
         "ref": null
       },
       "tip": "Entre vocales, el sonido fuerte de la r se escribe rr.",
-      "tags": [
-        "rr-entre-vocales"
-      ],
       "notes": "`formar-palabras.json`; materiales de alimentos."
     },
     {
@@ -189,9 +165,6 @@
         "ref": null
       },
       "tip": "Entre vocales, el sonido fuerte de la r se escribe rr.",
-      "tags": [
-        "rr-entre-vocales"
-      ],
       "notes": "Vicens (familia carta / cartero / cartera / carretera)."
     },
     {
@@ -209,9 +182,6 @@
         "ref": null
       },
       "tip": "El sonido suave de la r se escribe con una sola r.",
-      "tags": [
-        "r-suave"
-      ],
       "notes": "ANAYA refuerzo p.8. Representación mínima de r suave (junto a *parar*); no ampliar más en esta versión."
     },
     {
@@ -229,14 +199,13 @@
         "ref": null
       },
       "tip": "Entre vocales, el sonido fuerte de la r se escribe rr.",
+      "notes": "ANAYA refuerzo p.8; Savia u5.",
       "tags": [
-        "rr-entre-vocales",
         "tilde"
       ],
       "secondaryRuleIds": [
         "tilde"
-      ],
-      "notes": "ANAYA refuerzo p.8; Savia u5."
+      ]
     },
     {
       "id": "rr-cerrado",
@@ -253,9 +222,6 @@
         "ref": null
       },
       "tip": "Entre vocales, el sonido fuerte de la r se escribe rr.",
-      "tags": [
-        "rr-entre-vocales"
-      ],
       "notes": "ANAYA refuerzo p.8; Vicens (antónimos)."
     },
     {
@@ -273,9 +239,6 @@
         "ref": null
       },
       "tip": "Entre vocales, el sonido fuerte de la r se escribe rr.",
-      "tags": [
-        "rr-entre-vocales"
-      ],
       "notes": "ANAYA refuerzo p.8."
     },
     {
@@ -293,9 +256,6 @@
         "ref": null
       },
       "tip": "Entre vocales, el sonido fuerte de la r se escribe rr.",
-      "tags": [
-        "rr-entre-vocales"
-      ],
       "notes": "Savia u5 (antónimos)."
     },
     {
@@ -313,9 +273,6 @@
         "ref": null
       },
       "tip": "Tras n, l o s el sonido fuerte se escribe con una sola r.",
-      "tags": [
-        "r-tras-lns"
-      ],
       "notes": "Savia u5 (son_isa)."
     },
     {
@@ -333,9 +290,6 @@
         "ref": null
       },
       "tip": "El sonido suave de la r se escribe con una sola r.",
-      "tags": [
-        "r-suave"
-      ],
       "notes": "Savia u5 (pa_ar). Contraste r suave mínimo con *oreja*."
     },
     {
@@ -353,9 +307,6 @@
         "ref": null
       },
       "tip": "Entre vocales, el sonido fuerte de la r se escribe rr.",
-      "tags": [
-        "rr-entre-vocales"
-      ],
       "notes": "Savia u5 (ba_er)."
     },
     {
@@ -373,9 +324,6 @@
         "ref": null
       },
       "tip": "Tras n, l o s el sonido fuerte se escribe con una sola r.",
-      "tags": [
-        "r-tras-lns"
-      ],
       "notes": "Savia u5. Menos nuclear que alrededor/sonrisa."
     },
     {
@@ -393,9 +341,6 @@
         "ref": null
       },
       "tip": "Entre vocales, el sonido fuerte de la r se escribe rr.",
-      "tags": [
-        "rr-entre-vocales"
-      ],
       "notes": "Savia u5. Prioridad menor que correr/carro."
     },
     {
@@ -413,9 +358,6 @@
         "ref": null
       },
       "tip": "Entre vocales, el sonido fuerte de la r se escribe rr.",
-      "tags": [
-        "rr-entre-vocales"
-      ],
       "notes": "Savia u5. Escolar; no nuclear de patio."
     },
     {
@@ -433,14 +375,13 @@
         "ref": null
       },
       "tip": "Entre vocales, el sonido fuerte de la r se escribe rr.",
+      "notes": "Savia u5 (clasificación rr). Léxico escolar.",
       "tags": [
-        "rr-entre-vocales",
         "tilde"
       ],
       "secondaryRuleIds": [
         "tilde"
-      ],
-      "notes": "Savia u5 (clasificación rr). Léxico escolar."
+      ]
     }
   ]
 }
