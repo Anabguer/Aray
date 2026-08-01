@@ -7,8 +7,9 @@ import { GoalCard } from '@/components/GoalCard'
 import { ResetProgressControl } from '@/components/ResetProgressControl'
 import { SyncStatusBanner } from '@/components/SyncStatusBanner'
 import { ZoneCard } from '@/components/ZoneCard'
-import { rewardGoalConfig } from '@/config/rewardGoal'
+import { energyCopy, rewardGoalConfig } from '@/config/rewardGoal'
 import { buildLobbyMissions, pickDailyChallenge, type LobbyMissionCard } from '@/curriculum'
+import { useDailyMission } from '@/daily/DailyMissionContext'
 import { zoneLinks } from '@/data/demo'
 import { challengeArtUrl } from '@/features/home/challengeArt'
 import { launchLobbyMission } from '@/features/home/launchMission'
@@ -50,6 +51,7 @@ export function HomeScreen() {
     null
   const { setSelection, setActiveMode, setPendingQueue, setLastResult, setMissionOfDay } =
     usePlaySession()
+  const { challengeDone } = useDailyMission()
   const lobby = buildLobbyMissions(progress, 4)
   const dailyChallenge = pickDailyChallenge(progress)
   const primaryMission =
@@ -134,7 +136,10 @@ export function HomeScreen() {
 
         <div className="lobby__main">
           <div className="lobby__main-left">
-            <article className="lobby-mission" aria-labelledby="mission-today-title">
+            <article
+              className={`lobby-mission${challengeDone ? ' lobby-mission--done' : ''}`}
+              aria-labelledby="mission-today-title"
+            >
               <div className="lobby-mission__art" aria-hidden="true">
                 <img
                   src={challengeArtUrl(primaryMission)}
@@ -147,27 +152,47 @@ export function HomeScreen() {
                 />
               </div>
               <div className="lobby-mission__body">
-                <p className="lobby-mission__eyebrow">Reto del día</p>
+                <p className="lobby-mission__eyebrow">
+                  {challengeDone ? energyCopy.challengeDone : energyCopy.challengeCta}
+                </p>
                 <h2 id="mission-today-title" className="lobby-mission__title">
                   {lobbyMissionTitle(primaryMission)}
                 </h2>
                 <p className="lobby-mission__rewards">
-                  {lobbyMissionDescription(primaryMission, sessionEnergy)}
+                  {challengeDone
+                    ? 'Ya sumaste el +10 de hoy. Puedes practicar otra vez.'
+                    : lobbyMissionDescription(primaryMission, sessionEnergy)}
                 </p>
               </div>
               <Link
                 to={primaryMission?.path ?? '/missions/mates/tables'}
-                className="btn btn-ghost lobby-mission__cta"
+                className={`btn btn-ghost lobby-mission__cta${challengeDone ? ' lobby-mission__cta--done' : ''}`}
+                aria-label={
+                  challengeDone
+                    ? 'Reto del día hecho. Jugar otra vez sin bonus'
+                    : 'Jugar el reto del día'
+                }
                 onClick={(e) => {
                   if (!primaryMission) return
                   e.preventDefault()
                   playMission(primaryMission)
                 }}
               >
-                <span className="lobby-mission__play" aria-hidden="true">
-                  ▶
-                </span>
-                JUGAR
+                {challengeDone ? (
+                  <>
+                    <span className="lobby-mission__play" aria-hidden="true">
+                      ✓
+                    </span>
+                    HECHO
+                  </>
+                ) : (
+                  <>
+                    <span className="lobby-mission__play" aria-hidden="true">
+                      ▶
+                    </span>
+                    JUGAR
+                  </>
+                )}
               </Link>
             </article>
 

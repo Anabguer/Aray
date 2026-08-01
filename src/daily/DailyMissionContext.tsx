@@ -12,12 +12,18 @@ import { useAuth } from '@/auth/AuthContext'
 import { DAILY_TASKS, type DailySkillKey, type DailyTaskDef } from '@/daily/dailyTasks'
 import {
   advanceMissionProgress,
+  hasMissionStatBeenCounted,
+  isDailyMissionComplete,
   loadDailyMissionSnapshot,
   markChallengeDone,
+  markMissionStatCounted,
   saveDailyMissionSnapshot,
   type DailyMissionSnapshot,
 } from '@/daily/missionEnergy'
+import { useProgress } from '@/progress/ProgressContext'
+import { newId } from '@/progress/repository'
 import { localDateString } from '@/reward/engine'
+import { enqueueAndSyncDailyMission } from '@/sync/dailyMissionSync'
 
 export type { DailySkillKey, DailyTaskDef }
 export { DAILY_TASKS }
@@ -42,10 +48,47 @@ const DailyMissionContext = createContext<DailyMissionContextValue | null>(null)
 
 export function DailyMissionProvider({ children }: { children: ReactNode }) {
   const { player } = useAuth()
+  const { grantActivityEnergy } = useProgress()
   const playerId = player?.id ?? null
+  const playerSlug = player?.slug ?? null
   const skipSaveRef = useRef(false)
   const [state, setState] = useState<DailyMissionSnapshot>(() =>
     loadDailyMissionSnapshot(playerId),
+  )
+
+  const pushServer = useCallback(
+    (snapshot: DailyMissionSnapshot) => {
+      if (playerId == null) return
+      void enqueueAndSyncDailyMission({
+        playerId,
+        playerSlug,
+        snapshot,
+      }).then((result) => {
+        setState((prev) =>
+          sameDailySnapshot(prev, result.snapshot) ? prev : result.snapshot,
+        )
+      })
+    },
+    [playerId, playerSlug],
+  )
+
+  /** Una vez al día: +1 a dailyMissionsCompleted para logros (local + sync). */
+  const creditMissionCompletionStat = useCallback(
+    (snapshot: DailyMissionSnapshot) => {
+      if (!isDailyMissionComplete(snapshot)) return
+      const today = snapshot.date || localDateString()
+      if (hasMissionStatBeenCounted(playerId, today)) return
+      markMissionStatCounted(playerId, today)
+      grantActivityEnergy({
+        sessionId: newId('daily-mission-done'),
+        requestedPoints: 0,
+        mode: 'daily-done',
+        correct: 1,
+        wrong: 0,
+        statsDelta: { dailyMissionsCompleted: 1 },
+      })
+    },
+    [grantActivityEnergy, playerId],
   )
 
   // Al cambiar de niño: cargar su snapshot. No guardar el estado viejo encima.
@@ -73,21 +116,29 @@ export function DailyMissionProvider({ children }: { children: ReactNode }) {
     return () => window.removeEventListener('aray-daily-mission-changed', refresh)
   }, [playerId])
 
+  // Si ya estaba 5/5 (p. ej. hoy antes del fix), acredita el logro una vez.
+  useEffect(() => {
+    creditMissionCompletionStat(state)
+  }, [state, creditMissionCompletionStat])
+
   const recordProgress = useCallback(
     (key: DailySkillKey, amount = 1) => {
       const add = Math.max(0, Math.floor(amount))
       if (add <= 0) return
-      // Escritura atómica en storage (misma vía que tablas) + UI al día.
       const next = advanceMissionProgress(playerId, key, add, localDateString())
       setState(next)
+      pushServer(next)
+      creditMissionCompletionStat(next)
     },
-    [playerId],
+    [creditMissionCompletionStat, playerId, pushServer],
   )
 
   const markChallengeComplete = useCallback(() => {
     markChallengeDone(playerId, localDateString())
-    setState(loadDailyMissionSnapshot(playerId))
-  }, [playerId])
+    const next = loadDailyMissionSnapshot(playerId)
+    setState(next)
+    pushServer(next)
+  }, [playerId, pushServer])
 
   const completedCount = DAILY_TASKS.filter((t) => (state.progress[t.key] ?? 0) >= t.target).length
   const allDone = completedCount >= DAILY_TASKS.length

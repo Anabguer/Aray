@@ -12,6 +12,58 @@ function emptyProgress(): Record<DailySkillKey, number> {
   return { tables: 0, calc: 0, spelling: 0, clocks: 0, money: 0 }
 }
 
+export function emptyDailyMissionSnapshot(
+  today: string = localDateString(),
+): DailyMissionSnapshot {
+  return { date: today, progress: emptyProgress(), challengeDone: false }
+}
+
+export function normalizeDailyMissionSnapshot(
+  raw: unknown,
+  today: string = localDateString(),
+): DailyMissionSnapshot {
+  if (!raw || typeof raw !== 'object') return emptyDailyMissionSnapshot(today)
+  const parsed = raw as {
+    date?: string
+    progress?: Partial<Record<DailySkillKey, number>>
+    challengeDone?: boolean
+  }
+  const date = typeof parsed.date === 'string' ? parsed.date.slice(0, 10) : today
+  if (date !== today) return emptyDailyMissionSnapshot(today)
+  const progress = emptyProgress()
+  for (const t of DAILY_TASKS) {
+    const v = parsed.progress?.[t.key]
+    progress[t.key] =
+      typeof v === 'number' && Number.isFinite(v)
+        ? Math.max(0, Math.min(t.target, Math.floor(v)))
+        : 0
+  }
+  return {
+    date: today,
+    progress,
+    challengeDone: Boolean(parsed.challengeDone),
+  }
+}
+
+/** Merge monótono (max por skill + OR reto) — mismo criterio que el servidor. */
+export function mergeDailyMissionSnapshots(
+  a: DailyMissionSnapshot,
+  b: DailyMissionSnapshot,
+  today: string = localDateString(),
+): DailyMissionSnapshot {
+  const left = normalizeDailyMissionSnapshot(a, today)
+  const right = normalizeDailyMissionSnapshot(b, today)
+  const progress = emptyProgress()
+  for (const t of DAILY_TASKS) {
+    progress[t.key] = Math.max(left.progress[t.key] ?? 0, right.progress[t.key] ?? 0)
+  }
+  return {
+    date: today,
+    progress,
+    challengeDone: left.challengeDone || right.challengeDone,
+  }
+}
+
 export function missionStorageKey(playerId: number | null): string {
   return playerId != null ? `aray.dailyMission.v1.p${playerId}` : 'aray.dailyMission.v1'
 }
@@ -22,24 +74,10 @@ export function loadDailyMissionSnapshot(
 ): DailyMissionSnapshot {
   try {
     const raw = localStorage.getItem(missionStorageKey(playerId))
-    if (!raw) return { date: today, progress: emptyProgress(), challengeDone: false }
-    const parsed = JSON.parse(raw) as {
-      date?: string
-      progress?: Partial<Record<DailySkillKey, number>>
-      challengeDone?: boolean
-      bonusClaimed?: boolean
-    }
-    if (parsed.date !== today) {
-      return { date: today, progress: emptyProgress(), challengeDone: false }
-    }
-    return {
-      date: today,
-      progress: { ...emptyProgress(), ...parsed.progress },
-      // Migración: bonusClaimed antiguo no implica reto hecho.
-      challengeDone: Boolean(parsed.challengeDone),
-    }
+    if (!raw) return emptyDailyMissionSnapshot(today)
+    return normalizeDailyMissionSnapshot(JSON.parse(raw), today)
   } catch {
-    return { date: today, progress: emptyProgress(), challengeDone: false }
+    return emptyDailyMissionSnapshot(today)
   }
 }
 
@@ -49,7 +87,9 @@ export function saveDailyMissionSnapshot(
   options?: { notify?: boolean },
 ): void {
   try {
-    localStorage.setItem(missionStorageKey(playerId), JSON.stringify(snapshot))
+    const today = localDateString()
+    const normalized = normalizeDailyMissionSnapshot(snapshot, today)
+    localStorage.setItem(missionStorageKey(playerId), JSON.stringify(normalized))
     if (options?.notify === false) return
     if (typeof window !== 'undefined') {
       window.dispatchEvent(new CustomEvent('aray-daily-mission-changed'))
@@ -158,4 +198,38 @@ export function remainingMissionEnergyBudget(snapshot: DailyMissionSnapshot): nu
     sum += rem * missionEnergyConfig.perUnit[t.key]
   }
   return sum
+}
+
+/** True si las 5 skills de la misión diaria están al cupo. */
+export function isDailyMissionComplete(snapshot: DailyMissionSnapshot): boolean {
+  return DAILY_TASKS.every((t) => (snapshot.progress[t.key] ?? 0) >= t.target)
+}
+
+function missionStatCountedKey(playerId: number | null): string {
+  return playerId != null
+    ? `aray.dailyMission.statCounted.v1.p${playerId}`
+    : 'aray.dailyMission.statCounted.v1'
+}
+
+/** Evita sumar dailyMissionsCompleted más de una vez el mismo día jugable. */
+export function hasMissionStatBeenCounted(
+  playerId: number | null,
+  today: string = localDateString(),
+): boolean {
+  try {
+    return localStorage.getItem(missionStatCountedKey(playerId)) === today
+  } catch {
+    return false
+  }
+}
+
+export function markMissionStatCounted(
+  playerId: number | null,
+  today: string = localDateString(),
+): void {
+  try {
+    localStorage.setItem(missionStatCountedKey(playerId), today)
+  } catch {
+    /* ignore */
+  }
 }
