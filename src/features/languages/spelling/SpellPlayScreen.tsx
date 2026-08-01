@@ -168,9 +168,75 @@ export function SpellPlayScreen() {
     lumo.setThinking()
   }, [index])
 
-  if (!isMode(modeParam) || !question) return null
+  const waitingAfterMiss =
+    question != null && picked !== null && picked !== question.correctIndex
 
-  const waitingAfterMiss = picked !== null && picked !== question.correctIndex
+  const onPickRef = useRef<(i: number) => void>(() => {})
+  useEffect(() => {
+    onPickRef.current = (i: number) => {
+      if (!question || locked || waitingAfterMiss || hitFlash) return
+      setLocked(true)
+      setPicked(i)
+      const ok = i === question.correctIndex
+      const key = question.targetKey
+      if (ok) {
+        if (key) recordSpellHit(pid, { key, rule: question.rule })
+        soundEngine.play('answer-correct')
+        const ns = streakRef.current + 1
+        streakRef.current = ns
+        bestRef.current = Math.max(bestRef.current, ns)
+        correctRef.current += 1
+        lumo.reactToAnswer({ correct: true, streak: ns })
+        setCorrectCount(correctRef.current)
+        setStreak(ns)
+        setHitFlash(true)
+        answerFx.spawn({ tone: 'hit', optionIndex: i, nextStreak: ns })
+        window.setTimeout(() => {
+          setPicked(null)
+          setShowWhy(false)
+          setExplain(null)
+          setLocked(false)
+          setHitFlash(false)
+          answerFx.clearFx()
+          setIndex((x) => x + 1)
+        }, prefersReducedMotion() ? 700 : 950)
+        return
+      }
+
+      if (key) recordSpellMiss(pid, { key, rule: question.rule, mode })
+      soundEngine.play('answer-wrong')
+      streakRef.current = 0
+      lumo.reactToAnswer({ correct: false, streak: 0 })
+      setStreak(0)
+      answerFx.spawn({ tone: 'miss', optionIndex: i, nextStreak: 0 })
+      setExplain(
+        explainSpellMistake({
+          mode: question.mode === 'mix' || question.mode === 'review' ? mode : question.mode,
+          rule: question.rule,
+          tip: question.tip,
+          correct: question.options[question.correctIndex]!,
+          chosen: question.options[i]!,
+        }),
+      )
+    }
+  })
+
+  useEffect(() => {
+    if (!question || mode === 'picture') return
+    const optionCount = question.options.length
+    function onKey(e: KeyboardEvent) {
+      if (locked || waitingAfterMiss || hitFlash || exitOpen) return
+      const n = Number(e.key)
+      if (!Number.isInteger(n) || n < 1 || n > optionCount) return
+      e.preventDefault()
+      onPickRef.current(n - 1)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [question, mode, locked, waitingAfterMiss, hitFlash, exitOpen])
+
+  if (!isMode(modeParam) || mode === 'picture' || !question) return null
+
   const hasProgress = index > 0 || correctCount > 0 || picked !== null
 
   function goNext() {
@@ -198,44 +264,8 @@ export function SpellPlayScreen() {
   }
 
   function onPick(i: number) {
-    if (locked || waitingAfterMiss || hitFlash) return
-    setLocked(true)
-    setPicked(i)
-    const ok = i === question.correctIndex
-    const key = question.targetKey
-    if (ok) {
-      if (key) recordSpellHit(pid, { key, rule: question.rule })
-      soundEngine.play('answer-correct')
-      const ns = streakRef.current + 1
-      streakRef.current = ns
-      bestRef.current = Math.max(bestRef.current, ns)
-      correctRef.current += 1
-      lumo.reactToAnswer({ correct: true, streak: ns })
-      setCorrectCount(correctRef.current)
-      setStreak(ns)
-      setHitFlash(true)
-      answerFx.spawn({ tone: 'hit', optionIndex: i, nextStreak: ns })
-      window.setTimeout(goNext, prefersReducedMotion() ? 700 : 950)
-      return
-    }
-
-    if (key) recordSpellMiss(pid, { key, rule: question.rule, mode })
-    soundEngine.play('answer-wrong')
-    streakRef.current = 0
-    lumo.reactToAnswer({ correct: false, streak: 0 })
-    setStreak(0)
-    answerFx.spawn({ tone: 'miss', optionIndex: i, nextStreak: 0 })
-    setExplain(
-      explainSpellMistake({
-        mode: question.mode === 'mix' || question.mode === 'review' ? mode : question.mode,
-        rule: question.rule,
-        tip: question.tip,
-        correct: question.options[question.correctIndex]!,
-        chosen: question.options[i]!,
-      }),
-    )
+    onPickRef.current(i)
   }
-
   return (
     <AppShell
       title={SPELL_MODE_LABELS[mode].toUpperCase()}
@@ -276,7 +306,11 @@ export function SpellPlayScreen() {
           onCancelExit={() => setExitOpen(false)}
           enterKey={enterKey}
           answers={
-            <div className="side-run-options" role="group" aria-label="Respuestas">
+            <div
+              className={`side-run-options side-run-options--count-${question.options.length}`}
+              role="group"
+              aria-label="Respuestas"
+            >
               {question.options.map((opt, i) => {
                 const isCorrect = i === question.correctIndex
                 const isPicked = picked === i

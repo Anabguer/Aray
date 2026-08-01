@@ -1,5 +1,6 @@
 /**
  * Mezcla total: mecánicas JSON elegibles (sin Imagen hasta image.ref reales).
+ * Nunca bloquea la ronda: si una mecánica falla, prueba otra.
  */
 import { buildOrtografiaCompleteQuestion } from '@/minigames/adapters/ortografiaComplete'
 import { buildOrtografiaCorrectQuestion } from '@/minigames/adapters/ortografiaCorrect'
@@ -23,6 +24,24 @@ const MIXER_WEIGHTS: MixerKind[] = [
 
 const JSON_MIXERS: MixerKind[] = ['correct', 'intruder', 'missing', 'complete']
 
+function tryBuild(
+  kind: MixerKind,
+  seed: number,
+  usedRefs: Set<string>,
+  usedPhraseIds: Set<string>,
+): SpellMcqQuestion {
+  switch (kind) {
+    case 'complete':
+      return buildOrtografiaCompleteQuestion(seed, usedPhraseIds, 'mix')
+    case 'correct':
+      return buildOrtografiaCorrectQuestion(seed, usedRefs, 'mix')
+    case 'intruder':
+      return buildOrtografiaIntruderQuestion(seed, usedRefs, 'mix')
+    case 'missing':
+      return buildOrtografiaMissingQuestion(seed, usedRefs, 'mix')
+  }
+}
+
 export function buildOrtografiaMixRound(
   count = SPELL_ROUND_SIZE,
   seed = Date.now(),
@@ -37,30 +56,18 @@ export function buildOrtografiaMixRound(
     let kind = MIXER_WEIGHTS[Math.floor(rand() * MIXER_WEIGHTS.length)]!
     let q: SpellMcqQuestion | null = null
     let attempts = 0
-    while (q == null && attempts < 12) {
+    while (q == null && attempts < 16) {
       attempts += 1
       try {
-        switch (kind) {
-          case 'complete':
-            q = buildOrtografiaCompleteQuestion(qSeed + attempts, usedPhraseIds, 'mix')
-            break
-          case 'correct':
-            q = buildOrtografiaCorrectQuestion(qSeed + attempts, usedRefs, 'mix')
-            break
-          case 'intruder':
-            q = buildOrtografiaIntruderQuestion(qSeed + attempts, usedRefs, 'mix')
-            break
-          case 'missing':
-            q = buildOrtografiaMissingQuestion(qSeed + attempts, usedRefs, 'mix')
-            break
-        }
+        q = tryBuild(kind, qSeed + attempts, usedRefs, usedPhraseIds)
       } catch {
         kind = JSON_MIXERS[Math.floor(rand() * JSON_MIXERS.length)]!
         q = null
       }
     }
     if (!q) {
-      q = buildOrtografiaCorrectQuestion(qSeed, usedRefs, 'mix')
+      // Último recurso estable: missing casi siempre tiene pool.
+      q = buildOrtografiaMissingQuestion(qSeed + 99, usedRefs, 'mix')
     }
     out.push(q)
   }

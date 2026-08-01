@@ -24,7 +24,8 @@ const JSON_ADAPTER_FILES = [
 
 const FORBIDDEN_IMPORT_RE =
   /from\s+['"]@\/spelling\/(bank|distract|generator|lemmas\.generated|legacyComplete)['"]/
-const FORBIDDEN_SYMBOL_RE = /\b(SPELL_BANK|makeDistractors|SPELL_CONTEXTS)\b/
+const FORBIDDEN_SYMBOL_RE =
+  /\b(SPELL_BANK|makeDistractors|SPELL_CONTEXTS|wordOptions|RULE_EMOJI|lemmaToWord)\b/
 
 function readSrc(filePath: string): string {
   return readFileSync(filePath, 'utf8')
@@ -44,6 +45,35 @@ describe('arquitectura ortografía JSON (Fase 4)', () => {
       'ortographyCorpus.ts',
       readSrc(path.join(FEINETAS_DIR, 'ortographyCorpus.ts')),
     )
+  })
+
+  it('pipeline productivo no llama makeDistractors / wordOptions / RULE_EMOJI', () => {
+    const productive = [
+      'buildRound.ts',
+      'catalog.ts',
+      ...JSON_ADAPTER_FILES.map((f) => path.join('adapters', f)),
+    ]
+    for (const rel of productive) {
+      const src = readSrc(path.join(ROOT, 'src/minigames', rel))
+      expect(src).not.toMatch(/\bmakeDistractors\b/)
+      expect(src).not.toMatch(/\bwordOptions\b/)
+      expect(src).not.toMatch(/\bRULE_EMOJI\b/)
+    }
+    const mix = readSrc(path.join(ADAPTERS_DIR, 'ortografiaMix.ts'))
+    expect(mix).not.toMatch(/ortografiaPicture|buildOrtografiaPicture/)
+    const review = readSrc(path.join(ADAPTERS_DIR, 'ortografiaReview.ts'))
+    expect(review).not.toMatch(/ortografiaPicture|buildOrtografiaPicture/)
+    const build = readSrc(path.join(ROOT, 'src/minigames/buildRound.ts'))
+    expect(build).not.toMatch(/buildOrtografiaPictureRound/)
+  })
+
+  it('mientras Imagen esté desactivada, mix/review/buildRound no la usan', () => {
+    const pic = readSrc(path.join(ADAPTERS_DIR, 'ortografiaPicture.ts'))
+    expect(pic).toMatch(/PICTURE_MODE_ENABLED/)
+    expect(pic).toMatch(/if\s*\(\s*!PICTURE_MODE_ENABLED\s*\)/)
+    const shared = readSrc(path.join(ADAPTERS_DIR, 'ortografiaShared.ts'))
+    expect(shared).toMatch(/export const PICTURE_MODE_ENABLED\s*=\s*false/)
+    expect(getMinigame('spelling-picture').status).toBe('coming-soon')
   })
 
   it('legacyComplete y legacySpell ya no existen', () => {
