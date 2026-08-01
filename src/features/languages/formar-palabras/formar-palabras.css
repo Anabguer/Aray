@@ -1,0 +1,137 @@
+.formar-play {
+  max-width: 36rem;
+  margin: 0 auto;
+}
+
+.formar-play__hud {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.formar-play__prompt {
+  text-align: center;
+  font-weight: 700;
+  margin: 0 0 0.35rem;
+  line-height: 1.35;
+}
+
+.formar-play__grupo {
+  text-align: center;
+  margin: 0 0 1.25rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  text-transform: capitalize;
+}
+
+.formar-play__slots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.45rem;
+  margin-bottom: 1.5rem;
+  min-height: 3.4rem;
+}
+
+.formar-play__slot {
+  width: 2.75rem;
+  height: 3.1rem;
+  border-radius: 0.65rem;
+  border: 2px dashed rgba(148, 163, 184, 0.55);
+  background: rgba(15, 23, 42, 0.35);
+  color: #f8fafc;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+}
+
+.formar-play__slot.has-letter {
+  border-style: solid;
+  border-color: rgba(96, 165, 250, 0.7);
+  background: rgba(37, 99, 235, 0.28);
+}
+
+.formar-play__slot.is-hint {
+  border-color: rgba(52, 211, 153, 0.85);
+  background: rgba(16, 185, 129, 0.28);
+}
+
+.formar-play__slots.is-ok .formar-play__slot {
+  border-color: rgba(34, 197, 94, 0.9);
+  background: rgba(22, 163, 74, 0.35);
+}
+
+.formar-play__slots.is-bad .formar-play__slot {
+  border-color: rgba(239, 68, 68, 0.9);
+  background: rgba(185, 28, 28, 0.32);
+}
+
+.formar-play__slots.is-pop {
+  animation: formar-pop 0.45s ease;
+}
+
+@keyframes formar-pop {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.06);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.formar-play__pool {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 0 0 1.25rem;
+  padding: 0;
+}
+
+.formar-play__tile {
+  width: 2.85rem;
+  height: 2.85rem;
+  border-radius: 0.7rem;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  background: linear-gradient(160deg, rgba(51, 65, 85, 0.95), rgba(30, 41, 59, 0.95));
+  color: #f8fafc;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.formar-play__tile:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.formar-play__tile.is-used {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.formar-play__fails {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin: 0 0 1rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .formar-play__slots.is-pop {
+    animation: none;
+  }
+}

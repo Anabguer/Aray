@@ -30,6 +30,9 @@ import { AlphabetModeSelectScreen } from '@/features/languages/AlphabetModeSelec
 import { AlphabetPlayScreen } from '@/features/languages/AlphabetPlayScreen'
 import { AlphabetSummaryScreen } from '@/features/languages/AlphabetSummaryScreen'
 import { LanguagesHubScreen } from '@/features/languages/LanguagesHubScreen'
+import { FormarPalabrasPlayScreen } from '@/features/languages/formar-palabras/FormarPalabrasPlayScreen'
+import { FormarPalabrasSummaryScreen } from '@/features/languages/formar-palabras/FormarPalabrasSummaryScreen'
+import { WordsModeSelectScreen } from '@/features/languages/words/WordsModeSelectScreen'
 import { SpellModeSelectScreen } from '@/features/languages/spelling/SpellModeSelectScreen'
 import { SpellPlayScreen } from '@/features/languages/spelling/SpellPlayScreen'
 import { SpellSummaryScreen } from '@/features/languages/spelling/SpellSummaryScreen'
@@ -79,6 +82,20 @@ export default function App() {
         <Route path="/missions/languages/spelling" element={<SpellModeSelectScreen />} />
         <Route path="/missions/languages/spelling/summary" element={<SpellSummaryScreen />} />
         <Route path="/missions/languages/spelling/:mode" element={<SpellPlayScreen />} />
+        <Route path="/missions/languages/words" element={<WordsModeSelectScreen />} />
+        <Route path="/missions/languages/formar-palabras" element={<FormarPalabrasPlayScreen />} />
+        <Route
+          path="/missions/languages/formar-palabras/summary"
+          element={<FormarPalabrasSummaryScreen />}
+        />
+        <Route
+          path="/missions/languages/words/formar-palabras"
+          element={<Navigate to="/missions/languages/formar-palabras" replace />}
+        />
+        <Route
+          path="/missions/languages/words/formar-palabras/summary"
+          element={<Navigate to="/missions/languages/formar-palabras/summary" replace />}
+        />
         <Route path="/missions/:subjectId" element={<SubjectPreviewScreen />} />
         <Route path="/collection" element={<CollectionScreen />} />
         <Route path="*" element={<Navigate to="/" replace />} />

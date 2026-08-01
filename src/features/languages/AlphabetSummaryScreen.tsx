@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAlphabetSession, type AlphabetPlayMode } from '@/alphabet'
 import { AppShell } from '@/components/AppShell'
 import { RoundSummary } from '@/components/RoundSummary'
-import { energyCopy } from '@/config/rewardGoal'
+import { DailyEnergyNote } from '@/components/DailyEnergyNote'
 import { soundEngine } from '@/sound/soundEngine'
 
 const MODE_LABEL: Record<AlphabetPlayMode, string> = {
@@ -59,7 +59,7 @@ export function AlphabetSummaryScreen() {
         </p>
       ) : null}
       {summary.rewardDailyComplete && !summary.rewardPointsEarned ? (
-        <p role="status">{energyCopy.playForFun}</p>
+        <DailyEnergyNote compact />
       ) : null}
       {summary.recommendReview ? (
         <p role="status">

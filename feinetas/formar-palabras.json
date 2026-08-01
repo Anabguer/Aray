@@ -1,0 +1,1780 @@
+{
+  "nombre": "Formar palabras",
+  "version": 1,
+  "nivel": "3º Primaria Cataluña",
+  "objetivo": "Ordenar letras para formar la palabra correcta.",
+  "mecanica": {
+    "tipo": "drag_drop",
+    "casillas_superiores": true,
+    "letras_desordenadas": true,
+    "mantener_letras_al_fallar": true
+  },
+  "correccion": {
+    "automatica": true,
+    "acierto": {
+      "color": "verde",
+      "sonido": true,
+      "animacion": true
+    },
+    "fallo": {
+      "color": "rojo",
+      "contar_fallo": true
+    }
+  },
+  "ayudas": {
+    "tras_3_fallos": "colocar_primera_letra"
+  },
+  "objetivo_palabras": 250,
+  "palabras": [
+    {
+      "id": "fp-001",
+      "palabra": "casa",
+      "grupo": "casa-familia",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-002",
+      "palabra": "mesa",
+      "grupo": "casa-familia",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-003",
+      "palabra": "silla",
+      "grupo": "casa-familia",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-004",
+      "palabra": "cama",
+      "grupo": "casa-familia",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-005",
+      "palabra": "puerta",
+      "grupo": "casa-familia",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-006",
+      "palabra": "ventana",
+      "grupo": "casa-familia",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-007",
+      "palabra": "cocina",
+      "grupo": "casa-familia",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-008",
+      "palabra": "baño",
+      "grupo": "casa-familia",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-009",
+      "palabra": "salón",
+      "grupo": "casa-familia",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-010",
+      "palabra": "sofá",
+      "grupo": "casa-familia",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-011",
+      "palabra": "lámpara",
+      "grupo": "casa-familia",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-012",
+      "palabra": "espejo",
+      "grupo": "casa-familia",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-013",
+      "palabra": "cuaderno",
+      "grupo": "casa-familia",
+      "dificultad": 3,
+      "letras": 8
+    },
+    {
+      "id": "fp-014",
+      "palabra": "mochila",
+      "grupo": "casa-familia",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-015",
+      "palabra": "familia",
+      "grupo": "casa-familia",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-016",
+      "palabra": "madre",
+      "grupo": "casa-familia",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-017",
+      "palabra": "padre",
+      "grupo": "casa-familia",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-018",
+      "palabra": "hermano",
+      "grupo": "casa-familia",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-019",
+      "palabra": "hermana",
+      "grupo": "casa-familia",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-020",
+      "palabra": "abuelo",
+      "grupo": "casa-familia",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-021",
+      "palabra": "abuela",
+      "grupo": "casa-familia",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-022",
+      "palabra": "tío",
+      "grupo": "casa-familia",
+      "dificultad": 1,
+      "letras": 3
+    },
+    {
+      "id": "fp-023",
+      "palabra": "tía",
+      "grupo": "casa-familia",
+      "dificultad": 1,
+      "letras": 3
+    },
+    {
+      "id": "fp-024",
+      "palabra": "primo",
+      "grupo": "casa-familia",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-025",
+      "palabra": "prima",
+      "grupo": "casa-familia",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-026",
+      "palabra": "bebé",
+      "grupo": "casa-familia",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-027",
+      "palabra": "hijo",
+      "grupo": "casa-familia",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-028",
+      "palabra": "hija",
+      "grupo": "casa-familia",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-029",
+      "palabra": "niño",
+      "grupo": "casa-familia",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-030",
+      "palabra": "niña",
+      "grupo": "casa-familia",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-031",
+      "palabra": "colegio",
+      "grupo": "escuela",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-032",
+      "palabra": "clase",
+      "grupo": "escuela",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-033",
+      "palabra": "profesor",
+      "grupo": "escuela",
+      "dificultad": 3,
+      "letras": 8
+    },
+    {
+      "id": "fp-034",
+      "palabra": "profesora",
+      "grupo": "escuela",
+      "dificultad": 4,
+      "letras": 9
+    },
+    {
+      "id": "fp-035",
+      "palabra": "alumno",
+      "grupo": "escuela",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-036",
+      "palabra": "alumna",
+      "grupo": "escuela",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-037",
+      "palabra": "pizarra",
+      "grupo": "escuela",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-038",
+      "palabra": "lápiz",
+      "grupo": "escuela",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-039",
+      "palabra": "bolígrafo",
+      "grupo": "escuela",
+      "dificultad": 4,
+      "letras": 9
+    },
+    {
+      "id": "fp-040",
+      "palabra": "goma",
+      "grupo": "escuela",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-041",
+      "palabra": "regla",
+      "grupo": "escuela",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-042",
+      "palabra": "tijeras",
+      "grupo": "escuela",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-043",
+      "palabra": "pegamento",
+      "grupo": "escuela",
+      "dificultad": 4,
+      "letras": 9
+    },
+    {
+      "id": "fp-044",
+      "palabra": "recreo",
+      "grupo": "escuela",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-045",
+      "palabra": "patio",
+      "grupo": "escuela",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-046",
+      "palabra": "biblioteca",
+      "grupo": "escuela",
+      "dificultad": 4,
+      "letras": 10
+    },
+    {
+      "id": "fp-047",
+      "palabra": "libro",
+      "grupo": "escuela",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-048",
+      "palabra": "cuento",
+      "grupo": "escuela",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-049",
+      "palabra": "examen",
+      "grupo": "escuela",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-050",
+      "palabra": "deberes",
+      "grupo": "escuela",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-051",
+      "palabra": "carpeta",
+      "grupo": "escuela",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-052",
+      "palabra": "estuche",
+      "grupo": "escuela",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-053",
+      "palabra": "pinta",
+      "grupo": "escuela",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-054",
+      "palabra": "rotar",
+      "grupo": "escuela",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-055",
+      "palabra": "lectura",
+      "grupo": "escuela",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-056",
+      "palabra": "escritura",
+      "grupo": "escuela",
+      "dificultad": 4,
+      "letras": 9
+    },
+    {
+      "id": "fp-057",
+      "palabra": "matemáticas",
+      "grupo": "escuela",
+      "dificultad": 4,
+      "letras": 11
+    },
+    {
+      "id": "fp-058",
+      "palabra": "lengua",
+      "grupo": "escuela",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-059",
+      "palabra": "historia",
+      "grupo": "escuela",
+      "dificultad": 3,
+      "letras": 8
+    },
+    {
+      "id": "fp-060",
+      "palabra": "mapa",
+      "grupo": "escuela",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-061",
+      "palabra": "perro",
+      "grupo": "animales",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-062",
+      "palabra": "gato",
+      "grupo": "animales",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-063",
+      "palabra": "pájaro",
+      "grupo": "animales",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-064",
+      "palabra": "pez",
+      "grupo": "animales",
+      "dificultad": 1,
+      "letras": 3
+    },
+    {
+      "id": "fp-065",
+      "palabra": "conejo",
+      "grupo": "animales",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-066",
+      "palabra": "caballo",
+      "grupo": "animales",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-067",
+      "palabra": "vaca",
+      "grupo": "animales",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-068",
+      "palabra": "oveja",
+      "grupo": "animales",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-069",
+      "palabra": "cerdo",
+      "grupo": "animales",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-070",
+      "palabra": "gallina",
+      "grupo": "animales",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-071",
+      "palabra": "pato",
+      "grupo": "animales",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-072",
+      "palabra": "ratón",
+      "grupo": "animales",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-073",
+      "palabra": "león",
+      "grupo": "animales",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-074",
+      "palabra": "tigre",
+      "grupo": "animales",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-075",
+      "palabra": "elefante",
+      "grupo": "animales",
+      "dificultad": 3,
+      "letras": 8
+    },
+    {
+      "id": "fp-076",
+      "palabra": "jirafa",
+      "grupo": "animales",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-077",
+      "palabra": "mono",
+      "grupo": "animales",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-078",
+      "palabra": "oso",
+      "grupo": "animales",
+      "dificultad": 1,
+      "letras": 3
+    },
+    {
+      "id": "fp-079",
+      "palabra": "zorro",
+      "grupo": "animales",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-080",
+      "palabra": "lobo",
+      "grupo": "animales",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-081",
+      "palabra": "abeja",
+      "grupo": "animales",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-082",
+      "palabra": "mariposa",
+      "grupo": "animales",
+      "dificultad": 3,
+      "letras": 8
+    },
+    {
+      "id": "fp-083",
+      "palabra": "araña",
+      "grupo": "animales",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-084",
+      "palabra": "serpiente",
+      "grupo": "animales",
+      "dificultad": 4,
+      "letras": 9
+    },
+    {
+      "id": "fp-085",
+      "palabra": "tortuga",
+      "grupo": "animales",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-086",
+      "palabra": "delfín",
+      "grupo": "animales",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-087",
+      "palabra": "ballena",
+      "grupo": "animales",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-088",
+      "palabra": "pingüino",
+      "grupo": "animales",
+      "dificultad": 3,
+      "letras": 8
+    },
+    {
+      "id": "fp-089",
+      "palabra": "búho",
+      "grupo": "animales",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-090",
+      "palabra": "rana",
+      "grupo": "animales",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-091",
+      "palabra": "pan",
+      "grupo": "comida",
+      "dificultad": 1,
+      "letras": 3
+    },
+    {
+      "id": "fp-092",
+      "palabra": "leche",
+      "grupo": "comida",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-093",
+      "palabra": "agua",
+      "grupo": "comida",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-094",
+      "palabra": "fruta",
+      "grupo": "comida",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-095",
+      "palabra": "manzana",
+      "grupo": "comida",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-096",
+      "palabra": "pera",
+      "grupo": "comida",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-097",
+      "palabra": "plátano",
+      "grupo": "comida",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-098",
+      "palabra": "naranja",
+      "grupo": "comida",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-099",
+      "palabra": "fresa",
+      "grupo": "comida",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-100",
+      "palabra": "uva",
+      "grupo": "comida",
+      "dificultad": 1,
+      "letras": 3
+    },
+    {
+      "id": "fp-101",
+      "palabra": "tomate",
+      "grupo": "comida",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-102",
+      "palabra": "lechuga",
+      "grupo": "comida",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-103",
+      "palabra": "patata",
+      "grupo": "comida",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-104",
+      "palabra": "arroz",
+      "grupo": "comida",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-105",
+      "palabra": "pasta",
+      "grupo": "comida",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-106",
+      "palabra": "carne",
+      "grupo": "comida",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-107",
+      "palabra": "pescado",
+      "grupo": "comida",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-108",
+      "palabra": "huevo",
+      "grupo": "comida",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-109",
+      "palabra": "queso",
+      "grupo": "comida",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-110",
+      "palabra": "yogur",
+      "grupo": "comida",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-111",
+      "palabra": "sopa",
+      "grupo": "comida",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-112",
+      "palabra": "ensalada",
+      "grupo": "comida",
+      "dificultad": 3,
+      "letras": 8
+    },
+    {
+      "id": "fp-113",
+      "palabra": "bocadillo",
+      "grupo": "comida",
+      "dificultad": 4,
+      "letras": 9
+    },
+    {
+      "id": "fp-114",
+      "palabra": "galleta",
+      "grupo": "comida",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-115",
+      "palabra": "chocolate",
+      "grupo": "comida",
+      "dificultad": 4,
+      "letras": 9
+    },
+    {
+      "id": "fp-116",
+      "palabra": "helado",
+      "grupo": "comida",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-117",
+      "palabra": "azúcar",
+      "grupo": "comida",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-118",
+      "palabra": "sal",
+      "grupo": "comida",
+      "dificultad": 1,
+      "letras": 3
+    },
+    {
+      "id": "fp-119",
+      "palabra": "aceite",
+      "grupo": "comida",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-120",
+      "palabra": "zumos",
+      "grupo": "comida",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-121",
+      "palabra": "sol",
+      "grupo": "naturaleza",
+      "dificultad": 1,
+      "letras": 3
+    },
+    {
+      "id": "fp-122",
+      "palabra": "luna",
+      "grupo": "naturaleza",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-123",
+      "palabra": "estrella",
+      "grupo": "naturaleza",
+      "dificultad": 3,
+      "letras": 8
+    },
+    {
+      "id": "fp-124",
+      "palabra": "cielo",
+      "grupo": "naturaleza",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-125",
+      "palabra": "nube",
+      "grupo": "naturaleza",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-126",
+      "palabra": "lluvia",
+      "grupo": "naturaleza",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-127",
+      "palabra": "nieve",
+      "grupo": "naturaleza",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-128",
+      "palabra": "viento",
+      "grupo": "naturaleza",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-129",
+      "palabra": "mar",
+      "grupo": "naturaleza",
+      "dificultad": 1,
+      "letras": 3
+    },
+    {
+      "id": "fp-130",
+      "palabra": "río",
+      "grupo": "naturaleza",
+      "dificultad": 1,
+      "letras": 3
+    },
+    {
+      "id": "fp-131",
+      "palabra": "lago",
+      "grupo": "naturaleza",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-132",
+      "palabra": "montaña",
+      "grupo": "naturaleza",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-133",
+      "palabra": "bosque",
+      "grupo": "naturaleza",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-134",
+      "palabra": "árbol",
+      "grupo": "naturaleza",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-135",
+      "palabra": "flor",
+      "grupo": "naturaleza",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-136",
+      "palabra": "hoja",
+      "grupo": "naturaleza",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-137",
+      "palabra": "hierba",
+      "grupo": "naturaleza",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-138",
+      "palabra": "piedra",
+      "grupo": "naturaleza",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-139",
+      "palabra": "arena",
+      "grupo": "naturaleza",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-140",
+      "palabra": "playa",
+      "grupo": "naturaleza",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-141",
+      "palabra": "campo",
+      "grupo": "naturaleza",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-142",
+      "palabra": "camino",
+      "grupo": "naturaleza",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-143",
+      "palabra": "puente",
+      "grupo": "naturaleza",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-144",
+      "palabra": "valle",
+      "grupo": "naturaleza",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-145",
+      "palabra": "colina",
+      "grupo": "naturaleza",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-146",
+      "palabra": "roca",
+      "grupo": "naturaleza",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-147",
+      "palabra": "tierra",
+      "grupo": "naturaleza",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-148",
+      "palabra": "fuego",
+      "grupo": "naturaleza",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-149",
+      "palabra": "humo",
+      "grupo": "naturaleza",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-150",
+      "palabra": "rayo",
+      "grupo": "naturaleza",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-151",
+      "palabra": "cabeza",
+      "grupo": "cuerpo",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-152",
+      "palabra": "cara",
+      "grupo": "cuerpo",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-153",
+      "palabra": "ojo",
+      "grupo": "cuerpo",
+      "dificultad": 1,
+      "letras": 3
+    },
+    {
+      "id": "fp-154",
+      "palabra": "oreja",
+      "grupo": "cuerpo",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-155",
+      "palabra": "nariz",
+      "grupo": "cuerpo",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-156",
+      "palabra": "boca",
+      "grupo": "cuerpo",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-157",
+      "palabra": "diente",
+      "grupo": "cuerpo",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-158",
+      "palabra": "pelo",
+      "grupo": "cuerpo",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-159",
+      "palabra": "cuello",
+      "grupo": "cuerpo",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-160",
+      "palabra": "brazo",
+      "grupo": "cuerpo",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-161",
+      "palabra": "mano",
+      "grupo": "cuerpo",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-162",
+      "palabra": "dedo",
+      "grupo": "cuerpo",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-163",
+      "palabra": "pierna",
+      "grupo": "cuerpo",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-164",
+      "palabra": "pie",
+      "grupo": "cuerpo",
+      "dificultad": 1,
+      "letras": 3
+    },
+    {
+      "id": "fp-165",
+      "palabra": "rodilla",
+      "grupo": "cuerpo",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-166",
+      "palabra": "espalda",
+      "grupo": "cuerpo",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-167",
+      "palabra": "estómago",
+      "grupo": "cuerpo",
+      "dificultad": 3,
+      "letras": 8
+    },
+    {
+      "id": "fp-168",
+      "palabra": "corazón",
+      "grupo": "cuerpo",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-169",
+      "palabra": "piel",
+      "grupo": "cuerpo",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-170",
+      "palabra": "camisa",
+      "grupo": "ropa",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-171",
+      "palabra": "pantalón",
+      "grupo": "ropa",
+      "dificultad": 3,
+      "letras": 8
+    },
+    {
+      "id": "fp-172",
+      "palabra": "falda",
+      "grupo": "ropa",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-173",
+      "palabra": "vestido",
+      "grupo": "ropa",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-174",
+      "palabra": "abrigo",
+      "grupo": "ropa",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-175",
+      "palabra": "chaqueta",
+      "grupo": "ropa",
+      "dificultad": 3,
+      "letras": 8
+    },
+    {
+      "id": "fp-176",
+      "palabra": "jersey",
+      "grupo": "ropa",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-177",
+      "palabra": "zapato",
+      "grupo": "ropa",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-178",
+      "palabra": "bota",
+      "grupo": "ropa",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-179",
+      "palabra": "calcetín",
+      "grupo": "ropa",
+      "dificultad": 3,
+      "letras": 8
+    },
+    {
+      "id": "fp-180",
+      "palabra": "gorro",
+      "grupo": "ropa",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-181",
+      "palabra": "bufanda",
+      "grupo": "ropa",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-182",
+      "palabra": "guante",
+      "grupo": "ropa",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-183",
+      "palabra": "cinturón",
+      "grupo": "ropa",
+      "dificultad": 3,
+      "letras": 8
+    },
+    {
+      "id": "fp-184",
+      "palabra": "pijama",
+      "grupo": "ropa",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-185",
+      "palabra": "ropa",
+      "grupo": "ropa",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-186",
+      "palabra": "uniforme",
+      "grupo": "ropa",
+      "dificultad": 3,
+      "letras": 8
+    },
+    {
+      "id": "fp-187",
+      "palabra": "zapatilla",
+      "grupo": "ropa",
+      "dificultad": 4,
+      "letras": 9
+    },
+    {
+      "id": "fp-188",
+      "palabra": "sandalia",
+      "grupo": "ropa",
+      "dificultad": 3,
+      "letras": 8
+    },
+    {
+      "id": "fp-189",
+      "palabra": "calle",
+      "grupo": "ciudad-transporte",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-190",
+      "palabra": "plaza",
+      "grupo": "ciudad-transporte",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-191",
+      "palabra": "parque",
+      "grupo": "ciudad-transporte",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-192",
+      "palabra": "tienda",
+      "grupo": "ciudad-transporte",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-193",
+      "palabra": "mercado",
+      "grupo": "ciudad-transporte",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-194",
+      "palabra": "hospital",
+      "grupo": "ciudad-transporte",
+      "dificultad": 3,
+      "letras": 8
+    },
+    {
+      "id": "fp-195",
+      "palabra": "farmacia",
+      "grupo": "ciudad-transporte",
+      "dificultad": 3,
+      "letras": 8
+    },
+    {
+      "id": "fp-196",
+      "palabra": "estación",
+      "grupo": "ciudad-transporte",
+      "dificultad": 3,
+      "letras": 8
+    },
+    {
+      "id": "fp-197",
+      "palabra": "autobús",
+      "grupo": "ciudad-transporte",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-198",
+      "palabra": "tren",
+      "grupo": "ciudad-transporte",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-199",
+      "palabra": "coche",
+      "grupo": "ciudad-transporte",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-200",
+      "palabra": "bici",
+      "grupo": "ciudad-transporte",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-201",
+      "palabra": "moto",
+      "grupo": "ciudad-transporte",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-202",
+      "palabra": "camión",
+      "grupo": "ciudad-transporte",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-203",
+      "palabra": "avión",
+      "grupo": "ciudad-transporte",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-204",
+      "palabra": "barco",
+      "grupo": "ciudad-transporte",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-205",
+      "palabra": "semáforo",
+      "grupo": "ciudad-transporte",
+      "dificultad": 3,
+      "letras": 8
+    },
+    {
+      "id": "fp-206",
+      "palabra": "cruce",
+      "grupo": "ciudad-transporte",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-207",
+      "palabra": "edificio",
+      "grupo": "ciudad-transporte",
+      "dificultad": 3,
+      "letras": 8
+    },
+    {
+      "id": "fp-208",
+      "palabra": "día",
+      "grupo": "tiempo-calendario",
+      "dificultad": 1,
+      "letras": 3
+    },
+    {
+      "id": "fp-209",
+      "palabra": "noche",
+      "grupo": "tiempo-calendario",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-210",
+      "palabra": "mañana",
+      "grupo": "tiempo-calendario",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-211",
+      "palabra": "tarde",
+      "grupo": "tiempo-calendario",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-212",
+      "palabra": "hora",
+      "grupo": "tiempo-calendario",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-213",
+      "palabra": "minuto",
+      "grupo": "tiempo-calendario",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-214",
+      "palabra": "semana",
+      "grupo": "tiempo-calendario",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-215",
+      "palabra": "mes",
+      "grupo": "tiempo-calendario",
+      "dificultad": 1,
+      "letras": 3
+    },
+    {
+      "id": "fp-216",
+      "palabra": "año",
+      "grupo": "tiempo-calendario",
+      "dificultad": 1,
+      "letras": 3
+    },
+    {
+      "id": "fp-217",
+      "palabra": "lunes",
+      "grupo": "tiempo-calendario",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-218",
+      "palabra": "martes",
+      "grupo": "tiempo-calendario",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-219",
+      "palabra": "miércoles",
+      "grupo": "tiempo-calendario",
+      "dificultad": 4,
+      "letras": 9
+    },
+    {
+      "id": "fp-220",
+      "palabra": "jueves",
+      "grupo": "tiempo-calendario",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-221",
+      "palabra": "viernes",
+      "grupo": "tiempo-calendario",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-222",
+      "palabra": "sábado",
+      "grupo": "tiempo-calendario",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-223",
+      "palabra": "domingo",
+      "grupo": "tiempo-calendario",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-224",
+      "palabra": "hoy",
+      "grupo": "tiempo-calendario",
+      "dificultad": 1,
+      "letras": 3
+    },
+    {
+      "id": "fp-225",
+      "palabra": "ayer",
+      "grupo": "tiempo-calendario",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-226",
+      "palabra": "fiesta",
+      "grupo": "tiempo-calendario",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-227",
+      "palabra": "correr",
+      "grupo": "verbos-acciones",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-228",
+      "palabra": "saltar",
+      "grupo": "verbos-acciones",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-229",
+      "palabra": "comer",
+      "grupo": "verbos-acciones",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-230",
+      "palabra": "beber",
+      "grupo": "verbos-acciones",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-231",
+      "palabra": "dormir",
+      "grupo": "verbos-acciones",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-232",
+      "palabra": "jugar",
+      "grupo": "verbos-acciones",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-233",
+      "palabra": "leer",
+      "grupo": "verbos-acciones",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-234",
+      "palabra": "escribir",
+      "grupo": "verbos-acciones",
+      "dificultad": 3,
+      "letras": 8
+    },
+    {
+      "id": "fp-235",
+      "palabra": "dibujar",
+      "grupo": "verbos-acciones",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-236",
+      "palabra": "cantar",
+      "grupo": "verbos-acciones",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-237",
+      "palabra": "bailar",
+      "grupo": "verbos-acciones",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-238",
+      "palabra": "estudiar",
+      "grupo": "verbos-acciones",
+      "dificultad": 3,
+      "letras": 8
+    },
+    {
+      "id": "fp-239",
+      "palabra": "aprender",
+      "grupo": "verbos-acciones",
+      "dificultad": 3,
+      "letras": 8
+    },
+    {
+      "id": "fp-240",
+      "palabra": "escuchar",
+      "grupo": "verbos-acciones",
+      "dificultad": 3,
+      "letras": 8
+    },
+    {
+      "id": "fp-241",
+      "palabra": "hablar",
+      "grupo": "verbos-acciones",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-242",
+      "palabra": "mirar",
+      "grupo": "verbos-acciones",
+      "dificultad": 2,
+      "letras": 5
+    },
+    {
+      "id": "fp-243",
+      "palabra": "pensar",
+      "grupo": "verbos-acciones",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-244",
+      "palabra": "ayudar",
+      "grupo": "verbos-acciones",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-245",
+      "palabra": "compartir",
+      "grupo": "verbos-acciones",
+      "dificultad": 4,
+      "letras": 9
+    },
+    {
+      "id": "fp-246",
+      "palabra": "caminar",
+      "grupo": "verbos-acciones",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-247",
+      "palabra": "grande",
+      "grupo": "adjetivos",
+      "dificultad": 2,
+      "letras": 6
+    },
+    {
+      "id": "fp-248",
+      "palabra": "pequeño",
+      "grupo": "adjetivos",
+      "dificultad": 3,
+      "letras": 7
+    },
+    {
+      "id": "fp-249",
+      "palabra": "alto",
+      "grupo": "adjetivos",
+      "dificultad": 1,
+      "letras": 4
+    },
+    {
+      "id": "fp-250",
+      "palabra": "bajo",
+      "grupo": "adjetivos",
+      "dificultad": 1,
+      "letras": 4
+    }
+  ]
+}

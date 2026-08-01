@@ -11,24 +11,21 @@ import {
 import { useProgress } from '@/progress/ProgressContext'
 
 const LANG_MARKS = {
-  alphabet: 'alphabet',
-  writing: 'writing',
-  comprehension: 'reading',
   spelling: 'spelling',
+  words: 'words',
+  alphabet: 'alphabet',
 } as const
 
 const LANG_SLOTS: Record<string, MapSlot> = {
   spelling: 'start',
-  alphabet: 'mid-high',
-  writing: 'mid-low',
-  comprehension: 'end',
+  words: 'mid-high',
+  alphabet: 'end',
 }
 
 const LANG_SHORT: Record<string, string> = {
-  alphabet: 'Ordenar como en el diccionario',
-  writing: 'Escribir con claridad',
-  comprehension: 'Entender textos',
   spelling: 'Ortografía de 3.º',
+  words: 'Jugar con las palabras',
+  alphabet: 'Como en el diccionario',
 }
 
 const LANG_ZONES: HubZoneId[] = ['spelling', 'alphabet']
@@ -57,6 +54,19 @@ export function LanguagesHubScreen() {
         mapSlot,
         href: '/missions/languages/spelling',
         ctaLabel: 'JUGAR ORTOGRAFÍA',
+      }
+    }
+
+    if (block.id === 'words' && block.status === 'active') {
+      return {
+        id: block.id,
+        title: block.title,
+        description: short,
+        status: 'available',
+        mark,
+        mapSlot,
+        href: '/missions/languages/words',
+        ctaLabel: 'JUGAR PALABRAS',
       }
     }
 

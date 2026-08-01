@@ -38,6 +38,11 @@ describe('catálogo curricular', () => {
     expect(blocks.find((b) => b.id === 'calculation')?.status).toBe('active')
     expect(blocks.find((b) => b.id === 'alphabet')?.status).toBe('active')
     expect(blocks.find((b) => b.id === 'spelling')?.status).toBe('active')
+    expect(blocks.find((b) => b.id === 'words')?.status).toBe('active')
+    expect(blocks.find((b) => b.id === 'writing')).toBeUndefined()
+    expect(blocks.find((b) => b.id === 'comprehension')).toBeUndefined()
+    const langBlocks = blocks.filter((b) => b.subjectId === 'languages').map((b) => b.id)
+    expect(langBlocks).toEqual(['spelling', 'words', 'alphabet'])
     const futureBlocks = blocks.filter((b) => b.status === 'future')
     expect(futureBlocks.length).toBeGreaterThan(2)
     expect(

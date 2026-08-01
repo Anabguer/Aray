@@ -38,6 +38,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
+      '@feinetas': path.resolve(__dirname, './feinetas'),
     },
   },
   base: APP_BASE,
