@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import {
   buildCalcQueue,
   CALC_DURATION_SEC,
@@ -20,11 +20,18 @@ import { useProgress } from '@/progress/ProgressContext'
 import { usePlaySession } from '@/progress/PlayContext'
 import { newId } from '@/progress/repository'
 import { SideRunShell, prefersReducedMotion, useAnswerFx } from '@/run'
+import { buildCalcMissPayload, calcQuestionId } from '@/math/missIds'
+import {
+  listActiveMathsMisses,
+  rebuildCalcFromMiss,
+  recordMathsHit,
+  recordMathsMiss,
+} from '@/math/missStore'
 
 const QUEUE_SIZE = 40
 const MODES_PATH = '/missions/mates/calc'
 
-function isPlayMode(value: string | undefined): value is CalcPlayMode {
+function isPlayMode(value: string | undefined): value is CalcPlayMode | 'misses' {
   return (
     value === 'add' ||
     value === 'sub' ||
@@ -35,7 +42,8 @@ function isPlayMode(value: string | undefined): value is CalcPlayMode {
     value === 'compare' ||
     value === 'order' ||
     value === 'truefalse' ||
-    value === 'mix'
+    value === 'mix' ||
+    value === 'misses'
   )
 }
 
@@ -49,12 +57,15 @@ export function CalcPlayScreen() {
   const lumo = useLumoController('thinking')
   const answerFx = useAnswerFx()
   const seedRef = useRef(Date.now())
-  const mode: CalcPlayMode = isPlayMode(modeParam) ? modeParam : 'mix'
+  const mode: CalcPlayMode | 'misses' = isPlayMode(modeParam) ? modeParam : 'mix'
+  const isMisses = mode === 'misses'
 
-  const queue = useMemo(
-    () => buildCalcQueue(mode, QUEUE_SIZE, seedRef.current),
-    [mode],
-  )
+  const queue = useMemo(() => {
+    if (isMisses) {
+      return listActiveMathsMisses(playerId ?? 'local', 'calc').map(rebuildCalcFromMiss)
+    }
+    return buildCalcQueue(mode, QUEUE_SIZE, seedRef.current)
+  }, [mode, isMisses, playerId])
 
   const [index, setIndex] = useState(0)
   const [remainingMs, setRemainingMs] = useState(CALC_DURATION_SEC * 1000)
@@ -75,7 +86,17 @@ export function CalcPlayScreen() {
   const streakRef = useRef(0)
 
   const question = queue[index] as CalcQuestion | undefined
+  const pid = playerId ?? 'local'
 
+  function trackHit() {
+    if (!question) return
+    recordMathsHit(pid, calcQuestionId(question))
+  }
+
+  function trackMiss() {
+    if (!question) return
+    recordMathsMiss(pid, buildCalcMissPayload(question))
+  }
   function finish() {
     if (finishedRef.current) return
     finishedRef.current = true
@@ -104,7 +125,7 @@ export function CalcPlayScreen() {
         claimDailyChallenge: Boolean(dailyChallenge),
         statsDelta: buildActivityStatsDelta({
           feature: 'calc',
-          mode,
+          mode: isMisses ? 'mix' : mode,
           correct: correctRef.current,
           total: Math.max(1, attemptsRef.current),
           playSeconds: Math.max(1, Math.round((Date.now() - startedAtRef.current) / 1000)),
@@ -167,6 +188,7 @@ export function CalcPlayScreen() {
   }
 
   function onCorrect() {
+    trackHit()
     soundEngine.play('answer-correct')
     const nextStreak = streakRef.current + 1
     streakRef.current = nextStreak
@@ -188,6 +210,7 @@ export function CalcPlayScreen() {
   }
 
   function onWrong() {
+    trackMiss()
     soundEngine.play('answer-wrong')
     streakRef.current = 0
     attemptsRef.current += 1
@@ -205,7 +228,24 @@ export function CalcPlayScreen() {
     }, prefersReducedMotion() ? 550 : 800)
   }
 
-  if (!isPlayMode(modeParam) || !question) return null
+  if (!isPlayMode(modeParam)) return null
+
+  if (isMisses && queue.length === 0) {
+    return (
+      <AppShell title="MIS FALLOS" shortTitle="Fallos" showBack backTo={MODES_PATH}>
+        <section className="side-run" style={{ padding: '1.5rem' }}>
+          <p className="play-banner play-banner--info">
+            ¡Repaso limpio! No tienes errores pendientes.
+          </p>
+          <Link to={MODES_PATH} className="btn btn-primary">
+            Volver a Cálculo
+          </Link>
+        </section>
+      </AppShell>
+    )
+  }
+
+  if (!question) return null
 
   const sec = Math.ceil(remainingMs / 1000)
   const hasProgress = correctCount > 0 || attemptsRef.current > 0 || index > 0
@@ -220,7 +260,7 @@ export function CalcPlayScreen() {
       <SideRunShell
         title={CALC_MODE_LABELS[mode].toUpperCase()}
         current={index + 1}
-        total={QUEUE_SIZE}
+        total={isMisses ? Math.max(1, queue.length) : QUEUE_SIZE}
         hits={correctCount}
         streak={streak}
         countLabel={<span className={sec <= 10 ? 'calc-play__timer is-low' : 'calc-play__timer'}>{sec}s</span>}

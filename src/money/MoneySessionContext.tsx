@@ -6,20 +6,20 @@ import {
   useState,
   type ReactNode,
 } from 'react'
-import type { MoneyPlayMode, MoneySessionSummary } from '@/money/types'
+import type { MoneyPlayModeOrMisses, MoneySessionSummary } from '@/money/types'
 
 interface Value {
   lastSummary: MoneySessionSummary | null
   setLastSummary: (s: MoneySessionSummary | null) => void
-  lastMode: MoneyPlayMode | null
-  setLastMode: (m: MoneyPlayMode | null) => void
+  lastMode: MoneyPlayModeOrMisses | null
+  setLastMode: (m: MoneyPlayModeOrMisses | null) => void
 }
 
 const Ctx = createContext<Value | null>(null)
 
 export function MoneySessionProvider({ children }: { children: ReactNode }) {
   const [lastSummary, setLastSummaryState] = useState<MoneySessionSummary | null>(null)
-  const [lastMode, setLastMode] = useState<MoneyPlayMode | null>(null)
+  const [lastMode, setLastMode] = useState<MoneyPlayModeOrMisses | null>(null)
   const setLastSummary = useCallback((s: MoneySessionSummary | null) => setLastSummaryState(s), [])
   const value = useMemo(
     () => ({ lastSummary, setLastSummary, lastMode, setLastMode }),

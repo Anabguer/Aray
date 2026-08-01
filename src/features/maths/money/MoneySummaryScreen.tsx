@@ -35,7 +35,7 @@ export function MoneySummaryScreen() {
           { value: s.bestStreak, label: 'racha' },
           { value: `${pct}%`, label: 'ronda' },
         ]}
-        note={<DailyEnergyNote />}
+        note={<DailyEnergyNote compact />}
         actions={
           <>
             <button

@@ -3,6 +3,8 @@ import { AppShell } from '@/components/AppShell'
 import { StageSelect, StageSlot } from '@/components/stage/StageSelect'
 import { useClockSession } from '@/clock/ClockSessionContext'
 import type { ClockLang } from '@/clock/types'
+import { countActiveMathsMisses } from '@/math/missStore'
+import { useProgress } from '@/progress/ProgressContext'
 
 type ClockPoster = {
   to: string
@@ -32,7 +34,7 @@ const HEROES: ClockPoster[] = [
   },
 ]
 
-const ROSTER: ClockPoster[] = [
+const ROSTER_BASE: ClockPoster[] = [
   {
     to: '/missions/mates/clocks/match',
     art: 'clock-match',
@@ -45,10 +47,28 @@ const ROSTER: ClockPoster[] = [
 
 export function ClockModeSelectScreen() {
   const { lang, setLang } = useClockSession()
+  const { playerId } = useProgress()
+  const missCount = countActiveMathsMisses(playerId ?? 'local', 'clocks')
 
   function pickLang(next: ClockLang) {
     setLang(next)
   }
+
+  const roster: ClockPoster[] = [
+    ...(missCount > 0
+      ? [
+          {
+            to: '/missions/mates/clocks/misses',
+            art: 'mis-fallos' as ModeArtId,
+            title: 'MIS FALLOS',
+            text: `${missCount} pendiente${missCount === 1 ? '' : 's'}`,
+            className: 'mode-poster--misses',
+            tag: 'REPASO',
+          },
+        ]
+      : []),
+    ...ROSTER_BASE,
+  ]
 
   return (
     <AppShell title="HORAS" shortTitle="Horas" showBack backTo="/missions/mates">
@@ -85,7 +105,7 @@ export function ClockModeSelectScreen() {
             to={m.to}
           />
         ))}
-        roster={ROSTER.map((m) => (
+        roster={roster.map((m) => (
           <StageSlot
             key={m.to}
             art={m.art}

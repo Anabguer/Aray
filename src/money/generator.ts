@@ -112,6 +112,7 @@ function buildChange(seed: number, mode: MoneyPlayMode): MoneyMcqQuestion {
   return {
     kind: 'mcq',
     id: `ch-${seed}`,
+    questionId: `money:change:${price}:${pay}`,
     mode,
     prompt: '¿Cuánto te devuelven?',
     detail: `Cuesta ${formatEuro(price)} · Pagas ${formatEuro(pay)}`,
@@ -131,6 +132,7 @@ function buildShortfall(seed: number, mode: MoneyPlayMode): MoneyMcqQuestion {
   return {
     kind: 'mcq',
     id: `sf-${seed}`,
+    questionId: `money:shortfall:${price}:${have}`,
     mode,
     prompt: '¿Cuánto te falta?',
     detail: `Cuesta ${formatEuro(price)} · Tienes ${formatEuro(have)}`,
@@ -181,6 +183,7 @@ function buildBuild(seed: number, mode: MoneyPlayMode): MoneyBuildQuestion {
   return {
     kind: 'build',
     id: `bd-${seed}`,
+    questionId: `money:build:${target}`,
     mode,
     prompt: `Haz exactamente ${formatEuro(target)}`,
     targetCents: target,
@@ -210,6 +213,7 @@ function buildSpare(seed: number, mode: MoneyPlayMode): MoneyMcqQuestion {
   return {
     kind: 'mcq',
     id: `sp-${seed}`,
+    questionId: `money:spare:${sumRest}:${spare}`,
     mode,
     prompt: `Para formar ${formatEuro(sumRest)}, ¿cuál sobra?`,
     detail: coins.map((c) => COIN_LABEL[c]).join(' · '),
@@ -231,6 +235,7 @@ function buildSum(seed: number, mode: MoneyPlayMode): MoneyMcqQuestion {
   return {
     kind: 'mcq',
     id: `sm-${seed}`,
+    questionId: `money:sum:${total}`,
     mode,
     prompt: '¿Cuánto dinero hay?',
     detail: detailParts.join(' + '),

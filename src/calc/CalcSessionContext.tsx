@@ -6,20 +6,20 @@ import {
   useState,
   type ReactNode,
 } from 'react'
-import type { CalcPlayMode, CalcSessionSummary } from '@/calc/types'
+import type { CalcPlayModeOrMisses, CalcSessionSummary } from '@/calc/types'
 
 interface CalcSessionContextValue {
   lastSummary: CalcSessionSummary | null
   setLastSummary: (summary: CalcSessionSummary | null) => void
-  lastMode: CalcPlayMode | null
-  setLastMode: (mode: CalcPlayMode | null) => void
+  lastMode: CalcPlayModeOrMisses | null
+  setLastMode: (mode: CalcPlayModeOrMisses | null) => void
 }
 
 const CalcSessionContext = createContext<CalcSessionContextValue | null>(null)
 
 export function CalcSessionProvider({ children }: { children: ReactNode }) {
   const [lastSummary, setLastSummaryState] = useState<CalcSessionSummary | null>(null)
-  const [lastMode, setLastMode] = useState<CalcPlayMode | null>(null)
+  const [lastMode, setLastMode] = useState<CalcPlayModeOrMisses | null>(null)
 
   const setLastSummary = useCallback((summary: CalcSessionSummary | null) => {
     setLastSummaryState(summary)

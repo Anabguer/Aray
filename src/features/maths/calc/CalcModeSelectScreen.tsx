@@ -2,10 +2,12 @@ import type { ModeArtId } from '@/assets/modes'
 import { AppShell } from '@/components/AppShell'
 import { StageSelect, StageSlot } from '@/components/stage/StageSelect'
 import { CALC_DURATION_SEC, CALC_MODE_LABELS, type CalcPlayMode } from '@/calc'
+import { countActiveMathsMisses } from '@/math/missStore'
+import { useProgress } from '@/progress/ProgressContext'
 import './calc.css'
 
 type CalcPoster = {
-  mode: CalcPlayMode
+  mode: CalcPlayMode | 'misses'
   art: ModeArtId
   className: string
   text: string
@@ -47,6 +49,24 @@ const ROSTER: CalcPoster[] = [
 ]
 
 export function CalcModeSelectScreen() {
+  const { playerId } = useProgress()
+  const missCount = countActiveMathsMisses(playerId ?? 'local', 'calc')
+
+  const roster: CalcPoster[] = [
+    ...(missCount > 0
+      ? [
+          {
+            mode: 'misses' as const,
+            art: 'mis-fallos' as ModeArtId,
+            className: 'mode-poster--misses',
+            text: `${missCount} pendiente${missCount === 1 ? '' : 's'}`,
+            tag: 'REPASO',
+          },
+        ]
+      : []),
+    ...ROSTER,
+  ]
+
   return (
     <AppShell title="CÁLCULO" shortTitle="Cálculo" showBack backTo="/missions/mates">
       <StageSelect
@@ -63,7 +83,7 @@ export function CalcModeSelectScreen() {
             to={`/missions/mates/calc/${m.mode}`}
           />
         ))}
-        roster={ROSTER.map((m) => (
+        roster={roster.map((m) => (
           <StageSlot
             key={m.mode}
             art={m.art}

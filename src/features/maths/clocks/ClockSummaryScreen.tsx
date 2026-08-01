@@ -70,7 +70,7 @@ export function ClockSummaryScreen() {
         lumoState={hot ? 'celebration' : 'correct'}
         celebrate={hot}
         stats={stats}
-        note={<DailyEnergyNote />}
+        note={<DailyEnergyNote compact />}
         actions={
           <>
             <button type="button" className="btn btn-primary btn-block" onClick={repeat}>

@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { AnalogClock } from '@/components/AnalogClock'
 import { AppShell } from '@/components/AppShell'
 import { buildTrainQueue } from '@/clock/generator'
 import { useClockSession } from '@/clock/ClockSessionContext'
+import type { ClockLang, ClockMcqQuestion } from '@/clock/types'
 import { useLumoController } from '@/lumo/useLumoController'
 import { soundEngine } from '@/sound/soundEngine'
 import { useDailyMission } from '@/daily/DailyMissionContext'
@@ -15,12 +16,23 @@ import { usePlaySession } from '@/progress/PlayContext'
 import { newId } from '@/progress/repository'
 import { SideRunShell, prefersReducedMotion, useAnswerFx } from '@/run'
 import { sideRunEnergyForProgress } from '@/reward/sideRunSettle'
+import { buildClockMissPayload, clockQuestionId } from '@/math/missIds'
+import {
+  listActiveMathsMisses,
+  rebuildClockFromMiss,
+  recordMathsHit,
+  recordMathsMiss,
+} from '@/math/missStore'
 
 const TRAIN_COUNT = 10
 const MODES_PATH = '/missions/mates/clocks'
 
+type QueueItem = { question: ClockMcqQuestion; lang: ClockLang }
+
 export function ClockTrainScreen() {
   const navigate = useNavigate()
+  const location = useLocation()
+  const isMisses = location.pathname.endsWith('/misses')
   const { lang, setLastSummary } = useClockSession()
   const { recordProgress } = useDailyMission()
   const { grantActivityEnergy, playerId } = useProgress()
@@ -30,11 +42,19 @@ export function ClockTrainScreen() {
   const seedRef = useRef(Date.now())
   const finishedRef = useRef(false)
   const startedAtRef = useRef(Date.now())
+  const pid = playerId ?? 'local'
 
-  const queue = useMemo(
-    () => buildTrainQueue(lang, TRAIN_COUNT, seedRef.current),
-    [lang],
-  )
+  const queue: QueueItem[] = useMemo(() => {
+    if (isMisses) {
+      return listActiveMathsMisses(pid, 'clocks').map((e) => rebuildClockFromMiss(e))
+    }
+    return buildTrainQueue(lang, TRAIN_COUNT, seedRef.current).map((question) => ({
+      question,
+      lang,
+    }))
+  }, [lang, isMisses, pid])
+
+  const roundSize = isMisses ? Math.max(1, queue.length) : TRAIN_COUNT
 
   const [index, setIndex] = useState(0)
   const [locked, setLocked] = useState(false)
@@ -51,7 +71,9 @@ export function ClockTrainScreen() {
   const streakRef = useRef(0)
   const bestRef = useRef(0)
 
-  const question = queue[index]
+  const item = queue[index]
+  const question = item?.question
+  const qLang = item?.lang ?? lang
 
   useEffect(() => {
     if (openedRef.current) return
@@ -62,6 +84,7 @@ export function ClockTrainScreen() {
 
   useEffect(() => {
     if (question || finishedRef.current) return
+    if (isMisses && queue.length === 0) return
     finish()
   }, [question])
 
@@ -73,28 +96,28 @@ export function ClockTrainScreen() {
     setLastSummary({
       mode: 'train',
       lang,
-      total: early ? Math.max(correct, index + 1) : TRAIN_COUNT,
+      total: early ? Math.max(correct, index + 1) : roundSize,
       correct,
       bestStreak: bestRef.current,
     })
     if (correct > 0) {
       const full = energyForMissionAttempt('clocks', 2, playerId)
-      const energy = early ? sideRunEnergyForProgress(full, correct, TRAIN_COUNT) : full
+      const energy = early ? sideRunEnergyForProgress(full, correct, roundSize) : full
       const dailyChallenge = consumeMissionOfDay()
       recordProgress('clocks', 2)
       grantActivityEnergy({
         sessionId: newId('clock'),
         requestedPoints: energy,
-        mode: 'clocks-train',
+        mode: isMisses ? 'clocks-misses' : 'clocks-train',
         correct,
-        wrong: Math.max(0, TRAIN_COUNT - correct),
+        wrong: Math.max(0, roundSize - correct),
         xpEarned: sessionXpFromCorrects(correct, rewardMatrix['clocks-train'].xpPerCorrect),
         claimDailyChallenge: Boolean(dailyChallenge),
         statsDelta: buildActivityStatsDelta({
           feature: 'clocks',
           mode: 'train',
           correct,
-          total: TRAIN_COUNT,
+          total: roundSize,
           playSeconds: Math.max(1, Math.round((Date.now() - startedAtRef.current) / 1000)),
         }),
       })
@@ -113,6 +136,21 @@ export function ClockTrainScreen() {
     lumo.setThinking()
   }, [index])
 
+  if (isMisses && queue.length === 0) {
+    return (
+      <AppShell title="MIS FALLOS" shortTitle="Fallos" showBack backTo={MODES_PATH}>
+        <section className="side-run" style={{ padding: '1.5rem' }}>
+          <p className="play-banner play-banner--info">
+            ¡Repaso limpio! No tienes errores pendientes.
+          </p>
+          <Link to={MODES_PATH} className="btn btn-primary">
+            Volver a Horas
+          </Link>
+        </section>
+      </AppShell>
+    )
+  }
+
   if (!question) return null
 
   const hasProgress = index > 0 || correctCount > 0
@@ -123,6 +161,7 @@ export function ClockTrainScreen() {
     setSelected(optionIndex)
     const ok = optionIndex === question.correctIndex
     if (ok) {
+      recordMathsHit(pid, clockQuestionId(question, qLang))
       soundEngine.play('answer-correct')
       const ns = streakRef.current + 1
       streakRef.current = ns
@@ -132,16 +171,17 @@ export function ClockTrainScreen() {
       setCorrectCount(correctRef.current)
       setStreak(ns)
       setHitFlash(true)
-      setFeedback(lang === 'ca' ? 'Molt bé!' : '¡Bien!')
+      setFeedback(qLang === 'ca' ? 'Molt bé!' : '¡Bien!')
       answerFx.spawn({ tone: 'hit', optionIndex, nextStreak: ns })
     } else {
+      recordMathsMiss(pid, buildClockMissPayload(question, qLang))
       soundEngine.play('answer-wrong')
       streakRef.current = 0
       lumo.reactToAnswer({ correct: false, streak: 0 })
       setStreak(0)
       setMissFlash(true)
       const right = question.options[question.correctIndex]
-      setFeedback(lang === 'ca' ? `Era: ${right}` : `Era: ${right}`)
+      setFeedback(qLang === 'ca' ? `Era: ${right}` : `Era: ${right}`)
       answerFx.spawn({ tone: 'miss', optionIndex, nextStreak: 0 })
     }
     window.setTimeout(
@@ -157,13 +197,14 @@ export function ClockTrainScreen() {
   }
 
   const isConvert = question.kind === 'convert24'
+  const title = isMisses ? 'MIS FALLOS' : 'ENTRENA'
 
   return (
-    <AppShell title="ENTRENA" shortTitle="Entrena" showBack backTo={MODES_PATH}>
+    <AppShell title={title} shortTitle={isMisses ? 'Fallos' : 'Entrena'} showBack backTo={MODES_PATH}>
       <SideRunShell
-        title="ENTRENA HORAS"
+        title={isMisses ? 'MIS FALLOS · HORAS' : 'ENTRENA HORAS'}
         current={index + 1}
-        total={TRAIN_COUNT}
+        total={roundSize}
         hits={correctCount}
         streak={streak}
         lumoState={lumo.state}
@@ -171,7 +212,7 @@ export function ClockTrainScreen() {
         prompt={
           isConvert
             ? (question.prompt ?? '¿Cómo se escribe en 24 h?')
-            : lang === 'ca'
+            : qLang === 'ca'
               ? 'Quina hora és?'
               : '¿Qué hora es?'
         }

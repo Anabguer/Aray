@@ -14,6 +14,8 @@ export type ClockPlayMode = 'learn' | 'train' | 'match'
 
 export interface ClockMcqQuestion {
   id: string
+  /** Identidad estable de contenido (Mis fallos). */
+  questionId?: string
   time: ClockTime
   /** Índice 0–3 de la opción correcta. */
   correctIndex: number

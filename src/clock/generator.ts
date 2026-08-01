@@ -15,6 +15,7 @@ import {
   type ClockTime,
 } from '@/clock/types'
 import { mulberry32, shuffle } from '@/math/rng'
+import { stampClockQuestion } from '@/math/missIds'
 
 function pickHour(rand: () => number): ClockHour {
   return (1 + Math.floor(rand() * 12)) as ClockHour
@@ -149,13 +150,16 @@ export function buildMcqQuestion(
   const finalOpts = shuffle(uniq.slice(0, 4), rand)
   if (!finalOpts.includes(correct)) finalOpts[0] = correct
   assertUniformClockOptions(finalOpts)
-  return {
-    id: `mcq-${time.hour}-${time.minute}-${seed}`,
-    time,
-    correctIndex: finalOpts.indexOf(correct),
-    options: finalOpts,
-    kind: 'read',
-  }
+  return stampClockQuestion(
+    {
+      id: `mcq-${time.hour}-${time.minute}-${seed}`,
+      time,
+      correctIndex: finalOpts.indexOf(correct),
+      options: finalOpts,
+      kind: 'read',
+    },
+    lang,
+  )
 }
 
 /** Equivalencia 12 h ↔ 24 h (saberes 3r–4t). */
@@ -188,14 +192,17 @@ export function buildConvert24Question(seed: number): ClockMcqQuestion {
         ? 'de la tarde'
         : 'de la mañana'
 
-  return {
-    id: `c24-${seed}`,
-    time,
-    correctIndex: options.indexOf(correct),
-    options,
-    kind: 'convert24',
-    prompt: `¿Cómo se escribe en 24 h? ${hour12}:${String(minute).padStart(2, '0')} ${period}`,
-  }
+  return stampClockQuestion(
+    {
+      id: `c24-${seed}`,
+      time,
+      correctIndex: options.indexOf(correct),
+      options,
+      kind: 'convert24',
+      prompt: `¿Cómo se escribe en 24 h? ${hour12}:${String(minute).padStart(2, '0')} ${period}`,
+    },
+    'es', // lang ignorado en id c24
+  )
 }
 
 export function buildTrainQueue(

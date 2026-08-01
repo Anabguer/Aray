@@ -1,4 +1,5 @@
 import { mulberry32, randInt, shuffle } from '@/math/rng'
+import { stampCalcQuestion } from '@/math/missIds'
 import {
   type CalcCompareQuestion,
   type CalcDifficulty,
@@ -456,12 +457,15 @@ export function buildCalcQuestion(
   seed: number,
   difficulty: CalcDifficulty = 'medium',
 ): CalcQuestion {
+  let q: CalcQuestion
   if (mode === 'mix') {
     const rand = mulberry32(seed)
     const pick = MIX_MODES[Math.floor(rand() * MIX_MODES.length)]!
-    return MODE_BUILDERS[pick](seed, 'mix', difficulty)
+    q = MODE_BUILDERS[pick](seed, 'mix', difficulty)
+  } else {
+    q = MODE_BUILDERS[mode](seed, mode, difficulty)
   }
-  return MODE_BUILDERS[mode](seed, mode, difficulty)
+  return stampCalcQuestion(q)
 }
 
 /**

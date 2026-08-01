@@ -2,10 +2,12 @@ import type { ModeArtId } from '@/assets/modes'
 import { AppShell } from '@/components/AppShell'
 import { StageSelect, StageSlot } from '@/components/stage/StageSelect'
 import { MONEY_MODE_LABELS, type MoneyPlayMode } from '@/money'
+import { countActiveMathsMisses } from '@/math/missStore'
+import { useProgress } from '@/progress/ProgressContext'
 import './money.css'
 
 type MoneyPoster = {
-  mode: MoneyPlayMode
+  mode: MoneyPlayMode | 'misses'
   art: ModeArtId
   className: string
   text: string
@@ -37,6 +39,24 @@ const ROSTER: MoneyPoster[] = [
 ]
 
 export function MoneyModeSelectScreen() {
+  const { playerId } = useProgress()
+  const missCount = countActiveMathsMisses(playerId ?? 'local', 'money')
+
+  const roster: MoneyPoster[] = [
+    ...(missCount > 0
+      ? [
+          {
+            mode: 'misses' as const,
+            art: 'mis-fallos' as ModeArtId,
+            className: 'mode-poster--misses',
+            text: `${missCount} pendiente${missCount === 1 ? '' : 's'}`,
+            tag: 'REPASO',
+          },
+        ]
+      : []),
+    ...ROSTER,
+  ]
+
   return (
     <AppShell title="DINERO" shortTitle="Dinero" showBack backTo="/missions/mates">
       <StageSelect
@@ -53,7 +73,7 @@ export function MoneyModeSelectScreen() {
             to={`/missions/mates/money/${m.mode}`}
           />
         ))}
-        roster={ROSTER.map((m) => (
+        roster={roster.map((m) => (
           <StageSlot
             key={m.mode}
             art={m.art}

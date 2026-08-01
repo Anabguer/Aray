@@ -6,6 +6,8 @@ export type CoinEuro = 200 | 100 | 50 | 20 | 10 | 5 | 2 | 1
 export interface MoneyMcqQuestion {
   kind: 'mcq'
   id: string
+  /** Identidad estable de contenido (Mis fallos). */
+  questionId?: string
   mode: MoneyPlayMode
   prompt: string
   detail?: string
@@ -17,6 +19,7 @@ export interface MoneyMcqQuestion {
 export interface MoneyBuildQuestion {
   kind: 'build'
   id: string
+  questionId?: string
   mode: MoneyPlayMode
   prompt: string
   targetCents: number
@@ -26,7 +29,7 @@ export interface MoneyBuildQuestion {
 export type MoneyQuestion = MoneyMcqQuestion | MoneyBuildQuestion
 
 export interface MoneySessionSummary {
-  mode: MoneyPlayMode
+  mode: MoneyPlayModeOrMisses
   total: number
   correct: number
   bestStreak: number
@@ -34,13 +37,16 @@ export interface MoneySessionSummary {
 
 export const MONEY_ROUND_SIZE = 8
 
-export const MONEY_MODE_LABELS: Record<MoneyPlayMode, string> = {
+export type MoneyPlayModeOrMisses = MoneyPlayMode | 'misses'
+
+export const MONEY_MODE_LABELS: Record<MoneyPlayModeOrMisses, string> = {
   change: '¿Cuánto te devuelven?',
   build: 'Construye el precio',
   spare: '¿Cuál sobra?',
   sum: '¿Cuánto dinero hay?',
   shortfall: '¿Cuánto te falta?',
   mix: 'Todo mezclado',
+  misses: 'Mis fallos',
 }
 
 export const COIN_LABEL: Record<CoinEuro, string> = {

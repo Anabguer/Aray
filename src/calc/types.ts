@@ -18,6 +18,8 @@ export type CalcDifficulty = 'easy' | 'medium' | 'hard'
 export interface CalcMcqQuestion {
   kind: 'mcq'
   id: string
+  /** Identidad estable de contenido (Mis fallos). */
+  questionId?: string
   mode: CalcPlayMode
   difficulty: CalcDifficulty
   prompt: string
@@ -30,6 +32,7 @@ export interface CalcMcqQuestion {
 export interface CalcOrderQuestion {
   kind: 'order'
   id: string
+  questionId?: string
   mode: 'order' | 'mix'
   difficulty: CalcDifficulty
   prompt: string
@@ -40,6 +43,7 @@ export interface CalcOrderQuestion {
 export interface CalcTrueFalseQuestion {
   kind: 'truefalse'
   id: string
+  questionId?: string
   mode: 'truefalse' | 'mix'
   difficulty: CalcDifficulty
   prompt: string
@@ -51,6 +55,7 @@ export interface CalcTrueFalseQuestion {
 export interface CalcCompareQuestion {
   kind: 'compare'
   id: string
+  questionId?: string
   mode: 'compare' | 'mix'
   difficulty: CalcDifficulty
   prompt: string
@@ -67,7 +72,7 @@ export type CalcQuestion =
   | CalcCompareQuestion
 
 export interface CalcSessionSummary {
-  mode: CalcPlayMode
+  mode: CalcPlayModeOrMisses
   total: number
   correct: number
   bestStreak: number
@@ -77,7 +82,9 @@ export interface CalcSessionSummary {
 /** Duración de partida (pensar rápido). */
 export const CALC_DURATION_SEC = 45
 
-export const CALC_MODE_LABELS: Record<CalcPlayMode, string> = {
+export type CalcPlayModeOrMisses = CalcPlayMode | 'misses'
+
+export const CALC_MODE_LABELS: Record<CalcPlayModeOrMisses, string> = {
   add: 'Suma rápida',
   sub: 'Resta rápida',
   missing: '¿Qué falta?',
@@ -88,4 +95,5 @@ export const CALC_MODE_LABELS: Record<CalcPlayMode, string> = {
   order: 'Ordena',
   truefalse: 'Verdadero / falso',
   mix: 'Todo mezclado',
+  misses: 'Mis fallos',
 }

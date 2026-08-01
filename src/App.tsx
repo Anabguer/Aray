@@ -69,6 +69,7 @@ export default function App() {
         <Route path="/missions/mates/clocks/modes" element={<Navigate to="/missions/mates/clocks" replace />} />
         <Route path="/missions/mates/clocks/learn" element={<ClockLearnScreen />} />
         <Route path="/missions/mates/clocks/train" element={<ClockTrainScreen />} />
+        <Route path="/missions/mates/clocks/misses" element={<ClockTrainScreen />} />
         <Route path="/missions/mates/clocks/match" element={<ClockMatchScreen />} />
         <Route path="/missions/mates/clocks/summary" element={<ClockSummaryScreen />} />
         <Route path="/missions/mates/calc" element={<CalcModeSelectScreen />} />

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import {
   buildMoneyRound,
   COIN_LABEL,
@@ -23,16 +23,24 @@ import { usePlaySession } from '@/progress/PlayContext'
 import { newId } from '@/progress/repository'
 import { SideRunShell, prefersReducedMotion, useAnswerFx } from '@/run'
 import { sideRunEnergyForProgress } from '@/reward/sideRunSettle'
+import { buildMoneyMissPayload, moneyQuestionId } from '@/math/missIds'
+import {
+  listActiveMathsMisses,
+  rebuildMoneyFromMiss,
+  recordMathsHit,
+  recordMathsMiss,
+} from '@/math/missStore'
 import './money.css'
 
-function isMode(v: string | undefined): v is MoneyPlayMode {
+function isMode(v: string | undefined): v is MoneyPlayMode | 'misses' {
   return (
     v === 'change' ||
     v === 'build' ||
     v === 'spare' ||
     v === 'sum' ||
     v === 'shortfall' ||
-    v === 'mix'
+    v === 'mix' ||
+    v === 'misses'
   )
 }
 
@@ -46,8 +54,19 @@ export function MoneyPlayScreen() {
   const lumo = useLumoController('thinking')
   const answerFx = useAnswerFx()
   const seedRef = useRef(Date.now())
-  const mode: MoneyPlayMode = isMode(modeParam) ? modeParam : 'mix'
-  const queue = useMemo(() => buildMoneyRound(mode, MONEY_ROUND_SIZE, seedRef.current), [mode])
+  const mode: MoneyPlayMode | 'misses' = isMode(modeParam) ? modeParam : 'mix'
+  const isMisses = mode === 'misses'
+  const pid = playerId ?? 'local'
+  const modesPath = '/missions/mates/money'
+
+  const queue = useMemo(() => {
+    if (isMisses) {
+      return listActiveMathsMisses(pid, 'money').map(rebuildMoneyFromMiss)
+    }
+    return buildMoneyRound(mode, MONEY_ROUND_SIZE, seedRef.current)
+  }, [mode, isMisses, pid])
+
+  const roundSize = isMisses ? Math.max(1, queue.length) : MONEY_ROUND_SIZE
 
   const [index, setIndex] = useState(0)
   const [locked, setLocked] = useState(false)
@@ -65,7 +84,6 @@ export function MoneyPlayScreen() {
   const streakRef = useRef(0)
   const openedRef = useRef(false)
   const startedAtRef = useRef(Date.now())
-  const modesPath = '/missions/mates/money'
 
   const question = queue[index] as MoneyQuestion | undefined
 
@@ -99,15 +117,13 @@ export function MoneyPlayScreen() {
     const early = Boolean(opts?.early)
     setLastSummary({
       mode,
-      total: early ? Math.max(correct, index) : MONEY_ROUND_SIZE,
+      total: early ? Math.max(correct, index) : roundSize,
       correct,
       bestStreak: bestRef.current,
     })
     if (correct > 0) {
       const full = energyForMissionAttempt('money', 1, playerId)
-      const energy = early
-        ? sideRunEnergyForProgress(full, correct, MONEY_ROUND_SIZE)
-        : full
+      const energy = early ? sideRunEnergyForProgress(full, correct, roundSize) : full
       const dailyChallenge = consumeMissionOfDay()
       recordProgress('money', 1)
       grantActivityEnergy({
@@ -115,14 +131,14 @@ export function MoneyPlayScreen() {
         requestedPoints: energy,
         mode: `money-${mode}`.slice(0, 16),
         correct,
-        wrong: Math.max(0, MONEY_ROUND_SIZE - correct),
+        wrong: Math.max(0, roundSize - correct),
         xpEarned: sessionXpFromCorrects(correct, rewardMatrix.money.xpPerCorrect),
         claimDailyChallenge: Boolean(dailyChallenge),
         statsDelta: buildActivityStatsDelta({
           feature: 'money',
-          mode,
+          mode: isMisses ? 'mix' : mode,
           correct,
-          total: MONEY_ROUND_SIZE,
+          total: roundSize,
           playSeconds: Math.max(1, Math.round((Date.now() - startedAtRef.current) / 1000)),
         }),
       })
@@ -132,10 +148,28 @@ export function MoneyPlayScreen() {
 
   useEffect(() => {
     if (question || finishedRef.current) return
+    if (isMisses && queue.length === 0) return
     finish()
   }, [question])
 
-  if (!isMode(modeParam) || !question) return null
+  if (!isMode(modeParam)) return null
+
+  if (isMisses && queue.length === 0) {
+    return (
+      <AppShell title="MIS FALLOS" shortTitle="Fallos" showBack backTo={modesPath}>
+        <section className="side-run" style={{ padding: '1.5rem' }}>
+          <p className="play-banner play-banner--info">
+            ¡Repaso limpio! No tienes errores pendientes.
+          </p>
+          <Link to={modesPath} className="btn btn-primary">
+            Volver a Dinero
+          </Link>
+        </section>
+      </AppShell>
+    )
+  }
+
+  if (!question) return null
 
   const hasProgress = index > 0 || correctCount > 0 || built > 0
 
@@ -144,6 +178,7 @@ export function MoneyPlayScreen() {
   }
 
   function markCorrect() {
+    recordMathsHit(pid, moneyQuestionId(question!))
     soundEngine.play('answer-correct')
     const ns = streakRef.current + 1
     streakRef.current = ns
@@ -159,6 +194,7 @@ export function MoneyPlayScreen() {
   }
 
   function markWrong() {
+    recordMathsMiss(pid, buildMoneyMissPayload(question!))
     soundEngine.play('answer-wrong')
     streakRef.current = 0
     lumo.reactToAnswer({ correct: false, streak: 0 })
@@ -200,7 +236,7 @@ export function MoneyPlayScreen() {
       <SideRunShell
         title={MONEY_MODE_LABELS[mode].toUpperCase()}
         current={index + 1}
-        total={MONEY_ROUND_SIZE}
+        total={roundSize}
         hits={correctCount}
         streak={streak}
         lumoState={lumo.state}
@@ -245,7 +281,7 @@ export function MoneyPlayScreen() {
           ) : (
             <>
               <div className="side-run-options" role="group">
-                {question.coins.map((c, i) => (
+                {question.coins.map((c) => (
                   <button
                     key={`${question.id}-${c}`}
                     type="button"
@@ -254,7 +290,7 @@ export function MoneyPlayScreen() {
                     onClick={() => onCoin(c)}
                   >
                     <span className="answer-btn__key" aria-hidden="true">
-                      {i + 1}
+                      ·
                     </span>
                     <span className="answer-btn__value">{COIN_LABEL[c]}</span>
                   </button>

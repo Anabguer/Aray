@@ -1,5 +1,6 @@
 export type {
   CalcPlayMode,
+  CalcPlayModeOrMisses,
   CalcQuestion,
   CalcSessionSummary,
   CalcDifficulty,

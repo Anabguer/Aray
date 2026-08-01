@@ -42,7 +42,7 @@ export function CalcSummaryScreen() {
           { value: summary.total, label: 'intentos' },
           { value: summary.bestStreak, label: 'mejor racha' },
         ]}
-        note={<DailyEnergyNote />}
+        note={<DailyEnergyNote compact />}
         actions={
           <>
             <button type="button" className="btn btn-primary btn-block" onClick={repeat}>
