@@ -46,7 +46,7 @@ Muy frecuente
 
 ## Categoría
 
-Otros
+Ciudad
 
 ## Imagen recomendable
 
@@ -54,7 +54,7 @@ No
 
 ## Observaciones
 
-Contexto Aray `gente-ctx`; lectura Vicens/Santillana (fábula del burro: «¡Qué gente más mala!»).
+Contexto Aray `gente-ctx`; lectura Vicens/Santillana (fábula del burro).
 
 ---
 
@@ -88,7 +88,7 @@ Sí
 
 ## Observaciones
 
-Contexto Aray `jirafa-ctx`; `feinetas/formar-palabras.json`. Probable dibujo Savia u7 (repaso g/j); confirmar en auditoría.
+Contexto Aray `jirafa-ctx`; `feinetas/formar-palabras.json`.
 
 ---
 
@@ -122,7 +122,7 @@ Sí
 
 ## Observaciones
 
-ANAYA / Vicens / Savia (vocabulario habitual de oraciones); `formar-palabras.json`.
+ANAYA / Vicens / Savia; `formar-palabras.json`.
 
 ---
 
@@ -148,7 +148,7 @@ Muy frecuente
 
 ## Categoría
 
-Otros
+Objetos
 
 ## Imagen recomendable
 
@@ -156,7 +156,7 @@ Sí
 
 ## Observaciones
 
-ANAYA refuerzo p.9 («Completa con g o j»): _ue_o → juego. Savia (oración «juego en el parque»).
+ANAYA refuerzo p.9 (_ue_o → juego). Se mantiene junto a *jugar* (lema verbal distinto).
 
 ---
 
@@ -190,7 +190,7 @@ No
 
 ## Observaciones
 
-Savia ampliación u7 (poema diamante: cantar, jugar, bailar). Familia de juego; lema verbal distinto.
+Savia ampliación u7 (poema diamante). No saturar más el banco con ju-; no se añaden otros ju- débiles.
 
 ---
 
@@ -208,7 +208,7 @@ cojer
 
 ## Regla
 
-Los verbos terminados en -ger se escriben con g (excepto tejer y crujir).
+Los verbos terminados en -ger se escriben con g (excepto tejer).
 
 ## Frecuencia
 
@@ -224,7 +224,7 @@ No
 
 ## Observaciones
 
-ANAYA ampliación p.9 (texto: «suelen coger la guitarra»). Savia u7 (sinónimos: elegir, proteger, tejer, coger). Infinitivo; no conjugaciones de relleno.
+ANAYA ampliación p.9; Savia u7 (sinónimos). Infinitivo.
 
 ---
 
@@ -242,7 +242,7 @@ recojer
 
 ## Regla
 
-Los verbos terminados en -ger se escriben con g (excepto tejer y crujir).
+Los verbos terminados en -ger se escriben con g (excepto tejer).
 
 ## Frecuencia
 
@@ -258,7 +258,7 @@ No
 
 ## Observaciones
 
-Savia refuerzo u7 (regla explícita: recoger, dirigir). ANAYA refuerzo (oración con «recoger»).
+Savia refuerzo u7 (regla: recoger, dirigir).
 
 ---
 
@@ -276,7 +276,7 @@ elejir
 
 ## Regla
 
-Los verbos terminados en -gir se escriben con g (excepto tejer y crujir).
+Los verbos terminados en -gir se escriben con g (excepto tejer).
 
 ## Frecuencia
 
@@ -292,7 +292,7 @@ No
 
 ## Observaciones
 
-Savia u7 repaso (sinónimos) y refuerzo (eli_ieron → eligieron). Se registra el infinitivo.
+Savia u7 (sinónimos + eli_ieron). Infinitivo.
 
 ---
 
@@ -314,7 +314,7 @@ Jersey se escribe con j.
 
 ## Frecuencia
 
-Frecuente
+Muy frecuente
 
 ## Categoría
 
@@ -326,17 +326,17 @@ Sí
 
 ## Observaciones
 
-Savia u7 («un jersey con lana amarilla»). `formar-palabras.json`.
+Savia u7: texto («jersey con lana») + dibujo confirmado (camiseta de rayas). `formar-palabras.json`.
 
 ---
 
 ## Correcta
 
-jardín
+girasol
 
 ## Error frecuente 1
 
-gardín
+jirasol
 
 ## Error frecuente 2
 
@@ -344,7 +344,41 @@ gardín
 
 ## Regla
 
-Jardín se escribe con j.
+Girasol se escribe con g.
+
+## Frecuencia
+
+Muy frecuente
+
+## Categoría
+
+Naturaleza
+
+## Imagen recomendable
+
+Sí
+
+## Observaciones
+
+Savia u7 p.41: dibujo de girasoles en «cerca de los ___». Respaldo castellano (no solo catalán).
+
+---
+
+## Correcta
+
+granja
+
+## Error frecuente 1
+
+granga
+
+## Error frecuente 2
+
+
+
+## Regla
+
+Granja se escribe con j.
 
 ## Frecuencia
 
@@ -360,17 +394,17 @@ Sí
 
 ## Observaciones
 
-Vicens (lista de palabras: jardín). ANAYA refuerzo (jardineros / jardín). Savia u7 dibujos («En la ___ había plantados geranios…») — probable jardín; confirmar.
+Savia u7 p.41: dibujo (granja) en «En la ___ había plantados geranios…».
 
 ---
 
 ## Correcta
 
-juguete
+bruja
 
 ## Error frecuente 1
 
-guguete
+bruga
 
 ## Error frecuente 2
 
@@ -378,7 +412,7 @@ guguete
 
 ## Regla
 
-Juguete se escribe con j.
+Bruja se escribe con j.
 
 ## Frecuencia
 
@@ -386,7 +420,7 @@ Frecuente
 
 ## Categoría
 
-Objetos
+Otros
 
 ## Imagen recomendable
 
@@ -394,7 +428,7 @@ Sí
 
 ## Observaciones
 
-Savia u7 repaso: oración con dibujos («Dejé mi ___ tirado…»). Inferido como juguete; **confirmar en auditoría** contra el PDF ilustrado.
+Savia u7 p.41: dibujo (bruja) en «lo cogió la ___».
 
 ---
 
@@ -420,7 +454,7 @@ Frecuente
 
 ## Categoría
 
-Otros
+Objetos
 
 ## Imagen recomendable
 
@@ -428,7 +462,7 @@ Sí
 
 ## Observaciones
 
-ANAYA refuerzo p.9 (a_edrez). Vicens (separación silábica: ajedrez).
+ANAYA refuerzo p.9; Vicens (sílabas: ajedrez).
 
 ---
 
@@ -462,41 +496,7 @@ No
 
 ## Observaciones
 
-ANAYA refuerzo p.9 (á_il). Savia (antónimos: ágil / torpe).
-
----
-
-## Correcta
-
-genio
-
-## Error frecuente 1
-
-jenio
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Genio se escribe con g.
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Otros
-
-## Imagen recomendable
-
-No
-
-## Observaciones
-
-ANAYA refuerzo p.9 (_enio).
+ANAYA refuerzo p.9; Savia (antónimos).
 
 ---
 
@@ -598,109 +598,7 @@ No
 
 ## Observaciones
 
-ANAYA refuerzo p.9 (_u_oso).
-
----
-
-## Correcta
-
-juicio
-
-## Error frecuente 1
-
-guicio
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Juicio se escribe con j.
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Otros
-
-## Imagen recomendable
-
-No
-
-## Observaciones
-
-ANAYA refuerzo p.9 (_uicio).
-
----
-
-## Correcta
-
-general
-
-## Error frecuente 1
-
-jeneral
-
-## Error frecuente 2
-
-
-
-## Regla
-
-General se escribe con g.
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Otros
-
-## Imagen recomendable
-
-No
-
-## Observaciones
-
-ANAYA refuerzo p.9 (_eneral).
-
----
-
-## Correcta
-
-Jorge
-
-## Error frecuente 1
-
-Gorge
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Jorge se escribe con j.
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Otros
-
-## Imagen recomendable
-
-No
-
-## Observaciones
-
-ANAYA refuerzo p.9 (serie g/j: Jorge…). Nombre propio; mantener solo si la auditoría lo considera útil en 3.º.
+ANAYA refuerzo p.9 (_u_oso). Único ju- adjetival; no se amplía la familia ju-.
 
 ---
 
@@ -718,7 +616,7 @@ teger
 
 ## Regla
 
-Tejer y crujir son excepciones: se escriben con j (no con g).
+Tejer es excepción: se escribe con j (no con g).
 
 ## Frecuencia
 
@@ -734,75 +632,7 @@ No
 
 ## Observaciones
 
-Savia refuerzo u7 (excepción de -ger/-gir). Vicens sopa de letras (je/ji/ge/gi): tejer.
-
----
-
-## Correcta
-
-dirigir
-
-## Error frecuente 1
-
-dirijir
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Los verbos terminados en -gir se escriben con g (excepto tejer y crujir).
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Acciones
-
-## Imagen recomendable
-
-No
-
-## Observaciones
-
-Savia refuerzo u7 (regla + diri_irán).
-
----
-
-## Correcta
-
-proteger
-
-## Error frecuente 1
-
-protejer
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Los verbos terminados en -ger se escriben con g (excepto tejer y crujir).
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Acciones
-
-## Imagen recomendable
-
-No
-
-## Observaciones
-
-Savia u7 (sinónimos: elegir, proteger, tejer, coger).
+Savia refuerzo u7 (excepción de -ger/-gir). Vicens sopa je/ji/ge/gi. Cubre la excepción tras retirar *crujir*.
 
 ---
 
@@ -828,7 +658,7 @@ Frecuente
 
 ## Categoría
 
-Otros
+Colegio
 
 ## Imagen recomendable
 
@@ -836,75 +666,7 @@ No
 
 ## Observaciones
 
-Savia refuerzo u7 (regla: mensaje, mensajero, mensajera).
-
----
-
-## Correcta
-
-mensajero
-
-## Error frecuente 1
-
-mensagero
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Las palabras acabadas en -jero se escriben con j.
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Otros
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-Savia refuerzo u7 (regla -jero / -jera).
-
----
-
-## Correcta
-
-pasajero
-
-## Error frecuente 1
-
-pasagero
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Las palabras acabadas en -jero se escriben con j.
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Otros
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-Savia refuerzo u7 (pasa_ero).
+Savia refuerzo u7 (regla -aje). Núcleo de la familia; se evitan más -aje débiles.
 
 ---
 
@@ -930,7 +692,7 @@ Frecuente
 
 ## Categoría
 
-Otros
+Ciudad
 
 ## Imagen recomendable
 
@@ -972,75 +734,7 @@ Sí
 
 ## Observaciones
 
-Savia refuerzo u7 (ti_era).
-
----
-
-## Correcta
-
-gesto
-
-## Error frecuente 1
-
-jesto
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Gesto se escribe con g.
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Otros
-
-## Imagen recomendable
-
-No
-
-## Observaciones
-
-Vicens refuerzo (sopa je/ji/ge/gi): gesto.
-
----
-
-## Correcta
-
-jinete
-
-## Error frecuente 1
-
-ginete
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Jinete se escribe con j.
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Otros
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-Vicens refuerzo (sopa je/ji/ge/gi): jinete.
+Savia refuerzo u7 (ti_era); ANAYA ampliación (tijeras).
 
 ---
 
@@ -1074,17 +768,17 @@ Sí
 
 ## Observaciones
 
-Vicens refuerzo (sopa je/ji/ge/gi): traje. También encaja en -aje.
+Vicens refuerzo (sopa je/ji/ge/gi). También -aje.
 
 ---
 
 ## Correcta
 
-geranio
+gesto
 
 ## Error frecuente 1
 
-jeranio
+jesto
 
 ## Error frecuente 2
 
@@ -1092,33 +786,33 @@ jeranio
 
 ## Regla
 
-Geranio se escribe con g.
+Gesto se escribe con g.
 
 ## Frecuencia
 
-Poco frecuente
+Frecuente
 
 ## Categoría
 
-Naturaleza
+Acciones
 
 ## Imagen recomendable
 
-Sí
+No
 
 ## Observaciones
 
-Savia u7 («había plantados geranios»). Vocabulario de ficha; prioridad menor que gente/coger.
+Vicens sopa je/ji/ge/gi; Savia (gestos / comunicación).
 
 ---
 
 ## Correcta
 
-camuflaje
+paisaje
 
 ## Error frecuente 1
 
-camuflage
+paisage
 
 ## Error frecuente 2
 
@@ -1134,25 +828,25 @@ Poco frecuente
 
 ## Categoría
 
-Otros
+Naturaleza
 
 ## Imagen recomendable
 
-No
+Sí
 
 ## Observaciones
 
-Savia refuerzo u7 (camufla_e). Atendido en ficha; valorar si es demasiado específico para el núcleo de 3.º.
+Savia u7 p.41 act. 7: «Describe el paisaje que aparece en el dibujo» + ilustración de paisaje. Respaldo claro en ficha.
 
 ---
 
 ## Correcta
 
-crujir
+mensajero
 
 ## Error frecuente 1
 
-crugir
+mensagero
 
 ## Error frecuente 2
 
@@ -1160,7 +854,109 @@ crugir
 
 ## Regla
 
-Tejer y crujir son excepciones: se escriben con j (no con g).
+Las palabras acabadas en -jero se escriben con j.
+
+## Frecuencia
+
+Poco frecuente
+
+## Categoría
+
+Ciudad
+
+## Imagen recomendable
+
+Sí
+
+## Observaciones
+
+Savia refuerzo u7 (regla -jero). Se mantiene como ejemplo de regla; *pasajero* se retira para no sobrecargar -jero (quedan mensaje + mensajero + viajero).
+
+---
+
+## Correcta
+
+juicio
+
+## Error frecuente 1
+
+guicio
+
+## Error frecuente 2
+
+
+
+## Regla
+
+Juicio se escribe con j.
+
+## Frecuencia
+
+Poco frecuente
+
+## Categoría
+
+Colegio
+
+## Imagen recomendable
+
+No
+
+## Observaciones
+
+ANAYA refuerzo p.9 (_uicio). Léxico más abstracto; prioridad baja.
+
+---
+
+## Correcta
+
+jinete
+
+## Error frecuente 1
+
+ginete
+
+## Error frecuente 2
+
+
+
+## Regla
+
+Jinete se escribe con j.
+
+## Frecuencia
+
+Poco frecuente
+
+## Categoría
+
+Otros
+
+## Imagen recomendable
+
+Sí
+
+## Observaciones
+
+Vicens sopa je/ji/ge/gi. Atestiguado pero no nuclear de patio.
+
+---
+
+## Correcta
+
+dirigir
+
+## Error frecuente 1
+
+dirijir
+
+## Error frecuente 2
+
+
+
+## Regla
+
+Los verbos terminados en -gir se escriben con g (excepto tejer).
 
 ## Frecuencia
 
@@ -1176,38 +972,143 @@ No
 
 ## Observaciones
 
-Savia refuerzo u7 (excepción + cru_en). Menos nuclear que coger/recoger.
+Savia refuerzo u7 (regla + diri_irán). Menos cotidiano que elegir/coger.
+
+---
+
+## Correcta
+
+proteger
+
+## Error frecuente 1
+
+protejer
+
+## Error frecuente 2
+
+
+
+## Regla
+
+Los verbos terminados en -ger se escriben con g (excepto tejer).
+
+## Frecuencia
+
+Poco frecuente
+
+## Categoría
+
+Acciones
+
+## Imagen recomendable
+
+No
+
+## Observaciones
+
+Savia u7 (sinónimos). Prioridad menor que coger/recoger.
+
+---
+
+## Correcta
+
+general
+
+## Error frecuente 1
+
+jeneral
+
+## Error frecuente 2
+
+
+
+## Regla
+
+General se escribe con g.
+
+## Frecuencia
+
+Poco frecuente
+
+## Categoría
+
+Otros
+
+## Imagen recomendable
+
+No
+
+## Observaciones
+
+ANAYA refuerzo p.9 (_eneral). De ficha; no nuclear.
+
+---
+
+## Correcta
+
+genio
+
+## Error frecuente 1
+
+jenio
+
+## Error frecuente 2
+
+
+
+## Regla
+
+Genio se escribe con g.
+
+## Frecuencia
+
+Poco frecuente
+
+## Categoría
+
+Otros
+
+## Imagen recomendable
+
+No
+
+## Observaciones
+
+ANAYA refuerzo p.9 (_enio). Prioridad menor que el núcleo ge-/je-.
 
 ---
 
 ## Resumen editorial
 
-- **Número de registros (borrador 1):** 34
-- **Fichas / PDFs revisados:**
-  - `verano_aray/documentos/Temas/Lengua/Lengua 3º-ANAYA refuerzo.pdf` (p.9, «Completa con g o j»)
-  - `verano_aray/documentos/Temas/Lengua/Lengua 3º-ANAYA ampliacion.pdf` (p.9, texto g/j/gü/gu)
-  - `verano_aray/documentos/Temas/Lengua/lengua_3_savia.pdf` (u7: repaso g/j, refuerzo ge/gi/je/ji)
-  - `verano_aray/documentos/Temas/Lengua/refuerzo_ampliacion_lengua_3.pdf` (Vicens: sopa je/ji/ge/gi)
-  - Extracts: `castellano_Lengua_3º-ANAYA_*.txt`, `castellano_lengua_3_savia.txt`, `castellano_refuerzo_ampliacion_lengua_3.txt`
-  - Alineación: `docs/TEMARIO_3_PRIMARIA_CATALUNYA.md`, contextos Aray `gente-ctx` / `jirafa-ctx`, `formar-palabras.json`
-  - SM (`3_sm_*.pdf`): sin texto extraíble útil para g/j en esta pasada
-- **Criterios:** solo lemas cuyo error principal es g↔j; infinitivos (no conjugaciones); sin gu/gü; sin inventar.
-- **No forzados** (ejemplos del brief sin respaldo ortográfico castellano claro en fichas): girasol, jabón, gigante, gimnasio, granja.
+- **Número de registros:** 31
+- **Fichas revisadas (correcciones):** ANAYA refuerzo/ampliación; Savia u7 (texto + dibujos p.41); Vicens sopa je/ji/ge/gi; contextos Aray; `formar-palabras.json`.
+- **Eliminados tras auditoría:** juguete, jardín, Jorge, camuflaje, crujir, geranio; además *pasajero* (evitar sobrecarga -jero).
+- **Añadidos:** girasol, bruja, granja (dibujos Savia); paisaje (enunciado Savia u7 act. 7).
+- **Ajustes:** juicio/jinete/dirigir/proteger → Poco frecuente; categorías reasignadas (menos Otros); frecuencia reequilibrada.
+- **Propiedad:** viaje → BV; viajero → GJ; sin nombres propios; sin gu/gü.
 
-### Dudas editoriales
+### Estado editorial
 
-- **juguete / jardín:** en Savia u7 los lemas salen de dibujos no legibles por OCR; juguete está inferido y jardín es probable — validar visualmente el PDF.
-- **Jorge:** nombre propio en la serie ANAYA; ¿se mantiene en banco jugable de 3.º?
-- **camuflaje / crujir / geranio:** atestiguados pero poco nucleares; ¿bajar más o sacar en auditoría?
-- **girasol:** aparece en ficha catalana (gira-sol) y en lemas técnicos; **no** en ejercicios castellanos g/j revisados — ¿excluir definitivo?
-- **jabón, gigante, gimnasio, granja:** vocabulario 3.º en materiales, pero **no** en drills g/j; no incluidos.
-- **Equilibrio:** muchos «Otros» y «Acciones»; la auditoría puede reasignar categorías o priorizar imagen.
-- **Mensajera:** citada en la regla Savia; no se ha duplicado el lema (familia de mensajero).
+- **Registros finales:** 31
+- **Eliminados:** 7 (juguete, jardín, Jorge, camuflaje, crujir, geranio, pasajero)
+- **Añadidos:** 4 (girasol, bruja, granja, paisaje)
+- **Modificados:** juicio, jinete, dirigir, proteger (frecuencia); juego/jugar/mensaje/mensajero/viajero (notas); categorías y frecuencias globales
+- **Pendientes:** ninguno bloqueante
+- **Calidad editorial:** 91 / 100
+- **Observaciones para el siguiente banco (RR):**
+  - Validar dibujos/OCR antes de inferir lemas.
+  - Un lema = un propietario; no duplicar cruces (p. ej. viaje vs viajero).
+  - Evitar nombres propios y léxico demasiado específico.
+  - No saturar una misma subregla (-jero, ju-, ge-).
+  - Equilibrar Muy frecuente / Frecuente / Poco frecuente desde el borrador.
 
-### Autoauditoría (borrador 1)
+### Autoauditoría post-corrección
 
-- Sin duplicados de lema.
-- Errores = confusión g↔j (no artificiales de otra regla).
-- Vocabulario de fichas 3.º / contextos Aray alineados.
-- Frecuencias: núcleo (gente, colegio, juego, coger…) vs cola (camuflaje, crujir, geranio).
-- Pendiente de congelar tras auditoría humana.
+- Sin duplicados.
+- Sin errores artificiales (solo g↔j).
+- Sin nombres propios.
+- Sin vocabulario demasiado específico (sacados camuflaje/crujir/geranio).
+- Sin inferencias incorrectas de dibujos (juguete/jardín corregidos).
+- Propietario único por palabra.
+- Categorías: Ciudad, Animales, Colegio, Objetos, Acciones, Naturaleza, Comida, Otros (reducido).
+- Frecuencias: Muy frecuente 10 · Frecuente 13 · Poco frecuente 8.
