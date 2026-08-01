@@ -10,7 +10,12 @@ export {
   getMinigame,
   hasMinigame,
   minigamesForCategory,
+  minigamesForArea,
   spellingMinigameId,
+  calcMinigameId,
+  moneyMinigameId,
+  clocksMinigameId,
+  tablesMinigameId,
   isSpellPlayMode,
 } from '@/minigames/catalog'
 export { buildRound } from '@/minigames/buildRound'
@@ -19,4 +24,15 @@ export type {
   RoundResult,
   SpellMcqRound,
   OrdenarLetrasRound,
+  MathsRound,
 } from '@/minigames/buildRound'
+export type {
+  MathsQuestion,
+  MathsAnswer,
+  MathsSkillId,
+  MathsShape,
+} from '@/minigames/mathsContract'
+export {
+  assertValidMathsQuestion,
+  isMcqIndexCorrect,
+} from '@/minigames/mathsContract'

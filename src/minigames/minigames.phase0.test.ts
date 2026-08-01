@@ -44,8 +44,14 @@ describe('minigames Fase 4 (Ortografía 100% packs)', () => {
 
   it('no registra legacy-spell', () => {
     const ids = listMechanics().map((m) => m.id).sort()
-    expect(ids).toEqual(['mcq', 'ordenar-letras', 'ortografia-lemma-mcq'])
+    expect(ids).toEqual([
+      'maths-legacy',
+      'mcq',
+      'ordenar-letras',
+      'ortografia-lemma-mcq',
+    ])
     expect(getMechanic('ortografia-lemma-mcq').temporaryLegacy).toBeFalsy()
+    expect(getMechanic('maths-legacy').temporaryLegacy).toBe(true)
   })
 
   it('buildRound spelling-* activos genera MCQ válidas', () => {

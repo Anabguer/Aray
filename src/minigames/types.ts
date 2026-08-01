@@ -10,6 +10,11 @@ export type MechanicId =
   | 'ordenar-letras'
   /** Ortografía alimentada por packs de lemas / frases JSON. */
   | 'ortografia-lemma-mcq'
+  /**
+   * Matemáticas procedurales (tablas/cálculo/dinero/horas) vía adaptadores legacy.
+   * Contenido aún no migrado a packs JSON.
+   */
+  | 'maths-legacy'
 
 export type PackRevisionStatus = 'draft' | 'approved'
 
@@ -53,17 +58,40 @@ export type MechanicDefinition = {
   temporaryLegacy?: boolean
 }
 
+/** Forma de presentación reutilizable (sin extraer pantallas todavía). */
+export type MathsPresentation =
+  | 'mcq'
+  | 'match'
+  | 'learn'
+  | 'timer'
+  | 'build'
+  | 'order'
+  | 'compare'
+  | 'truefalse'
+  | 'review'
+  | 'summary'
+
 export type MinigameDefinition = {
   id: string
   area: AreaId
   category: string
+  /** Nombre visible (equivalente a «nombre»). */
   title: string
+  /** Ruta de pantalla (equivalente a «pantalla»). */
   href: string
   mechanicId: MechanicId
   source: MinigameSource
   status: MinigameStatus
   /** Modo de Ortografía (`SpellPlayMode`) cuando `mechanicId === 'ortografia-lemma-mcq'`. */
   spellPlayMode?: string
+  /** Modo de play matemático (`calc-add`, `tables-train`, …). */
+  mathPlayMode?: string
+  /** Clave de arte / icono de modo (StageSelect). */
+  icon?: string
+  /** Skills curriculares asociados. */
+  skillIds?: string[]
+  /** Mecánica de presentación (MCQ / Match / Learn / Timer…). */
+  presentation?: MathsPresentation
   /** Packs editoriales asociados. */
   packIds: string[]
 }
