@@ -18,14 +18,17 @@ Nunca debe contener palabras inventadas.
 | hay / ahí / ay | `ERRORES_REALES_HAY_AHI_AY.md` |
 | burro, barro | `ERRORES_REALES_BV.md` |
 | proteger | `ERRORES_REALES_GJ.md` |
+| guitarra | futuro banco GU/GÜ (no RR) |
 
 **Cruces (sin duplicar contenido):**
-- **burro / barro** → BV (aunque tengan rr; error principal b/v).
-- **proteger** → GJ (hueco en Savia r/rr, pero fallo nuclear g/j).
-- **guitarra** → no incluida: en ANAYA el foco es **gu**, no rr.
-- Nombres propios salvo los que sean ejemplos canónicos de regla (ver dudas).
+- **burro / barro** → BV.
+- **proteger** → GJ.
+- **guitarra**, **barrera**, **barril**, **torre** → fuera de este banco (sin drill RR o foco ajeno).
+- Nombres propios → fuera del Banco Maestro.
 
 **Regla de 3.º (Savia u5):** sonido suave = una r; sonido fuerte = r al inicio, **rr** entre vocales, **r** tras n/l/s.
+
+**Nota editorial:** la “r inicial” no se rellena con distractores tipo *rrojo* (artificiales). El contraste r suave se limita a *oreja* y *parar*.
 
 ---
 
@@ -59,7 +62,7 @@ Sí
 
 ## Observaciones
 
-Savia u5 (regla: perro, correr). Vicens; ANAYA; Aray `perro-ctx`; `formar-palabras.json`.
+Savia u5 (regla). Vicens; ANAYA; Aray `perro-ctx`; `formar-palabras.json`.
 
 ---
 
@@ -93,7 +96,7 @@ Sí
 
 ## Observaciones
 
-Savia u5 (ca_a → carro). Contexto Aray (perro/carro).
+Savia u5; Aray (perro/carro). Familia distinta de carrera/correr/carretera.
 
 ---
 
@@ -127,7 +130,7 @@ No
 
 ## Observaciones
 
-Savia u5 (regla + clasificación). `formar-palabras.json`. Infinitivo.
+Savia u5; `formar-palabras.json`. Infinitivo.
 
 ---
 
@@ -161,7 +164,7 @@ Sí
 
 ## Observaciones
 
-Savia u5 repaso (ca_e_a → carrera).
+Savia u5 (ca_e_a). Situación distinta a *correr* / *carro*.
 
 ---
 
@@ -187,7 +190,7 @@ Muy frecuente
 
 ## Categoría
 
-Otros
+Ciudad
 
 ## Imagen recomendable
 
@@ -195,7 +198,7 @@ No
 
 ## Observaciones
 
-Savia u5 (regla). Aray `alrededor-ctx`.
+Savia u5 (regla). Aray `alrededor-ctx`. Sustituye ejemplos con nombres propios.
 
 ---
 
@@ -263,7 +266,7 @@ Sí
 
 ## Observaciones
 
-Vicens (plural: gorro). `formar-palabras.json`.
+Vicens; `formar-palabras.json`.
 
 ---
 
@@ -297,7 +300,7 @@ Sí
 
 ## Observaciones
 
-`formar-palabras.json`; Vicens/Naturales (alimentos: arroz).
+`formar-palabras.json`; materiales de alimentos.
 
 ---
 
@@ -331,7 +334,7 @@ Sí
 
 ## Observaciones
 
-Vicens (familia: carta / cartero / cartera / carretera).
+Vicens (familia carta / cartero / cartera / carretera).
 
 ---
 
@@ -365,7 +368,7 @@ Sí
 
 ## Observaciones
 
-ANAYA refuerzo p.8 (o_eja). Vicens (orejas).
+ANAYA refuerzo p.8. Representación mínima de r suave (junto a *parar*); no ampliar más en esta versión.
 
 ---
 
@@ -399,7 +402,7 @@ Sí
 
 ## Observaciones
 
-ANAYA refuerzo p.8 (ma_ón); Savia u5.
+ANAYA refuerzo p.8; Savia u5.
 
 ---
 
@@ -425,7 +428,7 @@ Frecuente
 
 ## Categoría
 
-Otros
+Casa
 
 ## Imagen recomendable
 
@@ -433,7 +436,7 @@ No
 
 ## Observaciones
 
-ANAYA refuerzo p.8 (ce_ado). Vicens (antónimos).
+ANAYA refuerzo p.8; Vicens (antónimos).
 
 ---
 
@@ -467,143 +470,7 @@ Sí
 
 ## Observaciones
 
-ANAYA refuerzo p.8 (te_eno).
-
----
-
-## Correcta
-
-rosal
-
-## Error frecuente 1
-
-rrosal
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Al principio de palabra, el sonido fuerte se escribe con una sola r.
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Naturaleza
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-ANAYA refuerzo p.8 (_osal).
-
----
-
-## Correcta
-
-ratón
-
-## Error frecuente 1
-
-rratón
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Al principio de palabra, el sonido fuerte se escribe con una sola r.
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Animales
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-Savia u5 (clasificación r inicial).
-
----
-
-## Correcta
-
-rojo
-
-## Error frecuente 1
-
-rrojo
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Al principio de palabra, el sonido fuerte se escribe con una sola r.
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Otros
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-Savia u5 (clasificación r inicial).
-
----
-
-## Correcta
-
-rama
-
-## Error frecuente 1
-
-rrama
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Al principio de palabra, el sonido fuerte se escribe con una sola r.
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Naturaleza
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-Savia u5 (regla: rama, rima).
+ANAYA refuerzo p.8.
 
 ---
 
@@ -637,109 +504,7 @@ No
 
 ## Observaciones
 
-Savia u5 (antónimos: arriba).
-
----
-
-## Correcta
-
-enredar
-
-## Error frecuente 1
-
-enrredar
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Tras n, l o s el sonido fuerte se escribe con una sola r.
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Acciones
-
-## Imagen recomendable
-
-No
-
-## Observaciones
-
-Savia u5 (en_edar; familia enredo). Infinitivo.
-
----
-
-## Correcta
-
-arrancar
-
-## Error frecuente 1
-
-arancar
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Entre vocales, el sonido fuerte de la r se escribe rr.
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Acciones
-
-## Imagen recomendable
-
-No
-
-## Observaciones
-
-Savia u5 (a_ancar).
-
----
-
-## Correcta
-
-romper
-
-## Error frecuente 1
-
-rromper
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Al principio de palabra, el sonido fuerte se escribe con una sola r.
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Acciones
-
-## Imagen recomendable
-
-No
-
-## Observaciones
-
-Savia u5 (_omper).
+Savia u5 (antónimos).
 
 ---
 
@@ -779,6 +544,40 @@ Savia u5 (son_isa).
 
 ## Correcta
 
+parar
+
+## Error frecuente 1
+
+parrar
+
+## Error frecuente 2
+
+
+
+## Regla
+
+El sonido suave de la r se escribe con una sola r.
+
+## Frecuencia
+
+Frecuente
+
+## Categoría
+
+Acciones
+
+## Imagen recomendable
+
+No
+
+## Observaciones
+
+Savia u5 (pa_ar). Contraste r suave mínimo con *oreja*.
+
+---
+
+## Correcta
+
 barrer
 
 ## Error frecuente 1
@@ -813,11 +612,11 @@ Savia u5 (ba_er).
 
 ## Correcta
 
-raqueta
+enredar
 
 ## Error frecuente 1
 
-rraqueta
+enrredar
 
 ## Error frecuente 2
 
@@ -825,23 +624,57 @@ rraqueta
 
 ## Regla
 
-Al principio de palabra, el sonido fuerte se escribe con una sola r.
+Tras n, l o s el sonido fuerte se escribe con una sola r.
 
 ## Frecuencia
 
-Frecuente
+Poco frecuente
 
 ## Categoría
 
-Objetos
+Acciones
 
 ## Imagen recomendable
 
-Sí
+No
 
 ## Observaciones
 
-Savia u5 (_aqueta).
+Savia u5. Menos nuclear que alrededor/sonrisa.
+
+---
+
+## Correcta
+
+arrancar
+
+## Error frecuente 1
+
+arancar
+
+## Error frecuente 2
+
+
+
+## Regla
+
+Entre vocales, el sonido fuerte de la r se escribe rr.
+
+## Frecuencia
+
+Poco frecuente
+
+## Categoría
+
+Acciones
+
+## Imagen recomendable
+
+No
+
+## Observaciones
+
+Savia u5. Prioridad menor que correr/carro.
 
 ---
 
@@ -863,7 +696,7 @@ Entre vocales, el sonido fuerte de la r se escribe rr.
 
 ## Frecuencia
 
-Frecuente
+Poco frecuente
 
 ## Categoría
 
@@ -875,211 +708,7 @@ No
 
 ## Observaciones
 
-Savia u5 (co_ecto).
-
----
-
-## Correcta
-
-parar
-
-## Error frecuente 1
-
-parrar
-
-## Error frecuente 2
-
-
-
-## Regla
-
-El sonido suave de la r se escribe con una sola r.
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Acciones
-
-## Imagen recomendable
-
-No
-
-## Observaciones
-
-Savia u5 (pa_ar). Contraste suave vs fuerte.
-
----
-
-## Correcta
-
-rocas
-
-## Error frecuente 1
-
-rrocas
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Al principio de palabra, el sonido fuerte se escribe con una sola r.
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Naturaleza
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-Savia u5 (_ocas).
-
----
-
-## Correcta
-
-parrada
-
-## Error frecuente 1
-
-parada
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Entre vocales, el sonido fuerte de la r se escribe rr.
-
-## Frecuencia
-
-Poco frecuente
-
-## Categoría
-
-Otros
-
-## Imagen recomendable
-
-No
-
-## Observaciones
-
-ANAYA refuerzo p.8 (pa_ada). Confirmar OCR en auditoría (*parrada* vs *parada*).
-
----
-
-## Correcta
-
-turrón
-
-## Error frecuente 1
-
-turón
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Entre vocales, el sonido fuerte de la r se escribe rr.
-
-## Frecuencia
-
-Poco frecuente
-
-## Categoría
-
-Comida
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-Savia u5 (tu_ón). Léxico estacional; prioridad menor.
-
----
-
-## Correcta
-
-tiburón
-
-## Error frecuente 1
-
-tiburrón
-
-## Error frecuente 2
-
-
-
-## Regla
-
-El sonido suave de la r se escribe con una sola r.
-
-## Frecuencia
-
-Poco frecuente
-
-## Categoría
-
-Animales
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-Savia u5 (tibu_ón). Una sola r entre vocales.
-
----
-
-## Correcta
-
-racimo
-
-## Error frecuente 1
-
-rracimo
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Al principio de palabra, el sonido fuerte se escribe con una sola r.
-
-## Frecuencia
-
-Poco frecuente
-
-## Categoría
-
-Comida
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-Savia u5 (_acimo).
+Savia u5. Escolar; no nuclear de patio.
 
 ---
 
@@ -1113,108 +742,42 @@ Sí
 
 ## Observaciones
 
-Savia u5 (clasificación rr entre vocales).
-
----
-
-## Correcta
-
-cacharro
-
-## Error frecuente 1
-
-cacharo
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Entre vocales, el sonido fuerte de la r se escribe rr.
-
-## Frecuencia
-
-Poco frecuente
-
-## Categoría
-
-Objetos
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-Savia u5 (cacha_o). Coloquial; valorar en auditoría si es demasiado específico.
-
----
-
-## Correcta
-
-Enrique
-
-## Error frecuente 1
-
-Enrrique
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Tras n, l o s el sonido fuerte se escribe con una sola r.
-
-## Frecuencia
-
-Poco frecuente
-
-## Categoría
-
-Otros
-
-## Imagen recomendable
-
-No
-
-## Observaciones
-
-Savia u5 (ejemplo de regla + clasificación). Aray `enrique-ctx`. Nombre propio: ver dudas.
+Savia u5 (clasificación rr). Léxico escolar.
 
 ---
 
 ## Resumen editorial
 
-- **Número de registros (borrador 1):** 34
-- **Fichas / PDFs revisados:**
-  - `Lengua 3º-ANAYA refuerzo.pdf` p.8 («Completa las palabras con r o con rr»)
-  - `lengua_3_savia.pdf` u5 p.28 y p.32 (repaso + refuerzo «Palabras con r y rr»)
-  - `refuerzo_ampliacion_lengua_3.pdf` (Vicens: perro, gorro, carretera, orejas…)
-  - Contextos Aray `perro-ctx`, `alrededor-ctx`, `tierra-ctx`, `enrique-ctx`
-  - `feinetas/formar-palabras.json` (perro, arroz, tierra, gorro, correr)
-  - `docs/TEMARIO_3_PRIMARIA_CATALUNYA.md`
-  - SM: sin drill r/rr texto útil en esta pasada
-- **No incluidos (propiedad / foco):** burro, barro (BV); proteger (GJ); guitarra (gu); barrera, barril, torre (sin drill claro); conjugaciones largas (enriquecerse, desenredar).
-- **Criterios:** solo confusión r↔rr; infinitivos; sin inventar.
+- **Número de registros:** 21
+- **Fichas revisadas (correcciones):** Savia u5; ANAYA refuerzo p.8; Vicens; Aray; `formar-palabras.json`.
+- **Eliminados tras auditoría:** Enrique, parrada, cacharro, turrón, tiburón; más la serie de r inicial con distractor artificial (*rojo, rama, rosal, ratón, romper, raqueta, rocas, racimo*).
+- **Mantenidos (r suave mínima):** oreja, parar.
+- **Familias conservadas:** carro, carrera, correr, carretera.
+- **Fuera definitivo de RR:** guitarra (GU/GÜ), barrera, barril, torre.
+- **Propiedad:** burro/barro → BV; proteger → GJ; sin nombres propios.
 
-### Dudas editoriales
+### Estado editorial
 
-- **Enrique:** nombre propio; es ejemplo canónico Savia/Aray de «r tras n». ¿Se mantiene pese a la norma anti-nombres?
-- **Israel / Ramón / Rocío / Rafael…:** en Savia como ejemplos; **no** añadidos. ¿Incluir alguno en auditoría?
-- **parrada:** OCR ANAYA; confirmar contra PDF (*parrada* vs *parada*).
-- **cacharro / turrón:** ¿demasiado coloquial o estacional?
-- **barrera / barril / torre / guitarra:** esperables en brief; sin respaldo de drill o foco ajeno — ¿quedan fuera definitivos?
-- **oreja / parar / tiburón:** errores de «r suave»; comprobar que no parezcan artificiales.
-- **Equilibrio:** bastantes «Otros»; reasignar en auditoría si hace falta.
-- **arriba:** antónimo Savia; ¿prioridad adecuada?
+- **Registros finales:** 21
+- **Eliminados:** 13 (Enrique, parrada, cacharro, turrón, tiburón, rojo, rama, rosal, ratón, romper, raqueta, rocas, racimo)
+- **Modificados:** alrededor → Ciudad; cerrado → Casa; frecuencias reequilibradas; notas de r suave / familias
+- **Añadidos:** 0
+- **Pendientes:** ninguno bloqueante
+- **Calidad editorial:** 92 / 100
+- **Observaciones para el siguiente banco (LL/Y):**
+  - Un lema = un propietario; no duplicar cruces.
+  - Evitar distractores artificiales aunque salgan del hueco r/rr de la ficha.
+  - Nombres propios fuera del Banco Maestro.
+  - Validar OCR dudoso antes de congelar.
+  - Representar contrastes de regla con pocos lemas claros, no con listas largas.
 
-### Autoauditoría (borrador 1)
+### Autoauditoría post-corrección
 
-- Sin duplicados de lema.
-- Sin burro/barro/proteger/guitarra.
-- Errores = r↔rr (no otras reglas).
-- Vocabulario 3.º respaldado por fichas/contextos.
-- Frecuencias: Muy frecuente 8 · Frecuente 19 · Poco frecuente 7.
-- Pendiente de congelar tras auditoría humana.
+- Sin duplicados.
+- Sin errores artificiales (sin *rrojo* ni equivalentes).
+- Sin nombres propios.
+- Sin OCR dudoso (*parrada* fuera).
+- Propietario único por palabra.
+- Vocabulario 3.º respaldado.
+- Frecuencias: Muy frecuente 8 · Frecuente 9 · Poco frecuente 4.
+- Categorías: Otros reducido a 2 (marrón, arriba).
