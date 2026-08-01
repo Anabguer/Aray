@@ -10,10 +10,17 @@ Nunca debe contener palabras inventadas.
 
 **Metodología:** misma que `ERRORES_REALES_H.md` — fichas del repositorio primero; no copiar ejercicios; sin conjugaciones de relleno.
 
-**Cruces:**
-- Combinaciones **mb / mp / nv** → documento `ERRORES_REALES_MPMB.md` (no duplicar aquí).
-- Terminaciones **-aba** (cantaba…) → se tratan como regla propia en el temario; no se usan como relleno de conjugaciones en este banco.
-- Palabras cuya dificultad principal es **h** (haber, hacer…) → si aparecen, el error aquí es solo el de **b/v** (p. ej. *haver*), no la omisión de h.
+**Propiedad de lemas (norma del proyecto):** cada palabra tiene un único banco propietario. No se duplican registros.
+
+| Lema / grupo | Banco propietario |
+|--------------|-------------------|
+| haber, hacer, echar | `ERRORES_REALES_H.md` |
+| hay / ahí / ay | `ERRORES_REALES_HAY_AHI_AY.md` |
+
+**Cruces (sin duplicar contenido):**
+- Combinaciones **mb / mp / nv** → `ERRORES_REALES_MPMB.md`.
+- Terminaciones **-aba** → regla propia del temario; no relleno aquí.
+- Fallo *haver* (b/v) de **haber** → se documenta en el propietario **H**, no en este banco.
 
 ---
 
@@ -529,40 +536,6 @@ Fábula hormiga (trigo y cebada) en material 3.º.
 
 ## Correcta
 
-nube
-
-## Error frecuente 1
-
-nuve
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Nube se escribe con b.
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Naturaleza
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-Vocabulario de lecturas / descripción de paisaje en ciclo medio; coherente con nivel 3.º. *(Respaldo menos explícito que verano/invierno: revisar en auditoría.)*
-
----
-
-## Correcta
-
 escribir
 
 ## Error frecuente 1
@@ -829,7 +802,7 @@ No
 
 ## Observaciones
 
-ANAYA refuerzo (serie volver / volar / valor).
+ANAYA refuerzo p.11 (PDF): serie «volver … volar valor tambor». Validado contra PDF original.
 
 ---
 
@@ -885,7 +858,7 @@ Viejo se escribe con v.
 
 ## Frecuencia
 
-Frecuente
+Poco frecuente
 
 ## Categoría
 
@@ -897,7 +870,7 @@ Sí
 
 ## Observaciones
 
-Misma fábula (el niño, el viejo y el burro).
+Fábula del burro (el niño, el viejo y el burro). Prioridad menor que núcleo caballo/ventana.
 
 ---
 
@@ -919,7 +892,7 @@ Burbuja se escribe con b.
 
 ## Frecuencia
 
-Frecuente
+Poco frecuente
 
 ## Categoría
 
@@ -931,109 +904,7 @@ Sí
 
 ## Observaciones
 
-ANAYA refuerzo (lista: mirador, transporte, verano, arboleda, burbuja).
-
----
-
-## Correcta
-
-padrino
-
-## Error frecuente 1
-
-padvino
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Padrino se escribe con b.
-
-## Frecuencia
-
-Poco frecuente
-
-## Categoría
-
-Casa
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-ANAYA refuerzo (vocabulario: padrino / caballo). Prioridad menor.
-
----
-
-## Correcta
-
-veterinario
-
-## Error frecuente 1
-
-beterinario
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Veterinario se escribe con v.
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Otros
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-ANAYA ampliación («El veterinario lijó…»). Palabra larga pero aparece en ficha 3.º.
-
----
-
-## Correcta
-
-baraja
-
-## Error frecuente 1
-
-varaja
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Baraja se escribe con b.
-
-## Frecuencia
-
-Poco frecuente
-
-## Categoría
-
-Objetos
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-ANAYA ampliación (poema de Lorca: baraja / bastos).
+ANAYA refuerzo (lista con burbuja). Prioridad menor; error verosímil pero menos “top” que cavallo/bentana.
 
 ---
 
@@ -1101,7 +972,7 @@ No
 
 ## Observaciones
 
-ANAYA refuerzo (completar con b/v: ser_icio…).
+ANAYA refuerzo p.11 (PDF original): «ser icio» → servicio. Validado contra PDF.
 
 ---
 
@@ -1135,7 +1006,7 @@ Sí
 
 ## Observaciones
 
-ANAYA refuerzo (completar: reci_o).
+ANAYA refuerzo p.11 (PDF original): «reci o» → recibo. Validado contra PDF.
 
 ---
 
@@ -1169,7 +1040,7 @@ No
 
 ## Observaciones
 
-ANAYA refuerzo (completar: su_ida).
+ANAYA refuerzo p.11 (PDF original): «su ida» → subida. Validado contra PDF.
 
 ---
 
@@ -1203,85 +1074,38 @@ Sí
 
 ## Observaciones
 
-ANAYA refuerzo (completar: i_ienda).
-
----
-
-## Correcta
-
-haber
-
-## Error frecuente 1
-
-haver
-
-## Error frecuente 2
-
-
-
-## Regla
-
-Haber se escribe con b (no con v). La h se trabaja en el banco H.
-
-## Frecuencia
-
-Frecuente
-
-## Categoría
-
-Acciones
-
-## Imagen recomendable
-
-No
-
-## Observaciones
-
-Vicens / ANAYA (formas de haber). Aquí solo el fallo b/v (*haver*), no *aber*.
+ANAYA refuerzo p.11 (PDF original): «i ienda» → vivienda. Validado contra PDF.
 
 ---
 
 ## Resumen editorial
 
-- **Número de registros (borrador 1):** 36
-- **Fichas o carpetas revisadas:**
-  - `verano_aray/banc_exercicis/_extraccio_raw/castellano_Lengua_3º-ANAYA_refuerzo.txt` (completar b/v; caballo; ventana; abuelo; biblioteca; verano; verde; viaje; volver/volar/valor; padrino; burbuja)
-  - `verano_aray/banc_exercicis/_extraccio_raw/castellano_Lengua_3º-ANAYA_ampliacion.txt` (vaca; caballo; veterinario; verbos en -bir; baraja/barro; verde)
-  - `verano_aray/banc_exercicis/_extraccio_raw/castellano_refuerzo_ampliacion_lengua_3.txt` (Vicens: caballos; botellas; barco; abuela; llave)
-  - `verano_aray/banc_exercicis/_extraccio_raw/castellano_lenguaje3_tomo2_pdf.txt` (fábula burro/viejo/pueblo; verano/invierno/cebada; biblioteca; nota mb/nv → otro banco)
-  - `verano_aray/banc_exercicis/_extraccio_raw/castellano_lengua_3_savia.txt` (biblioteca; verano)
-  - `docs/TEMARIO_3_PRIMARIA_CATALUNYA.md` (b/v como regla de 3.º)
-  - Contextos Aray `caballo-ctx` / `ventana-ctx` (alineación de nivel)
-- **Bloques trabajados:**
-  1. Vocabulario habitual con b o v (animales, casa, colegio, naturaleza…)
-  2. Verbos en **-bir** (escribir, recibir, subir)
-  3. Verbos / palabras de series ANAYA (vivir, volver, volar, valor, viaje)
-  4. Ítems del ejercicio «completa con b o v» (servicio, recibo, subida, vivienda)
-- **Descartes conscientes:**
-  - *prohibición, exhibición, convivencia, concebir, percibir, hervidor…* del ejercicio ANAYA → demasiado difíciles o incompletos en el OCR
-  - Conjugaciones (-aba, formas varias) → relleno / regla aparte
-  - *tambor* y casos **mb/mp/nv** → `ERRORES_REALES_MPMB.md`
-  - *beber, vaso, bicicleta…* → no ancladas con claridad en las extracciones
-  - *blanco* → no hay error b/v infantil claro sin artificialidad
-- **Confirmación:** borrador 1 sin generación libre de listas; errores = intercambio b↔v plausible.
+- **Número de registros:** 31
+- **Fichas revisadas (correcciones):** mismas fuentes del borrador 1 + validación PDF `verano_aray/documentos/Temas/Lengua/Lengua 3º-ANAYA refuerzo.pdf` (p.11, ejercicio 5 «Completa con b o v»).
+- **Eliminados tras auditoría:** nube, veterinario, baraja, padrino, haber.
+- **Mantenidos tras revisión:** valor (serie PDF); servicio, recibo, subida, vivienda (OCR confirmado en PDF).
+- **Prioridad bajada:** viejo, burbuja → Poco frecuente.
+- **Propiedad:** haber/hacer/echar → H; hay/ahí/ay → HAY_AHI_AY (sin duplicar en BV).
 
 ### Estado editorial
 
-- **Registros finales (borrador 1):** 36
-- **Registros eliminados:** n/a (primer borrador)
-- **Registros añadidos:** 36 (creación inicial)
-- **Pendientes de revisar:** nube (respaldo más débil); veterinario / baraja / padrino (prioridad o longitud); haber (cruce con banco H)
-- **Calidad editorial estimada:** 78 / 100 (falta auditoría + correcciones del ciclo)
-- **Observaciones para la auditoría BV:**
-  - Contrastar de nuevo el ejercicio ANAYA «completa con b o v» con el PDF original si el OCR deja dudas.
-  - Decidir si *haber→haver* se queda aquí o solo en H.
-  - No mezclar mb/mp.
-  - Evitar ampliar con el bank técnico monolítico de lemmas.
+- **Registros finales:** 31
+- **Eliminados:** 5 (nube, veterinario, baraja, padrino, haber)
+- **Modificados:** valor (observación PDF); viejo y burbuja (frecuencia); servicio, recibo, subida, vivienda (validación PDF)
+- **Pendientes:** ninguno bloqueante
+- **Calidad editorial:** 90 / 100
+- **Observaciones para el siguiente banco (GJ):**
+  - Un lema = un banco propietario; cruces solo por referencia.
+  - Validar OCR dudoso contra PDF antes de congelar.
+  - Evitar palabras largas/específicas aunque salgan una vez en una frase.
+  - Separar mb/mp/nv y -aba del foco g/j.
+  - Bajar prioridad de ítems atestiguados pero no nucleares.
 
-### Dudas editoriales (para la auditoría)
+### Autoauditoría post-corrección
 
-1. **nube:** coherente con 3.º, pero menos explícita en fichas que verano/invierno.
-2. **veterinario / baraja / padrino:** aparecen en fichas, pero prioridad o dificultad discutible.
-3. **haber → haver:** ¿banco BV, solo H, o ambos con errores distintos?
-4. **OCR del ejercicio b/v ANAYA:** algunas formas reconstruidas (servicio, recibo, subida, vivienda); conviene validar contra PDF.
-5. Las fuentes del repo ejercitan poco b/v con listas cerradas (a diferencia de hie-/hue-); el borrador es necesariamente más corto que un bank inventado.
+- Sin duplicados.
+- Sin errores artificiales (solo intercambio b↔v).
+- Sin palabras demasiado específicas (sacados veterinario/baraja/padrino).
+- Vocabulario 3.º respaldado por fichas/PDF.
+- Categorías coherentes.
+- Equilibrio: Animales, Casa, Colegio, Objetos, Naturaleza, Acciones, Ciudad, Otros.
