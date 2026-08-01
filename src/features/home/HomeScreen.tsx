@@ -84,7 +84,7 @@ export function HomeScreen() {
   }
 
   return (
-    <AppShell title="LOBBY" subtitle="Tu zona de juego" showLobbyLink={false}>
+    <AppShell title="INICIO" subtitle="Tu zona de juego" showLobbyLink={false}>
       <SyncStatusBanner />
       <section className="lobby" aria-labelledby="home-greeting">
         <div className="lobby__welcome">

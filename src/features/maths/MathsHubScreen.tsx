@@ -8,6 +8,7 @@ import {
   resolveHubZoneStatus,
   type HubZoneId,
 } from '@/curriculum/hubRecommendations'
+import { mathsHubProgressForZone } from '@/features/maths/hubZoneProgress'
 import { useProgress } from '@/progress/ProgressContext'
 
 const MATH_MARKS = {
@@ -55,6 +56,10 @@ export function MathsHubScreen() {
     const mapSlot = MATH_SLOTS[block.id] ?? 'end'
     const short = MATH_SHORT_DESC[block.id] ?? block.description
     const zone = zoneForMathBlock(block.id)
+    const zoneProgress =
+      zone === 'tables' || zone === 'calc' || zone === 'money' || zone === 'clocks'
+        ? mathsHubProgressForZone(zone, progress)
+        : undefined
 
     if (block.id === 'multiplication-tables' && zone) {
       return {
@@ -70,6 +75,7 @@ export function MathsHubScreen() {
         mapSlot,
         href: '/missions/mates/tables',
         ctaLabel: 'JUGAR TABLAS',
+        progress: zoneProgress,
       }
     }
 
@@ -86,6 +92,7 @@ export function MathsHubScreen() {
         mapSlot,
         href: '/missions/mates/clocks',
         ctaLabel: 'JUGAR HORAS',
+        progress: zoneProgress,
       }
     }
 
@@ -102,6 +109,7 @@ export function MathsHubScreen() {
         mapSlot,
         href: '/missions/mates/calc',
         ctaLabel: 'JUGAR CÁLCULO',
+        progress: zoneProgress,
       }
     }
 
@@ -118,6 +126,7 @@ export function MathsHubScreen() {
         mapSlot,
         href: '/missions/mates/money',
         ctaLabel: 'JUGAR DINERO',
+        progress: zoneProgress,
       }
     }
 

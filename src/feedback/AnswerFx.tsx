@@ -166,7 +166,7 @@ export function StreakBadge({ streak }: StreakProps) {
       role="status"
       aria-label={`Racha de ${displayStreak}`}
     >
-      <span aria-hidden="true">🔥</span> Racha x{displayStreak}
+      <span aria-hidden="true">🔥</span> ¡Racha ×{displayStreak}!
     </p>
   )
 }

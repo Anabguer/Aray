@@ -105,10 +105,10 @@ export function buildRunFx(input: {
   const stamp =
     kind === 'stamp'
       ? hasCombo
-        ? `COMBO ×${input.nextStreak}`
+        ? `¡Combo ×${input.nextStreak}!`
         : pickFromPool(input.tone === 'hit' ? STAMP_HITS : STAMP_MISS)
       : hasCombo && kind === 'band'
-        ? `COMBO ×${input.nextStreak}`
+        ? `¡Combo ×${input.nextStreak}!`
         : undefined
 
   const xp =

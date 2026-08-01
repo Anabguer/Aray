@@ -22,6 +22,13 @@ export type WorldZoneMark =
 /** Posición en el mapa de escritorio (zigzag). */
 export type MapSlot = 'start' | 'mid-high' | 'mid-low' | 'end'
 
+/** Señal de avance en tarjeta del mapa (opcional; mates UX1). */
+export type WorldStationProgress = {
+  percent: number
+  label: string
+  stars: number
+}
+
 export type WorldStation = {
   id: string
   title: string
@@ -31,6 +38,8 @@ export type WorldStation = {
   mapSlot: MapSlot
   href?: string
   ctaLabel?: string
+  /** Progreso visible (barra / estrellas / etiqueta). */
+  progress?: WorldStationProgress
 }
 
 export type WorldLevelMapProps = {

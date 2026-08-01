@@ -327,7 +327,7 @@ export function TrainScreen() {
             note={
               <>
                 {energyCopy.sessionMax(maxLoad)}
-                {firstTryStreak >= 2 ? ` · Combo ×${firstTryStreak}` : ''}
+                {firstTryStreak >= 2 ? ` · ¡Combo ×${firstTryStreak}!` : ''}
               </>
             }
             lumoState={lumo.state}
@@ -372,6 +372,10 @@ export function TrainScreen() {
             }}
             onConfirmExit={() => {
               setExitOpen(false)
+              if (answers.length > 0) {
+                finish(answers)
+                return
+              }
               setPendingQueue(null)
               navigate(MODES_PATH)
             }}

@@ -28,6 +28,7 @@ import type { SessionAnswer, SessionResult } from '@/math/types'
 import { usePlaySession } from '@/progress/PlayContext'
 import { useProgress } from '@/progress/ProgressContext'
 import { newId } from '@/progress/repository'
+import { MicroCelebrateBanner, useMicroCelebrate } from '@/run/microCelebrateUi'
 import { previewSessionLoad } from '@/reward/engine'
 import { soundEngine } from '@/sound/soundEngine'
 
@@ -70,6 +71,7 @@ export function MatchScreen() {
   const [bounceProduct, setBounceProduct] = useState<number | null>(null)
   const [, setRoundMissed] = useState<Set<string>>(new Set())
   const [streak, setStreak] = useState(0)
+  const micro = useMicroCelebrate(streak)
   const [bestStreak, setBestStreak] = useState(0)
   const [victory, setVictory] = useState<SessionResult | null>(null)
   const [celebration, setCelebration] = useState<TableCompleteInfo | null>(null)
@@ -322,7 +324,8 @@ export function MatchScreen() {
       showBack
       backTo="/missions/mates/tables/modes"
     >
-      <section className={`match-arena${celebration ? ' is-dimmed' : ''}`} aria-label="Minijuego Empareja">
+      <section className={`match-arena${celebration ? ' is-dimmed' : ''}`} aria-label="Minijuego Empareja" style={{ position: 'relative' }}>
+        <MicroCelebrateBanner event={micro} />
         <SessionXpBar totalXp={progress.xp} compact className="play-screen__xp" />
         {phase === 'victory' && victory && !celebration ? (
           <RoundSummary
@@ -349,7 +352,7 @@ export function MatchScreen() {
                   ELEGIR OTRO MODO
                 </Link>
                 <Link to="/" className="btn btn-ghost btn-block">
-                  LOBBY
+                  INICIO
                 </Link>
               </>
             }
@@ -375,12 +378,12 @@ export function MatchScreen() {
               </div>
               <div className="match-hud__stats">
                 <span>
-                  Encontradas <strong>{lockedCount}</strong>
+                  Hechas <strong>{lockedCount}</strong>
                 </span>
                 <span>
-                  Restan <strong>{remaining}</strong>
+                  Quedan <strong>{remaining}</strong>
                 </span>
-                {streak > 0 ? <StreakBadge streak={streak} /> : <span className="match-hud__energy">Hasta ⚡{maxLoad}</span>}
+                {streak > 0 ? <StreakBadge streak={streak} /> : <span className="match-hud__energy">Meta ⚡{maxLoad}</span>}
               </div>
             </header>
 

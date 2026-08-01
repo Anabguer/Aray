@@ -267,7 +267,7 @@ export function CalcPlayScreen() {
         note={
           <>
             {correctCount} aciertos · racha {streak}
-            {streak >= 2 ? ` · Combo ×${streak}` : ''}
+            {streak >= 2 ? ` · ¡Combo ×${streak}!` : ''}
           </>
         }
         lumoState={lumo.state}

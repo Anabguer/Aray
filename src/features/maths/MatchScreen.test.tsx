@@ -145,7 +145,7 @@ describe('Empareja la tabla — pantalla', () => {
 
     expect(await screen.findByRole('button', { name: /3 × 3 = 9, resuelta/i })).toBeDisabled()
     expect(screen.getByText(/¡pareja!/i)).toBeInTheDocument()
-    expect(screen.getByText(/encontradas/i)).toBeInTheDocument()
+    expect(screen.getByText(/hechas/i)).toBeInTheDocument()
   })
 
   it('una incorrecta vuelve disponible y registra el fallo sin revelar', async () => {

@@ -4,10 +4,10 @@ import { ZoneMark } from '@/components/world/ZoneMark'
 import type { WorldStation, WorldZoneMark } from '@/components/world/types'
 
 const statusLabel: Record<WorldStation['status'], string> = {
-  available: 'Disponible',
-  recommended: 'Recomendado',
-  completed: 'Completado',
-  'coming-soon': 'Próximamente',
+  available: 'Lista',
+  recommended: '¡A por esta!',
+  completed: '¡Hecha!',
+  'coming-soon': 'Pronto',
 }
 
 function StationAmbient({ mark }: { mark: WorldZoneMark }) {
@@ -91,6 +91,37 @@ export function WorldStationNode({
               </span>
               <h3 className="map-station__title">{station.title}</h3>
               <p className="map-station__desc">{station.description}</p>
+              {station.progress ? (
+                <div
+                  className="map-station__progress"
+                  aria-label={`Progreso: ${station.progress.label}, ${station.progress.percent} por ciento`}
+                >
+                  <div className="map-station__progress-row">
+                    <span className="map-station__progress-label">{station.progress.label}</span>
+                    <span className="map-station__stars" aria-hidden="true">
+                      {([1, 2, 3] as const).map((n) => (
+                        <i
+                          key={n}
+                          className={
+                            n <= station.progress!.stars
+                              ? 'map-station__star is-on'
+                              : 'map-station__star'
+                          }
+                        />
+                      ))}
+                    </span>
+                  </div>
+                  <div
+                    className="map-station__progress-track"
+                    role="progressbar"
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                    aria-valuenow={station.progress.percent}
+                  >
+                    <span style={{ width: `${Math.max(0, Math.min(100, station.progress.percent))}%` }} />
+                  </div>
+                </div>
+              ) : null}
             </div>
           </div>
 

@@ -3,8 +3,9 @@ import { ConfirmDialog } from '@/components/quiz/QuizWidgets'
 import { Lumo } from '@/lumo/Lumo'
 import type { LumoIntensity, LumoState } from '@/lumo/types'
 import { COMBO_MIN, type RunFx } from '@/run/answerFx'
+import { MicroCelebrateBanner, useMicroCelebrate } from '@/run/microCelebrateUi'
 
-/** HUD de run (barra + dots + combo) — mismas clases visuales que Learn. */
+/** HUD de partida (barra + dots + combo) — mismas clases visuales que Learn. */
 export function RunHud({
   title,
   current,
@@ -32,7 +33,7 @@ export function RunHud({
       <div className="learn-lab__hud-top">
         <p className="learn-lab__table">
           {title}
-          <span className="learn-lab__table-run"> · RUN ACTUAL</span>
+          <span className="learn-lab__table-run"> · EN JUEGO</span>
         </p>
         <p className="learn-lab__count" aria-live="polite">
           {countLabel ?? (
@@ -65,8 +66,8 @@ export function RunHud({
       <p className="learn-lab__bar-note">
         {note ?? (
           <>
-            {hits} {hits === 1 ? 'acierto' : 'aciertos'} en esta run
-            {streak >= COMBO_MIN ? ` · Combo ×${streak}` : ''}
+            {hits} {hits === 1 ? 'acierto' : 'aciertos'} en esta partida
+            {streak >= COMBO_MIN ? ` · ¡Combo ×${streak}!` : ''}
           </>
         )}
       </p>
@@ -82,7 +83,7 @@ export function RunFxChrome({ fx }: { fx: RunFx | null }) {
         <span className="learn-lab__bubble-msg">{fx.message}</span>
         {fx.xp != null ? <span className="learn-lab__bubble-xp">+{fx.xp} XP</span> : null}
         {fx.combo != null ? (
-          <span className="learn-lab__bubble-combo">COMBO ×{fx.combo}</span>
+          <span className="learn-lab__bubble-combo">¡Combo ×{fx.combo}!</span>
         ) : null}
       </div>
     )
@@ -109,7 +110,7 @@ export function RunFxChrome({ fx }: { fx: RunFx | null }) {
   return null
 }
 
-/** Shell de run para side-activities (ortografía, calc, dinero, reloj…). */
+/** Shell de partida para side-activities (ortografía, calc, dinero, reloj…). */
 export function SideRunShell({
   title,
   current,
@@ -163,19 +164,22 @@ export function SideRunShell({
   note?: ReactNode
   countLabel?: ReactNode
 }) {
+  const micro = useMicroCelebrate(streak)
+  const liveLumoState: LumoState = micro ? 'celebration' : lumoState
+  const liveLumoIntensity: LumoIntensity = micro ? 4 : lumoIntensity
   const showBubble = fx?.kind === 'bubble'
   const showNearHint =
     fx?.kind === 'near' ? (
       <p className={`learn-lab__band learn-lab__band--${fx.tone}`} role="status">
         <span className="learn-lab__band-msg">{fx.message}</span>
         {fx.combo != null ? (
-          <span className="learn-lab__band-xp">COMBO ×{fx.combo}</span>
+          <span className="learn-lab__band-xp">¡Combo ×{fx.combo}!</span>
         ) : null}
       </p>
     ) : null
 
   return (
-    <section className="learn-lab side-run" aria-label="Run">
+    <section className="learn-lab side-run" aria-label="Partida">
       <RunHud
         title={title}
         current={current}
@@ -186,21 +190,22 @@ export function SideRunShell({
         countLabel={countLabel}
       />
 
-      <div className="learn-lab__stage" key={enterKey}>
+      <div className="learn-lab__stage" key={enterKey} style={{ position: 'relative' }}>
+        <MicroCelebrateBanner event={micro} />
         <div
           className={`learn-lab__console${hit ? ' is-hit' : ''}${miss ? ' is-miss' : ''}${
-            lumoBoost ? ' is-lumo-up' : ''
+            lumoBoost || micro ? ' is-lumo-up' : ''
           }`}
           aria-live="polite"
         >
           <span className="learn-lab__console-glow" aria-hidden="true" />
           <div
-            className={`learn-lab__lumo-peek${lumoBoost ? ' is-boost' : ''}${
+            className={`learn-lab__lumo-peek${lumoBoost || micro ? ' is-boost' : ''}${
               fx?.tone === 'miss' && fx.kind === 'bubble' ? ' is-troll' : ''
             }`}
             aria-hidden="true"
           >
-            <Lumo state={lumoState} intensity={lumoIntensity} size="sm" label="Lumo" />
+            <Lumo state={liveLumoState} intensity={liveLumoIntensity} size="sm" label="Lumo" />
             {showBubble ? <RunFxChrome fx={fx} /> : null}
           </div>
 
@@ -217,7 +222,7 @@ export function SideRunShell({
 
       {footer}
 
-      <nav className="learn-lab__nav" aria-label="Navegación de la run">
+      <nav className="learn-lab__nav" aria-label="Salir o volver">
         <button
           type="button"
           className="learn-lab__nav-btn learn-lab__nav-btn--prev"
@@ -270,15 +275,15 @@ export function SideRunShell({
               strokeLinejoin="round"
             />
           </svg>
-          <span className="learn-lab__nav-label learn-lab__nav-label--exit">SALIR DE LA RUN</span>
+          <span className="learn-lab__nav-label learn-lab__nav-label--exit">SALIR</span>
           <span className="learn-lab__nav-label learn-lab__nav-label--exit-short">SALIR</span>
         </button>
       </nav>
 
       <ConfirmDialog
         open={exitOpen}
-        title="¿Sales de la run?"
-        body="Se guarda lo que hayas acertado (misión, XP y energía). Lo que quede a medias no cuenta."
+        title="¿Sales ahora?"
+        body="Se guarda lo que hayas acertado. Lo que quede a medias no cuenta."
         confirmLabel="SALIR"
         cancelLabel="SEGUIR JUGANDO"
         cancelIsPrimary

@@ -18,6 +18,7 @@ import { usePlaySession } from '@/progress/PlayContext'
 import { useProgress } from '@/progress/ProgressContext'
 import { newId } from '@/progress/repository'
 import { soundEngine } from '@/sound/soundEngine'
+import { MicroCelebrateBanner, useMicroCelebrate } from '@/run/microCelebrateUi'
 
 type LearnPhase = 'ask' | 'hint' | 'reveal' | 'done'
 type FxKind = 'bubble' | 'stamp' | 'near' | 'band'
@@ -124,6 +125,7 @@ export function LearnScreen() {
   const [answers, setAnswers] = useState<SessionAnswer[]>([])
   const [hits, setHits] = useState(0)
   const [streak, setStreak] = useState(0)
+  const micro = useMicroCelebrate(streak)
   const [xpEarned, setXpEarned] = useState(0)
   const [runPerfect, setRunPerfect] = useState(false)
   const [exitOpen, setExitOpen] = useState(false)
@@ -255,10 +257,10 @@ export function LearnScreen() {
     const stamp =
       kind === 'stamp'
         ? hasCombo
-          ? `COMBO ×${nextStreak}`
+          ? `¡Combo ×${nextStreak}!`
           : pickFromPool(tone === 'hit' ? STAMP_HITS : STAMP_MISS)
         : hasCombo && kind === 'band'
-          ? `COMBO ×${nextStreak}`
+          ? `¡Combo ×${nextStreak}!`
           : undefined
 
     const xp = tone === 'hit' && xpGranted != null && xpGranted > 0 ? xpGranted : undefined
@@ -375,7 +377,7 @@ export function LearnScreen() {
                 TABLA DEL {table} DOMINADA
               </h2>
             ) : (
-              <h2 className="learn-lab__done-title">RUN COMPLETA</h2>
+              <h2 className="learn-lab__done-title">¡TERMINADO!</h2>
             )}
             <p className="learn-lab__done-score">
               {hits}/{opTotal}
@@ -385,14 +387,14 @@ export function LearnScreen() {
             </p>
             <p className="learn-lab__done-lumo">
               {runPerfect
-                ? 'GG. Esa tabla ya es tuya.'
+                ? '¡Genial! Esa tabla ya es tuya.'
                 : hits >= Math.ceil(opTotal * 0.8)
-                  ? 'Sólida. Otra run y la clavas.'
-                  : 'Calentamiento hecho. Remata en la siguiente.'}
+                  ? '¡Qué bien! Otra vez y la clavas.'
+                  : 'Buen calentamiento. ¡A por la siguiente!'}
             </p>
             <div className="learn-lab__done-actions">
               <button type="button" className="btn btn-primary btn-block" onClick={restartRun}>
-                OTRA RUN
+                OTRA VEZ
               </button>
               <Link to="/missions/mates" className="btn btn-ghost btn-block">
                 VOLVER A MATEMÁTICAS
@@ -405,7 +407,7 @@ export function LearnScreen() {
               <div className="learn-lab__hud-top">
                 <p className="learn-lab__table">
                   TABLA DEL {table}
-                  <span className="learn-lab__table-run"> · RUN ACTUAL</span>
+                  <span className="learn-lab__table-run"> · EN JUEGO</span>
                 </p>
                 <p className="learn-lab__count" aria-live="polite">
                   {row} de {MAX_MULTIPLIER}
@@ -432,12 +434,13 @@ export function LearnScreen() {
                 </div>
               </div>
               <p className="learn-lab__bar-note">
-                {hits} {hits === 1 ? 'acierto' : 'aciertos'} en esta run
-                {streak >= COMBO_MIN ? ` · Combo ×${streak}` : ''}
+                {hits} {hits === 1 ? 'acierto' : 'aciertos'} en esta partida
+                {streak >= COMBO_MIN ? ` · ¡Combo ×${streak}!` : ''}
               </p>
             </header>
 
-            <div className="learn-lab__stage" key={enterKey}>
+            <div className="learn-lab__stage" key={enterKey} style={{ position: 'relative' }}>
+              <MicroCelebrateBanner event={micro} />
               <div
                 className={`learn-lab__console${isCorrectReveal ? ' is-hit' : ''}${phase === 'hint' ? ' is-miss' : ''}${
                   lumoBoost ? ' is-lumo-up' : ''
@@ -459,7 +462,7 @@ export function LearnScreen() {
                         <span className="learn-lab__bubble-xp">+{fx.xp} XP</span>
                       ) : null}
                       {fx.combo != null ? (
-                        <span className="learn-lab__bubble-combo">COMBO ×{fx.combo}</span>
+                        <span className="learn-lab__bubble-combo">¡Combo ×{fx.combo}!</span>
                       ) : null}
                     </div>
                   ) : null}
@@ -607,7 +610,7 @@ export function LearnScreen() {
                     strokeLinejoin="round"
                   />
                 </svg>
-                <span className="learn-lab__nav-label learn-lab__nav-label--exit">SALIR DE LA RUN</span>
+                <span className="learn-lab__nav-label learn-lab__nav-label--exit">SALIR</span>
                 <span className="learn-lab__nav-label learn-lab__nav-label--exit-short">SALIR</span>
               </button>
             </nav>
@@ -617,8 +620,8 @@ export function LearnScreen() {
 
       <ConfirmDialog
         open={exitOpen}
-        title="¿Abandonas la run?"
-        body="Si sales ahora, se pierde el progreso de esta run."
+        title="¿Sales ahora?"
+        body="Si sales ahora, se pierde lo de esta partida."
         confirmLabel="SALIR"
         cancelLabel="SEGUIR JUGANDO"
         cancelIsPrimary

@@ -310,7 +310,7 @@ export function ChallengeScreen() {
           note={
             <>
               {score} pts · ×{challengeModeConfig.xpMultiplier} XP
-              {streak >= 2 ? ` · Combo ×${streak}` : ''}
+              {streak >= 2 ? ` · ¡Combo ×${streak}!` : ''}
             </>
           }
           lumoState={lumo.state}
@@ -356,6 +356,10 @@ export function ChallengeScreen() {
           onExitRequest={() => (hasProgress ? setExitOpen(true) : navigate(MODES_PATH))}
           onConfirmExit={() => {
             setExitOpen(false)
+            if (answersRef.current.length > 0 || scoreRef.current > 0) {
+              endChallenge()
+              return
+            }
             finished.current = true
             navigate(MODES_PATH)
           }}
