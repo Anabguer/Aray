@@ -7,13 +7,13 @@ No convierte los bancos Markdown. No define contenido educativo nuevo.
 
 | Archivo editorial | Pack JSON previsto (futuro) |
 |-------------------|-----------------------------|
-| `ERRORES_REALES_H.md` | `ortografia-h.json` |
-| `ERRORES_REALES_BV.md` | `ortografia-bv.json` |
-| `ERRORES_REALES_GJ.md` | `ortografia-gj.json` |
-| `ERRORES_REALES_RR.md` | `ortografia-rr.json` |
-| `ERRORES_REALES_LLY.md` | `ortografia-lly.json` |
-| `ERRORES_REALES_CZQU.md` | `ortografia-czqu.json` |
-| `ERRORES_REALES_MPMB.md` | `ortografia-mpmb.json` |
+| `ERRORES_REALES_H.md` | `feinetas/ortografia/h.json` |
+| `ERRORES_REALES_BV.md` | `feinetas/ortografia/bv.json` |
+| `ERRORES_REALES_GJ.md` | `feinetas/ortografia/gj.json` |
+| `ERRORES_REALES_RR.md` | `feinetas/ortografia/rr.json` ← **piloto** |
+| `ERRORES_REALES_LLY.md` | `feinetas/ortografia/lly.json` |
+| `ERRORES_REALES_CZQU.md` | `feinetas/ortografia/czqu.json` |
+| `ERRORES_REALES_MPMB.md` | `feinetas/ortografia/mpmb.json` |
 
 Pendientes (no congelados): `ERRORES_REALES_TILDES.md`, `ERRORES_REALES_HAY_AHI_AY.md`, y temas futuros (-aba, bu/bur, gu/gü…).
 
@@ -206,14 +206,23 @@ Los modos “imagen y palabra” deben:
 2. Si no, y `recommended === true`, usar placeholder / emoji de familia de regla (lógica del adaptador, no del pack).
 3. Si `recommended === false`, ese lema **no** entra en pools de modo imagen (o entra con fallback explícito documentado en el adaptador).
 
-### 4.7 Pistas
+### 4.7 Pistas (`tip`)
+
+Campo **opcional**. Reglas oficiales:
+
+1. Nunca revelar la respuesta.
+2. Nunca contener el lema correcto.
+3. Recordar únicamente la regla ortográfica.
+4. Si no existe una pista útil → **omitir** el campo (no enviar `""`).
+
+Prioridad si hace falta pista en UI y no hay `tip`:
 
 | Prioridad | Fuente |
 |-----------|--------|
-| 1 | `tip` (si se rellena en conversión o en pase editorial futuro) |
-| 2 | `ruleText` |
-| 3 | Tip genérico por `ruleId` en código |
+| 1 | `tip` (si existe) |
+| 2 | Tip genérico por `ruleId` en el adaptador (sin citar el lema) |
 
+`ruleText` puede usarse como `tip` **solo** si no contiene el lema.  
 `notes` (Observaciones) **no** es pista para el alumno.
 
 ### 4.8 Dificultad
@@ -372,7 +381,8 @@ Decisión v1: **no** añadir `graphemeTargets` ni contextos hasta que el piloto 
 3. `id` estable: slug ASCII del lemma (`también` → `tambien`); si hubiera colisión, sufijo `-2` (no debería ocurrir: propietario único).
 4. Error 2 vacío → omitir.
 5. `revisionStatus`: piloto = `draft` o `approved`; tras validación en juego = `frozen` alineado al MD.
-6. No convertir los 7 bancos de golpe: **piloto = 1 pack** (recomendación: `ortografia-mpmb` o `ortografia-rr` por tamaño medio y reglas claras).
+9. Conversión piloto: `feinetas/ortografia/rr.json` desde `ERRORES_REALES_RR.md`.
+10. No conectar el JSON a minijuegos hasta validar el pack y sus tests.
 
 ---
 
@@ -394,42 +404,42 @@ Decisión v1: **no** añadir `graphemeTargets` ni contextos hasta que el piloto 
 3. **Errores reales del MD** son fuente primaria; distractores algorítmicos solo en adaptadores.
 4. **Un lema / un `ruleId` propietario**; cruces en `tags` / `secondaryRuleIds`.
 5. **Imagen** como `{ recommended, ref? }`, no emoji obligatorio.
-6. **Taxonomía de categorías** = slugs del MD; cerrada.
-7. **Frecuencia** en enum snake_case estable.
-8. **`notes` fuera de la UI** alumno.
-9. **`tags` abiertos** para no reventar el schema.
-10. **Piloto antes de convertir los 7 bancos.**
-11. **Identidad de progreso:** `packId` + `lemma.id`.
-12. Bancos MD de la Fase Editorial Base permanecen **congelados**; el JSON se deriva, no se reedita el MD salvo error editorial grave en pruebas.
+6. **Piloto oficial:** convertir primero RR → `feinetas/ortografia/rr.json`; no convertir los otros bancos hasta validar el piloto.
+7. **`tags` abiertos** para no reventar el schema.
+8. **Identidad de progreso:** `packId` + `lemma.id`.
+9. Bancos MD de la Fase Editorial Base permanecen **congelados**; el JSON se deriva, no se reedita el MD salvo error editorial grave en pruebas.
+10. Este documento (`JSON_SPEC.md`) queda **congelado** hasta cerrar el piloto RR.
 
 ---
 
-## 12. Dudas abiertas
+## 12. Decisiones oficiales (congeladas — piloto RR)
 
-1. **Pack piloto:** ¿MP/MB (18, fresco) o RR (21, regla muy jugada en app legacy)? Decisión de producto en el siguiente paso.
-2. **`tip` en la primera conversión:** ¿copiar siempre `ruleText` a `tip`, dejar `tip` vacío, o pase editorial corto?
-3. **Subtipos dentro de H** (hie-hue / hacer-echar / haber…): ¿bastan `tags` en v1 o hace falta `ruleId` más fino desde el día 1?
-4. **Tilde en lemas de otros packs** (*también*, *campeón*): ¿solo `tags: ["tilde"]` o también alta futura en pack TILDES sin duplicar juego?
-5. **Assets de imagen:** ¿cuándo y con qué convención de `image.ref`?
-6. **¿Unificar formar-palabras** con estos packs en el mismo ciclo del piloto o después?
-7. **Nombre de archivos JSON:** ¿`feinetas/ortografia-mpmb.json` en raíz de feinetas (como formar-palabras) o subcarpeta `feinetas/packs/`?
+Este spec queda **congelado** hasta terminar el piloto RR. No reabrir debates de formato.
 
-Ninguna de estas dudas bloquea este spec v1; bloquean solo la **primera conversión**.
+| # | Decisión |
+|---|----------|
+| 1 | **Pack piloto** = `ERRORES_REALES_RR.md` → `feinetas/ortografia/rr.json`. MP/MB descartado como piloto. |
+| 2 | **`tip` opcional.** Nunca revelar la respuesta; nunca contener el lema correcto; solo recordar la regla; si no hay pista útil, omitir el campo. |
+| 3 | **Sin subtipos obligatorios.** Solo `ruleId` + `tags` (p. ej. en H: `h-inicial`, `hie-hue`, `hacer-echar`, `haber-hablar`). |
+| 4 | **Tildes:** un propietario; cruces con `secondaryRuleIds` + `tags`; nunca duplicar registros. |
+| 5 | **Imágenes piloto RR:** `image.recommended` según MD; `image.ref` = `null`. Sin assets. |
+| 6 | **Formar palabras** no se migra; independiente; solo comparte `schemaVersion` / `contentVersion` / ids estables. |
+| 7 | **Ubicación:** `feinetas/ortografia/*.json` (no `packs/`). |
 
 ---
 
-## 13. Ejemplo ilustrativo (no es un pack oficial)
+## 13. Ejemplo (pack piloto RR)
 
-Solo para fijar forma mental. **No crear este archivo aún.**
+Referencia: `feinetas/ortografia/rr.json` (archivo real del piloto).
 
 ```json
 {
   "schemaVersion": 1,
   "pack": {
-    "id": "ortografia-mpmb",
-    "title": "MP / MB / NV",
-    "ownerBank": "ERRORES_REALES_MPMB.md",
-    "ruleFamily": "mb-mp-nv",
+    "id": "ortografia-rr",
+    "title": "R / RR",
+    "ownerBank": "ERRORES_REALES_RR.md",
+    "ruleFamily": "r-rr",
     "level": "3-primaria",
     "locale": "es-ES",
     "revisionStatus": "draft",
@@ -437,16 +447,16 @@ Solo para fijar forma mental. **No crear este archivo aún.**
   },
   "lemmas": [
     {
-      "id": "mpmb-tambor",
-      "lemma": "tambor",
-      "errors": ["tanbor"],
-      "ruleId": "mb-mp-nv",
-      "ruleText": "Antes de b se escribe m (tambor).",
+      "id": "rr-perro",
+      "lemma": "perro",
+      "errors": ["pero"],
+      "ruleId": "r-rr",
+      "ruleText": "Entre vocales, el sonido fuerte de la r se escribe rr.",
       "frequency": "muy_frecuente",
-      "category": "objetos",
+      "category": "animales",
       "image": { "recommended": true, "ref": null },
-      "tags": [],
-      "notes": "ANAYA refuerzo: lista mb."
+      "tip": "Entre vocales, el sonido fuerte de la r se escribe rr.",
+      "tags": ["rr-entre-vocales"]
     }
   ]
 }
