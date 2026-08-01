@@ -1,0 +1,528 @@
+{
+  "schemaVersion": 1,
+  "pack": {
+    "id": "ortografia-gj",
+    "title": "G / J",
+    "ownerBank": "ERRORES_REALES_GJ.md",
+    "ruleFamily": "g-j",
+    "level": "3-primaria",
+    "locale": "es-ES",
+    "revisionStatus": "approved",
+    "contentVersion": 1,
+    "sourceEditorialPhase": "fase-editorial-base",
+    "notes": "Convertido tras B/V. Colisiones de slug: ninguna. No conectado a minijuegos todavía."
+  },
+  "lemmas": [
+    {
+      "id": "gj-gente",
+      "lemma": "gente",
+      "errors": [
+        "jente"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Gente se escribe con g.",
+      "frequency": "muy_frecuente",
+      "category": "ciudad",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "notes": "Contexto Aray `gente-ctx`; lectura Vicens/Santillana (fábula del burro)."
+    },
+    {
+      "id": "gj-jirafa",
+      "lemma": "jirafa",
+      "errors": [
+        "girafa"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Jirafa se escribe con j.",
+      "frequency": "muy_frecuente",
+      "category": "animales",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Contexto Aray `jirafa-ctx`; `feinetas/formar-palabras.json`."
+    },
+    {
+      "id": "gj-colegio",
+      "lemma": "colegio",
+      "errors": [
+        "colejo"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Colegio se escribe con g.",
+      "frequency": "muy_frecuente",
+      "category": "colegio",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA / Vicens / Savia; `formar-palabras.json`."
+    },
+    {
+      "id": "gj-juego",
+      "lemma": "juego",
+      "errors": [
+        "guego"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Juego se escribe con j.",
+      "frequency": "muy_frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo p.9 (_ue_o → juego). Se mantiene junto a *jugar* (lema verbal distinto)."
+    },
+    {
+      "id": "gj-jugar",
+      "lemma": "jugar",
+      "errors": [
+        "gugar"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Jugar se escribe con j.",
+      "frequency": "muy_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "notes": "Savia ampliación u7 (poema diamante). No saturar más el banco con ju-; no se añaden otros ju- débiles."
+    },
+    {
+      "id": "gj-coger",
+      "lemma": "coger",
+      "errors": [
+        "cojer"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Los verbos terminados en -ger se escriben con g (excepto tejer).",
+      "frequency": "muy_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Los verbos terminados en -ger se escriben con g (excepto tejer).",
+      "notes": "ANAYA ampliación p.9; Savia u7 (sinónimos). Infinitivo."
+    },
+    {
+      "id": "gj-recoger",
+      "lemma": "recoger",
+      "errors": [
+        "recojer"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Los verbos terminados en -ger se escriben con g (excepto tejer).",
+      "frequency": "muy_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Los verbos terminados en -ger se escriben con g (excepto tejer).",
+      "notes": "Savia refuerzo u7 (regla: recoger, dirigir)."
+    },
+    {
+      "id": "gj-elegir",
+      "lemma": "elegir",
+      "errors": [
+        "elejir"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Los verbos terminados en -gir se escriben con g (excepto tejer).",
+      "frequency": "muy_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Los verbos terminados en -gir se escriben con g (excepto tejer).",
+      "notes": "Savia u7 (sinónimos + eli_ieron). Infinitivo."
+    },
+    {
+      "id": "gj-jersey",
+      "lemma": "jersey",
+      "errors": [
+        "gersey"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Jersey se escribe con j.",
+      "frequency": "muy_frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Savia u7: texto («jersey con lana») + dibujo confirmado (camiseta de rayas). `formar-palabras.json`."
+    },
+    {
+      "id": "gj-girasol",
+      "lemma": "girasol",
+      "errors": [
+        "jirasol"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Girasol se escribe con g.",
+      "frequency": "muy_frecuente",
+      "category": "naturaleza",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Savia u7 p.41: dibujo de girasoles en «cerca de los ___». Respaldo castellano (no solo catalán)."
+    },
+    {
+      "id": "gj-granja",
+      "lemma": "granja",
+      "errors": [
+        "granga"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Granja se escribe con j.",
+      "frequency": "frecuente",
+      "category": "naturaleza",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Savia u7 p.41: dibujo (granja) en «En la ___ había plantados geranios…»."
+    },
+    {
+      "id": "gj-bruja",
+      "lemma": "bruja",
+      "errors": [
+        "bruga"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Bruja se escribe con j.",
+      "frequency": "frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Savia u7 p.41: dibujo (bruja) en «lo cogió la ___»."
+    },
+    {
+      "id": "gj-ajedrez",
+      "lemma": "ajedrez",
+      "errors": [
+        "agedrez"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Ajedrez se escribe con j.",
+      "frequency": "frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo p.9; Vicens (sílabas: ajedrez)."
+    },
+    {
+      "id": "gj-agil",
+      "lemma": "ágil",
+      "errors": [
+        "ájil"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Ágil se escribe con g.",
+      "frequency": "frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo p.9; Savia (antónimos).",
+      "tags": [
+        "tilde"
+      ],
+      "secondaryRuleIds": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "gj-lentejas",
+      "lemma": "lentejas",
+      "errors": [
+        "lentegas"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Lentejas se escribe con j.",
+      "frequency": "frecuente",
+      "category": "comida",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo p.9 (lente_as)."
+    },
+    {
+      "id": "gj-lenguaje",
+      "lemma": "lenguaje",
+      "errors": [
+        "lenjuage"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Lenguaje se escribe con g.",
+      "frequency": "frecuente",
+      "category": "colegio",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo p.9 (len_ua_e)."
+    },
+    {
+      "id": "gj-jugoso",
+      "lemma": "jugoso",
+      "errors": [
+        "gugoso"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Jugoso se escribe con j.",
+      "frequency": "frecuente",
+      "category": "comida",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo p.9 (_u_oso). Único ju- adjetival; no se amplía la familia ju-."
+    },
+    {
+      "id": "gj-tejer",
+      "lemma": "tejer",
+      "errors": [
+        "teger"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Tejer es excepción: se escribe con j (no con g).",
+      "frequency": "frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "notes": "Savia refuerzo u7 (excepción de -ger/-gir). Vicens sopa je/ji/ge/gi. Cubre la excepción tras retirar *crujir*."
+    },
+    {
+      "id": "gj-mensaje",
+      "lemma": "mensaje",
+      "errors": [
+        "mensage"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Las palabras acabadas en -aje se escriben con j.",
+      "frequency": "frecuente",
+      "category": "colegio",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Las palabras acabadas en -aje se escriben con j.",
+      "notes": "Savia refuerzo u7 (regla -aje). Núcleo de la familia; se evitan más -aje débiles."
+    },
+    {
+      "id": "gj-viajero",
+      "lemma": "viajero",
+      "errors": [
+        "viagero"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Las palabras acabadas en -jero se escriben con j.",
+      "frequency": "frecuente",
+      "category": "ciudad",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Las palabras acabadas en -jero se escriben con j.",
+      "notes": "Savia refuerzo u7 (via_ero). No confundir con *viaje* (banco B/V)."
+    },
+    {
+      "id": "gj-tijera",
+      "lemma": "tijera",
+      "errors": [
+        "tigera"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Tijera se escribe con j.",
+      "frequency": "frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Savia refuerzo u7 (ti_era); ANAYA ampliación (tijeras)."
+    },
+    {
+      "id": "gj-traje",
+      "lemma": "traje",
+      "errors": [
+        "trage"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Traje se escribe con j.",
+      "frequency": "frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Vicens refuerzo (sopa je/ji/ge/gi). También -aje."
+    },
+    {
+      "id": "gj-gesto",
+      "lemma": "gesto",
+      "errors": [
+        "jesto"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Gesto se escribe con g.",
+      "frequency": "frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "notes": "Vicens sopa je/ji/ge/gi; Savia (gestos / comunicación)."
+    },
+    {
+      "id": "gj-paisaje",
+      "lemma": "paisaje",
+      "errors": [
+        "paisage"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Las palabras acabadas en -aje se escriben con j.",
+      "frequency": "poco_frecuente",
+      "category": "naturaleza",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Las palabras acabadas en -aje se escriben con j.",
+      "notes": "Savia u7 p.41 act. 7: «Describe el paisaje que aparece en el dibujo» + ilustración de paisaje. Respaldo claro en ficha."
+    },
+    {
+      "id": "gj-mensajero",
+      "lemma": "mensajero",
+      "errors": [
+        "mensagero"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Las palabras acabadas en -jero se escriben con j.",
+      "frequency": "poco_frecuente",
+      "category": "ciudad",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Las palabras acabadas en -jero se escriben con j.",
+      "notes": "Savia refuerzo u7 (regla -jero). Se mantiene como ejemplo de regla; *pasajero* se retira para no sobrecargar -jero (quedan mensaje + mensajero + viajero)."
+    },
+    {
+      "id": "gj-juicio",
+      "lemma": "juicio",
+      "errors": [
+        "guicio"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Juicio se escribe con j.",
+      "frequency": "poco_frecuente",
+      "category": "colegio",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo p.9 (_uicio). Léxico más abstracto; prioridad baja."
+    },
+    {
+      "id": "gj-jinete",
+      "lemma": "jinete",
+      "errors": [
+        "ginete"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Jinete se escribe con j.",
+      "frequency": "poco_frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Vicens sopa je/ji/ge/gi. Atestiguado pero no nuclear de patio."
+    },
+    {
+      "id": "gj-dirigir",
+      "lemma": "dirigir",
+      "errors": [
+        "dirijir"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Los verbos terminados en -gir se escriben con g (excepto tejer).",
+      "frequency": "poco_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Los verbos terminados en -gir se escriben con g (excepto tejer).",
+      "notes": "Savia refuerzo u7 (regla + diri_irán). Menos cotidiano que elegir/coger."
+    },
+    {
+      "id": "gj-proteger",
+      "lemma": "proteger",
+      "errors": [
+        "protejer"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Los verbos terminados en -ger se escriben con g (excepto tejer).",
+      "frequency": "poco_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Los verbos terminados en -ger se escriben con g (excepto tejer).",
+      "notes": "Savia u7 (sinónimos). Prioridad menor que coger/recoger."
+    },
+    {
+      "id": "gj-general",
+      "lemma": "general",
+      "errors": [
+        "jeneral"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "General se escribe con g.",
+      "frequency": "poco_frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo p.9 (_eneral). De ficha; no nuclear."
+    },
+    {
+      "id": "gj-genio",
+      "lemma": "genio",
+      "errors": [
+        "jenio"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Genio se escribe con g.",
+      "frequency": "poco_frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo p.9 (_enio). Prioridad menor que el núcleo ge-/je-."
+    }
+  ]
+}
