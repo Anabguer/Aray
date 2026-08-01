@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest'
-import { buildCalcQuestion, buildCalcQueue, isOrderCorrect } from '@/calc/generator'
-import type { CalcPlayMode } from '@/calc/types'
+import {
+  assertNear10Sane,
+  buildCalcQuestion,
+  buildCalcQueue,
+  isOrderCorrect,
+} from '@/calc/generator'
+import type { CalcDifficulty, CalcPlayMode } from '@/calc/types'
 
 const MODES: CalcPlayMode[] = [
   'add',
@@ -15,15 +20,19 @@ const MODES: CalcPlayMode[] = [
   'mix',
 ]
 
+const SEEDS = 200
+
 describe('calc generator', () => {
   it('genera todos los modos sin romper', () => {
     for (const mode of MODES) {
       const q = buildCalcQuestion(mode, 42)
       expect(q.id).toBeTruthy()
+      expect(q.difficulty).toMatch(/easy|medium|hard/)
       if (q.kind === 'mcq') {
         expect(q.options).toHaveLength(4)
         expect(q.correctIndex).toBeGreaterThanOrEqual(0)
         expect(q.correctIndex).toBeLessThan(4)
+        expect(new Set(q.options).size).toBe(4)
       }
       if (q.kind === 'order') {
         expect(q.items).toHaveLength(4)
@@ -50,6 +59,42 @@ describe('calc generator', () => {
     }
   })
 
+  it('near10: sin triviales hacia 100; respuesta y opciones sanas', () => {
+    for (let i = 0; i < SEEDS; i += 1) {
+      for (const d of ['easy', 'medium', 'hard'] as CalcDifficulty[]) {
+        const q = buildCalcQuestion('near10', 1000 + i * 17 + d.length, d)
+        expect(q.kind).toBe('mcq')
+        if (q.kind !== 'mcq') continue
+        expect(() => assertNear10Sane(q)).not.toThrow()
+      }
+    }
+  })
+
+  it('cola equilibrada: sin 3 fáciles ni 2 difíciles seguidas', () => {
+    for (let s = 0; s < 40; s += 1) {
+      const queue = buildCalcQueue('mix', 24, 5000 + s * 97)
+      let easyRun = 0
+      let hardRun = 0
+      for (const q of queue) {
+        if (q.difficulty === 'easy') {
+          easyRun += 1
+          hardRun = 0
+        } else if (q.difficulty === 'hard') {
+          hardRun += 1
+          easyRun = 0
+        } else {
+          easyRun = 0
+          hardRun = 0
+        }
+        expect(easyRun).toBeLessThanOrEqual(3)
+        expect(hardRun).toBeLessThanOrEqual(2)
+      }
+      const counts = { easy: 0, medium: 0, hard: 0 }
+      for (const q of queue) counts[q.difficulty] += 1
+      expect(counts.medium).toBeGreaterThan(0)
+    }
+  })
+
   it('ordenar usa al menos 3 cifras', () => {
     for (let i = 0; i < 20; i += 1) {
       const q = buildCalcQuestion('order', 300 + i)
@@ -66,24 +111,6 @@ describe('calc generator', () => {
       if (q.kind !== 'compare') continue
       expect(q.left).toBeGreaterThanOrEqual(100)
       expect(q.right).toBeGreaterThanOrEqual(100)
-    }
-  })
-
-  it('cerca de 10/100 completa decenas o centenas', () => {
-    for (let i = 0; i < 30; i += 1) {
-      const q = buildCalcQuestion('near10', 100 + i)
-      expect(q.kind).toBe('mcq')
-      if (q.kind !== 'mcq') continue
-      const m10 = /(\d+) \+ \? = 10$/.exec(q.expression ?? '')
-      const m100 = /(\d+) \+ \? = 100$/.exec(q.expression ?? '')
-      expect(m10 || m100).toBeTruthy()
-      if (m100) {
-        const a = Number(m100[1])
-        expect(q.options[q.correctIndex]).toBe(String(100 - a))
-      } else if (m10) {
-        const a = Number(m10[1])
-        expect(q.options[q.correctIndex]).toBe(String(10 - a))
-      }
     }
   })
 

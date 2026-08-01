@@ -10,16 +10,16 @@ export type CalcPlayMode =
   | 'truefalse'
   | 'mix'
 
-export type CalcQuestionKind =
-  | 'mcq'
-  | 'order'
-  | 'truefalse'
-  | 'compare'
+export type CalcQuestionKind = 'mcq' | 'order' | 'truefalse' | 'compare'
+
+/** Clasificación interna (no se muestra en UI todavía). */
+export type CalcDifficulty = 'easy' | 'medium' | 'hard'
 
 export interface CalcMcqQuestion {
   kind: 'mcq'
   id: string
   mode: CalcPlayMode
+  difficulty: CalcDifficulty
   prompt: string
   /** Expresión grande opcional (p. ej. "7 + 8"). */
   expression?: string
@@ -31,6 +31,7 @@ export interface CalcOrderQuestion {
   kind: 'order'
   id: string
   mode: 'order' | 'mix'
+  difficulty: CalcDifficulty
   prompt: string
   items: number[]
   answer: number[]
@@ -40,6 +41,7 @@ export interface CalcTrueFalseQuestion {
   kind: 'truefalse'
   id: string
   mode: 'truefalse' | 'mix'
+  difficulty: CalcDifficulty
   prompt: string
   expression: string
   /** true = la expresión es correcta. */
@@ -50,6 +52,7 @@ export interface CalcCompareQuestion {
   kind: 'compare'
   id: string
   mode: 'compare' | 'mix'
+  difficulty: CalcDifficulty
   prompt: string
   left: number
   right: number

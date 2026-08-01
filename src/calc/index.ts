@@ -2,6 +2,7 @@ export type {
   CalcPlayMode,
   CalcQuestion,
   CalcSessionSummary,
+  CalcDifficulty,
 } from '@/calc/types'
 export {
   CALC_DURATION_SEC,
@@ -11,5 +12,7 @@ export {
   buildCalcQuestion,
   buildCalcQueue,
   isOrderCorrect,
+  pickBalancedDifficulty,
+  assertNear10Sane,
 } from '@/calc/generator'
 export { CalcSessionProvider, useCalcSession } from '@/calc/CalcSessionContext'
