@@ -1243,7 +1243,7 @@ Vicens / ANAYA (formas de haber). Aquí solo el fallo b/v (*haver*), no *aber*.
 
 ## Resumen editorial
 
-- **Número de registros (borrador 1):** 35
+- **Número de registros (borrador 1):** 36
 - **Fichas o carpetas revisadas:**
   - `verano_aray/banc_exercicis/_extraccio_raw/castellano_Lengua_3º-ANAYA_refuerzo.txt` (completar b/v; caballo; ventana; abuelo; biblioteca; verano; verde; viaje; volver/volar/valor; padrino; burbuja)
   - `verano_aray/banc_exercicis/_extraccio_raw/castellano_Lengua_3º-ANAYA_ampliacion.txt` (vaca; caballo; veterinario; verbos en -bir; baraja/barro; verde)
@@ -1267,9 +1267,9 @@ Vicens / ANAYA (formas de haber). Aquí solo el fallo b/v (*haver*), no *aber*.
 
 ### Estado editorial
 
-- **Registros finales (borrador 1):** 35
+- **Registros finales (borrador 1):** 36
 - **Registros eliminados:** n/a (primer borrador)
-- **Registros añadidos:** 35 (creación inicial)
+- **Registros añadidos:** 36 (creación inicial)
 - **Pendientes de revisar:** nube (respaldo más débil); veterinario / baraja / padrino (prioridad o longitud); haber (cruce con banco H)
 - **Calidad editorial estimada:** 78 / 100 (falta auditoría + correcciones del ciclo)
 - **Observaciones para la auditoría BV:**
