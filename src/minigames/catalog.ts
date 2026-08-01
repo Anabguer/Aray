@@ -18,6 +18,8 @@ const JSON_SPELL_MODES = new Set<SpellPlayMode>([
   'intruder',
   'missing',
   'picture',
+  'mix',
+  'review',
 ])
 
 function spellingMinigame(mode: SpellPlayMode): MinigameDefinition {

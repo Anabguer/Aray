@@ -10,7 +10,6 @@ import {
   minigamesForCategory,
   spellingMinigameId,
 } from '@/minigames'
-import { buildSpellRound } from '@/spelling/generator'
 import { SPELL_MODE_LABELS, type SpellPlayMode } from '@/spelling/types'
 
 const SPELL_MODES: SpellPlayMode[] = [
@@ -23,7 +22,7 @@ const SPELL_MODES: SpellPlayMode[] = [
   'review',
 ]
 
-const STILL_LEGACY: SpellPlayMode[] = ['complete', 'mix', 'review']
+const STILL_LEGACY: SpellPlayMode[] = ['complete']
 
 describe('minigames Fase 3 (cableado incremental)', () => {
   it('carga el catálogo con correct=JSON y resto legacy temporal', () => {
@@ -54,15 +53,14 @@ describe('minigames Fase 3 (cableado incremental)', () => {
     expect(getMechanic('ortografia-lemma-mcq').temporaryLegacy).toBeFalsy()
   })
 
-  it('buildRound legacy sigue alineado con generator (modos no migrados)', () => {
+  it('buildRound legacy solo aplica a complete', () => {
     const seed = 42_001
     const count = 8
     for (const mode of STILL_LEGACY) {
-      const legacy = buildSpellRound(mode, count, seed)
       const viaCatalog = buildRound(spellingMinigameId(mode), { count, seed })
       expect(viaCatalog.kind).toBe('spell-mcq')
       if (viaCatalog.kind !== 'spell-mcq') return
-      expect(viaCatalog.questions).toEqual(legacy)
+      expect(viaCatalog.questions.every((q) => q.targetKey?.startsWith('ctx:'))).toBe(true)
     }
   })
 

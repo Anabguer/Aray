@@ -108,3 +108,9 @@ export function listActiveSpellMisses(
 export function countActiveSpellMisses(playerId: string | number | null | undefined): number {
   return listActiveSpellMisses(playerId).length
 }
+
+export { isLegacyCompleteMissKey } from '@/spelling/legacyComplete'
+export {
+  ortographyMissKey,
+  parseOrtographyMissKey,
+} from '@/feinetas/ortographyCorpus'
