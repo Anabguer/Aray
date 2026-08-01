@@ -1,0 +1,226 @@
+{
+  "schemaVersion": 1,
+  "pack": {
+    "id": "ortografia-tildes",
+    "title": "Tildes",
+    "ownerBank": "ERRORES_REALES_TILDES.md",
+    "ruleFamily": "tilde",
+    "level": "3-primaria",
+    "locale": "es-ES",
+    "revisionStatus": "approved",
+    "contentVersion": 1,
+    "sourceEditorialPhase": "fase-2-ortografia",
+    "notes": "Fase 2. Colisiones: 0. No conectado al juego."
+  },
+  "lemmas": [
+    {
+      "id": "tilde-colchon",
+      "lemma": "colchón",
+      "errors": [
+        "colchon"
+      ],
+      "ruleId": "tilde",
+      "ruleText": "Las agudas terminadas en n, s o vocal llevan tilde (colchón).",
+      "frequency": "muy_frecuente",
+      "category": "casa",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Savia u2: modelo de aguda («colchón»).",
+      "tags": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "tilde-platano",
+      "lemma": "plátano",
+      "errors": [
+        "platano"
+      ],
+      "ruleId": "tilde",
+      "ruleText": "Las esdrújulas siempre llevan tilde (plátano).",
+      "frequency": "muy_frecuente",
+      "category": "comida",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Savia u2 (sílaba tónica / clasificación).",
+      "tags": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "tilde-arbol",
+      "lemma": "árbol",
+      "errors": [
+        "arbol"
+      ],
+      "ruleId": "tilde",
+      "ruleText": "Las llanas terminadas en consonante que no sea n ni s llevan tilde (árbol).",
+      "frequency": "muy_frecuente",
+      "category": "naturaleza",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Savia u2 (*árbol*, *árboles*).",
+      "tags": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "tilde-autobus",
+      "lemma": "autobús",
+      "errors": [
+        "autobus"
+      ],
+      "ruleId": "tilde",
+      "ruleText": "Las agudas terminadas en s llevan tilde (autobús).",
+      "frequency": "muy_frecuente",
+      "category": "ciudad",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA ampliación (texto: autobús).",
+      "tags": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "tilde-camion",
+      "lemma": "camión",
+      "errors": [
+        "camion"
+      ],
+      "ruleId": "tilde",
+      "ruleText": "Las agudas terminadas en n llevan tilde (camión).",
+      "frequency": "muy_frecuente",
+      "category": "ciudad",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA ampliación (cambio de número: camión).",
+      "tags": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "tilde-sabado",
+      "lemma": "sábado",
+      "errors": [
+        "sabado"
+      ],
+      "ruleId": "tilde",
+      "ruleText": "Las esdrújulas siempre llevan tilde (sábado).",
+      "frequency": "muy_frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo («El sábado pasado…»).",
+      "tags": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "tilde-maquina",
+      "lemma": "máquina",
+      "errors": [
+        "maquina"
+      ],
+      "ruleId": "tilde",
+      "ruleText": "Las esdrújulas siempre llevan tilde (máquina).",
+      "frequency": "frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo (diminutivos: máquina).",
+      "tags": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "tilde-medico",
+      "lemma": "médico",
+      "errors": [
+        "medico"
+      ],
+      "ruleId": "tilde",
+      "ruleText": "Las esdrújulas siempre llevan tilde (médico).",
+      "frequency": "frecuente",
+      "category": "ciudad",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA ampliación (profesiones: médico).",
+      "tags": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "tilde-brocoli",
+      "lemma": "brócoli",
+      "errors": [
+        "brocoli"
+      ],
+      "ruleId": "tilde",
+      "ruleText": "Las esdrújulas siempre llevan tilde (brócoli).",
+      "frequency": "frecuente",
+      "category": "comida",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Savia u2 (separar sílabas / tónica).",
+      "tags": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "tilde-melocoton",
+      "lemma": "melocotón",
+      "errors": [
+        "melocoton"
+      ],
+      "ruleId": "tilde",
+      "ruleText": "Las agudas terminadas en n llevan tilde (melocotón).",
+      "frequency": "frecuente",
+      "category": "comida",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Savia u2.",
+      "tags": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "tilde-prestamos",
+      "lemma": "préstamos",
+      "errors": [
+        "prestamos"
+      ],
+      "ruleId": "tilde",
+      "ruleText": "Las esdrújulas siempre llevan tilde (préstamos).",
+      "frequency": "frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "notes": "Savia u2: modelo de esdrújula («préstamos»). Uso escolar del ejemplo; no ampliar a léxico bancario.",
+      "tags": [
+        "tilde"
+      ]
+    }
+  ]
+}

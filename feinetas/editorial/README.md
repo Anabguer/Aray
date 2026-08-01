@@ -80,5 +80,6 @@ Hasta que un documento de esta carpeta esté revisado y convertido a JSON, no fo
 | `ERRORES_REALES_CZQU.md` | Errores reales — c/z/qu |
 | `ERRORES_REALES_TILDES.md` | Errores reales — tildes |
 | `ERRORES_REALES_HAY_AHI_AY.md` | Errores reales — hay / ahí / ay |
+| `ERRORES_REALES_GU.md` | Errores reales — gu / gü |
 
 Los archivos de errores se rellenan con la metodología de fichas; no por generación libre de listas.

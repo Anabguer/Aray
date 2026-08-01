@@ -1,0 +1,185 @@
+{
+  "schemaVersion": 1,
+  "pack": {
+    "id": "ortografia-gu",
+    "title": "GU / GÜ",
+    "ownerBank": "ERRORES_REALES_GU.md",
+    "ruleFamily": "gu-gue",
+    "level": "3-primaria",
+    "locale": "es-ES",
+    "revisionStatus": "approved",
+    "contentVersion": 1,
+    "sourceEditorialPhase": "fase-2-ortografia",
+    "notes": "Fase 2. Colisiones: 0. No conectado al juego."
+  },
+  "lemmas": [
+    {
+      "id": "gu-guitarra",
+      "lemma": "guitarra",
+      "errors": [
+        "gitarra"
+      ],
+      "ruleId": "gu-gue",
+      "ruleText": "Gue, gui suenan /ge/ /gi/; guitarra se escribe con gu.",
+      "frequency": "muy_frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo (completar con gu + diéresis); ANAYA ampliación."
+    },
+    {
+      "id": "gu-ciguena",
+      "lemma": "cigüeña",
+      "errors": [
+        "cigueña"
+      ],
+      "ruleId": "gu-gue",
+      "ruleText": "Para sonar /gue/ /gui/ con u pronunciada se escribe gü (cigüeña).",
+      "frequency": "muy_frecuente",
+      "category": "animales",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA ampliación («Las cigüeñas anidan…»). Lleva tilde; foco gü.",
+      "tags": [
+        "tilde"
+      ],
+      "secondaryRuleIds": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "gu-pinguino",
+      "lemma": "pingüino",
+      "errors": [
+        "pinguino"
+      ],
+      "ruleId": "gu-gue",
+      "ruleText": "Para sonar /gue/ /gui/ con u pronunciada se escribe gü (pingüino).",
+      "frequency": "muy_frecuente",
+      "category": "animales",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Naturales ANAYA; `formar-palabras.json`.",
+      "tags": [
+        "tilde"
+      ],
+      "secondaryRuleIds": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "gu-aguila",
+      "lemma": "águila",
+      "errors": [
+        "aguila"
+      ],
+      "ruleId": "gu-gue",
+      "ruleText": "Águila lleva tilde y se escribe con gu (águila).",
+      "frequency": "frecuente",
+      "category": "animales",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Naturales ANAYA; fábula tomo2. Tilde + gu; propietario de este banco (no TILDES) porque el set gu/gü la incluye y GJ la reservó aquí.",
+      "tags": [
+        "tilde"
+      ],
+      "secondaryRuleIds": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "gu-guerra",
+      "lemma": "guerra",
+      "errors": [
+        "gerra"
+      ],
+      "ruleId": "gu-gue",
+      "ruleText": "Gue, gui suenan /ge/ /gi/ (guerra).",
+      "frequency": "frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "notes": "Uso en materiales Savia/ANAYA de 3.º. Léxico abstracto; prioridad media."
+    },
+    {
+      "id": "gu-guante",
+      "lemma": "guante",
+      "errors": [
+        "gante"
+      ],
+      "ruleId": "gu-gue",
+      "ruleText": "Gue, gui suenan /ge/ /gi/ (guante).",
+      "frequency": "frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "`formar-palabras.json`. Cotidiano y dibujable."
+    },
+    {
+      "id": "gu-antiguedad",
+      "lemma": "antigüedad",
+      "errors": [
+        "antiguedad"
+      ],
+      "ruleId": "gu-gue",
+      "ruleText": "Para sonar /gue/ con u pronunciada se escribe gü (antigüedad).",
+      "frequency": "frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo/ampliación (completar: anti_edad). Lleva tilde.",
+      "tags": [
+        "tilde"
+      ],
+      "secondaryRuleIds": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "gu-guerrero",
+      "lemma": "guerrero",
+      "errors": [
+        "gerrero"
+      ],
+      "ruleId": "gu-gue",
+      "ruleText": "Gue, gui suenan /ge/ /gi/ (guerrero).",
+      "frequency": "poco_frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo (completar: _errero)."
+    },
+    {
+      "id": "gu-guinda",
+      "lemma": "guinda",
+      "errors": [
+        "ginda"
+      ],
+      "ruleId": "gu-gue",
+      "ruleText": "Gue, gui suenan /ge/ /gi/ (guinda).",
+      "frequency": "poco_frecuente",
+      "category": "comida",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "ANAYA refuerzo (completar: _inda)."
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "pack": {
+    "id": "ortografia-hay-ahi-ay",
+    "title": "HAY / AHÍ / AY",
+    "ownerBank": "ERRORES_REALES_HAY_AHI_AY.md",
+    "ruleFamily": "hay-ahi-ay",
+    "level": "3-primaria",
+    "locale": "es-ES",
+    "revisionStatus": "approved",
+    "contentVersion": 1,
+    "sourceEditorialPhase": "fase-2-ortografia",
+    "notes": "Fase 2. Colisiones: 0. No conectado al juego."
+  },
+  "lemmas": [
+    {
+      "id": "hay-hay",
+      "lemma": "hay",
+      "errors": [
+        "ahí",
+        "ay"
+      ],
+      "ruleId": "hay-ahi-ay",
+      "ruleText": "Hay (de haber) indica existencia: «hay algo».",
+      "frequency": "muy_frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "notes": "Temario 3.º (ahí/hay/ay). Usos en ANAYA refuerzo/ampliación y Vicens («Cuánta fruta hay…»). No confundir con formas de haber del banco H (*ha*, *he*…)."
+    },
+    {
+      "id": "hay-ahi",
+      "lemma": "ahí",
+      "errors": [
+        "hay",
+        "ay"
+      ],
+      "ruleId": "hay-ahi-ay",
+      "ruleText": "Ahí indica lugar.",
+      "frequency": "muy_frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "notes": "Tomo2 (diálogo: «Hacia ahí…»). Temario 3.º. Lleva tilde; el foco de este banco es el contraste hay/ahí/ay.",
+      "tags": [
+        "tilde"
+      ],
+      "secondaryRuleIds": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "hay-ay",
+      "lemma": "ay",
+      "errors": [
+        "hay",
+        "ahí"
+      ],
+      "ruleId": "hay-ahi-ay",
+      "ruleText": "Ay expresa dolor, sorpresa o queja (a menudo ¡ay!).",
+      "frequency": "muy_frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "notes": "Vicens (poema: «¡ay, su anillito…»). Forma exclamativa habitual ¡ay!; el lema canónico es *ay*. Temario 3.º."
+    }
+  ]
+}

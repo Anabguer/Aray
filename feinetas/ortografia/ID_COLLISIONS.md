@@ -1,15 +1,16 @@
-# Colisiones de id — lote LLY / CZQU / MPMB / RR
+# Colisiones de id — ortografía
 
-Al convertir los packs restantes (y alinear RR a `approved`):
+Política: slug ASCII sin diacríticos; si chocan dos lemas, `-tilde` y luego `-2`, `-3`…
 
-| Pack | Prefijo | Ítems | Colisiones de slug |
-|------|---------|-------|--------------------|
-| `rr.json` | `rr-` | 21 | ninguna |
-| `lly.json` | `lly-` | 18 | ninguna |
-| `czqu.json` | `czqu-` | 25 | ninguna |
-| `mpmb.json` | `mpmb-` | 18 | ninguna |
-
-Política (igual que H/BV/GJ): slug ASCII sin diacríticos; si chocaran dos lemas, el que lleva tilde usaría `-tilde`; si aún hubiera choque, `-2`, `-3`…
-
-**No fue necesario aplicar ningún sufijo de colisión en este lote.**  
-Los lemas con tilde quedan p. ej. `czqu-lapiz`, `mpmb-tambien`, `rr-marron` (sin choque con otro lema del mismo pack).
+| Pack | Prefijo | Ítems | Colisiones |
+|------|---------|------:|------------|
+| h | `h-` | 49 | `hacía`→`h-hacia-tilde`, `hacia`→`h-hacia`; `había`→`h-habia-tilde` |
+| bv | `bv-` | 31 | ninguna |
+| gj | `gj-` | 31 | ninguna |
+| rr | `rr-` | 21 | ninguna |
+| lly | `lly-` | 18 | ninguna |
+| czqu | `czqu-` | 25 | ninguna |
+| mpmb | `mpmb-` | 18 | ninguna |
+| hay-ahi-ay | `hay-` | 3 | ninguna |
+| tildes | `tilde-` | 11 | ninguna |
+| gu | `gu-` | 9 | ninguna |
