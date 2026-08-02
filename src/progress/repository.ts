@@ -283,7 +283,7 @@ export function applySessionToProgress(
   const rewardRequest =
     partial.mode === 'learn'
       ? {
-          requestedPoints: 0,
+          requestedPoints: challengeBonus,
           creditedAttemptIds: [] as string[],
           creditedFactKeys: [] as string[],
           unitsCredited: 0,
@@ -315,7 +315,9 @@ export function applySessionToProgress(
     advanceMissionProgress(playerId, 'tables', rewardRequest.unitsCredited, today)
   }
 
-  if (challengeBonus > 0 && grant.granted > rewardRequest.requestedPoints - challengeBonus) {
+  // Reto del día del lobby: marcar siempre al cerrar la sesión lanzada como reto,
+  // aunque el tope diario no deje entrar la energía del bonus.
+  if (opts?.isMissionOfDay) {
     markChallengeDone(playerId, today)
   }
 

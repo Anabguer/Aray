@@ -157,6 +157,56 @@ describe('Reto rápido: multiplicadores', () => {
     expect(result.rewardPointsEarned).toBe(15)
   })
 
+  it('Reto del día marca challengeDone aunque las tablas también avancen', () => {
+    localStorage.clear()
+    const progress = createInitialProgress()
+    applySessionToProgress(
+      progress,
+      {
+        mode: 'train',
+        tables: [9],
+        score: 2,
+        bestStreak: 1,
+        sessionId: 'daily-chal-tables',
+        answers: [ans(9, 2, true, 'a', true), ans(9, 3, true, 'b', true)],
+      },
+      undefined,
+      { isMissionOfDay: true },
+    )
+    const raw = localStorage.getItem('aray.dailyMission.v1')
+    expect(raw).toBeTruthy()
+    const snap = JSON.parse(raw!) as {
+      challengeDone: boolean
+      progress: { tables: number }
+    }
+    expect(snap.challengeDone).toBe(true)
+    expect(snap.progress.tables).toBe(2)
+  })
+
+  it('Reto del día se marca hecho aunque el tope diario impida el +10', () => {
+    localStorage.clear()
+    let progress = createInitialProgress()
+    progress.reward.dailyDate = new Date().toISOString().slice(0, 10)
+    progress.reward.dailyPoints = 100
+    applySessionToProgress(
+      progress,
+      {
+        mode: 'train',
+        tables: [9],
+        score: 1,
+        bestStreak: 1,
+        sessionId: 'daily-chal-capped',
+        answers: [ans(9, 1, true, 'a', true)],
+      },
+      undefined,
+      { isMissionOfDay: true },
+    )
+    const snap = JSON.parse(localStorage.getItem('aray.dailyMission.v1')!) as {
+      challengeDone: boolean
+    }
+    expect(snap.challengeDone).toBe(true)
+  })
+
   it('respeta tope diario de energía 100', () => {
     let progress = createInitialProgress()
     progress.reward.dailyDate = new Date().toISOString().slice(0, 10)

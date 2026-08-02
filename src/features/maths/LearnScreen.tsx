@@ -104,7 +104,7 @@ function prefersReducedMotion(): boolean {
 
 export function LearnScreen() {
   const navigate = useNavigate()
-  const { selection } = usePlaySession()
+  const { selection, consumeMissionOfDay } = usePlaySession()
   const { progress, applySession } = useProgress()
   const tables = selection.mix ? [...MIX_TABLES] : selection.tables.length ? selection.tables : [7]
   const lumo = useLumoController('thinking')
@@ -182,6 +182,7 @@ export function LearnScreen() {
     let earned = 0
     if (!appliedRef.current && finalAnswers.length > 0) {
       appliedRef.current = true
+      const mission = consumeMissionOfDay()
       const result = applySession({
         mode: 'learn',
         tables,
@@ -189,6 +190,8 @@ export function LearnScreen() {
         score: finalHits,
         bestStreak: 0,
         sessionId: sessionIdRef.current,
+        isMissionOfDay: Boolean(mission),
+        missionCode: mission?.code,
       })
       earned = result.xpEarned
     } else {

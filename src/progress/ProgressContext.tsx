@@ -46,7 +46,11 @@ import { achievementCatalog, achievementIsUnlocked } from '@/achievements/catalo
 import { applyStatsDelta, mergeStatsPreferHigher, normalizeStats } from '@/achievements/stats'
 import { LevelUpOverlay, type LevelUpFlash } from '@/components/LevelUpOverlay'
 import { applyLevelUpEnergyBonuses } from '@/progress/levelUpEnergy'
-import { takeDailyChallengeBonus } from '@/daily/missionEnergy'
+import { takeDailyChallengeBonus, loadDailyMissionSnapshot } from '@/daily/missionEnergy'
+import {
+  enqueueAndSyncDailyMission,
+  flushDailyMissionPending,
+} from '@/sync/dailyMissionSync'
 import { SYNC_META_KEY } from '@/sync/constants'
 import {
   clearProgressCache as clearSyncProgressCache,
@@ -422,6 +426,7 @@ export function ProgressProvider({
         progressRef.current.reward,
         player?.slug ?? null,
       )
+      await flushDailyMissionPending({ playerId: id, playerSlug: player?.slug ?? null })
       // Colas de otros niños (mismo PC): reintentar sin tocar la UI del activo.
       const otherIds = Array.from(
         new Set(
@@ -581,6 +586,7 @@ export function ProgressProvider({
       const current = progressRef.current
       const { next, result } = applySessionToProgress(current, partial, localDateString(), {
         playerId: playerIdRef.current ?? player?.id ?? null,
+        isMissionOfDay: Boolean(partial.isMissionOfDay),
       })
       const playerKey = String(playerIdRef.current ?? player?.id ?? 'local')
       const leveled = applyLevelUpEnergyBonuses(current, next, playerKey)
@@ -596,6 +602,15 @@ export function ProgressProvider({
 
       const answered = partial.answers.length > 0
       const skipCrate = partial.mode === 'learn' || !answered
+
+      const missionId = playerIdRef.current ?? player?.id ?? null
+      if (missionId != null) {
+        void enqueueAndSyncDailyMission({
+          playerId: missionId,
+          playerSlug: player?.slug ?? null,
+          snapshot: loadDailyMissionSnapshot(missionId),
+        })
+      }
 
       let withCrates = leveled.next
       if (!skipCrate) {
@@ -817,6 +832,13 @@ export function ProgressProvider({
       const challengeBonus = input.claimDailyChallenge
         ? takeDailyChallengeBonus(playerId)
         : 0
+      if (challengeBonus > 0 && playerId != null) {
+        void enqueueAndSyncDailyMission({
+          playerId,
+          playerSlug: player?.slug ?? null,
+          snapshot: loadDailyMissionSnapshot(playerId),
+        })
+      }
       const requested =
         Math.max(0, Math.floor(input.requestedPoints)) + Math.max(0, challengeBonus)
       const xpAdd = Math.max(0, Math.floor(input.xpEarned ?? 0))
