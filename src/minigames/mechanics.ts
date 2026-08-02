@@ -13,6 +13,10 @@ const MECHANICS: Record<MechanicId, MechanicDefinition> = {
     id: 'ortografia-lemma-mcq',
     label: 'Ortografía desde packs editoriales JSON',
   },
+  'english-lemma-mcq': {
+    id: 'english-lemma-mcq',
+    label: 'Inglés vocabulario desde packs editoriales JSON',
+  },
   'maths-legacy': {
     id: 'maths-legacy',
     label: 'Matemáticas procedurales (adaptadores legacy)',

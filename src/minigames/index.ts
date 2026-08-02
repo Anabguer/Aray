@@ -12,6 +12,7 @@ export {
   minigamesForCategory,
   minigamesForArea,
   spellingMinigameId,
+  englishMinigameId,
   calcMinigameId,
   moneyMinigameId,
   clocksMinigameId,
@@ -23,6 +24,7 @@ export type {
   BuildRoundOptions,
   RoundResult,
   SpellMcqRound,
+  EnglishMcqRound,
   OrdenarLetrasRound,
   MathsRound,
 } from '@/minigames/buildRound'

@@ -1,6 +1,8 @@
 import { SPELL_MODE_LABELS, type SpellPlayMode } from '@/spelling/types'
 import { ORTOGRAPHY_PACK_IDS } from '@/feinetas/ortographyRegistry'
 import { ORTOGRAPHY_FRASES_PACK_ID } from '@/minigames/adapters/ortografiaComplete'
+import { ENGLISH_PACK_IDS } from '@/feinetas/englishRegistry'
+import { ENGLISH_MODE_LABELS, type EnglishPlayMode } from '@/english/types'
 import { CALC_MODE_LABELS, type CalcPlayMode } from '@/calc/types'
 import { MONEY_MODE_LABELS, type MoneyPlayMode } from '@/money/types'
 import type { MinigameDefinition, MathsPresentation } from '@/minigames/types'
@@ -251,8 +253,35 @@ function tablesMinigame(mode: TablesMode): MinigameDefinition {
  * Catálogo único de minijuegos.
  * Ortografía: packs. Matemáticas: legacy procedural vía adaptadores (Fase 4).
  */
+const ENGLISH_MODES: EnglishPlayMode[] = [
+  'meaning',
+  'translate',
+  'intruder',
+  'missing',
+  'mix',
+  'review',
+]
+
+function englishMinigame(mode: EnglishPlayMode): MinigameDefinition {
+  return {
+    id: `english-${mode}`,
+    area: 'english',
+    category: 'vocabulary',
+    title: ENGLISH_MODE_LABELS[mode],
+    href: `/missions/english`,
+    mechanicId: 'english-lemma-mcq',
+    source: 'pack',
+    status: 'active',
+    englishPlayMode: mode,
+    skillIds: ['english-vocabulary'],
+    presentation: mode === 'review' ? 'review' : 'mcq',
+    packIds: [...ENGLISH_PACK_IDS],
+  }
+}
+
 export const MINIGAME_CATALOG: MinigameDefinition[] = [
   ...SPELL_MODES.map(spellingMinigame),
+  ...ENGLISH_MODES.map(englishMinigame),
   {
     id: 'formar-palabras',
     area: 'languages',
@@ -299,6 +328,10 @@ export function minigamesForArea(area: MinigameDefinition['area']): MinigameDefi
 
 export function spellingMinigameId(mode: SpellPlayMode): string {
   return `spelling-${mode}`
+}
+
+export function englishMinigameId(mode: EnglishPlayMode): string {
+  return `english-${mode}`
 }
 
 export function calcMinigameId(mode: CalcPlayMode | 'misses'): string {

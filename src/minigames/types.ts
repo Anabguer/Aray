@@ -10,6 +10,8 @@ export type MechanicId =
   | 'ordenar-letras'
   /** Ortografía alimentada por packs de lemas / frases JSON. */
   | 'ortografia-lemma-mcq'
+  /** Inglés vocabulario desde packs JSON (sin errors[]). */
+  | 'english-lemma-mcq'
   /**
    * Matemáticas procedurales (tablas/cálculo/dinero/horas) vía adaptadores legacy.
    * Contenido aún no migrado a packs JSON.
@@ -84,6 +86,8 @@ export type MinigameDefinition = {
   status: MinigameStatus
   /** Modo de Ortografía (`SpellPlayMode`) cuando `mechanicId === 'ortografia-lemma-mcq'`. */
   spellPlayMode?: string
+  /** Modo de Inglés (`EnglishPlayMode`) cuando `mechanicId === 'english-lemma-mcq'`. */
+  englishPlayMode?: string
   /** Modo de play matemático (`calc-add`, `tables-train`, …). */
   mathPlayMode?: string
   /** Clave de arte / icono de modo (StageSelect). */

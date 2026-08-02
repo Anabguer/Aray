@@ -28,11 +28,23 @@ import {
 } from '@/minigames/adapters/mathsTables'
 import type { MathsQuestion } from '@/minigames/mathsContract'
 import type { SpellMissEntry } from '@/spelling/missStore'
+import type { EnglishMissEntry } from '@/english/missStore'
+import type { EnglishPlayMode, EnglishMcqQuestion } from '@/english/types'
+import { buildEnglishMeaningRound } from '@/minigames/adapters/englishMeaning'
+import { buildEnglishTranslateRound } from '@/minigames/adapters/englishTranslate'
+import { buildEnglishIntruderRound } from '@/minigames/adapters/englishIntruder'
+import { buildEnglishMissingRound } from '@/minigames/adapters/englishMissing'
+import { buildEnglishMixRound } from '@/minigames/adapters/englishMix'
+import { buildEnglishReviewRound } from '@/minigames/adapters/englishReview'
 
 export type BuildRoundOptions = FormarPalabrasRoundOptions & {
   count?: number
   seed?: number
   preferMisses?: SpellMissEntry[]
+  /** Fallos de inglés (review). */
+  preferEnglishMisses?: EnglishMissEntry[]
+  /** Pack de inglés obligatorio para mechanic english-lemma-mcq. */
+  packId?: string
   /** Idioma de horas (default es). */
   clockLang?: ClockLang
   /** Tablas seleccionadas (default [7]). */
@@ -45,6 +57,12 @@ export type SpellMcqRound = {
   kind: 'spell-mcq'
   minigameId: string
   questions: SpellQuestion[]
+}
+
+export type EnglishMcqRound = {
+  kind: 'english-mcq'
+  minigameId: string
+  questions: EnglishMcqQuestion[]
 }
 
 export type OrdenarLetrasRound = {
@@ -60,7 +78,41 @@ export type MathsRound = {
   questions: MathsQuestion[]
 }
 
-export type RoundResult = SpellMcqRound | OrdenarLetrasRound | MathsRound
+export type RoundResult =
+  | SpellMcqRound
+  | EnglishMcqRound
+  | OrdenarLetrasRound
+  | MathsRound
+
+function buildEnglishLemmaRound(
+  mode: EnglishPlayMode,
+  packId: string,
+  opts: BuildRoundOptions,
+): EnglishMcqQuestion[] {
+  const count = opts.count
+  const seed = opts.seed ?? Date.now()
+  switch (mode) {
+    case 'meaning':
+      return buildEnglishMeaningRound(packId, count, seed, 'meaning')
+    case 'translate':
+      return buildEnglishTranslateRound(packId, count, seed, 'translate')
+    case 'intruder':
+      return buildEnglishIntruderRound(packId, count, seed, 'intruder')
+    case 'missing':
+      return buildEnglishMissingRound(packId, count, seed, 'missing')
+    case 'mix':
+      return buildEnglishMixRound(packId, count, seed)
+    case 'review':
+      return buildEnglishReviewRound(
+        packId,
+        count,
+        seed,
+        opts.preferEnglishMisses ?? [],
+      )
+    default:
+      throw new Error(`[minigames] Modo inglés desconocido: ${mode}`)
+  }
+}
 
 function buildOrtografiaLemmaRound(
   mode: SpellPlayMode,
@@ -164,6 +216,19 @@ export function buildRound(minigameId: string, opts: BuildRoundOptions = {}): Ro
       kind: 'spell-mcq',
       minigameId,
       questions: buildOrtografiaLemmaRound(mode, opts),
+    }
+  }
+
+  if (game.mechanicId === 'english-lemma-mcq') {
+    const mode = (game.englishPlayMode ?? 'meaning') as EnglishPlayMode
+    const packId = opts.packId
+    if (!packId) {
+      throw new Error(`[minigames] ${minigameId}: requiere opts.packId`)
+    }
+    return {
+      kind: 'english-mcq',
+      minigameId,
+      questions: buildEnglishLemmaRound(mode, packId, opts),
     }
   }
 

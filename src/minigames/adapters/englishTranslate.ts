@@ -1,0 +1,75 @@
+import type { EnglishCorpusEntry } from '@/feinetas/englishCorpus'
+import { englishMissKey } from '@/feinetas/englishCorpus'
+import {
+  ENGLISH_ROUND_SIZE,
+  type EnglishMcqQuestion,
+  type EnglishPlayMode,
+} from '@/english/types'
+import {
+  baseEnglishMcq,
+  buildOptions,
+  mulberry32,
+  packPool,
+  pickCorpusEntry,
+  shuffle,
+} from '@/minigames/adapters/englishShared'
+
+function lemmaDistractors(
+  entry: EnglishCorpusEntry,
+  packId: string,
+  random: () => number,
+  n = 3,
+): string[] {
+  const others = shuffle(
+    packPool(packId).filter(
+      (e) =>
+        e.lemma.id !== entry.lemma.id &&
+        e.lemma.lemma.toLocaleLowerCase('en') !==
+          entry.lemma.lemma.toLocaleLowerCase('en'),
+    ),
+    random,
+  )
+  return others.slice(0, n).map((e) => e.lemma.lemma)
+}
+
+export function buildEnglishTranslateQuestion(
+  packId: string,
+  seed: number,
+  usedRefs: Set<string>,
+  mode: EnglishPlayMode = 'translate',
+  forced?: EnglishCorpusEntry,
+): EnglishMcqQuestion {
+  const random = mulberry32(seed)
+  const pool = packPool(packId)
+  const entry = forced ?? pickCorpusEntry(random, usedRefs, pool)
+  usedRefs.add(englishMissKey(entry.packId, entry.lemma.id))
+  const { options, correctIndex } = buildOptions(
+    entry.lemma.lemma,
+    lemmaDistractors(entry, packId, random),
+    random,
+  )
+  return {
+    ...baseEnglishMcq(entry, mode, seed, 'translate'),
+    prompt: '¿Cómo se dice?',
+    display: entry.lemma.glossEs,
+    tip: 'Elige la palabra en inglés',
+    options,
+    correctIndex,
+  }
+}
+
+export function buildEnglishTranslateRound(
+  packId: string,
+  count = ENGLISH_ROUND_SIZE,
+  seed = Date.now(),
+  mode: EnglishPlayMode = 'translate',
+): EnglishMcqQuestion[] {
+  const used = new Set<string>()
+  const out: EnglishMcqQuestion[] = []
+  for (let i = 0; i < count; i += 1) {
+    out.push(
+      buildEnglishTranslateQuestion(packId, seed + i * 8291, used, mode),
+    )
+  }
+  return out
+}
