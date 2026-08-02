@@ -2,11 +2,12 @@
 
 ## Estado del documento
 
-**Borrador v1.** Banco editorial del pack `ingles-family`.  
+**Congelado.** Banco editorial aprobado del pack `ingles-family`.  
 Fuente prevista (posterior): JSON del pack; **este archivo no es runtime**.
 
 Solo vocabulario de **familia y relaciones familiares**.  
-No incluye descripciones físicas, body, feelings, posesivos/estructuras, verbos, mascotas, profesiones ni casa/habitaciones.
+No incluye descripciones físicas, body, feelings, posesivos/estructuras, verbos, mascotas, profesiones ni casa/habitaciones.  
+Sin *son* (eliminado por respaldo insuficiente).
 
 ---
 
@@ -51,26 +52,29 @@ Evitar depender solo del gesto; el rol debe leerse por contexto visual (edad rel
 | 1 | Vicens Vives — `angles_mating3.txt` (Unit 3 family) | Relaciones (*father, mother, dad, mum, sister, brother, auntie, cousin*); word bank *mum, dad, granny, granddad, auntie, uncle, cousins*; instrucción *family* |
 | 2 | Wonder 3 — teacher resource | **Apoyo:** *Mum*, *Dad*, *father*, *brother*, *daughter* (diálogos/extension) |
 | 3 | Cuaderno verano 3.º EP | *father*, *brothers* / *sisters*; secuencia *Mother… brother… grandfather*; scramble *SISTER* |
-| 4 | Material repo — `fitxa_05_family.md` | Relaciones (*mother, father, aunt, uncle, sister, brother, parents, grandparents*; *son* / *daughter* en enunciados) |
+| 4 | Material repo — `fitxa_05_family.md` (+ solucionari) | Relaciones (*mother, father, aunt, uncle, sister, brother*); *parents* (enunciado); *grandparents* (respuesta oficial); *daughter* en enunciados |
 | 5 | Bugs World 3 — `feinetas/Ingles/*.pdf` (revisión visual) | **Sin unidad Family** en los PDF disponibles; solo apoyo de nivel / en-GB del curso |
 | 6 | Currículum / master — `INGLES_MASTER.md` | Pack `ingles-family` (mín. 14 · máx. 24 **orientativo**) |
 
 ---
 
-## Autoauditoría previa (v1)
+## Auditoría editorial
+
+Auditoría crítica + comprobación de evidencia aprobadas (2026-08). **18 lemas** congelados. *son* eliminado. *parents* / *grandparents* conservados (fitxa Family). Variantes formales/informales mantenidas.
 
 | Control | Resultado |
 |---------|-----------|
 | Sin duplicados | Variantes formales/informales documentadas; no son el mismo lema. |
-| Respaldo | Solo lemas atestiguados en Vicens / cuaderno / fitxa_05; Wonder apoyo; Bugs World sin léxico family. |
-| Variantes | *mother*/*mum*, *father*/*dad*, *grandmother*/*granny*, *grandfather*/*granddad*, *aunt*/*auntie* — todas con evidencia. |
-| Glosas | Forma única; *cousin* → **primo** (sin género EN). |
+| Respaldo | Vicens / cuaderno / fitxa_05; Wonder apoyo; Bugs World sin léxico family. |
+| Variantes | *mother*/*mum*, *father*/*dad*, *grandmother*/*granny*, *grandfather*/*granddad*, *aunt*/*auntie*. |
+| Glosas | Forma única; *cousin* → **primo** (EN sin género). |
 | Categorías | `Family group` · `Core family` · `Extended family`. |
 | Frecuencias | Nucleares en «Muy frecuente»; extendida / informal en «Frecuente» o «Menos frecuente». |
 | Imagen | Sí en todos. |
 | en-GB | *mum, dad, granny, granddad, auntie*. |
-| Fuera | *baby*; mascotas; body; feelings; verbos; casa. |
-| Tamaño | **19** (dentro del rango orientativo 14–24; sin relleno). |
+| Fuera | *son* (respaldo insuficiente); *baby*; mascotas; body; feelings; verbos; casa. |
+| Tamaño | **18** (rango orientativo 14–24). |
+| Congelado | Sí — no ampliar ni recortar sin nueva auditoría. |
 
 ---
 
@@ -122,7 +126,7 @@ Sí
 
 ## Observaciones
 
-Fitxa_05: *They are my parents' parents*. Plural propio (no “padre+madre” como dos lemas).
+Fitxa_05: *They are my parents' parents*. Plural propio (no “padre+madre” como dos lemas). Conservado: vocabulario explícito de la fitxa Family.
 
 ---
 
@@ -148,7 +152,7 @@ Sí
 
 ## Observaciones
 
-Fitxa_05 (respuesta a *parents' parents*). Plural propio.
+Fitxa_05 (respuesta oficial a *parents' parents*; solucionari: *grandparents*). Plural propio. Conservado como respuesta oficial de la fitxa Family.
 
 ---
 
@@ -305,32 +309,6 @@ Sí
 ## Observaciones
 
 Vicens; cuaderno (*brothers*); fitxa_05; Wonder (*brother*).
-
----
-
-## Inglés
-
-son
-
-## Glosa
-
-hijo
-
-## Categoría
-
-Core family
-
-## Frecuencia
-
-Frecuente
-
-## Imagen recomendable
-
-Sí
-
-## Observaciones
-
-Fitxa_05 (*He's the son of my uncle*); Vicens usa *daughter* en paralelo en definiciones. Relación familiar, no descripción física.
 
 ---
 
@@ -573,11 +551,12 @@ Vicens word bank (*uncle*); fitxa_05 (*father's brother… uncle*).
 | Categoría | Registros |
 |-----------|-----------|
 | Family group | 3 |
-| Core family | 8 |
+| Core family | 7 |
 | Extended family | 8 |
-| **Total** | **19** |
+| **Total** | **18** |
 
-Master pack: mín. 14 · máx. 24 = **orientativo**. **19** por calidad; sin relleno.
+Master pack: mín. 14 · máx. 24 = **orientativo**. **18** por calidad; sin relleno.  
+**Estado:** congelado — no añadir ni eliminar lemas sin nueva auditoría.
 
 ---
 
@@ -585,6 +564,7 @@ Master pack: mín. 14 · máx. 24 = **orientativo**. **19** por calidad; sin rel
 
 | Lema / tipo | Motivo |
 |-------------|--------|
+| *son* | Eliminado: respaldo insuficiente (solo metalenguaje en fitxa_05; ausente en Vicens / Wonder / Bugs World / cuaderno) |
 | *baby* | No atestiguado como miembro familiar en fuentes usadas |
 | *grandma* / *grandpa* | No en fuentes; preferidos *granny* / *granddad* (Vicens) |
 | *mom* | US; fuente = *mum* |
@@ -595,24 +575,22 @@ Master pack: mín. 14 · máx. 24 = **orientativo**. **19** por calidad; sin rel
 
 ---
 
-## Dudas editoriales
+## Decisiones editoriales cerradas
 
-1. ***mother* / *mum* y *father* / *dad*:** se mantienen ambos pares (Vicens usa formales en definiciones e informales en word bank). ¿Confirmar convivencia en JSON o priorizar solo informales (*mum*/*dad*) por cercanía infantil?
-2. ***granny* / *grandmother* y *granddad* / *grandfather*:** misma lógica. ¿Glosas *abuelita*/*abuelito* OK o preferís la misma glosa *abuela*/*abuelo* para ambos lemas EN?
-3. ***parents* / *grandparents*:** ¿aceptar plurales como lemas propios (propuesta) o derivarlos solo en juego desde singulares?
-4. ***cousin* → primo:** ¿glosa única *primo* o forzar mención de *prima* en observaciones/UI?
-5. ***aunt* / *auntie* con la misma glosa *tía*:** ¿aceptable (diferencia solo EN) o conviene matizar glosa de *auntie*?
-6. ***son* / *daughter*:** ¿confirmar inclusión (aparecen en definiciones de relación) o dejarlos fuera por no estar en el word bank Vicens?
-7. ***family* como lema del pack:** ¿mantener (propuesta) o tratarlo solo como etiqueta de pack sin carta jugable?
-8. **Categorías** Family group / Core / Extended: ¿útiles para Intrusa/Match o unificar a `Family`?
-9. ***baby*:** confirmar exclusión definitiva salvo nueva ficha.
-10. **Bugs World:** sin unidad Family en repo — ¿basta Vicens+cuaderno+fitxa o hay que localizar más PDF antes de congelar?
-11. **Tamaño 19:** ¿suficiente para congelar tras resolver dudas 1–2–6, o segunda pasada visual Vicens PDF?
+1. ***son* eliminado** por respaldo insuficiente.
+2. ***parents* conservado** como vocabulario explícito de la fitxa Family.
+3. ***grandparents* conservado** como respuesta oficial de la fitxa Family.
+4. Convivencia *mother* / *mum* y *father* / *dad*.
+5. Convivencia *grandmother* / *granny* y *grandfather* / *granddad*.
+6. Convivencia *aunt* / *auntie*.
+7. ***family*** como lema del pack.
+8. ***cousin* → primo** con nota: EN no distingue género (*prima* solo ayuda UI, no lema).
+9. Categorías **Family group / Core family / Extended family**.
+10. ***daughter* mantenida** (Vicens + fitxa + Wonder).
 
 ---
 
 ## Notas para la siguiente fase (no hacer ahora)
 
-- No generar JSON hasta auditoría humana y cierre de dudas.
-- No tocar el juego ni otros bancos.
-- No congelar automáticamente mientras queden dudas importantes (variantes + *son*/*daughter*).
+- Convertir a JSON solo tras esta congelación (contrato: `lemma`, `glossEs`, `category`, `frequency`, `image.ref?`).
+- No tocar el juego ni otros bancos en esta fase.
