@@ -2,11 +2,12 @@
 
 ## Estado del documento
 
-**Borrador v1.** Banco editorial del pack `ingles-school`.  
+**Congelado.** Banco editorial aprobado del pack `ingles-school`.  
 Fuente prevista (posterior): JSON del pack; **este archivo no es runtime**.
 
 Solo vocabulario del **colegio** (lugares, objetos de aula, personas del centro).  
-No incluye acciones/verbos, colours, numbers, family, body ni food.
+No incluye acciones/verbos, colours, numbers, family, body ni food.  
+**26 lemas** congelados por criterio de calidad (el mín. 28 del master es **orientativo**).
 
 ---
 
@@ -46,28 +47,30 @@ Este documento es la fuente oficial para crear posteriormente el pack JSON.
 
 | Prioridad | Fuente | Uso en este banco |
 |-----------|--------|-------------------|
-| 1 | Vicens Vives — `angles_mating3.txt` | Zonas (*playground, lab, canteen, classroom, computer room, library*); *ruler, pen, pencil, pencil case, rucksack*; *teacher*; *computers* / *books* |
-| 2 | Wonder 3 — teacher resource | Apoyo: *teacher*, *desk* (contexto aula) |
-| 3 | Bugs World 3 — `feinetas/Ingles/1.pdf`–`3.pdf` (revisión visual) | Unit 1 School: *ruler, notebook, pen, desk, chair, bag, table*; word bank *pencil case, board, rubber, glue, scissors, poster* |
-| 4 | Cuaderno verano 3.º EP — `angles_cuaderno-de-verano-ingles-3-ep.txt` | *pencil, book, rubber, calculator* |
-| 5 | Material repo — `fitxa_03_school_places.md`, `fitxa_02_yes_no.md` | Places + *desk* / *teacher* / *school* / *computer* |
-| 6 | Currículum / master — `INGLES_MASTER.md` | Pack `ingles-school` (mín. 28 · máx. 45) |
+| 1 | Vicens Vives — `angles_mating3.txt` | Fuente principal: zonas (*playground, lab, canteen, classroom, computer room, library*); *ruler, pen, pencil, pencil case, rucksack*; *teacher*; *computers* / *books* |
+| 2 | Bugs World 3 — `feinetas/Ingles/1.pdf`–`3.pdf` (revisión visual) | Fuente principal Unit 1 School: *ruler, notebook, pen, desk, chair, bag, table*; word bank *pencil case, board, rubber, glue, scissors, poster* |
+| 3 | Cuaderno verano 3.º EP — `angles_cuaderno-de-verano-ingles-3-ep.txt` | *pencil, book, rubber, calculator* |
+| 4 | Material repo — `fitxa_03_school_places.md`, `fitxa_02_yes_no.md` | Places + *desk* / *teacher* / *school* / *computer* |
+| 5 | Wonder 3 — teacher resource | **Solo apoyo** (*teacher*, *desk*). Nunca fuente principal del vocabulario de este banco. |
+| 6 | Currículum / master — `INGLES_MASTER.md` | Pack `ingles-school`; tamaño master mín. 28 · máx. 45 (**orientativo**) |
 
 ---
 
-## Autoauditoría previa (v1)
+## Auditoría editorial
+
+Auditoría crítica aprobada (2026-08). Decisiones cerradas: **26 lemas**; sin altas/bajas; *teacher* → *profesor*; *bag* ≠ *rucksack*; *lab* (no *science lab*); *table* en SCHOOL; categorías Places / People / Objects; *calculator* / *poster* / *glue* / *scissors* en Menos frecuente.
 
 | Control | Resultado |
 |---------|-----------|
 | Sin duplicados | Un lema por concepto. *bag* ≠ *rucksack*. Sin *backpack* / *eraser*. |
-| Vocabulario de 3.º | Solo lemas atestiguados en Vicens / Bugs World / cuaderno / fitxes / Wonder. |
-| Categorías | `Places` · `Objects` · `People`. |
-| Frecuencias | Nucleares de aula/zona en «Muy frecuente» / «Frecuente»; periféricos en «Menos frecuente». |
-| Glosas | Forma única; naturales para 3.º en España (*ordenador*, *goma*, *estuche*…). |
+| Vocabulario de 3.º | Lemas atestiguados en Vicens / Bugs World / cuaderno / fitxes; Wonder solo apoyo. |
+| Categorías | `Places` · `People` · `Objects` (mantenidas). |
+| Frecuencias | Nucleares en «Muy frecuente» / «Frecuente»; *calculator*, *poster*, *glue*, *scissors* = Menos frecuente. |
+| Glosas | Forma única; *teacher* → **profesor**. |
 | Imagen | Sí en todos (concretos). |
 | en-GB | *rubber*, *rucksack*, *board*. |
-| Fuera de alcance | Verbos; colours; numbers; *door*/*window* (materials/casa); *pupil*/*student*/*crayons*/*backpack*/*schoolbag* sin respaldo claro. |
-| Tamaño | **26** registros (por debajo del mín. 28 del master → ver dudas). |
+| Tamaño | **26** congelados. Mín. 28 del master = **orientativo**; calidad &gt; cupo. |
+| Congelado | Sí — no ampliar ni recortar sin nueva auditoría. |
 
 ---
 
@@ -171,7 +174,7 @@ Sí
 
 ## Observaciones
 
-Vicens / fitxa_03 (lema fuente: *lab*, no *laboratory*).
+Vicens / fitxa_03. Lema oficial: **lab** (no ampliar a *science lab* ni *laboratory*).
 
 ---
 
@@ -275,7 +278,7 @@ Sí
 
 ## Observaciones
 
-Vicens (*teacher's explanations*; *What is your teacher doing?*); Wonder (*music teacher*); fitxa_02. Glosa única: **profesor** (no *maestro* / *student*).
+Vicens (*teacher's explanations*; *What is your teacher doing?*); fitxa_02. Glosa oficial: **profesor**. Wonder solo como apoyo (*music teacher*), no fuente principal.
 
 ---
 
@@ -353,7 +356,7 @@ Sí
 
 ## Observaciones
 
-Bugs World grammar tip (*under the table*) en ficha School. Vicens también en casa; aquí solo sentido escolar del pack.
+Bugs World grammar tip (*under the table*) en ficha School. Propietario del pack **SCHOOL**; permanece aquí aunque un futuro pack HOME pueda reutilizarlo como contexto.
 
 ---
 
@@ -535,7 +538,7 @@ Sí
 
 ## Observaciones
 
-Bugs World (*in/on the bag*). Distinto de *rucksack* (Vicens). Ver dudas glosa bolsa/mochila.
+Bugs World (*in/on the bag*). Lema distinto de *rucksack*: **no unificar** con *rucksack* (Vicens / mochila).
 
 ---
 
@@ -561,7 +564,7 @@ Sí
 
 ## Observaciones
 
-en-GB Vicens (*rucksack*). No usar *backpack* como lema paralelo.
+en-GB Vicens (*rucksack*). Lema distinto de *bag*: **no unificar**. No usar *backpack* como lema paralelo.
 
 ---
 
@@ -756,27 +759,26 @@ Cuaderno verano (*What is it? … a calculator*).
 | Objects | 18 |
 | **Total** | **26** |
 
-Rango master pack: mín. 28 · máx. 45 → **por debajo del mínimo** (sin inventar lemas; ver dudas).
+Master pack: mín. 28 · máx. 45 = **orientativo**. Este banco se congela en **26** por criterio de calidad (sin inventar lemas).  
+**Estado:** congelado — no añadir ni eliminar lemas sin nueva auditoría.
 
 ---
 
-## Dudas editoriales
+## Decisiones editoriales cerradas
 
-1. **Tamaño 26 &lt; mín. 28 del master:** ¿congelamos por debajo del mínimo por rigor de fuentes, o se acepta ampliar solo con lemas que aparezcan en auditoría visual adicional de Bugs World / Vicens PDF no OCR?
-2. ***bag* vs *rucksack*:** ambos atestiguados. ¿Mantener los dos (propuesta) o unificar en uno para Intrusa? Glosa de *bag* = **bolsa** ¿o **mochila** si la imagen Bugs World es tipo mochila?
-3. ***lab*:** ¿mantener forma corta de la fuente o expandir a *laboratory* (no atestiguado literal)?
-4. ***teacher* → profesor:** ¿preferís *maestro/maestra* en aula de Primaria catalana?
-5. ***board* → pizarra:** ¿aceptar también *whiteboard* en v2 si sale en ficha, o basta *board*?
-6. ***table*:** aparece en ficha School Bugs World y también en Vicens casa. ¿Riesgo de solape futuro con pack home? ¿Renombrar categoría o dejar nota de pack?
-7. ***door* / *window*:** en materials/casa (Vicens + fitxa_04), no en Unit School. ¿Confirmamos exclusión del pack school?
-8. ***pupil* / *student* / *crayons* / *backpack* / *schoolbag*:** en lista de ejemplos del briefing pero **sin respaldo claro** → excluidos. ¿OK?
-9. ***computer*:** en Vicens/fitxa; en Bugs World visible en ilustración pero no en word bank. ¿Suficiente?
-10. **Categorías Places / Objects / People:** ¿unificar todo a `School` como en Colours→`Colours`, o mantener el trío?
+1. **26 lemas** definitivos; mín. 28 del master orientativo.
+2. ***teacher*** → glosa oficial **profesor**.
+3. ***bag*** y ***rucksack*** conviven; no unificar.
+4. ***lab*** (no *science lab*).
+5. ***table*** propietario de SCHOOL (reuso contextual HOME posible).
+6. Categorías **Places / People / Objects**.
+7. ***calculator***, ***poster***, ***glue***, ***scissors*** = Menos frecuente.
+8. Wonder = **solo apoyo**, nunca fuente principal.
+9. Sin *door*, *window*, *backpack*, *crayons*, *schoolbag*, *pupil*, *student*.
 
 ---
 
 ## Notas para la siguiente fase (no hacer ahora)
 
-- No generar JSON hasta auditoría humana.
-- No tocar el juego ni otros bancos.
-- Tras aprobación: mapear a contrato de lemas inglés (`lemma`, `glossEs`, `category`, `frequency`, `image.ref?`).
+- Convertir a JSON solo tras esta congelación (contrato: `lemma`, `glossEs`, `category`, `frequency`, `image.ref?`).
+- No tocar el juego ni otros bancos en esta fase.
