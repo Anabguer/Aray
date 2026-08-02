@@ -1,0 +1,328 @@
+{
+  "schemaVersion": 1,
+  "pack": {
+    "id": "ingles-school",
+    "title": "School",
+    "ownerBank": "INGLES_SCHOOL.md",
+    "topicFamily": "school",
+    "level": "3-primaria",
+    "locale": "en-GB",
+    "revisionStatus": "frozen",
+    "contentVersion": 1,
+    "sourceEditorialPhase": "ingles-editorial-v1"
+  },
+  "lemmas": [
+    {
+      "id": "school-school",
+      "lemma": "school",
+      "glossEs": "colegio",
+      "category": "Places",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Vicens (*area in the school*); Bugs World Unit 1 título; fitxa_02 (*teacher… school*).\n\n---"
+    },
+    {
+      "id": "school-classroom",
+      "lemma": "classroom",
+      "glossEs": "aula",
+      "category": "Places",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Vicens (match zonas); fitxa_03.\n\n---"
+    },
+    {
+      "id": "school-playground",
+      "lemma": "playground",
+      "glossEs": "patio",
+      "category": "Places",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Vicens; fitxa_03 (*run and play*).\n\n---"
+    },
+    {
+      "id": "school-lab",
+      "lemma": "lab",
+      "glossEs": "laboratorio",
+      "category": "Places",
+      "frequency": "poco_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Vicens / fitxa_03. Lema oficial: **lab** (no ampliar a *science lab* ni *laboratory*).\n\n---"
+    },
+    {
+      "id": "school-canteen",
+      "lemma": "canteen",
+      "glossEs": "comedor",
+      "category": "Places",
+      "frequency": "poco_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Vicens; fitxa_03 (*eat lunch*).\n\n---"
+    },
+    {
+      "id": "school-library",
+      "lemma": "library",
+      "glossEs": "biblioteca",
+      "category": "Places",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Vicens; fitxa_03 (*read books*).\n\n---"
+    },
+    {
+      "id": "school-computer-room",
+      "lemma": "computer room",
+      "glossEs": "aula de informática",
+      "category": "Places",
+      "frequency": "poco_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Vicens (zona del colegio). Lema de dos palabras, como en fuente.\n\n---"
+    },
+    {
+      "id": "school-teacher",
+      "lemma": "teacher",
+      "glossEs": "profesor",
+      "category": "People",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Vicens (*teacher's explanations*; *What is your teacher doing?*); fitxa_02. Glosa oficial: **profesor**. Wonder solo como apoyo (*music teacher*), no fuente principal.\n\n---"
+    },
+    {
+      "id": "school-desk",
+      "lemma": "desk",
+      "glossEs": "pupitre",
+      "category": "Objects",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Bugs World (prep. *in/on/under the desk*); Wonder; fitxa_03 (*sit at a desk*).\n\n---"
+    },
+    {
+      "id": "school-chair",
+      "lemma": "chair",
+      "glossEs": "silla",
+      "category": "Objects",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Bugs World Unit 1 School (*on/under the chair*).\n\n---"
+    },
+    {
+      "id": "school-table",
+      "lemma": "table",
+      "glossEs": "mesa",
+      "category": "Objects",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Bugs World grammar tip (*under the table*) en ficha School. Propietario del pack **SCHOOL**; permanece aquí aunque un futuro pack HOME pueda reutilizarlo como contexto.\n\n---"
+    },
+    {
+      "id": "school-pencil",
+      "lemma": "pencil",
+      "glossEs": "lápiz",
+      "category": "Objects",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Vicens; cuaderno (*red pencil* / *What is it?*).\n\n---"
+    },
+    {
+      "id": "school-pen",
+      "lemma": "pen",
+      "glossEs": "bolígrafo",
+      "category": "Objects",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Vicens (*pen blue*); Bugs World (*It's a pen*).\n\n---"
+    },
+    {
+      "id": "school-rubber",
+      "lemma": "rubber",
+      "glossEs": "goma",
+      "category": "Objects",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "en-GB: **rubber** (no *eraser*). Bugs World word bank; cuaderno (*a rubber*).\n\n---"
+    },
+    {
+      "id": "school-ruler",
+      "lemma": "ruler",
+      "glossEs": "regla",
+      "category": "Objects",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Vicens (*ruler white*); Bugs World (*It's a ruler*).\n\n---"
+    },
+    {
+      "id": "school-book",
+      "lemma": "book",
+      "glossEs": "libro",
+      "category": "Objects",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Cuaderno (*It is a book*); Vicens (library / *books*).\n\n---"
+    },
+    {
+      "id": "school-notebook",
+      "lemma": "notebook",
+      "glossEs": "cuaderno",
+      "category": "Objects",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Bugs World (*It's a notebook*).\n\n---"
+    },
+    {
+      "id": "school-bag",
+      "lemma": "bag",
+      "glossEs": "bolsa",
+      "category": "Objects",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Bugs World (*in/on the bag*). Lema distinto de *rucksack*: **no unificar** con *rucksack* (Vicens / mochila).\n\n---"
+    },
+    {
+      "id": "school-rucksack",
+      "lemma": "rucksack",
+      "glossEs": "mochila",
+      "category": "Objects",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "en-GB Vicens (*rucksack*). Lema distinto de *bag*: **no unificar**. No usar *backpack* como lema paralelo.\n\n---"
+    },
+    {
+      "id": "school-pencil-case",
+      "lemma": "pencil case",
+      "glossEs": "estuche",
+      "category": "Objects",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Vicens (*pencil case*); Bugs World word bank. Lema de dos palabras.\n\n---"
+    },
+    {
+      "id": "school-scissors",
+      "lemma": "scissors",
+      "glossEs": "tijeras",
+      "category": "Objects",
+      "frequency": "poco_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Bugs World word bank / wordsearch.\n\n---"
+    },
+    {
+      "id": "school-glue",
+      "lemma": "glue",
+      "glossEs": "pegamento",
+      "category": "Objects",
+      "frequency": "poco_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Bugs World word bank (*glue*).\n\n---"
+    },
+    {
+      "id": "school-board",
+      "lemma": "board",
+      "glossEs": "pizarra",
+      "category": "Objects",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Bugs World word bank (*board*). En aula = pizarra (no *tablero* genérico).\n\n---"
+    },
+    {
+      "id": "school-poster",
+      "lemma": "poster",
+      "glossEs": "cartel",
+      "category": "Objects",
+      "frequency": "poco_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Bugs World word bank (*poster*; mapa en pared como ejemplo visual).\n\n---"
+    },
+    {
+      "id": "school-computer",
+      "lemma": "computer",
+      "glossEs": "ordenador",
+      "category": "Objects",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Vicens (*working on computers*); fitxa_02. Distinto del place *computer room*.\n\n---"
+    },
+    {
+      "id": "school-calculator",
+      "lemma": "calculator",
+      "glossEs": "calculadora",
+      "category": "Objects",
+      "frequency": "poco_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Cuaderno verano (*What is it? … a calculator*).\n\n---"
+    }
+  ]
+}

@@ -1,0 +1,376 @@
+{
+  "schemaVersion": 1,
+  "pack": {
+    "id": "ingles-colours-numbers",
+    "title": "Colours & Numbers",
+    "ownerBank": "INGLES_COLOURS_NUMBERS.md",
+    "topicFamily": "colours-numbers",
+    "level": "3-primaria",
+    "locale": "en-GB",
+    "revisionStatus": "frozen",
+    "contentVersion": 1,
+    "sourceEditorialPhase": "ingles-editorial-v1"
+  },
+  "lemmas": [
+    {
+      "id": "colours-numbers-red",
+      "lemma": "red",
+      "glossEs": "rojo",
+      "category": "Colours",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Cuaderno verano (colour + wordsearch RED); Vicens (*blue and red*); Wonder (*red nose*); fitxa_01. Nuclear de 3.º.\n\n---"
+    },
+    {
+      "id": "colours-numbers-blue",
+      "lemma": "blue",
+      "glossEs": "azul",
+      "category": "Colours",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Cuaderno (umbrella, wordsearch, secuencia); Vicens (*pen blue*); fitxa_01.\n\n---"
+    },
+    {
+      "id": "colours-numbers-green",
+      "lemma": "green",
+      "glossEs": "verde",
+      "category": "Colours",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Cuaderno (colour + wordsearch GREEN); Vicens (*black and green*); fitxa_01.\n\n---"
+    },
+    {
+      "id": "colours-numbers-yellow",
+      "lemma": "yellow",
+      "glossEs": "amarillo",
+      "category": "Colours",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Cuaderno (ball, wordsearch, secuencia); Vicens (*banana yellow*); fitxa_01.\n\n---"
+    },
+    {
+      "id": "colours-numbers-black",
+      "lemma": "black",
+      "glossEs": "negro",
+      "category": "Colours",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Cuaderno wordsearch BLACK; Vicens (*pencil black*); Wonder (*black hair*).\n\n---"
+    },
+    {
+      "id": "colours-numbers-white",
+      "lemma": "white",
+      "glossEs": "blanco",
+      "category": "Colours",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Vicens (*ruler white*); fitxa_02. Pareja habitual con *black* en 3.º.\n\n---"
+    },
+    {
+      "id": "colours-numbers-pink",
+      "lemma": "pink",
+      "glossEs": "rosa",
+      "category": "Colours",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Cuaderno verano (*blue and pink umbrella*); fitxa_01. No en Vicens u0–1 de colores; se mantiene por evidencia clara del cuaderno/fitxa 3.º.\n\n---"
+    },
+    {
+      "id": "colours-numbers-orange",
+      "lemma": "orange",
+      "glossEs": "naranja",
+      "category": "Colours",
+      "frequency": "poco_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Vicens (*sky orange*); cuaderno (anagrama ORANGE); fitxa_01. Glosa oficial: **naranja** (no *anaranjado*). Distinguir en JSON futuro del lema fruta del pack food.\n\n---"
+    },
+    {
+      "id": "colours-numbers-purple",
+      "lemma": "purple",
+      "glossEs": "morado",
+      "category": "Colours",
+      "frequency": "poco_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Vicens (*rucksack purple*). Glosa oficial: **morado** (no *lila* ni *púrpura*; *lila* = matiz, no glosa).\n\n---"
+    },
+    {
+      "id": "colours-numbers-grey",
+      "lemma": "grey",
+      "glossEs": "gris",
+      "category": "Colours",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "en-GB: **grey** (no *gray*). Cuaderno wordsearch GREY + secuencia; Vicens (*grass grey*); fitxa_01. Frecuencia subida a Frecuente tras auditoría (wordsearch nuclear).\n\n---"
+    },
+    {
+      "id": "colours-numbers-one",
+      "lemma": "one",
+      "glossEs": "uno",
+      "category": "Numbers",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Cuaderno verano: Match *One* ↔ 1. Imagen: cantidad de objetos (norma 1–10).\n\n---"
+    },
+    {
+      "id": "colours-numbers-two",
+      "lemma": "two",
+      "glossEs": "dos",
+      "category": "Numbers",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Cuaderno Match *Two*; Vicens (cantidades); Bugs World (*I've got two eyes*). Imagen: cantidad de objetos (norma 1–10).\n\n---"
+    },
+    {
+      "id": "colours-numbers-three",
+      "lemma": "three",
+      "glossEs": "tres",
+      "category": "Numbers",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Cuaderno Match *Three*; Vicens (*three chairs*). Imagen: cantidad de objetos (norma 1–10).\n\n---"
+    },
+    {
+      "id": "colours-numbers-four",
+      "lemma": "four",
+      "glossEs": "cuatro",
+      "category": "Numbers",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Cuaderno Match *Four*; Vicens (edad *four*). Imagen: cantidad de objetos (norma 1–10).\n\n---"
+    },
+    {
+      "id": "colours-numbers-five",
+      "lemma": "five",
+      "glossEs": "cinco",
+      "category": "Numbers",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Cuaderno Match *Five*; cuaderno (*I am five years old*). Imagen: cantidad de objetos (norma 1–10).\n\n---"
+    },
+    {
+      "id": "colours-numbers-six",
+      "lemma": "six",
+      "glossEs": "seis",
+      "category": "Numbers",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Cuaderno Match *Six*; Vicens (*six chairs*). Imagen: cantidad de objetos (norma 1–10).\n\n---"
+    },
+    {
+      "id": "colours-numbers-seven",
+      "lemma": "seven",
+      "glossEs": "siete",
+      "category": "Numbers",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Cuaderno Match *Seven*; Bugs World (rutinas / *o'clock*). Imagen: cantidad de objetos (norma 1–10).\n\n---"
+    },
+    {
+      "id": "colours-numbers-eight",
+      "lemma": "eight",
+      "glossEs": "ocho",
+      "category": "Numbers",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Cuaderno Match *Eight*; Vicens (edad *eight*). Imagen: cantidad de objetos (norma 1–10).\n\n---"
+    },
+    {
+      "id": "colours-numbers-nine",
+      "lemma": "nine",
+      "glossEs": "nueve",
+      "category": "Numbers",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Cuaderno Match *Nine*. Imagen: cantidad de objetos (norma 1–10).\n\n---"
+    },
+    {
+      "id": "colours-numbers-ten",
+      "lemma": "ten",
+      "glossEs": "diez",
+      "category": "Numbers",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Cuaderno Match *Ten*; Vicens (edad *ten*). Cierre del tramo 1–10. Imagen: cantidad de objetos (norma 1–10).\n\n---"
+    },
+    {
+      "id": "colours-numbers-eleven",
+      "lemma": "eleven",
+      "glossEs": "once",
+      "category": "Numbers",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Incluido por pack aprobado (`INGLES_MASTER`: one–twenty) y nivel 3.º. Apoyo: sistema numérico Vicens; Bugs World (dígitos de reloj hasta 12). Imagen: dígito grande (norma 11–20).\n\n---"
+    },
+    {
+      "id": "colours-numbers-twelve",
+      "lemma": "twelve",
+      "glossEs": "doce",
+      "category": "Numbers",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Pack aprobado 1–20 y nivel 3.º. Apoyo: Bugs World (dígito 12 en relojes). Imagen: dígito grande (norma 11–20).\n\n---"
+    },
+    {
+      "id": "colours-numbers-thirteen",
+      "lemma": "thirteen",
+      "glossEs": "trece",
+      "category": "Numbers",
+      "frequency": "poco_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Pack aprobado 1–20; serie *-teen* de 3.º. Imagen: dígito grande (norma 11–20).\n\n---"
+    },
+    {
+      "id": "colours-numbers-fourteen",
+      "lemma": "fourteen",
+      "glossEs": "catorce",
+      "category": "Numbers",
+      "frequency": "poco_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Pack aprobado 1–20; serie *-teen* de 3.º. Imagen: dígito grande (norma 11–20).\n\n---"
+    },
+    {
+      "id": "colours-numbers-fifteen",
+      "lemma": "fifteen",
+      "glossEs": "quince",
+      "category": "Numbers",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Pack aprobado 1–20; uso escolar habitual (edad / cantidad). Imagen: dígito grande (norma 11–20).\n\n---"
+    },
+    {
+      "id": "colours-numbers-sixteen",
+      "lemma": "sixteen",
+      "glossEs": "dieciséis",
+      "category": "Numbers",
+      "frequency": "poco_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Vicens: *I'm sixteen years old* (atestiguado). Ancla literal de la serie teens. Imagen: dígito grande (norma 11–20).\n\n---"
+    },
+    {
+      "id": "colours-numbers-seventeen",
+      "lemma": "seventeen",
+      "glossEs": "diecisiete",
+      "category": "Numbers",
+      "frequency": "poco_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Pack aprobado 1–20; serie *-teen* tras *sixteen* Vicens. Imagen: dígito grande (norma 11–20).\n\n---"
+    },
+    {
+      "id": "colours-numbers-eighteen",
+      "lemma": "eighteen",
+      "glossEs": "dieciocho",
+      "category": "Numbers",
+      "frequency": "poco_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Pack aprobado 1–20; serie *-teen* de 3.º. Imagen: dígito grande (norma 11–20).\n\n---"
+    },
+    {
+      "id": "colours-numbers-nineteen",
+      "lemma": "nineteen",
+      "glossEs": "diecinueve",
+      "category": "Numbers",
+      "frequency": "poco_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Pack aprobado 1–20; serie *-teen* de 3.º. Imagen: dígito grande (norma 11–20).\n\n---"
+    },
+    {
+      "id": "colours-numbers-twenty",
+      "lemma": "twenty",
+      "glossEs": "veinte",
+      "category": "Numbers",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Cierre del tramo aprobado 1–20. Vicens u5 (escritura de cifras >20) implica dominio del sistema hasta/desde *twenty*. Imagen: dígito grande (norma 11–20).\n\n---"
+    }
+  ]
+}

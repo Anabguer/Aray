@@ -1,0 +1,232 @@
+{
+  "schemaVersion": 1,
+  "pack": {
+    "id": "ingles-family",
+    "title": "Family",
+    "ownerBank": "INGLES_FAMILY.md",
+    "topicFamily": "family",
+    "level": "3-primaria",
+    "locale": "en-GB",
+    "revisionStatus": "frozen",
+    "contentVersion": 1,
+    "sourceEditorialPhase": "ingles-editorial-v1"
+  },
+  "lemmas": [
+    {
+      "id": "family-family",
+      "lemma": "family",
+      "glossEs": "familia",
+      "category": "Family group",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Vicens: *describe it as if it were your family*. Lema del pack.\n\n---"
+    },
+    {
+      "id": "family-parents",
+      "lemma": "parents",
+      "glossEs": "padres",
+      "category": "Family group",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Fitxa_05: *They are my parents' parents*. Plural propio (no “padre+madre” como dos lemas). Conservado: vocabulario explícito de la fitxa Family.\n\n---"
+    },
+    {
+      "id": "family-grandparents",
+      "lemma": "grandparents",
+      "glossEs": "abuelos",
+      "category": "Family group",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Fitxa_05 (respuesta oficial a *parents' parents*; solucionari: *grandparents*). Plural propio. Conservado como respuesta oficial de la fitxa Family.\n\n---"
+    },
+    {
+      "id": "family-mother",
+      "lemma": "mother",
+      "glossEs": "madre",
+      "category": "Core family",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Vicens (definiciones); cuaderno (*Mother*); fitxa_05. Forma completa; convive con *mum*.\n\n---"
+    },
+    {
+      "id": "family-mum",
+      "lemma": "mum",
+      "glossEs": "mamá",
+      "category": "Core family",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "en-GB Vicens word bank (*mum*); Wonder (*Mum*). Informal; **no** unificar con *mother*. No *mom* (US).\n\n---"
+    },
+    {
+      "id": "family-father",
+      "lemma": "father",
+      "glossEs": "padre",
+      "category": "Core family",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Vicens; cuaderno (*father*); fitxa_05; Wonder. Forma completa; convive con *dad*.\n\n---"
+    },
+    {
+      "id": "family-dad",
+      "lemma": "dad",
+      "glossEs": "papá",
+      "category": "Core family",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "en-GB Vicens word bank (*dad*); Wonder (*Dad*). Informal; **no** unificar con *father*.\n\n---"
+    },
+    {
+      "id": "family-sister",
+      "lemma": "sister",
+      "glossEs": "hermana",
+      "category": "Core family",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Vicens; cuaderno (*sisters* / scramble *SISTER*); fitxa_05.\n\n---"
+    },
+    {
+      "id": "family-brother",
+      "lemma": "brother",
+      "glossEs": "hermano",
+      "category": "Core family",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Vicens; cuaderno (*brothers*); fitxa_05; Wonder (*brother*).\n\n---"
+    },
+    {
+      "id": "family-daughter",
+      "lemma": "daughter",
+      "glossEs": "hija",
+      "category": "Core family",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Vicens (*daughter of my auntie*); fitxa_05; Wonder (*daughter*). Relación familiar.\n\n---"
+    },
+    {
+      "id": "family-cousin",
+      "lemma": "cousin",
+      "glossEs": "primo",
+      "category": "Extended family",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Vicens (*cousin* / word bank *cousins*); fitxa_05. EN sin género: glosa principal **primo** (cubre *prima* en uso).\n\n---"
+    },
+    {
+      "id": "family-grandmother",
+      "lemma": "grandmother",
+      "glossEs": "abuela",
+      "category": "Extended family",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Respuesta esperada Vicens/fitxa a *mother of my dad/father*. Forma completa; convive con *granny*.\n\n---"
+    },
+    {
+      "id": "family-granny",
+      "lemma": "granny",
+      "glossEs": "abuelita",
+      "category": "Extended family",
+      "frequency": "poco_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "en-GB Vicens word bank (*granny*). Informal; **no** unificar con *grandmother*. No *grandma* (no atestiguado aquí).\n\n---"
+    },
+    {
+      "id": "family-grandfather",
+      "lemma": "grandfather",
+      "glossEs": "abuelo",
+      "category": "Extended family",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Cuaderno (secuencia *… grandfather*); respuesta Vicens a *father of my mother*. Forma completa; convive con *granddad*.\n\n---"
+    },
+    {
+      "id": "family-granddad",
+      "lemma": "granddad",
+      "glossEs": "abuelito",
+      "category": "Extended family",
+      "frequency": "poco_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "en-GB Vicens word bank (*granddad*). Informal; **no** unificar con *grandfather*. No *grandpa* (US / no atestiguado).\n\n---"
+    },
+    {
+      "id": "family-aunt",
+      "lemma": "aunt",
+      "glossEs": "tía",
+      "category": "Extended family",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Fitxa_05 (*mother's sister… aunt*). Forma base; convive con *auntie*.\n\n---"
+    },
+    {
+      "id": "family-auntie",
+      "lemma": "auntie",
+      "glossEs": "tía",
+      "category": "Extended family",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "en-GB Vicens (*auntie* en definiciones y word bank). Informal; **no** unificar con *aunt*. Misma glosa ES; diferencia en el lema EN.\n\n---"
+    },
+    {
+      "id": "family-uncle",
+      "lemma": "uncle",
+      "glossEs": "tío",
+      "category": "Extended family",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "notes": "Vicens word bank (*uncle*); fitxa_05 (*father's brother… uncle*).\n\n---"
+    }
+  ]
+}
