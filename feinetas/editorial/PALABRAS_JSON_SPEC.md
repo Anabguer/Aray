@@ -3,7 +3,7 @@
 Documento de **diseño técnico**. No es un pack jugable.  
 No convierte bancos Markdown. No define contenido educativo.
 
-**Estado:** Fase 1 · alineado con [`PALABRAS_MASTER.md`](./PALABRAS_MASTER.md) (modelo bancos ≠ productos).  
+**Estado:** Fase 1 · alineado con [`PALABRAS_MASTER.md`](./PALABRAS_MASTER.md) y [`PALABRAS_PROGRESSION.md`](./PALABRAS_PROGRESSION.md).  
 **Actualizado:** 2026-08-02.
 
 ---
@@ -103,6 +103,13 @@ Campos comunes de ítem:
 | `status` | no | `active` (default) \| `deprecated` |
 | `notes` | no | Solo editorial / debug |
 | `tags` | no | Extensible; no rompe schema |
+| `difficulty` | sí (Palabras v1) | `1`–`4` · ver [`PALABRAS_PROGRESSION.md`](./PALABRAS_PROGRESSION.md) |
+
+### 4.0 Lema en varios bancos
+
+A diferencia de Ortografía, **no** hay propietario único de lema entre bancos Palabras.  
+La misma forma (`grande`, `niño`…) puede figurar en Formar palabras, Relaciones, Campos, etc., si el objetivo pedagógico difiere.  
+La identidad de fallo sigue siendo `packId` + `item.id` (no la cadena del lema sola).
 
 ### 4.1 `semantic-relation`
 
@@ -114,6 +121,8 @@ Un ítem = una relación entre dos palabras.
 | `target` | sí | string | Sinónimo o antónimo correcto |
 | `relation` | sí | `synonym` \| `antonym` | Filtro de producto |
 | `distractors` | sí | `string[]` | ≥2; **editoriales**; no inventar en adaptador |
+| `difficulty` | sí | `1`–`4` | Progresión familia |
+| `category` | no | string | Taxonomía corta (emociones, tamaño, escuela…) |
 | `ruleText` | no | string | Pista pedagógica corta (sin revelar `target`) |
 
 **Adaptadores:**
@@ -234,11 +243,12 @@ Reglas:
 
 | Sistema | Relación |
 |---------|----------|
-| `formar-palabras.json` | Independiente en v1; producto de la familia sin este schema |
-| Ortografía `OrtographyLemmaPack` | Schema distinto; no mezclar |
+| `formar-palabras.json` | Independiente en v1; producto de la familia sin este schema; lemas pueden solaparse (objetivo scramble ≠ semántica) |
+| Ortografía `OrtographyLemmaPack` | Schema distinto; lema con **propietario único** (norma Ortografía, no Palabras) |
 | `DataPack` / `McqPackItem` | El banco **no** es MCQ; el adaptador proyecta MCQ |
 | Miss store v2 | `packId` + `itemId` + `minigameId` |
 | Alphabet `order-words` | Candidato a deprecación/redirect hacia producto Orden alfabético (Integración) |
+| [`PALABRAS_PROGRESSION.md`](./PALABRAS_PROGRESSION.md) | Dificultad y lema multi-banco |
 
 ---
 
@@ -250,7 +260,9 @@ Reglas:
 4. Formar palabras **fuera** de este schema en v1.  
 5. `definition-lemma` **no** forma parte de schema v1 (producto v2).  
 6. Campo semántico = `semantic-field`; la intrusa es vista, no banco aparte.  
-7. Identidad de progreso: `packId` + `item.id`.
+7. Identidad de progreso: `packId` + `item.id`.  
+8. `difficulty` 1–4 obligatorio en ítems Palabras v1 (PROGRESSION).  
+9. Mismo lema permitido en varios bancos Palabras si el objetivo pedagógico es distinto.
 
 ---
 

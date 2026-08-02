@@ -22,7 +22,9 @@ Los packs nuevos de familia (Ortografía, Palabras…) siguen el contrato editor
 
 ## Previsto — familia Palabras
 
-Arquitectura (en revisión): [`editorial/PALABRAS_MASTER.md`](./editorial/PALABRAS_MASTER.md) · [`editorial/PALABRAS_JSON_SPEC.md`](./editorial/PALABRAS_JSON_SPEC.md).
+Arquitectura: [`editorial/PALABRAS_MASTER.md`](./editorial/PALABRAS_MASTER.md) · [`editorial/PALABRAS_JSON_SPEC.md`](./editorial/PALABRAS_JSON_SPEC.md) · [`editorial/PALABRAS_PROGRESSION.md`](./editorial/PALABRAS_PROGRESSION.md).
+
+Editorial en curso: [`editorial/BANCO_RELACIONES_SEMANTICAS.md`](./editorial/BANCO_RELACIONES_SEMANTICAS.md) (borrador; sin JSON).
 
 Bancos futuros bajo `palabras/` (un JSON **por banco editorial**, no por minijuego):
 

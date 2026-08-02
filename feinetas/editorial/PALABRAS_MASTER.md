@@ -1,11 +1,12 @@
 # Palabras — Banco maestro editorial (3.º Primaria · Cataluña)
 
-**Estado:** Fase 1 · arquitectura de familia **en revisión** (v2 del diseño).  
-**No** es contenido jugable · **no** hay JSON de packs nuevos · **no** hay pantallas nuevas · **no** hay listas de vocabulario todavía.  
-**Actualizado:** 2026-08-02 (decisiones de producto + currículum editorial).
+**Estado:** Fase 1 arquitectura **cerrada** · Fase Editorial **abierta** (Relaciones semánticas).  
+**No** es contenido jugable · **no** hay JSON de packs nuevos todavía.  
+**Actualizado:** 2026-08-02 (progresión + lemas multi-banco + inicio editorial).
 
 Este documento **no lo usa el juego en runtime**. Flujo: [`README.md`](./README.md).  
-Contrato técnico de bancos: [`PALABRAS_JSON_SPEC.md`](./PALABRAS_JSON_SPEC.md).
+Contrato técnico: [`PALABRAS_JSON_SPEC.md`](./PALABRAS_JSON_SPEC.md).  
+Progresión / dificultad: [`PALABRAS_PROGRESSION.md`](./PALABRAS_PROGRESSION.md).
 
 ---
 
@@ -25,7 +26,9 @@ Contrato técnico de bancos: [`PALABRAS_JSON_SPEC.md`](./PALABRAS_JSON_SPEC.md).
 | 10 | Mix / Mis fallos | Obligatorios: `words-mix`, `words-review` · miss store v2 |
 | 11 | Definición ↔ palabra | **v2** — fuera del alcance inicial |
 | 12 | Campo semántico | **Producto v1** (banco propio reutilizable; ver §3 y §5) |
-| 13 | Antes de JSON | Congelar este master + **currículum editorial §4** con tu OK. Luego Fase Editorial (MD). Solo después JSON / código |
+| 13 | Antes de JSON | Currículum §4 + progresión aprobados → Fase Editorial (MD) → solo después JSON / código |
+| 14 | Progresión | Escala **difficulty 1–4** común · ver [`PALABRAS_PROGRESSION.md`](./PALABRAS_PROGRESSION.md) |
+| 15 | Lema multi-banco | En Palabras, el **mismo lema puede** aparecer en **varios bancos** si el objetivo pedagógico es distinto (contrario a Ortografía). Detalle en PROGRESSION §3 |
 
 ---
 
@@ -52,7 +55,8 @@ Markdown editorial (bancos)
 ```
 
 **Prohibido:** duplicar el mismo par sinónimo en dos JSON “de producto”.  
-**Obligatorio:** un registro canónico en su banco; los juegos lo proyectan.
+**Obligatorio:** un registro canónico **por relación/ítem** en su banco; los juegos lo proyectan.  
+**Permitido:** el mismo lema (forma escrita) en **otro** banco Palabras si el objetivo cambia (p. ej. `grande` en Formar palabras y en Relaciones como antónimo). Ver [`PALABRAS_PROGRESSION.md`](./PALABRAS_PROGRESSION.md) §3.
 
 ### Qué es / qué no es esta fase
 
@@ -299,8 +303,11 @@ Implementación/Integración estables: commit + push + deploy.
 - [x] Productos v1 (Campo semántico sí; Definición no)  
 - [x] Formar palabras sin rediseño  
 - [x] Contrato JSON de bancos (`PALABRAS_JSON_SPEC.md`)  
-- [ ] **Tu OK** a esta arquitectura  
-- [ ] Solo entonces: abrir primer `BANCO_RELACIONES_SEMANTICAS.md`  
+- [x] Progresión (`PALABRAS_PROGRESSION.md`) + norma lema multi-banco  
+- [x] Arquitectura aprobada para abrir Editorial  
+- [ ] Congelar `BANCO_RELACIONES_SEMANTICAS.md` tras revisión humana  
+- [ ] Resto de bancos MD (§10)  
+- [ ] Solo después: JSON + ingeniería  
 
 ---
 
