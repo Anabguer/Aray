@@ -6,13 +6,14 @@ import { buildRound } from '@/minigames/buildRound'
 import { getMinigame } from '@/minigames/catalog'
 
 describe('ortografiaMissing', () => {
-  it('genera huecos con 4 opciones de unidad', () => {
+  it('genera huecos con opciones rivales (2–N, sin fillers)', () => {
     const round = buildOrtografiaMissingRound(8, 55_001)
     expect(round).toHaveLength(8)
     for (const q of round) {
+      expect(q.options.length).toBeGreaterThanOrEqual(2)
+      expect(q.options.length).toBeLessThanOrEqual(4)
       expect(q.display).toContain('_')
       expect(q.display).not.toContain('·')
-      expect(q.options).toHaveLength(4)
       expect(q.targetKey?.startsWith('ortografia-')).toBe(true)
     }
   })

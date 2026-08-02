@@ -10,7 +10,7 @@ import {
 } from '@/minigames/adapters/ortografiaComplete'
 import { buildOrtografiaCorrectRound } from '@/minigames/adapters/ortografiaCorrect'
 import { buildOrtografiaIntruderRound } from '@/minigames/adapters/ortografiaIntruder'
-import { buildOrtografiaMissingRound } from '@/minigames/adapters/ortografiaMissing'
+import { buildOrtografiaMissingRound, rivalUnitsForRule } from '@/minigames/adapters/ortografiaMissing'
 import { buildOrtografiaMixRound } from '@/minigames/adapters/ortografiaMix'
 import { buildOrtografiaReviewRound } from '@/minigames/adapters/ortografiaReview'
 import {
@@ -60,10 +60,20 @@ function assertCorrectOrIntruderEditorial(q: SpellQuestion) {
   assertNoInventedWordPads(q.options, entry!.lemma.lemma)
 
   if (q.prompt.includes('mal')) {
-    // Intrusa: la correcta es un error editorial; el resto son lemas del corpus
+    // Intrusa: la correcta (respuesta) es un error editorial; el resto son lemas del mismo pack
     const wrong = q.options[q.correctIndex]!.toLocaleLowerCase('es')
     expect(approved.has(wrong)).toBe(true)
     expect(EXCLUDED_LEMMAS.has(entry!.lemma.lemma)).toBe(false)
+    for (let i = 0; i < q.options.length; i += 1) {
+      if (i === q.correctIndex) continue
+      const peer = getOrtographyCorpus().entries.find(
+        (e) =>
+          e.packId === entry!.packId &&
+          e.lemma.ruleId === entry!.lemma.ruleId &&
+          e.lemma.lemma.toLocaleLowerCase('es') === q.options[i]!.toLocaleLowerCase('es'),
+      )
+      expect(peer).toBeTruthy()
+    }
   } else {
     expect(q.options[q.correctIndex]!.toLocaleLowerCase('es')).toBe(lemma)
     expect(EXCLUDED_LEMMAS.has(entry!.lemma.lemma)).toBe(false)
@@ -150,9 +160,19 @@ describe('E2E volumen Ortografía (cierre)', () => {
     let excludedSeen = 0
     for (const q of questions) {
       assertNoPicture(q)
-      expect(q.options).toHaveLength(4)
+      expect(q.options.length).toBeGreaterThanOrEqual(2)
+      expect(q.options.length).toBeLessThanOrEqual(4)
       const entry = getOrtographyCorpus().byRef.get(q.targetKey!)
       if (entry && EXCLUDED_LEMMAS.has(entry.lemma.lemma)) excludedSeen += 1
+      // Solo rivales de la regla (sin fillers)
+      if (entry) {
+        const allowed = new Set(
+          rivalUnitsForRule(entry.lemma.ruleId, q.options[q.correctIndex]!).map((u) =>
+            u.toLocaleLowerCase('es'),
+          ),
+        )
+        for (const o of q.options) expect(allowed.has(o.toLocaleLowerCase('es'))).toBe(true)
+      }
     }
     // Con 200 preguntas es muy probable ver alguno; si no, forzar muestreo amplio
     if (excludedSeen === 0) {

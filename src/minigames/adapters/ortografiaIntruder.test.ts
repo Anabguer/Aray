@@ -5,21 +5,23 @@ import { buildRound } from '@/minigames/buildRound'
 import { getMinigame } from '@/minigames/catalog'
 
 describe('ortografiaIntruder', () => {
-  it('la correcta es un error atestiguado; el resto son lemas del corpus', () => {
-    const corpus = getOrtographyCorpus()
-    const lemmas = new Set(corpus.entries.map((e) => e.lemma.lemma.toLocaleLowerCase('es')))
-    const errors = new Set(
-      corpus.entries.flatMap((e) => e.lemma.errors.map((x) => x.toLocaleLowerCase('es'))),
-    )
-
+  it('la correcta es un error atestiguado; el resto son lemas del mismo pack', () => {
     const round = buildOrtografiaIntruderRound(10, 55_001)
     for (const q of round) {
       expect(q.prompt).toBe('¿Cuál está mal escrita?')
+      const entry = getOrtographyCorpus().byRef.get(q.targetKey!)!
+      const errors = new Set(entry.lemma.errors.map((x) => x.toLocaleLowerCase('es')))
       const bad = q.options[q.correctIndex]!
       expect(errors.has(bad.toLocaleLowerCase('es'))).toBe(true)
       for (let i = 0; i < q.options.length; i += 1) {
         if (i === q.correctIndex) continue
-        expect(lemmas.has(q.options[i]!.toLocaleLowerCase('es'))).toBe(true)
+        const peer = getOrtographyCorpus().entries.find(
+          (e) =>
+            e.packId === entry.packId &&
+            e.lemma.lemma.toLocaleLowerCase('es') === q.options[i]!.toLocaleLowerCase('es'),
+        )
+        expect(peer).toBeTruthy()
+        expect(peer!.lemma.ruleId).toBe(entry.lemma.ruleId)
       }
     }
   })

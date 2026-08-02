@@ -1,6 +1,7 @@
 /**
  * Mis fallos: claves JSON de lemas (`packId:lemmaId`) y de frases
  * (`ortografia-frases-completar:frase-*`). Sin banco legacy.
+ * Reconstrucción con mecánicas monorregla (sin fillers / sin Imagen).
  */
 import { getLemmaByRef, parseOrtographyMissKey } from '@/feinetas/ortographyCorpus'
 import {
@@ -22,6 +23,10 @@ import { SPELL_ROUND_SIZE, type SpellMcqQuestion, type SpellQuestion } from '@/s
 
 const REVIEW_JSON_KINDS = ['correct', 'missing', 'intruder'] as const
 
+/**
+ * Si Intrusa o Forma correcta no pueden construirse → Letra de la regla.
+ * Si Missing tampoco → Correct → Intrusa (último recurso del mismo lema).
+ */
 function buildJsonForEntry(
   kind: (typeof REVIEW_JSON_KINDS)[number],
   seed: number,
@@ -33,22 +38,32 @@ function buildJsonForEntry(
   if (!entry) {
     throw new Error(`[ortografia-review] Lema no encontrado: ${packId}:${lemmaId}`)
   }
+
+  const tryMissing = () => {
+    if (!canBuildMissingQuestion(entry)) {
+      throw new Error(`[ortografia-review] Sin missing para ${packId}:${lemmaId}`)
+    }
+    return buildOrtografiaMissingQuestion(seed, usedRefs, 'review', entry)
+  }
+
   switch (kind) {
     case 'correct':
-      if (!canBuildBareCorrectQuestion(entry)) {
+      if (!canBuildBareCorrectQuestion(entry)) return tryMissing()
+      return buildOrtografiaCorrectQuestion(seed, usedRefs, 'review', entry)
+    case 'intruder':
+      if (!canBuildIntruderQuestion(entry)) return tryMissing()
+      return buildOrtografiaIntruderQuestion(seed, usedRefs, 'review', entry)
+    case 'missing':
+      if (canBuildMissingQuestion(entry)) {
         return buildOrtografiaMissingQuestion(seed, usedRefs, 'review', entry)
       }
-      return buildOrtografiaCorrectQuestion(seed, usedRefs, 'review', entry)
-    case 'missing':
-      if (!canBuildMissingQuestion(entry)) {
+      if (canBuildBareCorrectQuestion(entry)) {
+        return buildOrtografiaCorrectQuestion(seed, usedRefs, 'review', entry)
+      }
+      if (canBuildIntruderQuestion(entry)) {
         return buildOrtografiaIntruderQuestion(seed, usedRefs, 'review', entry)
       }
-      return buildOrtografiaMissingQuestion(seed, usedRefs, 'review', entry)
-    case 'intruder':
-      if (!canBuildIntruderQuestion(entry)) {
-        return buildOrtografiaMissingQuestion(seed, usedRefs, 'review', entry)
-      }
-      return buildOrtografiaIntruderQuestion(seed, usedRefs, 'review', entry)
+      throw new Error(`[ortografia-review] Sin mecánica válida para ${packId}:${lemmaId}`)
   }
 }
 
@@ -63,7 +78,6 @@ export function buildOrtografiaReviewRound(
 
   const jsonMisses = preferMisses.filter((m) => parseOrtographyMissKey(m.key))
   const phraseMisses = preferMisses.filter((m) => isOrtographyPhraseMissKey(m.key))
-  // Claves ctx:* u huérfanas del bank antiguo: ignorar.
 
   const prioritized = [...jsonMisses, ...phraseMisses]
 
