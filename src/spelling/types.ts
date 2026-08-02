@@ -73,6 +73,6 @@ export const SPELL_MODE_LABELS: Record<SpellPlayMode, string> = {
   picture: 'Imagen y palabra',
   intruder: 'La intrusa',
   complete: 'Completa la frase',
-  mix: 'Mezcla total',
+  mix: 'Random',
   review: 'Mis fallos',
 }
