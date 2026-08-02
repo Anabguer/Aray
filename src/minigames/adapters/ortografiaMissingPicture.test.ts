@@ -10,7 +10,8 @@ describe('ortografiaMissing', () => {
     const round = buildOrtografiaMissingRound(8, 55_001)
     expect(round).toHaveLength(8)
     for (const q of round) {
-      expect(q.display).toContain('·')
+      expect(q.display).toContain('_')
+      expect(q.display).not.toContain('·')
       expect(q.options).toHaveLength(4)
       expect(q.targetKey?.startsWith('ortografia-')).toBe(true)
     }

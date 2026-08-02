@@ -37,9 +37,9 @@ function isMode(v: string | undefined): v is SpellPlayMode {
   )
 }
 
-/** Hueco visible como un solo «?» (___ o _ → una interrogación, sin rayas sueltas). */
+/** Hueco visible como un solo «?» (_ / ___ / · → interrogación, sin rayas sueltas). */
 function SpellBlankDetail({ display }: { display: string }) {
-  const parts = display.split(/_+/)
+  const parts = display.split(/[_·]+/)
   if (parts.length === 1) return <>{display}</>
   const spoken = parts.filter(Boolean).join('…')
   return (
@@ -289,7 +289,7 @@ export function SpellPlayScreen() {
           prompt={question.prompt}
           extra={question.emoji ? <span aria-hidden="true">{question.emoji}</span> : undefined}
           detail={
-            question.display?.includes('_') ? (
+            question.display && /[_·]/.test(question.display) ? (
               <SpellBlankDetail display={question.display} />
             ) : (
               question.display

@@ -151,7 +151,8 @@ function hardUnitForRule(word: string, ruleId: string): { index: number; unit: s
 function blankAt(word: string, index: number, unitLen: number): string {
   const chars = graphemes(word)
   const end = Math.min(chars.length, index + unitLen)
-  return chars.slice(0, index).join('') + '·' + chars.slice(end).join('')
+  // `_` lo convierte la UI en un solo «?» (SpellBlankDetail).
+  return chars.slice(0, index).join('') + '_' + chars.slice(end).join('')
 }
 
 function presentUnit(unit: string): string {
