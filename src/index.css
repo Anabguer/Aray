@@ -10095,9 +10095,8 @@ a {
 }
 
 .alphabet-chain__slot.is-blank {
-  border-style: dashed;
-  border-color: rgba(251, 146, 60, 0.65);
-  background: rgba(251, 146, 60, 0.12);
+  border: 0;
+  background: transparent;
   color: #fdba74;
   animation: alphabet-pulse 1.6s ease-in-out infinite;
 }

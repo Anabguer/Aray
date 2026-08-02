@@ -37,19 +37,23 @@ function isMode(v: string | undefined): v is SpellPlayMode {
   )
 }
 
-/** Hueco visible como una sola casilla (ll/rr no se parten en L_L). */
+/** Hueco visible como un solo «?» (___ o _ → una interrogación, sin rayas sueltas). */
 function SpellBlankDetail({ display }: { display: string }) {
-  const blankAt = display.indexOf('_')
-  if (blankAt < 0) return <>{display}</>
-  const before = display.slice(0, blankAt)
-  const after = display.slice(blankAt + 1)
+  const parts = display.split(/_+/)
+  if (parts.length === 1) return <>{display}</>
+  const spoken = parts.filter(Boolean).join('…')
   return (
-    <div className="spell-blank" aria-label={`Palabra con hueco: ${before}…${after}`}>
-      {before ? <span className="spell-blank__text">{before}</span> : null}
-      <span className="spell-blank__slot" aria-hidden="true">
-        ?
-      </span>
-      {after ? <span className="spell-blank__text">{after}</span> : null}
+    <div className="spell-blank" aria-label={`Palabra con hueco: ${spoken}`}>
+      {parts.map((part, i) => (
+        <span key={`blank-${i}`}>
+          {part ? <span className="spell-blank__text">{part}</span> : null}
+          {i < parts.length - 1 ? (
+            <span className="spell-blank__slot" aria-hidden="true">
+              ?
+            </span>
+          ) : null}
+        </span>
+      ))}
     </div>
   )
 }

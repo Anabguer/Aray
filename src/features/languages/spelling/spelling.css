@@ -62,14 +62,14 @@
 }
 
 .spell-blank__slot {
-  min-width: 2.4rem;
-  padding: 0.15rem 0.45rem;
-  border-radius: 0.55rem;
-  border: 2px dashed rgba(251, 146, 60, 0.75);
-  background: rgba(251, 146, 60, 0.14);
+  display: inline;
+  margin: 0 0.05em;
+  padding: 0;
+  border: 0;
+  background: none;
   color: #fdba74;
+  font-weight: 900;
   letter-spacing: 0;
-  text-align: center;
 }
 
 .spell-play__options {
