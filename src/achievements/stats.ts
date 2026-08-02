@@ -5,6 +5,7 @@ export type FeatureStatKey =
   | 'money'
   | 'spelling'
   | 'alphabet'
+  | 'english'
 
 export interface FeatureStats {
   sessions: number
@@ -40,6 +41,7 @@ const FEATURES: FeatureStatKey[] = [
   'money',
   'spelling',
   'alphabet',
+  'english',
 ]
 
 function emptyFeature(): FeatureStats {
@@ -60,6 +62,7 @@ export function createEmptyStats(): ProgressStats {
       money: emptyFeature(),
       spelling: emptyFeature(),
       alphabet: emptyFeature(),
+      english: emptyFeature(),
     },
   }
 }

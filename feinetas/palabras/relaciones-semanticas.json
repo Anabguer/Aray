@@ -1,0 +1,277 @@
+{
+  "schemaVersion": 1,
+  "pack": {
+    "id": "palabras-relaciones-semanticas",
+    "title": "Relaciones semánticas",
+    "ownerBank": "BANCO_RELACIONES_SEMANTICAS.md",
+    "packKind": "semantic-relation",
+    "level": "3-primaria",
+    "locale": "es-ES",
+    "revisionStatus": "frozen",
+    "contentVersion": 1,
+    "sourceEditorialPhase": "fase-editorial-palabras",
+    "notes": "Congelado 2026-08-02. No conectado al juego todavía."
+  },
+  "items": [
+    {
+      "id": "rel-contento-alegre",
+      "anchor": "contento",
+      "target": "alegre",
+      "relation": "synonym",
+      "distractors": ["triste", "grande"],
+      "difficulty": 1,
+      "category": "emociones",
+      "notes": "Fitxa 03; solucionari; cap_03."
+    },
+    {
+      "id": "rel-grande-enorme",
+      "anchor": "grande",
+      "target": "enorme",
+      "relation": "synonym",
+      "distractors": ["pequeño", "lento"],
+      "difficulty": 1,
+      "category": "tamaño",
+      "notes": "Fitxa 03; multi-banco formar-palabras."
+    },
+    {
+      "id": "rel-lugar-sitio",
+      "anchor": "lugar",
+      "target": "sitio",
+      "relation": "synonym",
+      "distractors": ["veloz", "bonito"],
+      "difficulty": 1,
+      "category": "espacio",
+      "notes": "Fitxa 03; solucionari."
+    },
+    {
+      "id": "rel-alzar-levantar",
+      "anchor": "alzar",
+      "target": "levantar",
+      "relation": "synonym",
+      "distractors": ["curar", "apagar"],
+      "difficulty": 3,
+      "category": "acciones",
+      "notes": "Fitxa 04 + ANAYA refuerzo."
+    },
+    {
+      "id": "rel-sanar-curar",
+      "anchor": "sanar",
+      "target": "curar",
+      "relation": "synonym",
+      "distractors": ["alzar", "vencer"],
+      "difficulty": 2,
+      "category": "acciones",
+      "notes": "Fitxa 04 + ANAYA refuerzo."
+    },
+    {
+      "id": "rel-aroma-perfume",
+      "anchor": "aroma",
+      "target": "perfume",
+      "relation": "synonym",
+      "distractors": ["hermoso", "rápido"],
+      "difficulty": 3,
+      "category": "sentidos",
+      "notes": "Fitxa 04 + ANAYA refuerzo."
+    },
+    {
+      "id": "rel-bonito-hermoso",
+      "anchor": "bonito",
+      "target": "hermoso",
+      "relation": "synonym",
+      "distractors": ["feo", "ruidoso"],
+      "difficulty": 1,
+      "category": "cualidad",
+      "notes": "Fitxa 04."
+    },
+    {
+      "id": "rel-abecedario-alfabeto",
+      "anchor": "abecedario",
+      "target": "alfabeto",
+      "relation": "synonym",
+      "distractors": ["aroma", "lugar"],
+      "difficulty": 2,
+      "category": "colegio",
+      "notes": "ANAYA ampliación."
+    },
+    {
+      "id": "rel-complicada-dificil",
+      "anchor": "complicada",
+      "target": "difícil",
+      "relation": "synonym",
+      "distractors": ["fácil", "veloz"],
+      "difficulty": 2,
+      "category": "cualidad",
+      "notes": "ANAYA ampliación."
+    },
+    {
+      "id": "rel-vencer-triunfar",
+      "anchor": "vencer",
+      "target": "triunfar",
+      "relation": "synonym",
+      "distractors": ["perder", "sufrir"],
+      "difficulty": 3,
+      "category": "acciones",
+      "notes": "ANAYA ampliación."
+    },
+    {
+      "id": "rel-veloz-rapido",
+      "anchor": "veloz",
+      "target": "rápido",
+      "relation": "synonym",
+      "distractors": ["lento", "enorme"],
+      "difficulty": 2,
+      "category": "cualidad",
+      "notes": "ANAYA ampliación."
+    },
+    {
+      "id": "rel-disgustado-enfadado",
+      "anchor": "disgustado",
+      "target": "enfadado",
+      "relation": "synonym",
+      "distractors": ["contento", "generoso"],
+      "difficulty": 2,
+      "category": "emociones",
+      "notes": "ANAYA refuerzo; solucionari cap_04."
+    },
+    {
+      "id": "rel-grande-pequeno",
+      "anchor": "grande",
+      "target": "pequeño",
+      "relation": "antonym",
+      "distractors": ["enorme", "alto"],
+      "difficulty": 1,
+      "category": "tamaño",
+      "notes": "Multi-banco formar-palabras."
+    },
+    {
+      "id": "rel-alto-bajo",
+      "anchor": "alto",
+      "target": "bajo",
+      "relation": "antonym",
+      "distractors": ["grande", "rápido"],
+      "difficulty": 1,
+      "category": "tamaño",
+      "notes": "Multi-banco formar-palabras."
+    },
+    {
+      "id": "rel-veloz-lento",
+      "anchor": "veloz",
+      "target": "lento",
+      "relation": "antonym",
+      "distractors": ["rápido", "difícil"],
+      "difficulty": 2,
+      "category": "cualidad",
+      "notes": "ANAYA ampliación."
+    },
+    {
+      "id": "rel-dificil-facil",
+      "anchor": "difícil",
+      "target": "fácil",
+      "relation": "antonym",
+      "distractors": ["complicada", "veloz"],
+      "difficulty": 1,
+      "category": "cualidad",
+      "notes": "ANAYA ampliación."
+    },
+    {
+      "id": "rel-disfrutar-sufrir",
+      "anchor": "disfrutar",
+      "target": "sufrir",
+      "relation": "antonym",
+      "distractors": ["vencer", "perder"],
+      "difficulty": 3,
+      "category": "acciones",
+      "notes": "ANAYA ampliación."
+    },
+    {
+      "id": "rel-vencer-perder",
+      "anchor": "vencer",
+      "target": "perder",
+      "relation": "antonym",
+      "distractors": ["triunfar", "alegre"],
+      "difficulty": 2,
+      "category": "acciones",
+      "notes": "ANAYA ampliación."
+    },
+    {
+      "id": "rel-tacano-generoso",
+      "anchor": "tacaño",
+      "target": "generoso",
+      "relation": "antonym",
+      "distractors": ["disgustado", "ruidoso"],
+      "difficulty": 3,
+      "category": "cualidad",
+      "notes": "ANAYA refuerzo."
+    },
+    {
+      "id": "rel-apagar-encender",
+      "anchor": "apagar",
+      "target": "encender",
+      "relation": "antonym",
+      "distractors": ["alzar", "sanar"],
+      "difficulty": 2,
+      "category": "acciones",
+      "notes": "ANAYA refuerzo."
+    },
+    {
+      "id": "rel-ocupado-libre",
+      "anchor": "ocupado",
+      "target": "libre",
+      "relation": "antonym",
+      "distractors": ["claro", "ruidoso"],
+      "difficulty": 2,
+      "category": "cualidad",
+      "notes": "ANAYA refuerzo."
+    },
+    {
+      "id": "rel-claro-oscuro",
+      "anchor": "claro",
+      "target": "oscuro",
+      "relation": "antonym",
+      "distractors": ["ocupado", "ruidoso"],
+      "difficulty": 2,
+      "category": "cualidad",
+      "notes": "ANAYA refuerzo."
+    },
+    {
+      "id": "rel-ruidoso-silencioso",
+      "anchor": "ruidoso",
+      "target": "silencioso",
+      "relation": "antonym",
+      "distractors": ["bonito", "claro"],
+      "difficulty": 2,
+      "category": "cualidad",
+      "notes": "ANAYA refuerzo."
+    },
+    {
+      "id": "rel-alegre-triste",
+      "anchor": "alegre",
+      "target": "triste",
+      "relation": "antonym",
+      "distractors": ["feliz", "contento"],
+      "difficulty": 1,
+      "category": "emociones",
+      "notes": "Eje emocional del banco."
+    },
+    {
+      "id": "rel-montar-desmontar",
+      "anchor": "montar",
+      "target": "desmontar",
+      "relation": "antonym",
+      "distractors": ["apagar", "encender"],
+      "difficulty": 3,
+      "category": "acciones",
+      "notes": "ANAYA refuerzo; uso real infantil."
+    },
+    {
+      "id": "rel-bonito-feo",
+      "anchor": "bonito",
+      "target": "feo",
+      "relation": "antonym",
+      "distractors": ["hermoso", "aroma"],
+      "difficulty": 1,
+      "category": "cualidad",
+      "notes": "Eje fitxa 04."
+    }
+  ]
+}

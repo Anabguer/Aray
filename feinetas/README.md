@@ -24,18 +24,18 @@ Los packs nuevos de familia (Ortografía, Palabras…) siguen el contrato editor
 
 Arquitectura: [`editorial/PALABRAS_MASTER.md`](./editorial/PALABRAS_MASTER.md) · [`editorial/PALABRAS_JSON_SPEC.md`](./editorial/PALABRAS_JSON_SPEC.md) · [`editorial/PALABRAS_PROGRESSION.md`](./editorial/PALABRAS_PROGRESSION.md).
 
-Editorial en curso: [`editorial/BANCO_RELACIONES_SEMANTICAS.md`](./editorial/BANCO_RELACIONES_SEMANTICAS.md) (borrador; sin JSON).
+Editorial: [`editorial/BANCO_RELACIONES_SEMANTICAS.md`](./editorial/BANCO_RELACIONES_SEMANTICAS.md) (**congelado**; JSON listo; no conectado al hub).
 
 Bancos futuros bajo `palabras/` (un JSON **por banco editorial**, no por minijuego):
 
-| Banco JSON previsto | Alimenta |
-|---------------------|----------|
-| `palabras/relaciones-semanticas.json` | Sinónimos + Antónimos |
-| `palabras/morfologia.json` | Singular/plural + Masculino/femenino |
-| `palabras/familias.json` | Familia de palabras |
-| `palabras/campos-semanticos.json` | Campo semántico |
-| `palabras/oraciones.json` | Ordenar frases |
-| `palabras/listas-diccionario.json` | Orden alfabético |
+| Banco JSON | Estado | Alimenta |
+|------------|--------|----------|
+| `palabras/relaciones-semanticas.json` | **frozen** (no conectado al juego) | Sinónimos + Antónimos |
+| `palabras/morfologia.json` | previsto | Singular/plural + Masc/fem |
+| `palabras/familias.json` | previsto | Familia de palabras |
+| `palabras/campos-semanticos.json` | previsto | Campo semántico |
+| `palabras/oraciones.json` | previsto | Ordenar frases |
+| `palabras/listas-diccionario.json` | previsto | Orden alfabético |
 
 `formar-palabras.json` **no** se rediseña ni se migra en v1; solo se integra en el hub de la familia.
 
