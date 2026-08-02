@@ -4,6 +4,7 @@ import { AppShell } from '@/components/AppShell'
 import { buildFormarPalabrasRound, type FormarPalabrasRoundItem } from '@/feinetas'
 import { soundEngine } from '@/sound/soundEngine'
 import {
+  boardLetterInvariant,
   initialBoard,
   keepCorrectRecycleWrong,
   type Slot,
@@ -32,7 +33,7 @@ export function FormarPalabrasPlayScreen() {
   const meta = round.meta
   const [index, setIndex] = useState(0)
   const [slots, setSlots] = useState<Slot[]>([])
-  const [pool, setPool] = useState<Array<string | null>>([])
+  const [pool, setPool] = useState<string[]>([])
   const [lockedSlots, setLockedSlots] = useState<boolean[]>([])
   const [fails, setFails] = useState(0)
   const [locked, setLocked] = useState(false)
@@ -43,7 +44,6 @@ export function FormarPalabrasPlayScreen() {
   const current: FormarPalabrasRoundItem | undefined = round.items[index]
 
   const applyItem = useCallback((item: FormarPalabrasRoundItem) => {
-    // Siempre ≥1 letra de ayuda (primera).
     const board = initialBoard(item.item.palabra, item.scrambled)
     setSlots(board.slots)
     setPool(board.pool)
@@ -115,8 +115,8 @@ export function FormarPalabrasPlayScreen() {
       soundEngine.play('answer-wrong')
       if (meta.correccion.fallo?.contar_fallo) setFails((f) => f + 1)
 
-      const kept = keepCorrectRecycleWrong(filled, pool, current.item.palabra, lockedSlots)
-      // Marca en verde al instante las que van bien; luego quita las malas.
+      // No usa el pool del closure (evita duplicar la última letra).
+      const kept = keepCorrectRecycleWrong(filled, current.item.palabra, lockedSlots)
       setLockedSlots(kept.locked)
       setFixedCount(kept.locked.filter(Boolean).length)
 
@@ -127,7 +127,7 @@ export function FormarPalabrasPlayScreen() {
         setLocked(false)
       }, 650)
     },
-    [current, goNext, lockedSlots, meta, pool],
+    [current, goNext, lockedSlots, meta],
   )
 
   const onPickFromPool = (poolIndex: number) => {
@@ -139,8 +139,7 @@ export function FormarPalabrasPlayScreen() {
 
     const nextSlots = [...slots]
     nextSlots[emptyAt] = letter
-    const nextPool = [...pool]
-    nextPool[poolIndex] = null
+    const nextPool = pool.filter((_, i) => i !== poolIndex)
     setSlots(nextSlots)
     setPool(nextPool)
     setFeedback(null)
@@ -158,10 +157,14 @@ export function FormarPalabrasPlayScreen() {
 
     const nextSlots = [...slots]
     nextSlots[slotIndex] = null
-    const nextPool = [...pool]
-    const emptyPool = nextPool.findIndex((p) => p == null)
-    if (emptyPool >= 0) nextPool[emptyPool] = letter
-    else nextPool.push(letter)
+    const nextPool = [...pool, letter]
+    // Seguridad: nunca más letras que las de la palabra.
+    if (
+      current &&
+      !boardLetterInvariant(nextSlots, nextPool, current.item.palabra)
+    ) {
+      return
+    }
     setSlots(nextSlots)
     setPool(nextPool)
   }
@@ -233,14 +236,14 @@ export function FormarPalabrasPlayScreen() {
 
         <ul className="formar-play__pool" aria-label="Letras desordenadas">
           {pool.map((ch, i) => (
-            <li key={`pool-${i}`}>
+            <li key={`pool-${i}-${ch}`}>
               <button
                 type="button"
-                className={`formar-play__tile${ch == null ? ' is-used' : ''}`}
-                disabled={locked || ch == null}
+                className="formar-play__tile"
+                disabled={locked}
                 onClick={() => onPickFromPool(i)}
               >
-                {ch ?? ''}
+                {ch}
               </button>
             </li>
           ))}

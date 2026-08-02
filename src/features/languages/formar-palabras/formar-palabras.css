@@ -128,11 +128,6 @@
   cursor: default;
 }
 
-.formar-play__tile.is-used {
-  visibility: hidden;
-  pointer-events: none;
-}
-
 .formar-play__hint {
   text-align: center;
   color: var(--text-muted);
