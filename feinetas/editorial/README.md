@@ -74,6 +74,7 @@ Hasta que un documento de esta carpeta esté revisado y convertido a JSON, no fo
 | `PALABRAS_JSON_SPEC.md` | Contrato técnico de packs por banco (no por producto) |
 | `PALABRAS_PROGRESSION.md` | Dificultad 1–4 · lema multi-banco · muestreo |
 | `BANCO_RELACIONES_SEMANTICAS.md` | Banco Relaciones **congelado / aprobado** → `palabras/relaciones-semanticas.json` (aún no conectado al juego) |
+| `BANCO_MORFOLOGIA.md` | Banco Morfología (número + género) — **borrador** · sin JSON |
 | `INGLES_MASTER.md` | **Diseño maestro Inglés 3.º (Cataluña)** — arquitectura de packs; sin JSON aún |
 | `BANCO_MAESTRO_ORTOGRAFIA.md` | Índice / maestro de Ortografía |
 | `JSON_SPEC.md` | Contrato JSON Ortografía (lemas) |

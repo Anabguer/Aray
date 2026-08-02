@@ -24,7 +24,8 @@ Los packs nuevos de familia (Ortografía, Palabras…) siguen el contrato editor
 
 Arquitectura: [`editorial/PALABRAS_MASTER.md`](./editorial/PALABRAS_MASTER.md) · [`editorial/PALABRAS_JSON_SPEC.md`](./editorial/PALABRAS_JSON_SPEC.md) · [`editorial/PALABRAS_PROGRESSION.md`](./editorial/PALABRAS_PROGRESSION.md).
 
-Editorial: [`editorial/BANCO_RELACIONES_SEMANTICAS.md`](./editorial/BANCO_RELACIONES_SEMANTICAS.md) (**congelado**; JSON listo; no conectado al hub).
+Editorial Relaciones: [`editorial/BANCO_RELACIONES_SEMANTICAS.md`](./editorial/BANCO_RELACIONES_SEMANTICAS.md) (**congelado**; JSON listo; no conectado).  
+Editorial Morfología: [`editorial/BANCO_MORFOLOGIA.md`](./editorial/BANCO_MORFOLOGIA.md) (**borrador**; sin JSON).
 
 Bancos futuros bajo `palabras/` (un JSON **por banco editorial**, no por minijuego):
 
