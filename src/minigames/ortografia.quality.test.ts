@@ -94,7 +94,8 @@ describe('auditoría calidad ortografía', () => {
     for (const q of round) {
       expect(q.prompt).not.toBe('¿Cómo se escribe?')
       expect(q.emoji).toBeFalsy()
-      expect(q.options.some((o) => /^cazoón$|^cazoito$|^incazo$/i.test(o))).toBe(false)
+      expect(q.options.some((o) => /^cazoón$|^cazoito$|^incazo$|^inreloj$/i.test(o))).toBe(false)
+      expect(q.options.some((o) => /^in[a-záéíóúñ]{3,}$/i.test(o) && q.options.some((c) => c.toLocaleLowerCase('es') === o.slice(2).toLocaleLowerCase('es')))).toBe(false)
       if (q.targetKey === 'ortografia-czqu:czqu-cazo') {
         expect(q.prompt).toMatch(/falta|regla/i)
       }

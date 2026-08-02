@@ -74,7 +74,7 @@ function wordOptions(w: SpellWord, rand: () => number): string[] {
     (d) =>
       d.toLowerCase() !== w.word.toLowerCase() &&
       !BANK_WORDS.has(d.toLowerCase()) &&
-      !isJunkSpelling(d),
+      !isJunkSpelling(d, w.word),
   )
   const set = new Set<string>([w.word, ...wrongs])
   const extras = [
@@ -93,21 +93,15 @@ function wordOptions(w: SpellWord, rand: () => number): string[] {
       extra &&
       extra.toLowerCase() !== w.word.toLowerCase() &&
       !BANK_WORDS.has(extra.toLowerCase()) &&
-      !isJunkSpelling(extra)
+      !isJunkSpelling(extra, w.word)
     ) {
       set.add(extra)
     }
   }
-  let guard = 0
-  while (set.size < 4 && guard < 10) {
-    guard += 1
-    const pad = `${w.word.normalize('NFD').replace(/\u0301/g, '')}${guard === 1 ? 'ón' : guard === 2 ? 'ito' : 'ía'}`
-    if (!isJunkSpelling(pad) && pad.toLowerCase() !== w.word.toLowerCase()) set.add(pad)
-  }
+  // Sin relleno absurdo (ón/ito/ía / in+lema). Mejor 2–3 opciones reales que inventos.
   const opts = shuffle([...set].slice(0, 4), rand)
   if (!opts.includes(w.word)) opts[0] = w.word
-  while (opts.length < 4) opts.push(`${w.word}ía`)
-  return opts.slice(0, 4)
+  return opts.slice(0, Math.max(2, opts.length))
 }
 
 const SPELL_DIGRAPHS = ['ll', 'rr'] as const

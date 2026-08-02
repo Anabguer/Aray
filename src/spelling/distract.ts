@@ -42,7 +42,7 @@ const RULE_TIP: Record<SpellRuleId, string> = {
   tilde: 'Agudas, llanas y esdrújulas: repasa dónde va la tilde',
 }
 
-/** ¿Parece basura tipográfica (rrr, digitos, ·N, vocal colgada…)? */
+/** ¿Parece basura tipográfica o invento absurdo (inreloj, cazoón, re+lema…)? */
 export function isJunkSpelling(form: string, correctWord?: string): boolean {
   const w = form.trim()
   if (!w) return true
@@ -50,11 +50,26 @@ export function isJunkSpelling(form: string, correctWord?: string): boolean {
   if (/·/.test(w)) return true
   if (/(.)\1\1/i.test(w)) return true // triple letra
   if (correctWord) {
-    const base = correctWord.toLowerCase()
-    const f = w.toLowerCase()
+    const base = correctWord.toLocaleLowerCase('es')
+    const f = w.toLocaleLowerCase('es')
     // perro + o = perroo
     if (f.length === base.length + 1 && f.startsWith(base) && /^[aeiouáéíóú]$/i.test(f.slice(-1))) {
       return true
+    }
+    // Prefijos inventados: inreloj, recazo, desmesa…
+    if (
+      f === `in${base}` ||
+      f === `re${base}` ||
+      f === `des${base}` ||
+      f === `a${base}` ||
+      f === `ex${base}`
+    ) {
+      return true
+    }
+    // Sufijos inventados sobre el lema: cazoón, cazoito, relojoso…
+    if (f.startsWith(base) && f.length > base.length) {
+      const suf = f.slice(base.length)
+      if (/^(ón|on|ito|ita|oso|osa|ura|esco|ía|ia|al|es|s)$/i.test(suf)) return true
     }
   }
   return false
@@ -72,7 +87,7 @@ function pushUnique(out: string[], word: string, candidate: string | undefined) 
 
 /**
  * Completa hasta 3 distractores solo con errores ortográficos plausibles.
- * Nunca inventa rrr, +h, word+N ni basura.
+ * Nunca inventa prefijos/sufijos absurdos (inreloj, cazoón, re+lema…).
  */
 function uniq3(word: string, candidates: string[], ruleFallbacks: string[]): [string, string, string] {
   const out: string[] = []
@@ -99,8 +114,8 @@ function uniq3(word: string, candidates: string[], ruleFallbacks: string[]): [st
     word.endsWith('o') ? `${word.slice(0, -1)}a` : undefined,
     word.endsWith('a') ? `${word.slice(0, -1)}o` : undefined,
     word.replace(/s$/i, ''),
-    word.startsWith('des') ? word.slice(3) : `in${word}`,
-    word.replace(/^./, (ch) => ch.toLowerCase()),
+    // Solo quitar «des-» real; nunca inventar «in»+lema.
+    word.toLocaleLowerCase('es').startsWith('des') && word.length > 4 ? word.slice(3) : undefined,
   ].filter(Boolean) as string[]
   for (const c of generics) {
     if (out.length >= 3) break
@@ -131,40 +146,22 @@ function uniq3(word: string, candidates: string[], ruleFallbacks: string[]): [st
     const trial = base.slice(0, i) + alt + base.slice(i + 1)
     pushUnique(out, word, trial)
   }
-  let n = 0
-  while (out.length < 3 && n < 8) {
-    n += 1
-    pushUnique(out, word, `${base}${n === 1 ? 's' : n === 2 ? 'es' : 'ón'}`.replace(/\d/g, ''))
-    // last ditch: swap first consonant-like
-    pushUnique(out, word, base.replace(/[bcdfg]/i, 'x'))
+  // Último recurso: solo mutaciones de una letra (nunca prefijos/sufijos inventados).
+  const vowelAlt: Record<string, string> = { a: 'e', e: 'i', i: 'u', o: 'u', u: 'o' }
+  for (let i = 0; i < base.length && out.length < 3; i += 1) {
+    const ch = base[i]!.toLowerCase()
+    const alt = vowelAlt[ch]
+    if (!alt) continue
+    pushUnique(out, word, base.slice(0, i) + alt + base.slice(i + 1))
+  }
+  for (let i = 0; i < base.length && out.length < 3; i += 1) {
+    if (!/[bcdfghjklmnpqrstvwxyz]/i.test(base[i]!)) continue
+    pushUnique(out, word, `${base.slice(0, i)}${base.slice(i + 1)}`)
   }
   if (out.length < 3) {
-    // Garantía: formas claramente distintas y no basura.
-    const pad = [`${base}ón`, `${base}ito`, `re${base}`]
-    for (const p of pad) pushUnique(out, word, p)
-  }
-  while (out.length < 3) {
-    const suffix = ['ía', 'ón', 'ito', 'esco', 'al'][out.length]!
-    const candidate = `${base}${suffix}`
-    if (candidate.toLowerCase() === word.toLowerCase()) {
-      out.push(`re${base}`)
-    } else if (!out.some((x) => x.toLowerCase() === candidate.toLowerCase())) {
-      out.push(candidate)
-    } else {
-      out.push(`${base}${out.length}a`.replace(/\d/g, 'x'))
-    }
-  }
-  // Forzar unicidad final
-  const unique = [...new Set(out.map((x) => x.toLowerCase()))]
-  if (unique.length < 3) {
-    const extra = [`${base}oso`, `${base}ura`, `in${base}`]
-    for (const e of extra) {
-      if (unique.length >= 3) break
-      if (e.toLowerCase() !== word.toLowerCase() && !unique.includes(e.toLowerCase()) && !isJunkSpelling(e)) {
-        unique.push(e.toLowerCase())
-        out.push(e)
-      }
-    }
+    throw new Error(
+      `[spelling] Sin distractores ortográficos plausibles para «${word}» (no se inventan formas absurdas)`,
+    )
   }
   return [out[0]!, out[1]!, out[2]!]
 }

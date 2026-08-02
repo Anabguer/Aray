@@ -13,6 +13,18 @@ describe('spelling distractors (calidad 3.º)', () => {
     expect([a, b, c].map((x) => x.toLowerCase())).toContain('pero')
   })
 
+  it('nunca inventa prefijos/sufijos absurdos (inreloj, cazoón…)', () => {
+    expect(isJunkSpelling('inreloj', 'reloj')).toBe(true)
+    expect(isJunkSpelling('cazoón', 'cazo')).toBe(true)
+    expect(isJunkSpelling('cazoito', 'cazo')).toBe(true)
+    expect(isJunkSpelling('recazo', 'cazo')).toBe(true)
+    const distractors = makeDistractors('reloj', 'g-j')
+    for (const d of distractors) {
+      expect(d.toLocaleLowerCase('es')).not.toMatch(/^(in|re|des)reloj$/)
+      expect(isJunkSpelling(d, 'reloj')).toBe(false)
+    }
+  })
+
   it('ningún distractor del banco es basura tipográfica', () => {
     for (const w of SPELL_BANK.slice(0, 200)) {
       for (const d of w.distractors) {
