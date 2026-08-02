@@ -4,7 +4,6 @@ import {
   correctPositionMask,
   initialBoard,
   keepCorrectRecycleWrong,
-  remainingLetters,
 } from '@/features/languages/formar-palabras/formarPalabrasBoard'
 
 describe('formarPalabrasBoard', () => {
@@ -20,36 +19,31 @@ describe('formarPalabrasBoard', () => {
     expect(correctPositionMask(['m', 'e', 'x', 'a'], 'mesa')).toEqual([true, true, false, true])
   })
 
-  it('tras fallo conserva verdes y no inventa letras extra', () => {
-    const result = keepCorrectRecycleWrong(
-      ['l', 'l', 'u', 'x', 'i', 'a'],
-      'lluvia',
-      [true, false, false, false, false, false],
-    )
-    expect(result.slots).toEqual(['l', 'l', 'u', null, 'i', 'a'])
-    expect(result.locked).toEqual([true, true, true, false, true, true])
-    expect(result.pool.sort().join('')).toBe('v')
-    expect(boardLetterInvariant(result.slots, result.pool, 'lluvia')).toBe(true)
+  it('fija la 2.ª letra acertada y no la devuelve al montón', () => {
+    // Pista inicial + 2.ª correcta; el resto mal
+    const first = keepCorrectRecycleWrong(['m', 'e', 'x', 'x'], 'mesa')
+    expect(first.slots).toEqual(['m', 'e', null, null])
+    expect(first.locked).toEqual([true, true, false, false])
+    expect(first.pool.sort().join('')).toBe('as')
+    expect(boardLetterInvariant(first.slots, first.pool, 'mesa')).toBe(true)
+
+    // Segundo intento: mantiene m,e; acierta s; falla la última
+    const second = keepCorrectRecycleWrong(['m', 'e', 's', 'x'], 'mesa')
+    expect(second.slots).toEqual(['m', 'e', 's', null])
+    expect(second.locked).toEqual([true, true, true, false])
+    expect(second.pool).toEqual(['a'])
+    expect(boardLetterInvariant(second.slots, second.pool, 'mesa')).toBe(true)
+
+    // La 2.ª letra NO reaparece en el montón
+    expect(second.pool).not.toContain('e')
   })
 
-  it('remainingLetters resta multicomjuntos (letras repetidas)', () => {
-    expect(remainingLetters(['l', 'l', 'u'], ['l']).sort().join('')).toBe('lu')
-  })
-
-  it('simula varios fallos sin crecer el montón', () => {
-    let slots: Array<string | null> = ['l', 'u', 'v', 'i', 'a', 'l']
-    let locked = [true, false, false, false, false, false]
-    for (let i = 0; i < 5; i += 1) {
-      const kept = keepCorrectRecycleWrong(slots, 'lluvia', locked)
-      expect(boardLetterInvariant(kept.slots, kept.pool, 'lluvia')).toBe(true)
-      expect(kept.pool.length + kept.slots.filter(Boolean).length).toBe(6)
-      // Relleno absurdo a propósito y otro fallo
-      slots = [...kept.slots]
-      let pi = 0
-      for (let s = 0; s < slots.length; s += 1) {
-        if (slots[s] == null) slots[s] = kept.pool[pi++] ?? 'x'
-      }
-      locked = kept.locked
-    }
+  it('con letras repetidas (lluvia) no suelta una L ya fija', () => {
+    const kept = keepCorrectRecycleWrong(['l', 'l', 'x', 'x', 'x', 'x'], 'lluvia')
+    expect(kept.slots).toEqual(['l', 'l', null, null, null, null])
+    expect(kept.locked).toEqual([true, true, false, false, false, false])
+    expect(kept.pool.sort().join('')).toBe('aiuv')
+    expect(kept.pool.filter((ch) => ch === 'l')).toHaveLength(0)
+    expect(boardLetterInvariant(kept.slots, kept.pool, 'lluvia')).toBe(true)
   })
 })

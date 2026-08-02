@@ -30,44 +30,26 @@ export function remainingLetters(needed: string[], used: string[]): string[] {
   return out
 }
 
-/** Quita la primera aparición de `letter` del pool desordenado. */
-export function poolWithoutFirst(scrambled: string[], letter: string): Array<string | null> {
-  let removed = false
-  return scrambled.map((ch) => {
-    if (!removed && ch === letter) {
-      removed = true
-      return null
-    }
-    return ch
-  })
-}
-
 /** Máscara: true si la letra de la casilla coincide con la palabra. */
-export function correctPositionMask(filled: string[], palabra: string): boolean[] {
+export function correctPositionMask(filled: readonly Slot[], palabra: string): boolean[] {
   const target = [...palabra]
-  return filled.map((ch, i) => ch === target[i])
+  return target.map((t, i) => filled[i] != null && filled[i] === t)
 }
 
 /**
- * Tras un fallo: conserva letras bien colocadas y reconstruye el montón
- * SOLO con las letras que faltan (nunca duplica).
+ * Tras un fallo: fija TODAS las posiciones correctas del intento actual
+ * y reconstruye el montón solo con lo que falta (sin duplicar).
+ * No depende de un estado "locked" previo (evita closures obsoletos).
  */
 export function keepCorrectRecycleWrong(
-  slots: Slot[],
+  slots: readonly Slot[],
   palabra: string,
-  previouslyLocked: boolean[],
 ): { slots: Slot[]; pool: string[]; locked: boolean[] } {
   const target = [...palabra]
-  const locked = target.map((_, i) => {
-    const ch = slots[i]
-    if (ch != null && ch === target[i]) return true
-    return Boolean(previouslyLocked[i])
-  })
-
-  const nextSlots: Slot[] = target.map((_, i) => (locked[i] ? slots[i]! : null))
+  const locked = correctPositionMask(slots, palabra)
+  const nextSlots: Slot[] = target.map((_, i) => (locked[i] ? (slots[i] as string) : null))
   const used = nextSlots.filter((ch): ch is string => ch != null)
   const pool = remainingLetters(target, used)
-
   return { slots: nextSlots, pool, locked }
 }
 
@@ -82,9 +64,7 @@ export function initialBoard(palabra: string, scrambled: string[]): {
     return { slots: [], pool: [...scrambled], locked: [] }
   }
   const first = letters[0]
-  // Montón = letras restantes (sin huecos null): evita tiles fantasma.
   const pool = remainingLetters(letters, [first])
-  // Mantener un orden “desordenado” a partir del scramble original.
   const order: string[] = []
   const available = letterCounts(pool)
   for (const ch of scrambled) {
@@ -108,10 +88,7 @@ export function initialBoard(palabra: string, scrambled: string[]): {
 
 /** Invariante: letras en casillas + montón = letras de la palabra. */
 export function boardLetterInvariant(slots: Slot[], pool: string[], palabra: string): boolean {
-  const onBoard = [
-    ...slots.filter((ch): ch is string => ch != null),
-    ...pool,
-  ].sort().join('')
+  const onBoard = [...slots.filter((ch): ch is string => ch != null), ...pool].sort().join('')
   const expected = [...palabra].sort().join('')
   return onBoard === expected
 }
