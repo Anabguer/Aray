@@ -25,14 +25,14 @@ Los packs nuevos de familia (Ortografía, Palabras…) siguen el contrato editor
 Arquitectura: [`editorial/PALABRAS_MASTER.md`](./editorial/PALABRAS_MASTER.md) · [`editorial/PALABRAS_JSON_SPEC.md`](./editorial/PALABRAS_JSON_SPEC.md) · [`editorial/PALABRAS_PROGRESSION.md`](./editorial/PALABRAS_PROGRESSION.md).
 
 Editorial Relaciones: [`editorial/BANCO_RELACIONES_SEMANTICAS.md`](./editorial/BANCO_RELACIONES_SEMANTICAS.md) (**congelado**; JSON listo; no conectado).  
-Editorial Morfología: [`editorial/BANCO_MORFOLOGIA.md`](./editorial/BANCO_MORFOLOGIA.md) (**borrador**; sin JSON).
+Editorial Morfología: [`editorial/BANCO_MORFOLOGIA.md`](./editorial/BANCO_MORFOLOGIA.md) (**congelado**; JSON listo; no conectado).
 
 Bancos futuros bajo `palabras/` (un JSON **por banco editorial**, no por minijuego):
 
 | Banco JSON | Estado | Alimenta |
 |------------|--------|----------|
 | `palabras/relaciones-semanticas.json` | **frozen** (no conectado al juego) | Sinónimos + Antónimos |
-| `palabras/morfologia.json` | previsto | Singular/plural + Masc/fem |
+| `palabras/morfologia.json` | **frozen** (no conectado al juego) | Singular/plural + Masc/fem |
 | `palabras/familias.json` | previsto | Familia de palabras |
 | `palabras/campos-semanticos.json` | previsto | Campo semántico |
 | `palabras/oraciones.json` | previsto | Ordenar frases |

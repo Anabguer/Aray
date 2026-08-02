@@ -1,0 +1,287 @@
+{
+  "schemaVersion": 1,
+  "pack": {
+    "id": "palabras-morfologia",
+    "title": "Morfología",
+    "ownerBank": "BANCO_MORFOLOGIA.md",
+    "packKind": "morph-pair",
+    "level": "3-primaria",
+    "locale": "es-ES",
+    "revisionStatus": "frozen",
+    "contentVersion": 1,
+    "sourceEditorialPhase": "fase-editorial-palabras",
+    "notes": "Congelado 2026-08-02. Frontera Ortografía: z→ces por número gramatical vive aquí; la regla ortográfica sigue en Ortografía. No conectado al juego."
+  },
+  "items": [
+    {
+      "id": "morph-num-casa-casas",
+      "formA": "casa",
+      "formB": "casas",
+      "axis": "number",
+      "promptSide": "either",
+      "difficulty": 1,
+      "category": "casa",
+      "notes": "Plural regular -s."
+    },
+    {
+      "id": "morph-num-mesa-mesas",
+      "formA": "mesa",
+      "formB": "mesas",
+      "axis": "number",
+      "promptSide": "either",
+      "difficulty": 1,
+      "category": "casa",
+      "notes": "Vicens drill."
+    },
+    {
+      "id": "morph-num-silla-sillas",
+      "formA": "silla",
+      "formB": "sillas",
+      "axis": "number",
+      "promptSide": "either",
+      "difficulty": 1,
+      "category": "casa",
+      "notes": "Vicens drill."
+    },
+    {
+      "id": "morph-num-cama-camas",
+      "formA": "cama",
+      "formB": "camas",
+      "axis": "number",
+      "promptSide": "either",
+      "difficulty": 1,
+      "category": "casa",
+      "notes": "Plural regular -s."
+    },
+    {
+      "id": "morph-num-puerta-puertas",
+      "formA": "puerta",
+      "formB": "puertas",
+      "axis": "number",
+      "promptSide": "either",
+      "difficulty": 1,
+      "category": "casa",
+      "notes": "Plural regular -s."
+    },
+    {
+      "id": "morph-num-ventana-ventanas",
+      "formA": "ventana",
+      "formB": "ventanas",
+      "axis": "number",
+      "promptSide": "either",
+      "difficulty": 1,
+      "category": "casa",
+      "notes": "Mantenido tras auditoría."
+    },
+    {
+      "id": "morph-num-libro-libros",
+      "formA": "libro",
+      "formB": "libros",
+      "axis": "number",
+      "promptSide": "either",
+      "difficulty": 1,
+      "category": "colegio",
+      "notes": "Plural regular -s."
+    },
+    {
+      "id": "morph-num-gorro-gorros",
+      "formA": "gorro",
+      "formB": "gorros",
+      "axis": "number",
+      "promptSide": "either",
+      "difficulty": 1,
+      "category": "ropa",
+      "notes": "Vicens drill."
+    },
+    {
+      "id": "morph-num-zapato-zapatos",
+      "formA": "zapato",
+      "formB": "zapatos",
+      "axis": "number",
+      "promptSide": "either",
+      "difficulty": 1,
+      "category": "ropa",
+      "notes": "Plural regular -s."
+    },
+    {
+      "id": "morph-num-gato-gatos",
+      "formA": "gato",
+      "formB": "gatos",
+      "axis": "number",
+      "promptSide": "either",
+      "difficulty": 1,
+      "category": "animales",
+      "notes": "Cruce con morph-gen-gato-gata."
+    },
+    {
+      "id": "morph-num-amigo-amigos",
+      "formA": "amigo",
+      "formB": "amigos",
+      "axis": "number",
+      "promptSide": "either",
+      "difficulty": 1,
+      "category": "personas",
+      "notes": "ANAYA paradigma."
+    },
+    {
+      "id": "morph-num-amiga-amigas",
+      "formA": "amiga",
+      "formB": "amigas",
+      "axis": "number",
+      "promptSide": "either",
+      "difficulty": 1,
+      "category": "personas",
+      "notes": "ANAYA paradigma."
+    },
+    {
+      "id": "morph-num-red-redes",
+      "formA": "red",
+      "formB": "redes",
+      "axis": "number",
+      "promptSide": "either",
+      "difficulty": 2,
+      "category": "objetos",
+      "notes": "Plural -es."
+    },
+    {
+      "id": "morph-num-jugador-jugadores",
+      "formA": "jugador",
+      "formB": "jugadores",
+      "axis": "number",
+      "promptSide": "either",
+      "difficulty": 2,
+      "category": "personas",
+      "notes": "Mantenido tras auditoría."
+    },
+    {
+      "id": "morph-num-arbol-arboles",
+      "formA": "árbol",
+      "formB": "árboles",
+      "axis": "number",
+      "promptSide": "either",
+      "difficulty": 2,
+      "category": "naturaleza",
+      "notes": "Tilde estable."
+    },
+    {
+      "id": "morph-num-pez-peces",
+      "formA": "pez",
+      "formB": "peces",
+      "axis": "number",
+      "promptSide": "either",
+      "difficulty": 2,
+      "category": "animales",
+      "notes": "z→ces por número gramatical."
+    },
+    {
+      "id": "morph-num-lapiz-lapices",
+      "formA": "lápiz",
+      "formB": "lápices",
+      "axis": "number",
+      "promptSide": "either",
+      "difficulty": 2,
+      "category": "colegio",
+      "notes": "z→ces por número gramatical."
+    },
+    {
+      "id": "morph-num-luz-luces",
+      "formA": "luz",
+      "formB": "luces",
+      "axis": "number",
+      "promptSide": "either",
+      "difficulty": 2,
+      "category": "casa",
+      "notes": "z→ces por número gramatical."
+    },
+    {
+      "id": "morph-gen-amigo-amiga",
+      "formA": "amigo",
+      "formB": "amiga",
+      "axis": "gender",
+      "promptSide": "either",
+      "difficulty": 1,
+      "category": "personas",
+      "notes": "ANAYA paradigma."
+    },
+    {
+      "id": "morph-gen-nino-nina",
+      "formA": "niño",
+      "formB": "niña",
+      "axis": "gender",
+      "promptSide": "either",
+      "difficulty": 1,
+      "category": "personas",
+      "notes": "Par canónico."
+    },
+    {
+      "id": "morph-gen-abuelo-abuela",
+      "formA": "abuelo",
+      "formB": "abuela",
+      "axis": "gender",
+      "promptSide": "either",
+      "difficulty": 1,
+      "category": "familia",
+      "notes": "Vicens + formar-palabras."
+    },
+    {
+      "id": "morph-gen-hermano-hermana",
+      "formA": "hermano",
+      "formB": "hermana",
+      "axis": "gender",
+      "promptSide": "either",
+      "difficulty": 1,
+      "category": "familia",
+      "notes": "-o / -a."
+    },
+    {
+      "id": "morph-gen-tio-tia",
+      "formA": "tío",
+      "formB": "tía",
+      "axis": "gender",
+      "promptSide": "either",
+      "difficulty": 1,
+      "category": "familia",
+      "notes": "ANAYA + formar-palabras."
+    },
+    {
+      "id": "morph-gen-primo-prima",
+      "formA": "primo",
+      "formB": "prima",
+      "axis": "gender",
+      "promptSide": "either",
+      "difficulty": 1,
+      "category": "familia",
+      "notes": "Mantenido tras auditoría."
+    },
+    {
+      "id": "morph-gen-alumno-alumna",
+      "formA": "alumno",
+      "formB": "alumna",
+      "axis": "gender",
+      "promptSide": "either",
+      "difficulty": 2,
+      "category": "colegio",
+      "notes": "Savia + formar-palabras."
+    },
+    {
+      "id": "morph-gen-profesor-profesora",
+      "formA": "profesor",
+      "formB": "profesora",
+      "axis": "gender",
+      "promptSide": "either",
+      "difficulty": 2,
+      "category": "colegio",
+      "notes": "Vicens."
+    },
+    {
+      "id": "morph-gen-gato-gata",
+      "formA": "gato",
+      "formB": "gata",
+      "axis": "gender",
+      "promptSide": "either",
+      "difficulty": 1,
+      "category": "animales",
+      "notes": "Vicens gata + gato en materiales."
+    }
+  ]
+}
