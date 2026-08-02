@@ -68,10 +68,10 @@ export function ClockMatchScreen() {
     if (correct > 0) {
       const energy = energyForMissionAttempt('clocks', 2, playerId)
       const dailyChallenge = consumeMissionOfDay()
-      recordProgress('clocks', 2)
+      if (!dailyChallenge) recordProgress('clocks', 2)
       grantActivityEnergy({
         sessionId: newId('clock'),
-        requestedPoints: energy,
+        requestedPoints: dailyChallenge ? 0 : energy,
         mode: 'clocks-match',
         correct,
         wrong: Math.max(0, attempts - correct),

@@ -274,7 +274,10 @@ export function applySessionToProgress(
 
   const playerId = opts?.playerId ?? null
   const mission = loadDailyMissionSnapshot(playerId, today)
-  const tablesRemaining = remainingMissionUnits('tables', mission.progress)
+  // El Reto del día NO consume slots de la Misión diaria (Tablas 0/6, etc.).
+  const tablesRemaining = opts?.isMissionOfDay
+    ? 0
+    : remainingMissionUnits('tables', mission.progress)
   // +10 del Reto del día (card aleatoria del lobby), no del modo Reto rápido de tablas.
   const challengeBonus = opts?.isMissionOfDay
     ? challengeEnergyIfAvailable(mission)
@@ -311,7 +314,7 @@ export function applySessionToProgress(
     today,
   )
 
-  if (rewardRequest.unitsCredited > 0) {
+  if (rewardRequest.unitsCredited > 0 && !opts?.isMissionOfDay) {
     advanceMissionProgress(playerId, 'tables', rewardRequest.unitsCredited, today)
   }
 

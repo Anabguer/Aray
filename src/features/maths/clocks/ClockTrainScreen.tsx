@@ -104,10 +104,10 @@ export function ClockTrainScreen() {
       const full = energyForMissionAttempt('clocks', 2, playerId)
       const energy = early ? sideRunEnergyForProgress(full, correct, roundSize) : full
       const dailyChallenge = consumeMissionOfDay()
-      recordProgress('clocks', 2)
+      if (!dailyChallenge) recordProgress('clocks', 2)
       grantActivityEnergy({
         sessionId: newId('clock'),
-        requestedPoints: energy,
+        requestedPoints: dailyChallenge ? 0 : energy,
         mode: isMisses ? 'clocks-misses' : 'clocks-train',
         correct,
         wrong: Math.max(0, roundSize - correct),

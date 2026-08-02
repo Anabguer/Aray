@@ -154,10 +154,11 @@ describe('Reto rápido: multiplicadores', () => {
       undefined,
       { isMissionOfDay: true },
     )
-    expect(result.rewardPointsEarned).toBe(15)
+    // Solo bonus del reto; no slots de misión tablas.
+    expect(result.rewardPointsEarned).toBe(10)
   })
 
-  it('Reto del día marca challengeDone aunque las tablas también avancen', () => {
+  it('Reto del día marca challengeDone y NO avanza la misión diaria de tablas', () => {
     localStorage.clear()
     const progress = createInitialProgress()
     applySessionToProgress(
@@ -180,7 +181,7 @@ describe('Reto rápido: multiplicadores', () => {
       progress: { tables: number }
     }
     expect(snap.challengeDone).toBe(true)
-    expect(snap.progress.tables).toBe(2)
+    expect(snap.progress.tables).toBe(0)
   })
 
   it('Reto del día se marca hecho aunque el tope diario impida el +10', () => {

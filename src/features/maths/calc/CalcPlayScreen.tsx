@@ -111,10 +111,10 @@ export function CalcPlayScreen() {
       const units = Math.min(5, correctRef.current)
       const energy = energyForMissionAttempt('calc', units, playerId)
       const dailyChallenge = consumeMissionOfDay()
-      recordProgress('calc', units)
+      if (!dailyChallenge) recordProgress('calc', units)
       grantActivityEnergy({
         sessionId: newId('calc'),
-        requestedPoints: energy,
+        requestedPoints: dailyChallenge ? 0 : energy,
         mode: `calc-${mode}`.slice(0, 16),
         correct: correctRef.current,
         wrong: Math.max(0, attemptsRef.current - correctRef.current),

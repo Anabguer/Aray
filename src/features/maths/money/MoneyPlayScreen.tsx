@@ -125,10 +125,10 @@ export function MoneyPlayScreen() {
       const full = energyForMissionAttempt('money', 1, playerId)
       const energy = early ? sideRunEnergyForProgress(full, correct, roundSize) : full
       const dailyChallenge = consumeMissionOfDay()
-      recordProgress('money', 1)
+      if (!dailyChallenge) recordProgress('money', 1)
       grantActivityEnergy({
         sessionId: newId('money'),
-        requestedPoints: energy,
+        requestedPoints: dailyChallenge ? 0 : energy,
         mode: `money-${mode}`.slice(0, 16),
         correct,
         wrong: Math.max(0, roundSize - correct),

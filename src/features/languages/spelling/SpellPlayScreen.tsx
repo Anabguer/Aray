@@ -140,10 +140,10 @@ export function SpellPlayScreen() {
       const energy = early ? sideRunEnergyForProgress(full, correct, SPELL_ROUND_SIZE) : full
       const playSeconds = Math.max(1, Math.round((Date.now() - startedAtRef.current) / 1000))
       const dailyChallenge = consumeMissionOfDay()
-      recordProgress('spelling', units)
+      if (!dailyChallenge) recordProgress('spelling', units)
       grantActivityEnergy({
         sessionId: newId('spell'),
-        requestedPoints: energy,
+        requestedPoints: dailyChallenge ? 0 : energy,
         mode: `spell-${mode}`.slice(0, 16),
         correct,
         wrong: Math.max(0, SPELL_ROUND_SIZE - correct),
