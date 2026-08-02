@@ -3,7 +3,7 @@
 **Pack previsto:** `feinetas/palabras/relaciones-semanticas.json`  
 **packKind:** `semantic-relation`  
 **Nivel:** 3-primaria · `es-ES`  
-**Estado:** borrador editorial · **pendiente de revisión humana** · sin JSON aún  
+**Estado:** borrador post-auditoría · **4 ítems en revisión aparte** · sin JSON aún  
 **Productos:** Sinónimos (`relation: synonym`) · Antónimos (`relation: antonym`) · Mix  
 **Normas:** [`PALABRAS_MASTER.md`](./PALABRAS_MASTER.md) · [`PALABRAS_JSON_SPEC.md`](./PALABRAS_JSON_SPEC.md) · [`PALABRAS_PROGRESSION.md`](./PALABRAS_PROGRESSION.md)
 
@@ -60,12 +60,26 @@ fuentes / cruces multi-banco
 | `verano_aray/fichas_repaso/02_castellano/fitxa_04_sinonimos_definicion.md` | alzar/sanar/aroma/bonito + parejas |
 | `verano_aray/fichas_repaso/solucionari_adults.md` | Soluciones válidas fitxa 03–04 |
 | `verano_aray/banc_exercicis/02_castellano.md` | LES-003 / LES-004 tipología |
-| `verano_aray/banc_exercicis/_extraccio_raw/castellano_Lengua_3º-ANAYA_refuerzo.txt` | comercio, disgustado, partir; antónimos tacaño/apagar; adjetivos ocupado/claro/ruidoso/superficial; prefijos des-/in- |
-| `verano_aray/banc_exercicis/_extraccio_raw/castellano_Lengua_3º-ANAYA_ampliacion.txt` | flaca, abecedario, complicada; tabla veloz/lento/difícil/fácil/disfrutar/sufrir/vencer/perder + sinónimos cruzados |
-| `verano_aray/capitulos/cap_03/05_mision_el_pack_final.md` | contento, difíciles, rápidamente, grande |
-| `verano_aray/capitulos/cap_03/solucionario.md` | feliz/alegre como sinónimos razonables |
-| `verano_aray/capitulos/cap_04/solucionario.md` | tienda; enfadado/triste; cortar |
-| `feinetas/formar-palabras.json` | Cruces multi-banco (grande, pequeño, alto, bajo, noche…) — no es fuente de pares nuevos |
+| `verano_aray/banc_exercicis/_extraccio_raw/castellano_Lengua_3º-ANAYA_refuerzo.txt` | comercio, disgustado; antónimos tacaño/apagar; adjetivos; montar/desmontar |
+| `verano_aray/banc_exercicis/_extraccio_raw/castellano_Lengua_3º-ANAYA_ampliacion.txt` | flaca, abecedario, complicada; tabla veloz/lento/difícil/fácil/vencer… |
+| `verano_aray/capitulos/cap_03/05_mision_el_pack_final.md` | contento, difíciles, grande |
+| `verano_aray/capitulos/cap_03/solucionario.md` | feliz/alegre |
+| `verano_aray/capitulos/cap_04/solucionario.md` | tienda; enfadado |
+| `feinetas/formar-palabras.json` | Cruces multi-banco (grande, pequeño, alto, bajo…) |
+
+---
+
+## Correcciones aplicadas (auditoría 2026-08-02)
+
+**Eliminados — prefijos abstractos:** formal/informal, acuerdo/desacuerdo, comunicado/incomunicado, culto/inculto, engañar/desengañar, componer/descomponer, móvil/inmóvil.
+
+**Eliminados — otros:** comprar/adquirir, disfrutar/gozar, comercio/negocio, partir/cortar, disgustado/triste, lugar/zona.
+
+**Mantenidos explícitamente:** bonito/hermoso, grande/enorme, aroma/perfume, vencer/triunfar.
+
+**Revisión aparte (siguen en el banco, marcados):** tienda/comercio, flaca/delgada, contento/feliz, contento/alegre.
+
+**Ajuste:** `montar/desmontar` se mantiene (uso real infantil); dificultad **3** (ya no 4).
 
 ---
 
@@ -98,7 +112,7 @@ grande
 emociones
 
 ### Observaciones
-Fitxa 03; solucionari feliz/alegre; cap_03 misión. Distractores: triste (contraste emocional en solucionari cap_04); grande (misma fitxa 03, otro eje).
+**REVISIÓN APARTE.** Fitxa 03; solucionari feliz/alegre; cap_03. Pendiente decidir convivencia con `rel-contento-feliz`.
 
 ---
 
@@ -127,7 +141,7 @@ difícil
 emociones
 
 ### Observaciones
-Solucionari cap_03 (feliz/alegre). Anchor repetido con target distinto = dos relaciones pedagógicas. Distractores: enfadado (solucionari cap_04); difícil (cap_03).
+**REVISIÓN APARTE.** Solucionari cap_03. Pendiente decidir convivencia con `rel-contento-alegre`.
 
 ---
 
@@ -153,68 +167,10 @@ perfume
 2
 
 ### Categoría
-escuela-ciudad
+colegio-ciudad
 
 ### Observaciones
-Fitxa 03 (tienda); ANAYA refuerzo (comercio). Solucionari adultos: comercio/negocio.
-
----
-
-## Relación
-
-### Id
-rel-comercio-negocio
-
-### Anchor
-comercio
-
-### Target
-negocio
-
-### Relation
-synonym
-
-### Distractores
-abecedario
-aroma
-
-### Dificultad
-2
-
-### Categoría
-escuela-ciudad
-
-### Observaciones
-Solucionari fitxa 03 (comercio/negocio). ANAYA refuerzo ancla comercio.
-
----
-
-## Relación
-
-### Id
-rel-comprar-adquirir
-
-### Anchor
-comprar
-
-### Target
-adquirir
-
-### Relation
-synonym
-
-### Distractores
-sanar
-partir
-
-### Dificultad
-3
-
-### Categoría
-acciones
-
-### Observaciones
-Fitxa 03 (comprar); solucionari (adquirir).
+**REVISIÓN APARTE.** Fitxa 03 (tienda); ANAYA refuerzo (comercio). Valorar formalidad de `comercio` vs uso infantil de `tienda`.
 
 ---
 
@@ -243,7 +199,7 @@ lento
 tamaño
 
 ### Observaciones
-Fitxa 03; solucionari enorme/inmenso. **Multi-banco:** `grande` también en `formar-palabras.json` (scramble) — objetivo distinto.
+Fitxa 03; solucionari. Matiz de intensidad aceptado. **Multi-banco:** `grande` en formar-palabras.
 
 ---
 
@@ -301,36 +257,7 @@ veloz
 espacio
 
 ### Observaciones
-Fitxa 03 (lugar); solucionari sitio/zona.
-
----
-
-## Relación
-
-### Id
-rel-lugar-zona
-
-### Anchor
-lugar
-
-### Target
-zona
-
-### Relation
-synonym
-
-### Distractores
-bonito
-tacaño
-
-### Dificultad
-2
-
-### Categoría
-espacio
-
-### Observaciones
-Solucionari fitxa 03 (zona).
+Fitxa 03; solucionari sitio. (`lugar/zona` eliminado en auditoría.)
 
 ---
 
@@ -359,7 +286,7 @@ apagar
 acciones
 
 ### Observaciones
-Fitxa 04 + ANAYA refuerzo (alzar / levantar).
+Fitxa 04 + ANAYA refuerzo.
 
 ---
 
@@ -417,7 +344,7 @@ negocio
 sentidos
 
 ### Observaciones
-Fitxa 04 + ANAYA refuerzo.
+Fitxa 04 + ANAYA refuerzo. Mantenido tras auditoría.
 
 ---
 
@@ -446,7 +373,7 @@ ruidoso
 cualidad
 
 ### Observaciones
-Fitxa 04. Distractor *feo*: antónimo escolar habitual del eje bonito/hermoso (pareja de la misma ficha); *ruidoso* de ANAYA adjetivos.
+Fitxa 04. Mantenido tras auditoría.
 
 ---
 
@@ -475,7 +402,7 @@ clara
 cualidad
 
 ### Observaciones
-ANAYA ampliación: «Mi vecina está muy flaca» → sinónimo. Target *delgada* = solución escolar habitual del ejercicio de sustitución (no se copia la frase).
+**REVISIÓN APARTE.** ANAYA ampliación. Valorar sensibilidad / carga de `flaca` y que el target sea solución habitual inferida.
 
 ---
 
@@ -495,16 +422,16 @@ synonym
 
 ### Distractores
 comercio
-lista
+aroma
 
 ### Dificultad
 2
 
 ### Categoría
-escuela
+colegio
 
 ### Observaciones
-ANAYA ampliación: «El abecedario tiene 27 letras». Distractor *lista*: del entorno escolar de orden alfabético (BEX LES-001 tipología); no es sinónimo.
+ANAYA ampliación. Distractores del propio banco (se retiró `lista` por apoyo débil).
 
 ---
 
@@ -533,7 +460,7 @@ veloz
 cualidad
 
 ### Observaciones
-ANAYA ampliación: «tarea complicada». Acento en *difícil*.
+ANAYA ampliación: «tarea complicada».
 
 ---
 
@@ -562,36 +489,7 @@ alegre
 cualidad
 
 ### Observaciones
-ANAYA ampliación (columna: difícil / complicado como equivalentes en la tabla de relaciones). Cap_03: pruebas difíciles.
-
----
-
-## Relación
-
-### Id
-rel-disfrutar-gozar
-
-### Anchor
-disfrutar
-
-### Target
-gozar
-
-### Relation
-synonym
-
-### Distractores
-sufrir
-perder
-
-### Dificultad
-3
-
-### Categoría
-acciones
-
-### Observaciones
-ANAYA ampliación: disfrutar ↔ gozar en la tabla de relaciones (sinónimos cruzados del ejercicio de antónimos).
+ANAYA ampliación; cap_03 pruebas difíciles.
 
 ---
 
@@ -620,7 +518,7 @@ sufrir
 acciones
 
 ### Observaciones
-ANAYA ampliación: vencer ↔ triunfar.
+ANAYA ampliación. Mantenido tras auditoría.
 
 ---
 
@@ -649,36 +547,7 @@ enorme
 cualidad
 
 ### Observaciones
-ANAYA ampliación: veloz ↔ rápido. Cap_03: rápidamente (mismo eje).
-
----
-
-## Relación
-
-### Id
-rel-partir-cortar
-
-### Anchor
-partir
-
-### Target
-cortar
-
-### Relation
-synonym
-
-### Distractores
-curar
-levantar
-
-### Dificultad
-3
-
-### Categoría
-acciones
-
-### Observaciones
-ANAYA refuerzo: «parto el pan»; solucionari cap_04: cortar (con romper como alternativa razonable — aquí se fija *cortar*).
+ANAYA ampliación; cap_03 (eje rapidez).
 
 ---
 
@@ -707,36 +576,7 @@ generoso
 emociones
 
 ### Observaciones
-ANAYA refuerzo: disgustado. Solucionari cap_04: enfadado/triste. Se elige *enfadado* como target canónico.
-
----
-
-## Relación
-
-### Id
-rel-disgustado-triste
-
-### Anchor
-disgustado
-
-### Target
-triste
-
-### Relation
-synonym
-
-### Distractores
-alegre
-ocupado
-
-### Dificultad
-2
-
-### Categoría
-emociones
-
-### Observaciones
-Segunda lectura válida del solucionari cap_04 (triste).
+ANAYA refuerzo; solucionari cap_04. (`disgustado/triste` eliminado.)
 
 ---
 
@@ -769,7 +609,7 @@ alto
 tamaño
 
 ### Observaciones
-Eje de tamaño en fichas de adjetivos / Formar palabras (`grande`, `pequeño`). **Multi-banco:** scramble en formar-palabras + sinónimos de grande en este banco — objetivos distintos. Distractor *enorme* = sinónimo de grande (mismo banco), no antónimo.
+**Multi-banco:** formar-palabras. Distractor *enorme* = sinónimo de grande.
 
 ---
 
@@ -798,7 +638,7 @@ rápido
 tamaño
 
 ### Observaciones
-**Multi-banco:** ambos lemas en `formar-palabras.json`. Contraste de tamaño/altura escolar.
+**Multi-banco:** ambos en formar-palabras.
 
 ---
 
@@ -827,7 +667,7 @@ difícil
 cualidad
 
 ### Observaciones
-ANAYA ampliación: veloz ↔ lento. Distractor *rápido* = sinónimo de veloz (mismo banco).
+ANAYA ampliación.
 
 ---
 
@@ -856,7 +696,7 @@ veloz
 cualidad
 
 ### Observaciones
-ANAYA ampliación: difícil ↔ fácil.
+ANAYA ampliación.
 
 ---
 
@@ -875,8 +715,8 @@ sufrir
 antonym
 
 ### Distractores
-gozar
 vencer
+perder
 
 ### Dificultad
 3
@@ -885,7 +725,7 @@ vencer
 acciones
 
 ### Observaciones
-ANAYA ampliación: disfrutar ↔ sufrir.
+ANAYA ampliación. (`disfrutar/gozar` eliminado; distractor ya no usa *gozar*.)
 
 ---
 
@@ -905,7 +745,7 @@ antonym
 
 ### Distractores
 triunfar
-gozar
+alegre
 
 ### Dificultad
 2
@@ -914,7 +754,7 @@ gozar
 acciones
 
 ### Observaciones
-ANAYA ampliación: vencer ↔ perder.
+ANAYA ampliación.
 
 ---
 
@@ -934,7 +774,7 @@ antonym
 
 ### Distractores
 disgustado
-formal
+ruidoso
 
 ### Dificultad
 3
@@ -943,7 +783,7 @@ formal
 cualidad
 
 ### Observaciones
-ANAYA refuerzo: sustituir *tacaño* por su antónimo en el texto del tío.
+ANAYA refuerzo. Distractor *formal* retirado (ítem prefijo eliminado).
 
 ---
 
@@ -963,7 +803,7 @@ antonym
 
 ### Distractores
 alzar
-partir
+sanar
 
 ### Dificultad
 2
@@ -972,7 +812,7 @@ partir
 acciones
 
 ### Observaciones
-ANAYA refuerzo: *apagué* las velas → antónimo *encender* (forma de lema en infinitivo, como el resto del banco).
+ANAYA refuerzo (velas). Lema en infinitivo.
 
 ---
 
@@ -1001,7 +841,7 @@ ruidoso
 cualidad
 
 ### Observaciones
-ANAYA refuerzo: «Escribe el antónimo… ocupado». Target escolar habitual *libre*.
+ANAYA refuerzo. Polisemia de *ocupado* a vigilar en UI.
 
 ---
 
@@ -1030,7 +870,7 @@ ocupado
 cualidad
 
 ### Observaciones
-ANAYA refuerzo: antónimo de *claro*.
+ANAYA refuerzo. Polisemia de *claro* a vigilar en UI.
 
 ---
 
@@ -1059,7 +899,7 @@ claro
 cualidad
 
 ### Observaciones
-ANAYA refuerzo: antónimo de *ruidoso*.
+ANAYA refuerzo.
 
 ---
 
@@ -1088,7 +928,7 @@ delgada
 cualidad
 
 ### Observaciones
-ANAYA refuerzo: antónimo de *superficial*.
+ANAYA refuerzo. Más abstracto; se mantiene pendiente de criterio futuro (no estaba en el lote de eliminación directa).
 
 ---
 
@@ -1117,7 +957,7 @@ contento
 emociones
 
 ### Observaciones
-Cierre del eje emocional: alegre (target de sinónimos) ↔ triste (solucionari cap_04). Distractores = sinónimos de alegre/contento (mismo banco), no antónimos.
+Eje emocional del banco.
 
 ---
 
@@ -1136,220 +976,17 @@ desmontar
 antonym
 
 ### Distractores
-componer
-leer
+apagar
+encender
 
 ### Dificultad
-4
+3
 
 ### Categoría
-prefijos
+acciones
 
 ### Observaciones
-ANAYA refuerzo: prefijo *des-* → antónimo de *montar*. Nivel 4 (PROGRESSION).
-
----
-
-## Relación
-
-### Id
-rel-movil-inmovil
-
-### Anchor
-móvil
-
-### Target
-inmóvil
-
-### Relation
-antonym
-
-### Distractores
-formal
-culto
-
-### Dificultad
-4
-
-### Categoría
-prefijos
-
-### Observaciones
-ANAYA refuerzo: prefijo *in-* → *móvil*.
-
----
-
-## Relación
-
-### Id
-rel-formal-informal
-
-### Anchor
-formal
-
-### Target
-informal
-
-### Relation
-antonym
-
-### Distractores
-acuerdo
-móvil
-
-### Dificultad
-4
-
-### Categoría
-prefijos
-
-### Observaciones
-ANAYA refuerzo: prefijo *in-* → *formal*.
-
----
-
-## Relación
-
-### Id
-rel-acuerdo-desacuerdo
-
-### Anchor
-acuerdo
-
-### Target
-desacuerdo
-
-### Relation
-antonym
-
-### Distractores
-montar
-comunicado
-
-### Dificultad
-4
-
-### Categoría
-prefijos
-
-### Observaciones
-ANAYA refuerzo: prefijo *des-* → *acuerdo*.
-
----
-
-## Relación
-
-### Id
-rel-enganar-desenganar
-
-### Anchor
-engañar
-
-### Target
-desengañar
-
-### Relation
-antonym
-
-### Distractores
-componer
-calentar
-
-### Dificultad
-4
-
-### Categoría
-prefijos
-
-### Observaciones
-ANAYA refuerzo: *des-* + engañar. Distractor *calentar*: mismo bloque de prefijos (*re-calentar*), no antónimo de engañar.
-
----
-
-## Relación
-
-### Id
-rel-culto-inculto
-
-### Anchor
-culto
-
-### Target
-inculto
-
-### Relation
-antonym
-
-### Distractores
-formal
-comunicado
-
-### Dificultad
-4
-
-### Categoría
-prefijos
-
-### Observaciones
-ANAYA refuerzo: *in-* + culto.
-
----
-
-## Relación
-
-### Id
-rel-comunicado-incomunicado
-
-### Anchor
-comunicado
-
-### Target
-incomunicado
-
-### Relation
-antonym
-
-### Distractores
-acuerdo
-móvil
-
-### Dificultad
-4
-
-### Categoría
-prefijos
-
-### Observaciones
-ANAYA refuerzo: *in-* + comunicado.
-
----
-
-## Relación
-
-### Id
-rel-componer-descomponer
-
-### Anchor
-componer
-
-### Target
-descomponer
-
-### Relation
-antonym
-
-### Distractores
-montar
-engañar
-
-### Dificultad
-4
-
-### Categoría
-prefijos
-
-### Observaciones
-ANAYA refuerzo: *des-* + componer.
+ANAYA refuerzo (*des-* + montar). Uso real infantil (juguetes). Baja de nivel 4 → **3**. Prefijos abstractos del mismo ejercicio ANAYA: eliminados.
 
 ---
 
@@ -1378,49 +1015,96 @@ aroma
 cualidad
 
 ### Observaciones
-Antónimo escolar del eje fitxa 04 (bonito/hermoso). Distractor *hermoso* = sinónimo de bonito.
+Eje fitxa 04.
 
 ---
 
 # Resumen editorial
 
-## Conteos
+## Conteos (post-auditoría)
 
 | Relation | Ítems |
 |----------|------:|
-| synonym | 23 |
-| antonym | 22 |
-| **Total** | **45** |
+| synonym | 17 |
+| antonym | 15 |
+| **Total** | **32** |
 
-| Dificultad | Ítems (aprox.) |
-|------------|----------------:|
-| 1 | 10 |
-| 2 | 18 |
+| Dificultad | Ítems |
+|------------|------:|
+| 1 | 9 |
+| 2 | 14 |
 | 3 | 9 |
-| 4 | 8 |
+| 4 | **0** |
 
-Volumen dentro del rango MASTER (40–70).
+De los 32, **4** están en **revisión aparte** (no congelar hasta decisión).
 
-## Criterios de selección
+## Ítems en revisión aparte
 
-1. Solo pares con respaldo en fitxes Aray, solucionari, BEX LES-003/004 o ANAYA 3.º (refuerzo/ampliación).  
-2. Distractores tomados del propio banco o del mismo eje de ficha (nunca relleno libre).  
-3. Infinitivo en verbos para lema estable (`apagar`/`encender`, no formas conjugadas del texto fuente).  
-4. Prefijos *des-*/ *in-* = dificultad 4, cuota limitada.  
-5. Lemas compartidos con Formar palabras anotados donde aplica (`grande`, `alto`, `bajo`, `pequeño`).
+| Id | Motivo de la espera |
+|----|---------------------|
+| `rel-contento-alegre` | Convivencia / posible duplicado con contento→feliz |
+| `rel-contento-feliz` | Idem |
+| `rel-tienda-comercio` | Formalidad de `comercio` vs uso infantil |
+| `rel-flaca-delgada` | Sensibilidad + target inferido |
 
-## Fuera de este banco (consciente)
+## Eliminados en esta pasada
 
-| Candidato | Motivo |
-|-----------|--------|
-| Definiciones tipo fitxa 04 (ejercicio “¿qué significa?”) | Producto **Definición ↔ palabra = v2** |
-| *romper* como sinónimo de partir | Alternativa del solucionari; se fijó *cortar* para no duplicar ancla |
-| Antónimo de *flaca* (*gorda*) | No forzar; sin drill explícito de antónimo en la ficha |
-| Homófonos / ortografía | Ortografía |
+| Par | Motivo |
+|-----|--------|
+| Prefijos abstractos (7) | Deducción mecánica / poco uso 3.º |
+| comprar / adquirir | Formal |
+| disfrutar / gozar | `gozar` poco habitual |
+| comercio / negocio | Sinonimia parcial |
+| partir / cortar | Solo contexto “partir el pan” |
+| disgustado / triste | No son sinónimos reales |
+| lugar / zona | Más débil que lugar/sitio |
 
 ## Próximo paso humano
 
-- [ ] Revisar parejas y distractores  
-- [ ] Aprobar o pedir recortes (sobre todo nivel 4 / prefijos)  
-- [ ] Congelar MD → entonces JSON `palabras/relaciones-semanticas.json`  
-- [ ] Siguiente banco editorial: `BANCO_MORFOLOGIA.md`
+- [ ] Decidir los **4 ítems en revisión aparte**  
+- [ ] Revisar si se mantiene `grande/inmenso` y `superficial/profundo` (no tocados en esta pasada)  
+- [ ] Congelar MD → JSON  
+- [ ] **No** abrir Morfología hasta congelar este banco  
+
+---
+
+# Auditoría — distribución temática
+
+Comprobación de equilibrio del banco **tras las correcciones** (32 ítems; un ítem cuenta en una sola categoría principal).
+
+| Tema | Sinónimos | Antónimos | Total | Ítems |
+|------|----------:|----------:|------:|-------|
+| **Emociones** | 3 | 1 | **4** | contento↔alegre*, contento↔feliz*, disgustado↔enfadado, alegre↔triste |
+| **Cualidad** (aspecto, dificultad, sonido, luz, carácter) | 5 | 8 | **13** | syn: bonito/hermoso, flaca/delgada*, complicada/difícil, difícil/complicado, veloz/rápido · ant: veloz/lento, difícil/fácil, tacaño/generoso, ocupado/libre, claro/oscuro, ruidoso/silencioso, superficial/profundo, bonito/feo |
+| **Tamaño / dimensión** | 2 | 2 | **4** | grande/enorme, grande/inmenso; grande/pequeño, alto/bajo |
+| **Acciones** | 3 | 4 | **7** | alzar/levantar, sanar/curar, vencer/triunfar; disfrutar/sufrir, vencer/perder, apagar/encender, montar/desmontar |
+| **Espacio** | 1 | 0 | **1** | lugar/sitio |
+| **Colegio / ciudad** | 2 | 0 | **2** | tienda/comercio*, abecedario/alfabeto |
+| **Sentidos** | 1 | 0 | **1** | aroma/perfume |
+| **Animales** | 0 | 0 | **0** | — |
+| **Naturaleza** | 0 | 0 | **0** | — |
+| **Objetos** | 0 | 0 | **0** | — |
+| **Comida** | 0 | 0 | **0** | — |
+| **Cuerpo** (explícito) | 0 | 0 | **0** | (`flaca/delgada` va en cualidad; revisión aparte) |
+
+Suma de totales temáticos: 4+13+4+7+1+2+1 = **32**.
+
+\* = revisión aparte.
+
+### Lectura de equilibrio
+
+| Fortalezas | Huecos / descompensación |
+|------------|---------------------------|
+| Bien cubierto: **cualidad**, **acciones**, **tamaño**, **emociones** | Sin ítems de **animales**, **naturaleza**, **objetos**, **comida** |
+| Eje emocional usable para Sinónimos + Antónimos | **Espacio** y **sentidos** con un solo par cada uno |
+| Colegio presente (abecedario; tienda pendiente) | Si se cortan los 4 de revisión aparte, emociones bajan a 2 y colegio-ciudad a 1 |
+
+### Conclusión temática
+
+El banco **no está vacío de temas escolares centrales**, pero **sí está sesgado** hacia adjetivos de cualidad/tamaño y verbos de acción. No es un banco “de vocabulario temático” (animales, comida, objetos): es un banco de **relaciones léxicas** tipología BEX/ANAYA. Eso es coherente con la fuente, pero conviene:
+
+1. No rellenar con inventarios temáticos ajenos a las fichas.  
+2. En bancos posteriores (campos semánticos, familias) cubrir animales/comida/objetos.  
+3. Tras la revisión aparte, recontar emociones/colegio.
+
+**No congelar** hasta resolver los 4 ítems marcados. **No** pasar a Morfología todavía.
