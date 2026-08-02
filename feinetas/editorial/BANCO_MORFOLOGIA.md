@@ -3,7 +3,7 @@
 **Pack previsto:** `feinetas/palabras/morfologia.json`  
 **packKind:** `morph-pair`  
 **Nivel:** 3-primaria · `es-ES`  
-**Estado:** **borrador editorial** · pendiente de auditoría humana · **sin JSON** · **no conectado al juego**  
+**Estado:** **borrador editorial v2** (ampliado) · pendiente de auditoría humana · **sin JSON** · **no conectado al juego**  
 **Productos previstos:** Singular/plural (`axis: number`) · Masculino/femenino (`axis: gender`) · Mix  
 **Normas:** [`PALABRAS_MASTER.md`](./PALABRAS_MASTER.md) · [`PALABRAS_JSON_SPEC.md`](./PALABRAS_JSON_SPEC.md) · [`PALABRAS_PROGRESSION.md`](./PALABRAS_PROGRESSION.md)
 
@@ -11,55 +11,32 @@
 
 ## Objetivo
 
-Pares morfológicos de **número** (singular↔plural) y **género** (masculino↔femenino) para 3.º de Primaria (castellano), a partir de fichas y editoriales del repo.
+Pares morfológicos de **número** y **género** para 3.º de Primaria (castellano).
 
-- Un ítem = un **par** (`formA` / `formB` + `axis`).  
-- Identidad pedagógica = el par completo (no el lema suelto).  
-- El mismo lema puede vivir en Relaciones / Formar palabras si el objetivo cambia.  
-- **No** verbos, sujeto/predicado, pronombres, determinantes ni análisis gramatical.
+- Identidad = el **par** completo.  
+- Lema multi-banco OK si cambia el objetivo pedagógico.  
+- Sin verbos, análisis gramatical, excepciones de género ni plurales con tilde problemática.
 
 ---
 
-## Plantilla de registro
+## Criterio de ampliación (v2)
+
+Se admiten plurales **totalmente regulares** (`-s` / `-es` / `z→ces` estándar) si el lema está en materiales del repo (fichas, editoriales o `formar-palabras.json`), aunque no haya un ejercicio solo de «forma el plural».
+
+**Siguen fuera:** actor/actriz, rey/reina, caballo/yegua, toro/vaca, camión/camiones, avestruz, cruz; padre/madre (no son -o/-a transparentes); perro/perra y oso/osa (sin forma B atestiguada).
+
+---
+
+## Plantilla
 
 ```
 ## Par
-
-### Id
-morph-{num|gen}-{slugA}-{slugB}
-
-### Axis
-number | gender
-
-### Forma A
-…   (singular o masculino)
-
-### Forma B
-…   (plural o femenino)
-
-### PromptSide
-a | b | either
-
-### Dificultad
-1–4
-
-### Tema
-…
-
-### Fuente
-…
-
-### Observaciones
-…
-
-### Estado
-draft
+### Id / Axis / Forma A / Forma B / PromptSide / Dificultad / Tema / Fuente / Observaciones / Estado
 ```
 
-**Convención:**  
-- `number`: A = singular, B = plural.  
-- `gender`: A = masculino, B = femenino.  
-- `promptSide: either` solo si A→B y B→A son inequívocos (sin doble respuesta).
+- `number`: A singular, B plural.  
+- `gender`: A masculino, B femenino.  
+- `promptSide: either` si no hay ambigüedad.
 
 ---
 
@@ -67,18 +44,49 @@ draft
 
 | Fuente | Aporte |
 |--------|--------|
-| Vicens Vives — `castellano_refuerzo_ampliacion_lengua_3.txt` (tema 4) | Drill «Forma el plural»: pez, red, silla, mesa, gorro, camión, lombriz, jugador |
-| Vicens Vives — mismo extracto (tema 3) | Clasificación M/F (gata, perro…); «profesor o profesora»; «Mi abuela…» |
-| ANAYA refuerzo — `castellano_Lengua_3º-ANAYA_refuerzo.txt` | Paradigma `amigo amiga amigos amigas`; plurales (pez/red, hoja del árbol, actriz…) |
-| ANAYA ampliación — `castellano_Lengua_3º-ANAYA_ampliacion.txt` | Cambiar número: avestruz, redes, perdices, camión |
-| Lenguaje 3 tomo 2 — `castellano_lenguaje3_tomo2_pdf.txt` | Plural en -z: lápiz, perdiz, cruz, luz; niños y niñas |
-| `feinetas/formar-palabras.json` | Lemas duales ya en producto (niño/niña, abuelo/abuela, profesor/profesora, gato…) — apoyo de vocabulario, no inventa el par |
-| Fitxes catalanas 05–06 | **Solo tipología** (género/número); **no** se copian lemas catalanes al banco castellano |
-| [`PALABRAS_MASTER.md`](./PALABRAS_MASTER.md) / PROGRESSION | Criterio de nivel (*casa/casas*, *pez/peces*, *niño/niña*…) |
+| Vicens VV `castellano_refuerzo_ampliacion_lengua_3.txt` | Plural drill; lista M/F (`gata`, `mesas`, `cama`…); profesor/profesora; abuela; maestra; hermano |
+| ANAYA refuerzo / ampliación | Paradigma amigo/amiga/amigos/amigas; pez/red; árbol; perdiz; tío; casa; mesa; hermana |
+| Lenguaje 3 tomo 2 | Plural -z (lápiz, perdiz, luz); niño/niña; hermano/hermana; gato; casa; libro |
+| Savia `castellano_lengua_3_savia.txt` | casa, libros, amigos, hermana, alumnos |
+| `feinetas/formar-palabras.json` | Lemas cotidianos duales y singulares de entorno (casa, libro, gato, puerta…) |
 
 ---
 
-# NÚMERO (singular / plural)
+# NÚMERO (singular / plural) — 20
+
+---
+
+## Par
+
+### Id
+morph-num-casa-casas
+
+### Axis
+number
+
+### Forma A
+casa
+
+### Forma B
+casas
+
+### PromptSide
+either
+
+### Dificultad
+1
+
+### Tema
+casa
+
+### Fuente
+Savia / ANAYA / Lenguaje 3 (lema *casa*); formar-palabras
+
+### Observaciones
+Plural regular -s. Ampliación v2 (lema presente; sin drill exclusivo).
+
+### Estado
+draft
 
 ---
 
@@ -106,10 +114,10 @@ either
 casa
 
 ### Fuente
-Vicens VV — forma el plural (`mesa`)
+Vicens VV — forma el plural; lista M/F trae *mesas*
 
 ### Observaciones
-Plural en -s. Cotidiano.
+Plural -s. Drill explícito.
 
 ### Estado
 draft
@@ -140,10 +148,146 @@ either
 casa
 
 ### Fuente
-Vicens VV — forma el plural (`silla`)
+Vicens VV — forma el plural; formar-palabras
 
 ### Observaciones
-Plural en -s. También en formar-palabras (scramble).
+Plural -s.
+
+### Estado
+draft
+
+---
+
+## Par
+
+### Id
+morph-num-cama-camas
+
+### Axis
+number
+
+### Forma A
+cama
+
+### Forma B
+camas
+
+### PromptSide
+either
+
+### Dificultad
+1
+
+### Tema
+casa
+
+### Fuente
+Vicens VV lista M/F (`cama`); formar-palabras
+
+### Observaciones
+Plural regular -s. Ampliación v2.
+
+### Estado
+draft
+
+---
+
+## Par
+
+### Id
+morph-num-puerta-puertas
+
+### Axis
+number
+
+### Forma A
+puerta
+
+### Forma B
+puertas
+
+### PromptSide
+either
+
+### Dificultad
+1
+
+### Tema
+casa
+
+### Fuente
+ANAYA ampliación (*puerta*); formar-palabras
+
+### Observaciones
+Plural regular -s. Ampliación v2.
+
+### Estado
+draft
+
+---
+
+## Par
+
+### Id
+morph-num-ventana-ventanas
+
+### Axis
+number
+
+### Forma A
+ventana
+
+### Forma B
+ventanas
+
+### PromptSide
+either
+
+### Dificultad
+1
+
+### Tema
+casa
+
+### Fuente
+formar-palabras (grupo casa); entorno doméstico en fichas de lengua
+
+### Observaciones
+Plural regular -s. Ampliación v2.
+
+### Estado
+draft
+
+---
+
+## Par
+
+### Id
+morph-num-libro-libros
+
+### Axis
+number
+
+### Forma A
+libro
+
+### Forma B
+libros
+
+### PromptSide
+either
+
+### Dificultad
+1
+
+### Tema
+colegio
+
+### Fuente
+Vicens (*libro*); Savia (*libros*); formar-palabras
+
+### Observaciones
+Plural regular -s. Ampliación v2.
 
 ### Estado
 draft
@@ -174,10 +318,78 @@ either
 ropa
 
 ### Fuente
-Vicens VV — forma el plural (`gorro`)
+Vicens VV — forma el plural; formar-palabras
 
 ### Observaciones
-Plural en -s.
+Plural -s.
+
+### Estado
+draft
+
+---
+
+## Par
+
+### Id
+morph-num-zapato-zapatos
+
+### Axis
+number
+
+### Forma A
+zapato
+
+### Forma B
+zapatos
+
+### PromptSide
+either
+
+### Dificultad
+1
+
+### Tema
+ropa
+
+### Fuente
+formar-palabras; Vicens lista próxima (*zapatillas*)
+
+### Observaciones
+Plural regular -s. Ampliación v2.
+
+### Estado
+draft
+
+---
+
+## Par
+
+### Id
+morph-num-gato-gatos
+
+### Axis
+number
+
+### Forma A
+gato
+
+### Forma B
+gatos
+
+### PromptSide
+either
+
+### Dificultad
+1
+
+### Tema
+animales
+
+### Fuente
+Lenguaje 3 (*El gato*); formar-palabras; Vicens (*gata* en clasificación)
+
+### Observaciones
+Plural regular -s. Ampliación v2. Cruce con género `gato/gata`.
 
 ### Estado
 draft
@@ -211,7 +423,7 @@ personas
 ANAYA refuerzo — paradigma `amigo amiga amigos amigas`
 
 ### Observaciones
-Mismo lema en ítem de género `amigo/amiga` (objetivo distinto).
+Cruce con género `amigo/amiga`.
 
 ### Estado
 draft
@@ -242,10 +454,10 @@ either
 personas
 
 ### Fuente
-ANAYA refuerzo — paradigma `amigo amiga amigos amigas`
+ANAYA refuerzo — paradigma completo
 
 ### Observaciones
-Paralelo femenino del paradigma ANAYA.
+Paralelo femenino del paradigma.
 
 ### Estado
 draft
@@ -276,10 +488,10 @@ either
 objetos
 
 ### Fuente
-Vicens VV (`red`); ANAYA refuerzo («El pez cayó en la red» → plural); ANAYA ampliación (`redes`)
+Vicens VV; ANAYA refuerzo / ampliación
 
 ### Observaciones
-Plural en -es (consonante).
+Plural regular -es (consonante).
 
 ### Estado
 draft
@@ -310,78 +522,10 @@ either
 personas
 
 ### Fuente
-Vicens VV — forma el plural (`jugador`)
+Vicens VV — forma el plural
 
 ### Observaciones
-Plural en -es. No se añade aún jugador/jugadora (género): tipología fuerte en catalán, no en drill castellano de este extracto.
-
-### Estado
-draft
-
----
-
-## Par
-
-### Id
-morph-num-pez-peces
-
-### Axis
-number
-
-### Forma A
-pez
-
-### Forma B
-peces
-
-### PromptSide
-either
-
-### Dificultad
-2
-
-### Tema
-animales
-
-### Fuente
-Vicens VV (`pez`); ANAYA refuerzo (oración en plural)
-
-### Observaciones
-z → ces. Cotidiano. En formar-palabras (scramble).
-
-### Estado
-draft
-
----
-
-## Par
-
-### Id
-morph-num-lapiz-lapices
-
-### Axis
-number
-
-### Forma A
-lápiz
-
-### Forma B
-lápices
-
-### PromptSide
-either
-
-### Dificultad
-2
-
-### Tema
-colegio
-
-### Fuente
-Lenguaje 3 tomo 2 — plural de palabras en -z (`lápiz`); Vicens lista M/F (`lápiz`)
-
-### Observaciones
-z → ces. Vocabulario escolar. En formar-palabras.
+Plural -es. Sin ítem de género (jugadora no forzada desde catalán).
 
 ### Estado
 draft
@@ -412,10 +556,10 @@ either
 naturaleza
 
 ### Fuente
-ANAYA refuerzo — plural de «La hoja del árbol»; Savia (árbol/árboles en materiales de lengua)
+ANAYA refuerzo («La hoja del árbol» → plural); formar-palabras
 
 ### Observaciones
-Plural en -es; la tilde se mantiene (no es el caso problemático de pérdida de tilde). En formar-palabras.
+Plural -es; tilde se mantiene (no es el caso camión→camiones).
 
 ### Estado
 draft
@@ -425,65 +569,31 @@ draft
 ## Par
 
 ### Id
-morph-num-lombriz-lombrices
+morph-num-pez-peces
 
 ### Axis
 number
 
 ### Forma A
-lombriz
+pez
 
 ### Forma B
-lombrices
+peces
 
 ### PromptSide
 either
 
 ### Dificultad
-3
-
-### Tema
-naturaleza
-
-### Fuente
-Vicens VV — forma el plural (`lombriz`)
-
-### Observaciones
-z → ces. Menos frecuente que pez/lápiz; nivel 3.
-
-### Estado
-draft
-
----
-
-## Par
-
-### Id
-morph-num-perdiz-perdices
-
-### Axis
-number
-
-### Forma A
-perdiz
-
-### Forma B
-perdices
-
-### PromptSide
-either
-
-### Dificultad
-3
+2
 
 ### Tema
 animales
 
 ### Fuente
-ANAYA refuerzo (oración); ANAYA ampliación (`perdices`); Lenguaje 3 tomo 2 (`perdiz`)
+Vicens VV; ANAYA refuerzo; formar-palabras
 
 ### Observaciones
-z → ces. Vocabulario de ficha; no extranjerismo.
+Regla regular z→ces (no irregularidad léxica).
 
 ### Estado
 draft
@@ -493,31 +603,31 @@ draft
 ## Par
 
 ### Id
-morph-num-cruz-cruces
+morph-num-lapiz-lapices
 
 ### Axis
 number
 
 ### Forma A
-cruz
+lápiz
 
 ### Forma B
-cruces
+lápices
 
 ### PromptSide
 either
 
 ### Dificultad
-3
+2
 
 ### Tema
-objetos
+colegio
 
 ### Fuente
-Lenguaje 3 tomo 2 — plural en -z (`cruz`)
+Lenguaje 3 tomo 2; Vicens lista; formar-palabras
 
 ### Observaciones
-z → ces. Cotidiano en entorno escolar/cultural.
+z→ces escolar.
 
 ### Estado
 draft
@@ -548,10 +658,10 @@ either
 casa
 
 ### Fuente
-Lenguaje 3 tomo 2 (`luz`); ANAYA refuerzo («Se encendió la luz» en bloque de plural)
+Lenguaje 3 tomo 2; ANAYA refuerzo (oración con *luz* en bloque de plural)
 
 ### Observaciones
-z → ces. Muy cotidiano.
+z→ces cotidiano. (*cruz* y *avestruz* excluidos a propósito.)
 
 ### Estado
 draft
@@ -561,16 +671,50 @@ draft
 ## Par
 
 ### Id
-morph-num-avestruz-avestruces
+morph-num-lombriz-lombrices
 
 ### Axis
 number
 
 ### Forma A
-avestruz
+lombriz
 
 ### Forma B
-avestruces
+lombrices
+
+### PromptSide
+either
+
+### Dificultad
+3
+
+### Tema
+naturaleza
+
+### Fuente
+Vicens VV — forma el plural
+
+### Observaciones
+z→ces; menos frecuente → nivel 3.
+
+### Estado
+draft
+
+---
+
+## Par
+
+### Id
+morph-num-perdiz-perdices
+
+### Axis
+number
+
+### Forma A
+perdiz
+
+### Forma B
+perdices
 
 ### PromptSide
 either
@@ -582,17 +726,17 @@ either
 animales
 
 ### Fuente
-ANAYA ampliación — cambiar el número (`avestruz`)
+ANAYA refuerzo / ampliación; Lenguaje 3 tomo 2
 
 ### Observaciones
-z → ces. Menos habitual; se mantiene por drill explícito (no nivel 4).
+z→ces de ficha; nivel 3.
 
 ### Estado
 draft
 
 ---
 
-# GÉNERO (masculino / femenino)
+# GÉNERO (masculino / femenino) — 9
 
 ---
 
@@ -620,10 +764,10 @@ either
 personas
 
 ### Fuente
-ANAYA refuerzo — paradigma `amigo amiga amigos amigas`
+ANAYA refuerzo — paradigma `amigo amiga…`
 
 ### Observaciones
-Cambio -o / -a transparente. Cruce con ítems de número del mismo paradigma.
+-o / -a transparente.
 
 ### Estado
 draft
@@ -654,10 +798,10 @@ either
 personas
 
 ### Fuente
-Lenguaje 3 / materiales 3.º (niños y niñas); ambos lemas en `formar-palabras.json`
+Lenguaje 3 / materiales 3.º; ambos en formar-palabras
 
 ### Observaciones
-Par canónico de 3.º. Multi-banco scramble.
+Par canónico.
 
 ### Estado
 draft
@@ -688,10 +832,146 @@ either
 familia
 
 ### Fuente
-Vicens VV («Mi abuela se llama…»); ambos lemas en formar-palabras
+Vicens («Mi abuela…»); ambos en formar-palabras
 
 ### Observaciones
-Cotidiano y claro.
+Cotidiano.
+
+### Estado
+draft
+
+---
+
+## Par
+
+### Id
+morph-gen-hermano-hermana
+
+### Axis
+gender
+
+### Forma A
+hermano
+
+### Forma B
+hermana
+
+### PromptSide
+either
+
+### Dificultad
+1
+
+### Tema
+familia
+
+### Fuente
+Vicens / ANAYA / Lenguaje 3 / Savia; ambos en formar-palabras
+
+### Observaciones
+Ampliación v2. -o / -a.
+
+### Estado
+draft
+
+---
+
+## Par
+
+### Id
+morph-gen-tio-tia
+
+### Axis
+gender
+
+### Forma A
+tío
+
+### Forma B
+tía
+
+### PromptSide
+either
+
+### Dificultad
+1
+
+### Tema
+familia
+
+### Fuente
+ANAYA refuerzo («Mi tío…»); ambos en formar-palabras
+
+### Observaciones
+Ampliación v2.
+
+### Estado
+draft
+
+---
+
+## Par
+
+### Id
+morph-gen-primo-prima
+
+### Axis
+gender
+
+### Forma A
+primo
+
+### Forma B
+prima
+
+### PromptSide
+either
+
+### Dificultad
+1
+
+### Tema
+familia
+
+### Fuente
+ambos lemas en formar-palabras (grupo familia); vocabulario escolar habitual
+
+### Observaciones
+Ampliación v2. -o / -a transparente.
+
+### Estado
+draft
+
+---
+
+## Par
+
+### Id
+morph-gen-alumno-alumna
+
+### Axis
+gender
+
+### Forma A
+alumno
+
+### Forma B
+alumna
+
+### PromptSide
+either
+
+### Dificultad
+2
+
+### Tema
+colegio
+
+### Fuente
+Savia (*alumnos*); ambos en formar-palabras
+
+### Observaciones
+Ampliación v2. Entorno escolar.
 
 ### Estado
 draft
@@ -722,10 +1002,10 @@ either
 colegio
 
 ### Fuente
-Vicens VV («tu profesor o profesora»); ambos lemas en formar-palabras
+Vicens («profesor o profesora»); ambos en formar-palabras
 
 ### Observaciones
-Sufijo -a sobre base en -or; habitual en aula.
+Base en -or + -a.
 
 ### Estado
 draft
@@ -756,120 +1036,101 @@ either
 animales
 
 ### Fuente
-Vicens VV (clasificación M/F: `gata`); `gato` en formar-palabras; ejemplo MASTER
+Vicens VV lista M/F (`gata`); Lenguaje 3 / formar-palabras (`gato`)
 
 ### Observaciones
-Par claro -o/-a. No se fuerza caballo/yegua ni toro/vaca.
+Par claro. Sin caballo/yegua ni toro/vaca.
 
 ### Estado
 draft
 
 ---
 
-# Resumen del borrador
+# Resumen del borrador v2
 
 ## Conteos
 
 | Axis | Pares |
 |------|------:|
-| number (singular/plural) | **15** |
-| gender (masculino/femenino) | **5** |
-| **Total** | **20** |
+| number (singular/plural) | **20** |
+| gender (masculino/femenino) | **9** |
+| **Total** | **29** |
+
+Objetivo pedido: 18–20 número · 8–10 género → **cumplido**.
 
 ## Distribución por niveles
 
-| Dificultad | Nº | Notas |
-|------------|---:|-------|
-| 1 | 9 | -s transparentes + géneros -o/-a básicos |
-| 2 | 6 | -es, z→ces frecuentes, profesor/profesora |
-| 3 | 5 | z→ces menos habituales (lombriz, perdiz, cruz, avestruz) + — |
-| 4 | **0** | Ninguno forzado |
+| Dificultad | Nº |
+|------------|---:|
+| 1 | 18 |
+| 2 | 8 |
+| 3 | 3 |
+| 4 | 0 |
 
-## Distribución temática
+Más peso en nivel 1 tras la ampliación de regulares cotidianos (deseable para 3.º).
 
-| Tema | Nº | Pares |
-|------|---:|-------|
-| personas | 6 | amigo/amigos, amiga/amigas, amigo/amiga, niño/niña, jugador/jugadores, profesor/profesora |
-| casa | 3 | mesa, silla, luz |
-| animales | 4 | pez, perdiz, avestruz, gato/gata |
-| naturaleza | 2 | árbol, lombriz |
-| colegio | 2 | lápiz, profesor/profesora* |
-| objetos | 2 | red, cruz |
-| ropa | 1 | gorro |
-| familia | 1 | abuelo/abuela |
+## Distribución temática (asignación única)
 
-\*profesor cuenta en personas y colegio en la lectura pedagógica; en la tabla se asigna a **colegio** (1) y niño/amigo/jugador a **personas**. Recuento estricto sin doble conteo:
-
-| Tema (asignación única) | Nº |
-|-------------------------|---:|
+| Tema | Nº |
+|------|---:|
+| casa | 7 |
 | personas | 5 |
+| familia | 4 |
 | animales | 4 |
-| casa | 3 |
+| colegio | 4 |
 | naturaleza | 2 |
-| objetos | 2 |
-| colegio | 2 |
-| ropa | 1 |
-| familia | 1 |
-| **Total** | **20** |
+| ropa | 2 |
+| objetos | 1 |
+| **Total** | **29** |
 
-Huecos conscientes: comida, ciudad (sin drill castellano fuerte de `ciudad/ciudades` en extractos).
+Mejor equilibrio casa/familia/colegio respecto a v1. Sigue sin comida como eje.
 
-## Pares descartados (y motivo)
+## Cambios respecto a v1
 
-| Par / candidata | Motivo |
-|-----------------|--------|
-| camión / camiones | Vicens/ANAYA lo piden, pero **cambia la tilde** (camión→camiones): excluido por norma del encargo |
-| campeón / campeones | Misma razón de tilde; aparece junto al bloque ANAYA |
-| actriz / actrices (número) o actor / actriz (género) | ANAYA trae *actriz*; cambio de lema / cautela del encargo — no hinchar cantidad |
-| rey / reina, caballo / yegua, toro / vaca | Cambio total de lema; sin necesidad pedagógica prioritaria |
-| perro / perra | Vicens clasifica *perro*; no hay drill explícito del par de género |
-| jugador / jugadora | Género fuerte en fitxa **catalana**; no forzar al banco castellano |
-| casa / casas, gato / gatos, libro / libros (número) | Cotidianos y en formar-palabras, pero **sin drill de plural** en extractos castellanos revisados → no inventar |
-| ciudad / ciudades | Ejemplo del brief; **sin evidencia** de drill en fuentes abiertas del repo |
-| hoj a / hojas, teléfono… | Expresiones ANAYA en plural de sintagma; se priorizó el núcleo *árbol* |
-| Pares solo catalanes (lleó, peix, motxilla…) | Fuera de locale `es-ES` |
-| Verbos / adjetivos como producto / pronombres | Fuera de alcance |
+| Acción | Ítems |
+|--------|--------|
+| **Eliminados** | `cruz/cruces`, `avestruz/avestruces` |
+| **Añadidos número** | casa, cama, puerta, ventana, libro, zapato, gato/gatos |
+| **Añadidos género** | hermano/hermana, tío/tía, primo/prima, alumno/alumna |
+| **Siguen fuera** | camión, actor/actriz, rey/reina, caballo/yegua, toro/vaca, padre/madre, perro/perra, maestro/maestra (sin *maestro* en formar-palabras) |
 
-## Dudas editoriales (para auditoría humana)
+## Descartados (motivo)
 
-1. **¿Reabrir `camión/camiones` en nivel 3** pese al cambio de tilde, por estar en Vicens+ANAYA? Ahora está fuera.  
-2. **¿Añadir `gato/gatos` y `casa/casas`** como número usando solo vocabulario de formar-palabras + criterio MASTER, sin drill explícito? Ahora fuera (anti-invención).  
-3. **Volumen:** 20 pares (bajo el rango orientativo MASTER 40–70). ¿Ampliar en una segunda pasada solo con nuevas fichas PDF, o congelar corto y de calidad?  
-4. **`cruz/cruces`:** ¿demasiado “simbólico” / poco lúdico frente a pez/lápiz?  
-5. **`avestruz`:** ¿mantener nivel 3 o cortar por baja frecuencia infantil?  
-6. **Ortografía:** pez/lápiz/luz tocan z→ces (también regla ortográfica). Se dejan en Morfología porque el **objetivo es número**, no la regla ortográfica de Ortografía — confirmar frontera.
+| Candidato | Motivo |
+|-----------|--------|
+| camión/camiones | Cambio de tilde |
+| cruz, avestruz | Encargo explícito / poca cotidianidad |
+| actor/actriz, rey/reina, caballo/yegua, toro/vaca | Cambio de lema |
+| padre/madre | No son morfología -o/-a regular |
+| perro/perra, oso/osa | Forma B no atestiguada en materiales abiertos |
+| maestro/maestra | Solo *maestra* en Vicens; sin *maestro* en formar-palabras |
+| jugador/jugadora | Género no forzado desde catalán |
+| pantalón/pantalones | Posible tilde / menos limpio que zapato |
+
+## Dudas editoriales abiertas
+
+1. **`ventana/ventanas`:** lema fuerte en formar-palabras; ¿OK sin mención abundante en extractos ANAYA/Vicens?  
+2. **`primo/prima`:** ambos en formar-palabras; poca cita en extractos de lengua — ¿mantener o cortar?  
+3. **`lombriz` / `perdiz`:** ¿se quedan en nivel 3 o se recortan para dejar el banco aún más “cotidiano”?  
+4. **Frontera z→ces vs Ortografía:** pez/lápiz/luz/lombriz/perdiz siguen aquí porque el foco es **número**.
 
 ## Autoauditoría previa
 
-| Comprobación | Resultado |
-|--------------|-----------|
+| Check | Resultado |
+|-------|-----------|
 | Sin duplicados de par | OK |
-| Sin espejos innecesarios (A→B y B→A como dos ítems) | OK (`promptSide: either`) |
-| Una sola respuesta por dirección | OK |
-| Vocabulario 3.º | OK (con dudas 4–5) |
-| Equilibrio 1 / 2 / 3 | OK (9 / 6 / 5); nivel 4 = 0 |
-| Temas | Sesgo personas/animales/casa; sin comida |
-| Fuentes documentadas | OK |
-| Sin verbos / análisis | OK |
-| Cautela género irregular | OK (descartados) |
-| No se tocó Relaciones Semánticas | OK |
+| Sin espejos como dos ítems | OK |
+| Sin excepciones de género | OK |
+| Sin camión/cruz/avestruz | OK |
+| Vocabulario 3.º | OK (dudas 1–3) |
+| Niveles | Más 1; sin 4 |
+| Fuentes | Documentadas |
+| Relaciones Semánticas | No tocado |
 
-## Runtime (esta entrega)
+## Runtime
 
 | Pieza | Estado |
 |-------|--------|
-| Markdown | borrador |
-| JSON | **no** |
-| Juego / hub | **no conectado** |
-| Tests de pack morph | **no** (sin JSON aún) |
-| Siguiente | auditoría humana → luego JSON |
-
----
-
-## Próximo paso humano
-
-- [ ] Resolver dudas editoriales §  
-- [ ] Aprobar o recortar ítems nivel 3  
-- [ ] Decidir si se amplía volumen con más PDF  
-- [ ] Solo entonces: congelar → JSON `palabras/morfologia.json`  
-- [ ] **No** conectar al juego hasta fase de implementación de productos morph
+| Markdown | borrador v2 |
+| JSON / juego | **no** |
+| Siguiente | tu OK → auditoría → JSON |
