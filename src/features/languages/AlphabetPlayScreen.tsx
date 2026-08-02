@@ -70,6 +70,7 @@ export function AlphabetPlayScreen() {
   const sessionIdRef = useRef(newId('abc'))
   const answersRef = useRef<AlphabetAnswerRecord[]>([])
   const orderMissedRef = useRef(false)
+  const optionMissedRef = useRef(false)
   const mode: AlphabetPlayMode = isPlayMode(modeParam) ? modeParam : 'missing'
 
   const queue = useMemo(
@@ -117,6 +118,7 @@ export function AlphabetPlayScreen() {
     setHitFlash(false)
     setMissFlash(false)
     orderMissedRef.current = false
+    optionMissedRef.current = false
     answerFx.clearFx()
     setEnterKey((k) => k + 1)
     lumo.setThinking()
@@ -229,13 +231,21 @@ export function AlphabetPlayScreen() {
     setSelected(value)
     const ok = value === question.answer
     if (ok) {
-      registerCorrect(true)
+      registerCorrect(!optionMissedRef.current)
       advance(prefersReducedMotion() ? 700 : 950)
-    } else {
-      pushAnswer(false, true)
-      registerWrong('¡Uy! Sigue intentando')
-      advance(prefersReducedMotion() ? 800 : 1000)
+      return
     }
+    // Fallo: no avanza; elige otra hasta acertar.
+    optionMissedRef.current = true
+    registerWrong('¡Uy! Elige otra')
+    window.setTimeout(() => {
+      setSelected(null)
+      setFeedback(null)
+      setMissFlash(false)
+      setLocked(false)
+      answerFx.clearFx()
+      lumo.setThinking()
+    }, prefersReducedMotion() ? 550 : 750)
   }
 
   function onPickOrderItem(value: string) {
