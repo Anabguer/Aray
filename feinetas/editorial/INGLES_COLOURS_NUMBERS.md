@@ -2,10 +2,11 @@
 
 ## Estado del documento
 
-**Borrador v1.** Banco editorial del pack `ingles-colours-numbers`.  
+**Congelado.** Banco editorial aprobado del pack `ingles-colours-numbers`.  
 Fuente prevista (posterior): JSON del pack; **este archivo no es runtime**.
 
-No incluye days, months, animals, clothes, school, family, body ni food (bancos independientes).
+No incluye days, months, animals, clothes, school, family, body ni food (bancos independientes).  
+Sin *brown* (sin respaldo claro en fichas impresas revisadas).
 
 ---
 
@@ -16,7 +17,7 @@ Recoger el vocabulario de **colores básicos** y **números one–twenty** (en-G
 Este documento es la fuente oficial para crear posteriormente el pack JSON.
 
 **Locale:** `en-GB` (p. ej. *grey*, no *gray*).  
-**Glosas:** solo español (`glossEs`).
+**Glosas:** solo español (`glossEs`); **una sola forma principal** por lema.
 
 ---
 
@@ -31,31 +32,46 @@ Este documento es la fuente oficial para crear posteriormente el pack JSON.
 
 ---
 
+## Norma de imagen (juegos futuros)
+
+| Bloque | Ancla visual |
+|--------|----------------|
+| **Colours** | Sí — mancha de color u objeto teñido inequívoco. |
+| **Numbers 1–10** | Sí — **cantidad de objetos** idénticos (cardinalidad). |
+| **Numbers 11–20** | Sí — **dígito arábigo grande** como ancla principal. |
+
+Opcional en 11–20 (no obligatorio): refuerzo secundario tipo agrupación 10+n. No sustituye al dígito.  
+No usar 11–20 objetos sueltos en carta de juego (ruido visual).
+
+---
+
 ## Fuentes utilizadas
 
 | Prioridad | Fuente | Uso en este banco |
 |-----------|--------|-------------------|
-| 1 | Vicens Vives — `verano_aray/banc_exercicis/_extraccio_raw/angles_mating3.txt` | Colores en preguntas (yellow, white, blue, orange, black, grey, purple); edades (*sixteen*, *four*, *eight*, *ten*); unidad de escritura de números |
-| 2 | Wonder 3 — `angles_Mc-Millan-wonder-3-teacher-resource.txt` | Apoyo puntual (*red*, *black* en descripción; consignas *colour*) |
-| 3 | Cuaderno verano inglés 3.º EP — `angles_cuaderno-de-verano-ingles-3-ep.txt` | Match *One–Ten*; wordsearch RED YELLOW GREY BLUE BLACK GREEN; *pink*, *red*, *green*, *blue*, *yellow* en ítems |
-| 4 | Currículum / master — `feinetas/editorial/INGLES_MASTER.md` | Pack aprobado: colores + **one–twenty**; tamaño 28–40 |
-
-**No usado como lista a copiar:** PDFs escaneados de `feinetas/Ingles/` (OCR vacío / no extraíble aquí).
+| 1 | Vicens Vives — `verano_aray/banc_exercicis/_extraccio_raw/angles_mating3.txt` | Colores (yellow, white, blue, orange, black, grey, purple); edades (*sixteen*, *four*, *eight*, *ten*); escritura de números |
+| 2 | Wonder 3 — `angles_Mc-Millan-wonder-3-teacher-resource.txt` | Apoyo puntual (*red*, *black*; consignas *colour*) |
+| 3 | Cuaderno verano inglés 3.º EP — `angles_cuaderno-de-verano-ingles-3-ep.txt` | Match *One–Ten*; wordsearch RED YELLOW GREY BLUE BLACK GREEN; *pink*; anagrama *ORANGE* |
+| 4 | Material repo — `verano_aray/fichas_repaso/05_angles/fitxa_01_colours.md` (+ fitxa_02) | Match / wordsearch de colores; *white* / *grey* en yes-no |
+| 5 | Bugs World 3 — `feinetas/Ingles/*.pdf` (Macmillan 2009; revisión visual) | Apoyo de nivel 3.º y `en-GB` (*rubber*, *trainers*, *jumper*); números en relojes (dígitos 1–12); **no** lista de colours a copiar |
+| 6 | Currículum / master — `feinetas/editorial/INGLES_MASTER.md` | Pack aprobado: colores + **one–twenty**; tamaño 28–40 |
 
 ---
 
-## Autoauditoría previa (v1)
+## Auditoría editorial
+
+Auditoría crítica aprobada (2026-08). Decisiones cerradas: 30 lemas; 1–20 incluidos; *brown* fuera; glosas *naranja* / *morado*; *grey* en-GB y Frecuente; norma de imagen documentada; Bugs World 3 como fuente de apoyo.
 
 | Control | Resultado |
 |---------|-----------|
-| Sin duplicados | Un lema por color; un lema por número 1–20. Sin *gray* paralelo a *grey*. |
-| Vocabulario de 3.º | Colores con evidencia Vicens y/o cuaderno; 1–10 con Match explícito; 11–20 alineados al pack aprobado + evidencia parcial Vicens (*sixteen*, escritura de cifras). |
+| Sin duplicados | Un lema por color; un lema por número 1–20. Sin *gray*. |
+| Vocabulario de 3.º | Colores con evidencia Vicens/cuaderno/fitxa; 1–10 Match explícito; 11–20 por pack aprobado + nivel 3.º. |
 | Categorías | Solo `Colours` y `Numbers`. |
-| Frecuencias | Colores nucleares (red/blue/green/yellow) en «Muy frecuente»; resto repartido; 1–10 más frecuentes que teens. |
-| Sin avanzados | Sin *turquoise*, *navy*, *beige*, etc. Sin números >20. |
-| Imagen | Sí en todos los colores; Sí en números (ancla visual dígito / cantidad). Revisado: no se fuerza imagen decorativa sin utilidad didáctica. |
+| Frecuencias | Nucleares en «Muy frecuente»; *grey* en «Frecuente»; teens por debajo de 1–10. |
+| Sin avanzados | Sin *turquoise*, *navy*, *beige*, *brown*. Sin números >20. |
+| Imagen | Norma única (colores / 1–10 cantidad / 11–20 dígito). |
 | en-GB | *grey* (no *gray*). |
-| Fuera de alcance | Sin *brown* (no atestiguado en extracciones); sin days/months/… |
+| Congelado | Sí — no ampliar ni recortar sin nueva auditoría. |
 
 ---
 
@@ -65,7 +81,7 @@ red
 
 ## Glosa
 
-rojo / roja
+rojo
 
 ## Categoría
 
@@ -81,7 +97,7 @@ Sí
 
 ## Observaciones
 
-Cuaderno verano (colour + wordsearch RED); Vicens (*blue and red*); Wonder (*red nose*). Nuclear de 3.º.
+Cuaderno verano (colour + wordsearch RED); Vicens (*blue and red*); Wonder (*red nose*); fitxa_01. Nuclear de 3.º.
 
 ---
 
@@ -107,7 +123,7 @@ Sí
 
 ## Observaciones
 
-Cuaderno (umbrella, wordsearch, secuencia); Vicens (*pen blue*).
+Cuaderno (umbrella, wordsearch, secuencia); Vicens (*pen blue*); fitxa_01.
 
 ---
 
@@ -133,7 +149,7 @@ Sí
 
 ## Observaciones
 
-Cuaderno (colour + wordsearch GREEN); Vicens (*black and green*).
+Cuaderno (colour + wordsearch GREEN); Vicens (*black and green*); fitxa_01.
 
 ---
 
@@ -143,7 +159,7 @@ yellow
 
 ## Glosa
 
-amarillo / amarilla
+amarillo
 
 ## Categoría
 
@@ -159,7 +175,7 @@ Sí
 
 ## Observaciones
 
-Cuaderno (ball, wordsearch, secuencia); Vicens (*banana yellow*).
+Cuaderno (ball, wordsearch, secuencia); Vicens (*banana yellow*); fitxa_01.
 
 ---
 
@@ -169,7 +185,7 @@ black
 
 ## Glosa
 
-negro / negra
+negro
 
 ## Categoría
 
@@ -195,7 +211,7 @@ white
 
 ## Glosa
 
-blanco / blanca
+blanco
 
 ## Categoría
 
@@ -211,7 +227,7 @@ Sí
 
 ## Observaciones
 
-Vicens (*ruler white*). Pareja habitual con *black* en 3.º.
+Vicens (*ruler white*); fitxa_02. Pareja habitual con *black* en 3.º.
 
 ---
 
@@ -237,7 +253,7 @@ Sí
 
 ## Observaciones
 
-Cuaderno verano (*blue and pink umbrella*). No aparece en el bloque Vicens u0–1 de colores citadas; se mantiene por evidencia clara del cuaderno 3.º.
+Cuaderno verano (*blue and pink umbrella*); fitxa_01. No en Vicens u0–1 de colores; se mantiene por evidencia clara del cuaderno/fitxa 3.º.
 
 ---
 
@@ -263,7 +279,7 @@ Sí
 
 ## Observaciones
 
-Vicens (*sky orange*). Distinguir en JSON futuro el color de la fruta si hubiera cruce con pack food (aquí solo color).
+Vicens (*sky orange*); cuaderno (anagrama ORANGE); fitxa_01. Glosa oficial: **naranja** (no *anaranjado*). Distinguir en JSON futuro del lema fruta del pack food.
 
 ---
 
@@ -273,7 +289,7 @@ purple
 
 ## Glosa
 
-morado / morada
+morado
 
 ## Categoría
 
@@ -289,7 +305,7 @@ Sí
 
 ## Observaciones
 
-Vicens (*rucksack purple*). Glosa escolar habitual *morado* (no *púrpura* técnica).
+Vicens (*rucksack purple*). Glosa oficial: **morado** (no *lila* ni *púrpura*; *lila* = matiz, no glosa).
 
 ---
 
@@ -307,7 +323,7 @@ Colours
 
 ## Frecuencia
 
-Menos frecuente
+Frecuente
 
 ## Imagen recomendable
 
@@ -315,7 +331,7 @@ Sí
 
 ## Observaciones
 
-en-GB: **grey** (no *gray*). Cuaderno wordsearch GREY + secuencia; Vicens (*grass grey*).
+en-GB: **grey** (no *gray*). Cuaderno wordsearch GREY + secuencia; Vicens (*grass grey*); fitxa_01. Frecuencia subida a Frecuente tras auditoría (wordsearch nuclear).
 
 ---
 
@@ -325,7 +341,7 @@ one
 
 ## Glosa
 
-uno / una
+uno
 
 ## Categoría
 
@@ -341,7 +357,7 @@ Sí
 
 ## Observaciones
 
-Cuaderno verano: Match *One* ↔ 1.
+Cuaderno verano: Match *One* ↔ 1. Imagen: cantidad de objetos (norma 1–10).
 
 ---
 
@@ -367,7 +383,7 @@ Sí
 
 ## Observaciones
 
-Cuaderno Match *Two*; Vicens (*two chairs* / edades en contexto de cantidad).
+Cuaderno Match *Two*; Vicens (cantidades); Bugs World (*I've got two eyes*). Imagen: cantidad de objetos (norma 1–10).
 
 ---
 
@@ -393,7 +409,7 @@ Sí
 
 ## Observaciones
 
-Cuaderno Match *Three*; Vicens (*three chairs*).
+Cuaderno Match *Three*; Vicens (*three chairs*). Imagen: cantidad de objetos (norma 1–10).
 
 ---
 
@@ -419,7 +435,7 @@ Sí
 
 ## Observaciones
 
-Cuaderno Match *Four*; Vicens (edad *four*).
+Cuaderno Match *Four*; Vicens (edad *four*). Imagen: cantidad de objetos (norma 1–10).
 
 ---
 
@@ -445,7 +461,7 @@ Sí
 
 ## Observaciones
 
-Cuaderno Match *Five*; cuaderno (*I am five years old* en V/X).
+Cuaderno Match *Five*; cuaderno (*I am five years old*). Imagen: cantidad de objetos (norma 1–10).
 
 ---
 
@@ -471,7 +487,7 @@ Sí
 
 ## Observaciones
 
-Cuaderno Match *Six*; Vicens (*six chairs*).
+Cuaderno Match *Six*; Vicens (*six chairs*). Imagen: cantidad de objetos (norma 1–10).
 
 ---
 
@@ -497,7 +513,7 @@ Sí
 
 ## Observaciones
 
-Cuaderno Match *Seven*.
+Cuaderno Match *Seven*; Bugs World (rutinas / *o'clock*). Imagen: cantidad de objetos (norma 1–10).
 
 ---
 
@@ -523,7 +539,7 @@ Sí
 
 ## Observaciones
 
-Cuaderno Match *Eight*; Vicens (edad *eight*).
+Cuaderno Match *Eight*; Vicens (edad *eight*). Imagen: cantidad de objetos (norma 1–10).
 
 ---
 
@@ -549,7 +565,7 @@ Sí
 
 ## Observaciones
 
-Cuaderno Match *Nine*.
+Cuaderno Match *Nine*. Imagen: cantidad de objetos (norma 1–10).
 
 ---
 
@@ -575,7 +591,7 @@ Sí
 
 ## Observaciones
 
-Cuaderno Match *Ten*; Vicens (edad *ten*). Cierre natural del tramo 1–10.
+Cuaderno Match *Ten*; Vicens (edad *ten*). Cierre del tramo 1–10. Imagen: cantidad de objetos (norma 1–10).
 
 ---
 
@@ -601,7 +617,7 @@ Sí
 
 ## Observaciones
 
-Incluido por pack aprobado (`INGLES_MASTER`: one–twenty). Evidencia OCR literal débil en Vicens/cuaderno; ver dudas.
+Incluido por pack aprobado (`INGLES_MASTER`: one–twenty) y nivel 3.º. Apoyo: sistema numérico Vicens; Bugs World (dígitos de reloj hasta 12). Imagen: dígito grande (norma 11–20).
 
 ---
 
@@ -627,7 +643,7 @@ Sí
 
 ## Observaciones
 
-Pack aprobado 1–20. Evidencia OCR literal débil; ver dudas.
+Pack aprobado 1–20 y nivel 3.º. Apoyo: Bugs World (dígito 12 en relojes). Imagen: dígito grande (norma 11–20).
 
 ---
 
@@ -653,7 +669,7 @@ Sí
 
 ## Observaciones
 
-Pack aprobado 1–20. Serie *-teen*; evidencia OCR literal débil; ver dudas.
+Pack aprobado 1–20; serie *-teen* de 3.º. Imagen: dígito grande (norma 11–20).
 
 ---
 
@@ -679,7 +695,7 @@ Sí
 
 ## Observaciones
 
-Pack aprobado 1–20. Serie *-teen*; evidencia OCR literal débil; ver dudas.
+Pack aprobado 1–20; serie *-teen* de 3.º. Imagen: dígito grande (norma 11–20).
 
 ---
 
@@ -705,7 +721,7 @@ Sí
 
 ## Observaciones
 
-Pack aprobado 1–20. Uso escolar habitual (edad / cantidad); evidencia OCR literal débil en extracciones actuales; ver dudas.
+Pack aprobado 1–20; uso escolar habitual (edad / cantidad). Imagen: dígito grande (norma 11–20).
 
 ---
 
@@ -731,7 +747,7 @@ Sí
 
 ## Observaciones
 
-Vicens: *I'm sixteen years old* (atestiguado). Ancla de la serie teens en materiales del repo.
+Vicens: *I'm sixteen years old* (atestiguado). Ancla literal de la serie teens. Imagen: dígito grande (norma 11–20).
 
 ---
 
@@ -757,7 +773,7 @@ Sí
 
 ## Observaciones
 
-Pack aprobado 1–20. Serie *-teen* tras *sixteen* Vicens; evidencia OCR literal débil; ver dudas.
+Pack aprobado 1–20; serie *-teen* tras *sixteen* Vicens. Imagen: dígito grande (norma 11–20).
 
 ---
 
@@ -783,7 +799,7 @@ Sí
 
 ## Observaciones
 
-Pack aprobado 1–20. Evidencia OCR literal débil; ver dudas.
+Pack aprobado 1–20; serie *-teen* de 3.º. Imagen: dígito grande (norma 11–20).
 
 ---
 
@@ -809,7 +825,7 @@ Sí
 
 ## Observaciones
 
-Pack aprobado 1–20. Evidencia OCR literal débil; ver dudas.
+Pack aprobado 1–20; serie *-teen* de 3.º. Imagen: dígito grande (norma 11–20).
 
 ---
 
@@ -835,7 +851,7 @@ Sí
 
 ## Observaciones
 
-Cierre del tramo aprobado 1–20. Vicens u5 pide escribir cifras >20 (*29*, *37*…), lo que implica dominio del sistema numérico hasta/desde *twenty*; lema *twenty* no aparece literal en el OCR citado — ver dudas.
+Cierre del tramo aprobado 1–20. Vicens u5 (escritura de cifras >20) implica dominio del sistema hasta/desde *twenty*. Imagen: dígito grande (norma 11–20).
 
 ---
 
@@ -847,27 +863,23 @@ Cierre del tramo aprobado 1–20. Vicens u5 pide escribir cifras >20 (*29*, *37*
 | Numbers (1–20) | 20 |
 | **Total** | **30** |
 
-Rango master pack: mín. 28 · máx. 40 → **dentro de rango**.
+Rango master pack: mín. 28 · máx. 40 → **dentro de rango**.  
+**Estado:** congelado — no añadir ni eliminar lemas sin nueva auditoría.
 
 ---
 
-## Dudas editoriales
+## Decisiones editoriales cerradas
 
-1. **Teens 11–15 y 17–19, y *twenty*:** el pack aprobado exige *one–twenty*, pero en OCR del cuaderno solo está el Match *One–Ten* y en Vicens el teen atestiguado con claridad es *sixteen*. ¿Confirmamos los 9 lemas restantes solo por currículum/pack, o esperamos contraste en PDF Vicens/Wonder no OCR-eables?
-2. **¿Incluir *brown*?** No aparece en las extracciones Vicens/cuaderno/Wonder usadas. ¿Se añade en v2 si sale en ficha impresa, o se deja fuera del pack 1?
-3. **Glosa de *purple*:** ¿*morado/morada* (propuesta) o *lila* / *púrpura*? Preferencia de aula.
-4. **Glosa de *orange*:** ¿solo *naranja*, o *anaranjado/anaranjada* para evitar ambigüedad fruta/color en packs futuros?
-5. **Imagen en Numbers:** ¿Sí con dígito arábigo (1…20) o con cantidad de objetos? Impacta assets futuros.
-6. **Wonder como fuente de colours:** aporta poco listado explícito; ¿basta como apoyo secundario o priorizamos solo Vicens + cuaderno para la auditoría final?
-7. **Frecuencia de *grey* / *purple* / *orange*:** marcadas «Menos frecuente»; ¿subir alguna si en aula catalana son nucleares?
-8. **Forma de glosa en colores con género:** se indica *rojo/roja*, *blanco/blanca*, etc. ¿Unificar a lema masculino solo (*rojo*) para JSON, o mantener doble forma?
-9. **PDFs `feinetas/Ingles/`:** sin texto extraíble aquí; ¿hay que re-OCR antes de aprobar v1 → v2?
-10. **¿Separar en auditoría dos sub-bancos** (solo colours / solo numbers) manteniendo un único pack de juego, o un solo documento como ahora?
+1. Números **1–20** completos (pack aprobado + nivel 3.º).
+2. ***brown* fuera** (sin respaldo claro en fichas impresas).
+3. Glosas oficiales: *orange* → **naranja**; *purple* → **morado**; resto en forma única.
+4. ***grey*** (en-GB); frecuencia **Frecuente**.
+5. Norma de imagen: 1–10 cantidad · 11–20 dígito · colours mancha/objeto.
+6. Bugs World 3 = fuente de **apoyo** (nivel / en-GB), no lista a copiar.
 
 ---
 
 ## Notas para la siguiente fase (no hacer ahora)
 
-- No generar JSON hasta auditoría humana.
-- No tocar el juego ni otros bancos.
-- Tras aprobación: mapear a contrato de lemas inglés (`lemma`, `glossEs`, `category`, `frequency`, `image.ref?`).
+- Convertir a JSON solo tras esta congelación (contrato: `lemma`, `glossEs`, `category`, `frequency`, `image.ref?`).
+- No tocar el juego ni otros bancos en esta fase.
