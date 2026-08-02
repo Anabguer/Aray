@@ -3,33 +3,30 @@ import { WorldLevelMap } from '@/components/world/WorldLevelMap'
 import type { MapSlot, WorldStation, WorldZoneMark } from '@/components/world/types'
 import { getSubject } from '@/curriculum'
 import {
-  ENGLISH_PACK_IDS,
+  ENGLISH_HUB_PACK_IDS,
   ENGLISH_PACK_LABELS,
-  type EnglishPackId,
+  type EnglishHubPackId,
 } from '@/feinetas/englishRegistry'
 
-const PACK_MARK: Record<EnglishPackId, WorldZoneMark> = {
-  'ingles-colours-numbers': 'match',
+const PACK_MARK: Record<EnglishHubPackId, WorldZoneMark> = {
   'ingles-school': 'words',
   'ingles-family': 'phrases',
 }
 
-const PACK_SLOT: Record<EnglishPackId, MapSlot> = {
-  'ingles-colours-numbers': 'start',
-  'ingles-school': 'mid-high',
+const PACK_SLOT: Record<EnglishHubPackId, MapSlot> = {
+  'ingles-school': 'start',
   'ingles-family': 'end',
 }
 
-const PACK_SHORT: Record<EnglishPackId, string> = {
-  'ingles-colours-numbers': 'Colores y números en inglés',
-  'ingles-school': 'Cosas del cole',
-  'ingles-family': 'La familia',
+const PACK_SHORT: Record<EnglishHubPackId, string> = {
+  'ingles-school': 'Cosas del cole · repaso 3.º',
+  'ingles-family': 'La familia · repaso 3.º',
 }
 
-/** Hub de packs; un 4.º pack solo requiere registro + JSON. */
+/** Hub de packs de repaso 3.º (Colours & Numbers aparcado). */
 export function EnglishHubScreen() {
   const english = getSubject('english')
-  const stations: WorldStation[] = ENGLISH_PACK_IDS.map((id) => ({
+  const stations: WorldStation[] = ENGLISH_HUB_PACK_IDS.map((id) => ({
     id,
     title: ENGLISH_PACK_LABELS[id],
     description: PACK_SHORT[id],
@@ -49,7 +46,7 @@ export function EnglishHubScreen() {
     >
       <WorldLevelMap
         theme="english"
-        guideTip="Elige un pack de palabras y luego el juego"
+        guideTip="Elige Colegio o Familia y luego el juego"
         stations={stations}
       />
     </AppShell>

@@ -29,7 +29,7 @@ const WORLD_META: Record<
   english: {
     imageSrc: mundoIngles,
     className: 'mode-poster--train',
-    text: 'Palabras y frases en inglés',
+    text: 'Colegio y familia · repaso 3.º',
     tag: '01',
   },
   medi: {

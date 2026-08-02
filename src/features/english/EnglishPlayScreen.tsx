@@ -10,7 +10,7 @@ import {
   type EnglishPlayMode,
 } from '@/english'
 import { buildRound, englishMinigameId } from '@/minigames'
-import { isEnglishPackId } from '@/feinetas/englishRegistry'
+import { isEnglishHubPackId } from '@/feinetas/englishRegistry'
 import { AppShell } from '@/components/AppShell'
 import { useLumoController } from '@/lumo/useLumoController'
 import { soundEngine } from '@/sound/soundEngine'
@@ -64,7 +64,7 @@ export function EnglishPlayScreen() {
   const answerFx = useAnswerFx()
   const seedRef = useRef(Date.now())
   const mode: EnglishPlayMode = isMode(modeParam) ? modeParam : 'mix'
-  const validPack = packId != null && isEnglishPackId(packId)
+  const validPack = packId != null && isEnglishHubPackId(packId)
   const modesPath = validPack ? `/missions/english/${packId}` : '/missions/english'
 
   const queue = useMemo(() => {

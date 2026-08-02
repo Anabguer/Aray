@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { visibleWorlds } from '@/curriculum'
 import { createInitialProgress } from '@/progress/repository'
-import { ENGLISH_PACK_IDS } from '@/feinetas/englishRegistry'
+import { ENGLISH_HUB_PACK_IDS } from '@/feinetas/englishRegistry'
 import { buildRound, englishMinigameId, getMinigame } from '@/minigames'
 import type { EnglishPlayMode } from '@/english/types'
 
@@ -21,8 +21,8 @@ describe('english smoke recorrido', () => {
     expect(eng?.worldPath).toBe('/missions/english')
   })
 
-  it('cada pack × modo genera ronda english-mcq válida', () => {
-    for (const packId of ENGLISH_PACK_IDS) {
+  it('cada pack del hub × modo genera ronda english-mcq válida', () => {
+    for (const packId of ENGLISH_HUB_PACK_IDS) {
       for (const mode of PLAYABLE) {
         const id = englishMinigameId(mode)
         expect(getMinigame(id).status).toBe('active')

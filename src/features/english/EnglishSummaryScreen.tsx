@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { ENGLISH_MODE_LABELS, useEnglishSession } from '@/english'
 import {
   ENGLISH_PACK_LABELS,
-  isEnglishPackId,
+  isEnglishHubPackId,
 } from '@/feinetas/englishRegistry'
 import { AppShell } from '@/components/AppShell'
 import { RoundSummary } from '@/components/RoundSummary'
@@ -13,7 +13,7 @@ export function EnglishSummaryScreen() {
   const { packId } = useParams<{ packId: string }>()
   const navigate = useNavigate()
   const { lastSummary, setLastSummary } = useEnglishSession()
-  const valid = packId != null && isEnglishPackId(packId)
+  const valid = packId != null && isEnglishHubPackId(packId)
   const modesPath = valid ? `/missions/english/${packId}` : '/missions/english'
 
   useEffect(() => {

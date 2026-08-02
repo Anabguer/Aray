@@ -1,7 +1,7 @@
 import { SPELL_MODE_LABELS, type SpellPlayMode } from '@/spelling/types'
 import { ORTOGRAPHY_PACK_IDS } from '@/feinetas/ortographyRegistry'
 import { ORTOGRAPHY_FRASES_PACK_ID } from '@/minigames/adapters/ortografiaComplete'
-import { ENGLISH_PACK_IDS } from '@/feinetas/englishRegistry'
+import { ENGLISH_HUB_PACK_IDS } from '@/feinetas/englishRegistry'
 import { ENGLISH_MODE_LABELS, type EnglishPlayMode } from '@/english/types'
 import { CALC_MODE_LABELS, type CalcPlayMode } from '@/calc/types'
 import { MONEY_MODE_LABELS, type MoneyPlayMode } from '@/money/types'
@@ -275,7 +275,7 @@ function englishMinigame(mode: EnglishPlayMode): MinigameDefinition {
     englishPlayMode: mode,
     skillIds: ['english-vocabulary'],
     presentation: mode === 'review' ? 'review' : 'mcq',
-    packIds: [...ENGLISH_PACK_IDS],
+    packIds: [...ENGLISH_HUB_PACK_IDS],
   }
 }
 

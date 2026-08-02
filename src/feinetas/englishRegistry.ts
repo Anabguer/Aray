@@ -16,6 +16,17 @@ export const ENGLISH_PACK_IDS = [
 
 export type EnglishPackId = (typeof ENGLISH_PACK_IDS)[number]
 
+/**
+ * Packs visibles en el hub (repaso 3.º).
+ * Colours & Numbers queda en banco/JSON pero aparcado en UI (ciclo inicial).
+ */
+export const ENGLISH_HUB_PACK_IDS = [
+  'ingles-school',
+  'ingles-family',
+] as const satisfies readonly EnglishPackId[]
+
+export type EnglishHubPackId = (typeof ENGLISH_HUB_PACK_IDS)[number]
+
 export const ENGLISH_PACK_LABELS: Record<EnglishPackId, string> = {
   'ingles-colours-numbers': 'Colores y números',
   'ingles-school': 'Colegio',
@@ -38,6 +49,12 @@ export function listEnglishPacks(): EnglishLemmaPack[] {
   return cached
 }
 
+/** Packs ofrecidos en Misiones → Inglés (repaso 3.º). */
+export function listEnglishHubPacks(): EnglishLemmaPack[] {
+  const hub = new Set<string>(ENGLISH_HUB_PACK_IDS)
+  return listEnglishPacks().filter((p) => hub.has(p.pack.id))
+}
+
 export function getEnglishPack(packId: string): EnglishLemmaPack {
   const pack = listEnglishPacks().find((p) => p.pack.id === packId)
   if (!pack) throw new Error(`[ingles] Pack no registrado: ${packId}`)
@@ -46,4 +63,8 @@ export function getEnglishPack(packId: string): EnglishLemmaPack {
 
 export function isEnglishPackId(id: string): id is EnglishPackId {
   return (ENGLISH_PACK_IDS as readonly string[]).includes(id)
+}
+
+export function isEnglishHubPackId(id: string): id is EnglishHubPackId {
+  return (ENGLISH_HUB_PACK_IDS as readonly string[]).includes(id)
 }

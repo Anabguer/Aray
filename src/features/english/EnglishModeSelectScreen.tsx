@@ -10,7 +10,7 @@ import {
 } from '@/english'
 import {
   ENGLISH_PACK_LABELS,
-  isEnglishPackId,
+  isEnglishHubPackId,
 } from '@/feinetas/englishRegistry'
 import { canBuildEnglishIntruder } from '@/minigames/adapters/englishIntruder'
 import { useProgress } from '@/progress/ProgressContext'
@@ -76,7 +76,7 @@ export function EnglishModeSelectScreen() {
   const { packId } = useParams<{ packId: string }>()
   const navigate = useNavigate()
   const { playerId } = useProgress()
-  const valid = packId != null && isEnglishPackId(packId)
+  const valid = packId != null && isEnglishHubPackId(packId)
 
   useEffect(() => {
     if (!valid) navigate('/missions/english', { replace: true })

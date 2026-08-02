@@ -128,7 +128,7 @@ Listening y Phonics siguen aplazados a fase con audio (ola offline actual = sin 
 | **JSON Ortografía** | Terminado |
 | **Integración Ortografía** | Completa |
 | **JSON Inglés** | Terminado (3 packs, schema `INGLES_JSON_SPEC.md`) |
-| **Integración Inglés** | Completa v1 (hub → pack → modos; sin imagen/audio/listening) |
+| **Integración Inglés** | Completa v1 · hub de repaso 3.º: **Colegio + Familia** (Colours & Numbers en banco, aparcado en UI) |
 | **Siguiente paso lógico** | Bancos editoriales pendientes (Body, Food, …) o assets de imagen |
 
 ---

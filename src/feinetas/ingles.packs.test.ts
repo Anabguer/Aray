@@ -9,8 +9,10 @@ import {
   type EnglishLemmaPack,
 } from '@/feinetas/englishLemmaPack'
 import {
+  ENGLISH_HUB_PACK_IDS,
   ENGLISH_PACK_IDS,
   getEnglishPack,
+  listEnglishHubPacks,
   listEnglishPacks,
 } from '@/feinetas/englishRegistry'
 import { getEnglishCorpus } from '@/feinetas/englishCorpus'
@@ -50,6 +52,17 @@ describe('feinetas / ingles / packs JSON', () => {
     expect(listEnglishPacks()).toHaveLength(3)
     expect(getEnglishPack('ingles-family').lemmas).toHaveLength(18)
     expect(getEnglishCorpus().entries).toHaveLength(74)
+  })
+
+  it('hub de repaso 3.º solo ofrece Colegio y Familia', () => {
+    expect([...ENGLISH_HUB_PACK_IDS]).toEqual([
+      'ingles-school',
+      'ingles-family',
+    ])
+    expect(listEnglishHubPacks().map((p) => p.pack.id)).toEqual([
+      'ingles-school',
+      'ingles-family',
+    ])
   })
 
   it('glosas ES únicas dentro de cada pack (salvo variantes aunt/auntie documentadas)', () => {
