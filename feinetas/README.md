@@ -1,38 +1,50 @@
 # Feinetas — banco de ejercicios reutilizable (Aray)
 
-Cada archivo `.json` de esta carpeta describe **un minijuego reutilizable**.
-El código de la app **no** lleva bancos de palabras/ejercicios hardcodeados:
-siempre se leen desde aquí.
+Cada archivo `.json` de esta carpeta (o subcarpeta) describe **datos de juego revisados**.
+El código de la app **no** lleva bancos educativos hardcodeados: siempre se leen desde aquí.
 
 ## Qué contiene cada archivo
 
 | Bloque | Contenido |
 |--------|-----------|
-| **Ficha técnica** | `nombre`, `version`, `nivel`, `objetivo` |
-| **Mecánica** | Tipo de interacción (p. ej. `drag_drop`), casillas, persistencia al fallar |
-| **Reglas / corrección** | Acierto, fallo, contadores |
-| **UX / ayudas** | Pistas tras N fallos, feedback visual/sonoro |
-| **Banco de datos** | Lista tipada de ítems (`palabras`, ítems de regla, etc.) |
+| **Ficha técnica** | Metadatos de pack / versión / nivel / objetivo |
+| **Mecánica** (packs legacy) | Tipo de interacción cuando el JSON aún mezcla UX + datos |
+| **Banco de datos** | Ítems tipados (`lemmas`, `items`, `palabras`, …) |
 
-## Archivos actuales
+Los packs nuevos de familia (Ortografía, Palabras…) siguen el contrato editorial correspondiente: el JSON es **banco de conocimiento**; la mecánica vive en adaptadores.
 
-| Archivo | Minijuego |
-|---------|-----------|
-| `formar-palabras.json` | Ordenar letras para formar la palabra |
+## Archivos actuales (runtime)
 
-## Archivos previstos
+| Archivo | Uso |
+|---------|-----|
+| `formar-palabras.json` | Formar palabras (familia Palabras; schema propio legacy) |
+| `ortografia/*.json` | Packs de lemas y frases de Ortografía |
 
-- `completar-palabra.json`
-- `r-rr.json`
-- `h.json`
-- `familias-palabras.json`
-- `sinonimos.json`
+## Previsto — familia Palabras
+
+Arquitectura (en revisión): [`editorial/PALABRAS_MASTER.md`](./editorial/PALABRAS_MASTER.md) · [`editorial/PALABRAS_JSON_SPEC.md`](./editorial/PALABRAS_JSON_SPEC.md).
+
+Bancos futuros bajo `palabras/` (un JSON **por banco editorial**, no por minijuego):
+
+| Banco JSON previsto | Alimenta |
+|---------------------|----------|
+| `palabras/relaciones-semanticas.json` | Sinónimos + Antónimos |
+| `palabras/morfologia.json` | Singular/plural + Masculino/femenino |
+| `palabras/familias.json` | Familia de palabras |
+| `palabras/campos-semanticos.json` | Campo semántico |
+| `palabras/oraciones.json` | Ordenar frases |
+| `palabras/listas-diccionario.json` | Orden alfabético |
+
+`formar-palabras.json` **no** se rediseña ni se migra en v1; solo se integra en el hub de la familia.
+
+**No** previstos bajo Palabras: `r-rr.json`, `h.json` (viven en Ortografía).  
+**v2:** Definición ↔ palabra.
 
 ## Documentación editorial
 
 Los borradores humanos viven en [`editorial/`](./editorial/). **No** los carga el juego.
 Flujo: diseño → fichas del repo → Markdown editorial → revisión → JSON → runtime.
-Metodología detallada: [`editorial/README.md`](./editorial/README.md).
+Metodología: [`editorial/README.md`](./editorial/README.md).
 
 ## Cómo se consume en código
 
@@ -43,4 +55,4 @@ const bank = getFormarPalabrasBank() // siempre desde feinetas/formar-palabras.j
 const meta = loadFeineta('formar-palabras')
 ```
 
-Nuevos bancos: añade el `.json` aquí y regístralo en `src/feinetas/registry.ts`.
+Nuevos bancos: añade el `.json` y regístralo en `src/feinetas/registry.ts` (o el registry de familia correspondiente).

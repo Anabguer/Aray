@@ -70,8 +70,11 @@ Hasta que un documento de esta carpeta esté revisado y convertido a JSON, no fo
 
 | Archivo | Uso editorial |
 |---------|----------------|
+| `PALABRAS_MASTER.md` | **Diseño maestro Palabras 3.º (Cataluña)** — bancos reutilizables, currículum, productos v1; sin JSON aún |
+| `PALABRAS_JSON_SPEC.md` | Contrato técnico de packs por banco (no por producto) |
 | `INGLES_MASTER.md` | **Diseño maestro Inglés 3.º (Cataluña)** — arquitectura de packs; sin JSON aún |
 | `BANCO_MAESTRO_ORTOGRAFIA.md` | Índice / maestro de Ortografía |
+| `JSON_SPEC.md` | Contrato JSON Ortografía (lemas) |
 | `ERRORES_REALES_H.md` | Errores reales — h |
 | `ERRORES_REALES_BV.md` | Errores reales — b/v |
 | `ERRORES_REALES_GJ.md` | Errores reales — g/j |
@@ -83,4 +86,4 @@ Hasta que un documento de esta carpeta esté revisado y convertido a JSON, no fo
 | `ERRORES_REALES_HAY_AHI_AY.md` | Errores reales — hay / ahí / ay |
 | `ERRORES_REALES_GU.md` | Errores reales — gu / gü |
 
-Los archivos de errores se rellenan con la metodología de fichas; no por generación libre de listas.
+Los archivos de errores / bancos se rellenan con la metodología de fichas; no por generación libre de listas.
