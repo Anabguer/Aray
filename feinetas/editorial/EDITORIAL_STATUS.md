@@ -1,7 +1,7 @@
 # Estado editorial Aray — fotografía de cierre
 
 **Fecha de cierre de fase:** 2026-08-02  
-**Alcance:** Ortografía (congelada + JSON en juego) · Inglés (3 bancos editoriales congelados, sin JSON).  
+**Alcance:** Ortografía (congelada + JSON en juego) · Inglés (3 bancos + JSON en juego).  
 **Uso:** retomar el proyecto sin reabrir metodología ni bancos ya cerrados.
 
 Este archivo **no es runtime**. Flujo general: [`README.md`](./README.md) · arquitectura inglés: [`INGLES_MASTER.md`](./INGLES_MASTER.md).
@@ -32,13 +32,13 @@ Complemento congelado (frases, no contado arriba como banco de lemas): `FRASES_C
 
 ## Inglés
 
-Fuente editorial: `INGLES_*.md` · **sin JSON todavía**.
+Fuente editorial: `INGLES_*.md` → JSON en `feinetas/Ingles/` · schema [`INGLES_JSON_SPEC.md`](./INGLES_JSON_SPEC.md).
 
-| Banco | Archivo | Pack | Registros |
-|-------|---------|------|-----------|
-| Colours & Numbers | `INGLES_COLOURS_NUMBERS.md` | `ingles-colours-numbers` | 30 |
-| School | `INGLES_SCHOOL.md` | `ingles-school` | 26 |
-| Family | `INGLES_FAMILY.md` | `ingles-family` | 18 |
+| Banco | Archivo | Pack JSON | Registros |
+|-------|---------|-----------|-----------|
+| Colours & Numbers | `INGLES_COLOURS_NUMBERS.md` | `colours-numbers.json` | 30 |
+| School | `INGLES_SCHOOL.md` | `school.json` | 26 |
+| Family | `INGLES_FAMILY.md` | `family.json` | 18 |
 | **Total Inglés** | | | **74** |
 
 ---
@@ -82,7 +82,7 @@ Flujo fijo por banco:
 2. Auditoría crítica (Correctos / Revisar / Eliminar / Añadir / Estadísticas / decisiones).  
 3. Comprobación de evidencia si hay bloque dudoso.  
 4. Aplicación de decisiones → **Congelado**.  
-5. Solo entonces JSON (aún no en inglés).
+5. Solo entonces JSON (hecho para los 3 packs inglés v1).
 
 ### Cuándo un lema entra
 - Aparece trabajado en materiales de **3.º** del repo / pack aprobado.
@@ -126,9 +126,10 @@ Listening y Phonics siguen aplazados a fase con audio (ola offline actual = sin 
 | Área | Estado |
 |------|--------|
 | **JSON Ortografía** | Terminado |
-| **Integración en juego** | Completa (el cliente consume JSON de ortografía) |
-| **Inglés** | Solo editorial Markdown · **sin JSON** · sin pantallas de vocabulario inglés |
-| **Siguiente paso lógico** | Retomar bancos pendientes **o** convertir a JSON los 3 packs inglés congelados (decisión de producto) |
+| **Integración Ortografía** | Completa |
+| **JSON Inglés** | Terminado (3 packs, schema `INGLES_JSON_SPEC.md`) |
+| **Integración Inglés** | Completa v1 (hub → pack → modos; sin imagen/audio/listening) |
+| **Siguiente paso lógico** | Bancos editoriales pendientes (Body, Food, …) o assets de imagen |
 
 ---
 
@@ -137,6 +138,7 @@ Listening y Phonics siguen aplazados a fase con audio (ola offline actual = sin 
 | Documento | Rol |
 |-----------|-----|
 | `README.md` | Flujo editorial general |
+| `INGLES_JSON_SPEC.md` | Schema JSON inglés |
 | `INGLES_MASTER.md` | Arquitectura packs inglés |
 | `INGLES_COLOURS_NUMBERS.md` | Pack 1 congelado |
 | `INGLES_SCHOOL.md` | Pack 2 congelado |

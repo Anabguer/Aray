@@ -9,6 +9,7 @@ import { ClockSessionProvider } from '@/clock/ClockSessionContext'
 import { DailyMissionProvider } from '@/daily/DailyMissionContext'
 import { MoneySessionProvider } from '@/money/MoneySessionContext'
 import { SpellSessionProvider } from '@/spelling/SpellSessionContext'
+import { EnglishSessionProvider } from '@/english'
 import { PlayProvider } from '@/progress/PlayContext'
 import { ProgressProvider } from '@/progress/ProgressContext'
 import './index.css'
@@ -32,9 +33,11 @@ createRoot(document.getElementById('root')!).render(
                 <AlphabetSessionProvider>
                   <CalcSessionProvider>
                     <SpellSessionProvider>
-                      <MoneySessionProvider>
-                        <App />
-                      </MoneySessionProvider>
+                      <EnglishSessionProvider>
+                        <MoneySessionProvider>
+                          <App />
+                        </MoneySessionProvider>
+                      </EnglishSessionProvider>
                     </SpellSessionProvider>
                   </CalcSessionProvider>
                 </AlphabetSessionProvider>

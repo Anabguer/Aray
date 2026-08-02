@@ -36,6 +36,10 @@ import { WordsModeSelectScreen } from '@/features/languages/words/WordsModeSelec
 import { SpellModeSelectScreen } from '@/features/languages/spelling/SpellModeSelectScreen'
 import { SpellPlayScreen } from '@/features/languages/spelling/SpellPlayScreen'
 import { SpellSummaryScreen } from '@/features/languages/spelling/SpellSummaryScreen'
+import { EnglishHubScreen } from '@/features/english/EnglishHubScreen'
+import { EnglishModeSelectScreen } from '@/features/english/EnglishModeSelectScreen'
+import { EnglishPlayScreen } from '@/features/english/EnglishPlayScreen'
+import { EnglishSummaryScreen } from '@/features/english/EnglishSummaryScreen'
 import { MissionsScreen } from '@/features/missions/MissionsScreen'
 import { SubjectPreviewScreen } from '@/features/missions/SubjectPreviewScreen'
 import { LumoGallery } from '@/lumo/LumoGallery'
@@ -99,6 +103,10 @@ export default function App() {
           path="/missions/languages/words/formar-palabras/summary"
           element={<Navigate to="/missions/languages/formar-palabras/summary" replace />}
         />
+        <Route path="/missions/english" element={<EnglishHubScreen />} />
+        <Route path="/missions/english/:packId/summary" element={<EnglishSummaryScreen />} />
+        <Route path="/missions/english/:packId" element={<EnglishModeSelectScreen />} />
+        <Route path="/missions/english/:packId/:mode" element={<EnglishPlayScreen />} />
         <Route path="/missions/:subjectId" element={<SubjectPreviewScreen />} />
         <Route path="/collection" element={<CollectionScreen />} />
         <Route path="*" element={<Navigate to="/" replace />} />
