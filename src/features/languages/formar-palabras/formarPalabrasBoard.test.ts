@@ -2,48 +2,58 @@ import { describe, expect, it } from 'vitest'
 import {
   boardLetterInvariant,
   correctPositionMask,
+  derivedPool,
   initialBoard,
-  keepCorrectRecycleWrong,
+  lockCorrectClearWrong,
 } from '@/features/languages/formar-palabras/formarPalabrasBoard'
 
 describe('formarPalabrasBoard', () => {
-  it('siempre coloca al menos la primera letra sin duplicar el montón', () => {
-    const board = initialBoard('lluvia', ['u', 'a', 'v', 'i', 'l', 'l'])
-    expect(board.slots).toEqual(['l', null, null, null, null, null])
-    expect(board.locked[0]).toBe(true)
-    expect(board.pool).toHaveLength(5)
-    expect(boardLetterInvariant(board.slots, board.pool, 'lluvia')).toBe(true)
+  it('inicial: 1 fija + montón = resto exacto', () => {
+    const board = initialBoard('tienda', ['a', 'n', 'd', 'e', 'i', 't'])
+    const pool = derivedPool('tienda', board.slots, board.scrambleOrder)
+    expect(board.slots[0]).toBe('t')
+    expect(pool).toHaveLength(5)
+    expect(boardLetterInvariant(board.slots, pool, 'tienda')).toBe(true)
   })
 
-  it('marca solo posiciones correctas', () => {
-    expect(correctPositionMask(['m', 'e', 'x', 'a'], 'mesa')).toEqual([true, true, false, true])
+  it('derivedPool nunca crece tras varios fallos', () => {
+    const palabra = 'tienda'
+    const scramble = ['i', 'e', 'n', 'd', 'a', 't']
+    let slots = initialBoard(palabra, scramble).slots
+    let locked = initialBoard(palabra, scramble).locked
+
+    for (let fail = 0; fail < 5; fail += 1) {
+      // Rellena mal el resto
+      const pool = derivedPool(palabra, slots, scramble)
+      expect(pool.length + slots.filter(Boolean).length).toBe(palabra.length)
+      let p = 0
+      slots = slots.map((ch, i) => {
+        if (ch != null && locked[i]) return ch
+        return pool[p++] ?? null
+      })
+      // Desordena a propósito la 2.ª casilla si se puede
+      if (slots[1] && slots[1] !== 'i') {
+        /* already wrong */
+      } else if (slots[2]) {
+        slots = [...slots]
+        slots[2] = slots[2] === 'e' ? 'a' : slots[2]
+      }
+      const kept = lockCorrectClearWrong(slots, palabra)
+      slots = kept.slots
+      locked = kept.locked
+      const nextPool = derivedPool(palabra, slots, scramble)
+      expect(boardLetterInvariant(slots, nextPool, palabra)).toBe(true)
+      expect(nextPool.length).toBe(palabra.length - slots.filter(Boolean).length)
+    }
   })
 
-  it('fija la 2.ª letra acertada y no la devuelve al montón', () => {
-    // Pista inicial + 2.ª correcta; el resto mal
-    const first = keepCorrectRecycleWrong(['m', 'e', 'x', 'x'], 'mesa')
-    expect(first.slots).toEqual(['m', 'e', null, null])
-    expect(first.locked).toEqual([true, true, false, false])
-    expect(first.pool.sort().join('')).toBe('as')
-    expect(boardLetterInvariant(first.slots, first.pool, 'mesa')).toBe(true)
-
-    // Segundo intento: mantiene m,e; acierta s; falla la última
-    const second = keepCorrectRecycleWrong(['m', 'e', 's', 'x'], 'mesa')
-    expect(second.slots).toEqual(['m', 'e', 's', null])
-    expect(second.locked).toEqual([true, true, true, false])
-    expect(second.pool).toEqual(['a'])
-    expect(boardLetterInvariant(second.slots, second.pool, 'mesa')).toBe(true)
-
-    // La 2.ª letra NO reaparece en el montón
-    expect(second.pool).not.toContain('e')
-  })
-
-  it('con letras repetidas (lluvia) no suelta una L ya fija', () => {
-    const kept = keepCorrectRecycleWrong(['l', 'l', 'x', 'x', 'x', 'x'], 'lluvia')
-    expect(kept.slots).toEqual(['l', 'l', null, null, null, null])
+  it('2.ª letra acertada queda fija y fuera del montón', () => {
+    const kept = lockCorrectClearWrong(['t', 'i', 'x', 'x', 'x', 'x'], 'tienda')
+    expect(kept.slots).toEqual(['t', 'i', null, null, null, null])
     expect(kept.locked).toEqual([true, true, false, false, false, false])
-    expect(kept.pool.sort().join('')).toBe('aiuv')
-    expect(kept.pool.filter((ch) => ch === 'l')).toHaveLength(0)
-    expect(boardLetterInvariant(kept.slots, kept.pool, 'lluvia')).toBe(true)
+    const pool = derivedPool('tienda', kept.slots, ['e', 'n', 'd', 'a', 'i', 't'])
+    expect(pool.sort().join('')).toBe('aden')
+    expect(pool).not.toContain('i')
+    expect(correctPositionMask(kept.slots, 'tienda')[1]).toBe(true)
   })
 })

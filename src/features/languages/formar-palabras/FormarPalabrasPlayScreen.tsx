@@ -4,9 +4,9 @@ import { AppShell } from '@/components/AppShell'
 import { buildFormarPalabrasRound, type FormarPalabrasRoundItem } from '@/feinetas'
 import { soundEngine } from '@/sound/soundEngine'
 import {
-  boardLetterInvariant,
+  derivedPool,
   initialBoard,
-  keepCorrectRecycleWrong,
+  lockCorrectClearWrong,
   type Slot,
 } from '@/features/languages/formar-palabras/formarPalabrasBoard'
 import './formar-palabras.css'
@@ -17,8 +17,9 @@ const SUMMARY_PATH = '/missions/languages/formar-palabras/summary'
 
 type BoardState = {
   slots: Slot[]
-  pool: string[]
   lockedSlots: boolean[]
+  scrambleOrder: string[]
+  palabra: string
 }
 
 export function FormarPalabrasPlayScreen() {
@@ -26,8 +27,9 @@ export function FormarPalabrasPlayScreen() {
   const seedRef = useRef(Date.now())
   const correctRef = useRef(0)
   const openedRef = useRef(false)
-  const boardRef = useRef<BoardState>({ slots: [], pool: [], lockedSlots: [] })
-  const recycleTimerRef = useRef<number | null>(null)
+  const boardRef = useRef<BoardState | null>(null)
+  const inputLockedRef = useRef(false)
+  const feedbackTimerRef = useRef<number | null>(null)
 
   const round = useMemo(
     () =>
@@ -40,37 +42,49 @@ export function FormarPalabrasPlayScreen() {
 
   const meta = round.meta
   const [index, setIndex] = useState(0)
-  const [board, setBoard] = useState<BoardState>({ slots: [], pool: [], lockedSlots: [] })
+  const [board, setBoard] = useState<BoardState | null>(null)
   const [fails, setFails] = useState(0)
   const [inputLocked, setInputLocked] = useState(false)
   const [feedback, setFeedback] = useState<'ok' | 'bad' | null>(null)
   const [correctCount, setCorrectCount] = useState(0)
 
   const current: FormarPalabrasRoundItem | undefined = round.items[index]
-  const fixedCount = board.lockedSlots.filter(Boolean).length
+
+  const pool = useMemo(() => {
+    if (!board) return []
+    return derivedPool(board.palabra, board.slots, board.scrambleOrder)
+  }, [board])
+
+  const fixedCount = board?.lockedSlots.filter(Boolean).length ?? 0
 
   const commitBoard = useCallback((next: BoardState) => {
     boardRef.current = next
     setBoard(next)
   }, [])
 
+  const setInputLock = useCallback((value: boolean) => {
+    inputLockedRef.current = value
+    setInputLocked(value)
+  }, [])
+
   const applyItem = useCallback(
     (item: FormarPalabrasRoundItem) => {
-      if (recycleTimerRef.current != null) {
-        window.clearTimeout(recycleTimerRef.current)
-        recycleTimerRef.current = null
+      if (feedbackTimerRef.current != null) {
+        window.clearTimeout(feedbackTimerRef.current)
+        feedbackTimerRef.current = null
       }
       const init = initialBoard(item.item.palabra, item.scrambled)
       commitBoard({
         slots: init.slots,
-        pool: init.pool,
         lockedSlots: init.locked,
+        scrambleOrder: init.scrambleOrder,
+        palabra: item.item.palabra,
       })
       setFails(0)
-      setInputLocked(false)
+      setInputLock(false)
       setFeedback(null)
     },
-    [commitBoard],
+    [commitBoard, setInputLock],
   )
 
   useEffect(() => {
@@ -87,7 +101,7 @@ export function FormarPalabrasPlayScreen() {
 
   useEffect(
     () => () => {
-      if (recycleTimerRef.current != null) window.clearTimeout(recycleTimerRef.current)
+      if (feedbackTimerRef.current != null) window.clearTimeout(feedbackTimerRef.current)
     },
     [],
   )
@@ -121,15 +135,15 @@ export function FormarPalabrasPlayScreen() {
 
   const checkAnswer = useCallback(
     (filled: string[]) => {
-      if (!current) return
-      setInputLocked(true)
-      const ok = filled.join('') === current.item.palabra
+      const b = boardRef.current
+      if (!b || !current) return
+      setInputLock(true)
 
-      if (ok) {
+      if (filled.join('') === b.palabra) {
         setFeedback('ok')
         commitBoard({
+          ...b,
           slots: filled,
-          pool: [],
           lockedSlots: filled.map(() => true),
         })
         const nextCorrect = correctRef.current + 1
@@ -140,39 +154,41 @@ export function FormarPalabrasPlayScreen() {
         return
       }
 
-      // Fija al instante todas las posiciones correctas; montón = solo lo que falta.
-      const kept = keepCorrectRecycleWrong(filled, current.item.palabra)
+      const kept = lockCorrectClearWrong(filled, b.palabra)
       commitBoard({
+        ...b,
         slots: kept.slots,
-        pool: kept.pool,
         lockedSlots: kept.locked,
       })
       setFeedback('bad')
       soundEngine.play('answer-wrong')
       if (meta.correccion.fallo?.contar_fallo) setFails((f) => f + 1)
 
-      if (recycleTimerRef.current != null) window.clearTimeout(recycleTimerRef.current)
-      recycleTimerRef.current = window.setTimeout(() => {
-        recycleTimerRef.current = null
+      if (feedbackTimerRef.current != null) window.clearTimeout(feedbackTimerRef.current)
+      feedbackTimerRef.current = window.setTimeout(() => {
+        feedbackTimerRef.current = null
         setFeedback(null)
-        setInputLocked(false)
+        setInputLock(false)
       }, 650)
     },
-    [commitBoard, current, goNext, meta],
+    [commitBoard, current, goNext, meta, setInputLock],
   )
 
   const onPickFromPool = (poolIndex: number) => {
-    if (!current || inputLocked) return
-    const { slots, pool, lockedSlots } = boardRef.current
-    const letter = pool[poolIndex]
+    if (!current || inputLockedRef.current) return
+    const b = boardRef.current
+    if (!b) return
+
+    // Pool siempre derivado del tablero actual (fuente de verdad).
+    const currentPool = derivedPool(b.palabra, b.slots, b.scrambleOrder)
+    const letter = currentPool[poolIndex]
     if (!letter) return
-    const emptyAt = slots.findIndex((s) => s == null)
+    const emptyAt = b.slots.findIndex((s) => s == null)
     if (emptyAt < 0) return
 
-    const nextSlots = [...slots]
+    const nextSlots = [...b.slots]
     nextSlots[emptyAt] = letter
-    const nextPool = pool.filter((_, i) => i !== poolIndex)
-    commitBoard({ slots: nextSlots, pool: nextPool, lockedSlots })
+    commitBoard({ ...b, slots: nextSlots })
     setFeedback(null)
 
     if (nextSlots.every((s) => s != null)) {
@@ -181,19 +197,17 @@ export function FormarPalabrasPlayScreen() {
   }
 
   const onClearSlot = (slotIndex: number) => {
-    if (!current || inputLocked) return
-    const { slots, pool, lockedSlots } = boardRef.current
-    const letter = slots[slotIndex]
-    if (!letter || lockedSlots[slotIndex]) return
+    if (!current || inputLockedRef.current) return
+    const b = boardRef.current
+    if (!b) return
+    if (!b.slots[slotIndex] || b.lockedSlots[slotIndex]) return
 
-    const nextSlots = [...slots]
+    const nextSlots = [...b.slots]
     nextSlots[slotIndex] = null
-    const nextPool = [...pool, letter]
-    if (!boardLetterInvariant(nextSlots, nextPool, current.item.palabra)) return
-    commitBoard({ slots: nextSlots, pool: nextPool, lockedSlots })
+    commitBoard({ ...b, slots: nextSlots })
   }
 
-  if (!current) {
+  if (!current || !board) {
     return (
       <AppShell title="FORMAR PALABRAS" shortTitle="Formar" showBack backTo={WORDS_PATH}>
         <p>No hay palabras en el banco.</p>
@@ -257,8 +271,8 @@ export function FormarPalabrasPlayScreen() {
         </div>
 
         <ul className="formar-play__pool" aria-label="Letras desordenadas">
-          {board.pool.map((ch, i) => (
-            <li key={`pool-${i}-${ch}-${board.pool.length}`}>
+          {pool.map((ch, i) => (
+            <li key={`pool-${board.palabra}-${i}-${ch}`}>
               <button
                 type="button"
                 className="formar-play__tile"
