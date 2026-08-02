@@ -3,28 +3,16 @@ import { Link, useNavigate } from 'react-router-dom'
 import { AppShell } from '@/components/AppShell'
 import { buildFormarPalabrasRound, type FormarPalabrasRoundItem } from '@/feinetas'
 import { soundEngine } from '@/sound/soundEngine'
+import {
+  initialBoard,
+  keepCorrectRecycleWrong,
+  type Slot,
+} from '@/features/languages/formar-palabras/formarPalabrasBoard'
 import './formar-palabras.css'
 
 const ROUND_SIZE = 8
 const WORDS_PATH = '/missions/languages/words'
 const SUMMARY_PATH = '/missions/languages/formar-palabras/summary'
-
-type Slot = string | null
-
-function emptySlots(n: number): Slot[] {
-  return Array.from({ length: n }, () => null)
-}
-
-function poolWithoutFirst(scrambled: string[], letter: string): Array<string | null> {
-  let removed = false
-  return scrambled.map((ch) => {
-    if (!removed && ch === letter) {
-      removed = true
-      return null
-    }
-    return ch
-  })
-}
 
 export function FormarPalabrasPlayScreen() {
   const navigate = useNavigate()
@@ -45,29 +33,25 @@ export function FormarPalabrasPlayScreen() {
   const [index, setIndex] = useState(0)
   const [slots, setSlots] = useState<Slot[]>([])
   const [pool, setPool] = useState<Array<string | null>>([])
+  const [lockedSlots, setLockedSlots] = useState<boolean[]>([])
   const [fails, setFails] = useState(0)
   const [locked, setLocked] = useState(false)
   const [feedback, setFeedback] = useState<'ok' | 'bad' | null>(null)
-  const [hintLocked, setHintLocked] = useState(false)
   const [correctCount, setCorrectCount] = useState(0)
+  const [fixedCount, setFixedCount] = useState(1)
 
   const current: FormarPalabrasRoundItem | undefined = round.items[index]
 
-  const applyItem = useCallback((item: FormarPalabrasRoundItem, withHint = false) => {
-    const letters = [...item.item.palabra]
-    if (withHint && letters[0]) {
-      const first = letters[0]
-      setSlots([first, ...emptySlots(letters.length - 1)])
-      setPool(poolWithoutFirst(item.scrambled, first))
-      setHintLocked(true)
-    } else {
-      setSlots(emptySlots(letters.length))
-      setPool([...item.scrambled])
-      setHintLocked(false)
-    }
-    setFails(withHint ? 3 : 0)
+  const applyItem = useCallback((item: FormarPalabrasRoundItem) => {
+    // Siempre ≥1 letra de ayuda (primera).
+    const board = initialBoard(item.item.palabra, item.scrambled)
+    setSlots(board.slots)
+    setPool(board.pool)
+    setLockedSlots(board.locked)
+    setFails(0)
     setLocked(false)
     setFeedback(null)
+    setFixedCount(board.locked.filter(Boolean).length)
   }, [])
 
   useEffect(() => {
@@ -117,6 +101,8 @@ export function FormarPalabrasPlayScreen() {
 
       if (ok) {
         setFeedback('ok')
+        setLockedSlots(filled.map(() => true))
+        setFixedCount(filled.length)
         const nextCorrect = correctRef.current + 1
         correctRef.current = nextCorrect
         setCorrectCount(nextCorrect)
@@ -127,20 +113,21 @@ export function FormarPalabrasPlayScreen() {
 
       setFeedback('bad')
       soundEngine.play('answer-wrong')
+      if (meta.correccion.fallo?.contar_fallo) setFails((f) => f + 1)
 
-      const nextFails = fails + 1
-      const shouldHint =
-        Boolean(meta.correccion.fallo?.contar_fallo) &&
-        nextFails >= 3 &&
-        meta.ayudas.tras_3_fallos === 'colocar_primera_letra'
-
-      if (meta.correccion.fallo?.contar_fallo) setFails(nextFails)
+      const kept = keepCorrectRecycleWrong(filled, pool, current.item.palabra, lockedSlots)
+      // Marca en verde al instante las que van bien; luego quita las malas.
+      setLockedSlots(kept.locked)
+      setFixedCount(kept.locked.filter(Boolean).length)
 
       window.setTimeout(() => {
-        applyItem(current, shouldHint || hintLocked)
+        setSlots(kept.slots)
+        setPool(kept.pool)
+        setFeedback(null)
+        setLocked(false)
       }, 650)
     },
-    [applyItem, current, fails, goNext, hintLocked, meta],
+    [current, goNext, lockedSlots, meta, pool],
   )
 
   const onPickFromPool = (poolIndex: number) => {
@@ -167,7 +154,7 @@ export function FormarPalabrasPlayScreen() {
     if (!current || locked) return
     const letter = slots[slotIndex]
     if (!letter) return
-    if (hintLocked && slotIndex === 0) return
+    if (lockedSlots[slotIndex]) return
 
     const nextSlots = [...slots]
     nextSlots[slotIndex] = null
@@ -213,18 +200,35 @@ export function FormarPalabrasPlayScreen() {
             .join(' ')}
           aria-label="Casillas de la palabra"
         >
-          {slots.map((ch, i) => (
-            <button
-              key={`slot-${i}`}
-              type="button"
-              className={`formar-play__slot${ch ? ' has-letter' : ''}${hintLocked && i === 0 ? ' is-hint' : ''}`}
-              onClick={() => onClearSlot(i)}
-              disabled={locked || !ch || (hintLocked && i === 0)}
-              aria-label={ch ? `Quitar ${ch}` : `Casilla ${i + 1} vacía`}
-            >
-              {ch ?? ''}
-            </button>
-          ))}
+          {slots.map((ch, i) => {
+            const isFixed = Boolean(lockedSlots[i])
+            const flashWrong = feedback === 'bad' && ch != null && !isFixed
+            return (
+              <button
+                key={`slot-${i}`}
+                type="button"
+                className={[
+                  'formar-play__slot',
+                  ch ? 'has-letter' : '',
+                  isFixed ? 'is-correct' : '',
+                  flashWrong ? 'is-wrong' : '',
+                ]
+                  .filter(Boolean)
+                  .join(' ')}
+                onClick={() => onClearSlot(i)}
+                disabled={locked || !ch || isFixed}
+                aria-label={
+                  isFixed
+                    ? `${ch}, bien colocada`
+                    : ch
+                      ? `Quitar ${ch}`
+                      : `Casilla ${i + 1} vacía`
+                }
+              >
+                {ch ?? ''}
+              </button>
+            )
+          })}
         </div>
 
         <ul className="formar-play__pool" aria-label="Letras desordenadas">
@@ -242,12 +246,12 @@ export function FormarPalabrasPlayScreen() {
           ))}
         </ul>
 
-        {fails > 0 ? (
-          <p className="formar-play__fails" role="status">
-            Fallos: {fails}
-            {fails >= 3 ? ' · pista: primera letra' : ''}
-          </p>
-        ) : null}
+        <p className="formar-play__hint" role="status">
+          {fixedCount > 1
+            ? `¡${fixedCount} letras en verde van ahí!`
+            : 'La letra verde ya está bien colocada'}
+          {fails > 0 ? ` · Fallos: ${fails}` : ''}
+        </p>
 
         <Link to={WORDS_PATH} className="btn btn-ghost btn-block">
           Salir
