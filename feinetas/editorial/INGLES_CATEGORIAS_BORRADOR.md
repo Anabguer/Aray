@@ -43,6 +43,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 33: How many…? + There are/aren't. |
 | 2026-08-03 | Ejercicio 34: ordenar How many… are there? |
 | 2026-08-03 | Ejercicio 35: How many + imagen (There are / aren't). |
+| 2026-08-03 | Ejercicio 36: possessive 's + his/her (elige forma). |
 
 ## Material en inbox
 
@@ -83,6 +84,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/33-how-many-there-are.png` | How many…? + There are/aren't (fill) | Catalogado |
 | `refs/34-how-many-order.png` | Ordenar: How many … are there? | Catalogado |
 | `refs/35-how-many-picture.png` | How many + imagen → There are / aren't | Catalogado |
+| `refs/36-possessive-s-choose.png` | Possessive 's + his/her (elige forma) | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -1150,6 +1152,38 @@ El ítem 2 es trampa deliberada (pregunta *cats*, imagen *fish*) → fuerza *The
 
 ---
 
+## Ejercicio 36 — Possessive 's (+ his / her)
+
+![Captura](../Ingles/_inbox/refs/36-possessive-s-choose.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | Cajas «The possessive s» + «Possessive adjectives» + «1 Cross out the wrong form.» |
+| **Bloque** | **Gramática** posesión (*Name's* + *his/her*) |
+| **Categoría propuesta** | `possessives` (**nueva**) |
+| **Mecánica Aray** | 2-option MCQ (tachar / elegir forma correcta) · tip ayuda |
+| **Ayuda (como Lengua)** | Tip muted: Stephanie's t-shirt (no *the t-shirt of…*) · he→his · she→her |
+
+### Tabla de ayuda
+
+| | |
+|--|--|
+| 's | This is Jose's jumper. / It's Rebecca's sock. / They are Jaime's shoes. |
+| his | he → his · It's his shirt. |
+| her | she → her · It's her dress. |
+
+### Ítems (+ clave)
+
+| # | Opciones | Correcta |
+|---|----------|----------|
+| 1 | Maria Jose's bag / bag's Maria Jose | Maria Jose's bag *(ejemplo)* |
+| 2 | shirt's David / David's shirt | David's shirt |
+| 3 | Luz's shoes / shoes' Luz | Luz's shoes |
+| 4 | dress's Sarah / Sarah's dress | Sarah's dress |
+| 5 | Hugo's shoes / shoes' Hugo | Hugo's shoes |
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
@@ -1165,6 +1199,7 @@ El ítem 2 es trampa deliberada (pregunta *cats*, imagen *fish*) → fuerza *The
 | `clothes` | Ropa | crown, boots, dress… | ~9 lemas (ej. 25–27) | picture, wearing-match, he/she | borrador |
 | `adjectives` | Adjetivos | handsome, young, old, poor, rich, clever, beautiful | 7 (ej. 28–29) | he/she + adj MCQ | borrador |
 | `there-is` | There is / are | Existencia + *How many* (+ tip) | ej. 30–35 | match, fill, Q+YN, order, picture count + **help tip** | borrador |
+| `possessives` | Posesión | *'s* + *his/her* (+ tip) | ej. 36 | 2-option MCQ + **help tip** | borrador |
 
 ## Cómo añadir un lote
 
