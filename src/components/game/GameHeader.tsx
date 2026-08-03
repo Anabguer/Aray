@@ -72,9 +72,9 @@ export function GameHeader({
       </div>
 
       {showLobbyLink ? (
-        <Link to="/" className="topbar__lobby game-header__lobby" aria-label="Ir al inicio">
+        <Link to="/" className="topbar__lobby game-header__lobby" aria-label="Ir al lobby">
           <IconGamepad className="topbar__lobby-chevron" aria-hidden />
-          <span className="topbar__lobby-label">INICIO</span>
+          <span className="topbar__lobby-label">LOBBY</span>
         </Link>
       ) : null}
     </header>

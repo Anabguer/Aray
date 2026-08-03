@@ -356,7 +356,7 @@ export function MatchScreen() {
                   ELEGIR OTRO MODO
                 </Link>
                 <Link to="/" className="btn btn-ghost btn-block">
-                  INICIO
+                  LOBBY
                 </Link>
               </>
             }

@@ -93,7 +93,7 @@ describe('copy infantil (mates UX1)', () => {
     expect(match).not.toContain('Restan')
     expect(match).not.toContain('Hasta ⚡')
 
-    expect(header).toContain('>INICIO<')
-    expect(header).not.toMatch(/lobby-label">LOBBY</)
+    expect(header).toContain('>LOBBY<')
+    expect(header).not.toMatch(/lobby-label">INICIO</)
   })
 })
