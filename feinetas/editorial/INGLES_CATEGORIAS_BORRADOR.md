@@ -26,6 +26,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 16: rutina + at + hora (reloj + icono). |
 | 2026-08-03 | Ejercicio 17: lugares (campamento · match). |
 | 2026-08-03 | Ejercicio 18: lugares (montar palabra + frase). |
+| 2026-08-03 | Ejercicio 19: go to / in the summer (lugares). |
 
 ## Material en inbox
 
@@ -49,6 +50,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/16-routines-at-time.png` | I … at … (rutina + reloj) | Catalogado |
 | `refs/17-places-camp-match.png` | Lugares: we go to the … (match) | Catalogado |
 | `refs/18-places-match-write.png` | Lugares: piezas + completar frase | Catalogado |
+| `refs/19-places-go-to-in-summer.png` | I go to the … in the summer | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -614,6 +616,31 @@ Piezas: swimming/pool · coun/try · be/ach · pa/rk · moun/tains · la/ke
 
 ---
 
+## Ejercicio 19 — *go to* / *in the summer*
+
+![Captura](../Ingles/_inbox/refs/19-places-go-to-in-summer.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | Grammar Worksheet 1 · «1 Write.» |
+| **Bloque** | **Estructura** *I go to the X in the summer* + lugares |
+| **Categoría propuesta** | `places` |
+| **Mecánica Aray** | Imagen → completar dos huecos (*go to* · *in the*) o MCQ de frase |
+| **Caja ejemplo** | También *It's cold / It's sunny* → semilla de categoría **`weather`** (aún no ejercitada) |
+
+### Ítems (lugar por dibujo)
+
+| # | Frase |
+|---|--------|
+| 1 | I go to the lake in the summer. |
+| 2 | I go to the swimming pool in the summer. |
+| 3 | I go to the mountains in the summer. |
+| 4 | I go to the park in the summer. |
+| 5 | I go to the beach in the summer. |
+| 6 | I go to the country in the summer. |
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
@@ -622,7 +649,8 @@ Piezas: swimming/pool · coun/try · be/ach · pa/rk · moun/tains · la/ke
 | `abilities` | Puedo / deportes | *can/can't* + chunks + he/she | ~12 actividades (ej. 05–08) | drag-to-image, fill-activity, can-yn | borrador |
 | `routines` | Rutinas | Día a día + higiene + *at* + hora | ~15 chunks (ej. 09–11, 13–14, 16) | drag-to-image, picture, order-sentence, missing, routine+time | borrador |
 | `time` | ¿Qué hora es? | *What time…?* + *Is it…?* Yes/No | ej. 12, 15–16 | clock-ui + EN phrases + yn | borrador |
-| `places` | Lugares | *go to the* park/beach… | 6 lugares (ej. 17–18) | drag-to-image, picture, **join-parts** | borrador |
+| `places` | Lugares | *go to the* + *in the summer* | 6 lugares (ej. 17–19) | drag-to-image, picture, join-parts, fill-frame | borrador |
+| `weather` | Tiempo (clima) | *It's cold / sunny* (solo en caja ej. 19) | pendiente fichas | — | semilla |
 
 ## Cómo añadir un lote
 
