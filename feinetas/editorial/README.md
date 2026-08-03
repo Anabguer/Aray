@@ -78,6 +78,7 @@ Hasta que un documento de esta carpeta esté revisado y convertido a JSON, no fo
 | `INGLES_MASTER.md` | **Diseño maestro Inglés 3.º (Cataluña)** — arquitectura de packs |
 | `INGLES_ROADMAP_V2.md` | **Roadmap v2 aprobado** — fases 1–6 · vocabulario · imágenes · frases |
 | `INGLES_BODY.md` | Pack Body & face — **borrador** (sin congelar / sin JSON) |
+| `AUDITORIA_INGLES_BODY.md` | Auditoría editorial Body (2026-08-03) — inventario estable; congelar tras microcopy |
 | `INGLES_JSON_SPEC.md` | Contrato JSON lemas inglés (schemaVersion 1) |
 | `BANCO_MAESTRO_ORTOGRAFIA.md` | Índice / maestro de Ortografía |
 | `JSON_SPEC.md` | Contrato JSON Ortografía (lemas) |
