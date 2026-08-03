@@ -11,36 +11,14 @@
 .palabras-mcq-why__ok {
   margin: 0;
   font-weight: 700;
-  color: var(--ok, #1a7a3c);
+  color: var(--ok, #34d399);
 }
 
 .palabras-mcq-why__tip {
   margin: 0;
   font-size: 0.95rem;
-  opacity: 0.9;
-}
-
-.palabras-mcq-help-row {
-  display: grid;
-  gap: 0.45rem;
-  justify-items: start;
-  padding-top: 0.25rem;
-}
-
-.palabras-help-btn {
-  width: 2rem;
-  height: 2rem;
-  border-radius: 999px;
-  border: 2px solid rgba(96, 165, 250, 0.55);
-  background: linear-gradient(160deg, rgba(51, 65, 85, 0.95), rgba(30, 41, 59, 0.98));
-  color: #f8fafc;
-  font-weight: 800;
-  cursor: pointer;
-}
-
-.palabras-help-btn.is-open {
-  border-color: rgba(56, 189, 248, 0.9);
-  background: rgba(14, 165, 233, 0.35);
+  color: var(--text-muted, #9db6d4);
+  line-height: 1.4;
 }
 
 .palabras-match {
@@ -63,41 +41,52 @@
   gap: 0.45rem;
 }
 
-.palabras-match__chip {
+/* Compact answer-btn tiles (same look as MCQ options) */
+.learn-lab .answer-btn.palabras-match__chip {
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  display: grid;
+  place-items: center;
   width: 100%;
-  min-height: 2.65rem;
-  padding: 0.4rem 0.65rem;
+  min-height: 2.85rem;
+  padding: 0.45rem 0.7rem;
   border-radius: 0.85rem;
-  border: 1px solid rgba(148, 163, 184, 0.45);
-  background: linear-gradient(160deg, rgba(51, 65, 85, 0.98), rgba(30, 41, 59, 0.98));
   color: #f8fafc;
-  font-weight: 700;
-  font-size: 0.98rem;
   cursor: pointer;
 }
 
-.palabras-match__chip--right {
-  background: linear-gradient(160deg, rgba(30, 58, 95, 0.98), rgba(15, 40, 70, 0.98));
+.learn-lab .answer-btn.palabras-match__chip .answer-btn__value {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #f8fafc;
+  line-height: 1.2;
 }
 
-.palabras-match__chip.is-selected {
+.learn-lab .answer-btn.palabras-match__chip.is-selected {
   border-color: rgba(251, 191, 36, 0.95);
   background: linear-gradient(160deg, rgba(245, 158, 11, 0.55), rgba(180, 83, 9, 0.65));
+  box-shadow: 0 4px 0 rgba(180, 83, 9, 0.35);
+}
+
+.learn-lab .answer-btn.palabras-match__chip.is-selected .answer-btn__value {
   color: #fff7ed;
 }
 
-.palabras-match__chip.is-target:not(:disabled) {
+.learn-lab .answer-btn.palabras-match__chip.is-target:not(:disabled) {
   border-color: rgba(52, 211, 153, 0.75);
 }
 
-.palabras-match__chip.is-done {
+.learn-lab .answer-btn.palabras-match__chip.is-done {
   opacity: 0.55;
   border-color: rgba(52, 211, 153, 0.55);
   background: rgba(16, 185, 129, 0.28);
   cursor: default;
+  filter: none;
+  transform: none;
 }
 
-.palabras-match__chip.is-wrong {
+.learn-lab .answer-btn.palabras-match__chip.is-wrong {
   border-color: rgba(239, 68, 68, 0.95);
   background: rgba(185, 28, 28, 0.35);
 }
@@ -105,6 +94,6 @@
 .palabras-match__hint {
   margin: 0;
   font-size: 0.9rem;
-  color: var(--text-muted);
+  color: var(--text-muted, #9db6d4);
   text-align: center;
 }

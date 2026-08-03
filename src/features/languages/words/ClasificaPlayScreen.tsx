@@ -32,7 +32,6 @@ export function ClasificaPlayScreen() {
   const [selectedChipId, setSelectedChipId] = useState<string | null>(null)
   const [locked, setLocked] = useState<Set<string>>(new Set())
   const [wrongFlash, setWrongFlash] = useState<string | null>(null)
-  const [helpOpen, setHelpOpen] = useState(false)
   const [correctCount, setCorrectCount] = useState(0)
   const [busy, setBusy] = useState(false)
 
@@ -43,7 +42,6 @@ export function ClasificaPlayScreen() {
     setSelectedChipId(null)
     setLocked(new Set())
     setWrongFlash(null)
-    setHelpOpen(false)
     setBusy(false)
   }, [])
 
@@ -144,24 +142,9 @@ export function ClasificaPlayScreen() {
           <p className="clasifica-progress" aria-live="polite">
             Ronda {roundIndex + 1} / {session.length} · {correctCount} bien
           </p>
-          <div className="clasifica-prompt-row">
-            <h2 className="clasifica-prompt">{round.prompt}</h2>
-            <button
-              type="button"
-              className={`clasifica-help-btn${helpOpen ? ' is-open' : ''}`}
-              aria-expanded={helpOpen}
-              aria-controls="clasifica-help"
-              onClick={() => setHelpOpen((v) => !v)}
-            >
-              ?
-            </button>
-          </div>
-          {helpOpen ? (
-            <p id="clasifica-help" className="clasifica-help" role="note">
-              {round.help}
-            </p>
-          ) : null}
-          <p className="clasifica-hint">
+          <h2 className="clasifica-prompt">{round.prompt}</h2>
+          <p className="clasifica-hint">{round.help}</p>
+          <p className="clasifica-hint clasifica-hint--action">
             {selectedChipId
               ? 'Ahora toca el bando correcto'
               : 'Toca una palabra y luego su bando'}

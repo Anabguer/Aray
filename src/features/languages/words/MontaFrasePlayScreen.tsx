@@ -29,7 +29,6 @@ export function MontaFrasePlayScreen() {
   const [locked, setLocked] = useState(false)
   const [feedback, setFeedback] = useState<'ok' | 'bad' | null>(null)
   const [correctCount, setCorrectCount] = useState(0)
-  const [helpOpen, setHelpOpen] = useState(false)
 
   const question = queue[index]
 
@@ -45,7 +44,6 @@ export function MontaFrasePlayScreen() {
     setUsedPoolIdx(new Set())
     setLocked(false)
     setFeedback(null)
-    setHelpOpen(false)
   }, [])
 
   useEffect(() => {
@@ -145,22 +143,8 @@ export function MontaFrasePlayScreen() {
           <p className="monta-frase-progress">
             Frase {index + 1} / {queue.length} · {correctCount} bien
           </p>
-          <div className="monta-frase-prompt-row">
-            <h2 className="monta-frase-prompt">Monta la frase</h2>
-            <button
-              type="button"
-              className={`monta-frase-help-btn${helpOpen ? ' is-open' : ''}`}
-              aria-expanded={helpOpen}
-              onClick={() => setHelpOpen((v) => !v)}
-            >
-              ?
-            </button>
-          </div>
-          {helpOpen ? (
-            <p className="monta-frase-help" role="note">
-              {question.tip}
-            </p>
-          ) : null}
+          <h2 className="monta-frase-prompt">Monta la frase</h2>
+          <p className="monta-frase-hint">{question.tip}</p>
         </header>
 
         <ol

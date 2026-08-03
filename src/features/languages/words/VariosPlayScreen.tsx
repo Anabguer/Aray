@@ -34,7 +34,6 @@ export function VariosPlayScreen() {
   const [matched, setMatched] = useState<Set<string>>(new Set())
   const [wrongRight, setWrongRight] = useState<string | null>(null)
   const [locked, setLocked] = useState(false)
-  const [helpOpen, setHelpOpen] = useState(false)
   const [correctCount, setCorrectCount] = useState(0)
 
   const board = session[roundIndex]
@@ -56,7 +55,6 @@ export function VariosPlayScreen() {
     setMatched(new Set())
     setWrongRight(null)
     setLocked(false)
-    setHelpOpen(false)
   }, [roundIndex])
 
   const finish = useCallback(() => {
@@ -125,22 +123,8 @@ export function VariosPlayScreen() {
           <p className="varios-progress">
             Tablero {roundIndex + 1} / {session.length} · {correctCount} bien
           </p>
-          <div className="varios-prompt-row">
-            <h2 className="varios-prompt">{board.prompt}</h2>
-            <button
-              type="button"
-              className={`varios-help-btn${helpOpen ? ' is-open' : ''}`}
-              aria-expanded={helpOpen}
-              onClick={() => setHelpOpen((v) => !v)}
-            >
-              ?
-            </button>
-          </div>
-          {helpOpen ? (
-            <p className="varios-help" role="note">
-              {board.help}
-            </p>
-          ) : null}
+          <h2 className="varios-prompt">{board.prompt}</h2>
+          <p className="varios-hint">{board.help}</p>
         </header>
 
         <div className="varios-match" role="group" aria-label="Empareja">
@@ -173,7 +157,7 @@ export function VariosPlayScreen() {
             ))}
           </ul>
         </div>
-        <p className="varios-hint">
+        <p className="varios-hint varios-hint--action">
           {selLeft ? 'Ahora toca la pareja' : 'Toca una ficha de la izquierda'}
         </p>
       </div>

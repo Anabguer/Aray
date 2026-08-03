@@ -50,7 +50,6 @@ export function PalabrasMcqPlayScreen() {
   const [exitOpen, setExitOpen] = useState(false)
   const [enterKey, setEnterKey] = useState(0)
   const [hitFlash, setHitFlash] = useState(false)
-  const [helpOpen, setHelpOpen] = useState(false)
 
   // Match state
   const [selLeft, setSelLeft] = useState<string | null>(null)
@@ -97,7 +96,6 @@ export function PalabrasMcqPlayScreen() {
     setPicked(null)
     setLocked(false)
     setHitFlash(false)
-    setHelpOpen(false)
     setSelLeft(null)
     setMatched(new Set())
     setWrongRight(null)
@@ -234,7 +232,7 @@ export function PalabrasMcqPlayScreen() {
   }
 
   const prompt = question?.prompt ?? board?.prompt ?? ''
-  const helpText = question?.tip ?? board?.help
+  const helpText = question?.tip ?? board?.help ?? null
 
   return (
     <AppShell title={label.toUpperCase()} shortTitle="Palabras" showBack backTo={WORDS_PATH}>
@@ -319,11 +317,11 @@ export function PalabrasMcqPlayScreen() {
                       <li key={`L-${p.id}`}>
                         <button
                           type="button"
-                          className={`palabras-match__chip${selLeft === p.id ? ' is-selected' : ''}${matched.has(p.id) ? ' is-done' : ''}`}
+                          className={`answer-btn palabras-match__chip${selLeft === p.id ? ' is-selected' : ''}${matched.has(p.id) ? ' is-done' : ''}`}
                           disabled={locked || matched.has(p.id)}
                           onClick={() => onMatchLeft(p.id)}
                         >
-                          {p.left}
+                          <span className="answer-btn__value">{p.left}</span>
                         </button>
                       </li>
                     ))}
@@ -333,11 +331,11 @@ export function PalabrasMcqPlayScreen() {
                       <li key={`R-${pid}`}>
                         <button
                           type="button"
-                          className={`palabras-match__chip palabras-match__chip--right${wrongRight === pid ? ' is-wrong' : ''}${matched.has(pid) ? ' is-done' : ''}${selLeft ? ' is-target' : ''}`}
+                          className={`answer-btn palabras-match__chip${wrongRight === pid ? ' is-wrong' : ''}${matched.has(pid) ? ' is-done' : ''}${selLeft ? ' is-target' : ''}`}
                           disabled={locked || matched.has(pid) || !selLeft}
                           onClick={() => onMatchRight(pid)}
                         >
-                          {rightLabelFor(board, pid)}
+                          <span className="answer-btn__value">{rightLabelFor(board, pid)}</span>
                         </button>
                       </li>
                     ))}
@@ -351,22 +349,10 @@ export function PalabrasMcqPlayScreen() {
           }
           footer={
             <>
-              {helpText ? (
-                <div className="palabras-mcq-help-row">
-                  <button
-                    type="button"
-                    className={`palabras-help-btn${helpOpen ? ' is-open' : ''}`}
-                    aria-expanded={helpOpen}
-                    onClick={() => setHelpOpen((v) => !v)}
-                  >
-                    ?
-                  </button>
-                  {helpOpen ? (
-                    <p className="palabras-mcq-why__tip" role="note">
-                      {helpText}
-                    </p>
-                  ) : null}
-                </div>
+              {helpText && !waitingAfterMiss ? (
+                <p className="palabras-mcq-why__tip" role="note">
+                  {helpText}
+                </p>
               ) : null}
               {waitingAfterMiss ? (
                 <div className="palabras-mcq-why" role="region" aria-label="Ayuda">

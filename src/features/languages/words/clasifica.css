@@ -16,59 +16,28 @@
   margin: 0;
   font-size: 0.85rem;
   font-weight: 600;
-  color: var(--text-muted);
-}
-
-.clasifica-prompt-row {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
+  color: var(--text-muted, #9db6d4);
 }
 
 .clasifica-prompt {
   margin: 0;
-  flex: 1;
   font-family: var(--font-display);
   font-size: clamp(1.35rem, 4.5vw, 1.75rem);
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1.15;
-  color: var(--text);
-}
-
-.clasifica-help-btn {
-  flex: 0 0 auto;
-  width: 2.35rem;
-  height: 2.35rem;
-  border-radius: 999px;
-  border: 2px solid rgba(96, 165, 250, 0.55);
-  background: linear-gradient(160deg, rgba(51, 65, 85, 0.95), rgba(30, 41, 59, 0.98));
-  color: #f8fafc;
-  font-weight: 800;
-  font-size: 1.1rem;
-  cursor: pointer;
-}
-
-.clasifica-help-btn.is-open {
-  border-color: rgba(56, 189, 248, 0.9);
-  background: rgba(14, 165, 233, 0.35);
-}
-
-.clasifica-help {
-  margin: 0;
-  padding: 0.7rem 0.9rem;
-  border-radius: 0.85rem;
-  border: 1px solid rgba(96, 165, 250, 0.35);
-  background: rgba(15, 23, 42, 0.65);
-  color: var(--text);
-  font-size: 0.95rem;
-  line-height: 1.4;
+  color: var(--text, #eef7ff);
 }
 
 .clasifica-hint {
   margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-muted, #9db6d4);
+  line-height: 1.4;
+}
+
+.clasifica-hint--action {
   font-size: 0.9rem;
-  color: var(--text-muted);
 }
 
 .clasifica-bins {
@@ -88,15 +57,19 @@
   grid-template-columns: 1fr 1fr;
 }
 
-.clasifica-bin {
+button.clasifica-bin {
+  appearance: none;
+  -webkit-appearance: none;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   min-height: 6rem;
   padding: 0.75rem 0.6rem;
   border-radius: 1rem;
-  border: 2px dashed rgba(148, 163, 184, 0.55);
-  background: rgba(15, 23, 42, 0.45);
+  border: 2px dashed rgba(56, 189, 248, 0.35);
+  background:
+    linear-gradient(165deg, rgba(22, 48, 86, 0.55), rgba(10, 26, 50, 0.72));
+  box-shadow: inset 0 1px 0 rgba(186, 230, 253, 0.08);
   color: #f8fafc;
   text-align: left;
   cursor: pointer;
@@ -106,18 +79,18 @@
     transform 0.12s ease;
 }
 
-.clasifica-bin:disabled {
+button.clasifica-bin:disabled {
   cursor: default;
   opacity: 0.95;
 }
 
-.clasifica-bin.is-target:not(:disabled) {
+button.clasifica-bin.is-target:not(:disabled) {
   border-style: solid;
   border-color: rgba(52, 211, 153, 0.85);
   background: rgba(16, 185, 129, 0.22);
 }
 
-.clasifica-bin.is-wrong {
+button.clasifica-bin.is-wrong {
   border-style: solid;
   border-color: rgba(239, 68, 68, 0.95);
   background: rgba(185, 28, 28, 0.35);
@@ -154,26 +127,34 @@
   justify-content: center;
 }
 
+button.clasifica-chip,
 .clasifica-chip {
+  appearance: none;
+  -webkit-appearance: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-height: 2.6rem;
   padding: 0.4rem 0.95rem;
   border-radius: 0.85rem;
-  border: 1px solid rgba(148, 163, 184, 0.45);
-  background: linear-gradient(160deg, rgba(51, 65, 85, 0.98), rgba(30, 41, 59, 0.98));
+  border: 1px solid rgba(56, 189, 248, 0.28);
+  background:
+    linear-gradient(165deg, rgba(22, 48, 86, 0.98), rgba(10, 26, 50, 0.96));
+  box-shadow:
+    0 8px 16px rgba(0, 8, 24, 0.3),
+    inset 0 1px 0 rgba(186, 230, 253, 0.1);
   color: #f8fafc;
-  font-weight: 700;
+  font-weight: 800;
   font-size: 1.05rem;
+  line-height: 1.2;
   cursor: pointer;
 }
 
-.clasifica-chip:disabled {
+button.clasifica-chip:disabled {
   cursor: default;
 }
 
-.clasifica-chip.is-selected {
+button.clasifica-chip.is-selected {
   border-color: rgba(251, 191, 36, 0.95);
   background: linear-gradient(160deg, rgba(245, 158, 11, 0.55), rgba(180, 83, 9, 0.65));
   color: #fff7ed;
@@ -189,6 +170,7 @@
   font-size: 0.92rem;
   min-height: 1.9rem;
   padding: 0.25rem 0.6rem;
+  box-shadow: none;
 }
 
 @keyframes clasifica-shake {
@@ -215,11 +197,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .clasifica-bin.is-wrong {
+  button.clasifica-bin.is-wrong {
     animation: none;
   }
 
-  .clasifica-chip.is-selected {
+  button.clasifica-chip.is-selected {
     transform: none;
     box-shadow: none;
   }

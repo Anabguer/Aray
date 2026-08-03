@@ -15,50 +15,28 @@
   margin: 0;
   font-size: 0.85rem;
   font-weight: 600;
-  color: var(--text-muted);
-}
-
-.varios-prompt-row {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
+  color: var(--text-muted, #9db6d4);
 }
 
 .varios-prompt {
   margin: 0;
-  flex: 1;
   font-family: var(--font-display);
   font-size: clamp(1.35rem, 4.5vw, 1.75rem);
   font-weight: 800;
   letter-spacing: -0.02em;
-  color: var(--text);
+  color: var(--text, #eef7ff);
 }
 
-.varios-help-btn {
-  width: 2.35rem;
-  height: 2.35rem;
-  border-radius: 999px;
-  border: 2px solid rgba(96, 165, 250, 0.55);
-  background: linear-gradient(160deg, rgba(51, 65, 85, 0.95), rgba(30, 41, 59, 0.98));
-  color: #f8fafc;
-  font-weight: 800;
-  font-size: 1.1rem;
-  cursor: pointer;
-}
-
-.varios-help-btn.is-open {
-  border-color: rgba(56, 189, 248, 0.9);
-  background: rgba(14, 165, 233, 0.35);
-}
-
-.varios-help {
+.varios-hint {
   margin: 0;
-  padding: 0.7rem 0.9rem;
-  border-radius: 0.85rem;
-  border: 1px solid rgba(96, 165, 250, 0.35);
-  background: rgba(15, 23, 42, 0.65);
-  color: var(--text);
   font-size: 0.95rem;
+  color: var(--text-muted, #9db6d4);
+  line-height: 1.4;
+}
+
+.varios-hint--action {
+  text-align: center;
+  font-size: 0.9rem;
 }
 
 .varios-match {
@@ -75,48 +53,49 @@
   gap: 0.5rem;
 }
 
-.varios-chip {
+button.varios-chip {
+  appearance: none;
+  -webkit-appearance: none;
   width: 100%;
   min-height: 2.75rem;
   padding: 0.45rem 0.7rem;
   border-radius: 0.85rem;
-  border: 1px solid rgba(148, 163, 184, 0.45);
-  background: linear-gradient(160deg, rgba(51, 65, 85, 0.98), rgba(30, 41, 59, 0.98));
+  border: 1px solid rgba(56, 189, 248, 0.28);
+  background:
+    linear-gradient(165deg, rgba(22, 48, 86, 0.98), rgba(10, 26, 50, 0.96));
+  box-shadow:
+    0 8px 16px rgba(0, 8, 24, 0.3),
+    inset 0 1px 0 rgba(186, 230, 253, 0.1);
   color: #f8fafc;
-  font-weight: 700;
+  font-weight: 800;
   font-size: 1rem;
+  line-height: 1.2;
   cursor: pointer;
 }
 
-.varios-chip--right {
-  background: linear-gradient(160deg, rgba(30, 58, 95, 0.98), rgba(15, 40, 70, 0.98));
+button.varios-chip--right {
+  background:
+    linear-gradient(165deg, rgba(30, 58, 95, 0.98), rgba(15, 40, 70, 0.98));
 }
 
-.varios-chip.is-selected {
+button.varios-chip.is-selected {
   border-color: rgba(251, 191, 36, 0.95);
   background: linear-gradient(160deg, rgba(245, 158, 11, 0.55), rgba(180, 83, 9, 0.65));
   color: #fff7ed;
 }
 
-.varios-chip.is-target:not(:disabled) {
+button.varios-chip.is-target:not(:disabled) {
   border-color: rgba(52, 211, 153, 0.75);
 }
 
-.varios-chip.is-done {
+button.varios-chip.is-done {
   opacity: 0.55;
   border-color: rgba(52, 211, 153, 0.55);
   background: rgba(16, 185, 129, 0.28);
   cursor: default;
 }
 
-.varios-chip.is-wrong {
+button.varios-chip.is-wrong {
   border-color: rgba(239, 68, 68, 0.95);
   background: rgba(185, 28, 28, 0.35);
-}
-
-.varios-hint {
-  margin: 0;
-  text-align: center;
-  font-size: 0.9rem;
-  color: var(--text-muted);
 }
