@@ -422,4 +422,23 @@
   line-height: 1.2;
 }
 
+/* 4 respuestas MCQ en una sola fila (no 2×2) */
+.side-run-options.side-run-options--money-row {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.4rem;
+}
+
+.side-run-options--money-row .answer-btn {
+  min-height: 3.15rem;
+  padding-inline: 0.2rem;
+}
+
+.side-run-options--money-row .answer-btn__value {
+  font-size: clamp(0.68rem, 2.6vw, 0.95rem);
+  padding: 0 0.1rem;
+}
+
+.side-run-options--money-row .answer-btn__key {
+  font-size: 0.65rem;
+}
 

@@ -316,7 +316,10 @@ export function MoneyPlayScreen() {
                 })}
               </div>
             ) : (
-              <div className="side-run-options" role="group">
+              <div
+                className="side-run-options side-run-options--money-row"
+                role="group"
+              >
                 {question.options.map((opt, i) => (
                   <button
                     key={`${question.id}-${i}`}
