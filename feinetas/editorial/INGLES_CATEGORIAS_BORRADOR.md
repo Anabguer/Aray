@@ -48,6 +48,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicios 38–39: is/are + his/her (misma escena que 37). |
 | 2026-08-03 | Ejercicio 40: Talking about the weather (match Q↔A + tip). |
 | 2026-08-03 | Ejercicios 41–42: go to school by… (misma tira de imágenes). |
+| 2026-08-03 | Ejercicio 43: How much is…? + euros. |
 
 ## Material en inbox
 
@@ -94,6 +95,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/39-his-her-where.png` | his/her + Where is/are (mismo lote 37) | Catalogado |
 | `refs/40-weather-talk-match.png` | Weather Q↔A match (+ tip) | Catalogado |
 | `refs/41-42-transport-school.png` | go by… + Do you…? (misma tira) | Catalogado |
+| `refs/43-how-much-euros.png` | How much is…? + monedas/billetes | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -1364,6 +1366,29 @@ train, bike, car, bus, walk, underground *(solo en YN, no en tira)*.
 
 ---
 
+## Ejercicio 43 — How much…? (euros)
+
+![Captura](../Ingles/_inbox/refs/43-how-much-euros.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | «3 Look at the pictures and answer the questions.» |
+| **Bloque** | **Números / compras** *How much is…?* → *It's N euros.* |
+| **Categoría propuesta** | `money` (**nueva**) |
+| **Mecánica Aray** | Contar monedas/billetes (estilo Aray) → *It's N euros.* · tip ayuda |
+| **Ayuda** | Tip: How much is a ticket? → It's 3 euros. |
+
+### Ítems (+ clave)
+
+| # | Pregunta | Dinero (visual) | Respuesta |
+|---|----------|-----------------|-----------|
+| 1 | How much is a ticket? | 3 × 1€ | It's 3 euros. *(ejemplo)* |
+| 2 | How much is a pen? | 2 × 1€ | It's 2 euros. |
+| 3 | How much is a ball? | billete 5€ | It's 5 euros. |
+| 4 | How much is a book? | 5€ + 3 × 1€ | It's 8 euros. |
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
@@ -1382,6 +1407,7 @@ train, bike, car, bus, walk, underground *(solo en YN, no en tira)*.
 | `possessives` | Posesión | *'s* + *his/her* (+ tip) | ej. 36, 39 | MCQ, his/her Where + **help tip** | borrador |
 | `prepositions` | Preposiciones | *on/in/under* + Where is/are | ej. 37–38 | picture prep, is/are fill + **help tip** · **1 escena compartida** | borrador |
 | `transport` | Transporte | *go by…* / *walk* + Do you…? | ej. 41–42 | drag-to-image, YN · **1 tira compartida** | borrador |
+| `money` | Dinero / precios | *How much is…?* + euros | ej. 43 | count coins → *It's N euros.* + tip | borrador |
 
 ## Cómo añadir un lote
 
