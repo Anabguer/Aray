@@ -17,6 +17,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 07: match frase ↔ deporte (más actividades). |
 | 2026-08-03 | Ejercicio 08: Can Maria/Nick…? (tabla + Yes/No). |
 | 2026-08-03 | Ejercicio 09: rutinas diarias (match frase↔imagen). |
+| 2026-08-03 | Ejercicio 10: rutinas (completar I + chunk). |
 
 ## Material en inbox
 
@@ -31,6 +32,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/07-match-sports-phrases.png` | Match: chunk deporte ↔ escena | Catalogado |
 | `refs/08-can-questions-maria-nick.png` | Can she/he…? Yes/No (tabla Maria/Nick) | Catalogado |
 | `refs/09-routines-match.png` | Rutinas: match frase ↔ escena | Catalogado |
+| `refs/10-routines-write.png` | Rutinas: I + completar chunk | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -341,13 +343,42 @@ Nota gramatical útil para tips: *play* + deporte con pelota/raqueta · *go* + -
 
 ---
 
+## Ejercicio 10 — Rutinas · completar
+
+![Captura](../Ingles/_inbox/refs/10-routines-write.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | «2 Write.» (banco + 6 viñetas) |
+| **Bloque** | **Rutinas** (*I* + chunk) |
+| **Categoría propuesta** | `routines` |
+| **Mecánica Aray** | Imagen AFK → elegir chunk del banco (MCQ / arrastrar al hueco *I ______.*) |
+| **Imágenes** | Mismas 6 rutinas; personaje Aray (no el bicho del cuaderno) |
+
+### Orden ficha → chunk
+
+| # | Chunk |
+|---|--------|
+| 1 | get up |
+| 2 | get dressed |
+| 3 | brush my teeth |
+| 4 | have a shower |
+| 5 | have breakfast |
+| 6 | go to school |
+
+### Relación con ej. 09
+
+- Mismos 6 chunks. 09 = frase completa → imagen; 10 = imagen → rellenar chunk.
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
 |--------------|-----------|------|-------|---------------------|--------|
 | `food` | Comida | Vocabulario food + preferencias (+ *but*) | ~14 lemas (ej. 01–04) | meaning, translate, like-mcq, picture | borrador |
 | `abilities` | Puedo / deportes | *can/can't* + chunks + he/she | ~12 actividades (ej. 05–08) | drag-to-image, fill-activity, can-yn | borrador |
-| `routines` | Rutinas | Día a día (*I get up*…) | 6 frases (ej. 09) | drag-phrase-to-image | borrador |
+| `routines` | Rutinas | Día a día | 6 frases (ej. 09–10) | drag-phrase-to-image, fill-chunk | borrador |
 
 ## Cómo añadir un lote
 
