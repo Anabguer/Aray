@@ -25,6 +25,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 15: Is it … o'clock? Yes/No (reloj). |
 | 2026-08-03 | Ejercicio 16: rutina + at + hora (reloj + icono). |
 | 2026-08-03 | Ejercicio 17: lugares (campamento · match). |
+| 2026-08-03 | Ejercicio 18: lugares (montar palabra + frase). |
 
 ## Material en inbox
 
@@ -47,6 +48,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/15-is-it-time-yn.png` | Is it …? Yes, it is / No, it isn't | Catalogado |
 | `refs/16-routines-at-time.png` | I … at … (rutina + reloj) | Catalogado |
 | `refs/17-places-camp-match.png` | Lugares: we go to the … (match) | Catalogado |
+| `refs/18-places-match-write.png` | Lugares: piezas + completar frase | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -585,6 +587,33 @@ Nota gramatical útil para tips: *play* + deporte con pelota/raqueta · *go* + -
 
 ---
 
+## Ejercicio 18 — Lugares · piezas + frase
+
+![Captura](../Ingles/_inbox/refs/18-places-match-write.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | «2 Match and write.» (puzzle de sílabas + frase + dibujo) |
+| **Bloque** | **Lugares** (mismos 6 que ej. 17) |
+| **Categoría propuesta** | `places` |
+| **Mecánica Aray** | (1) unir piezas tipo *swimming*+*pool* · (2) imagen → completar *At summer camp we go to the _____* |
+| **Imágenes** | Reutilizar set places AFK |
+
+### Frases (según dibujos)
+
+| # | Lugar |
+|---|--------|
+| 1 | swimming pool |
+| 2 | mountains |
+| 3 | park |
+| 4 | lake |
+| 5 | country |
+| 6 | beach |
+
+Piezas: swimming/pool · coun/try · be/ach · pa/rk · moun/tains · la/ke
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
@@ -593,7 +622,7 @@ Nota gramatical útil para tips: *play* + deporte con pelota/raqueta · *go* + -
 | `abilities` | Puedo / deportes | *can/can't* + chunks + he/she | ~12 actividades (ej. 05–08) | drag-to-image, fill-activity, can-yn | borrador |
 | `routines` | Rutinas | Día a día + higiene + *at* + hora | ~15 chunks (ej. 09–11, 13–14, 16) | drag-to-image, picture, order-sentence, missing, routine+time | borrador |
 | `time` | ¿Qué hora es? | *What time…?* + *Is it…?* Yes/No | ej. 12, 15–16 | clock-ui + EN phrases + yn | borrador |
-| `places` | Lugares | *go to the* park/beach… | 6 lugares (ej. 17) | drag-to-image, picture | borrador |
+| `places` | Lugares | *go to the* park/beach… | 6 lugares (ej. 17–18) | drag-to-image, picture, **join-parts** | borrador |
 
 ## Cómo añadir un lote
 
