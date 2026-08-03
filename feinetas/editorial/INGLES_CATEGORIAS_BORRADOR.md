@@ -37,6 +37,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 27: write He's/She's wearing + ropa. |
 | 2026-08-03 | Ejercicio 28: He's/She's + adjetivos (rich, old…). |
 | 2026-08-03 | Ejercicio 29: write He's/She's + adjetivo. |
+| 2026-08-03 | Ejercicio 30: There is/are (+ caja de ayuda). |
 
 ## Material en inbox
 
@@ -71,6 +72,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/27-hes-shes-wearing-write.png` | Write He's/She's wearing + item | Catalogado |
 | `refs/28-hes-shes-adjectives.png` | He's/She's + handsome/young/old… | Catalogado |
 | `refs/29-hes-shes-adjectives-write.png` | Write He's/She's + adj (beautiful…) | Catalogado |
+| `refs/30-there-is-are-match.png` | There is/are + match mitades (+ ayuda) | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -967,6 +969,42 @@ Distractores del set: river, sea, valley, town, village, forest.
 
 ---
 
+## Ejercicio 30 — There is / There are
+
+![Captura](../Ingles/_inbox/refs/30-there-is-are-match.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | Grammar · «There is and There are» + «1 Match the sentence halves.» |
+| **Bloque** | **Gramática** existencia (*There's / There are / isn't / aren't / Are there…?*) |
+| **Categoría propuesta** | `there-is` (**nueva**) |
+| **Mecánica Aray** | Emparejar mitades de frase (como Empareja) |
+| **Ayuda (como Lengua)** | **Sí — obligatorio.** Tip muted siempre visible bajo el prompt (patrón Clasifica / Monta frase / MCQ `help`·`tip`). No botón «?». Resumen: There's = 1 · There are = 2+ · There aren't any · Yes/No, there are/aren't. |
+
+### Tabla de ayuda (contenido del tip)
+
+| | Singular | Plural |
+|--|----------|--------|
+| + | There's one pencil. | There are two pencils. |
+| − | There isn't… | There aren't any pencils. |
+| ? | — | Are there any pencils? → Yes, there are. / No, there aren't. |
+
+### Match (mitades)
+
+| Inicio | Final |
+|--------|--------|
+| There are | three boys. |
+| There isn't | any money. |
+| Yes, | there are. |
+| There aren't | any girls. |
+| There's | one book. |
+
+### Nota de producto
+
+En Lengua el tip va como texto muted (`clasifica-hint`, `monta-frase-hint`, `palabras-mcq-why__tip`). **Inglés igual** al montar modos: campo `help` / `tip` por ronda.
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
@@ -980,7 +1018,8 @@ Distractores del set: river, sea, valley, town, village, forest.
 | `grammar-basics` | Formas | It's / go to / I've got / He's·She's | ej. 23, 26–29 | 2-option MCQ | borrador |
 | `stories` | Cuentos | Personajes + *wearing* + adjetivos | ej. 24–29 | drag-to-portrait, who-wearing, he/she | borrador |
 | `clothes` | Ropa | crown, boots, dress… | ~9 lemas (ej. 25–27) | picture, wearing-match, he/she | borrador |
-| `adjectives` | Adjetivos | handsome, young, old, poor, rich, clever, **beautiful** | 7 (ej. 28–29) | he/she + adj MCQ | borrador |
+| `adjectives` | Adjetivos | handsome, young, old, poor, rich, clever, beautiful | 7 (ej. 28–29) | he/she + adj MCQ | borrador |
+| `there-is` | There is / are | Existencia (+ tip de ayuda) | ej. 30 | match halves + **help tip** | borrador |
 
 ## Cómo añadir un lote
 
