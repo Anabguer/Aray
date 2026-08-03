@@ -16,6 +16,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 06: can/can't deportes (completar actividad). |
 | 2026-08-03 | Ejercicio 07: match frase ↔ deporte (más actividades). |
 | 2026-08-03 | Ejercicio 08: Can Maria/Nick…? (tabla + Yes/No). |
+| 2026-08-03 | Ejercicio 09: rutinas diarias (match frase↔imagen). |
 
 ## Material en inbox
 
@@ -29,6 +30,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/06-can-cant-sports-write.png` | Can/can't deportes (I can/can't + verbo) | Catalogado |
 | `refs/07-match-sports-phrases.png` | Match: chunk deporte ↔ escena | Catalogado |
 | `refs/08-can-questions-maria-nick.png` | Can she/he…? Yes/No (tabla Maria/Nick) | Catalogado |
+| `refs/09-routines-match.png` | Rutinas: match frase ↔ escena | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -303,12 +305,49 @@ Nota gramatical útil para tips: *play* + deporte con pelota/raqueta · *go* + -
 
 ---
 
+## Ejercicio 09 — Rutinas diarias · match
+
+![Captura](../Ingles/_inbox/refs/09-routines-match.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | Lesson 1 · «1 Read and write the letter.» |
+| **Bloque** | **Vocabulario / rutinas** (*I get up*, *have breakfast*…) |
+| **Categoría propuesta** | `routines` (**nueva**) |
+| **Mecánica Aray** | **Arrastrar la frase a la imagen** AFK (mismo patrón que deportes) |
+| **Imágenes** | 6 escenas con el mismo personaje Aray (consistencia de avatar) |
+
+### Pares
+
+| Frase | Letra ficha | Escena |
+|-------|-------------|--------|
+| I get up. | b | despertar / estirarse en la cama |
+| I have breakfast. | d | desayuno en la mesa |
+| I have a shower. | a | ducha |
+| I brush my teeth. | e | cepillarse los dientes |
+| I go to school. | f | mochila / camino al cole |
+| I get dressed. | c | vestirse |
+
+### Lemas
+
+| EN | ES |
+|----|-----|
+| get up | levantarse |
+| have breakfast | desayunar |
+| have a shower | ducharse |
+| brush my teeth | cepillarse los dientes |
+| go to school | ir al cole |
+| get dressed | vestirse |
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
 |--------------|-----------|------|-------|---------------------|--------|
 | `food` | Comida | Vocabulario food + preferencias (+ *but*) | ~14 lemas (ej. 01–04) | meaning, translate, like-mcq, picture | borrador |
-| `abilities` | Puedo / deportes | *can/can't* + chunks + preguntas he/she | ~12 actividades (ej. 05–08) | drag-to-image, fill-activity, can-yn | borrador |
+| `abilities` | Puedo / deportes | *can/can't* + chunks + he/she | ~12 actividades (ej. 05–08) | drag-to-image, fill-activity, can-yn | borrador |
+| `routines` | Rutinas | Día a día (*I get up*…) | 6 frases (ej. 09) | drag-phrase-to-image | borrador |
 
 ## Cómo añadir un lote
 
