@@ -26,7 +26,7 @@ export function AppShell({
 }) {
   const location = useLocation()
   const isHome = location.pathname === '/' || location.pathname === ''
-  const resolvedTitle = title ?? (isHome ? 'INICIO' : undefined)
+  const resolvedTitle = title ?? (isHome ? 'LOBBY' : undefined)
   const lobbyLink = showLobbyLink ?? !isHome
 
   return (
