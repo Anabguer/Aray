@@ -41,6 +41,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 31: completar there's / there aren't / are there… |
 | 2026-08-03 | Ejercicio 32: Are there any…? Yes/No short answers. |
 | 2026-08-03 | Ejercicio 33: How many…? + There are/aren't. |
+| 2026-08-03 | Ejercicio 34: ordenar How many… are there? |
 
 ## Material en inbox
 
@@ -79,6 +80,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/31-there-is-complete.png` | Completar there's / aren't / are there… | Catalogado |
 | `refs/32-there-are-questions-yn.png` | Are there any…? + Yes/No short answers | Catalogado |
 | `refs/33-how-many-there-are.png` | How many…? + There are/aren't (fill) | Catalogado |
+| `refs/34-how-many-order.png` | Ordenar: How many … are there? | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -1095,6 +1097,29 @@ Mecánica distinta al match del ej. 30 (aquí **elegir forma**), misma categorí
 
 ---
 
+## Ejercicio 34 — Ordenar How many…?
+
+![Captura](../Ingles/_inbox/refs/34-how-many-order.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | «2 Put the words in the correct order to make questions.» |
+| **Bloque** | **Gramática** *How many* + orden de palabras |
+| **Categoría propuesta** | `there-is` |
+| **Mecánica Aray** | Order-sentence / montar frase (como rutinas) · tip ayuda |
+| **Ayuda** | Tip: How many + N + are there? |
+
+### Ítems (+ clave)
+
+| # | Piezas | Frase |
+|---|--------|-------|
+| 1 | ? how many there chairs are *(empieza How)* | How many chairs are there? |
+| 2 | many biscuits are there how ? | How many biscuits are there? |
+| 3 | dogs many are how ? there | How many dogs are there? |
+| 4 | many ? how apples are there | How many apples are there? |
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
@@ -1109,7 +1134,7 @@ Mecánica distinta al match del ej. 30 (aquí **elegir forma**), misma categorí
 | `stories` | Cuentos | Personajes + *wearing* + adjetivos | ej. 24–29 | drag-to-portrait, who-wearing, he/she | borrador |
 | `clothes` | Ropa | crown, boots, dress… | ~9 lemas (ej. 25–27) | picture, wearing-match, he/she | borrador |
 | `adjectives` | Adjetivos | handsome, young, old, poor, rich, clever, beautiful | 7 (ej. 28–29) | he/she + adj MCQ | borrador |
-| `there-is` | There is / are | Existencia + *How many* (+ tip) | ej. 30–33 | match, fill, Q+YN, how-many fill + **help tip** | borrador |
+| `there-is` | There is / are | Existencia + *How many* (+ tip) | ej. 30–34 | match, fill, Q+YN, how-many fill/order + **help tip** | borrador |
 
 ## Cómo añadir un lote
 
