@@ -44,6 +44,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 34: ordenar How many… are there? |
 | 2026-08-03 | Ejercicio 35: How many + imagen (There are / aren't). |
 | 2026-08-03 | Ejercicio 36: possessive 's + his/her (elige forma). |
+| 2026-08-03 | Ejercicio 37: on/in/under + Where is/are. |
 
 ## Material en inbox
 
@@ -85,6 +86,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/34-how-many-order.png` | Ordenar: How many … are there? | Catalogado |
 | `refs/35-how-many-picture.png` | How many + imagen → There are / aren't | Catalogado |
 | `refs/36-possessive-s-choose.png` | Possessive 's + his/her (elige forma) | Catalogado |
+| `refs/37-prepositions-place.png` | on/in/under + Where is/are (habitación) | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -1184,6 +1186,47 @@ El ítem 2 es trampa deliberada (pregunta *cats*, imagen *fish*) → fuerza *The
 
 ---
 
+## Ejercicio 37 — Preposiciones de lugar (on / in / under)
+
+![Captura](../Ingles/_inbox/refs/37-prepositions-place.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | Caja «Prepositions of place» + «Where is/are…?» + «1 Where is the dress? … circle the correct answer.» |
+| **Bloque** | **Gramática** lugar (*on/in/under*) + *is/are* singular·plural · puente a *possessives* |
+| **Categoría propuesta** | `prepositions` (**nueva**) |
+| **Mecánica Aray** | Escena habitación (estilo Aray) → circle *on/in/under* · tip ayuda |
+| **Ayuda** | Tip: on / in / under (iconos) · is + singular · are + plural · Where is Nacho's jacket? / Where are his trousers? |
+
+### Tabla de ayuda
+
+| Prep | Idea |
+|------|------|
+| on | encima |
+| in | dentro |
+| under | debajo |
+
+| | Singular | Plural |
+|--|----------|--------|
+| Where | is … jacket? | are … trousers? |
+| his/her | Where is his/her jacket? | Where are his/her trousers? |
+
+### Ítems (+ clave)
+
+| # | Frase | Prep |
+|---|-------|------|
+| 1 | The dress is … the wardrobe. | in |
+| 2 | The jumper is … the bed. | on |
+| 3 | The tracksuit is … the wardrobe. | in |
+| 4 | The trousers are … the table. | under |
+| 5 | The shoes are … the floor. | on |
+
+### Vocab escena
+
+wardrobe, bed, table, dress, jumper, tracksuit, trousers, shoes.
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
@@ -1200,6 +1243,7 @@ El ítem 2 es trampa deliberada (pregunta *cats*, imagen *fish*) → fuerza *The
 | `adjectives` | Adjetivos | handsome, young, old, poor, rich, clever, beautiful | 7 (ej. 28–29) | he/she + adj MCQ | borrador |
 | `there-is` | There is / are | Existencia + *How many* (+ tip) | ej. 30–35 | match, fill, Q+YN, order, picture count + **help tip** | borrador |
 | `possessives` | Posesión | *'s* + *his/her* (+ tip) | ej. 36 | 2-option MCQ + **help tip** | borrador |
+| `prepositions` | Preposiciones | *on/in/under* + Where is/are | ej. 37 | picture circle prep + **help tip** | borrador |
 
 ## Cómo añadir un lote
 
