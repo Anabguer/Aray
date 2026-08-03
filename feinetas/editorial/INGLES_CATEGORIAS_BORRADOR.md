@@ -49,6 +49,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 40: Talking about the weather (match Q↔A + tip). |
 | 2026-08-03 | Ejercicios 41–42: go to school by… (misma tira de imágenes). |
 | 2026-08-03 | Ejercicio 43: How much is…? + euros. |
+| 2026-08-03 | Ejercicio 44: presente simple (+/−) con banco de verbos. |
 
 ## Material en inbox
 
@@ -96,6 +97,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/40-weather-talk-match.png` | Weather Q↔A match (+ tip) | Catalogado |
 | `refs/41-42-transport-school.png` | go by… + Do you…? (misma tira) | Catalogado |
 | `refs/43-how-much-euros.png` | How much is…? + monedas/billetes | Catalogado |
+| `refs/44-present-simple-plus-minus.png` | Presente simple (+/−) banco verbos | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -1389,6 +1391,34 @@ train, bike, car, bus, walk, underground *(solo en YN, no en tira)*.
 
 ---
 
+## Ejercicio 44 — Presente simple (+ / −)
+
+![Captura](../Ingles/_inbox/refs/44-present-simple-plus-minus.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | «2 Complete the sentences with a (+) or (−) verb.» · banco: brush, do, eat, play, swim |
+| **Bloque** | **Gramática** presente simple afirmativo/negativo (+ *he/she* −s) |
+| **Categoría propuesta** | `present-simple` (**nueva**) · puente `routines` |
+| **Mecánica Aray** | Elegir verbo del banco + forma (+/−) · tip ayuda |
+| **Ayuda** | Tip: + I/we/you + V · he/she + V-s · − don't / doesn't + V |
+
+### Banco
+
+brush · do · eat · play · swim
+
+### Ítems (+ clave)
+
+| # | Frase | Forma |
+|---|-------|-------|
+| 1 | I ______ my teeth. (+) | brush *(ejemplo)* |
+| 2 | He ______ lunch at 13.00. (−) | doesn't eat |
+| 3 | We ______ our homework after school. (+) | do |
+| 4 | My sister ______ computer games. (+) | plays |
+| 5 | You ______ in the swimming pool. (−) | don't swim |
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
@@ -1408,6 +1438,7 @@ train, bike, car, bus, walk, underground *(solo en YN, no en tira)*.
 | `prepositions` | Preposiciones | *on/in/under* + Where is/are | ej. 37–38 | picture prep, is/are fill + **help tip** · **1 escena compartida** | borrador |
 | `transport` | Transporte | *go by…* / *walk* + Do you…? | ej. 41–42 | drag-to-image, YN · **1 tira compartida** | borrador |
 | `money` | Dinero / precios | *How much is…?* + euros | ej. 43 | count coins → *It's N euros.* + tip | borrador |
+| `present-simple` | Presente simple | +/− · *don't/doesn't* · *he/she* −s | ej. 44 | fill verbo + polaridad + **help tip** | borrador |
 
 ## Cómo añadir un lote
 
