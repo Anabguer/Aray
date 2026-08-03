@@ -15,6 +15,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 05: can/can't + deportes (match frase↔imagen). |
 | 2026-08-03 | Ejercicio 06: can/can't deportes (completar actividad). |
 | 2026-08-03 | Ejercicio 07: match frase ↔ deporte (más actividades). |
+| 2026-08-03 | Ejercicio 08: Can Maria/Nick…? (tabla + Yes/No). |
 
 ## Material en inbox
 
@@ -27,6 +28,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/05-can-cant-sports-match.png` | Can/can't deportes (frase ↔ imagen) | Catalogado |
 | `refs/06-can-cant-sports-write.png` | Can/can't deportes (I can/can't + verbo) | Catalogado |
 | `refs/07-match-sports-phrases.png` | Match: chunk deporte ↔ escena | Catalogado |
+| `refs/08-can-questions-maria-nick.png` | Can she/he…? Yes/No (tabla Maria/Nick) | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -263,12 +265,50 @@ Nota gramatical útil para tips: *play* + deporte con pelota/raqueta · *go* + -
 
 ---
 
+## Ejercicio 08 — Can she/he…? (tabla)
+
+![Captura](../Ingles/_inbox/refs/08-can-questions-maria-nick.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | «4 Look and write.» (tabla ☺/☹ Maria & Nick) |
+| **Bloque** | **Preguntas** *Can + nombre + actividad?* → *Yes, he/she can.* / *No, he/she can't.* |
+| **Categoría propuesta** | `abilities` |
+| **Mecánica Aray** | Tabla interactiva (o ficha de personaje) + pregunta → MCQ Yes/No con he/she. Más Aray que “escribir a mano”. |
+| **Personajes** | Maria, Nick (avatares Aray; no clipart de ficha) |
+
+### Tabla de la ficha
+
+| | basketball | skateboard | football | bike |
+|--|:--:|:--:|:--:|:--:|
+| **Maria** | can | can't | can | can't |
+| **Nick** | can't | can | can | can |
+
+### Preguntas (respuestas)
+
+| # | Pregunta | Respuesta |
+|---|----------|-----------|
+| 1 | Can Maria play basketball? | Yes, she can. |
+| 2 | Can Nick skateboard? | Yes, he can. |
+| 3 | Can Maria skateboard? | No, she can't. |
+| 4 | Can Nick ride a bike? | Yes, he can. |
+| 5 | Can Maria ride a bike? | No, she can't. |
+| 6 | Can Nick play football? | Yes, he can. |
+| 7 | Can Maria play football? | Yes, she can. |
+| 8 | Can Nick play basketball? | No, he can't. |
+
+### Relación
+
+- Reutiliza chunks de ej. 05–06; añade **3.ª persona** (*he/she can/can't*).
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
 |--------------|-----------|------|-------|---------------------|--------|
 | `food` | Comida | Vocabulario food + preferencias (+ *but*) | ~14 lemas (ej. 01–04) | meaning, translate, like-mcq, picture | borrador |
-| `abilities` | Puedo / deportes | *can/can't* + chunks *play/go* | ~12 actividades (ej. 05–07) | drag-to-image, fill-activity, picture | borrador |
+| `abilities` | Puedo / deportes | *can/can't* + chunks + preguntas he/she | ~12 actividades (ej. 05–08) | drag-to-image, fill-activity, can-yn | borrador |
 
 ## Cómo añadir un lote
 
