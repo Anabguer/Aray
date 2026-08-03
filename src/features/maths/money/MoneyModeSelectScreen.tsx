@@ -84,7 +84,6 @@ export function MoneyModeSelectScreen() {
             to={`/missions/mates/money/${m.mode}`}
           />
         ))}
-        rosterCols={2}
       />
     </AppShell>
   )
