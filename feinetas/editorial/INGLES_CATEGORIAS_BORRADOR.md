@@ -27,6 +27,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 17: lugares (campamento · match). |
 | 2026-08-03 | Ejercicio 18: lugares (montar palabra + frase). |
 | 2026-08-03 | Ejercicio 19: go to / in the summer (lugares). |
+| 2026-08-03 | Ejercicio 20: ordenar frase (go to … in the summer). |
 
 ## Material en inbox
 
@@ -51,6 +52,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/17-places-camp-match.png` | Lugares: we go to the … (match) | Catalogado |
 | `refs/18-places-match-write.png` | Lugares: piezas + completar frase | Catalogado |
 | `refs/19-places-go-to-in-summer.png` | I go to the … in the summer | Catalogado |
+| `refs/20-places-sort-sentence.png` | Ordenar: I go to … in the summer | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -641,6 +643,30 @@ Piezas: swimming/pool · coun/try · be/ach · pa/rk · moun/tains · la/ke
 
 ---
 
+## Ejercicio 20 — Ordenar: *go to … in the summer*
+
+![Captura](../Ingles/_inbox/refs/20-places-sort-sentence.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | «2 Sort and write.» |
+| **Bloque** | **Ordenar frase** (lugares + verano) |
+| **Categoría propuesta** | `places` |
+| **Mecánica Aray** | **Montar la frase** (chips) — como ej. 11 rutinas |
+
+### Frases ordenadas
+
+| # | Frase |
+|---|--------|
+| 1 | I go to the park in the summer. |
+| 2 | I go to the country in the summer. |
+| 3 | I go to the beach in the summer. |
+| 4 | I go to the mountains in the summer. |
+| 5 | I go to the lake in the summer. |
+| 6 | I go to the swimming pool in the summer. |
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
@@ -649,8 +675,8 @@ Piezas: swimming/pool · coun/try · be/ach · pa/rk · moun/tains · la/ke
 | `abilities` | Puedo / deportes | *can/can't* + chunks + he/she | ~12 actividades (ej. 05–08) | drag-to-image, fill-activity, can-yn | borrador |
 | `routines` | Rutinas | Día a día + higiene + *at* + hora | ~15 chunks (ej. 09–11, 13–14, 16) | drag-to-image, picture, order-sentence, missing, routine+time | borrador |
 | `time` | ¿Qué hora es? | *What time…?* + *Is it…?* Yes/No | ej. 12, 15–16 | clock-ui + EN phrases + yn | borrador |
-| `places` | Lugares | *go to the* + *in the summer* | 6 lugares (ej. 17–19) | drag-to-image, picture, join-parts, fill-frame | borrador |
-| `weather` | Tiempo (clima) | *It's cold / sunny* (solo en caja ej. 19) | pendiente fichas | — | semilla |
+| `places` | Lugares | *go to the* + *in the summer* | 6 lugares (ej. 17–20) | drag-to-image, picture, join-parts, fill-frame, **order-sentence** | borrador |
+| `weather` | Tiempo (clima) | *It's cold / sunny* (semilla ej. 19) | pendiente | — | semilla |
 
 ## Cómo añadir un lote
 
