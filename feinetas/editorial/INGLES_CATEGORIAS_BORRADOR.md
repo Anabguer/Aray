@@ -47,6 +47,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 37: on/in/under + Where is/are. |
 | 2026-08-03 | Ejercicios 38–39: is/are + his/her (misma escena que 37). |
 | 2026-08-03 | Ejercicio 40: Talking about the weather (match Q↔A + tip). |
+| 2026-08-03 | Ejercicios 41–42: go to school by… (misma tira de imágenes). |
 
 ## Material en inbox
 
@@ -92,6 +93,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/38-where-is-are.png` | Where is/are + ropa (mismo lote 37) | Catalogado |
 | `refs/39-his-her-where.png` | his/her + Where is/are (mismo lote 37) | Catalogado |
 | `refs/40-weather-talk-match.png` | Weather Q↔A match (+ tip) | Catalogado |
+| `refs/41-42-transport-school.png` | go by… + Do you…? (misma tira) | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -1318,6 +1320,50 @@ La escena de habitación de este ejercicio **se reutiliza** en los ej. 38–39 (
 
 ---
 
+## Ejercicios 41–42 — Transporte a la escuela
+
+![Captura](../Ingles/_inbox/refs/41-42-transport-school.png)
+
+**Asset compartido:** una sola tira de 5 vehículos/modos (train, bike, car, walk, bus) para ambos ejercicios.
+
+| Campo | Valor |
+|--------|--------|
+| **Bloque** | **Vocabulario / rutina** *go to school by…* / *walk* |
+| **Categoría propuesta** | `transport` (**nueva**) |
+| **Ayuda** | Tip: I go by train/bus/car/bike. · I walk to school. · Do you…? → Yes, I do. / No, I don't. |
+
+### Ej. 41 — Completar (*Look at the pictures…*)
+
+| # | Imagen | Frase |
+|---|--------|-------|
+| 1 | tren | I go by train. *(ejemplo)* |
+| 2 | bici | I go by bike. |
+| 3 | coche | I go by car. |
+| 4 | a pie | I walk to school. |
+| 5 | bus | I go by bus. |
+
+**Mecánica Aray:** drag frase → imagen (o write con tip).
+
+### Ej. 42 — Yes/No (*Look at the pictures in question 2*)
+
+Misma tira; cada pregunta alineada al nº de imagen (como el ejemplo train→Yes).
+
+| # | Pregunta | Clave (según imagen #) |
+|---|----------|------------------------|
+| 1 | Do you go to school by train? | Yes, I do. *(ejemplo)* |
+| 2 | Do you go to school by bus? | No, I don't. *(img 2 = bike)* |
+| 3 | Do you go to school by car? | Yes, I do. |
+| 4 | Do you walk to school? | Yes, I do. |
+| 5 | Do you go to school by underground? | No, I don't. *(img 5 = bus)* |
+
+**Mecánica Aray:** YN chips · misma escena que 41.
+
+### Lemas
+
+train, bike, car, bus, walk, underground *(solo en YN, no en tira)*.
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
@@ -1335,6 +1381,7 @@ La escena de habitación de este ejercicio **se reutiliza** en los ej. 38–39 (
 | `there-is` | There is / are | Existencia + *How many* (+ tip) | ej. 30–35 | match, fill, Q+YN, order, picture count + **help tip** | borrador |
 | `possessives` | Posesión | *'s* + *his/her* (+ tip) | ej. 36, 39 | MCQ, his/her Where + **help tip** | borrador |
 | `prepositions` | Preposiciones | *on/in/under* + Where is/are | ej. 37–38 | picture prep, is/are fill + **help tip** · **1 escena compartida** | borrador |
+| `transport` | Transporte | *go by…* / *walk* + Do you…? | ej. 41–42 | drag-to-image, YN · **1 tira compartida** | borrador |
 
 ## Cómo añadir un lote
 
