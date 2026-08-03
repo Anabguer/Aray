@@ -31,6 +31,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 21: paisajes (circle imagen→palabra). |
 | 2026-08-03 | Ejercicio 22: clima (*It's hot/cold/sunny…*). |
 | 2026-08-03 | Ejercicio 23: circle It's / go to / I've got. |
+| 2026-08-03 | Ejercicio 24: personajes cuento (match He/She's…). |
 
 ## Material en inbox
 
@@ -59,6 +60,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/21-places-landscape-circle.png` | Paisajes: circle imagen→palabra | Catalogado |
 | `refs/22-weather-its.png` | Clima: It's hot/cold/raining… | Catalogado |
 | `refs/23-circle-grammar-choice.png` | Circle: It's / go to / I've got | Catalogado |
+| `refs/24-story-characters-match.png` | Cuento: He's/She's the … (match) | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -770,6 +772,43 @@ Distractores del set: river, sea, valley, town, village, forest.
 
 ---
 
+## Ejercicio 24 — Personajes de cuento · match
+
+![Captura](../Ingles/_inbox/refs/24-story-characters-match.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | Lesson 1 · «1 Read and write the letter.» (*Puss in boots*) |
+| **Bloque** | **Personajes** + *He's / She's the…* |
+| **Categoría propuesta** | `stories` (**nueva**) |
+| **Mecánica Aray** | **Arrastrar frase a retrato** AFK (mismo patrón match) |
+| **Imágenes** | Retratos propios estilo Aray (no dibujos del cuaderno) |
+
+### Pares (por tipología de la ficha)
+
+| Frase | Letra típica | Personaje |
+|-------|--------------|-----------|
+| She's the Princess. | d | princesa |
+| He's the King. | a | rey |
+| He's Puss in boots. | e | el gato con botas |
+| She's the Queen. | f | reina |
+| He's John. | b o c | John |
+| He's the Father. | b o c | el padre |
+
+### Lemas
+
+| EN | ES |
+|----|-----|
+| Princess | princesa |
+| King | rey |
+| Queen | reina |
+| Puss in boots | El gato con botas |
+| John | John |
+| Father | padre |
+| He's / She's | Él es / Ella es |
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
@@ -781,6 +820,7 @@ Distractores del set: river, sea, valley, town, village, forest.
 | `places` | Lugares | campamento + paisajes | ~12 lemas (ej. 17–21) | drag-to-image, picture, join-parts, order-sentence | borrador |
 | `weather` | Tiempo (clima) | *It's hot/cold/sunny…* | 6 (ej. 22) | picture, fill *It's …* | borrador |
 | `grammar-basics` | Formas (It's / go to / I've got) | Elegir la forma correcta | 6 (ej. 23) | 2-option MCQ | borrador |
+| `stories` | Cuentos | Personajes (*He's/She's the…*) | 6 (ej. 24) | drag-phrase-to-portrait | borrador |
 
 ## Cómo añadir un lote
 
