@@ -32,6 +32,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 22: clima (*It's hot/cold/sunny…*). |
 | 2026-08-03 | Ejercicio 23: circle It's / go to / I've got. |
 | 2026-08-03 | Ejercicio 24: personajes cuento (match He/She's…). |
+| 2026-08-03 | Ejercicio 25: *He's wearing…* (ropa + personajes). |
 
 ## Material en inbox
 
@@ -61,6 +62,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/22-weather-its.png` | Clima: It's hot/cold/raining… | Catalogado |
 | `refs/23-circle-grammar-choice.png` | Circle: It's / go to / I've got | Catalogado |
 | `refs/24-story-characters-match.png` | Cuento: He's/She's the … (match) | Catalogado |
+| `refs/25-stories-wearing-clothes.png` | He's wearing… (ropa + personajes) | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -809,6 +811,45 @@ Distractores del set: river, sea, valley, town, village, forest.
 
 ---
 
+## Ejercicio 25 — *He's/She's wearing…*
+
+![Captura](../Ingles/_inbox/refs/25-stories-wearing-clothes.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | «2 Look, read and write.» (escenario con 6 personajes) |
+| **Bloque** | **Ropa** + *He's/She's wearing…* + personajes del cuento |
+| **Categoría propuesta** | `stories` ∩ **`clothes`** (`clothes` como vocabulario; frases sobre el cast) |
+| **Mecánica Aray** | Escena/retrato → elegir quién encaja con la descripción *wearing…* (MCQ o tap) |
+
+### Pares (descripción → personaje)
+
+| Descripción | Personaje |
+|-------------|-----------|
+| He's wearing a crown and boots. | King |
+| She's wearing a dress, socks and shoes. | Princess |
+| He's wearing a T-shirt and jeans. | John |
+| She's wearing a crown, a coat and shoes. | Queen |
+| He's wearing a hat, a coat and boots. | Puss in boots |
+| He's wearing a hat, a coat and shoes. | Father / John (aventurero) |
+
+### Lemas ropa
+
+| EN | ES |
+|----|-----|
+| crown | corona |
+| boots | botas |
+| dress | vestido |
+| socks | calcetines |
+| shoes | zapatos |
+| coat | abrigo / capa |
+| hat | sombrero |
+| T-shirt | camiseta |
+| jeans | vaqueros |
+| wearing | lleva puesto |
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
@@ -820,7 +861,8 @@ Distractores del set: river, sea, valley, town, village, forest.
 | `places` | Lugares | campamento + paisajes | ~12 lemas (ej. 17–21) | drag-to-image, picture, join-parts, order-sentence | borrador |
 | `weather` | Tiempo (clima) | *It's hot/cold/sunny…* | 6 (ej. 22) | picture, fill *It's …* | borrador |
 | `grammar-basics` | Formas (It's / go to / I've got) | Elegir la forma correcta | 6 (ej. 23) | 2-option MCQ | borrador |
-| `stories` | Cuentos | Personajes (*He's/She's the…*) | 6 (ej. 24) | drag-phrase-to-portrait | borrador |
+| `stories` | Cuentos | Personajes + *wearing* | ej. 24–25 | drag-to-portrait, who-wearing | borrador |
+| `clothes` | Ropa | crown, boots, dress… | ~9 lemas (ej. 25) | picture, wearing-match | borrador |
 
 ## Cómo añadir un lote
 
