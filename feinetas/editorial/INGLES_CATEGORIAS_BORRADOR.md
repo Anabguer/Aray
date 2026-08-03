@@ -14,6 +14,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 04: like/don't like + *but* (dos personajes). |
 | 2026-08-03 | Ejercicio 05: can/can't + deportes (match frase↔imagen). |
 | 2026-08-03 | Ejercicio 06: can/can't deportes (completar actividad). |
+| 2026-08-03 | Ejercicio 07: match frase ↔ deporte (más actividades). |
 
 ## Material en inbox
 
@@ -25,6 +26,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/04-like-but-dont-like-food.png` | Like/don't like + *but* (niño/niña) | Catalogado |
 | `refs/05-can-cant-sports-match.png` | Can/can't deportes (frase ↔ imagen) | Catalogado |
 | `refs/06-can-cant-sports-write.png` | Can/can't deportes (I can/can't + verbo) | Catalogado |
+| `refs/07-match-sports-phrases.png` | Match: chunk deporte ↔ escena | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -230,12 +232,43 @@ Banco: ride a bike · play tennis · play basketball · play football · rollerb
 
 ---
 
+## Ejercicio 07 — Match: chunk ↔ deporte
+
+![Captura](../Ingles/_inbox/refs/07-match-sports-phrases.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | «1 Match.» (banco de chunks + 6 dibujos) |
+| **Bloque** | **Vocabulario** deportes / actividades (*play* / *go* + sport) |
+| **Categoría propuesta** | `abilities` (amplía banco; aquí **sin** can/can't, solo emparejar) |
+| **Mecánica Aray** | **Arrastrar el chunk a la imagen** AFK (como pediste en el 05) |
+| **Imágenes** | 6 escenas propias estilo Aray |
+
+### Pares
+
+| # ficha | Chunk | ES |
+|---------|-------|-----|
+| 1 | go swimming | ir a nadar |
+| 2 | go ice-skating | patinar sobre hielo |
+| 3 | go skiing | esquiar |
+| 4 | play table tennis | jugar al ping-pong |
+| 5 | play volleyball | jugar al voleibol |
+| 6 | go running | ir a correr |
+
+### Lemas nuevos (amplían `abilities`)
+
+play volleyball · go running · play table tennis · go skiing · go swimming · go ice-skating  
+
+Nota gramatical útil para tips: *play* + deporte con pelota/raqueta · *go* + -ing.
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
 |--------------|-----------|------|-------|---------------------|--------|
 | `food` | Comida | Vocabulario food + preferencias (+ *but*) | ~14 lemas (ej. 01–04) | meaning, translate, like-mcq, picture | borrador |
-| `abilities` | Puedo / no puedo | *can/can't* + deportes | 6 actividades (ej. 05–06) | drag-phrase-to-image, fill-activity, picture | borrador |
+| `abilities` | Puedo / deportes | *can/can't* + chunks *play/go* | ~12 actividades (ej. 05–07) | drag-to-image, fill-activity, picture | borrador |
 
 ## Cómo añadir un lote
 
