@@ -33,6 +33,11 @@ import spellIntruder from './spell-intruder.png'
 import spellMissing from './spell-missing.png'
 import spellMix from './spell-mix.png'
 import spellPicture from './spell-picture.png'
+import wordsAntonimos from './words-antonimos.png'
+import wordsFormar from './words-formar.png'
+import wordsGender from './words-gender.png'
+import wordsPlural from './words-plural.png'
+import wordsSinonimos from './words-sinonimos.png'
 
 export type ModeArtId =
   | 'aprende'
@@ -71,6 +76,11 @@ export type ModeArtId =
   | 'spell-intruder'
   | 'spell-complete'
   | 'spell-mix'
+  | 'words-formar'
+  | 'words-plural'
+  | 'words-gender'
+  | 'words-sinonimos'
+  | 'words-antonimos'
 
 /** Arte 3D gamer por modo (cuadrado, object-fit cover). */
 export const modeArt: Record<ModeArtId, string> = {
@@ -110,6 +120,11 @@ export const modeArt: Record<ModeArtId, string> = {
   'spell-intruder': spellIntruder,
   'spell-complete': spellComplete,
   'spell-mix': spellMix,
+  'words-formar': wordsFormar,
+  'words-plural': wordsPlural,
+  'words-gender': wordsGender,
+  'words-sinonimos': wordsSinonimos,
+  'words-antonimos': wordsAntonimos,
 }
 
 export function modeArtUrl(id: ModeArtId): string {
