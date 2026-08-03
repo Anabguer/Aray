@@ -24,6 +24,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 14: rutinas (completar letras del chunk). |
 | 2026-08-03 | Ejercicio 15: Is it … o'clock? Yes/No (reloj). |
 | 2026-08-03 | Ejercicio 16: rutina + at + hora (reloj + icono). |
+| 2026-08-03 | Ejercicio 17: lugares (campamento · match). |
 
 ## Material en inbox
 
@@ -45,6 +46,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/14-routines-spell-letters.png` | Rutinas: escribir letras del chunk | Catalogado |
 | `refs/15-is-it-time-yn.png` | Is it …? Yes, it is / No, it isn't | Catalogado |
 | `refs/16-routines-at-time.png` | I … at … (rutina + reloj) | Catalogado |
+| `refs/17-places-camp-match.png` | Lugares: we go to the … (match) | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -547,14 +549,51 @@ Nota gramatical útil para tips: *play* + deporte con pelota/raqueta · *go* + -
 
 ---
 
+## Ejercicio 17 — Lugares (campamento) · match
+
+![Captura](../Ingles/_inbox/refs/17-places-camp-match.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | Lesson 1 · «1 Read and write the letter.» · *At summer camp…* |
+| **Bloque** | **Lugares** (*we go to the* + place) |
+| **Categoría propuesta** | `places` (**nueva**) |
+| **Mecánica Aray** | **Arrastrar frase/chunk a la imagen** AFK |
+| **Frame** | *At summer camp, we go to the _____* |
+
+### Pares
+
+| Frase (lugar) | Letra ficha | Escena |
+|---------------|-------------|--------|
+| park | d | columpio / parque |
+| mountains | c | montañas |
+| beach | f | toalla + sombrilla |
+| country | e | vaca en el campo |
+| lake | b | lago |
+| swimming pool | a | piscina |
+
+### Lemas
+
+| EN | ES |
+|----|-----|
+| park | parque |
+| mountains | montañas |
+| beach | playa |
+| country | campo |
+| lake | lago |
+| swimming pool | piscina |
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
 |--------------|-----------|------|-------|---------------------|--------|
 | `food` | Comida | Vocabulario food + preferencias (+ *but*) | ~14 lemas (ej. 01–04) | meaning, translate, like-mcq, picture | borrador |
 | `abilities` | Puedo / deportes | *can/can't* + chunks + he/she | ~12 actividades (ej. 05–08) | drag-to-image, fill-activity, can-yn | borrador |
-| `routines` | Rutinas | Día a día + higiene + *at* + hora | ~15 chunks (ej. 09–11, 13–14, 16) | drag-to-image, picture, order-sentence, missing, **routine+time** | borrador |
+| `routines` | Rutinas | Día a día + higiene + *at* + hora | ~15 chunks (ej. 09–11, 13–14, 16) | drag-to-image, picture, order-sentence, missing, routine+time | borrador |
 | `time` | ¿Qué hora es? | *What time…?* + *Is it…?* Yes/No | ej. 12, 15–16 | clock-ui + EN phrases + yn | borrador |
+| `places` | Lugares | *go to the* park/beach… | 6 lugares (ej. 17) | drag-to-image, picture | borrador |
 
 ## Cómo añadir un lote
 
