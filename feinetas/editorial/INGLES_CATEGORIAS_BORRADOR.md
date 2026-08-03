@@ -21,6 +21,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 11: ordenar frase (rutina + hora). |
 | 2026-08-03 | Ejercicio 12: What time is it? (reloj + frase). |
 | 2026-08-03 | Ejercicio 13: rutinas ampliadas (circle imagen→chunk). |
+| 2026-08-03 | Ejercicio 14: rutinas (completar letras del chunk). |
 
 ## Material en inbox
 
@@ -39,6 +40,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/11-routines-time-sort.png` | Ordenar: rutina + o'clock / half past | Catalogado |
 | `refs/12-what-time-is-it.png` | What time is it? (reloj analógico) | Catalogado |
 | `refs/13-routines-vocab-circle.png` | Rutinas ampliadas: circle imagen→chunk | Catalogado |
+| `refs/14-routines-spell-letters.png` | Rutinas: escribir letras del chunk | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -460,13 +462,42 @@ Nota gramatical útil para tips: *play* + deporte con pelota/raqueta · *go* + -
 
 ---
 
+## Ejercicio 14 — Rutinas · completar letras
+
+![Captura](../Ingles/_inbox/refs/14-routines-spell-letters.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | «2 Write the letters.» |
+| **Bloque** | **Ortografía de chunks** de rutina (mismas frases que ej. 13) |
+| **Categoría propuesta** | `routines` |
+| **Mecánica Aray** | Imagen + huecos tipo **missing** (elegir letras / completar palabra), no escribir a mano |
+| **Imágenes** | Reutilizar set ej. 13 |
+
+### Ítems
+
+| # | Frase completa |
+|---|----------------|
+| 1 | I wash my face. |
+| 2 | I get undressed. |
+| 3 | I go to sleep. |
+| 4 | I have a snack. |
+| 5 | I wash my hair. |
+| 6 | I have a bath. |
+
+### Relación
+
+- Mismos 6 chunks que ej. 13; aquí el reto es **escribir/ortografiar**, no solo reconocer.
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
 |--------------|-----------|------|-------|---------------------|--------|
 | `food` | Comida | Vocabulario food + preferencias (+ *but*) | ~14 lemas (ej. 01–04) | meaning, translate, like-mcq, picture | borrador |
 | `abilities` | Puedo / deportes | *can/can't* + chunks + he/she | ~12 actividades (ej. 05–08) | drag-to-image, fill-activity, can-yn | borrador |
-| `routines` | Rutinas | Día a día + higiene + *at* + hora | ~14 chunks (ej. 09–11, 13) | drag-to-image, fill-chunk, order-sentence, picture | borrador |
+| `routines` | Rutinas | Día a día + higiene + hora | ~14 chunks (ej. 09–11, 13–14) | drag-to-image, picture, order-sentence, **missing/spell** | borrador |
 | `time` | ¿Qué hora es? | *What time is it?* o'clock / half past | 4 modelos (ej. 12) | clock-ui + EN phrases | borrador |
 
 ## Cómo añadir un lote
