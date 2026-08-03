@@ -51,6 +51,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 43: How much is…? + euros. |
 | 2026-08-03 | Ejercicio 44: presente simple (+/−) con banco de verbos. |
 | 2026-08-03 | Ejercicio 45: Do/Does…? (montar pregunta, sin escribir). |
+| 2026-08-03 | Ejercicio 46: present continuous Is/Are…? + imagen. |
 
 ## Material en inbox
 
@@ -100,6 +101,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/43-how-much-euros.png` | How much is…? + monedas/billetes | Catalogado |
 | `refs/44-present-simple-plus-minus.png` | Presente simple (+/−) banco verbos | Catalogado |
 | `refs/45-do-does-questions.png` | Do/Does…? prompts → pregunta | Catalogado |
+| `refs/46-present-continuous-yn.png` | Is/Are…? continuous + 5 escenas | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -1456,6 +1458,32 @@ Alternativa más guiada (2 toques): primero eligen **Do** o **Does** (chips gran
 
 ---
 
+## Ejercicio 46 — Present continuous (Is / Are…? + imagen)
+
+![Captura](../Ingles/_inbox/refs/46-present-continuous-yn.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | «3 Look at the pictures and answer the questions.» |
+| **Bloque** | **Gramática** present continuous (Yes/No + short answers) |
+| **Categoría propuesta** | `present-continuous` (**nueva**) |
+| **Mecánica Aray** | Escena + pregunta → chips Yes/No, she is / he isn't… · tip ayuda |
+| **Escritura libre** | No |
+| **Ayuda** | Tip: Is she…? → Yes, she is. / No, she isn't. · Are they…? → Yes, they are. / No, they aren't. · Am I…? → Yes, I am. / No, I'm not. |
+| **Nota asset** | 5 escenas (pintar, leer, TV, auriculares, patines). Posible reutilizar en fichas siguientes → **1 set compartido**. |
+
+### Ítems (+ clave)
+
+| # | Escena | Pregunta | Respuesta |
+|---|--------|----------|-----------|
+| 1 | niña pintando | Is she painting? | Yes, she is. *(ejemplo)* |
+| 2 | niño leyendo | Is he listening to music? | No, he isn't. |
+| 3 | dos mirando TV | Are they watching TV? | Yes, they are. |
+| 4 | niño con auriculares | Am I listening to music? | Yes, I am. |
+| 5 | niño patinando | Are you playing tennis? | No, I'm not. / No, you aren't. |
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
@@ -1476,6 +1504,7 @@ Alternativa más guiada (2 toques): primero eligen **Do** o **Does** (chips gran
 | `transport` | Transporte | *go by…* / *walk* + Do you…? | ej. 41–42 | drag-to-image, YN · **1 tira compartida** | borrador |
 | `money` | Dinero / precios | *How much is…?* + euros | ej. 43 | count coins → *It's N euros.* + tip | borrador |
 | `present-simple` | Presente simple | +/− · Do/Does · *on* + day | ej. 44–45 | fill verbo, **montar pregunta con fichas** (no escribir) + tip | borrador |
+| `present-continuous` | Present continuous | Is/Are…? + -ing + imagen | ej. 46 | YN short answers + tip · **set escenas** | borrador |
 
 ## Cómo añadir un lote
 
