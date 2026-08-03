@@ -20,6 +20,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 10: rutinas (completar I + chunk). |
 | 2026-08-03 | Ejercicio 11: ordenar frase (rutina + hora). |
 | 2026-08-03 | Ejercicio 12: What time is it? (reloj + frase). |
+| 2026-08-03 | Ejercicio 13: rutinas ampliadas (circle imagen→chunk). |
 
 ## Material en inbox
 
@@ -37,6 +38,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/10-routines-write.png` | Rutinas: I + completar chunk | Catalogado |
 | `refs/11-routines-time-sort.png` | Ordenar: rutina + o'clock / half past | Catalogado |
 | `refs/12-what-time-is-it.png` | What time is it? (reloj analógico) | Catalogado |
+| `refs/13-routines-vocab-circle.png` | Rutinas ampliadas: circle imagen→chunk | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
