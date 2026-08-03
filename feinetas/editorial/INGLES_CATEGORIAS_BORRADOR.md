@@ -12,6 +12,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 02: write like/don't like (caras + comida). |
 | 2026-08-03 | Ejercicio 03: circle food (imagen → palabra). |
 | 2026-08-03 | Ejercicio 04: like/don't like + *but* (dos personajes). |
+| 2026-08-03 | Ejercicio 05: can/can't + deportes (match frase↔imagen). |
 
 ## Material en inbox
 
@@ -21,6 +22,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/02-write-like-dont-like-food.png` | Write like / don't like (caras + platos) | Catalogado |
 | `refs/03-circle-food-picture.png` | Circle: imagen comida → palabra | Catalogado |
 | `refs/04-like-but-dont-like-food.png` | Like/don't like + *but* (niño/niña) | Catalogado |
+| `refs/05-can-cant-sports-match.png` | Can/can't deportes (frase ↔ imagen) | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -152,12 +154,54 @@ Frase modelo: *I like macaroni, but I don't like sausages. I don't like fish but
 
 ---
 
+## Ejercicio 05 — Can / can't (deportes) · match
+
+![Captura](../Ingles/_inbox/refs/05-can-cant-sports-match.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | Lesson 1 · «1 Read and write the letter.» (frase ↔ dibujo a–f) |
+| **Bloque** | **Estructura** (*I can / I can't* + actividad) + vocab deportes |
+| **Categoría propuesta** | `abilities` / `sports` (nueva; no food) |
+| **Mecánica Aray (acordada)** | **Arrastrar la frase a la imagen** generada AFK (no letra a–f tipo ficha). Tap-tap si no hay DnD. |
+| **Imágenes** | 6 escenas/objetos estilo Aray (no line-art del cuaderno, no emojis) |
+
+### Pares (solución de la ficha)
+
+| Frase | Letra ficha | Imagen |
+|-------|-------------|--------|
+| I can play tennis. | b | raqueta + pelota |
+| I can skateboard. | d | monopatín |
+| I can play basketball. | c | canasta |
+| I can't play football. | f | portería + balón |
+| I can't ride a bike. | e | bici |
+| I can't rollerblade. | a | patines |
+
+### Lemas / chunks
+
+| EN | ES |
+|----|-----|
+| play tennis | jugar al tenis |
+| skateboard | hacer monopatín |
+| play basketball | jugar al baloncesto |
+| play football | jugar al fútbol |
+| ride a bike | montar en bici |
+| rollerblade | patinar (en línea) |
+| I can… / I can't… | puedo / no puedo |
+
+### Nota de diseño (originalidad)
+
+- Ficha escolar = escribir letra. **Aray = más jugable**: frases sueltas + imágenes propias → soltar frase sobre la escena correcta.
+- Polaridad *can* vs *can't* visible en la frase; la imagen solo muestra la actividad (el “no puedo” lo da el texto).
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
 |--------------|-----------|------|-------|---------------------|--------|
 | `food` | Comida | Vocabulario food + preferencias (+ *but*) | ~14 lemas (ej. 01–04) | meaning, translate, like-mcq, picture | borrador |
-| — | — | — | — | — | — |
+| `abilities` | Puedo / no puedo | *can/can't* + deportes | 6 actividades (ej. 05) | **drag-phrase-to-image**, picture, MCQ | borrador |
 
 ## Cómo añadir un lote
 
