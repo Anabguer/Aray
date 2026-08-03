@@ -44,7 +44,7 @@ export const WORDS_EXERCISES: WordsExercise[] = [
   {
     id: 'clasifica',
     title: 'Clasifica',
-    text: 'Singular/plural, el/la y artículos',
+    text: 'Singular/plural, masculino/femenino y artículos',
     art: 'words-clasifica',
     className: 'mode-poster--train',
     tag: '02',
@@ -54,7 +54,7 @@ export const WORDS_EXERCISES: WordsExercise[] = [
   {
     id: 'sinonimos',
     title: 'Sinónimos',
-    text: 'Elige una palabra que signifique lo mismo',
+    text: 'Elige un sinónimo (significa lo mismo)',
     art: 'words-sinonimos',
     className: 'mode-poster--learn',
     tag: '03',
@@ -64,7 +64,7 @@ export const WORDS_EXERCISES: WordsExercise[] = [
   {
     id: 'antonimos',
     title: 'Antónimos',
-    text: 'Elige una palabra con el sentido contrario',
+    text: 'Elige un antónimo (significa lo contrario)',
     art: 'words-antonimos',
     className: 'mode-poster--train',
     tag: '04',
@@ -94,7 +94,7 @@ export const WORDS_EXERCISES: WordsExercise[] = [
   {
     id: 'comun-propio',
     title: 'Común o propio',
-    text: 'Une el tipo con su nombre propio',
+    text: 'Une nombre común con nombre propio',
     art: 'words-comun-propio',
     className: 'mode-poster--train',
     tag: '07',

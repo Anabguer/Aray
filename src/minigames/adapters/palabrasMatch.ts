@@ -89,10 +89,10 @@ export function buildPalabrasMatchBoard(
     format: 'match',
     id: `match-${productId}-${seed}`,
     productId,
-    prompt: isSyn ? 'Une las que significan lo mismo' : 'Une cada una con su contrario',
+    prompt: isSyn ? 'Une los sinónimos' : 'Une los antónimos',
     help: isSyn
-      ? 'Los sinónimos significan casi lo mismo. Toca una palabra y luego su pareja.'
-      : 'Los antónimos (contrarios) significan lo opuesto. Toca una y luego la otra.',
+      ? 'Un sinónimo significa casi lo mismo. Toca una palabra y luego su pareja.'
+      : 'Un antónimo significa lo contrario. Toca una palabra y luego su pareja.',
     left,
     rightOrder,
   }

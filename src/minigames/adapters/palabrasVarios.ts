@@ -83,7 +83,7 @@ export function buildVariosBoard(
   return {
     id: `varios-${productId}-${seed}`,
     productId,
-    prompt: isPv ? '¿Quién hace qué?' : '¿Cuál es su nombre?',
+    prompt: isPv ? '¿Quién hace qué?' : '¿Nombre común o propio?',
     help: isPv
       ? 'Une el pronombre con el verbo que le corresponde (yo → escribo).'
       : 'Une el nombre común (ciudad, río…) con un nombre propio (París, Ebro…).',

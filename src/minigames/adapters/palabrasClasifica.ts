@@ -1,5 +1,5 @@
 /**
- * Clasifica: rondas Singular/Plural · El/La · Artículos · género+número.
+ * Clasifica: rondas Singular/Plural · Masculino/Femenino · Artículos · género+número.
  * Tap palabra → tap bando (sin DnD library).
  */
 import { listClasificaItems } from '@/feinetas/wordsBanks'
@@ -80,8 +80,8 @@ function binsForKind(kind: ClasificaKind): ClasificaBin[] {
   }
   if (kind === 'gender') {
     return [
-      { id: 'm', label: 'El' },
-      { id: 'f', label: 'La' },
+      { id: 'm', label: 'Masculino' },
+      { id: 'f', label: 'Femenino' },
     ]
   }
   if (kind === 'article') {
@@ -93,10 +93,10 @@ function binsForKind(kind: ClasificaKind): ClasificaBin[] {
     ]
   }
   return [
-    { id: 'm-sg', label: 'Él · uno' },
-    { id: 'f-sg', label: 'Ella · una' },
-    { id: 'm-pl', label: 'Ellos' },
-    { id: 'f-pl', label: 'Ellas' },
+    { id: 'm-sg', label: 'Masculino singular' },
+    { id: 'f-sg', label: 'Femenino singular' },
+    { id: 'm-pl', label: 'Masculino plural' },
+    { id: 'f-pl', label: 'Femenino plural' },
   ]
 }
 
@@ -104,24 +104,24 @@ function promptForKind(kind: ClasificaKind): { prompt: string; help: string } {
   if (kind === 'number') {
     return {
       prompt: '¿Singular o plural?',
-      help: 'Arrastra o toca: una cosa = Singular; varias = Plural.',
+      help: 'Singular = una; plural = varias. Clasifica cada palabra en su bando.',
     }
   }
   if (kind === 'gender') {
     return {
-      prompt: '¿El o la?',
-      help: 'Si va con el, es masculino. Si va con la, femenino.',
+      prompt: '¿Masculino o femenino?',
+      help: 'Masculino suele ir con el/los; femenino con la/las.',
     }
   }
   if (kind === 'article') {
     return {
-      prompt: '¿Qué le pones delante?',
-      help: 'Elige el, la, los o las según el nombre.',
+      prompt: '¿Qué artículo le corresponde?',
+      help: 'El artículo es el, la, los o las. Elige el que va delante del nombre.',
     }
   }
   return {
-    prompt: '¿Cómo es?',
-    help: 'Mira si es él/ella y si es uno o muchos.',
+    prompt: '¿Género y número?',
+    help: 'Clasifica por masculino/femenino y singular/plural a la vez.',
   }
 }
 
