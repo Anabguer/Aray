@@ -9,12 +9,14 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 |-------|------|
 | 2026-08-03 | Hub vaciado. Bancos Colegio/Familia/Colores en `_archivo/`. Inbox preparado. |
 | 2026-08-03 | Primera ficha catalogada: like / don't like + food. |
+| 2026-08-03 | Ejercicio 02: write like/don't like (caras + comida). |
 
 ## Material en inbox
 
 | Archivo | Notas | Estado |
 |---------|-------|--------|
 | `refs/01-like-dont-like-food.png` | Circle like / don't like (Danny + comida) | Catalogado |
+| `refs/02-write-like-dont-like-food.png` | Write like / don't like (caras + platos) | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -56,11 +58,42 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 
 ---
 
+## Ejercicio 02 — Write like / don't like (caras)
+
+![Captura](../Ingles/_inbox/refs/02-write-like-dont-like-food.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | Ficha: «2 Write *like* or *don't like*.» |
+| **Bloque** | **Vocabulario** (food) + **estructura** (*I like / I don't like*) |
+| **Categoría propuesta** | `food` (mismo pack que ej. 01) |
+| **Mecánica Aray sugerida** | MCQ por imagen: cara feliz/triste + plato → elegir *like* / *don't like* (sin escribir a mano) |
+| **Señal visual** | Sonrisa = like · triste = don't like |
+| **Imágenes** | Comida (mismo set AFK) + expresión; no reutilizar dibujos de la ficha |
+
+### Ítems (respuestas de la ficha)
+
+| # | EN | Preferencia |
+|---|----|-------------|
+| 1 | salad | like |
+| 2 | sausages | don't like |
+| 3 | ice cream | like |
+| 4 | chips | like |
+| 5 | fish | don't like |
+
+### Relación con ej. 01
+
+- Mismos lemas food (subconjunto: sin rice, macaroni, juice).
+- Misma estructura; variante de UI (cara+plato vs tabla de checks).
+- En Aray conviene **una sola mecánica** *like-mcq* con dos presentaciones (tabla / escena).
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
 |--------------|-----------|------|-------|---------------------|--------|
-| `food` | Comida | Vocabulario food + *like / don't like* | 8 lemas (ejercicio 01) | meaning, translate, like-mcq, picture/match | borrador |
+| `food` | Comida | Vocabulario food + *like / don't like* | 8 lemas (ej. 01–02) | meaning, translate, like-mcq, picture | borrador |
 | — | — | — | — | — | — |
 
 ## Cómo añadir un lote
