@@ -3,7 +3,7 @@
 **Pack:** `feinetas/palabras/morfologia.json`  
 **packKind:** `morph-pair`  
 **Nivel:** 3-primaria · `es-ES`  
-**Estado:** **congelado · aprobado** (2026-08-02) · JSON generado · **no conectado al juego**  
+**Estado:** **congelado · aprobado** (2026-08-02) · JSON generado · **conectado** (Singular/plural + Masculino/femenino)  
 **Productos previstos:** Singular/plural (`axis: number`) · Masculino/femenino (`axis: gender`) · Mix  
 **Normas:** [`PALABRAS_MASTER.md`](./PALABRAS_MASTER.md) · [`PALABRAS_JSON_SPEC.md`](./PALABRAS_JSON_SPEC.md) · [`PALABRAS_PROGRESSION.md`](./PALABRAS_PROGRESSION.md)
 
@@ -1011,5 +1011,6 @@ frozen
 |-------|--------|
 | Markdown | **frozen / approved** |
 | JSON | `feinetas/palabras/morfologia.json` |
-| Hub / adaptadores / Mix / Mis fallos | **No conectado** |
-| Siguiente producto editorial | pendiente (no Morfología runtime) |
+| Hub / adaptadores | **Conectado** (singular-plural, masculino-femenino) |
+| Mix / Mis fallos | **No** |
+| Siguiente producto editorial | pendiente |

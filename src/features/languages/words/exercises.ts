@@ -5,7 +5,12 @@
  */
 import type { ModeArtId } from '@/assets/modes'
 
-export type WordsExerciseId = 'formar-palabras'
+export type WordsExerciseId =
+  | 'formar-palabras'
+  | 'singular-plural'
+  | 'masculino-femenino'
+  | 'sinonimos'
+  | 'antonimos'
 
 export type WordsExerciseStatus = 'active' | 'coming-soon'
 
@@ -33,6 +38,46 @@ export const WORDS_EXERCISES: WordsExercise[] = [
     href: '/missions/languages/formar-palabras',
     status: 'active',
     featured: true,
+  },
+  {
+    id: 'singular-plural',
+    title: 'Singular / plural',
+    text: 'Cambia el número de la palabra',
+    art: 'abc-palabras',
+    className: 'mode-poster--train',
+    tag: '02',
+    href: '/missions/languages/words/singular-plural',
+    status: 'active',
+  },
+  {
+    id: 'masculino-femenino',
+    title: 'Masculino / femenino',
+    text: 'Cambia el género de la palabra',
+    art: 'abc-vecina',
+    className: 'mode-poster--challenge',
+    tag: '03',
+    href: '/missions/languages/words/masculino-femenino',
+    status: 'active',
+  },
+  {
+    id: 'sinonimos',
+    title: 'Sinónimos',
+    text: 'Elige una palabra que signifique lo mismo',
+    art: 'abc-falta',
+    className: 'mode-poster--learn',
+    tag: '04',
+    href: '/missions/languages/words/sinonimos',
+    status: 'active',
+  },
+  {
+    id: 'antonimos',
+    title: 'Antónimos',
+    text: 'Elige una palabra con el sentido contrario',
+    art: 'abc-random',
+    className: 'mode-poster--train',
+    tag: '05',
+    href: '/missions/languages/words/antonimos',
+    status: 'active',
   },
 ]
 

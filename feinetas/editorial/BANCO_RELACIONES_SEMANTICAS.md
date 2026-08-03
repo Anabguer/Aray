@@ -3,7 +3,7 @@
 **Pack:** `feinetas/palabras/relaciones-semanticas.json`  
 **packKind:** `semantic-relation`  
 **Nivel:** 3-primaria · `es-ES`  
-**Estado:** **congelado · aprobado** (2026-08-02) · JSON generado · **no conectado al juego**  
+**Estado:** **congelado · aprobado** (2026-08-02) · JSON generado · **conectado** (Sinónimos + Antónimos)  
 **Productos previstos:** Sinónimos · Antónimos · Mix  
 **Normas:** [`PALABRAS_MASTER.md`](./PALABRAS_MASTER.md) · [`PALABRAS_JSON_SPEC.md`](./PALABRAS_JSON_SPEC.md) · [`PALABRAS_PROGRESSION.md`](./PALABRAS_PROGRESSION.md)
 
@@ -842,5 +842,5 @@ Suma = 26. Sesgo hacia cualidad/acciones/emociones (tipología ficha); huecos te
 |-------|--------|
 | Markdown | **frozen / approved** |
 | JSON | `feinetas/palabras/relaciones-semanticas.json` |
-| Conectado al juego | **No** |
-| Morfología | **No iniciada** |
+| Hub / adaptadores | **Conectado** (sinonimos, antonimos) |
+| Mix / Mis fallos | **No** |

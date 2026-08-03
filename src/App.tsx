@@ -32,6 +32,8 @@ import { AlphabetSummaryScreen } from '@/features/languages/AlphabetSummaryScree
 import { LanguagesHubScreen } from '@/features/languages/LanguagesHubScreen'
 import { FormarPalabrasPlayScreen } from '@/features/languages/formar-palabras/FormarPalabrasPlayScreen'
 import { FormarPalabrasSummaryScreen } from '@/features/languages/formar-palabras/FormarPalabrasSummaryScreen'
+import { PalabrasMcqPlayScreen } from '@/features/languages/words/PalabrasMcqPlayScreen'
+import { PalabrasMcqSummaryScreen } from '@/features/languages/words/PalabrasMcqSummaryScreen'
 import { WordsModeSelectScreen } from '@/features/languages/words/WordsModeSelectScreen'
 import { SpellModeSelectScreen } from '@/features/languages/spelling/SpellModeSelectScreen'
 import { SpellPlayScreen } from '@/features/languages/spelling/SpellPlayScreen'
@@ -90,11 +92,6 @@ export default function App() {
         <Route path="/missions/languages/spelling/summary" element={<SpellSummaryScreen />} />
         <Route path="/missions/languages/spelling/:mode" element={<SpellPlayScreen />} />
         <Route path="/missions/languages/words" element={<WordsModeSelectScreen />} />
-        <Route path="/missions/languages/formar-palabras" element={<FormarPalabrasPlayScreen />} />
-        <Route
-          path="/missions/languages/formar-palabras/summary"
-          element={<FormarPalabrasSummaryScreen />}
-        />
         <Route
           path="/missions/languages/words/formar-palabras"
           element={<Navigate to="/missions/languages/formar-palabras" replace />}
@@ -102,6 +99,16 @@ export default function App() {
         <Route
           path="/missions/languages/words/formar-palabras/summary"
           element={<Navigate to="/missions/languages/formar-palabras/summary" replace />}
+        />
+        <Route
+          path="/missions/languages/words/:productId/summary"
+          element={<PalabrasMcqSummaryScreen />}
+        />
+        <Route path="/missions/languages/words/:productId" element={<PalabrasMcqPlayScreen />} />
+        <Route path="/missions/languages/formar-palabras" element={<FormarPalabrasPlayScreen />} />
+        <Route
+          path="/missions/languages/formar-palabras/summary"
+          element={<FormarPalabrasSummaryScreen />}
         />
         <Route path="/missions/english" element={<EnglishHubScreen />} />
         <Route path="/missions/english/:packId/summary" element={<EnglishSummaryScreen />} />

@@ -93,11 +93,18 @@ describe('navegación Lengua → Palabras', () => {
     )
   })
 
-  it('abre Palabras y muestra Formar palabras', () => {
+  it('abre Palabras y muestra Formar palabras y modos MCQ', () => {
     renderAt('/missions/languages/words')
     expect(screen.getByRole('heading', { name: /^palabras$/i })).toBeInTheDocument()
-    const item = screen.getByRole('listitem', { name: /formar palabras/i })
-    expect(item).toHaveAttribute('href', '/missions/languages/formar-palabras')
+    const formar = screen.getByRole('listitem', { name: /formar palabras/i })
+    expect(formar).toHaveAttribute('href', '/missions/languages/formar-palabras')
+    expect(screen.getByRole('listitem', { name: /singular \/ plural/i })).toHaveAttribute(
+      'href',
+      '/missions/languages/words/singular-plural',
+    )
+    expect(screen.getByRole('listitem', { name: /masculino \/ femenino/i })).toBeInTheDocument()
+    expect(screen.getByRole('listitem', { name: /sinónimos/i })).toBeInTheDocument()
+    expect(screen.getByRole('listitem', { name: /antónimos/i })).toBeInTheDocument()
   })
 
   it('Ortografía no muestra Formar palabras', () => {
@@ -113,11 +120,17 @@ describe('navegación Lengua → Palabras', () => {
     expect(screen.getByText(/ordena las letras/i)).toBeInTheDocument()
   })
 
-  it('el catálogo de Palabras apunta solo a la ruta canónica', () => {
+  it('el catálogo de Palabras incluye formar + morph + relaciones', () => {
     const active = activeWordsExercises()
-    expect(active).toHaveLength(1)
-    expect(active[0]?.id).toBe('formar-palabras')
+    expect(active.map((e) => e.id)).toEqual([
+      'formar-palabras',
+      'singular-plural',
+      'masculino-femenino',
+      'sinonimos',
+      'antonimos',
+    ])
     expect(wordsExerciseHref(active[0]!)).toBe('/missions/languages/formar-palabras')
+    expect(wordsExerciseHref(active[1]!)).toBe('/missions/languages/words/singular-plural')
   })
 
   it('el mapa de Lengua no muestra Escritura ni Comprensión', () => {

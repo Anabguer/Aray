@@ -1,0 +1,21 @@
+.palabras-mcq-play {
+  min-height: 0;
+}
+
+.palabras-mcq-why {
+  display: grid;
+  gap: 0.65rem;
+  padding: 0.25rem 0 0;
+}
+
+.palabras-mcq-why__ok {
+  margin: 0;
+  font-weight: 700;
+  color: var(--ok, #1a7a3c);
+}
+
+.palabras-mcq-why__tip {
+  margin: 0;
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
