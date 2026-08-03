@@ -110,7 +110,7 @@ function promptForKind(kind: ClasificaKind): { prompt: string; help: string } {
   if (kind === 'gender') {
     return {
       prompt: '¿Masculino o femenino?',
-      help: 'Masculino suele ir con el/los; femenino con la/las.',
+      help: 'Solo nombres en singular. Masculino suele ir con el; femenino con la.',
     }
   }
   if (kind === 'article') {
@@ -167,8 +167,12 @@ export function buildClasificaRound(
   poolSize = CLASIFICA_POOL_SIZE,
 ): ClasificaRound {
   const random = mulberry32(seed)
-  const all = listClasificaItems()
-  const picked = pickBalanced(all, kind, poolSize, random)
+  // Género solo con singular: mezclar plurales confunde (lápices ≠ el/la).
+  const pool =
+    kind === 'gender'
+      ? listClasificaItems().filter((i) => i.number === 'sg')
+      : listClasificaItems()
+  const picked = pickBalanced(pool, kind, poolSize, random)
   if (picked.length < 4) {
     throw new Error(`[clasifica] Pocas fichas para kind=${kind}`)
   }

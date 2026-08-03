@@ -50,6 +50,17 @@ describe('palabras Clasifica', () => {
     },
   )
 
+  it('ronda de género solo usa singular (sin plurales tipo lápices)', () => {
+    for (let seed = 1; seed <= 40; seed += 1) {
+      const round = buildClasificaRound('gender', seed)
+      expect(round.bins.map((b) => b.label)).toEqual(['Masculino', 'Femenino'])
+      for (const chip of round.chips) {
+        const item = listClasificaItems().find((i) => i.id === chip.id)
+        expect(item?.number).toBe('sg')
+      }
+    }
+  })
+
   it('sesión mezcla kinds y no repite ids en la misma ronda', () => {
     const session = buildClasificaSession(CLASIFICA_ROUNDS, 7)
     expect(session).toHaveLength(CLASIFICA_ROUNDS)
