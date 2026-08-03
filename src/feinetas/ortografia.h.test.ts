@@ -8,7 +8,7 @@ import {
 } from '@/feinetas/ortographyLemmaPack'
 import { listRegisteredFeinetas } from '@/feinetas/registry'
 
-/** Orden exacto del MD congelado ERRORES_REALES_H.md (49). */
+/** Orden exacto del MD congelado ERRORES_REALES_H.md (51). */
 const EXPECTED_LEMMAS = [
   'hierba',
   'hielo',
@@ -40,6 +40,8 @@ const EXPECTED_LEMMAS = [
   'ahora',
   'hasta',
   'hola',
+  'ola',
+  'asta',
   'hijo',
   'hija',
   'hermano',
@@ -75,15 +77,15 @@ describe('feinetas / ortografia / h (pack post-piloto)', () => {
     expect(pack.pack.ownerBank).toBe('ERRORES_REALES_H.md')
     expect(pack.pack.ruleFamily).toBe('h')
     expect(pack.pack.revisionStatus).toBe('approved')
-    expect(pack.pack.contentVersion).toBe(1)
+    expect(pack.pack.contentVersion).toBe(2)
     expect(pack.pack.level).toBe('3-primaria')
     expect(pack.pack.locale).toBe('es-ES')
   })
 
-  it('contiene exactamente los 49 lemas del MD en el mismo orden', () => {
+  it('contiene exactamente los 51 lemas del MD en el mismo orden', () => {
     const pack = hPack as OrtographyLemmaPack
-    expect(pack.lemmas).toHaveLength(49)
-    expect(EXPECTED_LEMMAS).toHaveLength(49)
+    expect(pack.lemmas).toHaveLength(51)
+    expect(EXPECTED_LEMMAS).toHaveLength(51)
     expect(pack.lemmas.map((l) => l.lemma)).toEqual([...EXPECTED_LEMMAS])
   })
 
@@ -91,8 +93,8 @@ describe('feinetas / ortografia / h (pack post-piloto)', () => {
     const pack = hPack as OrtographyLemmaPack
     const ids = pack.lemmas.map((l) => l.id)
     const lemmas = pack.lemmas.map((l) => l.lemma.toLocaleLowerCase('es'))
-    expect(new Set(ids).size).toBe(49)
-    expect(new Set(lemmas).size).toBe(49)
+    expect(new Set(ids).size).toBe(51)
+    expect(new Set(lemmas).size).toBe(51)
     for (const item of pack.lemmas) {
       expect(item.id).toMatch(/^h-/)
       expect(item.ruleId).toBe('h')
@@ -124,11 +126,11 @@ describe('feinetas / ortografia / h (pack post-piloto)', () => {
     expect(byLemma.hueso).toBe('h-hueso')
   })
 
-  it('frecuencias 19 / 20 / 10 como el MD post-normalización', () => {
+  it('frecuencias 19 / 22 / 10 como el MD post-normalización', () => {
     const pack = hPack as OrtographyLemmaPack
     const count = (f: string) => pack.lemmas.filter((l) => l.frequency === f).length
     expect(count('muy_frecuente')).toBe(19)
-    expect(count('frecuente')).toBe(20)
+    expect(count('frecuente')).toBe(22)
     expect(count('poco_frecuente')).toBe(10)
   })
 

@@ -1036,6 +1036,74 @@ Pareja homófona típica de h muda en Primaria.
 
 ## Correcta
 
+ola
+
+## Error frecuente 1
+
+hola
+
+## Error frecuente 2
+
+
+
+## Regla
+
+Ola (mar) se escribe sin h. Hola (saludo) es otra palabra.
+
+## Frecuencia
+
+Frecuente
+
+## Categoría
+
+Naturaleza
+
+## Imagen recomendable
+
+Sí
+
+## Observaciones
+
+Cara inversa de hola/ola: decidir que no lleva hache.
+
+---
+
+## Correcta
+
+asta
+
+## Error frecuente 1
+
+hasta
+
+## Error frecuente 2
+
+
+
+## Regla
+
+Asta (cuerno) se escribe sin h. Hasta (preposición) es otra palabra.
+
+## Frecuencia
+
+Frecuente
+
+## Categoría
+
+Otros
+
+## Imagen recomendable
+
+No
+
+## Observaciones
+
+Cara inversa de hasta/asta: decidir que no lleva hache.
+
+---
+
+## Correcta
+
 hijo
 
 ## Error frecuente 1
@@ -1682,7 +1750,7 @@ ANAYA refuerzo (lista de verduras). Error típico de h intercalada.
 
 ## Resumen editorial
 
-- **Número final de registros:** 49
+- **Número final de registros:** 51
 - **Fichas o carpetas revisadas:** (mismas que la versión previa + rechequeo ANAYA refuerzo para hoja, horno, hacia, horas, hormiguero)
   - `castellano_Lengua_3º-ANAYA_ampliacion.txt`
   - `castellano_Lengua_3º-ANAYA_refuerzo.txt`
@@ -1690,17 +1758,17 @@ ANAYA refuerzo (lista de verduras). Error típico de h intercalada.
   - `castellano_lenguaje3_tomo2_pdf.txt`, `castellano_lengua_3_savia.txt`
   - `docs/TEMARIO_3_PRIMARIA_CATALUNYA.md`
   - `verano_aray/banc_exercicis/02_castellano.md`
-- **Bloques trabajados:** hie-/hue-/hui- · hacer ≠ echar · hablar (infinitivo) · haber (sin hay/ahí/ay) · h muda / intercalada
+- **Bloques trabajados:** hie-/hue-/hui- · hacer ≠ echar · hablar (infinitivo) · haber (sin hay/ahí/ay) · h muda / intercalada · pares sin h (ola/asta)
 - **Confirmación:** sin generación automática; errores = omisión de h, confusión hie/y, o pares reales hacer↔echar / homófonos.
 
 ### Estado editorial
 
-- **Registros finales:** 49
+- **Registros finales:** 51
 - **Registros eliminados:** 11 — huerta, huida, hablo, habla, hablamos, hechas, huella, huerto, hago, echaron, horario
-- **Registros añadidos:** 5 — hormiguero, hoja, horno, hacia, horas
+- **Registros añadidos:** 7 — hormiguero, hoja, horno, hacia, horas, ola, asta
 - **No añadidos:** humo (no localizado en extracts castellano revisados)
 - **Pendientes de revisar:** ninguno bloqueante; *han* y *hubo* quedan con frecuencia «Poco frecuente» a propósito
-- **Normalización editorial (pre-MP/MB):** categoría unificada «Cuerpo»; frecuencias reequilibradas a Muy frecuente 19 · Frecuente 20 · Poco frecuente 10 (sin cambiar lemas ni errores).
+- **Normalización editorial (pre-MP/MB):** categoría unificada «Cuerpo»; frecuencias reequilibradas a Muy frecuente 19 · Frecuente 22 · Poco frecuente 10 (sin cambiar lemas ni errores base; ola/asta como cara inversa de homófonos).
 - **Calidad editorial estimada:** 90 / 100
 - **Observaciones para el siguiente banco (BV):**
   - Partir solo de fichas del repo (ANAYA / Vicens / lecturas), no del bank técnico monolítico.
@@ -1718,3 +1786,4 @@ ANAYA refuerzo (lista de verduras). Error típico de h intercalada.
 - Vocabulario de 3.º respaldado por fichas.
 - Categorías corregidas (*hombre* → Otros; *hueco* → Otros).
 - Equilibrio: Naturaleza, Animales, Casa, Acciones, Comida, Cuerpo, Objetos, Colegio, Ciudad, Otros.
+- Caras inversas sin h (`ola`, `asta`, `echar`/`echa`/`echo`) para el modo «letra que falta».

@@ -199,3 +199,9 @@
 .spell-summary__stats strong {
   font-size: 1.4rem;
 }
+
+.answer-btn.is-empty-unit .answer-btn__value {
+  font-size: 0.95em;
+  letter-spacing: 0.02em;
+  opacity: 0.92;
+}

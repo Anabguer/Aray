@@ -124,6 +124,21 @@ export function explainSpellMistake(input: {
     }
   }
 
+  // Hueco: a veces la respuesta correcta es «nada» (palabra sin hache).
+  if (mode === 'missing' && (correct === '' || chosen === '')) {
+    const choseNothing = chosen === ''
+    const needsNothing = correct === ''
+    return {
+      badge: rule ? RULE_BADGE[rule] : 'Ortografía',
+      whyWrong: choseNothing
+        ? 'Elegiste que no falta nada, pero aquí sí hace falta una letra.'
+        : 'Aquí no va hache: esa palabra se escribe sin h.',
+      whyRight: needsNothing
+        ? 'No falta ninguna letra: la palabra va sin hache.'
+        : `Falta “${correct}”.`,
+    }
+  }
+
   if (rule === 'hay-ahi-ay') return explainHayAhiAy(correct, chosen)
   if (rule === 'hacer-echar') return explainHacerEchar(correct, chosen)
   if (rule === 'r-rr') return explainRrr(correct, chosen)

@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import { getOrtographyCorpus } from '@/feinetas/ortographyCorpus'
-import { buildOrtografiaMissingRound } from '@/minigames/adapters/ortografiaMissing'
+import {
+  buildOrtografiaMissingQuestion,
+  buildOrtografiaMissingRound,
+  diffHardUnit,
+} from '@/minigames/adapters/ortografiaMissing'
 import { PICTURE_MODE_ENABLED, buildOrtografiaPictureRound } from '@/minigames/adapters/ortografiaPicture'
 import { buildRound } from '@/minigames/buildRound'
 import { getMinigame } from '@/minigames/catalog'
@@ -16,6 +20,23 @@ describe('ortografiaMissing', () => {
       expect(q.display).not.toContain('·')
       expect(q.targetKey?.startsWith('ortografia-')).toBe(true)
     }
+  })
+
+  it('detecta omisión de h (hierro) e inserción espuria (echar)', () => {
+    expect(diffHardUnit('hierro', 'ierro')).toEqual({ index: 0, unit: 'h' })
+    expect(diffHardUnit('echar', 'hechar')).toEqual({ index: 0, unit: '' })
+    expect(diffHardUnit('ola', 'hola')).toEqual({ index: 0, unit: '' })
+    expect(diffHardUnit('ahora', 'aora')).toEqual({ index: 1, unit: 'h' })
+  })
+
+  it('en palabras sin hache la respuesta correcta es el hueco vacío', () => {
+    const echar = getOrtographyCorpus().entries.find((e) => e.lemma.lemma === 'echar')
+    expect(echar).toBeTruthy()
+    const q = buildOrtografiaMissingQuestion(42, new Set(), 'missing', echar)
+    expect(q.display).toBe('_echar')
+    expect(q.options).toContain('')
+    expect(q.options).toContain('h')
+    expect(q.options[q.correctIndex]).toBe('')
   })
 })
 

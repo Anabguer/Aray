@@ -112,6 +112,31 @@ export function diffHardUnit(
     }
 
     if (ca !== cb) {
+      const restA = a
+        .slice(i)
+        .join('')
+        .toLocaleLowerCase('es')
+      const restB = b
+        .slice(j)
+        .join('')
+        .toLocaleLowerCase('es')
+      const restAAfter1 = a
+        .slice(i + 1)
+        .join('')
+        .toLocaleLowerCase('es')
+      const restBAfter1 = b
+        .slice(j + 1)
+        .join('')
+        .toLocaleLowerCase('es')
+
+      // Error con letra de más (p. ej. echar → hechar): hueco «nada».
+      if (restA === restBAfter1) {
+        return { index: i, unit: '' }
+      }
+      // Error con letra de menos (p. ej. hierro → ierro): unidad de la correcta.
+      if (restAAfter1 === restB) {
+        return { index: i, unit: a[i]! }
+      }
       return { index: i, unit: a[i]! }
     }
     i += 1
@@ -127,6 +152,10 @@ export function diffHardUnit(
       return { index: idx, unit: 'rr' }
     }
     return { index: idx, unit: a[idx]! }
+  }
+  // Correcta más corta: el error insertó algo al final → hueco vacío al final.
+  if (b.length > a.length) {
+    return { index: a.length, unit: '' }
   }
   return null
 }
@@ -178,7 +207,8 @@ function hardUnitForRule(word: string, ruleId: string): { index: number; unit: s
     case 'haber-hablar':
     case 'hacer-echar':
     case 'hay-ahi-ay':
-      return { index: 0, unit: lower.startsWith('h') ? 'h' : graphemes(word)[0]! }
+      // Sin hache: el hueco pregunta si hace falta (respuesta = nada).
+      return { index: 0, unit: lower.startsWith('h') ? 'h' : '' }
     case 'g-j': {
       const i = lower.search(/[gj]/)
       return { index: i >= 0 ? i : 0, unit: graphemes(word)[i >= 0 ? i : 0]! }
@@ -203,6 +233,11 @@ function blankAt(word: string, index: number, unitLen: number): string {
   return chars.slice(0, index).join('') + '_' + chars.slice(end).join('')
 }
 
+/** Error que añade letras (típico: meter una h donde no va). */
+export function isInsertionError(lemma: string, wrong: string): boolean {
+  return graphemes(wrong).length > graphemes(lemma).length
+}
+
 export function buildOrtografiaMissingQuestion(
   seed: number,
   usedRefs: Set<string>,
@@ -211,7 +246,14 @@ export function buildOrtografiaMissingQuestion(
 ): SpellMcqQuestion {
   const random = mulberry32(seed)
   const pool = getOrtographyCorpus().entries.filter((e) => itemApprovedErrors(e).length >= 1)
-  const entry = forced ?? pickCorpusEntry(random, usedRefs, pool)
+  const insertionPool = pool.filter((e) => {
+    const w = itemApprovedErrors(e)[0]
+    return Boolean(w && isInsertionError(e.lemma.lemma, w))
+  })
+  // ~28% de partidas: decidir si «no falta nada» (p. ej. ?echar → Nada, no h).
+  const preferInsertion = !forced && insertionPool.length > 0 && random() < 0.28
+  const entry =
+    forced ?? pickCorpusEntry(random, usedRefs, preferInsertion ? insertionPool : pool)
   usedRefs.add(ortographyMissKey(entry.packId, entry.lemma.id))
 
   const wrong = itemApprovedErrors(entry)[0] ?? ''
@@ -220,7 +262,7 @@ export function buildOrtografiaMissingQuestion(
     hardUnitForRule(entry.lemma.lemma, entry.lemma.ruleId)
 
   const letter = presentUnit(hard.unit)
-  const unitLen = Math.max(1, graphemes(hard.unit).length)
+  const unitLen = hard.unit === '' ? 0 : Math.max(1, graphemes(hard.unit).length)
   const options = shuffle(rivalUnitsForRule(entry.lemma.ruleId, letter), random)
 
   if (options.length < 2) {
@@ -231,7 +273,9 @@ export function buildOrtografiaMissingQuestion(
 
   const correctIndex = options.findIndex((o) => unitKey(o) === unitKey(letter))
   if (correctIndex < 0) {
-    throw new Error(`[ortografia-missing] Unidad correcta ausente: ${letter}`)
+    throw new Error(
+      `[ortografia-missing] Unidad correcta ausente: ${letter === '' ? '(nada)' : letter}`,
+    )
   }
 
   return {

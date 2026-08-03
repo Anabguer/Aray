@@ -8,7 +8,7 @@
     "level": "3-primaria",
     "locale": "es-ES",
     "revisionStatus": "approved",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "sourceEditorialPhase": "fase-editorial-base",
     "notes": "Convertido tras piloto RR. No conectado a minijuegos todavía."
   },
@@ -626,6 +626,46 @@
         "h-inicial"
       ],
       "notes": "Pareja homófona típica de h muda en Primaria."
+    },
+    {
+      "id": "h-ola",
+      "lemma": "ola",
+      "errors": [
+        "hola"
+      ],
+      "ruleId": "h",
+      "ruleText": "Ola (mar) se escribe sin h. Hola (saludo) es otra palabra.",
+      "frequency": "frecuente",
+      "category": "naturaleza",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tags": [
+        "h-inicial",
+        "sin-h"
+      ],
+      "notes": "Cara inversa de hola/ola: decidir que no lleva hache."
+    },
+    {
+      "id": "h-asta",
+      "lemma": "asta",
+      "errors": [
+        "hasta"
+      ],
+      "ruleId": "h",
+      "ruleText": "Asta (cuerno) se escribe sin h. Hasta (preposición) es otra palabra.",
+      "frequency": "frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tags": [
+        "h-inicial",
+        "sin-h"
+      ],
+      "notes": "Cara inversa de hasta/asta: decidir que no lleva hache."
     },
     {
       "id": "h-hijo",

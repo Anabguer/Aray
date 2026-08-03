@@ -334,14 +334,17 @@ export function SpellPlayScreen() {
                   <button
                     key={`${question.id}-${i}`}
                     type="button"
-                    className={`answer-btn${mark}${near ? ' has-near-fx' : ''}`}
+                    className={`answer-btn${mark}${near ? ' has-near-fx' : ''}${opt === '' ? ' is-empty-unit' : ''}`}
                     disabled={locked || waitingAfterMiss || hitFlash}
+                    aria-label={opt === '' ? 'Nada: no falta ninguna letra' : undefined}
                     onClick={() => onPick(i)}
                   >
                     <span className="answer-btn__key" aria-hidden="true">
                       {i + 1}
                     </span>
-                    <span className="answer-btn__value">{opt}</span>
+                    <span className="answer-btn__value">
+                      {opt === '' ? 'Nada' : opt}
+                    </span>
                     {near ? (
                       <span
                         className={`answer-btn__near answer-btn__near--${near.tone}`}
