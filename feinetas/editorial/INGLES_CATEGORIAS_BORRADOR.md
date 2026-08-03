@@ -19,6 +19,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 09: rutinas diarias (match frase↔imagen). |
 | 2026-08-03 | Ejercicio 10: rutinas (completar I + chunk). |
 | 2026-08-03 | Ejercicio 11: ordenar frase (rutina + hora). |
+| 2026-08-03 | Ejercicio 12: What time is it? (reloj + frase). |
 
 ## Material en inbox
 
@@ -35,6 +36,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/09-routines-match.png` | Rutinas: match frase ↔ escena | Catalogado |
 | `refs/10-routines-write.png` | Rutinas: I + completar chunk | Catalogado |
 | `refs/11-routines-time-sort.png` | Ordenar: rutina + o'clock / half past | Catalogado |
+| `refs/12-what-time-is-it.png` | What time is it? (reloj analógico) | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -408,13 +410,37 @@ Nota gramatical útil para tips: *play* + deporte con pelota/raqueta · *go* + -
 
 ---
 
+## Ejercicio 12 — What time is it?
+
+![Captura](../Ingles/_inbox/refs/12-what-time-is-it.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | «2 Write.» (reloj + diálogo) |
+| **Bloque** | **Horas en inglés** (*What time is it? It's … o'clock / half past …*) |
+| **Categoría propuesta** | `time` (**nueva**) — o puente a mundo **Horas** (ya existe UI de reloj) |
+| **Mecánica Aray** | Reutilizar reloj analógico de Mates/Horas + MCQ / completar en **EN**. No hace falta dibujar relojes nuevos. |
+| **Nota** | Solapa fuerte con Horas; en Inglés el valor es el **idioma** (frase), no otra UI de reloj. |
+
+### Ítems
+
+| # | Hora | Diálogo |
+|---|------|---------|
+| 1 | 10:00 | What time is it? It's ten o'clock. |
+| 2 | 6:30 | What time is it? It's half past six. |
+| 3 | 3:00 | What time is it? It's three o'clock. |
+| 4 | 12:30 | What time is it? It's half past twelve. |
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
 |--------------|-----------|------|-------|---------------------|--------|
 | `food` | Comida | Vocabulario food + preferencias (+ *but*) | ~14 lemas (ej. 01–04) | meaning, translate, like-mcq, picture | borrador |
 | `abilities` | Puedo / deportes | *can/can't* + chunks + he/she | ~12 actividades (ej. 05–08) | drag-to-image, fill-activity, can-yn | borrador |
-| `routines` | Rutinas | Día a día + horas (*o'clock* / *half past*) | ~8 chunks (ej. 09–11) | drag-to-image, fill-chunk, **order-sentence** | borrador |
+| `routines` | Rutinas | Día a día + *at* + hora | ~8 chunks (ej. 09–11) | drag-to-image, fill-chunk, order-sentence | borrador |
+| `time` | ¿Qué hora es? | *What time is it?* o'clock / half past | 4 modelos (ej. 12) | clock-ui + EN phrases (puente Horas) | borrador |
 
 ## Cómo añadir un lote
 
