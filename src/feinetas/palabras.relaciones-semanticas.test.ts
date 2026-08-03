@@ -65,9 +65,9 @@ describe('feinetas / palabras / relaciones-semanticas', () => {
     const pack = packJson as WordsSemanticRelationPack
     const syn = pack.items.filter((i) => i.relation === 'synonym')
     const ant = pack.items.filter((i) => i.relation === 'antonym')
-    expect(syn.length).toBeGreaterThanOrEqual(12)
-    expect(ant.length).toBeGreaterThanOrEqual(14)
-    expect(pack.items.length).toBeGreaterThanOrEqual(26)
+    expect(syn.length).toBeGreaterThanOrEqual(50)
+    expect(ant.length).toBeGreaterThanOrEqual(50)
+    expect(pack.items.length).toBeGreaterThanOrEqual(100)
     for (const id of EXPECTED_SYN_IDS) {
       expect(syn.map((i) => i.id)).toContain(id)
     }

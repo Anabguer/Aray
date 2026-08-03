@@ -8,9 +8,9 @@
     "level": "3-primaria",
     "locale": "es-ES",
     "revisionStatus": "frozen",
-    "contentVersion": 2,
+    "contentVersion": 3,
     "sourceEditorialPhase": "fase-editorial-palabras",
-    "notes": "Congelado 2026-08-02. Conectado: sinonimos + antonimos."
+    "notes": "Ampliado 2026-08-03 a 50 sinónimos + 50 antónimos (congelado operativo). Conectado: sinonimos-antonimos."
   },
   "items": [
     {
@@ -701,6 +701,617 @@
       "difficulty": 2,
       "category": "cualidad",
       "notes": "BACKLOG 91"
+    },
+    {
+      "id": "rel-empezar-comenzar",
+      "anchor": "empezar",
+      "target": "comenzar",
+      "relation": "synonym",
+      "distractors": [
+        "terminar",
+        "parar"
+      ],
+      "difficulty": 1,
+      "category": "acciones",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-acabar-terminar",
+      "anchor": "acabar",
+      "target": "terminar",
+      "relation": "synonym",
+      "distractors": [
+        "empezar",
+        "seguir"
+      ],
+      "difficulty": 1,
+      "category": "acciones",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-mirar-observar",
+      "anchor": "mirar",
+      "target": "observar",
+      "relation": "synonym",
+      "distractors": [
+        "oír",
+        "tocar"
+      ],
+      "difficulty": 1,
+      "category": "acciones",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-escuchar-oir",
+      "anchor": "escuchar",
+      "target": "oír",
+      "relation": "synonym",
+      "distractors": [
+        "mirar",
+        "hablar"
+      ],
+      "difficulty": 1,
+      "category": "acciones",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-hablar-decir",
+      "anchor": "hablar",
+      "target": "decir",
+      "relation": "synonym",
+      "distractors": [
+        "callar",
+        "dormir"
+      ],
+      "difficulty": 1,
+      "category": "acciones",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-caminar-andar",
+      "anchor": "caminar",
+      "target": "andar",
+      "relation": "synonym",
+      "distractors": [
+        "correr",
+        "saltar"
+      ],
+      "difficulty": 1,
+      "category": "acciones",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-correr-trotar",
+      "anchor": "correr",
+      "target": "trotar",
+      "relation": "synonym",
+      "distractors": [
+        "parar",
+        "sentar"
+      ],
+      "difficulty": 1,
+      "category": "acciones",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-comprar-adquirir",
+      "anchor": "comprar",
+      "target": "adquirir",
+      "relation": "synonym",
+      "distractors": [
+        "vender",
+        "regalar"
+      ],
+      "difficulty": 1,
+      "category": "acciones",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-regalar-obsequiar",
+      "anchor": "regalar",
+      "target": "obsequiar",
+      "relation": "synonym",
+      "distractors": [
+        "robar",
+        "pedir"
+      ],
+      "difficulty": 1,
+      "category": "acciones",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-ayudar-auxiliar",
+      "anchor": "ayudar",
+      "target": "auxiliar",
+      "relation": "synonym",
+      "distractors": [
+        "molestar",
+        "impedir"
+      ],
+      "difficulty": 1,
+      "category": "acciones",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-buscar-averiguar",
+      "anchor": "buscar",
+      "target": "averiguar",
+      "relation": "synonym",
+      "distractors": [
+        "esconder",
+        "olvidar"
+      ],
+      "difficulty": 1,
+      "category": "acciones",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-encontrar-hallar",
+      "anchor": "encontrar",
+      "target": "hallar",
+      "relation": "synonym",
+      "distractors": [
+        "perder",
+        "buscar"
+      ],
+      "difficulty": 1,
+      "category": "acciones",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-guardar-conservar",
+      "anchor": "guardar",
+      "target": "conservar",
+      "relation": "synonym",
+      "distractors": [
+        "tirar",
+        "romper"
+      ],
+      "difficulty": 1,
+      "category": "acciones",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-romper-quebrar",
+      "anchor": "romper",
+      "target": "quebrar",
+      "relation": "synonym",
+      "distractors": [
+        "arreglar",
+        "unir"
+      ],
+      "difficulty": 1,
+      "category": "acciones",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-limpiar-fregar",
+      "anchor": "limpiar",
+      "target": "fregar",
+      "relation": "synonym",
+      "distractors": [
+        "ensuciar",
+        "manchar"
+      ],
+      "difficulty": 1,
+      "category": "acciones",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-construir-edificar",
+      "anchor": "construir",
+      "target": "edificar",
+      "relation": "synonym",
+      "distractors": [
+        "derribar",
+        "romper"
+      ],
+      "difficulty": 1,
+      "category": "acciones",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-casa-hogar",
+      "anchor": "casa",
+      "target": "hogar",
+      "relation": "synonym",
+      "distractors": [
+        "calle",
+        "parque"
+      ],
+      "difficulty": 1,
+      "category": "espacio",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-nino-chico",
+      "anchor": "niño",
+      "target": "chico",
+      "relation": "synonym",
+      "distractors": [
+        "adulto",
+        "señor"
+      ],
+      "difficulty": 1,
+      "category": "personas",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-nina-chica",
+      "anchor": "niña",
+      "target": "chica",
+      "relation": "synonym",
+      "distractors": [
+        "señora",
+        "mujer"
+      ],
+      "difficulty": 1,
+      "category": "personas",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-amigo-companero",
+      "anchor": "amigo",
+      "target": "compañero",
+      "relation": "synonym",
+      "distractors": [
+        "enemigo",
+        "extraño"
+      ],
+      "difficulty": 1,
+      "category": "personas",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-profesor-maestro",
+      "anchor": "profesor",
+      "target": "maestro",
+      "relation": "synonym",
+      "distractors": [
+        "alumno",
+        "padre"
+      ],
+      "difficulty": 1,
+      "category": "personas",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-alumno-estudiante",
+      "anchor": "alumno",
+      "target": "estudiante",
+      "relation": "synonym",
+      "distractors": [
+        "profesor",
+        "director"
+      ],
+      "difficulty": 1,
+      "category": "personas",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-comida-alimento",
+      "anchor": "comida",
+      "target": "alimento",
+      "relation": "synonym",
+      "distractors": [
+        "bebida",
+        "juguete"
+      ],
+      "difficulty": 1,
+      "category": "cosas",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-coche-automovil",
+      "anchor": "coche",
+      "target": "automóvil",
+      "relation": "synonym",
+      "distractors": [
+        "bici",
+        "tren"
+      ],
+      "difficulty": 1,
+      "category": "cosas",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-bici-bicicleta",
+      "anchor": "bici",
+      "target": "bicicleta",
+      "relation": "synonym",
+      "distractors": [
+        "coche",
+        "moto"
+      ],
+      "difficulty": 1,
+      "category": "cosas",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-perro-can",
+      "anchor": "perro",
+      "target": "can",
+      "relation": "synonym",
+      "distractors": [
+        "gato",
+        "pájaro"
+      ],
+      "difficulty": 1,
+      "category": "animales",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-gato-felino",
+      "anchor": "gato",
+      "target": "felino",
+      "relation": "synonym",
+      "distractors": [
+        "perro",
+        "ratón"
+      ],
+      "difficulty": 1,
+      "category": "animales",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-bosque-selva",
+      "anchor": "bosque",
+      "target": "selva",
+      "relation": "synonym",
+      "distractors": [
+        "desierto",
+        "playa"
+      ],
+      "difficulty": 1,
+      "category": "naturaleza",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-mar-oceano",
+      "anchor": "mar",
+      "target": "océano",
+      "relation": "synonym",
+      "distractors": [
+        "río",
+        "lago"
+      ],
+      "difficulty": 1,
+      "category": "naturaleza",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-rio-arroyo",
+      "anchor": "río",
+      "target": "arroyo",
+      "relation": "synonym",
+      "distractors": [
+        "montaña",
+        "valle"
+      ],
+      "difficulty": 1,
+      "category": "naturaleza",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-sol-astro",
+      "anchor": "sol",
+      "target": "astro",
+      "relation": "synonym",
+      "distractors": [
+        "luna",
+        "nube"
+      ],
+      "difficulty": 1,
+      "category": "naturaleza",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-empezar-terminar",
+      "anchor": "empezar",
+      "target": "terminar",
+      "relation": "antonym",
+      "distractors": [
+        "seguir",
+        "continuar"
+      ],
+      "difficulty": 1,
+      "category": "acciones",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-subir-bajar",
+      "anchor": "subir",
+      "target": "bajar",
+      "relation": "antonym",
+      "distractors": [
+        "parar",
+        "girar"
+      ],
+      "difficulty": 1,
+      "category": "acciones",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-ganar-perder",
+      "anchor": "ganar",
+      "target": "perder",
+      "relation": "antonym",
+      "distractors": [
+        "empatar",
+        "jugar"
+      ],
+      "difficulty": 1,
+      "category": "acciones",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-reir-llorar",
+      "anchor": "reír",
+      "target": "llorar",
+      "relation": "antonym",
+      "distractors": [
+        "dormir",
+        "cantar"
+      ],
+      "difficulty": 1,
+      "category": "emociones",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-amar-odiar",
+      "anchor": "amar",
+      "target": "odiar",
+      "relation": "antonym",
+      "distractors": [
+        "conocer",
+        "olvidar"
+      ],
+      "difficulty": 1,
+      "category": "emociones",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-recordar-olvidar",
+      "anchor": "recordar",
+      "target": "olvidar",
+      "relation": "antonym",
+      "distractors": [
+        "pensar",
+        "saber"
+      ],
+      "difficulty": 1,
+      "category": "acciones",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-aparecer-desaparecer",
+      "anchor": "aparecer",
+      "target": "desaparecer",
+      "relation": "antonym",
+      "distractors": [
+        "mirar",
+        "buscar"
+      ],
+      "difficulty": 1,
+      "category": "acciones",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-juntar-separar",
+      "anchor": "juntar",
+      "target": "separar",
+      "relation": "antonym",
+      "distractors": [
+        "unir",
+        "mezclar"
+      ],
+      "difficulty": 1,
+      "category": "acciones",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-llenar-vaciar",
+      "anchor": "llenar",
+      "target": "vaciar",
+      "relation": "antonym",
+      "distractors": [
+        "romper",
+        "guardar"
+      ],
+      "difficulty": 1,
+      "category": "acciones",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-limpiar-ensuciar",
+      "anchor": "limpiar",
+      "target": "ensuciar",
+      "relation": "antonym",
+      "distractors": [
+        "fregar",
+        "ordenar"
+      ],
+      "difficulty": 1,
+      "category": "acciones",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-ordenar-desordenar",
+      "anchor": "ordenar",
+      "target": "desordenar",
+      "relation": "antonym",
+      "distractors": [
+        "limpiar",
+        "guardar"
+      ],
+      "difficulty": 1,
+      "category": "acciones",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-comprar-vender",
+      "anchor": "comprar",
+      "target": "vender",
+      "relation": "antonym",
+      "distractors": [
+        "regalar",
+        "pedir"
+      ],
+      "difficulty": 1,
+      "category": "acciones",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-dar-recibir",
+      "anchor": "dar",
+      "target": "recibir",
+      "relation": "antonym",
+      "distractors": [
+        "pedir",
+        "tomar"
+      ],
+      "difficulty": 1,
+      "category": "acciones",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-preguntar-responder",
+      "anchor": "preguntar",
+      "target": "responder",
+      "relation": "antonym",
+      "distractors": [
+        "callar",
+        "oír"
+      ],
+      "difficulty": 1,
+      "category": "acciones",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-dia-noche",
+      "anchor": "día",
+      "target": "noche",
+      "relation": "antonym",
+      "distractors": [
+        "tarde",
+        "mañana"
+      ],
+      "difficulty": 1,
+      "category": "tiempo",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
+    },
+    {
+      "id": "rel-manana-tarde",
+      "anchor": "mañana",
+      "target": "tarde",
+      "relation": "antonym",
+      "distractors": [
+        "noche",
+        "día"
+      ],
+      "difficulty": 1,
+      "category": "tiempo",
+      "notes": "Ampliación banco 2026-08-03 (50/50)."
     }
   ]
 }
