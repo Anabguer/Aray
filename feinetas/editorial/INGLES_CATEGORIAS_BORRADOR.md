@@ -46,6 +46,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 36: possessive 's + his/her (elige forma). |
 | 2026-08-03 | Ejercicio 37: on/in/under + Where is/are. |
 | 2026-08-03 | Ejercicios 38–39: is/are + his/her (misma escena que 37). |
+| 2026-08-03 | Ejercicio 40: Talking about the weather (match Q↔A + tip). |
 
 ## Material en inbox
 
@@ -90,6 +91,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/37-prepositions-place.png` | on/in/under + Where is/are (habitación) | Catalogado |
 | `refs/38-where-is-are.png` | Where is/are + ropa (mismo lote 37) | Catalogado |
 | `refs/39-his-her-where.png` | his/her + Where is/are (mismo lote 37) | Catalogado |
+| `refs/40-weather-talk-match.png` | Weather Q↔A match (+ tip) | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -1284,6 +1286,38 @@ La escena de habitación de este ejercicio **se reutiliza** en los ej. 38–39 (
 
 ---
 
+## Ejercicio 40 — Talking about the weather
+
+![Captura](../Ingles/_inbox/refs/40-weather-talk-match.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | Caja «Talking about the weather» + «1 Match the questions with the answers.» |
+| **Bloque** | **Conversación** clima (pregunta ↔ respuesta) · amplía `weather` (ej. 22 era solo *It's…*) |
+| **Categoría propuesta** | `weather` |
+| **Mecánica Aray** | Match Q↔A · tip ayuda siempre visible |
+| **Ayuda** | Tip muted: What's the weather like? → It's sunny. · Is it cloudy? → Yes/No, it is/isn't. · temperature → It's N degrees. · season → It's summer. |
+
+### Tabla de ayuda
+
+| Pregunta | Respuesta |
+|----------|-----------|
+| What's the weather like today? | It's sunny. |
+| Is it cloudy? | Yes, it is. / No, it isn't. |
+| What's the temperature today? | It's 22 degrees. |
+| What season is it? | It's summer. |
+
+### Match (+ clave)
+
+| # | Pregunta | Respuesta |
+|---|----------|-----------|
+| 1 | What's the temperature today? | b) It's 16 degrees. |
+| 2 | What season is it? | c) It's winter. |
+| 3 | What's the weather like today? | d) It's foggy. |
+| 4 | Is it raining? | a) Yes, it is. |
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
@@ -1293,7 +1327,7 @@ La escena de habitación de este ejercicio **se reutiliza** en los ej. 38–39 (
 | `routines` | Rutinas | Día a día + higiene + *at* + hora | ~15 chunks (ej. 09–11, 13–14, 16) | drag-to-image, picture, order-sentence, missing, routine+time | borrador |
 | `time` | ¿Qué hora es? | *What time…?* + *Is it…?* Yes/No | ej. 12, 15–16 | clock-ui + EN phrases + yn | borrador |
 | `places` | Lugares | campamento + paisajes | ~12 lemas (ej. 17–21) | drag-to-image, picture, join-parts, order-sentence | borrador |
-| `weather` | Tiempo (clima) | *It's hot/cold/sunny…* | 6 (ej. 22) | picture, fill *It's …* | borrador |
+| `weather` | Tiempo (clima) | *It's…* + Q&A (temp/season/YN) | ej. 22, 40 | picture, fill, match Q↔A + **help tip** | borrador |
 | `grammar-basics` | Formas | It's / go to / I've got / He's·She's | ej. 23, 26–29 | 2-option MCQ | borrador |
 | `stories` | Cuentos | Personajes + *wearing* + adjetivos | ej. 24–29 | drag-to-portrait, who-wearing, he/she | borrador |
 | `clothes` | Ropa | crown, boots, dress… | ~9 lemas (ej. 25–27) | picture, wearing-match, he/she | borrador |
