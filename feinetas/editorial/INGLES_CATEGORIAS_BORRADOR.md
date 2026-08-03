@@ -29,6 +29,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 19: go to / in the summer (lugares). |
 | 2026-08-03 | Ejercicio 20: ordenar frase (go to … in the summer). |
 | 2026-08-03 | Ejercicio 21: paisajes (circle imagen→palabra). |
+| 2026-08-03 | Ejercicio 22: clima (*It's hot/cold/sunny…*). |
 
 ## Material en inbox
 
@@ -55,6 +56,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/19-places-go-to-in-summer.png` | I go to the … in the summer | Catalogado |
 | `refs/20-places-sort-sentence.png` | Ordenar: I go to … in the summer | Catalogado |
 | `refs/21-places-landscape-circle.png` | Paisajes: circle imagen→palabra | Catalogado |
+| `refs/22-weather-its.png` | Clima: It's hot/cold/raining… | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -696,6 +698,42 @@ Distractores del set: river, sea, valley, town, village, forest.
 
 ---
 
+## Ejercicio 22 — Clima · *It's …*
+
+![Captura](../Ingles/_inbox/refs/22-weather-its.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | Grammar Worksheet 2 · «3 Write.» |
+| **Bloque** | **Clima** (*It's hot / cold / raining / sunny / snowing / cloudy*) |
+| **Categoría propuesta** | `weather` (deja de ser solo semilla) |
+| **Mecánica Aray** | Imagen AFK → completar *It's _____* (MCQ) o arrastrar adjetivo/verbo al hueco |
+| **Imágenes** | Escenas de clima estilo Aray (no clipart ficha) |
+
+### Ítems
+
+| # | Frase |
+|---|--------|
+| 1 | It's hot. |
+| 2 | It's cold. |
+| 3 | It's raining. |
+| 4 | It's sunny. |
+| 5 | It's snowing. |
+| 6 | It's cloudy. |
+
+### Lemas
+
+| EN | ES |
+|----|-----|
+| hot | calor / caluroso |
+| cold | frío |
+| raining | lloviendo |
+| sunny | soleado |
+| snowing | nevando |
+| cloudy | nublado |
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
@@ -705,7 +743,7 @@ Distractores del set: river, sea, valley, town, village, forest.
 | `routines` | Rutinas | Día a día + higiene + *at* + hora | ~15 chunks (ej. 09–11, 13–14, 16) | drag-to-image, picture, order-sentence, missing, routine+time | borrador |
 | `time` | ¿Qué hora es? | *What time…?* + *Is it…?* Yes/No | ej. 12, 15–16 | clock-ui + EN phrases + yn | borrador |
 | `places` | Lugares | campamento + paisajes | ~12 lemas (ej. 17–21) | drag-to-image, picture, join-parts, order-sentence | borrador |
-| `weather` | Tiempo (clima) | *It's cold / sunny* (semilla ej. 19) | pendiente | — | semilla |
+| `weather` | Tiempo (clima) | *It's hot/cold/sunny…* | 6 (ej. 22) | picture, fill *It's …* | borrador |
 
 ## Cómo añadir un lote
 
