@@ -50,6 +50,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicios 41–42: go to school by… (misma tira de imágenes). |
 | 2026-08-03 | Ejercicio 43: How much is…? + euros. |
 | 2026-08-03 | Ejercicio 44: presente simple (+/−) con banco de verbos. |
+| 2026-08-03 | Ejercicio 45: Do/Does…? (montar pregunta, sin escribir). |
 
 ## Material en inbox
 
@@ -98,6 +99,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/41-42-transport-school.png` | go by… + Do you…? (misma tira) | Catalogado |
 | `refs/43-how-much-euros.png` | How much is…? + monedas/billetes | Catalogado |
 | `refs/44-present-simple-plus-minus.png` | Presente simple (+/−) banco verbos | Catalogado |
+| `refs/45-do-does-questions.png` | Do/Does…? prompts → pregunta | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -1419,6 +1421,41 @@ brush · do · eat · play · swim
 
 ---
 
+## Ejercicio 45 — Do / Does…? (montar pregunta)
+
+![Captura](../Ingles/_inbox/refs/45-do-does-questions.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | «3 Write the questions. The first one has been done for you.» |
+| **Bloque** | **Gramática** preguntas Yes/No presente simple (*Do/Does* + *on* + day) |
+| **Categoría propuesta** | `present-simple` |
+| **Escritura libre** | **No** (criterio Aray) |
+| **Ayuda** | Tip: you/we/they → Do · he/she → Does · + *on* Mondays |
+
+### Ítems (+ clave)
+
+| # | Prompt | Pregunta |
+|---|--------|----------|
+| 1 | you / swim / Mondays | Do you swim on Mondays? *(ejemplo)* |
+| 2 | he / play football / Tuesdays | Does he play football on Tuesdays? |
+| 3 | they / do homework / Sundays | Do they do homework on Sundays? |
+| 4 | she / play tennis / Saturdays | Does she play tennis on Saturdays? |
+| 5 | we / have science / Fridays | Do we have science on Fridays? |
+
+### Mecánica Aray (sin teclado) — propuesta
+
+**Montar con fichas** (como Monta frase / ordenar rutinas):
+
+1. Arriba: prompt visual (icono persona + actividad + día de la semana).
+2. Fichas sueltas: `Do` · `Does` · sujeto · verbo · `on` · día · `?`
+3. Arrastrar a la franja en orden; solo una de Do/Does es correcta (la otra queda como distractor).
+4. Feedback inmediato si falta *on* o eligen mal Do/Does.
+
+Alternativa más guiada (2 toques): primero eligen **Do** o **Does** (chips grandes), luego ordenan el resto. Mantiene el foco en la regla he/she.
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
@@ -1438,7 +1475,7 @@ brush · do · eat · play · swim
 | `prepositions` | Preposiciones | *on/in/under* + Where is/are | ej. 37–38 | picture prep, is/are fill + **help tip** · **1 escena compartida** | borrador |
 | `transport` | Transporte | *go by…* / *walk* + Do you…? | ej. 41–42 | drag-to-image, YN · **1 tira compartida** | borrador |
 | `money` | Dinero / precios | *How much is…?* + euros | ej. 43 | count coins → *It's N euros.* + tip | borrador |
-| `present-simple` | Presente simple | +/− · *don't/doesn't* · *he/she* −s | ej. 44 | fill verbo + polaridad + **help tip** | borrador |
+| `present-simple` | Presente simple | +/− · Do/Does · *on* + day | ej. 44–45 | fill verbo, **montar pregunta con fichas** (no escribir) + tip | borrador |
 
 ## Cómo añadir un lote
 
