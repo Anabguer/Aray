@@ -8,24 +8,66 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | Fecha | Nota |
 |-------|------|
 | 2026-08-03 | Hub vaciado. Bancos Colegio/Familia/Colores en `_archivo/`. Inbox preparado. |
+| 2026-08-03 | Primera ficha catalogada: like / don't like + food. |
 
-## Material en inbox (pendiente de clasificar)
+## Material en inbox
 
-| Archivo | Notas |
-|---------|-------|
-| `01.pdf`, `1.pdf` … `8.pdf` | Lotes ya en disco; pendientes de lectura y categorización |
+| Archivo | Notas | Estado |
+|---------|-------|--------|
+| `refs/01-like-dont-like-food.png` | Circle like / don't like (Danny + comida) | Catalogado |
+| `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
-## Categorías propuestas
+---
 
-| ID tentativo | Título ES | Tema | Ítems (EN / ES) | Mecánicas sugeridas | Estado |
-|--------------|-----------|------|-----------------|---------------------|--------|
-| — | — | — | — | meaning / translate / match… | vacío |
+## Ejercicio 01 — Like / don't like (comida)
+
+![Captura](../Ingles/_inbox/refs/01-like-dont-like-food.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | Ficha: «1 Circle *like* or *don't like*.» + tabla Danny |
+| **Bloque** | **Vocabulario** (food) + **estructura** (*I like / I don't like*) |
+| **Categoría propuesta** | `food` (+ subtema preferencias) |
+| **Mecánica Aray sugerida** | MCQ: elegir *like* / *don't like* según tabla o imagen; o modo «Danny dice» con checks |
+| **Imágenes** | La ficha usa iconos de comida. En Aray: **ilustraciones propias** (estilo juego, no emoji, no clipart de ficha). Generables: rice, sausages, macaroni, juice, ice cream, fish, salad, chips |
+
+### Lemas / ítems
+
+| EN | ES (glosa) | Preferencia Danny (ficha) |
+|----|------------|---------------------------|
+| rice | arroz | don't like |
+| sausages | salchichas | don't like |
+| macaroni | macarrones | like |
+| juice | zumo | don't like |
+| ice cream | helado | like |
+| fish | pescado | don't like |
+| salad | ensalada | like |
+| chips | patatas fritas | like |
+
+### Estructuras / frases modelo
+
+- I like sausages. / I don't like sausages.
+- Can I have some chips? (caja de ejemplo; posible ampliación «pedir comida»)
+
+### Notas de diseño
+
+- No copiar los dibujos de la ficha: generar assets AFK (mismo look que ortografía-imagen / portadas).
+- El personaje «Danny» puede ser un avatar Aray o Lumo con tabla de gustos, no el clipart escolar.
+
+---
+
+## Categorías propuestas (mapa)
+
+| ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
+|--------------|-----------|------|-------|---------------------|--------|
+| `food` | Comida | Vocabulario food + *like / don't like* | 8 lemas (ejercicio 01) | meaning, translate, like-mcq, picture/match | borrador |
+| — | — | — | — | — | — |
 
 ## Cómo añadir un lote
 
-1. Guardar fichas en `_inbox/`.
+1. Guardar fichas en `_inbox/` (capturas en `_inbox/refs/`).
 2. Extraer ítems (palabra EN, glosa ES, notas).
-3. Asignar **categoría propuesta** (fila nueva o ampliación de una existente).
+3. Asignar **categoría propuesta** (fila nueva o ampliación).
 4. No implementar hub/JSON hasta acuerdo explícito.
 
 ## Archivo (referencia, no runtime)
