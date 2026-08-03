@@ -199,7 +199,9 @@ export function buildConvert24Question(seed: number): ClockMcqQuestion {
       correctIndex: options.indexOf(correct),
       options,
       kind: 'convert24',
-      prompt: `¿Cómo se escribe en 24 h? ${hour12}:${String(minute).padStart(2, '0')} ${period}`,
+      // La hora se lee en el reloj; solo se indica la franja (mañana/tarde).
+      prompt: '¿Cómo se escribe en 24 h?',
+      periodHint: period,
     },
     'es', // lang ignorado en id c24
   )

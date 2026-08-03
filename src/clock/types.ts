@@ -20,10 +20,12 @@ export interface ClockMcqQuestion {
   /** Índice 0–3 de la opción correcta. */
   correctIndex: number
   options: string[]
-  /** Si true, la pregunta es equivalencia 12↔24 (sin reloj analógico obligatorio). */
+  /** Si true, la pregunta es equivalencia 12↔24 (reloj + franja del día). */
   kind?: 'read' | 'convert24'
   /** Texto de pregunta opcional (convert24). */
   prompt?: string
+  /** Franja del día para convert24 (mañana / tarde…), sin repetir la hora en dígitos. */
+  periodHint?: string
 }
 
 export interface ClockMatchPair {

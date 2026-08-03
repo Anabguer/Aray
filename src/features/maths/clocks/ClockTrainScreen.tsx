@@ -23,6 +23,7 @@ import {
   recordMathsHit,
   recordMathsMiss,
 } from '@/math/missStore'
+import './clocks.css'
 
 const TRAIN_COUNT = 10
 const MODES_PATH = '/missions/mates/clocks'
@@ -197,6 +198,11 @@ export function ClockTrainScreen() {
   }
 
   const isConvert = question.kind === 'convert24'
+  const convertPeriod =
+    question.periodHint ??
+    question.prompt?.match(
+      /(de la mañana|de la tarde|del mediodía|de la noche(?: \(medianoche\))?)/,
+    )?.[1]
   const title = isMisses ? 'MIS FALLOS' : 'ENTRENA'
 
   return (
@@ -211,13 +217,20 @@ export function ClockTrainScreen() {
         lumoIntensity={lumo.intensity}
         prompt={
           isConvert
-            ? (question.prompt ?? '¿Cómo se escribe en 24 h?')
+            ? '¿Cómo se escribe en 24 h?'
             : qLang === 'ca'
               ? 'Quina hora és?'
               : '¿Qué hora es?'
         }
         detail={feedback ?? undefined}
-        extra={isConvert ? undefined : <AnalogClock time={question.time} size={220} />}
+        extra={
+          <div className="clock-train-visual">
+            <AnalogClock time={question.time} size={220} />
+            {isConvert && convertPeriod ? (
+              <p className="clock-train-period">{convertPeriod}</p>
+            ) : null}
+          </div>
+        }
         fx={answerFx.fx}
         lumoBoost={answerFx.lumoBoost}
         hit={hitFlash}

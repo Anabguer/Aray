@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { formatTimeEs } from '@/clock/format'
 import {
   assertUniformClockOptions,
+  buildConvert24Question,
   buildMcqQuestion,
   buildMatchPairs,
   buildTrainQueue,
@@ -44,5 +45,16 @@ describe('clock generator formato homogéneo', () => {
   it('ES minutos finos en palabras', () => {
     expect(formatTimeEs({ hour: 2, minute: 3 })).toBe('las dos y tres')
     expect(formatTimeEs({ hour: 2, minute: 58 })).toBe('las dos y cincuenta y ocho')
+  })
+
+  it('convert24 no escribe la hora en el enunciado: se lee el reloj', () => {
+    for (let i = 0; i < 40; i += 1) {
+      const q = buildConvert24Question(5000 + i * 17)
+      expect(q.kind).toBe('convert24')
+      expect(q.prompt).toBe('¿Cómo se escribe en 24 h?')
+      expect(q.prompt).not.toMatch(/\d+:\d+/)
+      expect(q.periodHint).toMatch(/mañana|tarde|mediodía|noche/)
+      expect(q.options.every((o) => /^\d{2}:\d{2}$/.test(o))).toBe(true)
+    }
   })
 })
