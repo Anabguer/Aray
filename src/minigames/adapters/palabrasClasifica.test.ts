@@ -20,7 +20,7 @@ describe('palabras Clasifica', () => {
 
   it('banco tiene stock suficiente y artículos coherentes', () => {
     const items = listClasificaItems()
-    expect(items.length).toBeGreaterThanOrEqual(24)
+    expect(items.length).toBeGreaterThanOrEqual(200)
     for (const item of items) {
       if (item.gender === 'm' && item.number === 'sg') expect(item.article).toBe('el')
       if (item.gender === 'f' && item.number === 'sg') {

@@ -8,79 +8,1414 @@
     "level": "3-primaria",
     "locale": "es-ES",
     "revisionStatus": "approved",
-    "contentVersion": 1,
-    "notes": "Banco para Clasifica: género, número y artículo. formA/B de morfología + fichas."
+    "contentVersion": 2,
+    "notes": "Banco Clasifica equilibrado: 50 por casilla (m/f × sg/pl). Género, número y artículo."
   },
   "items": [
-    { "id": "cl-casa", "word": "casa", "gender": "f", "number": "sg", "article": "la" },
-    { "id": "cl-casas", "word": "casas", "gender": "f", "number": "pl", "article": "las" },
-    { "id": "cl-libro", "word": "libro", "gender": "m", "number": "sg", "article": "el" },
-    { "id": "cl-libros", "word": "libros", "gender": "m", "number": "pl", "article": "los" },
-    { "id": "cl-mesa", "word": "mesa", "gender": "f", "number": "sg", "article": "la" },
-    { "id": "cl-mesas", "word": "mesas", "gender": "f", "number": "pl", "article": "las" },
-    { "id": "cl-nino", "word": "niño", "gender": "m", "number": "sg", "article": "el" },
-    { "id": "cl-nina", "word": "niña", "gender": "f", "number": "sg", "article": "la" },
-    { "id": "cl-gato", "word": "gato", "gender": "m", "number": "sg", "article": "el" },
-    { "id": "cl-gata", "word": "gata", "gender": "f", "number": "sg", "article": "la" },
-    { "id": "cl-amigo", "word": "amigo", "gender": "m", "number": "sg", "article": "el" },
-    { "id": "cl-amiga", "word": "amiga", "gender": "f", "number": "sg", "article": "la" },
-    { "id": "cl-profesor", "word": "profesor", "gender": "m", "number": "sg", "article": "el" },
-    { "id": "cl-profesora", "word": "profesora", "gender": "f", "number": "sg", "article": "la" },
-    { "id": "cl-lapiz", "word": "lápiz", "gender": "m", "number": "sg", "article": "el" },
-    { "id": "cl-lapices", "word": "lápices", "gender": "m", "number": "pl", "article": "los" },
-    { "id": "cl-luz", "word": "luz", "gender": "f", "number": "sg", "article": "la" },
-    { "id": "cl-luces", "word": "luces", "gender": "f", "number": "pl", "article": "las" },
-    { "id": "cl-rosa", "word": "rosa", "gender": "f", "number": "sg", "article": "la" },
-    { "id": "cl-lilas", "word": "lilas", "gender": "f", "number": "pl", "article": "las" },
-    { "id": "cl-geranio", "word": "geranio", "gender": "m", "number": "sg", "article": "el" },
-    { "id": "cl-claveles", "word": "claveles", "gender": "m", "number": "pl", "article": "los" },
-    { "id": "cl-semana", "word": "semana", "gender": "f", "number": "sg", "article": "la" },
-    { "id": "cl-caramelos", "word": "caramelos", "gender": "m", "number": "pl", "article": "los" },
-    { "id": "cl-ancla", "word": "ancla", "gender": "f", "number": "sg", "article": "la" },
-    { "id": "cl-dados", "word": "dados", "gender": "m", "number": "pl", "article": "los" },
-    { "id": "cl-trebol", "word": "trébol", "gender": "m", "number": "sg", "article": "el" },
-    { "id": "cl-rocas", "word": "rocas", "gender": "f", "number": "pl", "article": "las" },
-    { "id": "cl-nube", "word": "nube", "gender": "f", "number": "sg", "article": "la" },
-    { "id": "cl-manzanas", "word": "manzanas", "gender": "f", "number": "pl", "article": "las" },
-    { "id": "cl-puente", "word": "puente", "gender": "m", "number": "sg", "article": "el" },
-    { "id": "cl-zanahorias", "word": "zanahorias", "gender": "f", "number": "pl", "article": "las" },
-    { "id": "cl-genio", "word": "genio", "gender": "m", "number": "sg", "article": "el" },
-    { "id": "cl-hormigas", "word": "hormigas", "gender": "f", "number": "pl", "article": "las" },
-    { "id": "cl-trueno", "word": "trueno", "gender": "m", "number": "sg", "article": "el" },
-    { "id": "cl-luna", "word": "luna", "gender": "f", "number": "sg", "article": "la" },
-    { "id": "cl-calcetin", "word": "calcetín", "gender": "m", "number": "sg", "article": "el" },
-    { "id": "cl-cena", "word": "cena", "gender": "f", "number": "sg", "article": "la" },
-    { "id": "cl-colibri", "word": "colibrí", "gender": "m", "number": "sg", "article": "el" },
-    { "id": "cl-noche", "word": "noche", "gender": "f", "number": "sg", "article": "la" },
-    { "id": "cl-otono", "word": "otoño", "gender": "m", "number": "sg", "article": "el" },
-    { "id": "cl-nariz", "word": "nariz", "gender": "f", "number": "sg", "article": "la", "tip": "la nariz (acaba en z)" },
-    { "id": "cl-playa", "word": "playa", "gender": "f", "number": "sg", "article": "la" },
-    { "id": "cl-mendigo", "word": "mendigo", "gender": "m", "number": "sg", "article": "el" },
-    { "id": "cl-tijeras", "word": "tijeras", "gender": "f", "number": "pl", "article": "las", "tip": "las tijeras" },
-    { "id": "cl-aprendizaje", "word": "aprendiz", "gender": "m", "number": "sg", "article": "el" },
-    { "id": "cl-frente", "word": "frente", "gender": "f", "number": "sg", "article": "la", "tip": "la frente (de la cara)" },
-    { "id": "cl-embajadora", "word": "embajadora", "gender": "f", "number": "sg", "article": "la" },
-    { "id": "cl-sillon", "word": "sillón", "gender": "m", "number": "sg", "article": "el" },
-    { "id": "cl-estuche", "word": "estuche", "gender": "m", "number": "sg", "article": "el" },
-    { "id": "cl-mochila", "word": "mochila", "gender": "f", "number": "sg", "article": "la" },
-    { "id": "cl-libreta", "word": "libreta", "gender": "f", "number": "sg", "article": "la" },
-    { "id": "cl-cuadernos", "word": "cuadernos", "gender": "m", "number": "pl", "article": "los" },
-    { "id": "cl-parques", "word": "parques", "gender": "m", "number": "pl", "article": "los" },
-    { "id": "cl-zapatillas", "word": "zapatillas", "gender": "f", "number": "pl", "article": "las" },
-    { "id": "cl-galletas", "word": "galletas", "gender": "f", "number": "pl", "article": "las" },
-    { "id": "cl-perro", "word": "perro", "gender": "m", "number": "sg", "article": "el" },
-    { "id": "cl-delfin", "word": "delfín", "gender": "m", "number": "sg", "article": "el" },
-    { "id": "cl-montana", "word": "montaña", "gender": "f", "number": "sg", "article": "la" },
-    { "id": "cl-piano", "word": "piano", "gender": "m", "number": "sg", "article": "el" },
-    { "id": "cl-flautas", "word": "flautas", "gender": "f", "number": "pl", "article": "las" },
-    { "id": "cl-agua", "word": "agua", "gender": "f", "number": "sg", "article": "el", "tip": "el agua, pero es femenino (agua clara)" },
-    { "id": "cl-plaza", "word": "plaza", "gender": "f", "number": "sg", "article": "la" },
-    { "id": "cl-farolas", "word": "farolas", "gender": "f", "number": "pl", "article": "las" },
-    { "id": "cl-bancos", "word": "bancos", "gender": "m", "number": "pl", "article": "los" },
-    { "id": "cl-fronton", "word": "frontón", "gender": "m", "number": "sg", "article": "el" },
-    { "id": "cl-mantel", "word": "mantel", "gender": "m", "number": "sg", "article": "el" },
-    { "id": "cl-pared", "word": "pared", "gender": "f", "number": "sg", "article": "la" },
-    { "id": "cl-sol", "word": "sol", "gender": "m", "number": "sg", "article": "el" },
-    { "id": "cl-manos", "word": "manos", "gender": "f", "number": "pl", "article": "las", "tip": "las manos (femenino en -o)" }
+    {
+      "id": "cl-casa",
+      "word": "casa",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-casas",
+      "word": "casas",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-libro",
+      "word": "libro",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-libros",
+      "word": "libros",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-mesa",
+      "word": "mesa",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-mesas",
+      "word": "mesas",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-nino",
+      "word": "niño",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-nina",
+      "word": "niña",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-gato",
+      "word": "gato",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-gata",
+      "word": "gata",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-amigo",
+      "word": "amigo",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-amiga",
+      "word": "amiga",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-profesor",
+      "word": "profesor",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-profesora",
+      "word": "profesora",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-lapiz",
+      "word": "lápiz",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-lapices",
+      "word": "lápices",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-luz",
+      "word": "luz",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-luces",
+      "word": "luces",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-rosa",
+      "word": "rosa",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-lilas",
+      "word": "lilas",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-geranio",
+      "word": "geranio",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-claveles",
+      "word": "claveles",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-semana",
+      "word": "semana",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-caramelos",
+      "word": "caramelos",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-ancla",
+      "word": "ancla",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-dados",
+      "word": "dados",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-trebol",
+      "word": "trébol",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-rocas",
+      "word": "rocas",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-nube",
+      "word": "nube",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-manzanas",
+      "word": "manzanas",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-puente",
+      "word": "puente",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-zanahorias",
+      "word": "zanahorias",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-genio",
+      "word": "genio",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-hormigas",
+      "word": "hormigas",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-trueno",
+      "word": "trueno",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-luna",
+      "word": "luna",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-calcetin",
+      "word": "calcetín",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-cena",
+      "word": "cena",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-colibri",
+      "word": "colibrí",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-noche",
+      "word": "noche",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-otono",
+      "word": "otoño",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-nariz",
+      "word": "nariz",
+      "gender": "f",
+      "number": "sg",
+      "article": "la",
+      "tip": "la nariz (acaba en z)"
+    },
+    {
+      "id": "cl-playa",
+      "word": "playa",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-mendigo",
+      "word": "mendigo",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-tijeras",
+      "word": "tijeras",
+      "gender": "f",
+      "number": "pl",
+      "article": "las",
+      "tip": "las tijeras"
+    },
+    {
+      "id": "cl-aprendizaje",
+      "word": "aprendiz",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-frente",
+      "word": "frente",
+      "gender": "f",
+      "number": "sg",
+      "article": "la",
+      "tip": "la frente (de la cara)"
+    },
+    {
+      "id": "cl-embajadora",
+      "word": "embajadora",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-sillon",
+      "word": "sillón",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-estuche",
+      "word": "estuche",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-mochila",
+      "word": "mochila",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-libreta",
+      "word": "libreta",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-cuadernos",
+      "word": "cuadernos",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-parques",
+      "word": "parques",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-zapatillas",
+      "word": "zapatillas",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-galletas",
+      "word": "galletas",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-perro",
+      "word": "perro",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-delfin",
+      "word": "delfín",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-montana",
+      "word": "montaña",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-piano",
+      "word": "piano",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-flautas",
+      "word": "flautas",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-agua",
+      "word": "agua",
+      "gender": "f",
+      "number": "sg",
+      "article": "el",
+      "tip": "el agua, pero es femenino (agua clara)"
+    },
+    {
+      "id": "cl-plaza",
+      "word": "plaza",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-farolas",
+      "word": "farolas",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-bancos",
+      "word": "bancos",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-fronton",
+      "word": "frontón",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-mantel",
+      "word": "mantel",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-pared",
+      "word": "pared",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-sol",
+      "word": "sol",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-manos",
+      "word": "manos",
+      "gender": "f",
+      "number": "pl",
+      "article": "las",
+      "tip": "las manos (femenino en -o)"
+    },
+    {
+      "id": "cl-boligrafo",
+      "word": "bolígrafo",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-borrador",
+      "word": "borrador",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-colegio",
+      "word": "colegio",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-recreo",
+      "word": "recreo",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-patio",
+      "word": "patio",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-arbol",
+      "word": "árbol",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-rio",
+      "word": "río",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-bosque",
+      "word": "bosque",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-pajaro",
+      "word": "pájaro",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-pez",
+      "word": "pez",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-coche",
+      "word": "coche",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-tren",
+      "word": "tren",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-avion",
+      "word": "avión",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-barco",
+      "word": "barco",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-balon",
+      "word": "balón",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-juguete",
+      "word": "juguete",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-cuento",
+      "word": "cuento",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-dibujo",
+      "word": "dibujo",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-color",
+      "word": "color",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-numero",
+      "word": "número",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-mapa",
+      "word": "mapa",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-globo",
+      "word": "globo",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-reloj",
+      "word": "reloj",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-zapato",
+      "word": "zapato",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-sombrero",
+      "word": "sombrero",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-abrigo",
+      "word": "abrigo",
+      "gender": "m",
+      "number": "sg",
+      "article": "el"
+    },
+    {
+      "id": "cl-escuela",
+      "word": "escuela",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-clase",
+      "word": "clase",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-silla",
+      "word": "silla",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-puerta",
+      "word": "puerta",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-ventana",
+      "word": "ventana",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-calle",
+      "word": "calle",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-ciudad",
+      "word": "ciudad",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-flor",
+      "word": "flor",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-hoja",
+      "word": "hoja",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-rama",
+      "word": "rama",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-pelota",
+      "word": "pelota",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-muneca",
+      "word": "muñeca",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-cancion",
+      "word": "canción",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-historia",
+      "word": "historia",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-carta",
+      "word": "carta",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-foto",
+      "word": "foto",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-bicicleta",
+      "word": "bicicleta",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-cocina",
+      "word": "cocina",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-habitacion",
+      "word": "habitación",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-cama",
+      "word": "cama",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-nevera",
+      "word": "nevera",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-guitarra",
+      "word": "guitarra",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-bolsa",
+      "word": "bolsa",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-caja",
+      "word": "caja",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-botella",
+      "word": "botella",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-merienda",
+      "word": "merienda",
+      "gender": "f",
+      "number": "sg",
+      "article": "la"
+    },
+    {
+      "id": "cl-ninos",
+      "word": "niños",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-gatos",
+      "word": "gatos",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-amigos",
+      "word": "amigos",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-profesores",
+      "word": "profesores",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-perros",
+      "word": "perros",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-delfines",
+      "word": "delfines",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-calcetines",
+      "word": "calcetines",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-sillones",
+      "word": "sillones",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-estuches",
+      "word": "estuches",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-pianos",
+      "word": "pianos",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-frontones",
+      "word": "frontones",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-manteles",
+      "word": "manteles",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-soles",
+      "word": "soles",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-puentes",
+      "word": "puentes",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-genios",
+      "word": "genios",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-geranios",
+      "word": "geranios",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-treboles",
+      "word": "tréboles",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-colibries",
+      "word": "colibríes",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-otonos",
+      "word": "otoños",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-aprendices",
+      "word": "aprendices",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-mendigos",
+      "word": "mendigos",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-arboles",
+      "word": "árboles",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-rios",
+      "word": "ríos",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-bosques",
+      "word": "bosques",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-pajaros",
+      "word": "pájaros",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-peces",
+      "word": "peces",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-coches",
+      "word": "coches",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-trenes",
+      "word": "trenes",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-aviones",
+      "word": "aviones",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-barcos",
+      "word": "barcos",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-balones",
+      "word": "balones",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-juguetes",
+      "word": "juguetes",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-cuentos",
+      "word": "cuentos",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-dibujos",
+      "word": "dibujos",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-colores",
+      "word": "colores",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-numeros",
+      "word": "números",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-mapas",
+      "word": "mapas",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-globos",
+      "word": "globos",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-relojes",
+      "word": "relojes",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-zapatos",
+      "word": "zapatos",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-sombreros",
+      "word": "sombreros",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-abrigos",
+      "word": "abrigos",
+      "gender": "m",
+      "number": "pl",
+      "article": "los"
+    },
+    {
+      "id": "cl-ninas",
+      "word": "niñas",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-gatas",
+      "word": "gatas",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-amigas",
+      "word": "amigas",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-profesoras",
+      "word": "profesoras",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-noches",
+      "word": "noches",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-nubes",
+      "word": "nubes",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-lunas",
+      "word": "lunas",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-narices",
+      "word": "narices",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-playas",
+      "word": "playas",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-embajadoras",
+      "word": "embajadoras",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-mochilas",
+      "word": "mochilas",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-libretas",
+      "word": "libretas",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-montanas",
+      "word": "montañas",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-plazas",
+      "word": "plazas",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-paredes",
+      "word": "paredes",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-frentes",
+      "word": "frentes",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-semanas",
+      "word": "semanas",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-anclas",
+      "word": "anclas",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-cenas",
+      "word": "cenas",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-rosas",
+      "word": "rosas",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-escuelas",
+      "word": "escuelas",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-clases",
+      "word": "clases",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-sillas",
+      "word": "sillas",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-puertas",
+      "word": "puertas",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-ventanas",
+      "word": "ventanas",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-calles",
+      "word": "calles",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-ciudades",
+      "word": "ciudades",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-flores",
+      "word": "flores",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-hojas",
+      "word": "hojas",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-ramas",
+      "word": "ramas",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-pelotas",
+      "word": "pelotas",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-munecas",
+      "word": "muñecas",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-canciones",
+      "word": "canciones",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-historias",
+      "word": "historias",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-cartas",
+      "word": "cartas",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    },
+    {
+      "id": "cl-fotos",
+      "word": "fotos",
+      "gender": "f",
+      "number": "pl",
+      "article": "las"
+    }
   ]
 }
