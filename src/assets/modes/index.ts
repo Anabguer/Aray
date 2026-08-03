@@ -34,9 +34,13 @@ import spellMissing from './spell-missing.png'
 import spellMix from './spell-mix.png'
 import spellPicture from './spell-picture.png'
 import wordsAntonimos from './words-antonimos.png'
+import wordsClasifica from './words-clasifica.png'
+import wordsComunPropio from './words-comun-propio.png'
 import wordsFormar from './words-formar.png'
 import wordsGender from './words-gender.png'
+import wordsMontaFrase from './words-monta-frase.png'
 import wordsPlural from './words-plural.png'
+import wordsQuienHaceQue from './words-quien-hace-que.png'
 import wordsSinonimos from './words-sinonimos.png'
 
 export type ModeArtId =
@@ -81,6 +85,10 @@ export type ModeArtId =
   | 'words-gender'
   | 'words-sinonimos'
   | 'words-antonimos'
+  | 'words-clasifica'
+  | 'words-monta-frase'
+  | 'words-quien-hace-que'
+  | 'words-comun-propio'
 
 /** Arte 3D gamer por modo (cuadrado, object-fit cover). */
 export const modeArt: Record<ModeArtId, string> = {
@@ -125,6 +133,10 @@ export const modeArt: Record<ModeArtId, string> = {
   'words-gender': wordsGender,
   'words-sinonimos': wordsSinonimos,
   'words-antonimos': wordsAntonimos,
+  'words-clasifica': wordsClasifica,
+  'words-monta-frase': wordsMontaFrase,
+  'words-quien-hace-que': wordsQuienHaceQue,
+  'words-comun-propio': wordsComunPropio,
 }
 
 export function modeArtUrl(id: ModeArtId): string {
