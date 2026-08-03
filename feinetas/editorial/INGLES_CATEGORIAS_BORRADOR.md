@@ -18,6 +18,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 08: Can Maria/Nick…? (tabla + Yes/No). |
 | 2026-08-03 | Ejercicio 09: rutinas diarias (match frase↔imagen). |
 | 2026-08-03 | Ejercicio 10: rutinas (completar I + chunk). |
+| 2026-08-03 | Ejercicio 11: ordenar frase (rutina + hora). |
 
 ## Material en inbox
 
@@ -33,6 +34,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/08-can-questions-maria-nick.png` | Can she/he…? Yes/No (tabla Maria/Nick) | Catalogado |
 | `refs/09-routines-match.png` | Rutinas: match frase ↔ escena | Catalogado |
 | `refs/10-routines-write.png` | Rutinas: I + completar chunk | Catalogado |
+| `refs/11-routines-time-sort.png` | Ordenar: rutina + o'clock / half past | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -372,13 +374,47 @@ Nota gramatical útil para tips: *play* + deporte con pelota/raqueta · *go* + -
 
 ---
 
+## Ejercicio 11 — Ordenar: rutina + hora
+
+![Captura](../Ingles/_inbox/refs/11-routines-time-sort.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | Grammar Worksheet 1 · «1 Sort and write.» |
+| **Bloque** | **Rutinas + tiempo** (*at eight o'clock* / *half past*) |
+| **Categoría propuesta** | `routines` (enlace con mundo **Horas** ya en app) |
+| **Mecánica Aray** | **Montar la frase** (ordenar chips) — mismo patrón que Lengua *Monta la frase* |
+| **Gramática caja** | It's eight o'clock / half past eight · I get up at… · Is it…? Yes/No |
+
+### Frases (soluciones)
+
+| # | Frase ordenada |
+|---|----------------|
+| 1 | I get up at half past eight. |
+| 2 | I have dinner at seven o'clock. |
+| 3 | I go to school at nine o'clock. |
+| 4 | I have a shower at eight o'clock. |
+| 5 | I have breakfast at half past seven. |
+| 6 | I go to bed at nine o'clock. |
+
+### Lemas / chunks nuevos
+
+| EN | ES |
+|----|-----|
+| have dinner | cenar |
+| go to bed | acostarse |
+| at … o'clock | a las … en punto |
+| half past … | y media |
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
 |--------------|-----------|------|-------|---------------------|--------|
 | `food` | Comida | Vocabulario food + preferencias (+ *but*) | ~14 lemas (ej. 01–04) | meaning, translate, like-mcq, picture | borrador |
 | `abilities` | Puedo / deportes | *can/can't* + chunks + he/she | ~12 actividades (ej. 05–08) | drag-to-image, fill-activity, can-yn | borrador |
-| `routines` | Rutinas | Día a día | 6 frases (ej. 09–10) | drag-phrase-to-image, fill-chunk | borrador |
+| `routines` | Rutinas | Día a día + horas (*o'clock* / *half past*) | ~8 chunks (ej. 09–11) | drag-to-image, fill-chunk, **order-sentence** | borrador |
 
 ## Cómo añadir un lote
 
