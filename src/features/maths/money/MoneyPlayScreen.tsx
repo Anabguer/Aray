@@ -30,7 +30,13 @@ import {
   recordMathsHit,
   recordMathsMiss,
 } from '@/math/missStore'
-import { MoneyPiecesBoard } from '@/features/maths/money/MoneyPiecesBoard'
+import {
+  MoneyPiecesBoard,
+  MoneyPieceFace,
+  coinFromLabel,
+  pieceFromCents,
+  pieceLabel,
+} from '@/features/maths/money/MoneyPiecesBoard'
 import './money.css'
 
 function isMode(v: string | undefined): v is MoneyPlayMode | 'misses' {
@@ -255,7 +261,15 @@ export function MoneyPlayScreen() {
               question.detail
             )
           ) : (
-            `Llevas ${formatEuro(built)}`
+            <div className="money-build-detail">
+              <p className="money-build-detail__total">Llevas {formatEuro(built)}</p>
+              {pickedCoins.length > 0 ? (
+                <MoneyPiecesBoard
+                  pieces={pickedCoins.map((c) => pieceFromCents(c))}
+                  caption={`Piezas: ${pickedCoins.map((c) => COIN_LABEL[c]).join(', ')}`}
+                />
+              ) : null}
+            </div>
           )
         }
         fx={answerFx.fx}
@@ -277,39 +291,65 @@ export function MoneyPlayScreen() {
         enterKey={enterKey}
         answers={
           question.kind === 'mcq' ? (
-            <div className="side-run-options" role="group">
-              {question.options.map((opt, i) => (
-                <button
-                  key={`${question.id}-${i}`}
-                  type="button"
-                  className="answer-btn"
-                  disabled={locked}
-                  onClick={() => onMcq(i)}
-                >
-                  <span className="answer-btn__key" aria-hidden="true">
-                    {i + 1}
-                  </span>
-                  <span className="answer-btn__value">{opt}</span>
-                </button>
-              ))}
-            </div>
-          ) : (
-            <>
+            question.mode === 'spare' ? (
+              <div className="money-picks" role="group" aria-label="Monedas">
+                {question.options.map((opt, i) => {
+                  const coin = coinFromLabel(opt)
+                  const piece = coin != null ? pieceFromCents(coin) : null
+                  return (
+                    <button
+                      key={`${question.id}-${i}`}
+                      type="button"
+                      className="money-pick"
+                      disabled={locked}
+                      aria-label={opt}
+                      onClick={() => onMcq(i)}
+                    >
+                      {piece ? (
+                        <MoneyPieceFace piece={piece} index={i} />
+                      ) : (
+                        <span className="money-pick__fallback">{opt}</span>
+                      )}
+                    </button>
+                  )
+                })}
+              </div>
+            ) : (
               <div className="side-run-options" role="group">
-                {question.coins.map((c) => (
+                {question.options.map((opt, i) => (
                   <button
-                    key={`${question.id}-${c}`}
+                    key={`${question.id}-${i}`}
                     type="button"
                     className="answer-btn"
                     disabled={locked}
-                    onClick={() => onCoin(c)}
+                    onClick={() => onMcq(i)}
                   >
                     <span className="answer-btn__key" aria-hidden="true">
-                      ·
+                      {i + 1}
                     </span>
-                    <span className="answer-btn__value">{COIN_LABEL[c]}</span>
+                    <span className="answer-btn__value">{opt}</span>
                   </button>
                 ))}
+              </div>
+            )
+          ) : (
+            <>
+              <div className="money-picks" role="group" aria-label="Elige monedas o billetes">
+                {question.coins.map((c, i) => {
+                  const piece = pieceFromCents(c)
+                  return (
+                    <button
+                      key={`${question.id}-${c}`}
+                      type="button"
+                      className="money-pick"
+                      disabled={locked}
+                      aria-label={pieceLabel(piece)}
+                      onClick={() => onCoin(c)}
+                    >
+                      <MoneyPieceFace piece={piece} index={i} />
+                    </button>
+                  )
+                })}
               </div>
               <div style={{ marginTop: '0.55rem' }}>
                 <button

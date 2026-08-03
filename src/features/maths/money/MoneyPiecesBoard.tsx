@@ -22,21 +22,37 @@ const BILL_TONES: Record<number, string> = {
   50000: '500',
 }
 
+export function pieceKindForCents(cents: number): 'bill' | 'coin' {
+  return cents >= 500 ? 'bill' : 'coin'
+}
+
+export function pieceFromCents(cents: number): MoneyPiece {
+  return { kind: pieceKindForCents(cents), cents }
+}
+
 function coinTone(cents: number): string {
   if (cents >= 100) return 'euro'
   if (cents >= 10) return 'gold'
   return 'copper'
 }
 
-function pieceLabel(piece: MoneyPiece): string {
+export function pieceLabel(piece: MoneyPiece): string {
   if (piece.kind === 'coin' && piece.cents in COIN_LABEL) {
     return COIN_LABEL[piece.cents as CoinEuro]
   }
   return formatEuro(piece.cents)
 }
 
-function PieceCard({ piece, index }: { piece: MoneyPiece; index: number }) {
-  const scatter = SCATTER[index % SCATTER.length]!
+export function MoneyPieceFace({
+  piece,
+  index = 0,
+  scatter = true,
+}: {
+  piece: MoneyPiece
+  index?: number
+  scatter?: boolean
+}) {
+  const s = scatter ? SCATTER[index % SCATTER.length]! : { rot: 0, x: 0, y: 0 }
   const billTone = BILL_TONES[piece.cents] ?? 'generic'
   const className =
     piece.kind === 'bill'
@@ -46,11 +62,15 @@ function PieceCard({ piece, index }: { piece: MoneyPiece; index: number }) {
   return (
     <span
       className={className}
-      style={{
-        ['--money-rot' as string]: `${scatter.rot}deg`,
-        ['--money-x' as string]: `${scatter.x}px`,
-        ['--money-y' as string]: `${scatter.y}px`,
-      }}
+      style={
+        scatter
+          ? {
+              ['--money-rot' as string]: `${s.rot}deg`,
+              ['--money-x' as string]: `${s.x}px`,
+              ['--money-y' as string]: `${s.y}px`,
+            }
+          : undefined
+      }
       aria-hidden="true"
     >
       <span className="money-piece__value">{pieceLabel(piece)}</span>
@@ -63,7 +83,7 @@ function PieceRow({ pieces }: { pieces: MoneyPiece[] }) {
   return (
     <div className="money-scatter__row">
       {pieces.map((piece, i) => (
-        <PieceCard key={`${piece.kind}-${piece.cents}-${i}`} piece={piece} index={i} />
+        <MoneyPieceFace key={`${piece.kind}-${piece.cents}-${i}`} piece={piece} index={i} />
       ))}
     </div>
   )
@@ -100,4 +120,12 @@ export function MoneyPiecesBoard({
       <PieceRow pieces={pieces} />
     </div>
   )
+}
+
+/** Invierte COIN_LABEL → céntimos (para opciones de «cuál sobra»). */
+export function coinFromLabel(label: string): CoinEuro | null {
+  for (const [cents, text] of Object.entries(COIN_LABEL)) {
+    if (text === label) return Number(cents) as CoinEuro
+  }
+  return null
 }
