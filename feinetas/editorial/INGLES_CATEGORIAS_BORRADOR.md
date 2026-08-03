@@ -22,6 +22,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 12: What time is it? (reloj + frase). |
 | 2026-08-03 | Ejercicio 13: rutinas ampliadas (circle imagen→chunk). |
 | 2026-08-03 | Ejercicio 14: rutinas (completar letras del chunk). |
+| 2026-08-03 | Ejercicio 15: Is it … o'clock? Yes/No (reloj). |
 
 ## Material en inbox
 
@@ -41,6 +42,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/12-what-time-is-it.png` | What time is it? (reloj analógico) | Catalogado |
 | `refs/13-routines-vocab-circle.png` | Rutinas ampliadas: circle imagen→chunk | Catalogado |
 | `refs/14-routines-spell-letters.png` | Rutinas: escribir letras del chunk | Catalogado |
+| `refs/15-is-it-time-yn.png` | Is it …? Yes, it is / No, it isn't | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -491,14 +493,41 @@ Nota gramatical útil para tips: *play* + deporte con pelota/raqueta · *go* + -
 
 ---
 
+## Ejercicio 15 — Is it …? Yes / No (hora)
+
+![Captura](../Ingles/_inbox/refs/15-is-it-time-yn.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | «3 Look and write.» |
+| **Bloque** | **Horas** — pregunta *Is it … o'clock / half past …?* |
+| **Categoría propuesta** | `time` |
+| **Mecánica Aray** | Reloj (UI Horas) + MCQ *Yes, it is.* / *No, it isn't.* |
+| **Respuestas modelo** | Yes, it is. · No, it isn't. |
+
+### Ítems
+
+| # | Hora real | Pregunta | Respuesta |
+|---|-----------|----------|-----------|
+| 1 | 10:00 | Is it ten o'clock? | Yes, it is. |
+| 2 | 9:30 | Is it half past eight? | No, it isn't. |
+| 3 | 1:30 | Is it half past one? | Yes, it is. |
+| 4 | 6:00 | Is it six o'clock? | Yes, it is. |
+| 5 | 11:30 | Is it half past ten? | No, it isn't. |
+| 6 | 2:30 | Is it half past two? | Yes, it is. |
+| 7 | 1:00 | Is it one o'clock? | Yes, it is. |
+| 8 | 9:00 | Is it seven o'clock? | No, it isn't. |
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
 |--------------|-----------|------|-------|---------------------|--------|
 | `food` | Comida | Vocabulario food + preferencias (+ *but*) | ~14 lemas (ej. 01–04) | meaning, translate, like-mcq, picture | borrador |
 | `abilities` | Puedo / deportes | *can/can't* + chunks + he/she | ~12 actividades (ej. 05–08) | drag-to-image, fill-activity, can-yn | borrador |
-| `routines` | Rutinas | Día a día + higiene + hora | ~14 chunks (ej. 09–11, 13–14) | drag-to-image, picture, order-sentence, **missing/spell** | borrador |
-| `time` | ¿Qué hora es? | *What time is it?* o'clock / half past | 4 modelos (ej. 12) | clock-ui + EN phrases | borrador |
+| `routines` | Rutinas | Día a día + higiene + hora | ~14 chunks (ej. 09–11, 13–14) | drag-to-image, picture, order-sentence, missing/spell | borrador |
+| `time` | ¿Qué hora es? | *What time…?* + *Is it…?* Yes/No | ej. 12, 15 | clock-ui + EN phrases + yn | borrador |
 
 ## Cómo añadir un lote
 
