@@ -41,4 +41,31 @@ describe('palabrasMcq adapters', () => {
     const twoOpt = round.filter((q) => q.options.length === 2)
     expect(twoOpt.length).toBeGreaterThan(0)
   })
+
+  it('ningún tip muestra Fitxa / eje editorial', () => {
+    for (const productId of [
+      'singular-plural',
+      'masculino-femenino',
+      'sinonimos',
+      'antonimos',
+    ] as const) {
+      for (const q of buildPalabrasMcqRound(productId, 8, 99)) {
+        if (!q.tip) continue
+        expect(q.tip).not.toMatch(/fitxa|ficha\s*\d|eje\s+fitxa|anaya|vicens|solucionari/i)
+      }
+    }
+  })
+
+  it('sinonimos y antonimos explican el concepto al fallar', () => {
+    const syn = buildPalabrasMcqRound('sinonimos', 3, 11)
+    for (const q of syn) {
+      expect(q.tip).toMatch(/sinónimo/i)
+      expect(q.tip).toMatch(/mismo/i)
+    }
+    const ant = buildPalabrasMcqRound('antonimos', 3, 13)
+    for (const q of ant) {
+      expect(q.tip).toMatch(/antónimo/i)
+      expect(q.tip).toMatch(/contrario/i)
+    }
+  })
 })

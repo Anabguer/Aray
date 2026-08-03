@@ -29,6 +29,31 @@ export type PalabrasMcqQuestion = {
   itemKey: string
 }
 
+/** Texto para el niño al fallar (sinónimos / antónimos). */
+export const SEMANTIC_MISS_TIP: Record<WordsSemanticRelationKind, string> = {
+  synonym:
+    'Un sinónimo es una palabra que significa casi lo mismo. Ejemplo: alegre ≈ contento.',
+  antonym:
+    'Un antónimo es una palabra que significa lo contrario. Ejemplo: alto ↔ bajo.',
+}
+
+/**
+ * Notas de ficha/editorial no se muestran al niño.
+ * («Eje fitxa 04», ANAYA, Vicens, solucionari…)
+ */
+export function kidFacingTip(raw: string | undefined): string | undefined {
+  if (!raw?.trim()) return undefined
+  const t = raw.trim()
+  if (
+    /\bfitxa\b|\bficha\s*\d|\beje\b|\bsolucionari\b|\banaya\b|\bvicens\b|\bsavia\b|\bcap_\d|\bmulti-banco\b|\bcongelado\b|\bauditor[ií]a\b|\bparadigma\b|\bdrill\b|\bconectado\b|\bmantenido tras\b|\bcru[cz]e con\b/i.test(
+      t,
+    )
+  ) {
+    return undefined
+  }
+  return t
+}
+
 function mulberry32(seed: number): () => number {
   let t = seed >>> 0
   return () => {
@@ -134,7 +159,7 @@ export function buildPalabrasMorphQuestion(
     prompt,
     options,
     correctIndex,
-    tip: item.notes ?? item.note,
+    tip: kidFacingTip(item.notes ?? item.note),
     itemKey: `${pack.pack.id}:${item.id}`,
   }
 }
@@ -173,7 +198,7 @@ export function buildPalabrasSemanticQuestion(
     prompt,
     options,
     correctIndex,
-    tip: item.ruleText ?? item.notes,
+    tip: SEMANTIC_MISS_TIP[relation],
     itemKey: `${pack.pack.id}:${item.id}`,
   }
 }

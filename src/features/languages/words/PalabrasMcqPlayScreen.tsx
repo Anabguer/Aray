@@ -250,7 +250,11 @@ export function PalabrasMcqPlayScreen() {
                 <p className="palabras-mcq-why__ok">
                   La respuesta es «{question.options[question.correctIndex]}».
                 </p>
-                {question.tip ? <p className="palabras-mcq-why__tip">{question.tip}</p> : null}
+                {question.tip ? (
+                  <p className="palabras-mcq-why__tip">
+                    <strong>Recuerda:</strong> {question.tip}
+                  </p>
+                ) : null}
                 <button type="button" className="btn btn-primary btn-block" onClick={goNext}>
                   Seguir
                 </button>
