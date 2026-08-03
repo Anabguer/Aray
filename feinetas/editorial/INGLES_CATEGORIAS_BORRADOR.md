@@ -40,6 +40,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 30: There is/are (+ caja de ayuda). |
 | 2026-08-03 | Ejercicio 31: completar there's / there aren't / are there… |
 | 2026-08-03 | Ejercicio 32: Are there any…? Yes/No short answers. |
+| 2026-08-03 | Ejercicio 33: How many…? + There are/aren't. |
 
 ## Material en inbox
 
@@ -77,6 +78,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/30-there-is-are-match.png` | There is/are + match mitades (+ ayuda) | Catalogado |
 | `refs/31-there-is-complete.png` | Completar there's / aren't / are there… | Catalogado |
 | `refs/32-there-are-questions-yn.png` | Are there any…? + Yes/No short answers | Catalogado |
+| `refs/33-how-many-there-are.png` | How many…? + There are/aren't (fill) | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -1061,6 +1063,38 @@ Mecánica distinta al match del ej. 30 (aquí **elegir forma**), misma categorí
 
 ---
 
+## Ejercicio 33 — How many…? / There are
+
+![Captura](../Ingles/_inbox/refs/33-how-many-there-are.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | Caja «How many tables are there?» + «1 Complete the sentences with the missing word.» |
+| **Bloque** | **Gramática** cantidad (*How many… are there?*) + *There are / aren't* |
+| **Categoría propuesta** | `there-is` (amplía con *How many*) |
+| **Mecánica Aray** | Fill palabra faltante · tip ayuda ampliado |
+| **Ayuda** | Tip muted: How many + N + are there? · There are + número · There aren't any… |
+
+### Tabla de ayuda (extra)
+
+| | |
+|--|--|
+| ? | How many tables are there? |
+| + | There are three tables. |
+| − | There aren't any tables. |
+
+### Ítems (+ clave)
+
+| # | Hueco | Respuesta |
+|---|-------|-----------|
+| 1 | How ______ teachers are there? | many |
+| 2 | ______ many children are there? | How |
+| 3 | There ______ any children. | aren't |
+| 4 | How many bedrooms are ______? | there |
+| 5 | There ______ six bedrooms. | are |
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
@@ -1075,7 +1109,7 @@ Mecánica distinta al match del ej. 30 (aquí **elegir forma**), misma categorí
 | `stories` | Cuentos | Personajes + *wearing* + adjetivos | ej. 24–29 | drag-to-portrait, who-wearing, he/she | borrador |
 | `clothes` | Ropa | crown, boots, dress… | ~9 lemas (ej. 25–27) | picture, wearing-match, he/she | borrador |
 | `adjectives` | Adjetivos | handsome, young, old, poor, rich, clever, beautiful | 7 (ej. 28–29) | he/she + adj MCQ | borrador |
-| `there-is` | There is / are | Existencia (+ tip de ayuda) | ej. 30–32 | match, fill forma, Q+YN short + **help tip** | borrador |
+| `there-is` | There is / are | Existencia + *How many* (+ tip) | ej. 30–33 | match, fill, Q+YN, how-many fill + **help tip** | borrador |
 
 ## Cómo añadir un lote
 
