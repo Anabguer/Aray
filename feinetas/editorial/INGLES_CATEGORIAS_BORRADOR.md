@@ -30,6 +30,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 20: ordenar frase (go to … in the summer). |
 | 2026-08-03 | Ejercicio 21: paisajes (circle imagen→palabra). |
 | 2026-08-03 | Ejercicio 22: clima (*It's hot/cold/sunny…*). |
+| 2026-08-03 | Ejercicio 23: circle It's / go to / I've got. |
 
 ## Material en inbox
 
@@ -57,6 +58,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/20-places-sort-sentence.png` | Ordenar: I go to … in the summer | Catalogado |
 | `refs/21-places-landscape-circle.png` | Paisajes: circle imagen→palabra | Catalogado |
 | `refs/22-weather-its.png` | Clima: It's hot/cold/raining… | Catalogado |
+| `refs/23-circle-grammar-choice.png` | Circle: It's / go to / I've got | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -734,6 +736,40 @@ Distractores del set: river, sea, valley, town, village, forest.
 
 ---
 
+## Ejercicio 23 — Circle: forma correcta
+
+![Captura](../Ingles/_inbox/refs/23-circle-grammar-choice.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | «4 Read and circle.» |
+| **Bloque** | **Gramática ligera** (contracciones / *go to* / *I've got*) |
+| **Categoría propuesta** | `grammar-basics` (**nueva**) — cruza weather + places + posesión |
+| **Mecánica Aray** | MCQ 2 opciones (como antónimos/sílabas: elegir la forma buena) |
+
+### Ítems (respuesta correcta)
+
+| # | Frase |
+|---|--------|
+| 1 | It's raining. |
+| 2 | I go to the swimming pool in the summer. |
+| 3 | It's sunny today. |
+| 4 | I've got a towel. |
+| 5 | I go to the park on Saturday. |
+| 6 | I've got a beach ball. |
+
+### Lemas / chunks nuevos
+
+| EN | ES |
+|----|-----|
+| I've got | tengo |
+| towel | toalla |
+| beach ball | pelota de playa |
+| today | hoy |
+| on Saturday | el sábado |
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
@@ -744,6 +780,7 @@ Distractores del set: river, sea, valley, town, village, forest.
 | `time` | ¿Qué hora es? | *What time…?* + *Is it…?* Yes/No | ej. 12, 15–16 | clock-ui + EN phrases + yn | borrador |
 | `places` | Lugares | campamento + paisajes | ~12 lemas (ej. 17–21) | drag-to-image, picture, join-parts, order-sentence | borrador |
 | `weather` | Tiempo (clima) | *It's hot/cold/sunny…* | 6 (ej. 22) | picture, fill *It's …* | borrador |
+| `grammar-basics` | Formas (It's / go to / I've got) | Elegir la forma correcta | 6 (ej. 23) | 2-option MCQ | borrador |
 
 ## Cómo añadir un lote
 
