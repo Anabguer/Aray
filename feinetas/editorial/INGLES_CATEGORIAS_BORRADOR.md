@@ -53,6 +53,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 45: Do/Does…? (montar pregunta, sin escribir). |
 | 2026-08-03 | Ejercicio 46: present continuous Is/Are…? + imagen. |
 | 2026-08-03 | Ejercicio 47: números (emparejar dígito ↔ palabra EN). |
+| 2026-08-03 | Ejercicio 48: ordenar palabras → oración (fichas, sin escribir). |
 
 ## Material en inbox
 
@@ -104,6 +105,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/45-do-does-questions.png` | Do/Does…? prompts → pregunta | Catalogado |
 | `refs/46-present-continuous-yn.png` | Is/Are…? continuous + 5 escenas | Catalogado |
 | `refs/47-numbers-write.png` | Numbers: dígito ↔ palabra EN (match) | Catalogado |
+| `refs/48-order-sentences.png` | Ordenar palabras → oración (fichas) | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -1530,6 +1532,34 @@ Alternativa más guiada (2 toques): primero eligen **Do** o **Does** (chips gran
 
 ---
 
+## Ejercicio 48 — Ordenar palabras (oración)
+
+![Captura](../Ingles/_inbox/refs/48-order-sentences.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | «Ordena las palabras y escribe oraciones.» |
+| **Bloque** | **Repaso** orden de frase (*can/can't*, *have got*, *be*) |
+| **Categoría propuesta** | `word-order` (**nueva**) · puente `abilities` / `grammar-basics` |
+| **Escritura libre** | **No** — en Aray = **montar con fichas** (como Monta frase Lengua) |
+| **Mecánica Aray** | Chips desordenados → arrastrar / tocar en orden a la franja |
+
+### Ítems (+ clave)
+
+| # | Piezas | Oración |
+|---|--------|---------|
+| 1 | can't · german · I · speak | I can't speak German. |
+| 2 | a · got · have · You · book | You have got a book. |
+| 3 | piano · play · you · can | Can you play piano? |
+| 4 | can · well · she · sing | She can sing well. |
+| 5 | my · She · is · friend | She is my friend. |
+
+### Nota
+
+Capitalización / `?` los puede añadir la app al validar (German, Can…?).
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
@@ -1552,6 +1582,7 @@ Alternativa más guiada (2 toques): primero eligen **Do** o **Does** (chips gran
 | `present-simple` | Presente simple | +/− · Do/Does · *on* + day | ej. 44–45 | fill verbo, **montar pregunta con fichas** (no escribir) + tip | borrador |
 | `present-continuous` | Present continuous | Is/Are…? + -ing + imagen | ej. 46 | YN short answers + tip · **set escenas** | borrador |
 | `numbers` | Números | 1–100 en inglés | ej. 47 | **match dígito↔palabra** (no escribir) | borrador |
+| `word-order` | Ordena la frase | can / have got / be (repaso) | ej. 48 | **montar fichas** (no escribir) | borrador |
 
 ## Cómo añadir un lote
 
