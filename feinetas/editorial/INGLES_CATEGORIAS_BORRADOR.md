@@ -435,14 +435,39 @@ Nota gramatical útil para tips: *play* + deporte con pelota/raqueta · *go* + -
 
 ---
 
+## Ejercicio 13 — Rutinas ampliadas · circle
+
+![Captura](../Ingles/_inbox/refs/13-routines-vocab-circle.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | Vocabulary Extension · «1 Circle.» |
+| **Bloque** | **Rutinas** (higiene / casa / descanso) |
+| **Categoría propuesta** | `routines` (amplía banco) |
+| **Mecánica Aray** | picture → MCQ 3 chunks (como food ej. 03) |
+| **Imágenes** | AFK, mismo personaje que rutinas 09–10 |
+
+### Lemas nuevos
+
+| EN | ES | Correcto ficha |
+|----|----|----------------|
+| have a bath | bañarse | 1 |
+| wash my face | lavarse la cara | 2 |
+| have a snack | merendar / picar | 3 |
+| wash my hair | lavarse el pelo | 4 |
+| go to sleep | dormirse / ir a dormir | 5 |
+| get undressed | desvestirse | 6 |
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
 |--------------|-----------|------|-------|---------------------|--------|
 | `food` | Comida | Vocabulario food + preferencias (+ *but*) | ~14 lemas (ej. 01–04) | meaning, translate, like-mcq, picture | borrador |
 | `abilities` | Puedo / deportes | *can/can't* + chunks + he/she | ~12 actividades (ej. 05–08) | drag-to-image, fill-activity, can-yn | borrador |
-| `routines` | Rutinas | Día a día + *at* + hora | ~8 chunks (ej. 09–11) | drag-to-image, fill-chunk, order-sentence | borrador |
-| `time` | ¿Qué hora es? | *What time is it?* o'clock / half past | 4 modelos (ej. 12) | clock-ui + EN phrases (puente Horas) | borrador |
+| `routines` | Rutinas | Día a día + higiene + *at* + hora | ~14 chunks (ej. 09–11, 13) | drag-to-image, fill-chunk, order-sentence, picture | borrador |
+| `time` | ¿Qué hora es? | *What time is it?* o'clock / half past | 4 modelos (ej. 12) | clock-ui + EN phrases | borrador |
 
 ## Cómo añadir un lote
 
