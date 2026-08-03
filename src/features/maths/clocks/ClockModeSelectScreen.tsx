@@ -5,6 +5,7 @@ import { useClockSession } from '@/clock/ClockSessionContext'
 import type { ClockLang } from '@/clock/types'
 import { countActiveMathsMisses } from '@/math/missStore'
 import { useProgress } from '@/progress/ProgressContext'
+import './clocks.css'
 
 type ClockPoster = {
   to: string
@@ -15,14 +16,34 @@ type ClockPoster = {
   tag: string
 }
 
+/** Como Ortografía: REPASO + RANDOM/DESTACADO arriba; el resto en retos. */
 const HEROES: ClockPoster[] = [
+  {
+    to: '/missions/mates/clocks/misses',
+    art: 'mis-fallos',
+    title: 'MIS FALLOS',
+    text: 'Practica las que sueles fallar',
+    className: 'mode-poster--misses',
+    tag: 'REPASO',
+  },
+  {
+    to: '/missions/mates/clocks/train',
+    art: 'sorpresa',
+    title: 'RANDOM',
+    text: 'Lee el reloj · todo mezclado',
+    className: 'mode-poster--random',
+    tag: 'DESTACADO',
+  },
+]
+
+const ROSTER: ClockPoster[] = [
   {
     to: '/missions/mates/clocks/learn',
     art: 'clock-learn',
     title: 'APRENDE',
     text: 'Castellano o catalán, paso a paso',
     className: 'mode-poster--learn',
-    tag: 'GUÍA',
+    tag: '01',
   },
   {
     to: '/missions/mates/clocks/train',
@@ -30,18 +51,15 @@ const HEROES: ClockPoster[] = [
     title: 'ENTRENA',
     text: 'Mira el reloj y elige la frase',
     className: 'mode-poster--train',
-    tag: 'RÁPIDO',
+    tag: '02',
   },
-]
-
-const ROSTER_BASE: ClockPoster[] = [
   {
     to: '/missions/mates/clocks/match',
     art: 'clock-match',
     title: 'EMPAREJA',
     text: 'Relaciona relojes y horas',
     className: 'mode-poster--match',
-    tag: '01',
+    tag: '03',
   },
 ]
 
@@ -53,22 +71,6 @@ export function ClockModeSelectScreen() {
   function pickLang(next: ClockLang) {
     setLang(next)
   }
-
-  const roster: ClockPoster[] = [
-    ...(missCount > 0
-      ? [
-          {
-            to: '/missions/mates/clocks/misses',
-            art: 'mis-fallos' as ModeArtId,
-            title: 'MIS FALLOS',
-            text: `${missCount} pendiente${missCount === 1 ? '' : 's'}`,
-            className: 'mode-poster--misses',
-            tag: 'REPASO',
-          },
-        ]
-      : []),
-    ...ROSTER_BASE,
-  ]
 
   return (
     <AppShell title="HORAS" shortTitle="Horas" showBack backTo="/missions/mates">
@@ -95,19 +97,25 @@ export function ClockModeSelectScreen() {
         }
         heroes={HEROES.map((m) => (
           <StageSlot
-            key={m.to}
+            key={`${m.tag}-${m.to}`}
             art={m.art}
             title={m.title}
-            text={m.text}
+            text={
+              m.tag === 'REPASO'
+                ? missCount > 0
+                  ? `${missCount} pendiente${missCount === 1 ? '' : 's'} · prioriza tus fallos`
+                  : 'Aún no hay fallos guardados · juega y se irán guardando'
+                : m.text
+            }
             className={m.className}
             tag={m.tag}
             featured
             to={m.to}
           />
         ))}
-        roster={roster.map((m) => (
+        roster={ROSTER.map((m) => (
           <StageSlot
-            key={m.to}
+            key={m.to + m.tag}
             art={m.art}
             title={m.title}
             text={m.text}
@@ -116,8 +124,7 @@ export function ClockModeSelectScreen() {
             to={m.to}
           />
         ))}
-        rosterCols={1}
-        divider="Más modos"
+        rosterCols={3}
       />
     </AppShell>
   )
