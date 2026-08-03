@@ -12,7 +12,7 @@ describe('monta-frase', () => {
   it('pack válido y con amigos', () => {
     assertValidWordsMontaFrasePack(montaJson)
     const items = listMontaFraseItems()
-    expect(items.length).toBeGreaterThanOrEqual(12)
+    expect(items.length).toBeGreaterThanOrEqual(50)
     const blob = items.map((i) => i.tokens.join(' ')).join(' | ')
     expect(blob).toMatch(/Aray/)
     expect(blob).toMatch(/Roblox/)

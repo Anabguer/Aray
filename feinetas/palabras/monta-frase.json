@@ -8,8 +8,8 @@
     "level": "3-primaria",
     "locale": "es-ES",
     "revisionStatus": "approved",
-    "contentVersion": 1,
-    "notes": "Tokens en orden; mayúscula y punto en la ficha."
+    "contentVersion": 2,
+    "notes": "Tokens en orden; mayúscula y punto en la ficha. ~50 frases."
   },
   "items": [
     {
@@ -90,6 +90,176 @@
     {
       "id": "mf-16",
       "tokens": ["Enzo", "y", "Mark", "leen", "juntos", "en", "el", "cole."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-17",
+      "tokens": ["Aray", "abre", "el", "portátil", "para", "entrar", "en", "Roblox."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-18",
+      "tokens": ["Alma", "elige", "un", "avatar", "nuevo", "con", "capa", "azul."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-19",
+      "tokens": ["Erik", "salta", "del", "columpio", "y", "ríe", "muy", "alto."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-20",
+      "tokens": ["Carlos", "marca", "un", "gol", "en", "el", "campo", "del", "parque."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-21",
+      "tokens": ["Ángel", "busca", "conchas", "cerca", "del", "agua."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-22",
+      "tokens": ["Luca", "come", "un", "helado", "de", "chocolate", "en", "la", "playa."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-23",
+      "tokens": ["Mark", "enciende", "la", "linterna", "durante", "la", "noche", "larga."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-24",
+      "tokens": ["Enzo", "guarda", "comida", "para", "las", "noventa", "y", "nueve", "noches."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-25",
+      "tokens": ["Erika", "dibuja", "un", "mapa", "del", "campamento."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-26",
+      "tokens": ["Axel", "comparte", "su", "bocadillo", "con", "los", "amigos."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-27",
+      "tokens": ["Aray", "y", "Erik", "hacen", "una", "carrera", "hasta", "el", "árbol."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-28",
+      "tokens": ["Alma", "explica", "las", "normas", "del", "juego", "a", "Carlos."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-29",
+      "tokens": ["Luca", "y", "Ángel", "nadan", "cerca", "de", "la", "orilla."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-30",
+      "tokens": ["Mark", "escucha", "un", "ruido", "raro", "en", "el", "bosque."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-31",
+      "tokens": ["Enzo", "cierra", "la", "puerta", "de", "la", "cabaña", "con", "cuidado."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-32",
+      "tokens": ["Erika", "canta", "una", "canción", "mientras", "caminan."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-33",
+      "tokens": ["Axel", "y", "Aray", "construyen", "una", "casa", "en", "Roblox."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-34",
+      "tokens": ["Carlos", "guarda", "la", "mochila", "debajo", "del", "banco."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-35",
+      "tokens": ["Alma", "abre", "el", "estuche", "y", "saca", "un", "lápiz."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-36",
+      "tokens": ["Erik", "termina", "los", "deberes", "antes", "de", "jugar."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-37",
+      "tokens": ["Ángel", "lee", "un", "cuento", "en", "voz", "alta."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-38",
+      "tokens": ["Luca", "pide", "permiso", "para", "salir", "al", "patio."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-39",
+      "tokens": ["Mark", "encuentra", "una", "piedra", "brillante", "en", "el", "camino."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-40",
+      "tokens": ["Enzo", "y", "Erika", "preparan", "la", "tienda", "de", "campaña."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-41",
+      "tokens": ["Hoy", "llueve", "y", "los", "amigos", "juegan", "dentro", "de", "casa."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-42",
+      "tokens": ["Aray", "invita", "a", "Axel", "a", "una", "misión", "secreta."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-43",
+      "tokens": ["Alma", "compra", "galletas", "para", "el", "recreo."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-44",
+      "tokens": ["Erik", "y", "Carlos", "montan", "en", "bicicleta", "por", "el", "parque."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-45",
+      "tokens": ["La", "ola", "grande", "moja", "a", "Luca", "y", "a", "Ángel."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-46",
+      "tokens": ["Mark", "cuenta", "hasta", "diez", "antes", "de", "esconderse."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-47",
+      "tokens": ["Enzo", "enciende", "la", "hoguera", "con", "ayuda", "de", "Erika."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-48",
+      "tokens": ["Axel", "gana", "un", "trofeo", "virtual", "en", "el", "juego."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-49",
+      "tokens": ["Mañana", "todos", "irán", "juntos", "al", "colegio."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-50",
+      "tokens": ["Aray", "dice", "buenas", "noches", "después", "de", "la", "partida."],
       "source": "amigos"
     }
   ]
