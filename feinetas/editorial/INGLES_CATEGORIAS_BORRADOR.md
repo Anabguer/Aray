@@ -11,6 +11,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Primera ficha catalogada: like / don't like + food. |
 | 2026-08-03 | Ejercicio 02: write like/don't like (caras + comida). |
 | 2026-08-03 | Ejercicio 03: circle food (imagen → palabra). |
+| 2026-08-03 | Ejercicio 04: like/don't like + *but* (dos personajes). |
 
 ## Material en inbox
 
@@ -19,6 +20,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/01-like-dont-like-food.png` | Circle like / don't like (Danny + comida) | Catalogado |
 | `refs/02-write-like-dont-like-food.png` | Write like / don't like (caras + platos) | Catalogado |
 | `refs/03-circle-food-picture.png` | Circle: imagen comida → palabra | Catalogado |
+| `refs/04-like-but-dont-like-food.png` | Like/don't like + *but* (niño/niña) | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -123,11 +125,38 @@ Distractores de la ficha = el mismo set (se reutilizan entre ítems).
 
 ---
 
+## Ejercicio 04 — Like / don't like + *but*
+
+![Captura](../Ingles/_inbox/refs/04-like-but-dont-like-food.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | Ficha: «3 Write *like* or *don't like*.» (burbujas ☺/☹ por personaje) |
+| **Bloque** | **Estructura** (*I like X but I don't like Y*) + vocab food |
+| **Categoría propuesta** | `food` |
+| **Mecánica Aray sugerida** | Completar huecos MCQ (*like* / *don't like*) según burbujas; o elegir frase correcta |
+| **Patrón nuevo** | Conector **but** + contraste like ↔ don't like en la misma frase |
+
+### Ítems (según burbujas)
+
+**Niño (1)** — ☺ ice cream, juice · ☹ sausages, salad  
+Frase modelo: *I don't like salad but I like ice cream. I like juice but I don't like sausages.*
+
+**Niña (2)** — ☺ macaroni, rice · ☹ sausages, fish  
+Frase modelo: *I like macaroni, but I don't like sausages. I don't like fish but I like rice.*
+
+### Relación con anteriores
+
+- Mismos lemas food (01–02); refuerza preferencias + **but**.
+- En Aray: mismo modo *like-mcq* con nivel «contraste» (dos huecos / frase con but).
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
 |--------------|-----------|------|-------|---------------------|--------|
-| `food` | Comida | Vocabulario food + preferencias | ~14 lemas (ej. 01–03) | meaning, translate, like-mcq, **picture** | borrador |
+| `food` | Comida | Vocabulario food + preferencias (+ *but*) | ~14 lemas (ej. 01–04) | meaning, translate, like-mcq, picture | borrador |
 | — | — | — | — | — | — |
 
 ## Cómo añadir un lote
