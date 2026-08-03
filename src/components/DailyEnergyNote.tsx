@@ -33,7 +33,6 @@ export function DailyEnergyNote({ className = '', compact = false }: DailyEnergy
           ⚡
         </span>
         <div className="daily-energy-note__copy">
-          <p className="daily-energy-note__eyebrow">{energyCopy.dailyComplete}</p>
           <p className="daily-energy-note__title">{energyCopy.playForFunTitle}</p>
           <p className="daily-energy-note__body">{energyCopy.playForFun}</p>
         </div>
