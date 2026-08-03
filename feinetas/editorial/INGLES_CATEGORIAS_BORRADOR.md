@@ -54,6 +54,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 46: present continuous Is/Are…? + imagen. |
 | 2026-08-03 | Ejercicio 47: números (emparejar dígito ↔ palabra EN). |
 | 2026-08-03 | Ejercicio 48: ordenar palabras → oración (fichas, sin escribir). |
+| 2026-08-03 | Ejercicio 49: Where is the flower? (on/under/next to). |
 
 ## Material en inbox
 
@@ -106,6 +107,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/46-present-continuous-yn.png` | Is/Are…? continuous + 5 escenas | Catalogado |
 | `refs/47-numbers-write.png` | Numbers: dígito ↔ palabra EN (match) | Catalogado |
 | `refs/48-order-sentences.png` | Ordenar palabras → oración (fichas) | Catalogado |
+| `refs/49-where-is-the-flower.png` | Where is the flower? on/under/next to | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -1560,6 +1562,30 @@ Capitalización / `?` los puede añadir la app al validar (German, Can…?).
 
 ---
 
+## Ejercicio 49 — Where is the flower?
+
+![Captura](../Ingles/_inbox/refs/49-where-is-the-flower.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | «Where is the flower?» (maceta vs mesa / casa) |
+| **Bloque** | **Preposiciones** *on / under / next to* |
+| **Categoría propuesta** | `prepositions` (amplía ej. 37: añade *next to*) |
+| **Escritura libre** | **No** — chips *on / under / next to* (o frase plantilla + hueco prep) |
+| **Mecánica Aray** | Escena → elegir prep · tip: The flower is ___ the table. |
+| **Ayuda** | Tip muted: on · under · next to (+ iconos) |
+
+### Ítems (+ clave)
+
+| # | Escena | Frase |
+|---|--------|-------|
+| 1 | maceta encima mesa | The flower is on the table. *(ejemplo)* |
+| 2 | maceta debajo mesa | The flower is under the table. |
+| 3 | maceta al lado casa | The flower is next to the house. |
+| 4 | maceta encima tejado | The flower is on the house. |
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
@@ -1576,7 +1602,7 @@ Capitalización / `?` los puede añadir la app al validar (German, Can…?).
 | `adjectives` | Adjetivos | handsome, young, old, poor, rich, clever, beautiful | 7 (ej. 28–29) | he/she + adj MCQ | borrador |
 | `there-is` | There is / are | Existencia + *How many* (+ tip) | ej. 30–35 | match, fill, Q+YN, order, picture count + **help tip** | borrador |
 | `possessives` | Posesión | *'s* + *his/her* (+ tip) | ej. 36, 39 | MCQ, his/her Where + **help tip** | borrador |
-| `prepositions` | Preposiciones | *on/in/under* + Where is/are | ej. 37–38 | picture prep, is/are fill + **help tip** · **1 escena compartida** | borrador |
+| `prepositions` | Preposiciones | *on/in/under/next to* + Where… | ej. 37–38, 49 | picture prep chips + tip · escena compartida 37–38 | borrador |
 | `transport` | Transporte | *go by…* / *walk* + Do you…? | ej. 41–42 | drag-to-image, YN · **1 tira compartida** | borrador |
 | `money` | Dinero / precios | *How much is…?* + euros | ej. 43 | count coins → *It's N euros.* + tip | borrador |
 | `present-simple` | Presente simple | +/− · Do/Does · *on* + day | ej. 44–45 | fill verbo, **montar pregunta con fichas** (no escribir) + tip | borrador |
