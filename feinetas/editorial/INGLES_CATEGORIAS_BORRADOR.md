@@ -52,6 +52,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 44: presente simple (+/−) con banco de verbos. |
 | 2026-08-03 | Ejercicio 45: Do/Does…? (montar pregunta, sin escribir). |
 | 2026-08-03 | Ejercicio 46: present continuous Is/Are…? + imagen. |
+| 2026-08-03 | Ejercicio 47: números (emparejar dígito ↔ palabra EN). |
 
 ## Material en inbox
 
@@ -102,6 +103,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/44-present-simple-plus-minus.png` | Presente simple (+/−) banco verbos | Catalogado |
 | `refs/45-do-does-questions.png` | Do/Does…? prompts → pregunta | Catalogado |
 | `refs/46-present-continuous-yn.png` | Is/Are…? continuous + 5 escenas | Catalogado |
+| `refs/47-numbers-write.png` | Numbers: dígito ↔ palabra EN (match) | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -1484,6 +1486,50 @@ Alternativa más guiada (2 toques): primero eligen **Do** o **Does** (chips gran
 
 ---
 
+## Ejercicio 47 — Numbers (dígito ↔ palabra)
+
+![Captura](../Ingles/_inbox/refs/47-numbers-write.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | Repaso 1er trim. 3º · «Write the numbers.» (+ «How many?» debajo, pendiente si llega) |
+| **Bloque** | **Números** 1–100 en inglés |
+| **Categoría propuesta** | `numbers` (**nueva**) |
+| **Escritura libre** | **No** — en el cuaderno pedía escribir; en Aray **relacionar** |
+| **Mecánica Aray** | Emparejar / arrastrar: **28 ↔ twenty-eight** (como Empareja Lengua) · rondas de 4–6 pares |
+| **Ayuda** | Tip opcional: tens (twenty, thirty…) + hyphen (twenty-eight) |
+
+### Banco (todos los de la ficha)
+
+| # | EN |
+|---|-----|
+| 2 | two |
+| 4 | four |
+| 6 | six |
+| 12 | twelve |
+| 13 | thirteen |
+| 14 | fourteen |
+| 15 | fifteen |
+| 17 | seventeen |
+| 20 | twenty |
+| 21 | twenty-one |
+| 23 | twenty-three |
+| 28 | twenty-eight |
+| 33 | thirty-three |
+| 34 | thirty-four |
+| 49 | forty-nine |
+| 52 | fifty-two |
+| 56 | fifty-six |
+| 59 | fifty-nine |
+| 62 | sixty-two |
+| 75 | seventy-five |
+| 80 | eighty |
+| 83 | eighty-three |
+| 87 | eighty-seven |
+| 100 | one hundred |
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
@@ -1505,6 +1551,7 @@ Alternativa más guiada (2 toques): primero eligen **Do** o **Does** (chips gran
 | `money` | Dinero / precios | *How much is…?* + euros | ej. 43 | count coins → *It's N euros.* + tip | borrador |
 | `present-simple` | Presente simple | +/− · Do/Does · *on* + day | ej. 44–45 | fill verbo, **montar pregunta con fichas** (no escribir) + tip | borrador |
 | `present-continuous` | Present continuous | Is/Are…? + -ing + imagen | ej. 46 | YN short answers + tip · **set escenas** | borrador |
+| `numbers` | Números | 1–100 en inglés | ej. 47 | **match dígito↔palabra** (no escribir) | borrador |
 
 ## Cómo añadir un lote
 
