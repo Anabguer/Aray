@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "pack": {
+    "id": "palabras-monta-frase",
+    "title": "Monta la frase",
+    "ownerBank": "BACKLOG.md + amigos Aray",
+    "packKind": "order-sentence",
+    "level": "3-primaria",
+    "locale": "es-ES",
+    "revisionStatus": "approved",
+    "contentVersion": 1,
+    "notes": "Tokens en orden; mayúscula y punto en la ficha."
+  },
+  "items": [
+    {
+      "id": "mf-01",
+      "tokens": ["Esta", "tarde", "iré", "al", "cine", "con", "mis", "amigos."],
+      "source": "ficha-01"
+    },
+    {
+      "id": "mf-02",
+      "tokens": ["Pedro", "ha", "olvidado", "la", "mochila", "en", "casa."],
+      "source": "ficha-01"
+    },
+    {
+      "id": "mf-03",
+      "tokens": ["El", "tren", "llegó", "puntual", "a", "la", "estación."],
+      "source": "ficha-52"
+    },
+    {
+      "id": "mf-04",
+      "tokens": ["El", "perro", "de", "María", "no", "muerde."],
+      "source": "ficha-52"
+    },
+    {
+      "id": "mf-05",
+      "tokens": ["El", "huerto", "de", "Amalia", "está", "bien", "cuidado."],
+      "source": "ficha-57"
+    },
+    {
+      "id": "mf-06",
+      "tokens": ["Mañana", "jugaré", "el", "campeonato", "de", "ajedrez."],
+      "source": "ficha-57"
+    },
+    {
+      "id": "mf-07",
+      "tokens": ["Aray", "y", "Alma", "juegan", "a", "Roblox", "después", "del", "cole."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-08",
+      "tokens": ["Erik", "corre", "en", "el", "parque", "con", "Carlos."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-09",
+      "tokens": ["Ángel", "y", "Luca", "van", "a", "la", "playa", "este", "sábado."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-10",
+      "tokens": ["Mark", "y", "Enzo", "sobreviven", "noventa", "y", "nueve", "noches."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-11",
+      "tokens": ["Erika", "prepara", "un", "picnic", "con", "Axel", "y", "Aray."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-12",
+      "tokens": ["Alma", "gana", "la", "partida", "de", "Roblox", "contra", "Erik."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-13",
+      "tokens": ["Carlos", "lleva", "la", "pelota", "al", "parque."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-14",
+      "tokens": ["Luca", "construye", "un", "castillo", "en", "la", "arena."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-15",
+      "tokens": ["Hoy", "Axel", "invita", "a", "todos", "a", "su", "casa."],
+      "source": "amigos"
+    },
+    {
+      "id": "mf-16",
+      "tokens": ["Enzo", "y", "Mark", "leen", "juntos", "en", "el", "cole."],
+      "source": "amigos"
+    }
+  ]
+}

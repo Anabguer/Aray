@@ -85,12 +85,13 @@ describe('Validación exhaustiva piloto RR', () => {
     expect(pack.pack.id).toBe('ortografia-rr')
     expect(pack.pack.ownerBank).toBe('ERRORES_REALES_RR.md')
     expect(pack.pack.ruleFamily).toBe('r-rr')
-    expect(typeof pack.pack.contentVersion).toBe('number')
+    expect(pack.pack.contentVersion).toBeGreaterThanOrEqual(2)
   })
 
-  it('expone exactamente 21 lemas accesibles del MD congelado', () => {
-    expect(pack.lemmas).toHaveLength(21)
-    expect(pack.lemmas.map((l) => l.lemma)).toEqual([...EXPECTED])
+  it('conserva el núcleo RR (21) y permite lemas adicionales', () => {
+    expect(pack.lemmas.length).toBeGreaterThanOrEqual(EXPECTED.length)
+    expect(EXPECTED).toHaveLength(21)
+    expect(pack.lemmas.map((l) => l.lemma).slice(0, EXPECTED.length)).toEqual([...EXPECTED])
     for (const lemma of pack.lemmas) {
       expect(lemma.id.startsWith('rr-')).toBe(true)
       expect(lemma.ruleId).toBe('r-rr')
@@ -100,8 +101,8 @@ describe('Validación exhaustiva piloto RR', () => {
   it('no tiene ids ni lemas duplicados', () => {
     const ids = pack.lemmas.map((l) => l.id)
     const lemmas = pack.lemmas.map((l) => l.lemma.toLocaleLowerCase('es'))
-    expect(new Set(ids).size).toBe(21)
-    expect(new Set(lemmas).size).toBe(21)
+    expect(new Set(ids).size).toBe(pack.lemmas.length)
+    expect(new Set(lemmas).size).toBe(pack.lemmas.length)
   })
 
   it('tiene todos los campos obligatorios en cada registro', () => {
@@ -146,7 +147,7 @@ describe('Validación exhaustiva piloto RR', () => {
         lemma.lemma.toLocaleLowerCase('es'),
       )
     }
-    expect(withTip + withoutTip).toBe(21)
+    expect(withTip + withoutTip).toBe(pack.lemmas.length)
     // En RR actual todos tienen tip derivado de ruleText; el contrato admite ausencia.
     expect(withTip).toBeGreaterThan(0)
   })
@@ -170,7 +171,7 @@ describe('Validación exhaustiva piloto RR', () => {
   it('el adaptador MCQ construye rondas completas sin mutar el JSON', () => {
     const snapshot = JSON.stringify(pack)
     const round = buildOrtographyPackRound(pack, 7)
-    expect(round).toHaveLength(21)
+    expect(round).toHaveLength(pack.lemmas.length)
     for (const q of round) {
       expect(q.options[q.correctIndex]).toBe(q.lemma)
       expect(q.options.length).toBeGreaterThanOrEqual(2)
@@ -238,20 +239,20 @@ describe('Validación exhaustiva piloto RR', () => {
     const t0 = performance.now()
     for (let seed = 0; seed < 200; seed += 1) {
       const round = buildOrtographyPackRound(pack, seed)
-      expect(round).toHaveLength(21)
+      expect(round).toHaveLength(pack.lemmas.length)
     }
     const ms = performance.now() - t0
     expect(ms).toBeLessThan(250)
   })
 
   it('cobertura de frecuencias y categorías coherente con el MD', () => {
-    const freq = Object.fromEntries(
-      ['muy_frecuente', 'frecuente', 'poco_frecuente'].map((f) => [
-        f,
-        pack.lemmas.filter((l) => l.frequency === f).length,
-      ]),
+    const count = (f: string) => pack.lemmas.filter((l) => l.frequency === f).length
+    expect(count('muy_frecuente')).toBeGreaterThanOrEqual(8)
+    expect(count('frecuente')).toBeGreaterThanOrEqual(9)
+    expect(count('poco_frecuente')).toBeGreaterThanOrEqual(4)
+    expect(count('muy_frecuente') + count('frecuente') + count('poco_frecuente')).toBe(
+      pack.lemmas.length,
     )
-    expect(freq).toEqual({ muy_frecuente: 8, frecuente: 9, poco_frecuente: 4 })
 
     const alrededor = pack.lemmas.find((l) => l.lemma === 'alrededor')!
     expect(alrededor.errors).toEqual(['alrrededor', 'arrededor'])

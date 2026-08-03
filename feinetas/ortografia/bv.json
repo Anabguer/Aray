@@ -8,7 +8,7 @@
     "level": "3-primaria",
     "locale": "es-ES",
     "revisionStatus": "approved",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "sourceEditorialPhase": "fase-editorial-base",
     "notes": "Convertido tras H. Sin colisiones de slug. No conectado a minijuegos todavía."
   },
@@ -510,6 +510,91 @@
         "ref": null
       },
       "notes": "ANAYA refuerzo p.11 (PDF original): «i ienda» → vivienda. Validado contra PDF."
+    },
+    {
+      "id": "bv-sucumbir",
+      "lemma": "sucumbir",
+      "errors": [
+        "sucumvir"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Los verbos terminados en -bir se escriben con b (excepto vivir, servir, hervir).",
+      "frequency": "poco_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Los verbos terminados en -bir se escriben con b.",
+      "notes": "BACKLOG ej.83"
+    },
+    {
+      "id": "bv-suscribir",
+      "lemma": "suscribir",
+      "errors": [
+        "suscrivir"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Los verbos terminados en -bir se escriben con b (excepto vivir, servir, hervir).",
+      "frequency": "poco_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Los verbos terminados en -bir se escriben con b.",
+      "notes": "BACKLOG ej.83"
+    },
+    {
+      "id": "bv-inscribir",
+      "lemma": "inscribir",
+      "errors": [
+        "inscrivir"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Los verbos terminados en -bir se escriben con b (excepto vivir, servir, hervir).",
+      "frequency": "frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Los verbos terminados en -bir se escriben con b.",
+      "notes": "BACKLOG ej.103"
+    },
+    {
+      "id": "bv-describir",
+      "lemma": "describir",
+      "errors": [
+        "descrivir"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Los verbos terminados en -bir se escriben con b (excepto vivir, servir, hervir).",
+      "frequency": "muy_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Los verbos terminados en -bir se escriben con b.",
+      "notes": "BACKLOG ej.103"
+    },
+    {
+      "id": "bv-prescribir",
+      "lemma": "prescribir",
+      "errors": [
+        "prescrivir"
+      ],
+      "ruleId": "b-v",
+      "ruleText": "Los verbos terminados en -bir se escriben con b (excepto vivir, servir, hervir).",
+      "frequency": "poco_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Los verbos terminados en -bir se escriben con b.",
+      "notes": "BACKLOG ej.103"
     }
   ]
 }

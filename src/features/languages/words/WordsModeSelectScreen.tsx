@@ -32,7 +32,7 @@ export function WordsModeSelectScreen() {
         heroes={heroes.map(slotFor)}
         heroesCols={heroes.length >= 3 ? 3 : 2}
         roster={roster.length > 0 ? roster.map(slotFor) : undefined}
-        rosterCols={3}
+        rosterCols={roster.length >= 4 ? 3 : 3}
       />
     </AppShell>
   )

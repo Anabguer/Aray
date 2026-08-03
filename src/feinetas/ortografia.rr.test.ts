@@ -46,15 +46,20 @@ describe('feinetas / ortografia / rr (pack piloto)', () => {
     expect(pack.pack.ownerBank).toBe('ERRORES_REALES_RR.md')
     expect(pack.pack.ruleFamily).toBe('r-rr')
     expect(pack.pack.revisionStatus).toBe('approved')
-    expect(pack.pack.contentVersion).toBe(1)
+    expect(pack.pack.contentVersion).toBeGreaterThanOrEqual(2)
     expect(pack.pack.level).toBe('3-primaria')
     expect(pack.pack.locale).toBe('es-ES')
   })
 
-  it('contiene exactamente los 21 lemas del banco RR congelado', () => {
+  it('conserva el núcleo RR y añade lemas de fichas', () => {
     const pack = rrPack as OrtographyLemmaPack
-    expect(pack.lemmas).toHaveLength(21)
-    expect(pack.lemmas.map((l) => l.lemma)).toEqual([...EXPECTED_LEMMAS])
+    expect(pack.lemmas.length).toBeGreaterThanOrEqual(EXPECTED_LEMMAS.length)
+    const lemmas = pack.lemmas.map((l) => l.lemma)
+    for (const lemma of EXPECTED_LEMMAS) {
+      expect(lemmas).toContain(lemma)
+    }
+    // Prefijo congelado en el mismo orden editorial
+    expect(lemmas.slice(0, EXPECTED_LEMMAS.length)).toEqual([...EXPECTED_LEMMAS])
   })
 
   it('ids estables únicos y ruleId propietario r-rr', () => {
@@ -90,12 +95,15 @@ describe('feinetas / ortografia / rr (pack piloto)', () => {
     expect(borron?.secondaryRuleIds).toEqual(['tilde'])
   })
 
-  it('distribuye frecuencias 8 / 9 / 4 como el MD', () => {
+  it('distribuye frecuencias en todas las bandas', () => {
     const pack = rrPack as OrtographyLemmaPack
     const count = (f: string) => pack.lemmas.filter((l) => l.frequency === f).length
-    expect(count('muy_frecuente')).toBe(8)
-    expect(count('frecuente')).toBe(9)
-    expect(count('poco_frecuente')).toBe(4)
+    expect(count('muy_frecuente')).toBeGreaterThanOrEqual(8)
+    expect(count('frecuente')).toBeGreaterThanOrEqual(9)
+    expect(count('poco_frecuente')).toBeGreaterThanOrEqual(4)
+    expect(count('muy_frecuente') + count('frecuente') + count('poco_frecuente')).toBe(
+      pack.lemmas.length,
+    )
   })
 
   it('alrededor conserva los dos errores editoriales', () => {

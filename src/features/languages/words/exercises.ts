@@ -7,10 +7,12 @@ import type { ModeArtId } from '@/assets/modes'
 
 export type WordsExerciseId =
   | 'formar-palabras'
-  | 'singular-plural'
-  | 'masculino-femenino'
+  | 'clasifica'
   | 'sinonimos'
   | 'antonimos'
+  | 'monta-frase'
+  | 'quien-hace-que'
+  | 'comun-propio'
 
 export type WordsExerciseStatus = 'active' | 'coming-soon'
 
@@ -40,23 +42,13 @@ export const WORDS_EXERCISES: WordsExercise[] = [
     featured: true,
   },
   {
-    id: 'singular-plural',
-    title: 'Singular / plural',
-    text: 'Cambia el número de la palabra',
+    id: 'clasifica',
+    title: 'Clasifica',
+    text: 'Una/muchas, el/la y artículos',
     art: 'words-plural',
     className: 'mode-poster--train',
     tag: '02',
-    href: '/missions/languages/words/singular-plural',
-    status: 'active',
-  },
-  {
-    id: 'masculino-femenino',
-    title: 'Masculino / femenino',
-    text: 'Cambia el género de la palabra',
-    art: 'words-gender',
-    className: 'mode-poster--challenge',
-    tag: '03',
-    href: '/missions/languages/words/masculino-femenino',
+    href: '/missions/languages/words/clasifica',
     status: 'active',
   },
   {
@@ -65,7 +57,7 @@ export const WORDS_EXERCISES: WordsExercise[] = [
     text: 'Elige una palabra que signifique lo mismo',
     art: 'words-sinonimos',
     className: 'mode-poster--learn',
-    tag: '04',
+    tag: '03',
     href: '/missions/languages/words/sinonimos',
     status: 'active',
   },
@@ -75,8 +67,38 @@ export const WORDS_EXERCISES: WordsExercise[] = [
     text: 'Elige una palabra con el sentido contrario',
     art: 'words-antonimos',
     className: 'mode-poster--train',
-    tag: '05',
+    tag: '04',
     href: '/missions/languages/words/antonimos',
+    status: 'active',
+  },
+  {
+    id: 'monta-frase',
+    title: 'Monta la frase',
+    text: 'Ordena las palabras y forma la oración',
+    art: 'words-formar',
+    className: 'mode-poster--challenge',
+    tag: '05',
+    href: '/missions/languages/words/monta-frase',
+    status: 'active',
+  },
+  {
+    id: 'quien-hace-que',
+    title: 'Quién hace qué',
+    text: 'Une el pronombre con su verbo',
+    art: 'words-gender',
+    className: 'mode-poster--learn',
+    tag: '06',
+    href: '/missions/languages/words/quien-hace-que',
+    status: 'active',
+  },
+  {
+    id: 'comun-propio',
+    title: 'Común o propio',
+    text: 'Une el tipo con su nombre propio',
+    art: 'words-plural',
+    className: 'mode-poster--train',
+    tag: '07',
+    href: '/missions/languages/words/comun-propio',
     status: 'active',
   },
 ]

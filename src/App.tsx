@@ -32,8 +32,14 @@ import { AlphabetSummaryScreen } from '@/features/languages/AlphabetSummaryScree
 import { LanguagesHubScreen } from '@/features/languages/LanguagesHubScreen'
 import { FormarPalabrasPlayScreen } from '@/features/languages/formar-palabras/FormarPalabrasPlayScreen'
 import { FormarPalabrasSummaryScreen } from '@/features/languages/formar-palabras/FormarPalabrasSummaryScreen'
+import { ClasificaPlayScreen } from '@/features/languages/words/ClasificaPlayScreen'
+import { ClasificaSummaryScreen } from '@/features/languages/words/ClasificaSummaryScreen'
+import { MontaFrasePlayScreen } from '@/features/languages/words/MontaFrasePlayScreen'
+import { MontaFraseSummaryScreen } from '@/features/languages/words/MontaFraseSummaryScreen'
 import { PalabrasMcqPlayScreen } from '@/features/languages/words/PalabrasMcqPlayScreen'
 import { PalabrasMcqSummaryScreen } from '@/features/languages/words/PalabrasMcqSummaryScreen'
+import { VariosPlayScreen } from '@/features/languages/words/VariosPlayScreen'
+import { VariosSummaryScreen } from '@/features/languages/words/VariosSummaryScreen'
 import { WordsModeSelectScreen } from '@/features/languages/words/WordsModeSelectScreen'
 import { SpellModeSelectScreen } from '@/features/languages/spelling/SpellModeSelectScreen'
 import { SpellPlayScreen } from '@/features/languages/spelling/SpellPlayScreen'
@@ -99,6 +105,46 @@ export default function App() {
         <Route
           path="/missions/languages/words/formar-palabras/summary"
           element={<Navigate to="/missions/languages/formar-palabras/summary" replace />}
+        />
+        <Route
+          path="/missions/languages/words/clasifica/summary"
+          element={<ClasificaSummaryScreen />}
+        />
+        <Route
+          path="/missions/languages/words/clasifica"
+          element={<ClasificaPlayScreen />}
+        />
+        <Route
+          path="/missions/languages/words/monta-frase/summary"
+          element={<MontaFraseSummaryScreen />}
+        />
+        <Route
+          path="/missions/languages/words/monta-frase"
+          element={<MontaFrasePlayScreen />}
+        />
+        <Route
+          path="/missions/languages/words/quien-hace-que/summary"
+          element={<VariosSummaryScreen />}
+        />
+        <Route
+          path="/missions/languages/words/quien-hace-que"
+          element={<VariosPlayScreen />}
+        />
+        <Route
+          path="/missions/languages/words/comun-propio/summary"
+          element={<VariosSummaryScreen />}
+        />
+        <Route
+          path="/missions/languages/words/comun-propio"
+          element={<VariosPlayScreen />}
+        />
+        <Route
+          path="/missions/languages/words/singular-plural"
+          element={<Navigate to="/missions/languages/words/clasifica" replace />}
+        />
+        <Route
+          path="/missions/languages/words/masculino-femenino"
+          element={<Navigate to="/missions/languages/words/clasifica" replace />}
         />
         <Route
           path="/missions/languages/words/:productId/summary"

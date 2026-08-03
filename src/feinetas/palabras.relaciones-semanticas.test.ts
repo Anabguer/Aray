@@ -58,18 +58,22 @@ describe('feinetas / palabras / relaciones-semanticas', () => {
     expect(pack.pack.revisionStatus).toBe('frozen')
     expect(pack.pack.level).toBe('3-primaria')
     expect(pack.pack.locale).toBe('es-ES')
-    expect(pack.pack.contentVersion).toBe(1)
+    expect(pack.pack.contentVersion).toBeGreaterThanOrEqual(2)
   })
 
-  it('tiene 12 sinónimos y 14 antónimos (26 total)', () => {
+  it('conserva el núcleo y amplía sinónimos/antónimos desde fichas', () => {
     const pack = packJson as WordsSemanticRelationPack
     const syn = pack.items.filter((i) => i.relation === 'synonym')
     const ant = pack.items.filter((i) => i.relation === 'antonym')
-    expect(syn).toHaveLength(12)
-    expect(ant).toHaveLength(14)
-    expect(pack.items).toHaveLength(26)
-    expect(syn.map((i) => i.id)).toEqual([...EXPECTED_SYN_IDS])
-    expect(ant.map((i) => i.id)).toEqual([...EXPECTED_ANT_IDS])
+    expect(syn.length).toBeGreaterThanOrEqual(12)
+    expect(ant.length).toBeGreaterThanOrEqual(14)
+    expect(pack.items.length).toBeGreaterThanOrEqual(26)
+    for (const id of EXPECTED_SYN_IDS) {
+      expect(syn.map((i) => i.id)).toContain(id)
+    }
+    for (const id of EXPECTED_ANT_IDS) {
+      expect(ant.map((i) => i.id)).toContain(id)
+    }
   })
 
   it('ids únicos', () => {

@@ -8,7 +8,7 @@
     "level": "3-primaria",
     "locale": "es-ES",
     "revisionStatus": "approved",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "sourceEditorialPhase": "fase-4-frases",
     "notes": "Banco de frases MCQ con distractores fijos. Sustituye SPELL_CONTEXTS. Congelado tras auditoría final."
   },
@@ -521,6 +521,227 @@
       "difficulty": 2,
       "explanation": "La u se oye: se escribe gü.",
       "sourceNotes": "ERRORES_REALES_GU.md (cigüeña)",
+      "status": "approved"
+    },
+    {
+      "id": "frase-ha-a-01",
+      "sentence": "María ___ estudiado.",
+      "options": [
+        "ha",
+        "a",
+        "ah",
+        "há"
+      ],
+      "correctIndex": 0,
+      "ruleId": "haber-hablar",
+      "itemType": "homophones",
+      "difficulty": 1,
+      "explanation": "Ha es forma de haber + participio.",
+      "sourceNotes": "BACKLOG ej.66",
+      "status": "approved"
+    },
+    {
+      "id": "frase-ha-a-02",
+      "sentence": "Ana ___ comido.",
+      "options": [
+        "ha",
+        "a",
+        "ah",
+        "há"
+      ],
+      "correctIndex": 0,
+      "ruleId": "haber-hablar",
+      "itemType": "homophones",
+      "difficulty": 1,
+      "explanation": "Ha es forma de haber + participio.",
+      "sourceNotes": "BACKLOG ej.66",
+      "status": "approved"
+    },
+    {
+      "id": "frase-ha-a-03",
+      "sentence": "Pablo ___ jugado.",
+      "options": [
+        "ha",
+        "a",
+        "ah",
+        "há"
+      ],
+      "correctIndex": 0,
+      "ruleId": "haber-hablar",
+      "itemType": "homophones",
+      "difficulty": 1,
+      "explanation": "Ha es forma de haber + participio.",
+      "sourceNotes": "BACKLOG ej.66",
+      "status": "approved"
+    },
+    {
+      "id": "frase-ha-a-04",
+      "sentence": "Andrés ___ leído.",
+      "options": [
+        "ha",
+        "a",
+        "ah",
+        "há"
+      ],
+      "correctIndex": 0,
+      "ruleId": "haber-hablar",
+      "itemType": "homophones",
+      "difficulty": 1,
+      "explanation": "Ha es forma de haber + participio.",
+      "sourceNotes": "BACKLOG ej.66",
+      "status": "approved"
+    },
+    {
+      "id": "frase-ha-a-05",
+      "sentence": "He visto ___ Cristina.",
+      "options": [
+        "a",
+        "ha",
+        "ah",
+        "há"
+      ],
+      "correctIndex": 0,
+      "ruleId": "haber-hablar",
+      "itemType": "homophones",
+      "difficulty": 1,
+      "explanation": "A es preposición (ver a alguien).",
+      "sourceNotes": "BACKLOG ej.66",
+      "status": "approved"
+    },
+    {
+      "id": "frase-ha-a-06",
+      "sentence": "Voy ___ casa de Pedro.",
+      "options": [
+        "a",
+        "ha",
+        "ah",
+        "há"
+      ],
+      "correctIndex": 0,
+      "ruleId": "haber-hablar",
+      "itemType": "homophones",
+      "difficulty": 1,
+      "explanation": "A es preposición (ir a un sitio).",
+      "sourceNotes": "BACKLOG ej.66",
+      "status": "approved"
+    },
+    {
+      "id": "frase-ha-a-07",
+      "sentence": "___ mí me gusta cantar.",
+      "options": [
+        "a",
+        "ha",
+        "ah",
+        "há"
+      ],
+      "correctIndex": 0,
+      "ruleId": "haber-hablar",
+      "itemType": "homophones",
+      "difficulty": 1,
+      "explanation": "A mí: preposición + pronombre.",
+      "sourceNotes": "BACKLOG ej.66",
+      "status": "approved"
+    },
+    {
+      "id": "frase-ha-a-08",
+      "sentence": "¿Vamos ___ llamar a Juan?",
+      "options": [
+        "a",
+        "ha",
+        "ah",
+        "há"
+      ],
+      "correctIndex": 0,
+      "ruleId": "haber-hablar",
+      "itemType": "homophones",
+      "difficulty": 1,
+      "explanation": "Ir a + infinitivo lleva a.",
+      "sourceNotes": "BACKLOG ej.66",
+      "status": "approved"
+    },
+    {
+      "id": "frase-ha-a-09",
+      "sentence": "¿Vamos a llamar ___ Juan?",
+      "options": [
+        "a",
+        "ha",
+        "ah",
+        "há"
+      ],
+      "correctIndex": 0,
+      "ruleId": "haber-hablar",
+      "itemType": "homophones",
+      "difficulty": 1,
+      "explanation": "A + persona (complemento).",
+      "sourceNotes": "BACKLOG ej.66",
+      "status": "approved"
+    },
+    {
+      "id": "frase-ha-a-10",
+      "sentence": "Mi madre ___ ido al cine.",
+      "options": [
+        "ha",
+        "a",
+        "ah",
+        "há"
+      ],
+      "correctIndex": 0,
+      "ruleId": "haber-hablar",
+      "itemType": "homophones",
+      "difficulty": 1,
+      "explanation": "Ha + participio (haber).",
+      "sourceNotes": "BACKLOG ej.68",
+      "status": "approved"
+    },
+    {
+      "id": "frase-ha-a-11",
+      "sentence": "Juan va ___ ir al circo.",
+      "options": [
+        "a",
+        "ha",
+        "ah",
+        "há"
+      ],
+      "correctIndex": 0,
+      "ruleId": "haber-hablar",
+      "itemType": "homophones",
+      "difficulty": 1,
+      "explanation": "Va a + infinitivo: preposición a.",
+      "sourceNotes": "BACKLOG ej.68",
+      "status": "approved"
+    },
+    {
+      "id": "frase-ha-a-12",
+      "sentence": "Hoy va ___ venir un profesor nuevo.",
+      "options": [
+        "a",
+        "ha",
+        "ah",
+        "há"
+      ],
+      "correctIndex": 0,
+      "ruleId": "haber-hablar",
+      "itemType": "homophones",
+      "difficulty": 1,
+      "explanation": "Va a + infinitivo: preposición a.",
+      "sourceNotes": "BACKLOG ej.68",
+      "status": "approved"
+    },
+    {
+      "id": "frase-ha-a-13",
+      "sentence": "Alba ___ jugado al parchís.",
+      "options": [
+        "ha",
+        "a",
+        "ah",
+        "há"
+      ],
+      "correctIndex": 0,
+      "ruleId": "haber-hablar",
+      "itemType": "homophones",
+      "difficulty": 1,
+      "explanation": "Ha + participio (haber).",
+      "sourceNotes": "BACKLOG ej.68",
       "status": "approved"
     }
   ]

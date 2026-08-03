@@ -93,16 +93,19 @@ describe('navegación Lengua → Palabras', () => {
     )
   })
 
-  it('abre Palabras y muestra Formar palabras y modos MCQ', () => {
+  it('abre Palabras y muestra Formar, Clasifica y modos MCQ', () => {
     renderAt('/missions/languages/words')
     expect(screen.getByRole('heading', { name: /^palabras$/i })).toBeInTheDocument()
     const formar = screen.getByRole('listitem', { name: /formar palabras/i })
     expect(formar).toHaveAttribute('href', '/missions/languages/formar-palabras')
-    expect(screen.getByRole('listitem', { name: /singular \/ plural/i })).toHaveAttribute(
+    expect(screen.getByRole('listitem', { name: /clasifica/i })).toHaveAttribute(
       'href',
-      '/missions/languages/words/singular-plural',
+      '/missions/languages/words/clasifica',
     )
-    expect(screen.getByRole('listitem', { name: /masculino \/ femenino/i })).toBeInTheDocument()
+    expect(screen.queryByRole('listitem', { name: /singular \/ plural/i })).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('listitem', { name: /masculino \/ femenino/i }),
+    ).not.toBeInTheDocument()
     expect(screen.getByRole('listitem', { name: /sinónimos/i })).toBeInTheDocument()
     expect(screen.getByRole('listitem', { name: /antónimos/i })).toBeInTheDocument()
   })
@@ -120,17 +123,20 @@ describe('navegación Lengua → Palabras', () => {
     expect(screen.getByText(/ordena las letras/i)).toBeInTheDocument()
   })
 
-  it('el catálogo de Palabras incluye formar + morph + relaciones', () => {
+  it('el catálogo de Palabras incluye formar + clasifica + relaciones + monta + varios', () => {
     const active = activeWordsExercises()
     expect(active.map((e) => e.id)).toEqual([
       'formar-palabras',
-      'singular-plural',
-      'masculino-femenino',
+      'clasifica',
       'sinonimos',
       'antonimos',
+      'monta-frase',
+      'quien-hace-que',
+      'comun-propio',
     ])
     expect(wordsExerciseHref(active[0]!)).toBe('/missions/languages/formar-palabras')
-    expect(wordsExerciseHref(active[1]!)).toBe('/missions/languages/words/singular-plural')
+    expect(wordsExerciseHref(active[1]!)).toBe('/missions/languages/words/clasifica')
+    expect(wordsExerciseHref(active[4]!)).toBe('/missions/languages/words/monta-frase')
   })
 
   it('el mapa de Lengua no muestra Escritura ni Comprensión', () => {

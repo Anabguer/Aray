@@ -8,7 +8,7 @@
     "level": "3-primaria",
     "locale": "es-ES",
     "revisionStatus": "approved",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "sourceEditorialPhase": "fase-editorial-base",
     "notes": "Convertido tras B/V. Colisiones de slug: ninguna. No conectado a minijuegos todavía."
   },
@@ -523,6 +523,413 @@
         "ref": null
       },
       "notes": "ANAYA refuerzo p.9 (_enio). Prioridad menor que el núcleo ge-/je-."
+    },
+    {
+      "id": "gj-jabon",
+      "lemma": "jabón",
+      "errors": [
+        "gabón",
+        "jabon"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Jabón se escribe con j.",
+      "frequency": "frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Ante e/i, mira si es g o j.",
+      "notes": "BACKLOG ej.69",
+      "tags": [
+        "tilde"
+      ],
+      "secondaryRuleIds": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "gj-callejon",
+      "lemma": "callejón",
+      "errors": [
+        "callegón",
+        "callejon"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Callejón se escribe con j.",
+      "frequency": "poco_frecuente",
+      "category": "ciudad",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Ante e/i, mira si es g o j.",
+      "notes": "BACKLOG ej.69",
+      "tags": [
+        "tilde"
+      ],
+      "secondaryRuleIds": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "gj-agente",
+      "lemma": "agente",
+      "errors": [
+        "ajente"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Agente se escribe con g.",
+      "frequency": "frecuente",
+      "category": "ciudad",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Ante e/i, mira si es g o j.",
+      "notes": "BACKLOG ej.88"
+    },
+    {
+      "id": "gj-giro",
+      "lemma": "giro",
+      "errors": [
+        "jiro"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Giro se escribe con g.",
+      "frequency": "frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Ante e/i, mira si es g o j.",
+      "notes": "BACKLOG ej.88"
+    },
+    {
+      "id": "gj-berenjena",
+      "lemma": "berenjena",
+      "errors": [
+        "berengena"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Berenjena se escribe con j.",
+      "frequency": "frecuente",
+      "category": "comida",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Ante e/i, mira si es g o j.",
+      "notes": "BACKLOG ej.88"
+    },
+    {
+      "id": "gj-tejido",
+      "lemma": "tejido",
+      "errors": [
+        "tegido"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Tejido se escribe con j.",
+      "frequency": "frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Ante e/i, mira si es g o j.",
+      "notes": "BACKLOG ej.88"
+    },
+    {
+      "id": "gj-astrologia",
+      "lemma": "astrología",
+      "errors": [
+        "astrolojía",
+        "astrologia"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Astrología se escribe con g.",
+      "frequency": "poco_frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Ante e/i, mira si es g o j.",
+      "notes": "BACKLOG ej.88",
+      "tags": [
+        "tilde"
+      ],
+      "secondaryRuleIds": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "gj-masajista",
+      "lemma": "masajista",
+      "errors": [
+        "masagista"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Masajista se escribe con j.",
+      "frequency": "poco_frecuente",
+      "category": "ciudad",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Ante e/i, mira si es g o j.",
+      "notes": "BACKLOG ej.88"
+    },
+    {
+      "id": "gj-digestion",
+      "lemma": "digestión",
+      "errors": [
+        "dijestión",
+        "digestion"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Digestión se escribe con g.",
+      "frequency": "frecuente",
+      "category": "cuerpo",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Ante e/i, mira si es g o j.",
+      "notes": "BACKLOG ej.88",
+      "tags": [
+        "tilde"
+      ],
+      "secondaryRuleIds": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "gj-cojin",
+      "lemma": "cojín",
+      "errors": [
+        "cogín",
+        "cojin"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Cojín se escribe con j.",
+      "frequency": "frecuente",
+      "category": "casa",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Ante e/i, mira si es g o j.",
+      "notes": "BACKLOG ej.88",
+      "tags": [
+        "tilde"
+      ],
+      "secondaryRuleIds": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "gj-agujetas",
+      "lemma": "agujetas",
+      "errors": [
+        "agugetas"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Agujetas se escribe con j.",
+      "frequency": "poco_frecuente",
+      "category": "cuerpo",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Ante e/i, mira si es g o j.",
+      "notes": "BACKLOG ej.88"
+    },
+    {
+      "id": "gj-angel",
+      "lemma": "Ángel",
+      "errors": [
+        "Ánjel",
+        "Angel"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Ángel se escribe con g.",
+      "frequency": "frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Ante e/i, mira si es g o j.",
+      "notes": "BACKLOG ej.88",
+      "tags": [
+        "tilde",
+        "nombre-propio"
+      ],
+      "secondaryRuleIds": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "gj-estrategia",
+      "lemma": "estrategia",
+      "errors": [
+        "estratejia"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Estrategia se escribe con g.",
+      "frequency": "poco_frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Ante e/i, mira si es g o j.",
+      "notes": "BACKLOG ej.88"
+    },
+    {
+      "id": "gj-garaje",
+      "lemma": "garaje",
+      "errors": [
+        "garage"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Garaje se escribe con g y j.",
+      "frequency": "frecuente",
+      "category": "casa",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Ante e/i, mira si es g o j.",
+      "notes": "BACKLOG ej.101"
+    },
+    {
+      "id": "gj-canjear",
+      "lemma": "canjear",
+      "errors": [
+        "cangear"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Canjear se escribe con j.",
+      "frequency": "poco_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Ante e/i, mira si es g o j.",
+      "notes": "BACKLOG ej.101"
+    },
+    {
+      "id": "gj-esponja",
+      "lemma": "esponja",
+      "errors": [
+        "esponga"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Esponja se escribe con j.",
+      "frequency": "frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Ante e/i, mira si es g o j.",
+      "notes": "BACKLOG ej.101"
+    },
+    {
+      "id": "gj-encaje",
+      "lemma": "encaje",
+      "errors": [
+        "encage"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Encaje se escribe con j.",
+      "frequency": "poco_frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Ante e/i, mira si es g o j.",
+      "notes": "BACKLOG ej.101"
+    },
+    {
+      "id": "gj-lejia",
+      "lemma": "lejía",
+      "errors": [
+        "legía",
+        "lejia"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Lejía se escribe con j.",
+      "frequency": "frecuente",
+      "category": "casa",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Ante e/i, mira si es g o j.",
+      "notes": "BACKLOG ej.101",
+      "tags": [
+        "tilde"
+      ],
+      "secondaryRuleIds": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "gj-germen",
+      "lemma": "germen",
+      "errors": [
+        "jermen"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Germen se escribe con g.",
+      "frequency": "poco_frecuente",
+      "category": "naturaleza",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Ante e/i, mira si es g o j.",
+      "notes": "BACKLOG ej.101"
+    },
+    {
+      "id": "gj-aligerar",
+      "lemma": "aligerar",
+      "errors": [
+        "alijerar"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Aligerar se escribe con g.",
+      "frequency": "poco_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Ante e/i, mira si es g o j.",
+      "notes": "BACKLOG ej.101"
+    },
+    {
+      "id": "gj-agencia",
+      "lemma": "agencia",
+      "errors": [
+        "ajencia"
+      ],
+      "ruleId": "g-j",
+      "ruleText": "Agencia se escribe con g.",
+      "frequency": "frecuente",
+      "category": "ciudad",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Ante e/i, mira si es g o j.",
+      "notes": "BACKLOG ej.101"
     }
   ]
 }

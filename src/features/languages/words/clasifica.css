@@ -1,0 +1,213 @@
+.clasifica-play {
+  display: grid;
+  gap: 1rem;
+  min-height: 0;
+  padding: 0.25rem 0 1rem;
+}
+
+.clasifica-head {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.clasifica-progress {
+  margin: 0;
+  font-size: 0.85rem;
+  opacity: 0.75;
+  font-weight: 600;
+}
+
+.clasifica-prompt-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.clasifica-prompt {
+  margin: 0;
+  flex: 1;
+  font-size: clamp(1.25rem, 4vw, 1.65rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.clasifica-help-btn {
+  flex: 0 0 auto;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 999px;
+  border: 2px solid color-mix(in srgb, var(--ink, #1a1a1a) 35%, transparent);
+  background: color-mix(in srgb, var(--surface, #fff) 88%, #7ec8e8);
+  font-weight: 800;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: inherit;
+}
+
+.clasifica-help-btn.is-open {
+  background: color-mix(in srgb, #7ec8e8 55%, #fff);
+}
+
+.clasifica-help {
+  margin: 0;
+  padding: 0.65rem 0.85rem;
+  border-radius: 0.85rem;
+  background: color-mix(in srgb, #7ec8e8 22%, var(--surface, #fff));
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+
+.clasifica-hint {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.clasifica-bins {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.clasifica-bins--2 {
+  grid-template-columns: 1fr 1fr;
+}
+
+.clasifica-bins--3 {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.clasifica-bins--4 {
+  grid-template-columns: 1fr 1fr;
+}
+
+.clasifica-bin {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  min-height: 5.5rem;
+  padding: 0.65rem 0.55rem;
+  border-radius: 1rem;
+  border: 2px dashed color-mix(in srgb, var(--ink, #1a1a1a) 28%, transparent);
+  background: color-mix(in srgb, var(--surface, #fff) 92%, #c8e6c9);
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    transform 0.12s ease;
+}
+
+.clasifica-bin:disabled {
+  cursor: default;
+  opacity: 0.92;
+}
+
+.clasifica-bin.is-target:not(:disabled) {
+  border-style: solid;
+  border-color: color-mix(in srgb, #2a9d8f 70%, transparent);
+  background: color-mix(in srgb, #2a9d8f 14%, var(--surface, #fff));
+}
+
+.clasifica-bin.is-wrong {
+  border-color: #c0392b;
+  background: color-mix(in srgb, #e74c3c 18%, var(--surface, #fff));
+  animation: clasifica-shake 0.4s ease;
+}
+
+.clasifica-bin__label {
+  font-weight: 800;
+  font-size: 1.05rem;
+  text-align: center;
+}
+
+.clasifica-bin__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  justify-content: center;
+  min-height: 1.75rem;
+}
+
+.clasifica-pool {
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.clasifica-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.5rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 0.85rem;
+  border: 2px solid color-mix(in srgb, var(--ink, #1a1a1a) 22%, transparent);
+  background: color-mix(in srgb, #ffe082 45%, var(--surface, #fff));
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  color: inherit;
+}
+
+.clasifica-chip:disabled {
+  cursor: default;
+}
+
+.clasifica-chip.is-selected {
+  border-color: #e67e22;
+  background: color-mix(in srgb, #e67e22 28%, #ffe082);
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 4px 0 color-mix(in srgb, #e67e22 35%, transparent);
+}
+
+.clasifica-chip--placed {
+  cursor: default;
+  background: color-mix(in srgb, #81c784 40%, var(--surface, #fff));
+  border-color: color-mix(in srgb, #2e7d32 45%, transparent);
+  font-size: 0.9rem;
+  min-height: 1.85rem;
+  padding: 0.2rem 0.55rem;
+}
+
+@keyframes clasifica-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}
+
+@media (max-width: 420px) {
+  .clasifica-bins--3 {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .clasifica-bins--3 .clasifica-bin:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clasifica-bin.is-wrong {
+    animation: none;
+  }
+
+  .clasifica-chip.is-selected {
+    transform: none;
+    box-shadow: none;
+  }
+}

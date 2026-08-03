@@ -42,18 +42,23 @@ describe('feinetas / ortografia / mpmb', () => {
     expect(pack.pack.ownerBank).toBe('ERRORES_REALES_MPMB.md')
     expect(pack.pack.ruleFamily).toBe('mb-mp-nv')
     expect(pack.pack.revisionStatus).toBe('approved')
+    expect(pack.pack.contentVersion).toBeGreaterThanOrEqual(2)
   })
 
-  it('18 lemas en orden del MD', () => {
+  it('conserva el núcleo MB/MP/NV y añade lemas de fichas', () => {
     const pack = mpmbPack as OrtographyLemmaPack
-    expect(pack.lemmas).toHaveLength(18)
-    expect(pack.lemmas.map((l) => l.lemma)).toEqual([...EXPECTED_LEMMAS])
+    expect(pack.lemmas.length).toBeGreaterThanOrEqual(EXPECTED_LEMMAS.length)
+    expect(EXPECTED_LEMMAS).toHaveLength(18)
+    const lemmas = pack.lemmas.map((l) => l.lemma)
+    expect(lemmas.slice(0, EXPECTED_LEMMAS.length)).toEqual([...EXPECTED_LEMMAS])
   })
 
   it('ids mpmb-* únicos, ruleId mb-mp-nv, errores válidos', () => {
     const pack = mpmbPack as OrtographyLemmaPack
-    expect(new Set(pack.lemmas.map((l) => l.id)).size).toBe(18)
-    expect(new Set(pack.lemmas.map((l) => l.lemma.toLocaleLowerCase('es'))).size).toBe(18)
+    expect(new Set(pack.lemmas.map((l) => l.id)).size).toBe(pack.lemmas.length)
+    expect(new Set(pack.lemmas.map((l) => l.lemma.toLocaleLowerCase('es'))).size).toBe(
+      pack.lemmas.length,
+    )
     for (const item of pack.lemmas) {
       expect(item.id).toMatch(/^mpmb-/)
       expect(item.ruleId).toBe('mb-mp-nv')
@@ -73,12 +78,12 @@ describe('feinetas / ortografia / mpmb', () => {
     expect(by.tambor).toBe('mpmb-tambor')
   })
 
-  it('frecuencias 8 / 8 / 2', () => {
+  it('frecuencias cubren las tres bandas', () => {
     const pack = mpmbPack as OrtographyLemmaPack
     const count = (f: string) => pack.lemmas.filter((l) => l.frequency === f).length
-    expect(count('muy_frecuente')).toBe(8)
-    expect(count('frecuente')).toBe(8)
-    expect(count('poco_frecuente')).toBe(2)
+    expect(count('muy_frecuente')).toBeGreaterThanOrEqual(8)
+    expect(count('frecuente')).toBeGreaterThanOrEqual(8)
+    expect(count('poco_frecuente')).toBeGreaterThanOrEqual(2)
   })
 
   it('no está en el catálogo jugable', () => {

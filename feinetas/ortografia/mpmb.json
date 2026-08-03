@@ -8,7 +8,7 @@
     "level": "3-primaria",
     "locale": "es-ES",
     "revisionStatus": "approved",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "sourceEditorialPhase": "fase-editorial-base",
     "notes": "Convertido en lote post-piloto. Colisiones: 0. No conectado a minijuegos."
   },
@@ -312,6 +312,149 @@
         "ref": null
       },
       "notes": "Vicens (plurales); ANAYA ampliación. Animal conocido; no es relleno abstracto."
+    },
+    {
+      "id": "mpmb-alfombra",
+      "lemma": "alfombra",
+      "errors": [
+        "alfonbra"
+      ],
+      "ruleId": "mb-mp-nv",
+      "ruleText": "Antes de b se escribe m (alfombra).",
+      "frequency": "frecuente",
+      "category": "casa",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Antes de b o p se escribe m.",
+      "notes": "BACKLOG ej.87"
+    },
+    {
+      "id": "mpmb-ambulancia",
+      "lemma": "ambulancia",
+      "errors": [
+        "anbulancia"
+      ],
+      "ruleId": "mb-mp-nv",
+      "ruleText": "Antes de b se escribe m (ambulancia).",
+      "frequency": "frecuente",
+      "category": "ciudad",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Antes de b o p se escribe m.",
+      "notes": "BACKLOG ej.87"
+    },
+    {
+      "id": "mpmb-alambre",
+      "lemma": "alambre",
+      "errors": [
+        "alanbre"
+      ],
+      "ruleId": "mb-mp-nv",
+      "ruleText": "Antes de b se escribe m (alambre).",
+      "frequency": "frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Antes de b o p se escribe m.",
+      "notes": "BACKLOG ej.87"
+    },
+    {
+      "id": "mpmb-bambu",
+      "lemma": "bambú",
+      "errors": [
+        "banbú",
+        "bambu"
+      ],
+      "ruleId": "mb-mp-nv",
+      "ruleText": "Antes de b se escribe m (bambú).",
+      "frequency": "poco_frecuente",
+      "category": "naturaleza",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Antes de b o p se escribe m.",
+      "notes": "BACKLOG ej.87",
+      "tags": [
+        "tilde"
+      ],
+      "secondaryRuleIds": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "mpmb-bombacho",
+      "lemma": "bombacho",
+      "errors": [
+        "bonbacho"
+      ],
+      "ruleId": "mb-mp-nv",
+      "ruleText": "Antes de b se escribe m (bombacho).",
+      "frequency": "poco_frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Antes de b o p se escribe m.",
+      "notes": "BACKLOG ej.87"
+    },
+    {
+      "id": "mpmb-invitar",
+      "lemma": "invitar",
+      "errors": [
+        "imvitar"
+      ],
+      "ruleId": "mb-mp-nv",
+      "ruleText": "Antes de v se escribe n (invitar).",
+      "frequency": "frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Antes de v se escribe n.",
+      "notes": "BACKLOG ej.87"
+    },
+    {
+      "id": "mpmb-asombro",
+      "lemma": "asombro",
+      "errors": [
+        "asonbro"
+      ],
+      "ruleId": "mb-mp-nv",
+      "ruleText": "Antes de b se escribe m (asombro).",
+      "frequency": "frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Antes de b o p se escribe m.",
+      "notes": "BACKLOG ej.87"
+    },
+    {
+      "id": "mpmb-chumbera",
+      "lemma": "chumbera",
+      "errors": [
+        "chunbera"
+      ],
+      "ruleId": "mb-mp-nv",
+      "ruleText": "Antes de b se escribe m (chumbera).",
+      "frequency": "poco_frecuente",
+      "category": "naturaleza",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Antes de b o p se escribe m.",
+      "notes": "BACKLOG ej.87"
     }
   ]
 }

@@ -8,7 +8,7 @@
     "level": "3-primaria",
     "locale": "es-ES",
     "revisionStatus": "approved",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "sourceEditorialPhase": "fase-editorial-base",
     "notes": "Convertido en lote post-piloto. Colisiones: 0. No conectado a minijuegos."
   },
@@ -455,6 +455,84 @@
       },
       "tip": "Algunas palabras se escriben con z.",
       "notes": "ANAYA ampliación (animales con c o z)."
+    },
+    {
+      "id": "czqu-cuentos",
+      "lemma": "cuentos",
+      "errors": [
+        "cuentoz",
+        "qüentos"
+      ],
+      "ruleId": "c-z-qu",
+      "ruleText": "Ante ue/ua el sonido /k/ se escribe c (cuentos).",
+      "frequency": "muy_frecuente",
+      "category": "colegio",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Ante ue/ua el sonido /k/ se escribe c.",
+      "notes": "BACKLOG ej.69"
+    },
+    {
+      "id": "czqu-cuantos",
+      "lemma": "cuántos",
+      "errors": [
+        "kuántos",
+        "cuantos"
+      ],
+      "ruleId": "c-z-qu",
+      "ruleText": "Ante ua el sonido /k/ se escribe c (cuántos).",
+      "frequency": "muy_frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Ante ua el sonido /k/ se escribe c.",
+      "notes": "BACKLOG ej.69",
+      "tags": [
+        "tilde"
+      ],
+      "secondaryRuleIds": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "czqu-cuando",
+      "lemma": "cuando",
+      "errors": [
+        "kuando",
+        "quando"
+      ],
+      "ruleId": "c-z-qu",
+      "ruleText": "Ante ua el sonido /k/ se escribe c (cuando).",
+      "frequency": "muy_frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Ante ua el sonido /k/ se escribe c.",
+      "notes": "BACKLOG ej.69"
+    },
+    {
+      "id": "czqu-cubo",
+      "lemma": "cubo",
+      "errors": [
+        "zubo",
+        "kubo"
+      ],
+      "ruleId": "c-z-qu",
+      "ruleText": "Ante u el sonido /k/ se escribe c (cubo).",
+      "frequency": "muy_frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Ante a, o, u el sonido /k/ se escribe c.",
+      "notes": "BACKLOG ej.74"
     }
   ]
 }

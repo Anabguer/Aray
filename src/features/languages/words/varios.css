@@ -1,0 +1,113 @@
+.varios-play {
+  display: grid;
+  gap: 1rem;
+  padding: 0.25rem 0 1rem;
+}
+
+.varios-head {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.varios-progress {
+  margin: 0;
+  font-size: 0.85rem;
+  opacity: 0.75;
+  font-weight: 600;
+}
+
+.varios-prompt-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.varios-prompt {
+  margin: 0;
+  flex: 1;
+  font-size: clamp(1.25rem, 4vw, 1.65rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.varios-help-btn {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 999px;
+  border: 2px solid color-mix(in srgb, var(--ink, #1a1a1a) 35%, transparent);
+  background: color-mix(in srgb, var(--surface, #fff) 88%, #a5d6a7);
+  font-weight: 800;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: inherit;
+}
+
+.varios-help-btn.is-open {
+  background: color-mix(in srgb, #a5d6a7 55%, #fff);
+}
+
+.varios-help {
+  margin: 0;
+  padding: 0.65rem 0.85rem;
+  border-radius: 0.85rem;
+  background: color-mix(in srgb, #a5d6a7 22%, var(--surface, #fff));
+  font-size: 0.95rem;
+}
+
+.varios-match {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.varios-col {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.varios-chip {
+  width: 100%;
+  min-height: 2.65rem;
+  padding: 0.4rem 0.65rem;
+  border-radius: 0.85rem;
+  border: 2px solid color-mix(in srgb, var(--ink, #1a1a1a) 22%, transparent);
+  background: color-mix(in srgb, #ffe082 40%, var(--surface, #fff));
+  font-weight: 700;
+  font-size: 0.98rem;
+  cursor: pointer;
+  color: inherit;
+}
+
+.varios-chip--right {
+  background: color-mix(in srgb, #90caf9 38%, var(--surface, #fff));
+}
+
+.varios-chip.is-selected {
+  border-color: #e67e22;
+  background: color-mix(in srgb, #e67e22 28%, #ffe082);
+}
+
+.varios-chip.is-target:not(:disabled) {
+  border-color: #2a9d8f;
+}
+
+.varios-chip.is-done {
+  opacity: 0.55;
+  background: color-mix(in srgb, #81c784 35%, var(--surface, #fff));
+  cursor: default;
+}
+
+.varios-chip.is-wrong {
+  border-color: #c0392b;
+  background: color-mix(in srgb, #e74c3c 18%, var(--surface, #fff));
+}
+
+.varios-hint {
+  margin: 0;
+  text-align: center;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}

@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "pack": {
+    "id": "palabras-varios-pares",
+    "title": "Varios (pares)",
+    "ownerBank": "BACKLOG.md 33/80/90",
+    "packKind": "varios-pares",
+    "level": "3-primaria",
+    "locale": "es-ES",
+    "revisionStatus": "approved",
+    "contentVersion": 1,
+    "notes": "Pronombre↔verbo y común↔propio."
+  },
+  "items": [
+    { "id": "pv-yo-escribo", "kind": "pronoun-verb", "left": "yo", "right": "escribo" },
+    { "id": "pv-tu-corres", "kind": "pronoun-verb", "left": "tú", "right": "corres" },
+    { "id": "pv-ellos-dibujaran", "kind": "pronoun-verb", "left": "ellos", "right": "dibujarán" },
+    { "id": "pv-nosotras-regabamos", "kind": "pronoun-verb", "left": "nosotras", "right": "regábamos" },
+    { "id": "pv-ella-bebio", "kind": "pronoun-verb", "left": "ella", "right": "bebió" },
+    { "id": "pv-vosotras-caminabais", "kind": "pronoun-verb", "left": "vosotras", "right": "caminabais" },
+    { "id": "pv-yo-dibujo", "kind": "pronoun-verb", "left": "yo", "right": "dibujo" },
+    { "id": "pv-tu-vives", "kind": "pronoun-verb", "left": "tú", "right": "vives" },
+    { "id": "pv-ellas-pagaban", "kind": "pronoun-verb", "left": "ellas", "right": "pagaban" },
+    { "id": "pv-nosotras-cantamos", "kind": "pronoun-verb", "left": "nosotras", "right": "cantamos" },
+    { "id": "pv-el-compra", "kind": "pronoun-verb", "left": "él", "right": "compra" },
+    { "id": "pv-vosotros-paseabais", "kind": "pronoun-verb", "left": "vosotros", "right": "paseabais" },
+    { "id": "cp-pueblo", "kind": "common-proper", "left": "pueblo", "right": "Valdeavellano" },
+    { "id": "cp-ciudad", "kind": "common-proper", "left": "ciudad", "right": "París" },
+    { "id": "cp-rio", "kind": "common-proper", "left": "río", "right": "Ebro" },
+    { "id": "cp-doctora", "kind": "common-proper", "left": "doctora", "right": "Elisa" },
+    { "id": "cp-panadero", "kind": "common-proper", "left": "panadero", "right": "Víctor" },
+    { "id": "cp-colegio", "kind": "common-proper", "left": "colegio", "right": "AFK Academy" },
+    { "id": "cp-amigo", "kind": "common-proper", "left": "amigo", "right": "Aray" },
+    { "id": "cp-juego", "kind": "common-proper", "left": "juego", "right": "Roblox" }
+  ]
+}

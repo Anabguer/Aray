@@ -1,25 +1,20 @@
 /**
- * Adaptadores Palabras → MCQ (morph + relaciones semánticas).
- * Solo datos editoriales; sin inventar distractores.
+ * Adaptadores Palabras → MCQ + Empareja (relaciones semánticas).
+ * Morph (singular/plural, género) pasó a Clasifica.
  */
-import {
-  listMorphItems,
-  listSemanticItems,
-  getWordsMorphPack,
-  getWordsSemanticPack,
-} from '@/feinetas/wordsBanks'
-import type { WordsMorphAxis } from '@/feinetas/wordsMorphPairPack'
+import { listSemanticItems, getWordsSemanticPack } from '@/feinetas/wordsBanks'
 import type { WordsSemanticRelationKind } from '@/feinetas/wordsSemanticRelationPack'
+import {
+  buildPalabrasMatchBoard,
+  type PalabrasMatchBoard,
+} from '@/minigames/adapters/palabrasMatch'
 
 export const PALABRAS_MCQ_ROUND_SIZE = 8
 
-export type PalabrasMcqProductId =
-  | 'singular-plural'
-  | 'masculino-femenino'
-  | 'sinonimos'
-  | 'antonimos'
+export type PalabrasMcqProductId = 'sinonimos' | 'antonimos'
 
 export type PalabrasMcqQuestion = {
+  format: 'mcq'
   id: string
   productId: PalabrasMcqProductId
   prompt: string
@@ -28,6 +23,8 @@ export type PalabrasMcqQuestion = {
   tip?: string
   itemKey: string
 }
+
+export type PalabrasRoundItem = PalabrasMcqQuestion | PalabrasMatchBoard
 
 /** Texto para el niño al fallar (sinónimos / antónimos). */
 export const SEMANTIC_MISS_TIP: Record<WordsSemanticRelationKind, string> = {
@@ -39,7 +36,6 @@ export const SEMANTIC_MISS_TIP: Record<WordsSemanticRelationKind, string> = {
 
 /**
  * Notas de ficha/editorial no se muestran al niño.
- * («Eje fitxa 04», ANAYA, Vicens, solucionari…)
  */
 export function kidFacingTip(raw: string | undefined): string | undefined {
   if (!raw?.trim()) return undefined
@@ -99,77 +95,18 @@ function buildOptions(
   return { options, correctIndex }
 }
 
-function axisForProduct(productId: PalabrasMcqProductId): WordsMorphAxis | null {
-  if (productId === 'singular-plural') return 'number'
-  if (productId === 'masculino-femenino') return 'gender'
-  return null
-}
-
 function relationForProduct(
   productId: PalabrasMcqProductId,
-): WordsSemanticRelationKind | null {
-  if (productId === 'sinonimos') return 'synonym'
-  if (productId === 'antonimos') return 'antonym'
-  return null
-}
-
-export function buildPalabrasMorphQuestion(
-  productId: 'singular-plural' | 'masculino-femenino',
-  seed: number,
-  usedIds: Set<string>,
-): PalabrasMcqQuestion {
-  const axis = axisForProduct(productId)!
-  const pack = getWordsMorphPack()
-  const pool = shuffle(
-    listMorphItems(axis).filter((i) => !usedIds.has(i.id)),
-    mulberry32(seed),
-  )
-  const item = pool[0] ?? shuffle(listMorphItems(axis), mulberry32(seed + 1))[0]
-  if (!item) throw new Error(`[palabras] Sin ítems morph axis=${axis}`)
-  usedIds.add(item.id)
-
-  const rand = mulberry32(seed + 17)
-  const askForB =
-    item.promptSide === 'b'
-      ? true
-      : item.promptSide === 'a'
-        ? false
-        : rand() < 0.5
-  const shown = askForB ? item.formA : item.formB
-  const correct = askForB ? item.formB : item.formA
-
-  const prompt =
-    axis === 'number'
-      ? askForB
-        ? `¿Cuál es el plural de «${shown}»?`
-        : `¿Cuál es el singular de «${shown}»?`
-      : askForB
-        ? `¿Cuál es el femenino de «${shown}»?`
-        : `¿Cuál es el masculino de «${shown}»?`
-
-  const editorialWrong = (item.distractors ?? []).filter(
-    (d) => norm(d) !== norm(correct) && norm(d) !== norm(shown),
-  )
-  const wrongs = editorialWrong.length > 0 ? editorialWrong : [shown]
-  const { options, correctIndex } = buildOptions(correct, wrongs, rand)
-
-  return {
-    id: `${productId}-${item.id}-${seed}`,
-    productId,
-    prompt,
-    options,
-    correctIndex,
-    tip: kidFacingTip(item.notes ?? item.note),
-    itemKey: `${pack.pack.id}:${item.id}`,
-  }
+): WordsSemanticRelationKind {
+  return productId === 'sinonimos' ? 'synonym' : 'antonym'
 }
 
 export function buildPalabrasSemanticQuestion(
-  productId: 'sinonimos' | 'antonimos',
+  productId: PalabrasMcqProductId,
   seed: number,
   usedIds: Set<string>,
 ): PalabrasMcqQuestion {
-  const relation = relationForProduct(productId)!
+  const relation = relationForProduct(productId)
   const pack = getWordsSemanticPack()
   const pool = shuffle(
     listSemanticItems(relation).filter((i) => !usedIds.has(i.id)),
@@ -193,6 +130,7 @@ export function buildPalabrasSemanticQuestion(
   )
 
   return {
+    format: 'mcq',
     id: `${productId}-${item.id}-${seed}`,
     productId,
     prompt,
@@ -203,36 +141,50 @@ export function buildPalabrasSemanticQuestion(
   }
 }
 
+/**
+ * Ronda mixta: ~half MCQ, ~half Empareja (según semilla).
+ * Empareja cuenta como 1 ítem de ronda (tablero completo).
+ */
 export function buildPalabrasMcqRound(
   productId: PalabrasMcqProductId,
   count = PALABRAS_MCQ_ROUND_SIZE,
   seed = Date.now(),
-): PalabrasMcqQuestion[] {
+): PalabrasRoundItem[] {
   const used = new Set<string>()
-  const out: PalabrasMcqQuestion[] = []
+  const out: PalabrasRoundItem[] = []
+  const random = mulberry32(seed)
   for (let i = 0; i < count; i += 1) {
     const qSeed = seed + i * 7919
-    if (productId === 'singular-plural' || productId === 'masculino-femenino') {
-      out.push(buildPalabrasMorphQuestion(productId, qSeed, used))
+    // ~35% Empareja, resto MCQ
+    const wantMatch = random() < 0.35
+    if (wantMatch) {
+      out.push(buildPalabrasMatchBoard(productId, qSeed, 4, used))
     } else {
       out.push(buildPalabrasSemanticQuestion(productId, qSeed, used))
     }
+  }
+  // Garantizar al menos 1 de cada si hay stock
+  const hasMcq = out.some((q) => q.format === 'mcq')
+  const hasMatch = out.some((q) => q.format === 'match')
+  if (!hasMatch && out.length > 0) {
+    out[out.length - 1] = buildPalabrasMatchBoard(
+      productId,
+      seed + 4242,
+      4,
+      used,
+    )
+  }
+  if (!hasMcq && out.length > 1) {
+    out[0] = buildPalabrasSemanticQuestion(productId, seed + 111, used)
   }
   return out
 }
 
 export function isPalabrasMcqProductId(v: string): v is PalabrasMcqProductId {
-  return (
-    v === 'singular-plural' ||
-    v === 'masculino-femenino' ||
-    v === 'sinonimos' ||
-    v === 'antonimos'
-  )
+  return v === 'sinonimos' || v === 'antonimos'
 }
 
 export const PALABRAS_MCQ_LABELS: Record<PalabrasMcqProductId, string> = {
-  'singular-plural': 'Singular / plural',
-  'masculino-femenino': 'Masculino / femenino',
   sinonimos: 'Sinónimos',
   antonimos: 'Antónimos',
 }

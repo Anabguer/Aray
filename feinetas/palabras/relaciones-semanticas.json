@@ -8,7 +8,7 @@
     "level": "3-primaria",
     "locale": "es-ES",
     "revisionStatus": "frozen",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "sourceEditorialPhase": "fase-editorial-palabras",
     "notes": "Congelado 2026-08-02. Conectado: sinonimos + antonimos."
   },
@@ -18,7 +18,10 @@
       "anchor": "contento",
       "target": "alegre",
       "relation": "synonym",
-      "distractors": ["triste", "grande"],
+      "distractors": [
+        "triste",
+        "grande"
+      ],
       "difficulty": 1,
       "category": "emociones",
       "notes": "Fitxa 03; solucionari; cap_03."
@@ -28,7 +31,10 @@
       "anchor": "grande",
       "target": "enorme",
       "relation": "synonym",
-      "distractors": ["pequeño", "lento"],
+      "distractors": [
+        "pequeño",
+        "lento"
+      ],
       "difficulty": 1,
       "category": "tamaño",
       "notes": "Fitxa 03; multi-banco formar-palabras."
@@ -38,7 +44,10 @@
       "anchor": "lugar",
       "target": "sitio",
       "relation": "synonym",
-      "distractors": ["veloz", "bonito"],
+      "distractors": [
+        "veloz",
+        "bonito"
+      ],
       "difficulty": 1,
       "category": "espacio",
       "notes": "Fitxa 03; solucionari."
@@ -48,7 +57,10 @@
       "anchor": "alzar",
       "target": "levantar",
       "relation": "synonym",
-      "distractors": ["curar", "apagar"],
+      "distractors": [
+        "curar",
+        "apagar"
+      ],
       "difficulty": 3,
       "category": "acciones",
       "notes": "Fitxa 04 + ANAYA refuerzo."
@@ -58,7 +70,10 @@
       "anchor": "sanar",
       "target": "curar",
       "relation": "synonym",
-      "distractors": ["alzar", "vencer"],
+      "distractors": [
+        "alzar",
+        "vencer"
+      ],
       "difficulty": 2,
       "category": "acciones",
       "notes": "Fitxa 04 + ANAYA refuerzo."
@@ -68,7 +83,10 @@
       "anchor": "aroma",
       "target": "perfume",
       "relation": "synonym",
-      "distractors": ["hermoso", "rápido"],
+      "distractors": [
+        "hermoso",
+        "rápido"
+      ],
       "difficulty": 3,
       "category": "sentidos",
       "notes": "Fitxa 04 + ANAYA refuerzo."
@@ -78,7 +96,10 @@
       "anchor": "bonito",
       "target": "hermoso",
       "relation": "synonym",
-      "distractors": ["feo", "ruidoso"],
+      "distractors": [
+        "feo",
+        "ruidoso"
+      ],
       "difficulty": 1,
       "category": "cualidad",
       "notes": "Fitxa 04."
@@ -88,7 +109,10 @@
       "anchor": "abecedario",
       "target": "alfabeto",
       "relation": "synonym",
-      "distractors": ["aroma", "lugar"],
+      "distractors": [
+        "aroma",
+        "lugar"
+      ],
       "difficulty": 2,
       "category": "colegio",
       "notes": "ANAYA ampliación."
@@ -98,7 +122,10 @@
       "anchor": "complicada",
       "target": "difícil",
       "relation": "synonym",
-      "distractors": ["fácil", "veloz"],
+      "distractors": [
+        "fácil",
+        "veloz"
+      ],
       "difficulty": 2,
       "category": "cualidad",
       "notes": "ANAYA ampliación."
@@ -108,7 +135,10 @@
       "anchor": "vencer",
       "target": "triunfar",
       "relation": "synonym",
-      "distractors": ["perder", "sufrir"],
+      "distractors": [
+        "perder",
+        "sufrir"
+      ],
       "difficulty": 3,
       "category": "acciones",
       "notes": "ANAYA ampliación."
@@ -118,7 +148,10 @@
       "anchor": "veloz",
       "target": "rápido",
       "relation": "synonym",
-      "distractors": ["lento", "enorme"],
+      "distractors": [
+        "lento",
+        "enorme"
+      ],
       "difficulty": 2,
       "category": "cualidad",
       "notes": "ANAYA ampliación."
@@ -128,7 +161,10 @@
       "anchor": "disgustado",
       "target": "enfadado",
       "relation": "synonym",
-      "distractors": ["contento", "generoso"],
+      "distractors": [
+        "contento",
+        "generoso"
+      ],
       "difficulty": 2,
       "category": "emociones",
       "notes": "ANAYA refuerzo; solucionari cap_04."
@@ -138,7 +174,10 @@
       "anchor": "grande",
       "target": "pequeño",
       "relation": "antonym",
-      "distractors": ["enorme", "alto"],
+      "distractors": [
+        "enorme",
+        "alto"
+      ],
       "difficulty": 1,
       "category": "tamaño",
       "notes": "Multi-banco formar-palabras."
@@ -148,7 +187,10 @@
       "anchor": "alto",
       "target": "bajo",
       "relation": "antonym",
-      "distractors": ["grande", "rápido"],
+      "distractors": [
+        "grande",
+        "rápido"
+      ],
       "difficulty": 1,
       "category": "tamaño",
       "notes": "Multi-banco formar-palabras."
@@ -158,7 +200,10 @@
       "anchor": "veloz",
       "target": "lento",
       "relation": "antonym",
-      "distractors": ["rápido", "difícil"],
+      "distractors": [
+        "rápido",
+        "difícil"
+      ],
       "difficulty": 2,
       "category": "cualidad",
       "notes": "ANAYA ampliación."
@@ -168,7 +213,10 @@
       "anchor": "difícil",
       "target": "fácil",
       "relation": "antonym",
-      "distractors": ["complicada", "veloz"],
+      "distractors": [
+        "complicada",
+        "veloz"
+      ],
       "difficulty": 1,
       "category": "cualidad",
       "notes": "ANAYA ampliación."
@@ -178,7 +226,10 @@
       "anchor": "disfrutar",
       "target": "sufrir",
       "relation": "antonym",
-      "distractors": ["vencer", "perder"],
+      "distractors": [
+        "vencer",
+        "perder"
+      ],
       "difficulty": 3,
       "category": "acciones",
       "notes": "ANAYA ampliación."
@@ -188,7 +239,10 @@
       "anchor": "vencer",
       "target": "perder",
       "relation": "antonym",
-      "distractors": ["triunfar", "alegre"],
+      "distractors": [
+        "triunfar",
+        "alegre"
+      ],
       "difficulty": 2,
       "category": "acciones",
       "notes": "ANAYA ampliación."
@@ -198,7 +252,10 @@
       "anchor": "tacaño",
       "target": "generoso",
       "relation": "antonym",
-      "distractors": ["disgustado", "ruidoso"],
+      "distractors": [
+        "disgustado",
+        "ruidoso"
+      ],
       "difficulty": 3,
       "category": "cualidad",
       "notes": "ANAYA refuerzo."
@@ -208,7 +265,10 @@
       "anchor": "apagar",
       "target": "encender",
       "relation": "antonym",
-      "distractors": ["alzar", "sanar"],
+      "distractors": [
+        "alzar",
+        "sanar"
+      ],
       "difficulty": 2,
       "category": "acciones",
       "notes": "ANAYA refuerzo."
@@ -218,7 +278,10 @@
       "anchor": "ocupado",
       "target": "libre",
       "relation": "antonym",
-      "distractors": ["claro", "ruidoso"],
+      "distractors": [
+        "claro",
+        "ruidoso"
+      ],
       "difficulty": 2,
       "category": "cualidad",
       "notes": "ANAYA refuerzo."
@@ -228,7 +291,10 @@
       "anchor": "claro",
       "target": "oscuro",
       "relation": "antonym",
-      "distractors": ["ocupado", "ruidoso"],
+      "distractors": [
+        "ocupado",
+        "ruidoso"
+      ],
       "difficulty": 2,
       "category": "cualidad",
       "notes": "ANAYA refuerzo."
@@ -238,7 +304,10 @@
       "anchor": "ruidoso",
       "target": "silencioso",
       "relation": "antonym",
-      "distractors": ["bonito", "claro"],
+      "distractors": [
+        "bonito",
+        "claro"
+      ],
       "difficulty": 2,
       "category": "cualidad",
       "notes": "ANAYA refuerzo."
@@ -248,7 +317,10 @@
       "anchor": "alegre",
       "target": "triste",
       "relation": "antonym",
-      "distractors": ["feliz", "contento"],
+      "distractors": [
+        "feliz",
+        "contento"
+      ],
       "difficulty": 1,
       "category": "emociones",
       "notes": "Eje emocional del banco."
@@ -258,7 +330,10 @@
       "anchor": "montar",
       "target": "desmontar",
       "relation": "antonym",
-      "distractors": ["apagar", "encender"],
+      "distractors": [
+        "apagar",
+        "encender"
+      ],
       "difficulty": 3,
       "category": "acciones",
       "notes": "ANAYA refuerzo; uso real infantil."
@@ -268,10 +343,364 @@
       "anchor": "bonito",
       "target": "feo",
       "relation": "antonym",
-      "distractors": ["hermoso", "aroma"],
+      "distractors": [
+        "hermoso",
+        "aroma"
+      ],
       "difficulty": 1,
       "category": "cualidad",
       "notes": "Eje fitxa 04."
+    },
+    {
+      "id": "rel-rizado-liso",
+      "anchor": "rizado",
+      "target": "liso",
+      "relation": "antonym",
+      "distractors": [
+        "verdad",
+        "aburrido"
+      ],
+      "difficulty": 2,
+      "category": "cualidad",
+      "notes": "BACKLOG 15"
+    },
+    {
+      "id": "rel-mentira-verdad",
+      "anchor": "mentira",
+      "target": "verdad",
+      "relation": "antonym",
+      "distractors": [
+        "liso",
+        "primero"
+      ],
+      "difficulty": 2,
+      "category": "cualidad",
+      "notes": "BACKLOG 15"
+    },
+    {
+      "id": "rel-primero-ultimo",
+      "anchor": "primero",
+      "target": "último",
+      "relation": "antonym",
+      "distractors": [
+        "divertido",
+        "libre"
+      ],
+      "difficulty": 2,
+      "category": "cualidad",
+      "notes": "BACKLOG 15"
+    },
+    {
+      "id": "rel-divertido-aburrido",
+      "anchor": "divertido",
+      "target": "aburrido",
+      "relation": "antonym",
+      "distractors": [
+        "rizado",
+        "ocupado"
+      ],
+      "difficulty": 2,
+      "category": "cualidad",
+      "notes": "BACKLOG 15"
+    },
+    {
+      "id": "rel-luminoso-oscuro",
+      "anchor": "luminoso",
+      "target": "oscuro",
+      "relation": "antonym",
+      "distractors": [
+        "amplio",
+        "silencioso"
+      ],
+      "difficulty": 2,
+      "category": "cualidad",
+      "notes": "BACKLOG 45"
+    },
+    {
+      "id": "rel-reducido-amplio",
+      "anchor": "reducido",
+      "target": "amplio",
+      "relation": "antonym",
+      "distractors": [
+        "oscuro",
+        "ordenado"
+      ],
+      "difficulty": 2,
+      "category": "cualidad",
+      "notes": "BACKLOG 45"
+    },
+    {
+      "id": "rel-ordenado-destartalado",
+      "anchor": "ordenado",
+      "target": "destartalado",
+      "relation": "antonym",
+      "distractors": [
+        "luminoso",
+        "amplio"
+      ],
+      "difficulty": 2,
+      "category": "cualidad",
+      "notes": "BACKLOG 45"
+    },
+    {
+      "id": "rel-lleno-vacio",
+      "anchor": "lleno",
+      "target": "vacío",
+      "relation": "antonym",
+      "distractors": [
+        "largo",
+        "malo"
+      ],
+      "difficulty": 2,
+      "category": "cualidad",
+      "notes": "BACKLOG 78"
+    },
+    {
+      "id": "rel-largo-corto",
+      "anchor": "largo",
+      "target": "corto",
+      "relation": "antonym",
+      "distractors": [
+        "lleno",
+        "bueno"
+      ],
+      "difficulty": 2,
+      "category": "cualidad",
+      "notes": "BACKLOG 78"
+    },
+    {
+      "id": "rel-bueno-malo",
+      "anchor": "bueno",
+      "target": "malo",
+      "relation": "antonym",
+      "distractors": [
+        "lleno",
+        "corto"
+      ],
+      "difficulty": 2,
+      "category": "cualidad",
+      "notes": "BACKLOG 78"
+    },
+    {
+      "id": "rel-cerrado-abierto",
+      "anchor": "cerrado",
+      "target": "abierto",
+      "relation": "antonym",
+      "distractors": [
+        "lleno",
+        "malo"
+      ],
+      "difficulty": 2,
+      "category": "cualidad",
+      "notes": "BACKLOG 78"
+    },
+    {
+      "id": "rel-sincero-embustero",
+      "anchor": "sincero",
+      "target": "embustero",
+      "relation": "antonym",
+      "distractors": [
+        "callado",
+        "entretenido"
+      ],
+      "difficulty": 2,
+      "category": "cualidad",
+      "notes": "BACKLOG 89"
+    },
+    {
+      "id": "rel-parlanchin-callado",
+      "anchor": "parlanchín",
+      "target": "callado",
+      "relation": "antonym",
+      "distractors": [
+        "sincero",
+        "monótono"
+      ],
+      "difficulty": 2,
+      "category": "cualidad",
+      "notes": "BACKLOG 89"
+    },
+    {
+      "id": "rel-monotono-entretenido",
+      "anchor": "monótono",
+      "target": "entretenido",
+      "relation": "antonym",
+      "distractors": [
+        "callado",
+        "fortuito"
+      ],
+      "difficulty": 2,
+      "category": "cualidad",
+      "notes": "BACKLOG 89"
+    },
+    {
+      "id": "rel-fortuito-preparado",
+      "anchor": "fortuito",
+      "target": "preparado",
+      "relation": "antonym",
+      "distractors": [
+        "sincero",
+        "entretenido"
+      ],
+      "difficulty": 2,
+      "category": "cualidad",
+      "notes": "BACKLOG 89"
+    },
+    {
+      "id": "rel-entrar-salir",
+      "anchor": "entrar",
+      "target": "salir",
+      "relation": "antonym",
+      "distractors": [
+        "fuerte",
+        "hablar"
+      ],
+      "difficulty": 2,
+      "category": "cualidad",
+      "notes": "BACKLOG 92"
+    },
+    {
+      "id": "rel-fuerte-debil",
+      "anchor": "fuerte",
+      "target": "débil",
+      "relation": "antonym",
+      "distractors": [
+        "entrar",
+        "soso"
+      ],
+      "difficulty": 2,
+      "category": "cualidad",
+      "notes": "BACKLOG 92"
+    },
+    {
+      "id": "rel-abrir-cerrar",
+      "anchor": "abrir",
+      "target": "cerrar",
+      "relation": "antonym",
+      "distractors": [
+        "entrar",
+        "débil"
+      ],
+      "difficulty": 2,
+      "category": "cualidad",
+      "notes": "BACKLOG 92"
+    },
+    {
+      "id": "rel-callar-hablar",
+      "anchor": "callar",
+      "target": "hablar",
+      "relation": "antonym",
+      "distractors": [
+        "fuerte",
+        "soso"
+      ],
+      "difficulty": 2,
+      "category": "cualidad",
+      "notes": "BACKLOG 92"
+    },
+    {
+      "id": "rel-sabroso-soso",
+      "anchor": "sabroso",
+      "target": "soso",
+      "relation": "antonym",
+      "distractors": [
+        "débil",
+        "salir"
+      ],
+      "difficulty": 2,
+      "category": "cualidad",
+      "notes": "BACKLOG 92"
+    },
+    {
+      "id": "rel-divertido-gracioso",
+      "anchor": "divertido",
+      "target": "gracioso",
+      "relation": "synonym",
+      "distractors": [
+        "risueño",
+        "cordial"
+      ],
+      "difficulty": 2,
+      "category": "cualidad",
+      "notes": "BACKLOG 43"
+    },
+    {
+      "id": "rel-sonriente-risueno",
+      "anchor": "sonriente",
+      "target": "risueño",
+      "relation": "synonym",
+      "distractors": [
+        "gracioso",
+        "espléndido"
+      ],
+      "difficulty": 2,
+      "category": "cualidad",
+      "notes": "BACKLOG 43"
+    },
+    {
+      "id": "rel-generoso-esplendido",
+      "anchor": "generoso",
+      "target": "espléndido",
+      "relation": "synonym",
+      "distractors": [
+        "cordial",
+        "gracioso"
+      ],
+      "difficulty": 2,
+      "category": "cualidad",
+      "notes": "BACKLOG 43"
+    },
+    {
+      "id": "rel-amable-cordial",
+      "anchor": "amable",
+      "target": "cordial",
+      "relation": "synonym",
+      "distractors": [
+        "risueño",
+        "espléndido"
+      ],
+      "difficulty": 2,
+      "category": "cualidad",
+      "notes": "BACKLOG 43"
+    },
+    {
+      "id": "rel-debil-fragil",
+      "anchor": "débil",
+      "target": "frágil",
+      "relation": "synonym",
+      "distractors": [
+        "veloz",
+        "amar"
+      ],
+      "difficulty": 2,
+      "category": "cualidad",
+      "notes": "BACKLOG 91"
+    },
+    {
+      "id": "rel-querer-amar",
+      "anchor": "querer",
+      "target": "amar",
+      "relation": "synonym",
+      "distractors": [
+        "frágil",
+        "veloz"
+      ],
+      "difficulty": 2,
+      "category": "cualidad",
+      "notes": "BACKLOG 91"
+    },
+    {
+      "id": "rel-feliz-contento",
+      "anchor": "feliz",
+      "target": "contento",
+      "relation": "synonym",
+      "distractors": [
+        "veloz",
+        "frágil"
+      ],
+      "difficulty": 2,
+      "category": "cualidad",
+      "notes": "BACKLOG 91"
     }
   ]
 }

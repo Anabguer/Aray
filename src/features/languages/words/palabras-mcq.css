@@ -19,3 +19,89 @@
   font-size: 0.95rem;
   opacity: 0.9;
 }
+
+.palabras-mcq-help-row {
+  display: grid;
+  gap: 0.45rem;
+  justify-items: start;
+  padding-top: 0.25rem;
+}
+
+.palabras-help-btn {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  border: 2px solid color-mix(in srgb, var(--ink, #1a1a1a) 30%, transparent);
+  background: color-mix(in srgb, var(--surface, #fff) 88%, #ce93d8);
+  font-weight: 800;
+  cursor: pointer;
+  color: inherit;
+}
+
+.palabras-help-btn.is-open {
+  background: color-mix(in srgb, #ce93d8 45%, #fff);
+}
+
+.palabras-match {
+  display: grid;
+  gap: 0.65rem;
+  width: 100%;
+}
+
+.palabras-match__cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.palabras-match__col {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.palabras-match__chip {
+  width: 100%;
+  min-height: 2.65rem;
+  padding: 0.4rem 0.65rem;
+  border-radius: 0.85rem;
+  border: 2px solid color-mix(in srgb, var(--ink, #1a1a1a) 22%, transparent);
+  background: color-mix(in srgb, #ffe082 40%, var(--surface, #fff));
+  font-weight: 700;
+  font-size: 0.98rem;
+  cursor: pointer;
+  color: inherit;
+}
+
+.palabras-match__chip--right {
+  background: color-mix(in srgb, #90caf9 38%, var(--surface, #fff));
+}
+
+.palabras-match__chip.is-selected {
+  border-color: #e67e22;
+  background: color-mix(in srgb, #e67e22 28%, #ffe082);
+}
+
+.palabras-match__chip.is-target:not(:disabled) {
+  border-color: #2a9d8f;
+}
+
+.palabras-match__chip.is-done {
+  opacity: 0.55;
+  background: color-mix(in srgb, #81c784 35%, var(--surface, #fff));
+  cursor: default;
+}
+
+.palabras-match__chip.is-wrong {
+  border-color: #c0392b;
+  background: color-mix(in srgb, #e74c3c 18%, var(--surface, #fff));
+}
+
+.palabras-match__hint {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.8;
+  text-align: center;
+}

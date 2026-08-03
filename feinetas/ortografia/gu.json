@@ -8,7 +8,7 @@
     "level": "3-primaria",
     "locale": "es-ES",
     "revisionStatus": "approved",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "sourceEditorialPhase": "fase-2-ortografia",
     "notes": "Fase 2. Colisiones: 0. No conectado al juego."
   },
@@ -180,6 +180,121 @@
         "ref": null
       },
       "notes": "ANAYA refuerzo (completar: _inda)."
+    },
+    {
+      "id": "gu-hoguera",
+      "lemma": "hoguera",
+      "errors": [
+        "hogera",
+        "joguera"
+      ],
+      "ruleId": "gu-gue",
+      "ruleText": "Gue, gui suenan /ge/ /gi/; hoguera se escribe con gu.",
+      "frequency": "frecuente",
+      "category": "naturaleza",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Antes de e o i hace falta la u.",
+      "notes": "BACKLOG ej.81"
+    },
+    {
+      "id": "gu-manguito",
+      "lemma": "manguito",
+      "errors": [
+        "mangito",
+        "manjuito"
+      ],
+      "ruleId": "gu-gue",
+      "ruleText": "Gue, gui suenan /ge/ /gi/; manguito se escribe con gu.",
+      "frequency": "poco_frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Antes de e o i hace falta la u.",
+      "notes": "BACKLOG ej.81"
+    },
+    {
+      "id": "gu-trigo",
+      "lemma": "trigo",
+      "errors": [
+        "triguo",
+        "trijo"
+      ],
+      "ruleId": "gu-gue",
+      "ruleText": "Ante a, o, u se escribe g (trigo).",
+      "frequency": "frecuente",
+      "category": "comida",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Ante a, o, u se escribe g (sin u intermedia).",
+      "notes": "BACKLOG ej.81"
+    },
+    {
+      "id": "gu-bodega",
+      "lemma": "bodega",
+      "errors": [
+        "bodegua",
+        "vodega"
+      ],
+      "ruleId": "gu-gue",
+      "ruleText": "Ante a, o, u se escribe g (bodega).",
+      "frequency": "frecuente",
+      "category": "casa",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Ante a, o, u se escribe g (sin u intermedia).",
+      "notes": "BACKLOG ej.81"
+    },
+    {
+      "id": "gu-malaga",
+      "lemma": "Málaga",
+      "errors": [
+        "Málagua",
+        "Malaga"
+      ],
+      "ruleId": "gu-gue",
+      "ruleText": "Ante a, o, u se escribe g (Málaga).",
+      "frequency": "poco_frecuente",
+      "category": "ciudad",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Ante a, o, u se escribe g (sin u intermedia).",
+      "notes": "BACKLOG ej.81",
+      "tags": [
+        "tilde",
+        "nombre-propio"
+      ],
+      "secondaryRuleIds": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "gu-agujero",
+      "lemma": "agujero",
+      "errors": [
+        "agjero",
+        "ajujero"
+      ],
+      "ruleId": "gu-gue",
+      "ruleText": "Gue, gui suenan /ge/ /gi/; agujero se escribe con gu.",
+      "frequency": "frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Antes de e o i hace falta la u.",
+      "notes": "BACKLOG ej.81"
     }
   ]
 }

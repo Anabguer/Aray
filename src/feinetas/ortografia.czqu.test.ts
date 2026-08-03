@@ -49,18 +49,23 @@ describe('feinetas / ortografia / czqu', () => {
     expect(pack.pack.ownerBank).toBe('ERRORES_REALES_CZQU.md')
     expect(pack.pack.ruleFamily).toBe('c-z-qu')
     expect(pack.pack.revisionStatus).toBe('approved')
+    expect(pack.pack.contentVersion).toBeGreaterThanOrEqual(2)
   })
 
-  it('25 lemas en orden del MD', () => {
+  it('conserva el núcleo C/Z/QU y añade lemas de fichas', () => {
     const pack = czquPack as OrtographyLemmaPack
-    expect(pack.lemmas).toHaveLength(25)
-    expect(pack.lemmas.map((l) => l.lemma)).toEqual([...EXPECTED_LEMMAS])
+    expect(pack.lemmas.length).toBeGreaterThanOrEqual(EXPECTED_LEMMAS.length)
+    expect(EXPECTED_LEMMAS).toHaveLength(25)
+    const lemmas = pack.lemmas.map((l) => l.lemma)
+    expect(lemmas.slice(0, EXPECTED_LEMMAS.length)).toEqual([...EXPECTED_LEMMAS])
   })
 
   it('ids czqu-* únicos, ruleId c-z-qu, errores válidos', () => {
     const pack = czquPack as OrtographyLemmaPack
-    expect(new Set(pack.lemmas.map((l) => l.id)).size).toBe(25)
-    expect(new Set(pack.lemmas.map((l) => l.lemma.toLocaleLowerCase('es'))).size).toBe(25)
+    expect(new Set(pack.lemmas.map((l) => l.id)).size).toBe(pack.lemmas.length)
+    expect(new Set(pack.lemmas.map((l) => l.lemma.toLocaleLowerCase('es'))).size).toBe(
+      pack.lemmas.length,
+    )
     for (const item of pack.lemmas) {
       expect(item.id).toMatch(/^czqu-/)
       expect(item.ruleId).toBe('c-z-qu')
@@ -81,12 +86,12 @@ describe('feinetas / ortografia / czqu', () => {
     expect(by['pequeño']).toBe('czqu-pequeno')
   })
 
-  it('frecuencias 8 / 12 / 5', () => {
+  it('frecuencias cubren las tres bandas', () => {
     const pack = czquPack as OrtographyLemmaPack
     const count = (f: string) => pack.lemmas.filter((l) => l.frequency === f).length
-    expect(count('muy_frecuente')).toBe(8)
-    expect(count('frecuente')).toBe(12)
-    expect(count('poco_frecuente')).toBe(5)
+    expect(count('muy_frecuente')).toBeGreaterThanOrEqual(8)
+    expect(count('frecuente')).toBeGreaterThanOrEqual(12)
+    expect(count('poco_frecuente')).toBeGreaterThanOrEqual(5)
   })
 
   it('no está en el catálogo jugable', () => {

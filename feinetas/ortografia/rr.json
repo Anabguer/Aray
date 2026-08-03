@@ -8,7 +8,7 @@
     "level": "3-primaria",
     "locale": "es-ES",
     "revisionStatus": "approved",
-    "contentVersion": 1,
+    "contentVersion": 2,
     "sourceEditorialPhase": "fase-editorial-base",
     "notes": "Convertido en lote post-piloto. Colisiones: 0. No conectado a minijuegos."
   },
@@ -376,6 +376,552 @@
       },
       "tip": "Entre vocales, el sonido fuerte de la r se escribe rr.",
       "notes": "Savia u5 (clasificación rr). Léxico escolar.",
+      "tags": [
+        "tilde"
+      ],
+      "secondaryRuleIds": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "rr-rueda",
+      "lemma": "rueda",
+      "errors": [
+        "ruedda",
+        "rrueda"
+      ],
+      "ruleId": "r-rr",
+      "ruleText": "Al principio de palabra el sonido fuerte se escribe con una sola r.",
+      "frequency": "muy_frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Al principio de palabra el sonido fuerte se escribe con una sola r.",
+      "notes": "BACKLOG ej.59"
+    },
+    {
+      "id": "rr-rodilla",
+      "lemma": "rodilla",
+      "errors": [
+        "rrodilla",
+        "rodila"
+      ],
+      "ruleId": "r-rr",
+      "ruleText": "Al principio de palabra el sonido fuerte se escribe con una sola r.",
+      "frequency": "frecuente",
+      "category": "cuerpo",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Al principio de palabra el sonido fuerte se escribe con una sola r.",
+      "notes": "BACKLOG ej.59"
+    },
+    {
+      "id": "rr-corredor",
+      "lemma": "corredor",
+      "errors": [
+        "coredor",
+        "corrredor"
+      ],
+      "ruleId": "r-rr",
+      "ruleText": "Entre vocales, el sonido fuerte de la r se escribe rr.",
+      "frequency": "frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Entre vocales, el sonido fuerte de la r se escribe rr.",
+      "notes": "BACKLOG ej.59"
+    },
+    {
+      "id": "rr-reno",
+      "lemma": "reno",
+      "errors": [
+        "rreno"
+      ],
+      "ruleId": "r-rr",
+      "ruleText": "Al principio de palabra el sonido fuerte se escribe con una sola r.",
+      "frequency": "poco_frecuente",
+      "category": "animales",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Al principio de palabra el sonido fuerte se escribe con una sola r.",
+      "notes": "BACKLOG ej.59"
+    },
+    {
+      "id": "rr-barrendero",
+      "lemma": "barrendero",
+      "errors": [
+        "barendero",
+        "barrenderro"
+      ],
+      "ruleId": "r-rr",
+      "ruleText": "Entre vocales, el sonido fuerte de la r se escribe rr.",
+      "frequency": "poco_frecuente",
+      "category": "ciudad",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Entre vocales, el sonido fuerte de la r se escribe rr.",
+      "notes": "BACKLOG ej.59"
+    },
+    {
+      "id": "rr-ruisenor",
+      "lemma": "ruiseñor",
+      "errors": [
+        "rruiseñor",
+        "ruisenor"
+      ],
+      "ruleId": "r-rr",
+      "ruleText": "Al principio de palabra el sonido fuerte se escribe con una sola r.",
+      "frequency": "poco_frecuente",
+      "category": "animales",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Al principio de palabra el sonido fuerte se escribe con una sola r.",
+      "notes": "BACKLOG ej.59",
+      "tags": [
+        "tilde"
+      ],
+      "secondaryRuleIds": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "rr-rugir",
+      "lemma": "rugir",
+      "errors": [
+        "rrugir",
+        "rujir"
+      ],
+      "ruleId": "r-rr",
+      "ruleText": "Al principio de palabra el sonido fuerte se escribe con una sola r.",
+      "frequency": "frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Al principio de palabra el sonido fuerte se escribe con una sola r.",
+      "notes": "BACKLOG ej.59"
+    },
+    {
+      "id": "rr-cerrajero",
+      "lemma": "cerrajero",
+      "errors": [
+        "cerajero"
+      ],
+      "ruleId": "r-rr",
+      "ruleText": "Entre vocales, el sonido fuerte de la r se escribe rr.",
+      "frequency": "poco_frecuente",
+      "category": "ciudad",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Entre vocales, el sonido fuerte de la r se escribe rr.",
+      "notes": "BACKLOG ej.69"
+    },
+    {
+      "id": "rr-cierra",
+      "lemma": "cierra",
+      "errors": [
+        "ciera",
+        "cierrra"
+      ],
+      "ruleId": "r-rr",
+      "ruleText": "Entre vocales, el sonido fuerte de la r se escribe rr.",
+      "frequency": "muy_frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Entre vocales, el sonido fuerte de la r se escribe rr.",
+      "notes": "BACKLOG ej.69"
+    },
+    {
+      "id": "rr-raton",
+      "lemma": "ratón",
+      "errors": [
+        "rratón",
+        "raton"
+      ],
+      "ruleId": "r-rr",
+      "ruleText": "Al principio de palabra el sonido fuerte se escribe con una sola r.",
+      "frequency": "muy_frecuente",
+      "category": "animales",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Al principio de palabra el sonido fuerte se escribe con una sola r.",
+      "notes": "BACKLOG ej.69",
+      "tags": [
+        "tilde"
+      ],
+      "secondaryRuleIds": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "rr-rabudo",
+      "lemma": "rabudo",
+      "errors": [
+        "rrabudo",
+        "ravudo"
+      ],
+      "ruleId": "r-rr",
+      "ruleText": "Al principio de palabra el sonido fuerte se escribe con una sola r.",
+      "frequency": "poco_frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Al principio de palabra el sonido fuerte se escribe con una sola r.",
+      "notes": "BACKLOG ej.69"
+    },
+    {
+      "id": "rr-roba",
+      "lemma": "roba",
+      "errors": [
+        "rroba",
+        "rova"
+      ],
+      "ruleId": "r-rr",
+      "ruleText": "Al principio de palabra el sonido fuerte se escribe con una sola r.",
+      "frequency": "frecuente",
+      "category": "acciones",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Al principio de palabra el sonido fuerte se escribe con una sola r.",
+      "notes": "BACKLOG ej.69"
+    },
+    {
+      "id": "rr-madura",
+      "lemma": "madura",
+      "errors": [
+        "madurra"
+      ],
+      "ruleId": "r-rr",
+      "ruleText": "Entre vocales, el sonido suave de la r se escribe con una sola r.",
+      "frequency": "frecuente",
+      "category": "comida",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Entre vocales, el sonido suave de la r se escribe con una sola r.",
+      "notes": "BACKLOG ej.69"
+    },
+    {
+      "id": "rr-ruido",
+      "lemma": "ruido",
+      "errors": [
+        "rruido"
+      ],
+      "ruleId": "r-rr",
+      "ruleText": "Al principio de palabra el sonido fuerte se escribe con una sola r.",
+      "frequency": "muy_frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Al principio de palabra el sonido fuerte se escribe con una sola r.",
+      "notes": "BACKLOG ej.93"
+    },
+    {
+      "id": "rr-cacharro",
+      "lemma": "cacharro",
+      "errors": [
+        "cacharo",
+        "cacharrro"
+      ],
+      "ruleId": "r-rr",
+      "ruleText": "Entre vocales, el sonido fuerte de la r se escribe rr.",
+      "frequency": "frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Entre vocales, el sonido fuerte de la r se escribe rr.",
+      "notes": "BACKLOG ej.93"
+    },
+    {
+      "id": "rr-aburrido",
+      "lemma": "aburrido",
+      "errors": [
+        "aburido"
+      ],
+      "ruleId": "r-rr",
+      "ruleText": "Entre vocales, el sonido fuerte de la r se escribe rr.",
+      "frequency": "muy_frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Entre vocales, el sonido fuerte de la r se escribe rr.",
+      "notes": "BACKLOG ej.93"
+    },
+    {
+      "id": "rr-barato",
+      "lemma": "barato",
+      "errors": [
+        "barrato"
+      ],
+      "ruleId": "r-rr",
+      "ruleText": "Entre vocales, el sonido suave de la r se escribe con una sola r.",
+      "frequency": "muy_frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Entre vocales, el sonido suave de la r se escribe con una sola r.",
+      "notes": "BACKLOG ej.93"
+    },
+    {
+      "id": "rr-carruaje",
+      "lemma": "carruaje",
+      "errors": [
+        "caruaje"
+      ],
+      "ruleId": "r-rr",
+      "ruleText": "Entre vocales, el sonido fuerte de la r se escribe rr.",
+      "frequency": "poco_frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Entre vocales, el sonido fuerte de la r se escribe rr.",
+      "notes": "BACKLOG ej.93"
+    },
+    {
+      "id": "rr-sierra",
+      "lemma": "sierra",
+      "errors": [
+        "siera"
+      ],
+      "ruleId": "r-rr",
+      "ruleText": "Entre vocales, el sonido fuerte de la r se escribe rr.",
+      "frequency": "frecuente",
+      "category": "naturaleza",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Entre vocales, el sonido fuerte de la r se escribe rr.",
+      "notes": "BACKLOG ej.93"
+    },
+    {
+      "id": "rr-rocio",
+      "lemma": "Rocío",
+      "errors": [
+        "Rrocío",
+        "Rocio"
+      ],
+      "ruleId": "r-rr",
+      "ruleText": "Al principio de palabra el sonido fuerte se escribe con una sola r.",
+      "frequency": "poco_frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Al principio de palabra el sonido fuerte se escribe con una sola r.",
+      "notes": "BACKLOG ej.93",
+      "tags": [
+        "tilde",
+        "nombre-propio"
+      ],
+      "secondaryRuleIds": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "rr-radio",
+      "lemma": "radio",
+      "errors": [
+        "rradio"
+      ],
+      "ruleId": "r-rr",
+      "ruleText": "Al principio de palabra el sonido fuerte se escribe con una sola r.",
+      "frequency": "muy_frecuente",
+      "category": "objetos",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Al principio de palabra el sonido fuerte se escribe con una sola r.",
+      "notes": "BACKLOG ej.93"
+    },
+    {
+      "id": "rr-ramo",
+      "lemma": "ramo",
+      "errors": [
+        "rramo"
+      ],
+      "ruleId": "r-rr",
+      "ruleText": "Al principio de palabra el sonido fuerte se escribe con una sola r.",
+      "frequency": "frecuente",
+      "category": "naturaleza",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Al principio de palabra el sonido fuerte se escribe con una sola r.",
+      "notes": "BACKLOG ej.93"
+    },
+    {
+      "id": "rr-terraza",
+      "lemma": "terraza",
+      "errors": [
+        "teraza"
+      ],
+      "ruleId": "r-rr",
+      "ruleText": "Entre vocales, el sonido fuerte de la r se escribe rr.",
+      "frequency": "frecuente",
+      "category": "casa",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Entre vocales, el sonido fuerte de la r se escribe rr.",
+      "notes": "BACKLOG ej.93"
+    },
+    {
+      "id": "rr-raiz",
+      "lemma": "raíz",
+      "errors": [
+        "rraíz",
+        "raiz"
+      ],
+      "ruleId": "r-rr",
+      "ruleText": "Al principio de palabra el sonido fuerte se escribe con una sola r.",
+      "frequency": "frecuente",
+      "category": "naturaleza",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Al principio de palabra el sonido fuerte se escribe con una sola r.",
+      "notes": "BACKLOG ej.93",
+      "tags": [
+        "tilde"
+      ],
+      "secondaryRuleIds": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "rr-aire",
+      "lemma": "aire",
+      "errors": [
+        "airre",
+        "ayre"
+      ],
+      "ruleId": "r-rr",
+      "ruleText": "Entre vocales, el sonido suave de la r se escribe con una sola r.",
+      "frequency": "muy_frecuente",
+      "category": "naturaleza",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Entre vocales, el sonido suave de la r se escribe con una sola r.",
+      "notes": "BACKLOG ej.93"
+    },
+    {
+      "id": "rr-rapido",
+      "lemma": "rápido",
+      "errors": [
+        "rrápido",
+        "rapido"
+      ],
+      "ruleId": "r-rr",
+      "ruleText": "Al principio de palabra el sonido fuerte se escribe con una sola r.",
+      "frequency": "muy_frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Al principio de palabra el sonido fuerte se escribe con una sola r.",
+      "notes": "BACKLOG ej.93",
+      "tags": [
+        "tilde"
+      ],
+      "secondaryRuleIds": [
+        "tilde"
+      ]
+    },
+    {
+      "id": "rr-arruga",
+      "lemma": "arruga",
+      "errors": [
+        "aruga"
+      ],
+      "ruleId": "r-rr",
+      "ruleText": "Entre vocales, el sonido fuerte de la r se escribe rr.",
+      "frequency": "frecuente",
+      "category": "cuerpo",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Entre vocales, el sonido fuerte de la r se escribe rr.",
+      "notes": "BACKLOG ej.93"
+    },
+    {
+      "id": "rr-pizarra",
+      "lemma": "pizarra",
+      "errors": [
+        "pizara"
+      ],
+      "ruleId": "r-rr",
+      "ruleText": "Entre vocales, el sonido fuerte de la r se escribe rr.",
+      "frequency": "muy_frecuente",
+      "category": "colegio",
+      "image": {
+        "recommended": true,
+        "ref": null
+      },
+      "tip": "Entre vocales, el sonido fuerte de la r se escribe rr.",
+      "notes": "BACKLOG ej.93"
+    },
+    {
+      "id": "rr-aereo",
+      "lemma": "aéreo",
+      "errors": [
+        "arréreo",
+        "aereo"
+      ],
+      "ruleId": "r-rr",
+      "ruleText": "Entre vocales, el sonido suave de la r se escribe con una sola r.",
+      "frequency": "poco_frecuente",
+      "category": "otros",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "tip": "Entre vocales, el sonido suave de la r se escribe con una sola r.",
+      "notes": "BACKLOG ej.93",
       "tags": [
         "tilde"
       ],

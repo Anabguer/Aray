@@ -27,12 +27,16 @@ describe('feinetas / ortografia / gu', () => {
     expect(pack.pack.id).toBe('ortografia-gu')
     expect(pack.pack.revisionStatus).toBe('approved')
     expect(pack.pack.ruleFamily).toBe('gu-gue')
+    expect(pack.pack.contentVersion).toBeGreaterThanOrEqual(2)
   })
 
-  it('9 lemas en orden del MD', () => {
+  it('conserva el núcleo GU y añade lemas de fichas', () => {
     const pack = packJson as OrtographyLemmaPack
-    expect(pack.lemmas.map((l) => l.lemma)).toEqual([...EXPECTED])
-    expect(new Set(pack.lemmas.map((l) => l.id)).size).toBe(9)
+    expect(pack.lemmas.length).toBeGreaterThanOrEqual(EXPECTED.length)
+    expect(EXPECTED).toHaveLength(9)
+    const lemmas = pack.lemmas.map((l) => l.lemma)
+    expect(lemmas.slice(0, EXPECTED.length)).toEqual([...EXPECTED])
+    expect(new Set(pack.lemmas.map((l) => l.id)).size).toBe(pack.lemmas.length)
   })
 
   it('ids gu-* y ruleId gu-gue', () => {

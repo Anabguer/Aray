@@ -1,0 +1,133 @@
+.monta-frase-play {
+  display: grid;
+  gap: 1rem;
+  padding: 0.25rem 0 1rem;
+}
+
+.monta-frase-head {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.monta-frase-progress {
+  margin: 0;
+  font-size: 0.85rem;
+  opacity: 0.75;
+  font-weight: 600;
+}
+
+.monta-frase-prompt-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.monta-frase-prompt {
+  margin: 0;
+  flex: 1;
+  font-size: clamp(1.25rem, 4vw, 1.65rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.monta-frase-help-btn {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 999px;
+  border: 2px solid color-mix(in srgb, var(--ink, #1a1a1a) 35%, transparent);
+  background: color-mix(in srgb, var(--surface, #fff) 88%, #f6c177);
+  font-weight: 800;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: inherit;
+}
+
+.monta-frase-help-btn.is-open {
+  background: color-mix(in srgb, #f6c177 55%, #fff);
+}
+
+.monta-frase-help {
+  margin: 0;
+  padding: 0.65rem 0.85rem;
+  border-radius: 0.85rem;
+  background: color-mix(in srgb, #f6c177 22%, var(--surface, #fff));
+  font-size: 0.95rem;
+}
+
+.monta-frase-answer {
+  list-style: none;
+  margin: 0;
+  padding: 0.85rem;
+  min-height: 4.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-content: flex-start;
+  border-radius: 1rem;
+  border: 2px dashed color-mix(in srgb, var(--ink, #1a1a1a) 28%, transparent);
+  background: color-mix(in srgb, var(--surface, #fff) 94%, #ffe0b2);
+}
+
+.monta-frase-answer.is-ok {
+  border-style: solid;
+  border-color: #2e7d32;
+  background: color-mix(in srgb, #81c784 28%, var(--surface, #fff));
+}
+
+.monta-frase-answer.is-bad {
+  border-style: solid;
+  border-color: #c0392b;
+  background: color-mix(in srgb, #e74c3c 16%, var(--surface, #fff));
+}
+
+.monta-frase-answer__empty {
+  margin: 0;
+  opacity: 0.55;
+  font-weight: 600;
+}
+
+.monta-frase-reveal {
+  margin: 0;
+  font-weight: 700;
+  color: #1a7a3c;
+}
+
+.monta-frase-pool {
+  list-style: none;
+  margin: 0;
+  padding: 0.35rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.monta-frase-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.55rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 0.85rem;
+  border: 2px solid color-mix(in srgb, var(--ink, #1a1a1a) 22%, transparent);
+  background: color-mix(in srgb, #90caf9 42%, var(--surface, #fff));
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  color: inherit;
+}
+
+.monta-frase-chip:disabled {
+  cursor: default;
+}
+
+.monta-frase-chip--picked {
+  background: color-mix(in srgb, #fff59d 55%, var(--surface, #fff));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .monta-frase-answer.is-ok,
+  .monta-frase-answer.is-bad {
+    transition: none;
+  }
+}
