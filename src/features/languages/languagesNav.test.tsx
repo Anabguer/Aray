@@ -124,6 +124,15 @@ describe('navegación Lengua → Palabras', () => {
     expect(screen.getByText(/ordena las letras/i)).toBeInTheDocument()
   })
 
+  it('Quién hace qué y Común o propio abren el juego (no vuelven al menú)', () => {
+    renderAt('/missions/languages/words/quien-hace-que')
+    expect(screen.getByRole('heading', { name: /quién hace qué/i })).toBeInTheDocument()
+    expect(screen.queryByRole('listitem', { name: /montar la frase/i })).not.toBeInTheDocument()
+
+    renderAt('/missions/languages/words/comun-propio')
+    expect(screen.getByRole('heading', { name: /común o propio|nombre común/i })).toBeInTheDocument()
+  })
+
   it('el catálogo de Palabras incluye formar + clasifica + relaciones + monta + varios', () => {
     const active = activeWordsExercises()
     expect(active.map((e) => e.id)).toEqual([

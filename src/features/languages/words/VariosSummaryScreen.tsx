@@ -22,10 +22,12 @@ const WORDS_PATH = '/missions/languages/words'
 export function VariosSummaryScreen() {
   const navigate = useNavigate()
   const location = useLocation()
-  const { productId: rawId } = useParams<{ productId: string }>()
+  const { productId: rawParam } = useParams<{ productId?: string }>()
   const state = (location.state ?? {}) as SummaryState
-  const productId: VariosProductId | null = isVariosProductId(rawId ?? '')
-    ? (rawId as VariosProductId)
+  const fromPath = location.pathname.match(/\/words\/([^/]+)/)?.[1]
+  const rawId = rawParam || fromPath || state.productId || ''
+  const productId: VariosProductId | null = isVariosProductId(rawId)
+    ? rawId
     : isVariosProductId(state.productId ?? '')
       ? (state.productId as VariosProductId)
       : null

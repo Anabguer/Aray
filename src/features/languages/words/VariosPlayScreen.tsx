@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { AppShell } from '@/components/AppShell'
 import {
   buildVariosSession,
@@ -13,12 +13,23 @@ import './varios.css'
 
 const WORDS_PATH = '/missions/languages/words'
 
+/** Rutas fijas (/words/quien-hace-que) no exponen :productId; lo leemos del path. */
+function resolveVariosProductId(
+  paramId: string | undefined,
+  pathname: string,
+): VariosProductId | null {
+  const fromParam = paramId && isVariosProductId(paramId) ? paramId : null
+  if (fromParam) return fromParam
+  const m = pathname.match(/\/words\/([^/]+)/)
+  const fromPath = m?.[1]
+  return fromPath && isVariosProductId(fromPath) ? fromPath : null
+}
+
 export function VariosPlayScreen() {
-  const { productId: rawId } = useParams<{ productId: string }>()
+  const { productId: rawParam } = useParams<{ productId?: string }>()
+  const { pathname } = useLocation()
   const navigate = useNavigate()
-  const productId: VariosProductId | null = isVariosProductId(rawId ?? '')
-    ? (rawId as VariosProductId)
-    : null
+  const productId = resolveVariosProductId(rawParam, pathname)
 
   const seedRef = useRef(Date.now())
   const openedRef = useRef(false)
@@ -115,6 +126,8 @@ export function VariosPlayScreen() {
       setLocked(false)
     }, 480)
   }
+
+  if (!productId || !board) return null
 
   return (
     <AppShell title={label.toUpperCase()} shortTitle="Varios" showBack backTo={WORDS_PATH}>
