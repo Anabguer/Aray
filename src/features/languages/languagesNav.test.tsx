@@ -106,8 +106,9 @@ describe('navegación Lengua → Palabras', () => {
     expect(
       screen.queryByRole('listitem', { name: /masculino \/ femenino/i }),
     ).not.toBeInTheDocument()
-    expect(screen.getByRole('listitem', { name: /sinónimos/i })).toBeInTheDocument()
-    expect(screen.getByRole('listitem', { name: /antónimos/i })).toBeInTheDocument()
+    expect(screen.getByRole('listitem', { name: /sinónimos y antónimos/i })).toBeInTheDocument()
+    expect(screen.queryByRole('listitem', { name: /^sinónimos$/i })).not.toBeInTheDocument()
+    expect(screen.queryByRole('listitem', { name: /^antónimos$/i })).not.toBeInTheDocument()
   })
 
   it('Ortografía no muestra Formar palabras', () => {
@@ -128,15 +129,14 @@ describe('navegación Lengua → Palabras', () => {
     expect(active.map((e) => e.id)).toEqual([
       'formar-palabras',
       'clasifica',
-      'sinonimos',
-      'antonimos',
+      'sinonimos-antonimos',
       'monta-frase',
       'quien-hace-que',
       'comun-propio',
     ])
     expect(wordsExerciseHref(active[0]!)).toBe('/missions/languages/formar-palabras')
     expect(wordsExerciseHref(active[1]!)).toBe('/missions/languages/words/clasifica')
-    expect(wordsExerciseHref(active[4]!)).toBe('/missions/languages/words/monta-frase')
+    expect(wordsExerciseHref(active[3]!)).toBe('/missions/languages/words/monta-frase')
   })
 
   it('el mapa de Lengua no muestra Escritura ni Comprensión', () => {

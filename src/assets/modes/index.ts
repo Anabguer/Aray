@@ -42,6 +42,7 @@ import wordsMontaFrase from './words-monta-frase.png'
 import wordsPlural from './words-plural.png'
 import wordsQuienHaceQue from './words-quien-hace-que.png'
 import wordsSinonimos from './words-sinonimos.png'
+import wordsSinonimosAntonimos from './words-sinonimos-antonimos.png'
 
 export type ModeArtId =
   | 'aprende'
@@ -85,6 +86,7 @@ export type ModeArtId =
   | 'words-gender'
   | 'words-sinonimos'
   | 'words-antonimos'
+  | 'words-sinonimos-antonimos'
   | 'words-clasifica'
   | 'words-monta-frase'
   | 'words-quien-hace-que'
@@ -133,6 +135,7 @@ export const modeArt: Record<ModeArtId, string> = {
   'words-gender': wordsGender,
   'words-sinonimos': wordsSinonimos,
   'words-antonimos': wordsAntonimos,
+  'words-sinonimos-antonimos': wordsSinonimosAntonimos,
   'words-clasifica': wordsClasifica,
   'words-monta-frase': wordsMontaFrase,
   'words-quien-hace-que': wordsQuienHaceQue,

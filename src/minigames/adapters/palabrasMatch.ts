@@ -1,6 +1,6 @@
 /**
  * Empareja (match-pairs) para sinónimos / antónimos.
- * Tablero: tocar ancla → tocar pareja.
+ * Tablero: tocar ancla → tocar pareja (una sola relación por tablero).
  */
 import { listSemanticItems } from '@/feinetas/wordsBanks'
 import type { WordsSemanticRelationKind } from '@/feinetas/wordsSemanticRelationPack'
@@ -18,6 +18,7 @@ export type PalabrasMatchBoard = {
   format: 'match'
   id: string
   productId: PalabrasMcqProductId
+  relation: WordsSemanticRelationKind
   prompt: string
   help: string
   left: PalabrasMatchPair[]
@@ -43,17 +44,13 @@ function shuffle<T>(items: T[], random: () => number): T[] {
   return out
 }
 
-function relationFor(productId: PalabrasMcqProductId): WordsSemanticRelationKind {
-  return productId === 'sinonimos' ? 'synonym' : 'antonym'
-}
-
 export function buildPalabrasMatchBoard(
   productId: PalabrasMcqProductId,
   seed: number,
   pairCount = PALABRAS_MATCH_PAIR_COUNT,
   usedIds?: Set<string>,
+  relation: WordsSemanticRelationKind = 'synonym',
 ): PalabrasMatchBoard {
-  const relation = relationFor(productId)
   const random = mulberry32(seed)
   const pool = shuffle(
     listSemanticItems(relation).filter((i) => !usedIds?.has(i.id)),
@@ -87,8 +84,9 @@ export function buildPalabrasMatchBoard(
   const isSyn = relation === 'synonym'
   return {
     format: 'match',
-    id: `match-${productId}-${seed}`,
+    id: `match-${productId}-${relation}-${seed}`,
     productId,
+    relation,
     prompt: isSyn ? 'Une los sinónimos' : 'Une los antónimos',
     help: isSyn
       ? 'Un sinónimo significa casi lo mismo. Toca una palabra y luego su pareja.'

@@ -8,8 +8,7 @@ import type { ModeArtId } from '@/assets/modes'
 export type WordsExerciseId =
   | 'formar-palabras'
   | 'clasifica'
-  | 'sinonimos'
-  | 'antonimos'
+  | 'sinonimos-antonimos'
   | 'monta-frase'
   | 'quien-hace-que'
   | 'comun-propio'
@@ -52,23 +51,13 @@ export const WORDS_EXERCISES: WordsExercise[] = [
     status: 'active',
   },
   {
-    id: 'sinonimos',
-    title: 'Sinónimos',
-    text: 'Elige un sinónimo (significa lo mismo)',
-    art: 'words-sinonimos',
+    id: 'sinonimos-antonimos',
+    title: 'Sinónimos y antónimos',
+    text: 'Mezcla: sinónimos y antónimos en la misma partida',
+    art: 'words-sinonimos-antonimos',
     className: 'mode-poster--learn',
     tag: '03',
-    href: '/missions/languages/words/sinonimos',
-    status: 'active',
-  },
-  {
-    id: 'antonimos',
-    title: 'Antónimos',
-    text: 'Elige un antónimo (significa lo contrario)',
-    art: 'words-antonimos',
-    className: 'mode-poster--train',
-    tag: '04',
-    href: '/missions/languages/words/antonimos',
+    href: '/missions/languages/words/sinonimos-antonimos',
     status: 'active',
   },
   {
@@ -77,7 +66,7 @@ export const WORDS_EXERCISES: WordsExercise[] = [
     text: 'Ordena las palabras y forma la oración',
     art: 'words-monta-frase',
     className: 'mode-poster--challenge',
-    tag: '05',
+    tag: '04',
     href: '/missions/languages/words/monta-frase',
     status: 'active',
   },
@@ -87,7 +76,7 @@ export const WORDS_EXERCISES: WordsExercise[] = [
     text: 'Une el pronombre con su verbo',
     art: 'words-quien-hace-que',
     className: 'mode-poster--learn',
-    tag: '06',
+    tag: '05',
     href: '/missions/languages/words/quien-hace-que',
     status: 'active',
   },
@@ -97,7 +86,7 @@ export const WORDS_EXERCISES: WordsExercise[] = [
     text: 'Une nombre común con nombre propio',
     art: 'words-comun-propio',
     className: 'mode-poster--train',
-    tag: '07',
+    tag: '06',
     href: '/missions/languages/words/comun-propio',
     status: 'active',
   },

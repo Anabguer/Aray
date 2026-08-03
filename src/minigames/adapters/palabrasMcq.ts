@@ -1,5 +1,5 @@
 /**
- * Adaptadores Palabras → MCQ + Empareja (relaciones semánticas).
+ * Adaptadores Palabras → MCQ + Empareja (sinónimos y antónimos mezclados).
  * Morph (singular/plural, género) pasó a Clasifica.
  */
 import { listSemanticItems, getWordsSemanticPack } from '@/feinetas/wordsBanks'
@@ -11,12 +11,13 @@ import {
 
 export const PALABRAS_MCQ_ROUND_SIZE = 8
 
-export type PalabrasMcqProductId = 'sinonimos' | 'antonimos'
+export type PalabrasMcqProductId = 'sinonimos-antonimos'
 
 export type PalabrasMcqQuestion = {
   format: 'mcq'
   id: string
   productId: PalabrasMcqProductId
+  relation: WordsSemanticRelationKind
   prompt: string
   options: string[]
   correctIndex: number
@@ -73,6 +74,14 @@ function norm(s: string): string {
   return s.toLocaleLowerCase('es')
 }
 
+function pickRelation(random: () => number): WordsSemanticRelationKind {
+  return random() < 0.5 ? 'synonym' : 'antonym'
+}
+
+function itemRelation(item: PalabrasRoundItem): WordsSemanticRelationKind {
+  return item.relation
+}
+
 function buildOptions(
   correct: string,
   wrongs: string[],
@@ -95,18 +104,12 @@ function buildOptions(
   return { options, correctIndex }
 }
 
-function relationForProduct(
-  productId: PalabrasMcqProductId,
-): WordsSemanticRelationKind {
-  return productId === 'sinonimos' ? 'synonym' : 'antonym'
-}
-
 export function buildPalabrasSemanticQuestion(
   productId: PalabrasMcqProductId,
   seed: number,
   usedIds: Set<string>,
+  relation: WordsSemanticRelationKind = pickRelation(mulberry32(seed)),
 ): PalabrasMcqQuestion {
-  const relation = relationForProduct(productId)
   const pack = getWordsSemanticPack()
   const pool = shuffle(
     listSemanticItems(relation).filter((i) => !usedIds.has(i.id)),
@@ -133,6 +136,7 @@ export function buildPalabrasSemanticQuestion(
     format: 'mcq',
     id: `${productId}-${item.id}-${seed}`,
     productId,
+    relation,
     prompt,
     options,
     correctIndex,
@@ -142,8 +146,7 @@ export function buildPalabrasSemanticQuestion(
 }
 
 /**
- * Ronda mixta: ~half MCQ, ~half Empareja (según semilla).
- * Empareja cuenta como 1 ítem de ronda (tablero completo).
+ * Ronda mixta: MCQ + Empareja, y sinónimos + antónimos en la misma partida.
  */
 export function buildPalabrasMcqRound(
   productId: PalabrasMcqProductId,
@@ -155,15 +158,16 @@ export function buildPalabrasMcqRound(
   const random = mulberry32(seed)
   for (let i = 0; i < count; i += 1) {
     const qSeed = seed + i * 7919
+    const relation = pickRelation(random)
     // ~35% Empareja, resto MCQ
     const wantMatch = random() < 0.35
     if (wantMatch) {
-      out.push(buildPalabrasMatchBoard(productId, qSeed, 4, used))
+      out.push(buildPalabrasMatchBoard(productId, qSeed, 4, used, relation))
     } else {
-      out.push(buildPalabrasSemanticQuestion(productId, qSeed, used))
+      out.push(buildPalabrasSemanticQuestion(productId, qSeed, used, relation))
     }
   }
-  // Garantizar al menos 1 de cada si hay stock
+
   const hasMcq = out.some((q) => q.format === 'mcq')
   const hasMatch = out.some((q) => q.format === 'match')
   if (!hasMatch && out.length > 0) {
@@ -172,19 +176,39 @@ export function buildPalabrasMcqRound(
       seed + 4242,
       4,
       used,
+      pickRelation(mulberry32(seed + 5)),
     )
   }
   if (!hasMcq && out.length > 1) {
-    out[0] = buildPalabrasSemanticQuestion(productId, seed + 111, used)
+    out[0] = buildPalabrasSemanticQuestion(
+      productId,
+      seed + 111,
+      used,
+      pickRelation(mulberry32(seed + 7)),
+    )
   }
+
+  // Garantizar ambas relaciones en la ronda
+  const hasSyn = out.some((q) => itemRelation(q) === 'synonym')
+  const hasAnt = out.some((q) => itemRelation(q) === 'antonym')
+  if (!hasSyn && out.length > 0) {
+    const i = out.findIndex((q) => q.format === 'mcq')
+    const idx = i >= 0 ? i : 0
+    out[idx] = buildPalabrasSemanticQuestion(productId, seed + 222, used, 'synonym')
+  }
+  if (!hasAnt && out.length > 1) {
+    const i = out.findIndex((q, idx) => q.format === 'mcq' && idx > 0)
+    const idx = i >= 0 ? i : out.length - 1
+    out[idx] = buildPalabrasSemanticQuestion(productId, seed + 333, used, 'antonym')
+  }
+
   return out
 }
 
 export function isPalabrasMcqProductId(v: string): v is PalabrasMcqProductId {
-  return v === 'sinonimos' || v === 'antonimos'
+  return v === 'sinonimos-antonimos'
 }
 
 export const PALABRAS_MCQ_LABELS: Record<PalabrasMcqProductId, string> = {
-  sinonimos: 'Sinónimos',
-  antonimos: 'Antónimos',
+  'sinonimos-antonimos': 'Sinónimos y antónimos',
 }

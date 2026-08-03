@@ -147,6 +147,22 @@ export default function App() {
           element={<Navigate to="/missions/languages/words/clasifica" replace />}
         />
         <Route
+          path="/missions/languages/words/sinonimos/summary"
+          element={<Navigate to="/missions/languages/words/sinonimos-antonimos/summary" replace />}
+        />
+        <Route
+          path="/missions/languages/words/sinonimos"
+          element={<Navigate to="/missions/languages/words/sinonimos-antonimos" replace />}
+        />
+        <Route
+          path="/missions/languages/words/antonimos/summary"
+          element={<Navigate to="/missions/languages/words/sinonimos-antonimos/summary" replace />}
+        />
+        <Route
+          path="/missions/languages/words/antonimos"
+          element={<Navigate to="/missions/languages/words/sinonimos-antonimos" replace />}
+        />
+        <Route
           path="/missions/languages/words/:productId/summary"
           element={<PalabrasMcqSummaryScreen />}
         />
