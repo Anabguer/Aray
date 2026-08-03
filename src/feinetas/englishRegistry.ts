@@ -1,39 +1,33 @@
 /**
  * Registro estable de packs de lemas de inglés (INGLES_JSON_SPEC).
+ * Runtime vacío: Colegio/Familia/Colores archivados en feinetas/Ingles/_archivo/
+ * hasta categorizar nuevas fichas en _inbox/.
  */
+
 import type { EnglishLemmaPack } from '@/feinetas/englishLemmaPack'
 import { assertValidEnglishLemmaPack } from '@/feinetas/englishLemmaPack'
 
-import coloursNumbers from '@feinetas/Ingles/colours-numbers.json'
-import school from '@feinetas/Ingles/school.json'
-import family from '@feinetas/Ingles/family.json'
+/** Packs cargados en runtime (vacío hasta nuevos JSON aprobados). */
+export const ENGLISH_PACK_IDS = [] as const
 
-export const ENGLISH_PACK_IDS = [
-  'ingles-colours-numbers',
-  'ingles-school',
-  'ingles-family',
-] as const
-
-export type EnglishPackId = (typeof ENGLISH_PACK_IDS)[number]
+export type EnglishPackId = string
 
 /**
- * Packs visibles en el hub (repaso 3.º).
- * Colours & Numbers queda en banco/JSON pero aparcado en UI (ciclo inicial).
+ * Packs visibles en el hub.
+ * Vacío a propósito: estaciones nuevas tras categorizar fichas.
  */
-export const ENGLISH_HUB_PACK_IDS = [
-  'ingles-school',
-  'ingles-family',
-] as const satisfies readonly EnglishPackId[]
+export const ENGLISH_HUB_PACK_IDS: readonly EnglishPackId[] = []
 
-export type EnglishHubPackId = (typeof ENGLISH_HUB_PACK_IDS)[number]
+export type EnglishHubPackId = EnglishPackId
 
-export const ENGLISH_PACK_LABELS: Record<EnglishPackId, string> = {
+/** Etiquetas legacy (archivo) + futuras; el hub no las usa mientras esté vacío. */
+export const ENGLISH_PACK_LABELS: Record<string, string> = {
   'ingles-colours-numbers': 'Colores y números',
   'ingles-school': 'Colegio',
   'ingles-family': 'Familia',
 }
 
-const RAW_PACKS: unknown[] = [coloursNumbers, school, family]
+const RAW_PACKS: unknown[] = []
 
 function loadValidatedPacks(): EnglishLemmaPack[] {
   return RAW_PACKS.map((raw) => {
@@ -49,7 +43,7 @@ export function listEnglishPacks(): EnglishLemmaPack[] {
   return cached
 }
 
-/** Packs ofrecidos en Misiones → Inglés (repaso 3.º). */
+/** Packs ofrecidos en Misiones → Inglés. */
 export function listEnglishHubPacks(): EnglishLemmaPack[] {
   const hub = new Set<string>(ENGLISH_HUB_PACK_IDS)
   return listEnglishPacks().filter((p) => hub.has(p.pack.id))

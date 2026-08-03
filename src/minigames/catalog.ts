@@ -271,7 +271,7 @@ function englishMinigame(mode: EnglishPlayMode): MinigameDefinition {
     href: `/missions/english`,
     mechanicId: 'english-lemma-mcq',
     source: 'pack',
-    status: 'active',
+    status: ENGLISH_HUB_PACK_IDS.length > 0 ? 'active' : 'coming-soon',
     englishPlayMode: mode,
     skillIds: ['english-vocabulary'],
     presentation: mode === 'review' ? 'review' : 'mcq',
