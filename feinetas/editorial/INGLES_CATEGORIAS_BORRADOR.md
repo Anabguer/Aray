@@ -39,6 +39,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 29: write He's/She's + adjetivo. |
 | 2026-08-03 | Ejercicio 30: There is/are (+ caja de ayuda). |
 | 2026-08-03 | Ejercicio 31: completar there's / there aren't / are there… |
+| 2026-08-03 | Ejercicio 32: Are there any…? Yes/No short answers. |
 
 ## Material en inbox
 
@@ -75,6 +76,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/29-hes-shes-adjectives-write.png` | Write He's/She's + adj (beautiful…) | Catalogado |
 | `refs/30-there-is-are-match.png` | There is/are + match mitades (+ ayuda) | Catalogado |
 | `refs/31-there-is-complete.png` | Completar there's / aren't / are there… | Catalogado |
+| `refs/32-there-are-questions-yn.png` | Are there any…? + Yes/No short answers | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -1035,6 +1037,30 @@ Mecánica distinta al match del ej. 30 (aquí **elegir forma**), misma categorí
 
 ---
 
+## Ejercicio 32 — Are there any…? (preguntas + Yes/No)
+
+![Captura](../Ingles/_inbox/refs/32-there-are-questions-yn.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | «3 Write the questions. Then write the answers. The first one has been done for you.» |
+| **Bloque** | **Gramática** existencia (interrogativa + short answer) |
+| **Categoría propuesta** | `there-is` |
+| **Mecánica Aray** | Prompt noun + Yes/No → escribir/elegir pregunta + respuesta corta · tip ayuda |
+| **Ayuda** | Mismo tip muted (Are there…? → Yes, there are. / No, there aren't.) |
+
+### Ítems (+ clave)
+
+| # | Prompt | Pregunta | Respuesta |
+|---|--------|----------|-----------|
+| 1 | books? / Yes | Are there any books? | Yes, there are. *(ejemplo)* |
+| 2 | boys? / Yes | Are there any boys? | Yes, there are. |
+| 3 | apples? / No | Are there any apples? | No, there aren't. |
+| 4 | desks? / No | Are there any desks? | No, there aren't. |
+| 5 | teachers? / Yes | Are there any teachers? | Yes, there are. |
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
@@ -1049,7 +1075,7 @@ Mecánica distinta al match del ej. 30 (aquí **elegir forma**), misma categorí
 | `stories` | Cuentos | Personajes + *wearing* + adjetivos | ej. 24–29 | drag-to-portrait, who-wearing, he/she | borrador |
 | `clothes` | Ropa | crown, boots, dress… | ~9 lemas (ej. 25–27) | picture, wearing-match, he/she | borrador |
 | `adjectives` | Adjetivos | handsome, young, old, poor, rich, clever, beautiful | 7 (ej. 28–29) | he/she + adj MCQ | borrador |
-| `there-is` | There is / are | Existencia (+ tip de ayuda) | ej. 30–31 | match halves, fill forma + **help tip** | borrador |
+| `there-is` | There is / are | Existencia (+ tip de ayuda) | ej. 30–32 | match, fill forma, Q+YN short + **help tip** | borrador |
 
 ## Cómo añadir un lote
 
