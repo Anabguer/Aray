@@ -1,5 +1,5 @@
 /**
- * Clasifica: rondas Una/Muchas · El/La · Artículos · género+número.
+ * Clasifica: rondas Singular/Plural · El/La · Artículos · género+número.
  * Tap palabra → tap bando (sin DnD library).
  */
 import { listClasificaItems } from '@/feinetas/wordsBanks'
@@ -74,8 +74,8 @@ function binForItem(item: WordsClasificaItem, kind: ClasificaKind): ClasificaBin
 function binsForKind(kind: ClasificaKind): ClasificaBin[] {
   if (kind === 'number') {
     return [
-      { id: 'sg', label: 'Una' },
-      { id: 'pl', label: 'Muchas' },
+      { id: 'sg', label: 'Singular' },
+      { id: 'pl', label: 'Plural' },
     ]
   }
   if (kind === 'gender') {
@@ -103,8 +103,8 @@ function binsForKind(kind: ClasificaKind): ClasificaBin[] {
 function promptForKind(kind: ClasificaKind): { prompt: string; help: string } {
   if (kind === 'number') {
     return {
-      prompt: '¿Una o muchas?',
-      help: 'Arrastra o toca: una palabra = Una; varias = Muchas.',
+      prompt: '¿Singular o plural?',
+      help: 'Arrastra o toca: una cosa = Singular; varias = Plural.',
     }
   }
   if (kind === 'gender') {

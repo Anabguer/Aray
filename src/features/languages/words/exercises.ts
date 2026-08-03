@@ -44,7 +44,7 @@ export const WORDS_EXERCISES: WordsExercise[] = [
   {
     id: 'clasifica',
     title: 'Clasifica',
-    text: 'Una/muchas, el/la y artículos',
+    text: 'Singular/plural, el/la y artículos',
     art: 'words-clasifica',
     className: 'mode-poster--train',
     tag: '02',
