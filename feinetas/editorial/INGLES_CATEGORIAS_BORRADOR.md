@@ -42,6 +42,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 32: Are there any…? Yes/No short answers. |
 | 2026-08-03 | Ejercicio 33: How many…? + There are/aren't. |
 | 2026-08-03 | Ejercicio 34: ordenar How many… are there? |
+| 2026-08-03 | Ejercicio 35: How many + imagen (There are / aren't). |
 
 ## Material en inbox
 
@@ -81,6 +82,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/32-there-are-questions-yn.png` | Are there any…? + Yes/No short answers | Catalogado |
 | `refs/33-how-many-there-are.png` | How many…? + There are/aren't (fill) | Catalogado |
 | `refs/34-how-many-order.png` | Ordenar: How many … are there? | Catalogado |
+| `refs/35-how-many-picture.png` | How many + imagen → There are / aren't | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -1120,6 +1122,34 @@ Mecánica distinta al match del ej. 30 (aquí **elegir forma**), misma categorí
 
 ---
 
+## Ejercicio 35 — How many + imagen
+
+![Captura](../Ingles/_inbox/refs/35-how-many-picture.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | «3 Look at the pictures and write the answers. The first one has been done for you.» |
+| **Bloque** | **Gramática** *How many* + respuesta con imagen |
+| **Categoría propuesta** | `there-is` |
+| **Mecánica Aray** | Picture → write/choose *There are N…* / *There aren't any…* · tip ayuda |
+| **Ayuda** | Tip: There are + número · There aren't any (si no hay) |
+| **Nota asset** | Estilo Aray (no clipart del cuaderno); contar objetos en escena |
+
+### Ítems (+ clave)
+
+| # | Escena | Pregunta | Respuesta |
+|---|--------|----------|-----------|
+| 1 | 6 sillas | How many chairs are there? | There are six chairs. *(ejemplo)* |
+| 2 | 1 pez *(no hay gatos)* | How many cats are there? | There aren't any cats. |
+| 3 | 3 plátanos | How many bananas are there? | There are three bananas. |
+| 4 | 5 monos | How many monkeys are there? | There are five monkeys. |
+
+### Nota didáctica
+
+El ítem 2 es trampa deliberada (pregunta *cats*, imagen *fish*) → fuerza *There aren't any*.
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
@@ -1134,7 +1164,7 @@ Mecánica distinta al match del ej. 30 (aquí **elegir forma**), misma categorí
 | `stories` | Cuentos | Personajes + *wearing* + adjetivos | ej. 24–29 | drag-to-portrait, who-wearing, he/she | borrador |
 | `clothes` | Ropa | crown, boots, dress… | ~9 lemas (ej. 25–27) | picture, wearing-match, he/she | borrador |
 | `adjectives` | Adjetivos | handsome, young, old, poor, rich, clever, beautiful | 7 (ej. 28–29) | he/she + adj MCQ | borrador |
-| `there-is` | There is / are | Existencia + *How many* (+ tip) | ej. 30–34 | match, fill, Q+YN, how-many fill/order + **help tip** | borrador |
+| `there-is` | There is / are | Existencia + *How many* (+ tip) | ej. 30–35 | match, fill, Q+YN, order, picture count + **help tip** | borrador |
 
 ## Cómo añadir un lote
 
