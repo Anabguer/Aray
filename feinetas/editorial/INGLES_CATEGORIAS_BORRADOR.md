@@ -36,6 +36,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 26: circle He's / She's + wearing. |
 | 2026-08-03 | Ejercicio 27: write He's/She's wearing + ropa. |
 | 2026-08-03 | Ejercicio 28: He's/She's + adjetivos (rich, old…). |
+| 2026-08-03 | Ejercicio 29: write He's/She's + adjetivo. |
 
 ## Material en inbox
 
@@ -69,6 +70,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/26-hes-shes-wearing-circle.png` | Circle He's/She's + wearing | Catalogado |
 | `refs/27-hes-shes-wearing-write.png` | Write He's/She's wearing + item | Catalogado |
 | `refs/28-hes-shes-adjectives.png` | He's/She's + handsome/young/old… | Catalogado |
+| `refs/29-hes-shes-adjectives-write.png` | Write He's/She's + adj (beautiful…) | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -940,6 +942,31 @@ Distractores del set: river, sea, valley, town, village, forest.
 
 ---
 
+## Ejercicio 29 — Write *He's / She's* + adj
+
+![Captura](../Ingles/_inbox/refs/29-hes-shes-adjectives-write.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | «4 Write *He's* or *She's*.» |
+| **Bloque** | Misma familia que ej. 28; completar *He's/She's* delante del adjetivo |
+| **Categoría propuesta** | `adjectives` |
+| **Mecánica Aray** | Imagen → MCQ *He's* / *She's* |
+| **Lema nuevo** | beautiful |
+
+### Ítems
+
+| # | Frase |
+|---|--------|
+| 1 | He's old. |
+| 2 | She's rich. |
+| 3 | He's poor. |
+| 4 | He's clever. |
+| 5 | She's beautiful. |
+| 6 | He's handsome. |
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
@@ -950,10 +977,10 @@ Distractores del set: river, sea, valley, town, village, forest.
 | `time` | ¿Qué hora es? | *What time…?* + *Is it…?* Yes/No | ej. 12, 15–16 | clock-ui + EN phrases + yn | borrador |
 | `places` | Lugares | campamento + paisajes | ~12 lemas (ej. 17–21) | drag-to-image, picture, join-parts, order-sentence | borrador |
 | `weather` | Tiempo (clima) | *It's hot/cold/sunny…* | 6 (ej. 22) | picture, fill *It's …* | borrador |
-| `grammar-basics` | Formas | It's / go to / I've got / He's·She's | ej. 23, 26–28 | 2-option MCQ | borrador |
-| `stories` | Cuentos | Personajes + *wearing* + adjetivos | ej. 24–28 | drag-to-portrait, who-wearing, he/she | borrador |
+| `grammar-basics` | Formas | It's / go to / I've got / He's·She's | ej. 23, 26–29 | 2-option MCQ | borrador |
+| `stories` | Cuentos | Personajes + *wearing* + adjetivos | ej. 24–29 | drag-to-portrait, who-wearing, he/she | borrador |
 | `clothes` | Ropa | crown, boots, dress… | ~9 lemas (ej. 25–27) | picture, wearing-match, he/she | borrador |
-| `adjectives` | Adjetivos | handsome, young, old, poor, rich, clever | 6 (ej. 28) | he/she + adj MCQ | borrador |
+| `adjectives` | Adjetivos | handsome, young, old, poor, rich, clever, **beautiful** | 7 (ej. 28–29) | he/she + adj MCQ | borrador |
 
 ## Cómo añadir un lote
 
