@@ -13,6 +13,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 03: circle food (imagen → palabra). |
 | 2026-08-03 | Ejercicio 04: like/don't like + *but* (dos personajes). |
 | 2026-08-03 | Ejercicio 05: can/can't + deportes (match frase↔imagen). |
+| 2026-08-03 | Ejercicio 06: can/can't deportes (completar actividad). |
 
 ## Material en inbox
 
@@ -23,6 +24,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/03-circle-food-picture.png` | Circle: imagen comida → palabra | Catalogado |
 | `refs/04-like-but-dont-like-food.png` | Like/don't like + *but* (niño/niña) | Catalogado |
 | `refs/05-can-cant-sports-match.png` | Can/can't deportes (frase ↔ imagen) | Catalogado |
+| `refs/06-can-cant-sports-write.png` | Can/can't deportes (I can/can't + verbo) | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -196,12 +198,44 @@ Frase modelo: *I like macaroni, but I don't like sausages. I don't like fish but
 
 ---
 
+## Ejercicio 06 — Can / can't (deportes) · completar
+
+![Captura](../Ingles/_inbox/refs/06-can-cant-sports-write.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | «2 Listen and number. Write.» (+ banco de chunks) |
+| **Bloque** | **Estructura** (*I can / I can't* + actividad) + vocab deportes |
+| **Categoría propuesta** | `abilities` |
+| **Mecánica Aray sugerida** | Imagen AFK (éxito vs fallo visible) → elegir chunk del banco *o* completar *I can/can't _____* con MCQ. **Sin audio CD** al inicio (el “listen” de la ficha se sustituye por lectura de la escena). |
+| **Imágenes** | Mismas 6 actividades; en *can't* la escena muestra tropiezo/desequilibrio (como en la ficha), no solo el objeto |
+
+### Pares (según dibujos)
+
+| Casilla | Señal | Completar |
+|---------|-------|-----------|
+| a | can (skateboard estable) | skateboard |
+| b | can (canasta) | play basketball |
+| c | can (tenis) | play tennis |
+| d | can (bici) | ride a bike |
+| e | can't (patines tambaleando) | rollerblade |
+| f | can't (tropiezo con balón) | play football |
+
+Banco: ride a bike · play tennis · play basketball · play football · rollerblade · skateboard
+
+### Relación con ej. 05
+
+- Mismos chunks `abilities`.
+- 05 = arrastrar **frase completa** a imagen; 06 = **rellenar** la actividad (can/can't ya dado o deducible de la escena).
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
 |--------------|-----------|------|-------|---------------------|--------|
 | `food` | Comida | Vocabulario food + preferencias (+ *but*) | ~14 lemas (ej. 01–04) | meaning, translate, like-mcq, picture | borrador |
-| `abilities` | Puedo / no puedo | *can/can't* + deportes | 6 actividades (ej. 05) | **drag-phrase-to-image**, picture, MCQ | borrador |
+| `abilities` | Puedo / no puedo | *can/can't* + deportes | 6 actividades (ej. 05–06) | drag-phrase-to-image, fill-activity, picture | borrador |
 
 ## Cómo añadir un lote
 
