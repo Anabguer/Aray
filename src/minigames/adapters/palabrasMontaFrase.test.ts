@@ -29,4 +29,33 @@ describe('monta-frase', () => {
       )
     }
   })
+
+  it('acepta nombres coordinados con «y» en cualquier orden', () => {
+    expect(
+      isOrderCorrect(
+        ['Erik', 'y', 'Carlos', 'montan', 'en', 'bicicleta.'],
+        ['Carlos', 'y', 'Erik', 'montan', 'en', 'bicicleta.'],
+      ),
+    ).toBe(true)
+    expect(
+      isOrderCorrect(
+        ['a', 'Ángel.', 'y', 'a', 'Luca'],
+        ['a', 'Luca', 'y', 'a', 'Ángel.'],
+      ),
+    ).toBe(true)
+    // El resto de la frase sí importa
+    expect(
+      isOrderCorrect(
+        ['Erik', 'y', 'Carlos', 'corren', 'en', 'el', 'parque.'],
+        ['Erik', 'y', 'Carlos', 'montan', 'en', 'el', 'parque.'],
+      ),
+    ).toBe(false)
+    // «noventa y nueve» no son nombres: no se reordenan
+    expect(
+      isOrderCorrect(
+        ['Enzo', 'guarda', 'comida', 'para', 'las', 'nueve', 'y', 'noventa', 'noches.'],
+        ['Enzo', 'guarda', 'comida', 'para', 'las', 'noventa', 'y', 'nueve', 'noches.'],
+      ),
+    ).toBe(false)
+  })
 })

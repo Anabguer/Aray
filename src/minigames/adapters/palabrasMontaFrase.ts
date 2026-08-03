@@ -13,6 +13,21 @@ export type MontaFraseQuestion = {
   tip: string
 }
 
+/** Palabras con mayúscula que no son nombres propios en estas fichas. */
+const NON_NAME_CAPS = new Set([
+  'hoy',
+  'esta',
+  'el',
+  'la',
+  'los',
+  'las',
+  'un',
+  'una',
+  'después',
+  'antes',
+  'mientras',
+])
+
 function mulberry32(seed: number): () => number {
   let t = seed >>> 0
   return () => {
@@ -44,6 +59,102 @@ function scrambleTokens(tokens: string[], random: () => number): string[] {
   return out
 }
 
+function splitPunct(token: string): { bare: string; punct: string } {
+  const m = token.match(/^(.*?)([.,;:!?¡¿]+)?$/u)
+  return { bare: m?.[1] ?? token, punct: m?.[2] ?? '' }
+}
+
+function bareKey(token: string): string {
+  return splitPunct(token).bare.toLocaleLowerCase('es')
+}
+
+function isProperNameToken(token: string): boolean {
+  const { bare } = splitPunct(token)
+  if (!bare) return false
+  if (!/^\p{Lu}/u.test(bare)) return false
+  return !NON_NAME_CAPS.has(bare.toLocaleLowerCase('es'))
+}
+
+/** Orden canónico de dos nombres; la puntuación del par queda en el segundo. */
+function orderNamePair(a: string, b: string): [string, string] {
+  const pa = splitPunct(a)
+  const pb = splitPunct(b)
+  const punct = pa.punct || pb.punct
+  if (pa.bare.localeCompare(pb.bare, 'es') <= 0) {
+    return [pa.bare, pb.bare + punct]
+  }
+  return [pb.bare, pa.bare + punct]
+}
+
+/**
+ * Normaliza «Nombre y Nombre» y «a Nombre y a Nombre» para que el orden
+ * de los dos nombres no importe al comparar.
+ */
+export function canonicalizeMontaTokens(tokens: string[]): string[] {
+  const out = [...tokens]
+  let i = 0
+  while (i < out.length) {
+    if (
+      i + 4 < out.length &&
+      bareKey(out[i]!) === 'a' &&
+      isProperNameToken(out[i + 1]!) &&
+      bareKey(out[i + 2]!) === 'y' &&
+      bareKey(out[i + 3]!) === 'a' &&
+      isProperNameToken(out[i + 4]!)
+    ) {
+      const [n1, n2] = orderNamePair(out[i + 1]!, out[i + 4]!)
+      out[i + 1] = n1
+      out[i + 4] = n2
+      i += 5
+      continue
+    }
+    if (
+      i + 2 < out.length &&
+      isProperNameToken(out[i]!) &&
+      bareKey(out[i + 1]!) === 'y' &&
+      isProperNameToken(out[i + 2]!)
+    ) {
+      const [n1, n2] = orderNamePair(out[i]!, out[i + 2]!)
+      out[i] = n1
+      out[i + 2] = n2
+      i += 3
+      continue
+    }
+    i += 1
+  }
+  return out
+}
+
+function hasCommutativeNames(tokens: string[]): boolean {
+  for (let i = 0; i < tokens.length; i += 1) {
+    if (
+      i + 2 < tokens.length &&
+      isProperNameToken(tokens[i]!) &&
+      bareKey(tokens[i + 1]!) === 'y' &&
+      isProperNameToken(tokens[i + 2]!)
+    ) {
+      return true
+    }
+    if (
+      i + 4 < tokens.length &&
+      bareKey(tokens[i]!) === 'a' &&
+      isProperNameToken(tokens[i + 1]!) &&
+      bareKey(tokens[i + 2]!) === 'y' &&
+      bareKey(tokens[i + 3]!) === 'a' &&
+      isProperNameToken(tokens[i + 4]!)
+    ) {
+      return true
+    }
+  }
+  return false
+}
+
+function tipForTokens(tokens: string[], fallback: string | undefined): string {
+  const base = fallback ?? 'Toca las palabras en orden. Empieza con mayúscula.'
+  if (!hasCommutativeNames(tokens)) return base
+  return `${base} Si hay dos nombres con «y», puedes ponerlos en cualquier orden.`
+}
+
 export function buildMontaFraseRound(
   count = MONTA_FRASE_ROUND_SIZE,
   seed = Date.now(),
@@ -61,12 +172,15 @@ export function buildMontaFraseRound(
       tokens: item.tokens,
       scrambled: scrambleTokens(item.tokens, r),
       sentence: item.tokens.join(' '),
-      tip: item.tip ?? 'Toca las palabras en orden. Empieza con mayúscula.',
+      tip: tipForTokens(item.tokens, item.tip),
     }
   })
 }
 
 export function isOrderCorrect(picked: string[], expected: string[]): boolean {
   if (picked.length !== expected.length) return false
-  return picked.every((t, i) => t === expected[i])
+  if (picked.every((t, i) => t === expected[i])) return true
+  const a = canonicalizeMontaTokens(picked)
+  const b = canonicalizeMontaTokens(expected)
+  return a.every((t, i) => t === b[i])
 }
