@@ -102,22 +102,24 @@ Flujo fijo por banco:
 
 # Pendientes
 
-Siguientes bancos previstos (solo estado; **no desarrollados**):
+Siguientes bancos previstos (solo estado):
 
 | Orden | Banco / pack | Estado |
 |-------|--------------|--------|
-| 1 | Body | pendiente |
+| 1 | Body (`INGLES_BODY.md`) | **borrador** (10 lemas; pendiente auditoría) |
 | 2 | Food | pendiente |
-| 3 | Me & Chunks | pendiente |
-| 4 | Animals | pendiente |
-| 5 | Clothes | pendiente |
+| 3 | Actions (forma base) | pendiente |
+| 4 | Clothes | pendiente |
+| 5 | Animals | pendiente |
 | 6 | Home | pendiente |
-| 7 | Feelings | pendiente |
-| 8 | Time & Days | pendiente |
-| 9 | Listening | pendiente |
-| 10 | Phonics | pendiente |
+| 7 | Time & Days | pendiente |
+| 8 | Me & Chunks | pendiente |
+| 9 | Feelings | pendiente |
+| 10 | Weather | pendiente **auditoría de fuentes** (puede no crearse) |
 
-Listening y Phonics siguen aplazados a fase con audio (ola offline actual = sin audio obligatorio). Detalle de arquitectura: `INGLES_MASTER.md`.
+Ritmo: máximo **dos** packs editoriales en paralelo. Imágenes / frases / listening / pronunciación = fases posteriores (`INGLES_ROADMAP_V2.md`).
+
+Listening y Phonics siguen aplazados (Fases 5–6).
 
 ---
 
@@ -129,7 +131,7 @@ Listening y Phonics siguen aplazados a fase con audio (ola offline actual = sin 
 | **Integración Ortografía** | Completa |
 | **JSON Inglés** | Terminado (3 packs, schema `INGLES_JSON_SPEC.md`) |
 | **Integración Inglés** | Completa v1 · hub de repaso 3.º: **Colegio + Familia** (Colours & Numbers en banco, aparcado en UI) |
-| **Siguiente paso lógico** | Bancos editoriales pendientes (Body, Food, …) o assets de imagen |
+| **Siguiente paso lógico** | Auditoría / congelación de Body; luego Food (máx. 2 packs a la vez) |
 
 ---
 

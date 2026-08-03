@@ -1,9 +1,43 @@
 # Inglés — Roadmap v2 (vocabulario · imágenes · frases)
 
-**Estado:** plan técnico + editorial · **sin JSON nuevo** · **sin bancos nuevos** · **sin cambios de juego**.  
+**Estado:** plan **aprobado** (2026-08-03) con decisiones de producto cerradas abajo.  
+**Sin JSON nuevo** · **sin bancos frozen nuevos** · **sin cambios de juego** en esta ola editorial.  
 **Actualizado:** 2026-08-03.  
 **Complementa:** [`INGLES_MASTER.md`](./INGLES_MASTER.md) · [`INGLES_JSON_SPEC.md`](./INGLES_JSON_SPEC.md) · [`EDITORIAL_STATUS.md`](./EDITORIAL_STATUS.md).  
 **No es runtime.** Flujo: [`README.md`](./README.md).
+
+---
+
+## 0. Decisiones aprobadas (2026-08-03)
+
+| Tema | Decisión |
+|------|----------|
+| **Actions** | Pack **propio**. Verbos siempre en **forma base** (*run, walk, jump…*). **Nunca** *-ing* en esta fase. |
+| **Weather** | Solo tras **auditoría de fuentes**. Sin respaldo suficiente → **no se crea**. |
+| **Tamaño final** | **No** perseguir 500. 280 / 310 / 360 lemas sólidos = válido. **No inventar** para llenar. |
+| **Function words** | **Sin pack.** *a / the / is / my…* solo cuando existan **frases**. |
+| **Imágenes** | **Aplazadas.** Cuando lleguen: corpus **completo** (no packs a medias). |
+| **Frases** | **Aplazadas.** Primera mecánica de frase: **ordenar** (no completar). |
+| **Ritmo editorial** | Máximo **dos** packs en paralelo (borrador → auditoría → congelación → JSON). Nunca 6–7 a la vez. |
+| **Metodología** | Exactamente la de Ortografía / packs inglés ya frozen. |
+
+### Fases del proyecto (orden duro)
+
+```
+Fase 1  Editorial (todos los packs de vocabulario)
+   ↓
+Fase 2  Conversión JSON
+   ↓
+Fase 3  Imágenes (corpus completo)
+   ↓
+Fase 4  Frases (empezar por ordenar)
+   ↓
+Fase 5  Listening
+   ↓
+Fase 6  Pronunciación
+```
+
+**Siguiente trabajo editorial:** abrir packs de uno en uno (o máx. dos). Primero: [`INGLES_BODY.md`](./INGLES_BODY.md) (borrador).
 
 ---
 
@@ -46,27 +80,18 @@ Fuera de este objetivo: listening, phonics, speak, diálogos largos, generación
 
 ## 3. Roadmap por fases
 
-```
-Fase A — Vocabulario offline (bancos MD → JSON → hub)
-Fase B — Arquitectura + assets de imagen (contrato cerrado → piloto → cobertura)
-Fase C — Frases editoriales (schema → bloques → mecánicas frase)
-Fase D — Audio / phonics / listening   ← fuera de v2; solo se menciona
-```
+Alineado con §0 (Fases 1–6 del proyecto):
 
-Orden **duro:** no abrir frases de un bloque hasta que sus lemas prerequisito estén **frozen**.  
-Imágenes pueden ir **en paralelo** a vocabularios (piloto sobre packs ya frozen), pero no bloquean congelar un banco MD.
+| Fase proyecto | Contenido | Criterio de cierre |
+|---------------|-----------|--------------------|
+| **1 Editorial** | Bancos MD vocabulario (máx. 2 a la vez): borrador → auditoría → **congelado** | Todos los packs keep aprobados frozen; Weather solo si auditoría OK |
+| **2 JSON** | Conversión packs frozen → `feinetas/Ingles/*.json` + validadores | Corpus jugable ampliado; sin imágenes aún |
+| **3 Imágenes** | Contrato + assets + modos imagen | **Todos** los lemas picture-ready del corpus (o `recommended: false` justificado); sin cobertura a medias |
+| **4 Frases** | Schema + bloques; mecánica inicial **ordenar frase** | Frases solo con lemas frozen; function words dentro de frases |
+| **5 Listening** | Packs audio | Infra + contenido |
+| **6 Pronunciación** | Phonics / speak | Infra + contenido |
 
-| Fase | Entregable | Criterio de cierre |
-|------|------------|--------------------|
-| **A0** | Este roadmap aprobado | Decisiones §10 cerradas |
-| **A1** | Packs imprescindibles MD → frozen → JSON | Body, Food, Clothes, Animals, Home, Days, (+ Actions si se aprueba) |
-| **A2** | Packs secundarios + Me-chunks | Feelings, Weather (si cabe), Me & useful phrases |
-| **B0** | Contrato imagen + carpeta + naming + licencia | Spec actualizado; 0 assets aún OK |
-| **B1** | Piloto imágenes (1 pack frozen, p. ej. Colours o School) | `ref` reales + mecánicas imagen en hub piloto |
-| **B2** | Cobertura imagen packs A1 | Fallback documentado; auditoría visual |
-| **C0** | Schema frases + checklist editorial | Sin frases escritas aún |
-| **C1** | Bloques frase 1–3 (prerequisitos OK) | JSON frases + 1–2 mecánicas |
-| **C2** | Resto de bloques frase | Mix / Mis fallos frase |
+Imágenes y frases **no** se adelantan a Fase 1–2.
 
 ---
 
@@ -403,18 +428,11 @@ Nunca frases antes que sus packs.
 
 ---
 
-## 10. Decisiones que necesitas aprobar
+## 10. Decisiones de producto
 
-1. **Pack Actions** como pack propio (recomendado) vs absorber en Animals/Home.  
-2. **Weather:** auditar y decidir keep pequeño vs descartar.  
-3. **Techo de lemas:** ¿aceptamos cerrar v2 en ~300–380 si las fuentes no dan más?  
-4. **Licencia de imágenes:** Aray-own vs CC0 vs pack pagado.  
-5. **Carpeta de assets:** `src/assets/english/lemmas` vs `public/assets/english/…`.  
-6. **Function words** en frases: lista cerrada en pack de frases vs solo `patternId`.  
-7. **Forma verbal en Actions:** base (*jump*) vs -ing (*jumping*) según ficha — fijar regla.  
-8. **Hub:** ¿Colours & Numbers vuelve a UI? ¿Cuántos packs nuevos se muestran a la vez?  
-9. **Piloto imagen:** Colours vs School primero.  
-10. **¿Una o dos mecánicas frase en C1?** (ordenar vs completar vs elegir imagen).
+**Cerradas el 2026-08-03** — ver §0. No reabrir sin cambio explícito.
+
+Pendientes **solo editoriales** del banco en curso (Body): dudas en [`INGLES_BODY.md`](./INGLES_BODY.md).
 
 ---
 
@@ -474,27 +492,28 @@ Nunca frases antes que sus packs.
 | Letra que falta | lemma | — | Ya existe |
 | Mezcla | modos pack | — | Extender con imagen/frase cuando existan |
 | Mis fallos | missKey | — | Extender a sentence |
-| Ordenar frase | sentence | C1 | Tokens = palabras de `textEn` |
-| Completar frase | sentence + hueco editorial | C1 | Hueco fijado en MD, no procedural ciego |
-| Elegir imagen correcta | sentence o lemma + `ref` | B1/C1 | |
-| Relacionar frase e imagen | sentence + `ref` | C2 | |
+| Ordenar frase | sentence | Fase 4 | **Primera** mecánica de frase (aprobado) |
+| Completar frase | sentence + hueco editorial | Fase 4 posterior | No al inicio de frases |
+| Elegir imagen correcta | sentence o lemma + `ref` | Fase 3+ | |
+| Relacionar frase e imagen | sentence + `ref` | Fase 3–4 | |
 
 ---
 
-## 15. Checklist de siguiente paso humano
+## 15. Checklist — siguiente paso humano
 
-- [ ] Aprobar o ajustar decisiones §10  
-- [ ] Abrir `INGLES_BODY.md` (primer banco A1) **solo tras OK**  
-- [ ] No JSON / no assets / no frases hasta bancos y specs acordados  
+- [x] Roadmap aprobado (§0)  
+- [x] Abrir `INGLES_BODY.md` (borrador)  
+- [ ] Resolver dudas Body → auditoría → congelar  
+- [ ] Siguiente pack editorial (Food o Actions; máx. 2 en paralelo)  
+- [ ] Fase 2 JSON solo tras packs frozen  
+- [ ] Fases 3–6 según §0  
 
 ---
 
 ## 16. Resumen ejecutivo
 
-Inglés v2 amplía el MVP de **74** lemas hacia un módulo con **más vocabulario respaldado**, **imágenes con contrato serio** y **frases editoriales** ligadas a lemas frozen.  
-Packs **imprescindibles:** Body, Food, Actions, Clothes, Animals, Home, Days, Me-chunks.  
-**Secundarios:** Feelings, Weather (condicional).  
-**Descartados v2:** Nature (CLIL), City, Jobs pack, Transport, Toys; Sports sin pack propio.  
-Techo realista **~300–380** lemas sin inventar; 500 solo si las fuentes lo dan.  
-Imágenes y frases tienen arquitectura propia pero **dependen** del corpus de lemas.  
-Sin programación ni bancos en esta entrega: solo plan para aprobar.
+Roadmap **aprobado**. Fase 1 = editorial de vocabulario (máx. 2 packs a la vez).  
+Imágenes, frases (empezar por **ordenar**), listening y pronunciación = fases 3–6.  
+Actions = pack propio, verbos en **base**. Weather = condicional a auditoría.  
+No KPI de 500 lemas. Function words solo en frases.  
+Primer banco abierto: **Body** (borrador, 10 lemas).

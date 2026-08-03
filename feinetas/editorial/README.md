@@ -76,7 +76,8 @@ Hasta que un documento de esta carpeta esté revisado y convertido a JSON, no fo
 | `BANCO_RELACIONES_SEMANTICAS.md` | Banco Relaciones **congelado / aprobado** → `palabras/relaciones-semanticas.json` (conectado: Sinónimos + Antónimos) |
 | `BANCO_MORFOLOGIA.md` | Banco Morfología **congelado / aprobado** → `palabras/morfologia.json` (conectado: Singular/plural + Masc/fem) |
 | `INGLES_MASTER.md` | **Diseño maestro Inglés 3.º (Cataluña)** — arquitectura de packs |
-| `INGLES_ROADMAP_V2.md` | **Roadmap v2** — vocabulario ampliado · imágenes · frases (plan; sin JSON nuevo) |
+| `INGLES_ROADMAP_V2.md` | **Roadmap v2 aprobado** — fases 1–6 · vocabulario · imágenes · frases |
+| `INGLES_BODY.md` | Pack Body & face — **borrador** (sin congelar / sin JSON) |
 | `INGLES_JSON_SPEC.md` | Contrato JSON lemas inglés (schemaVersion 1) |
 | `BANCO_MAESTRO_ORTOGRAFIA.md` | Índice / maestro de Ortografía |
 | `JSON_SPEC.md` | Contrato JSON Ortografía (lemas) |
