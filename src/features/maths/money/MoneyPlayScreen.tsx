@@ -251,8 +251,10 @@ export function MoneyPlayScreen() {
         prompt={question.prompt}
         detail={
           question.kind === 'mcq' ? (
-            (question.scene && question.scene.length > 0) ||
-            (question.pieces && question.pieces.length > 0) ? (
+            question.mode === 'change' || question.mode === 'shortfall' ? (
+              question.detail
+            ) : (question.scene && question.scene.length > 0) ||
+              (question.pieces && question.pieces.length > 0) ? (
               <MoneyPiecesBoard
                 pieces={question.pieces}
                 scene={question.scene}
