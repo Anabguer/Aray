@@ -34,6 +34,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 24: personajes cuento (match He/She's…). |
 | 2026-08-03 | Ejercicio 25: *He's wearing…* (ropa + personajes). |
 | 2026-08-03 | Ejercicio 26: circle He's / She's + wearing. |
+| 2026-08-03 | Ejercicio 27: write He's/She's wearing + ropa. |
 
 ## Material en inbox
 
@@ -65,6 +66,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/24-story-characters-match.png` | Cuento: He's/She's the … (match) | Catalogado |
 | `refs/25-stories-wearing-clothes.png` | He's wearing… (ropa + personajes) | Catalogado |
 | `refs/26-hes-shes-wearing-circle.png` | Circle He's/She's + wearing | Catalogado |
+| `refs/27-hes-shes-wearing-write.png` | Write He's/She's wearing + item | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -877,6 +879,30 @@ Distractores del set: river, sea, valley, town, village, forest.
 
 ---
 
+## Ejercicio 27 — Write *He's/She's wearing*
+
+![Captura](../Ingles/_inbox/refs/27-hes-shes-wearing-write.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | «2 Write *He's wearing* or *She's wearing*.» |
+| **Bloque** | Misma gramática que ej. 26; completar el chunk entero delante del ítem de ropa |
+| **Categoría propuesta** | `clothes` + `stories` |
+| **Mecánica Aray** | Imagen → MCQ *He's wearing* / *She's wearing* (el objeto ya viene dado) |
+
+### Ítems
+
+| # | Frase completa |
+|---|----------------|
+| 1 | He's wearing a T-shirt. |
+| 2 | She's wearing a dress. |
+| 3 | He's wearing boots. |
+| 4 | She's wearing shoes. |
+| 5 | He's wearing a crown. |
+| 6 | He's wearing a coat. |
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
@@ -887,9 +913,9 @@ Distractores del set: river, sea, valley, town, village, forest.
 | `time` | ¿Qué hora es? | *What time…?* + *Is it…?* Yes/No | ej. 12, 15–16 | clock-ui + EN phrases + yn | borrador |
 | `places` | Lugares | campamento + paisajes | ~12 lemas (ej. 17–21) | drag-to-image, picture, join-parts, order-sentence | borrador |
 | `weather` | Tiempo (clima) | *It's hot/cold/sunny…* | 6 (ej. 22) | picture, fill *It's …* | borrador |
-| `grammar-basics` | Formas | It's / go to / I've got / **He's·She's** | ej. 23, 26 | 2-option MCQ | borrador |
-| `stories` | Cuentos | Personajes + *wearing* | ej. 24–26 | drag-to-portrait, who-wearing | borrador |
-| `clothes` | Ropa | crown, boots, dress… | ~9 lemas (ej. 25–26) | picture, wearing-match, he/she | borrador |
+| `grammar-basics` | Formas | It's / go to / I've got / He's·She's | ej. 23, 26–27 | 2-option MCQ | borrador |
+| `stories` | Cuentos | Personajes + *wearing* | ej. 24–27 | drag-to-portrait, who-wearing | borrador |
+| `clothes` | Ropa | crown, boots, dress… | ~9 lemas (ej. 25–27) | picture, wearing-match, he/she | borrador |
 
 ## Cómo añadir un lote
 
