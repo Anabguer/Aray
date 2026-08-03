@@ -38,6 +38,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 28: He's/She's + adjetivos (rich, old…). |
 | 2026-08-03 | Ejercicio 29: write He's/She's + adjetivo. |
 | 2026-08-03 | Ejercicio 30: There is/are (+ caja de ayuda). |
+| 2026-08-03 | Ejercicio 31: completar there's / there aren't / are there… |
 
 ## Material en inbox
 
@@ -73,6 +74,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/28-hes-shes-adjectives.png` | He's/She's + handsome/young/old… | Catalogado |
 | `refs/29-hes-shes-adjectives-write.png` | Write He's/She's + adj (beautiful…) | Catalogado |
 | `refs/30-there-is-are-match.png` | There is/are + match mitades (+ ayuda) | Catalogado |
+| `refs/31-there-is-complete.png` | Completar there's / aren't / are there… | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -1005,6 +1007,34 @@ En Lengua el tip va como texto muted (`clasifica-hint`, `monta-frase-hint`, `pal
 
 ---
 
+## Ejercicio 31 — Completar There is / are
+
+![Captura](../Ingles/_inbox/refs/31-there-is-complete.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | «2 Complete the sentences with *there's / there isn't / there are / there aren't / are there.*» |
+| **Bloque** | **Gramática** existencia (relleno con pista +/−/?) |
+| **Categoría propuesta** | `there-is` |
+| **Mecánica Aray** | Fill / chips: elegir forma según número (+/−/?) · tip ayuda (como ej. 30) |
+| **Ayuda** | Mismo tip muted que ej. 30 |
+
+### Ítems (+ clave)
+
+| # | Pista | Completar | Forma |
+|---|-------|-----------|-------|
+| 1 | six chairs (+) | There are | plural + |
+| 2 | any pencil cases (−) | There aren't | plural − |
+| 3 | one ruler (+) | There's | singular + |
+| 4 | any rubbers? (?) | Are there | plural ? |
+| 5 | any milk (−) | There isn't | singular/uncountable − |
+
+### Nota
+
+Mecánica distinta al match del ej. 30 (aquí **elegir forma**), misma categoría y mismo tip de ayuda.
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
@@ -1019,7 +1049,7 @@ En Lengua el tip va como texto muted (`clasifica-hint`, `monta-frase-hint`, `pal
 | `stories` | Cuentos | Personajes + *wearing* + adjetivos | ej. 24–29 | drag-to-portrait, who-wearing, he/she | borrador |
 | `clothes` | Ropa | crown, boots, dress… | ~9 lemas (ej. 25–27) | picture, wearing-match, he/she | borrador |
 | `adjectives` | Adjetivos | handsome, young, old, poor, rich, clever, beautiful | 7 (ej. 28–29) | he/she + adj MCQ | borrador |
-| `there-is` | There is / are | Existencia (+ tip de ayuda) | ej. 30 | match halves + **help tip** | borrador |
+| `there-is` | There is / are | Existencia (+ tip de ayuda) | ej. 30–31 | match halves, fill forma + **help tip** | borrador |
 
 ## Cómo añadir un lote
 
