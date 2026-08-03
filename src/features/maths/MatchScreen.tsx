@@ -22,6 +22,7 @@ import {
   MATCH_MAX_PER_ROUND,
   MATCH_WRONG_MESSAGE,
   matchHintForAttempt,
+  shuffleInPlace,
   shuffleProductsNotAligned,
 } from '@/math/match'
 import type { SessionAnswer, SessionResult } from '@/math/types'
@@ -54,8 +55,12 @@ export function MatchScreen() {
   const rounds = useMemo(() => buildMatchRounds(allPairs, MATCH_MAX_PER_ROUND), [allPairs])
 
   const [roundIndex, setRoundIndex] = useState(0)
-  const roundPairs = rounds[roundIndex] ?? []
   const isLastRound = roundIndex + 1 >= rounds.length
+
+  const roundPairs = useMemo(
+    () => shuffleInPlace([...(rounds[roundIndex] ?? [])]),
+    [rounds, roundIndex],
+  )
 
   const [phase, setPhase] = useState<Phase>('playing')
   const [products, setProducts] = useState<number[]>([])
@@ -88,9 +93,8 @@ export function MatchScreen() {
   }, [])
 
   useEffect(() => {
-    const pairs = rounds[roundIndex] ?? []
-    setProducts(shuffleProductsNotAligned(pairs))
-    setAssignment(Object.fromEntries(pairs.map((p) => [p.id, null])))
+    setProducts(shuffleProductsNotAligned(roundPairs))
+    setAssignment(Object.fromEntries(roundPairs.map((p) => [p.id, null])))
     lockedRef.current = new Set()
     setLockedIds(new Set())
     attemptCountsRef.current = {}
@@ -106,7 +110,7 @@ export function MatchScreen() {
     setRoundMissed(new Set())
     lumo.setThinking()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [roundIndex, table])
+  }, [roundPairs])
 
   const productColorByValue = useMemo(() => {
     const map = new Map<number, string>()

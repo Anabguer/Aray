@@ -9,6 +9,7 @@ import {
   isCorrectMatch,
   MATCH_WRONG_MESSAGE,
   matchHintForAttempt,
+  shuffleInPlace,
   shuffleProductsNotAligned,
 } from '@/math/match'
 import { matchFactorRange } from '@/config/playConfig'
@@ -97,10 +98,12 @@ describe('Empareja la tabla — lógica', () => {
     expect(pairs).toHaveLength(10)
     expect(pairs[0].factor).toBe(matchFactorRange.min)
     expect(pairs.at(-1)?.factor).toBe(matchFactorRange.max)
-    const products = shuffleProductsNotAligned(pairs, () => 0.2)
+    const ops = shuffleInPlace([...pairs], () => 0.2)
+    expect(ops.map((p) => p.factor)).not.toEqual(pairs.map((p) => p.factor))
+    const products = shuffleProductsNotAligned(ops, () => 0.2)
     expect(products).toHaveLength(10)
     expect(new Set(products).size).toBe(10)
-    expect(products.every((p, i) => p === pairs[i].product)).toBe(false)
+    expect(products.every((p, i) => p === ops[i].product)).toBe(false)
   })
 
   it('divide rondas de como máximo cinco', () => {
