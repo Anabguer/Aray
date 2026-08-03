@@ -10,6 +10,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Hub vaciado. Bancos Colegio/Familia/Colores en `_archivo/`. Inbox preparado. |
 | 2026-08-03 | Primera ficha catalogada: like / don't like + food. |
 | 2026-08-03 | Ejercicio 02: write like/don't like (caras + comida). |
+| 2026-08-03 | Ejercicio 03: circle food (imagen → palabra). |
 
 ## Material en inbox
 
@@ -17,6 +18,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 |---------|-------|--------|
 | `refs/01-like-dont-like-food.png` | Circle like / don't like (Danny + comida) | Catalogado |
 | `refs/02-write-like-dont-like-food.png` | Write like / don't like (caras + platos) | Catalogado |
+| `refs/03-circle-food-picture.png` | Circle: imagen comida → palabra | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -89,11 +91,43 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 
 ---
 
+## Ejercicio 03 — Circle: imagen → comida
+
+![Captura](../Ingles/_inbox/refs/03-circle-food-picture.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | Ficha: «1 Circle.» (3 opciones por dibujo) |
+| **Bloque** | **Vocabulario** (food / picture) |
+| **Categoría propuesta** | `food` |
+| **Mecánica Aray sugerida** | **picture** / meaning: imagen → elegir palabra EN (3 opciones); misma familia que ortografía-imagen |
+| **Imágenes** | **Necesarias** (1 por lema). Generar estilo AFK, no copiar line-art de la ficha |
+
+### Lemas nuevos (amplían `food`)
+
+| EN | ES | Correcto en ficha |
+|----|----|-------------------|
+| cake | pastel / tarta | sí (ej. 1) |
+| omelette | tortilla francesa | sí (ej. 2) |
+| milk | leche | sí (ej. 3) |
+| hamburger | hamburguesa | sí (ej. 4) |
+| sweetcorn | maíz / mazorca | sí (ej. 5) |
+| lentils | lentejas | sí (ej. 6) |
+
+Distractores de la ficha = el mismo set (se reutilizan entre ítems).
+
+### Relación con ej. 01–02
+
+- Sigue `food`, pero **sin** *like/don't like*: es reconocimiento imagen↔palabra.
+- Banco food unificado: lemas 01–02 + estos 6.
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
 |--------------|-----------|------|-------|---------------------|--------|
-| `food` | Comida | Vocabulario food + *like / don't like* | 8 lemas (ej. 01–02) | meaning, translate, like-mcq, picture | borrador |
+| `food` | Comida | Vocabulario food + preferencias | ~14 lemas (ej. 01–03) | meaning, translate, like-mcq, **picture** | borrador |
 | — | — | — | — | — | — |
 
 ## Cómo añadir un lote
