@@ -28,6 +28,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 18: lugares (montar palabra + frase). |
 | 2026-08-03 | Ejercicio 19: go to / in the summer (lugares). |
 | 2026-08-03 | Ejercicio 20: ordenar frase (go to … in the summer). |
+| 2026-08-03 | Ejercicio 21: paisajes (circle imagen→palabra). |
 
 ## Material en inbox
 
@@ -53,6 +54,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/18-places-match-write.png` | Lugares: piezas + completar frase | Catalogado |
 | `refs/19-places-go-to-in-summer.png` | I go to the … in the summer | Catalogado |
 | `refs/20-places-sort-sentence.png` | Ordenar: I go to … in the summer | Catalogado |
+| `refs/21-places-landscape-circle.png` | Paisajes: circle imagen→palabra | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -667,6 +669,33 @@ Piezas: swimming/pool · coun/try · be/ach · pa/rk · moun/tains · la/ke
 
 ---
 
+## Ejercicio 21 — Paisajes · circle
+
+![Captura](../Ingles/_inbox/refs/21-places-landscape-circle.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | «1 Circle.» (imagen + 3 opciones) |
+| **Bloque** | **Vocabulario** paisajes / asentamientos |
+| **Categoría propuesta** | `places` (amplía banco; no solo campamento) |
+| **Mecánica Aray** | picture → MCQ 3 opciones |
+| **Imágenes** | AFK paisajes (no line-art ficha) |
+
+### Lemas nuevos
+
+| EN | ES | Correcto ficha |
+|----|----|----------------|
+| river | río | 1 |
+| valley | valle | 2 |
+| sea | mar | 3 |
+| town | pueblo / ciudad pequeña | 4 |
+| village | pueblo / aldea | 5 |
+| forest | bosque | 6 |
+
+Distractores del set: river, sea, valley, town, village, forest.
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
@@ -675,7 +704,7 @@ Piezas: swimming/pool · coun/try · be/ach · pa/rk · moun/tains · la/ke
 | `abilities` | Puedo / deportes | *can/can't* + chunks + he/she | ~12 actividades (ej. 05–08) | drag-to-image, fill-activity, can-yn | borrador |
 | `routines` | Rutinas | Día a día + higiene + *at* + hora | ~15 chunks (ej. 09–11, 13–14, 16) | drag-to-image, picture, order-sentence, missing, routine+time | borrador |
 | `time` | ¿Qué hora es? | *What time…?* + *Is it…?* Yes/No | ej. 12, 15–16 | clock-ui + EN phrases + yn | borrador |
-| `places` | Lugares | *go to the* + *in the summer* | 6 lugares (ej. 17–20) | drag-to-image, picture, join-parts, fill-frame, **order-sentence** | borrador |
+| `places` | Lugares | campamento + paisajes | ~12 lemas (ej. 17–21) | drag-to-image, picture, join-parts, order-sentence | borrador |
 | `weather` | Tiempo (clima) | *It's cold / sunny* (semilla ej. 19) | pendiente | — | semilla |
 
 ## Cómo añadir un lote
