@@ -201,13 +201,16 @@ Quitan puntos solo: *face* sin word bank; *knees/head* monocausa Vicens (compens
 
 ### Veredicto
 
-**Listo para congelar tras cambios documentales menores** (no de inventario).
+**Congelado** (2026-08-03): Observaciones aplicadas en [`INGLES_BODY.md`](./INGLES_BODY.md). Inventario **10** lemas sin altas/bajas.
 
 | Estado | |
 |--------|--|
-| ¿Listo para congelar ya, sin tocar nada? | **Casi** — conviene aplicar las notas de Observaciones (§4) en el MD |
+| ¿Listo para congelar ya, sin tocar nada? | Aplicado: microcopy + estado Congelado |
 | ¿Necesita cambios de lemario? | **No** (0 bajas · 0 altas) |
-| ¿Requiere ampliar fuentes? | **No** para cerrar este pack |
+| ¿Requiere ampliar fuentes? | **No** |
+
+JSON = Fase 2 del roadmap (aún no).
+
 
 ### Próximo paso humano (fuera de este informe)
 

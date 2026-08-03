@@ -503,7 +503,7 @@ Pendientes **solo editoriales** del banco en curso (Body): dudas en [`INGLES_BOD
 
 - [x] Roadmap aprobado (§0)  
 - [x] Abrir `INGLES_BODY.md` (borrador)  
-- [ ] Resolver dudas Body → auditoría → congelar  
+- [x] Auditoría Body + congelación (10 lemas)  
 - [ ] Siguiente pack editorial (Food o Actions; máx. 2 en paralelo)  
 - [ ] Fase 2 JSON solo tras packs frozen  
 - [ ] Fases 3–6 según §0  

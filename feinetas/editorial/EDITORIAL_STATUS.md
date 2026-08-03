@@ -106,7 +106,7 @@ Siguientes bancos previstos (solo estado):
 
 | Orden | Banco / pack | Estado |
 |-------|--------------|--------|
-| 1 | Body (`INGLES_BODY.md`) | **borrador** (10 lemas; pendiente auditoría) |
+| 1 | Body (`INGLES_BODY.md`) | **congelado** (10 lemas; auditoría 2026-08-03) |
 | 2 | Food | pendiente |
 | 3 | Actions (forma base) | pendiente |
 | 4 | Clothes | pendiente |
@@ -131,7 +131,7 @@ Listening y Phonics siguen aplazados (Fases 5–6).
 | **Integración Ortografía** | Completa |
 | **JSON Inglés** | Terminado (3 packs, schema `INGLES_JSON_SPEC.md`) |
 | **Integración Inglés** | Completa v1 · hub de repaso 3.º: **Colegio + Familia** (Colours & Numbers en banco, aparcado en UI) |
-| **Siguiente paso lógico** | Auditoría / congelación de Body; luego Food (máx. 2 packs a la vez) |
+| **Siguiente paso lógico** | Abrir Food o Actions (máx. 2 packs a la vez); JSON Body en Fase 2 |
 
 ---
 
