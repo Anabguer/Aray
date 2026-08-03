@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { AppShell } from '@/components/AppShell'
 import { CrateReveal } from '@/components/CrateReveal'
+import { DailyEnergyNote } from '@/components/DailyEnergyNote'
 import { RoundSummary } from '@/components/RoundSummary'
 import { challengeModeConfig } from '@/config/playConfig'
 import { lumoMessages } from '@/config/lumoMessages'
@@ -164,7 +165,7 @@ export function SessionSummaryScreen() {
             {result.rewardPointsEarned > 0 ? (
               <p>{energyCopy.farmed(result.rewardPointsEarned)}</p>
             ) : result.rewardPointsRequested > 0 || result.rewardDailyComplete ? (
-              <p>{energyCopy.playForFun}</p>
+              <DailyEnergyNote compact />
             ) : (
               <p>Sin energía nueva en esta sesión.</p>
             )}

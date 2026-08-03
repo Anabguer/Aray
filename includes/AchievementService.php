@@ -99,7 +99,7 @@ final class AchievementService
      */
     public static function achievementIdFromSession(string $sessionId, int $playerId): ?string
     {
-        if (!str_starts_with($sessionId, 'achievement-')) {
+        if (strpos($sessionId, 'achievement-') !== 0) {
             return null;
         }
         $rest = substr($sessionId, strlen('achievement-'));
@@ -107,8 +107,9 @@ final class AchievementService
             return null;
         }
         $suffix = '-' . $playerId;
-        if (str_ends_with($rest, $suffix)) {
-            $aid = substr($rest, 0, -strlen($suffix));
+        $suffixLen = strlen($suffix);
+        if ($suffixLen > 0 && substr($rest, -$suffixLen) === $suffix) {
+            $aid = substr($rest, 0, -$suffixLen);
         } else {
             $aid = preg_replace('/-\d+$/', '', $rest);
         }

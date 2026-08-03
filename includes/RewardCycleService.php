@@ -9,12 +9,14 @@ declare(strict_types=1);
  */
 final class RewardCycleService
 {
-    public const DEFAULT_TARGET = 5000;
+    public const DEFAULT_TARGET = 6000;
     public const DEFAULT_DAILY_CAP = 100;
     public const GOAL_CODE = 'robux-500';
     /** Escala ×10 desde meta legacy 500 / tope 10. */
     public const ENERGY_SCALE = 10;
     public const LEGACY_TARGET = 500;
+    /** Meta tras escala ×10 (antes del ajuste a ~60 días). */
+    public const SCALE_V1_TARGET = 5000;
 
     public static function ensureGoalAndCycle(int $playerId): void
     {
@@ -52,8 +54,8 @@ final class RewardCycleService
             $dailyCap = max(0, (int) ($goal['daily_cap'] ?? 0));
             $pointsTotal = max(0, (int) ($goal['points_total'] ?? 0));
 
-            // Migración escala ×10: 500→5000 y 10→100 (conserva % de progreso).
-            if ($target === self::LEGACY_TARGET || $target < self::DEFAULT_TARGET) {
+            // Migración: 500 → 6000 (×10 puntos). 5000 → 6000 (sin reescalar progreso).
+            if ($target === self::LEGACY_TARGET) {
                 $scaledPoints = $pointsTotal * self::ENERGY_SCALE;
                 $pdo->prepare(
                     "UPDATE {$goals}
@@ -76,6 +78,25 @@ final class RewardCycleService
                     ':t' => self::DEFAULT_TARGET,
                     ':s' => self::ENERGY_SCALE,
                     ':t2' => self::DEFAULT_TARGET,
+                    ':u' => $now,
+                    ':p' => $playerId,
+                ]);
+                $target = self::DEFAULT_TARGET;
+            } elseif ($target === self::SCALE_V1_TARGET) {
+                $pdo->prepare(
+                    "UPDATE {$goals} SET target_points = :t, daily_cap = :d, updated_at = :u WHERE id = :id"
+                )->execute([
+                    ':t' => self::DEFAULT_TARGET,
+                    ':d' => self::DEFAULT_DAILY_CAP,
+                    ':u' => $now,
+                    ':id' => (int) $goal['id'],
+                ]);
+                $pdo->prepare(
+                    "UPDATE {$cycles}
+                     SET target_points = :t, updated_at = :u
+                     WHERE player_id = :p AND status = 'active'"
+                )->execute([
+                    ':t' => self::DEFAULT_TARGET,
                     ':u' => $now,
                     ':p' => $playerId,
                 ]);
@@ -118,7 +139,8 @@ final class RewardCycleService
         int $playerId,
         int $requested,
         string $sessionId,
-        ?array $alreadyAppliedSessionIds = null
+        ?array $alreadyAppliedSessionIds = null,
+        bool $ignoreDailyCap = false
     ): array {
         unset($alreadyAppliedSessionIds); // legacy client field; idempotencia = energy_granted
         self::ensureGoalAndCycle($playerId);
@@ -170,7 +192,9 @@ final class RewardCycleService
 
             $dailyCap = max(0, (int) $goal['daily_cap']);
             $dailyLeft = max(0, $dailyCap - $dailyPoints);
-            $granted = max(0, min($requested, $dailyLeft));
+            $granted = $ignoreDailyCap
+                ? max(0, $requested)
+                : max(0, min($requested, $dailyLeft));
             $remaining = $granted;
             $cyclesCompleted = [];
 
@@ -274,7 +298,7 @@ final class RewardCycleService
             )->execute([
                 ':pt' => $pointsTotal,
                 ':dd' => $dailyDate,
-                ':dp' => $dailyPoints + $granted,
+                ':dp' => $ignoreDailyCap ? $dailyPoints : ($dailyPoints + $granted),
                 ':gs' => $status,
                 ':cn' => $cycleNumber,
                 ':u' => $now,

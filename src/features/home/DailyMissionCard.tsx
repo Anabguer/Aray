@@ -1,50 +1,39 @@
 import { Link } from 'react-router-dom'
 import { dailySkillIcons } from '@/assets/daily'
+import { missionEnergyConfig } from '@/config/rewardGoal'
 import { useDailyMission } from '@/daily/DailyMissionContext'
-import { sideActivityEnergy } from '@/config/rewardGoal'
 import './dailyMission.css'
 
 export function DailyMissionCard() {
-  const {
-    tasks,
-    progress,
-    completedCount,
-    allDone,
-    bonusClaimed,
-    claimBonusIfReady,
-  } = useDailyMission()
+  const { tasks, progress, completedCount, allDone } = useDailyMission()
 
   return (
     <section
-      className={`daily-mission${allDone && !bonusClaimed ? ' daily-mission--ready' : ''}`}
+      className={`daily-mission${allDone ? ' daily-mission--ready' : ''}`}
       aria-labelledby="daily-mission-title"
     >
       <div className="daily-mission__top">
-        <div className="daily-mission__head">
-          <p className="daily-mission__eyebrow">Misión diaria</p>
-          <h2 id="daily-mission-title" className="daily-mission__title">
-            Misión del día
-          </h2>
-        </div>
+        <h2 id="daily-mission-title" className="daily-mission__eyebrow">
+          Misión diaria
+        </h2>
         <p className="daily-mission__count" aria-live="polite">
           {completedCount}/{tasks.length}
-          {allDone ? (bonusClaimed ? ' ✓' : ' ¡') : ''}
+          {allDone ? ' ✓' : ''}
         </p>
       </div>
-
-      <p className="daily-mission__lead">Completa las 5 y gana bonus de energía</p>
 
       <ul className="daily-mission__bubbles">
         {tasks.map((t) => {
           const cur = progress[t.key] ?? 0
           const done = cur >= t.target
           const frac = `${Math.min(cur, t.target)}/${t.target}`
+          const unit = missionEnergyConfig.perUnit[t.key]
           return (
             <li key={t.key}>
               <Link
                 to={t.href}
                 className={`daily-mission__bubble${done ? ' is-done' : ''}`}
-                title={`${t.label}: ${frac}`}
+                title={`${t.label}: ${frac} (+${unit} energía c/u)`}
                 aria-label={`${t.label}: ${frac}${done ? ', completado' : ''}`}
               >
                 <span className="daily-mission__orb-wrap">
@@ -64,16 +53,6 @@ export function DailyMissionCard() {
           )
         })}
       </ul>
-
-      {allDone && !bonusClaimed ? (
-        <button
-          type="button"
-          className="btn btn-primary btn-block daily-mission__claim"
-          onClick={() => claimBonusIfReady()}
-        >
-          Recoger bonus (+{sideActivityEnergy.dailyBonus} energía)
-        </button>
-      ) : null}
     </section>
   )
 }

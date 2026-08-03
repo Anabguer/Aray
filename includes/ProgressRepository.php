@@ -107,6 +107,7 @@ final class ProgressRepository
             'facts' => (object) $facts,
             'tables' => (object) $tables,
             'alphabet' => AlphabetSessionService::snapshotForPlayer($playerId),
+            'dailyMission' => DailyMissionService::snapshotForPlayer($playerId),
             'reward' => $reward,
             'crates' => $crates,
             'achievements' => [

@@ -53,11 +53,11 @@ export function WorldLevelMap({
     if (!stage) return
     const w = stage.clientWidth
     const h = Math.max(stage.scrollHeight, stage.clientHeight)
-    setPathBox({ w, h })
+    setPathBox((prev) => (prev.w === w && prev.h === h ? prev : { w, h }))
 
     const ports = [...stage.querySelectorAll<HTMLElement>('.map-station__port')]
     if (ports.length === 0) {
-      setPathD('')
+      setPathD((prev) => (prev === '' ? prev : ''))
       return
     }
     const sr = stage.getBoundingClientRect()
@@ -69,7 +69,8 @@ export function WorldLevelMap({
       }
     })
     const softVertical = window.matchMedia('(max-width: 719px)').matches
-    setPathD(buildCurvePath(points, { softVertical }))
+    const next = buildCurvePath(points, { softVertical })
+    setPathD((prev) => (prev === next ? prev : next))
   }, [])
 
   useLayoutEffect(() => {

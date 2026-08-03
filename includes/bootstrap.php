@@ -38,6 +38,7 @@ require_once __DIR__ . '/ActivityService.php';
 require_once __DIR__ . '/AdultDashboardService.php';
 require_once __DIR__ . '/SessionService.php';
 require_once __DIR__ . '/AlphabetSessionService.php';
+require_once __DIR__ . '/DailyMissionService.php';
 require_once __DIR__ . '/CrateService.php';
 require_once __DIR__ . '/SyncEpochService.php';
 require_once __DIR__ . '/AchievementService.php';

@@ -1,5 +1,6 @@
 import { masteryThresholds } from '@/config/rewards'
 import { rewardRules } from '@/config/rewards'
+import { rewardGoalConfig } from '@/config/rewardGoal'
 import type { AlphabetPlayMode, AlphabetQuestion } from '@/alphabet/types'
 import type { ProgressState } from '@/math/types'
 import { grantRewardPoints, localDateString } from '@/reward/engine'
@@ -69,7 +70,7 @@ export const alphabetRoundConfig = {
   passScore: 8,
   consecutiveLowsToNeedsTrain: 2,
   /** Energía / premio por ronda completada (escala ×10). */
-  rewardPointsPerRound: 30,
+  rewardPointsPerRound: 0,
 } as const
 
 export const ALPHABET_TRACK_MODES: AlphabetTrackMode[] = [
@@ -297,7 +298,8 @@ export function applyAlphabetSessionToProgress(
         coinsEarned: 0,
         rewardPointsEarned: 0,
         rewardDailyComplete:
-          progress.reward.dailyPoints >= 10 || progress.reward.goalStatus !== 'active',
+          progress.reward.dailyPoints >= rewardGoalConfig.dailyCap ||
+          progress.reward.goalStatus !== 'active',
         sessionId: input.sessionId,
         recommendReview: status.recommendPractice,
         statusLabel: status.label,

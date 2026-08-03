@@ -4,6 +4,7 @@ import type { AlphabetPlayMode } from '@/alphabet/types'
 import type { ProgressState } from '@/math/types'
 import { ARAY_DATA_EPOCH_FALLBACK, PROGRESS_CACHE_KEY } from '@/sync/constants'
 import { mapServerProgressToState, type ServerProgressSnapshot } from '@/sync/mapServerProgress'
+import { applyServerDailyMission } from '@/sync/dailyMissionSync'
 import {
   clearProgressCache,
   currentLocalEpoch,
@@ -192,6 +193,7 @@ export async function flushPendingAlphabetSessions(
             : ARAY_DATA_EPOCH_FALLBACK
         purgeStaleLocalSync(serverEpoch, playerId)
         lastProgress = mapServerProgressToState(server.progress)
+        applyServerDailyMission(playerId, server.progress.dailyMission)
         saveSyncMeta({
           epoch: serverEpoch,
           playerId,

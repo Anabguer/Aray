@@ -1,11 +1,14 @@
 /* ARAY service worker — shell offline mínimo; no cachea JS/CSS/media. */
-const CACHE = 'aray-shell-v8'
+const CACHE = 'aray-shell-v9'
 
 function canPutInCache(request, response) {
   // Cache Storage no admite 206 Partial Content (Range en audio/vídeo).
   if (!response || response.status !== 200) return false
   if (response.type === 'opaque') return false
-  if (request.headers.has('range')) return false
+  // `request` puede ser Request o string (p. ej. './index.html').
+  if (request && typeof request === 'object' && request.headers && request.headers.has('range')) {
+    return false
+  }
   const vary = response.headers.get('Vary')
   if (vary && /\*/.test(vary)) return false
   return true

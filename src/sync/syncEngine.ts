@@ -2,6 +2,7 @@ import { ApiError, apiGet, apiPost } from '@/api/client'
 import type { ProgressState, SessionAnswer, SessionResult } from '@/math/types'
 import { ARAY_DATA_EPOCH_FALLBACK, PROGRESS_CACHE_KEY } from '@/sync/constants'
 import { mapServerProgressToState, type ServerProgressSnapshot } from '@/sync/mapServerProgress'
+import { applyServerDailyMission } from '@/sync/dailyMissionSync'
 import {
   clearProgressCache,
   currentLocalEpoch,
@@ -137,6 +138,7 @@ export async function hydrateOfficialProgress(opts: {
     }
 
     const progress = mapServerProgressToState(snapshot, opts)
+    applyServerDailyMission(playerId, snapshot.dailyMission)
     saveSyncMeta({
       epoch: syncEpoch,
       playerId,
@@ -284,6 +286,7 @@ export async function flushPendingSessions(
         const serverEpoch = readSyncEpoch(server.progress)
         purgeStaleLocalSync(serverEpoch, playerId)
         lastProgress = mapServerProgressToState(server.progress)
+        applyServerDailyMission(playerId, server.progress.dailyMission)
         saveSyncMeta({
           epoch: serverEpoch,
           playerId,
@@ -319,6 +322,7 @@ export async function flushPendingSessions(
       const serverEpoch = readSyncEpoch(snapshot)
       purgeStaleLocalSync(serverEpoch, playerId)
       lastProgress = mapServerProgressToState(snapshot)
+      applyServerDailyMission(playerId, snapshot.dailyMission)
     } catch {
       /* snapshot opcional tras sync parcial */
     }

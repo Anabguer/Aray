@@ -22,6 +22,10 @@ export type ActivityEnergyGrant = {
   xpEarned?: number
   /** Delta de stats de logros (tiempo, feature, racha buena…). */
   statsDelta?: import('@/achievements/stats').StatsDelta
+  /** Cajas / logros / level-up: no consumen cupo de misión del día. */
+  ignoreDailyCap?: boolean
+  /** Completó el Reto del día (card JUGAR del lobby): +challengeDaily una vez. */
+  claimDailyChallenge?: boolean
 }
 
 type ServerReward = {
@@ -148,6 +152,7 @@ async function submitGrant(
     sessionId: grant.sessionId,
     requestedPoints: grant.requestedPoints,
     appliedSessionIds: priorOnly,
+    ...(grant.ignoreDailyCap ? { ignoreDailyCap: true } : {}),
     ...(typeof grant.xpEarned === 'number' && grant.xpEarned > 0
       ? { xpEarned: Math.max(0, Math.floor(grant.xpEarned)) }
       : {}),
@@ -185,6 +190,7 @@ export async function syncLevelUpEnergyEvents(args: {
         sessionId,
         requestedPoints: Math.max(0, ev.energyRequested),
         mode: 'levelup',
+        ignoreDailyCap: true,
       },
       appliedSessionIds: applied,
       localReward: reward,

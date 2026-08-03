@@ -35,46 +35,30 @@
 .daily-mission__top {
   position: relative;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 0.6rem;
-}
-
-.daily-mission__head {
-  min-width: 0;
+  margin-bottom: 0.55rem;
 }
 
 .daily-mission__eyebrow {
-  margin: 0 0 0.12rem;
+  margin: 0;
   color: var(--cyan, #22d3ee);
   font-size: 0.68rem;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-}
-
-.daily-mission__title {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: clamp(1.05rem, 3.8vw, 1.28rem);
-  line-height: 1.15;
+  font-family: inherit;
+  line-height: 1.2;
 }
 
 .daily-mission__count {
-  margin: 0.1rem 0 0;
+  margin: 0;
   flex: 0 0 auto;
   font-size: 0.95rem;
   font-weight: 800;
   color: var(--cyan, #22d3ee);
   font-variant-numeric: tabular-nums;
-}
-
-.daily-mission__lead {
-  position: relative;
-  margin: 0.2rem 0 0.7rem;
-  color: var(--text-muted);
-  font-size: 0.8rem;
-  line-height: 1.25;
 }
 
 .daily-mission__bubbles {

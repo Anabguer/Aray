@@ -23,8 +23,8 @@ $applied = isset($body['appliedSessionIds']) && is_array($body['appliedSessionId
     ? array_values(array_filter($body['appliedSessionIds'], 'is_string'))
     : [];
 
-// Tope = dailyCap escala ×10 (100). El motor recorta por capacidad diaria real.
-if ($sessionId === '' || strlen($sessionId) > 64 || $requested < 0 || $requested > 100) {
+// Tope misión = dailyCap (100). Extras (caja/logro/levelup) pueden bypass.
+if ($sessionId === '' || strlen($sessionId) > 64 || $requested < 0 || $requested > 200) {
     Http::error(400, 'invalid_grant', 'Petición de puntos no válida.');
 }
 
@@ -38,6 +38,12 @@ if (!empty($body['activity']) && is_array($body['activity'])) {
 if ($mode === '') {
     $mode = 'play';
 }
+
+$ignoreDailyCap = !empty($body['ignoreDailyCap'])
+    || in_array($mode, ['achievement', 'levelup', 'crate'], true)
+    || strpos($sessionId, 'crate-energy-') === 0
+    || strpos($sessionId, 'achievement-') === 0
+    || strpos($sessionId, 'levelup-') === 0;
 
 $xpEarned = isset($body['xpEarned']) ? (int) $body['xpEarned'] : 0;
 if ($xpEarned < 0) {
@@ -95,7 +101,7 @@ if (is_array($row)) {
     ]);
 }
 
-$grant = RewardCycleService::grantPoints($playerId, $requested, $sessionId, $applied);
+$grant = RewardCycleService::grantPoints($playerId, $requested, $sessionId, $applied, $ignoreDailyCap);
 $granted = (int) ($grant['granted'] ?? 0);
 
 // XP de actividades laterales (calc/spell/clocks/money): una sola vez por sessionId.

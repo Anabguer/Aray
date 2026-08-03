@@ -21,7 +21,8 @@ export const challengeModeConfig = {
   xpMultiplier: 2,
   coinMultiplier: 2,
   rewardMultiplier: 1,
-  maxRewardFromItems: 100,
+  maxRewardFromItems: 30, // 6 × 5 (slots misión tablas)
+
 } as const
 
 export const learnLayout = {

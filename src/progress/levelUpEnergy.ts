@@ -37,6 +37,7 @@ export function applyLevelUpEnergyBonuses(
         requestedPoints: bonus,
         sessionId,
         attemptIds: [newId('levelup-attempt')],
+        ignoreDailyCap: true,
       },
       today,
     )

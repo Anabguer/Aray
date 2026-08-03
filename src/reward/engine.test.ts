@@ -21,8 +21,8 @@ function ans(a: number, b: number, correct: boolean, id: string): SessionAnswer 
 }
 
 describe('puntos de recompensa', () => {
-  it('una multiplicación correcta pide 10 puntos; incorrecta 0', () => {
-    expect(computeTablesRewardRequest([ans(7, 8, true, '1')]).requestedPoints).toBe(10)
+  it('una multiplicación correcta pide 5 puntos; incorrecta 0', () => {
+    expect(computeTablesRewardRequest([ans(7, 8, true, '1')]).requestedPoints).toBe(5)
     expect(computeTablesRewardRequest([ans(7, 8, false, '2')]).requestedPoints).toBe(0)
   })
 
@@ -31,7 +31,7 @@ describe('puntos de recompensa', () => {
       ans(7, 8, false, 'a'),
       ans(7, 8, true, 'b'),
     ])
-    expect(req.requestedPoints).toBe(10)
+    expect(req.requestedPoints).toBe(5)
   })
 
   it('una misma operación canónica no concede dos veces en la sesión', () => {
@@ -39,7 +39,7 @@ describe('puntos de recompensa', () => {
       ans(3, 7, true, 'a'),
       ans(7, 3, true, 'b'),
     ])
-    expect(req.requestedPoints).toBe(10)
+    expect(req.requestedPoints).toBe(5)
   })
 
   it('doble attemptId idéntico no duplica', () => {
@@ -47,6 +47,15 @@ describe('puntos de recompensa', () => {
       ans(5, 5, true, 'same'),
       ans(5, 5, true, 'same'),
     ])
+    expect(req.requestedPoints).toBe(5)
+  })
+
+  it('maxUnits limita slots de misión', () => {
+    const req = computeTablesRewardRequest(
+      [ans(2, 2, true, 'a'), ans(2, 3, true, 'b'), ans(2, 4, true, 'c')],
+      { maxUnits: 2 },
+    )
+    expect(req.unitsCredited).toBe(2)
     expect(req.requestedPoints).toBe(10)
   })
 
@@ -64,9 +73,29 @@ describe('puntos de recompensa', () => {
     expect(grant.dailyComplete).toBe(true)
   })
 
-  it('al llegar a 5000 marca premio y el sobrante pasa al siguiente ciclo', () => {
+  it('ignoreDailyCap suma al ciclo sin hinchar la barra de hoy', () => {
     const reward = createInitialRewardProgress()
-    reward.pointsTotal = 4950
+    reward.dailyDate = '2026-07-29'
+    reward.dailyPoints = 100
+    reward.pointsTotal = 200
+    const grant = grantRewardPoints(
+      reward,
+      {
+        requestedPoints: 40,
+        sessionId: 'crate-1',
+        attemptIds: [],
+        ignoreDailyCap: true,
+      },
+      '2026-07-29',
+    )
+    expect(grant.granted).toBe(40)
+    expect(grant.reward.dailyPoints).toBe(100)
+    expect(grant.reward.pointsTotal).toBe(240)
+  })
+
+  it('al llegar a 6000 marca premio y el sobrante pasa al siguiente ciclo', () => {
+    const reward = createInitialRewardProgress()
+    reward.pointsTotal = 5950
     reward.dailyDate = '2026-07-29'
     const grant = grantRewardPoints(
       reward,
@@ -93,8 +122,8 @@ describe('puntos de recompensa', () => {
   })
 
   it('pesos por tipo de actividad son configurables', () => {
-    expect(resolveActivityWeight('micro')).toBe(10)
-    expect(resolveActivityWeight('medium')).toBe(30)
+    expect(resolveActivityWeight('micro')).toBe(5)
+    expect(resolveActivityWeight('medium')).toBe(5)
     expect(resolveActivityWeight('special', 9)).toBe(9)
   })
 

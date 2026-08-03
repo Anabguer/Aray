@@ -47,6 +47,11 @@ export type ServerProgressSnapshot = {
   stats?: unknown
   school?: unknown
   activityAssignments?: unknown
+  dailyMission?: {
+    date?: string
+    progress?: Record<string, number>
+    challengeDone?: boolean
+  }
 }
 
 function asRecord<T>(value: unknown): Record<string, T> {

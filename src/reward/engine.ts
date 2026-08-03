@@ -51,6 +51,8 @@ export interface GrantRewardInput {
   requestedPoints: number
   sessionId: string
   attemptIds: string[]
+  /** Cajas / logros / level-up: suman al ciclo sin consumir el cupo de misión del día. */
+  ignoreDailyCap?: boolean
 }
 
 export interface GrantRewardResult {
@@ -88,7 +90,10 @@ export function grantRewardPoints(
   }
 
   const capacity = remainingDailyCapacity(next, today)
-  const granted = Math.max(0, Math.min(input.requestedPoints, capacity))
+  const bypass = Boolean(input.ignoreDailyCap)
+  const granted = bypass
+    ? Math.max(0, input.requestedPoints)
+    : Math.max(0, Math.min(input.requestedPoints, capacity))
   let remaining = granted
   let points = next.pointsTotal
   let cycleNumber = next.currentCycleNumber
@@ -122,7 +127,8 @@ export function grantRewardPoints(
   next = {
     ...next,
     pointsTotal: points,
-    dailyPoints: next.dailyPoints + granted,
+    // Extras esporádicos no hinchan la barra "hoy" de la misión.
+    dailyPoints: bypass ? next.dailyPoints : next.dailyPoints + granted,
     dailyDate: today,
     goalStatus,
     currentCycleNumber: cycleNumber,

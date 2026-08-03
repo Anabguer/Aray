@@ -20,19 +20,16 @@ export function applyCrateRewardToProgress(
       requestedPoints: reward.amount,
       sessionId: newId('crate-energy'),
       attemptIds: [newId('crate-attempt')],
+      ignoreDailyCap: true,
     },
     localDateString(),
   )
-  const overflow = Math.max(0, reward.amount - grant.granted)
   return {
     next: {
       ...progress,
       reward: grant.reward,
     },
     granted: { kind: 'energy', amount: grant.granted },
-    adjustmentNote:
-      overflow > 0
-        ? `Tope de energía de hoy: +${grant.granted} de ${reward.amount}`
-        : null,
+    adjustmentNote: null,
   }
 }

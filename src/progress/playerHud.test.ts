@@ -19,7 +19,7 @@ describe('derivePlayerHud', () => {
     expect(hud.energyTarget).toBe(rewardGoalConfig.targetPoints)
     expect(hud.energyToday).toBe(80)
     expect(hud.energyDailyCap).toBe(rewardGoalConfig.dailyCap)
-    // 80/5000 ≈ 2%, no 80/100 = 80%
+    // 80/6000 ≈ 1%, no 80/100 = 80%
     expect(hud.energyBarPct).toBe(Math.round((80 / rewardGoalConfig.targetPoints) * 100))
     expect(hud.energyBarPct).toBeLessThan(5)
   })

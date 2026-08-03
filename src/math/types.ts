@@ -58,7 +58,7 @@ export interface RewardProgress {
 }
 
 export interface ProgressState {
-  /** v6: energía ×10 (meta 5000 / tope 100). v5 = ABC; v4 = escolar. */
+  /** v6: energía misión+reto (meta 6000 / tope 100). v5 = ABC; v4 = escolar. */
   version: 4 | 5 | 6
   xp: number
   coins: number

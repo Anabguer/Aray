@@ -53,7 +53,10 @@ export const energyCopy = {
       : '¡Barra del día llena! Si juegas más, es por vicio 🔥',
   dailyComplete: '¡Barra del día llena!',
   /** Cuando ya no suma al premio oficial pero puede seguir jugando. */
+  playForFunTitle: '¡Barra de hoy llena!',
   playForFun:
+    'Si sigues jugando, es por vicio — XP y práctica siguen contando.',
+  playForFunLong:
     '¡Hemos llenado la barra de hoy! Si sigues jugando, es por vicio — XP y práctica siguen contando.',
   dropUnlockedFor: (tutorName: string) =>
     `¡Premio conseguido! Avísale a ${tutorName} para recogerlo`,

@@ -5,6 +5,7 @@ import { energyCopy, rewardGoalConfig } from '@/config/rewardGoal'
 import { useAuth } from '@/auth/AuthContext'
 import { useProgress } from '@/progress/ProgressContext'
 import { markPendingCelebrated, normalizeRewardCycles } from '@/reward/engine'
+import { DailyEnergyNote } from '@/components/DailyEnergyNote'
 
 export function GoalCard({ compact = false }: { compact?: boolean }) {
   const { progress, updateReward } = useProgress()
@@ -115,11 +116,7 @@ export function GoalCard({ compact = false }: { compact?: boolean }) {
         {daily >= dailyCap ? ` · ${energyCopy.dailyComplete}` : ''}
       </p>
       <p className="goal-card__note">{energyCopy.sourcesHint}</p>
-      {daily >= dailyCap ? (
-        <p className="goal-card__play-fun" role="status">
-          {energyCopy.playForFun}
-        </p>
-      ) : null}
+      {daily >= dailyCap ? <DailyEnergyNote compact /> : null}
 
       {delivered.length > 0 ? (
         <ul className="goal-card__vitrine" aria-label="Premios anteriores">
