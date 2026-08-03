@@ -86,21 +86,19 @@ describe('money generator 3.º', () => {
     expect(spare.pieces!.every((p) => p.kind === 'coin')).toBe(true)
   })
 
-  it('change y shortfall incluyen escena Cuesta + pago/tengo', () => {
+  it('change y shortfall usan texto Cuesta/Pagas (sin piezas)', () => {
     const change = buildMoneyQuestion('change', 88)
     expect(change.kind).toBe('mcq')
     if (change.kind !== 'mcq') return
-    expect(change.scene).toHaveLength(2)
-    expect(change.scene![0]!.label).toBe('Cuesta')
-    expect(change.scene![1]!.label).toBe('Pagas')
-    expect(change.scene![0]!.pieces.length).toBeGreaterThan(0)
-    expect(change.scene![1]!.pieces.length).toBeGreaterThan(0)
+    expect(change.scene).toBeUndefined()
+    expect(change.pieces).toBeUndefined()
+    expect(change.detail).toMatch(/^Cuesta .+ · Pagas /)
 
     const shortfall = buildMoneyQuestion('shortfall', 99)
     expect(shortfall.kind).toBe('mcq')
     if (shortfall.kind !== 'mcq') return
-    expect(shortfall.scene?.[0]?.label).toBe('Cuesta')
-    expect(shortfall.scene?.[1]?.label).toBe('Tienes')
+    expect(shortfall.scene).toBeUndefined()
+    expect(shortfall.detail).toMatch(/^Cuesta .+ · Tienes /)
   })
 
   it('decomposeToPieces respeta billetes y tope', () => {

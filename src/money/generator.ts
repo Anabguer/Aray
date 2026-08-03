@@ -143,10 +143,6 @@ function buildChange(seed: number, mode: MoneyPlayMode): MoneyMcqQuestion {
     mode,
     prompt: '¿Cuánto te devuelven?',
     detail: `Cuesta ${formatEuro(price)} · Pagas ${formatEuro(pay)}`,
-    scene: [
-      { label: 'Cuesta', pieces: decomposeToPieces(price) },
-      { label: 'Pagas', pieces: decomposeToPieces(pay) },
-    ],
     options,
     correctIndex: options.indexOf(formatEuro(change)),
   }
@@ -167,10 +163,6 @@ function buildShortfall(seed: number, mode: MoneyPlayMode): MoneyMcqQuestion {
     mode,
     prompt: '¿Cuánto te falta?',
     detail: `Cuesta ${formatEuro(price)} · Tienes ${formatEuro(have)}`,
-    scene: [
-      { label: 'Cuesta', pieces: decomposeToPieces(price) },
-      { label: 'Tienes', pieces: decomposeToPieces(have) },
-    ],
     options,
     correctIndex: options.indexOf(formatEuro(need)),
   }
