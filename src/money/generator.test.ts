@@ -3,6 +3,7 @@ import {
   buildMoneyQuestion,
   buildMoneyRound,
   canMakeExact,
+  decomposeToPieces,
   formatEuro,
 } from '@/money/generator'
 import type { MoneyPlayMode } from '@/money/types'
@@ -66,5 +67,46 @@ describe('money generator 3.º', () => {
     expect(formatEuro(350)).toBe('3,50 €')
     expect(formatEuro(500)).toBe('5 €')
     expect(formatEuro(1376)).toBe('13,76 €')
+  })
+
+  it('sum y spare incluyen piezas visuales', () => {
+    const sum = buildMoneyQuestion('sum', 55)
+    expect(sum.kind).toBe('mcq')
+    if (sum.kind !== 'mcq') return
+    expect(sum.pieces?.length).toBeGreaterThanOrEqual(3)
+    expect(sum.pieces!.some((p) => p.kind === 'bill')).toBe(true)
+    expect(sum.pieces!.reduce((s, p) => s + p.cents, 0)).toBe(
+      Number(sum.questionId!.split(':').pop()),
+    )
+
+    const spare = buildMoneyQuestion('spare', 77)
+    expect(spare.kind).toBe('mcq')
+    if (spare.kind !== 'mcq') return
+    expect(spare.pieces).toHaveLength(4)
+    expect(spare.pieces!.every((p) => p.kind === 'coin')).toBe(true)
+  })
+
+  it('change y shortfall incluyen escena Cuesta + pago/tengo', () => {
+    const change = buildMoneyQuestion('change', 88)
+    expect(change.kind).toBe('mcq')
+    if (change.kind !== 'mcq') return
+    expect(change.scene).toHaveLength(2)
+    expect(change.scene![0]!.label).toBe('Cuesta')
+    expect(change.scene![1]!.label).toBe('Pagas')
+    expect(change.scene![0]!.pieces.length).toBeGreaterThan(0)
+    expect(change.scene![1]!.pieces.length).toBeGreaterThan(0)
+
+    const shortfall = buildMoneyQuestion('shortfall', 99)
+    expect(shortfall.kind).toBe('mcq')
+    if (shortfall.kind !== 'mcq') return
+    expect(shortfall.scene?.[0]?.label).toBe('Cuesta')
+    expect(shortfall.scene?.[1]?.label).toBe('Tienes')
+  })
+
+  it('decomposeToPieces respeta billetes y tope', () => {
+    const pieces = decomposeToPieces(2055)
+    expect(pieces.some((p) => p.kind === 'bill' && p.cents === 2000)).toBe(true)
+    expect(pieces.reduce((s, p) => s + p.cents, 0)).toBe(2055)
+    expect(decomposeToPieces(9999, 3).length).toBeLessThanOrEqual(3)
   })
 })

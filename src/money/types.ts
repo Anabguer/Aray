@@ -2,6 +2,12 @@ export type MoneyPlayMode = 'change' | 'build' | 'spare' | 'sum' | 'shortfall' |
 
 export type CoinEuro = 200 | 100 | 50 | 20 | 10 | 5 | 2 | 1
 
+/** Pieza visual: billete rectangular o moneda redonda (céntimos). */
+export type MoneyPiece = { kind: 'bill' | 'coin'; cents: number }
+
+/** Grupo etiquetado (p. ej. Cuesta / Pagas). */
+export type MoneySceneGroup = { label: string; pieces: MoneyPiece[] }
+
 /** Céntimos enteros. */
 export interface MoneyMcqQuestion {
   kind: 'mcq'
@@ -11,6 +17,10 @@ export interface MoneyMcqQuestion {
   mode: MoneyPlayMode
   prompt: string
   detail?: string
+  /** Piezas sueltas (suma / sobra). */
+  pieces?: MoneyPiece[]
+  /** Escena con grupos etiquetados (cambio / te falta). */
+  scene?: MoneySceneGroup[]
   options: string[]
   /** Índice correcto; valor en céntimos o etiqueta. */
   correctIndex: number

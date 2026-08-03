@@ -30,6 +30,7 @@ import {
   recordMathsHit,
   recordMathsMiss,
 } from '@/math/missStore'
+import { MoneyPiecesBoard } from '@/features/maths/money/MoneyPiecesBoard'
 import './money.css'
 
 function isMode(v: string | undefined): v is MoneyPlayMode | 'misses' {
@@ -242,7 +243,21 @@ export function MoneyPlayScreen() {
         lumoState={lumo.state}
         lumoIntensity={lumo.intensity}
         prompt={question.prompt}
-        detail={question.kind === 'mcq' ? question.detail : `Llevas ${formatEuro(built)}`}
+        detail={
+          question.kind === 'mcq' ? (
+            question.scene?.length || question.pieces?.length ? (
+              <MoneyPiecesBoard
+                pieces={question.pieces}
+                scene={question.scene}
+                caption={question.detail}
+              />
+            ) : (
+              question.detail
+            )
+          ) : (
+            `Llevas ${formatEuro(built)}`
+          )
+        }
         fx={answerFx.fx}
         lumoBoost={answerFx.lumoBoost}
         hit={hitFlash}

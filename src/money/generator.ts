@@ -5,9 +5,36 @@ import {
   type CoinEuro,
   type MoneyBuildQuestion,
   type MoneyMcqQuestion,
+  type MoneyPiece,
   type MoneyPlayMode,
   type MoneyQuestion,
 } from '@/money/types'
+
+const BILL_CENTS = [50000, 20000, 10000, 5000, 2000, 1000, 500] as const
+const PIECE_COINS: CoinEuro[] = [200, 100, 50, 20, 10, 5, 2, 1]
+
+/** Descompone un importe en billetes y monedas (greedy). Máx. `maxPieces`. */
+export function decomposeToPieces(cents: number, maxPieces = 7): MoneyPiece[] {
+  let left = Math.max(0, Math.floor(cents))
+  const pieces: MoneyPiece[] = []
+  for (const b of BILL_CENTS) {
+    while (left >= b) {
+      pieces.push({ kind: 'bill', cents: b })
+      left -= b
+    }
+  }
+  for (const c of PIECE_COINS) {
+    while (left >= c) {
+      pieces.push({ kind: 'coin', cents: c })
+      left -= c
+    }
+  }
+  if (pieces.length <= maxPieces) return pieces
+  const head = pieces.slice(0, maxPieces - 1)
+  const rest = pieces.slice(maxPieces - 1).reduce((sum, p) => sum + p.cents, 0)
+  head.push({ kind: rest >= 500 ? 'bill' : 'coin', cents: rest })
+  return head
+}
 
 export function formatEuro(cents: number): string {
   const euros = Math.floor(cents / 100)
@@ -116,6 +143,10 @@ function buildChange(seed: number, mode: MoneyPlayMode): MoneyMcqQuestion {
     mode,
     prompt: '¿Cuánto te devuelven?',
     detail: `Cuesta ${formatEuro(price)} · Pagas ${formatEuro(pay)}`,
+    scene: [
+      { label: 'Cuesta', pieces: decomposeToPieces(price) },
+      { label: 'Pagas', pieces: decomposeToPieces(pay) },
+    ],
     options,
     correctIndex: options.indexOf(formatEuro(change)),
   }
@@ -136,6 +167,10 @@ function buildShortfall(seed: number, mode: MoneyPlayMode): MoneyMcqQuestion {
     mode,
     prompt: '¿Cuánto te falta?',
     detail: `Cuesta ${formatEuro(price)} · Tienes ${formatEuro(have)}`,
+    scene: [
+      { label: 'Cuesta', pieces: decomposeToPieces(price) },
+      { label: 'Tienes', pieces: decomposeToPieces(have) },
+    ],
     options,
     correctIndex: options.indexOf(formatEuro(need)),
   }
@@ -217,6 +252,7 @@ function buildSpare(seed: number, mode: MoneyPlayMode): MoneyMcqQuestion {
     mode,
     prompt: `Para formar ${formatEuro(sumRest)}, ¿cuál sobra?`,
     detail: coins.map((c) => COIN_LABEL[c]).join(' · '),
+    pieces: coins.map((c) => ({ kind: 'coin' as const, cents: c })),
     options,
     correctIndex: options.indexOf(COIN_LABEL[spare]),
   }
@@ -232,6 +268,12 @@ function buildSum(seed: number, mode: MoneyPlayMode): MoneyMcqQuestion {
   const options = uniqueEuroOptions(total, rand)
   const detailParts = [`Billete ${formatEuro(bill)}`, COIN_LABEL[c1], COIN_LABEL[c2]]
   if (c3) detailParts.push(COIN_LABEL[c3 as CoinEuro])
+  const pieces: MoneyPiece[] = [
+    { kind: 'bill', cents: bill },
+    { kind: 'coin', cents: c1 },
+    { kind: 'coin', cents: c2 },
+  ]
+  if (c3) pieces.push({ kind: 'coin', cents: c3 as CoinEuro })
   return {
     kind: 'mcq',
     id: `sm-${seed}`,
@@ -239,6 +281,7 @@ function buildSum(seed: number, mode: MoneyPlayMode): MoneyMcqQuestion {
     mode,
     prompt: '¿Cuánto dinero hay?',
     detail: detailParts.join(' + '),
+    pieces,
     options,
     correctIndex: options.indexOf(formatEuro(total)),
   }
