@@ -1,7 +1,9 @@
 .monta-frase-play {
   display: grid;
   gap: 1rem;
-  padding: 0.25rem 0 1rem;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 0.25rem 0 1.25rem;
 }
 
 .monta-frase-head {
@@ -12,8 +14,8 @@
 .monta-frase-progress {
   margin: 0;
   font-size: 0.85rem;
-  opacity: 0.75;
   font-weight: 600;
+  color: var(--text-muted);
 }
 
 .monta-frase-prompt-row {
@@ -25,71 +27,76 @@
 .monta-frase-prompt {
   margin: 0;
   flex: 1;
-  font-size: clamp(1.25rem, 4vw, 1.65rem);
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 4.5vw, 1.75rem);
   font-weight: 800;
   letter-spacing: -0.02em;
+  color: var(--text);
 }
 
 .monta-frase-help-btn {
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 2.35rem;
+  height: 2.35rem;
   border-radius: 999px;
-  border: 2px solid color-mix(in srgb, var(--ink, #1a1a1a) 35%, transparent);
-  background: color-mix(in srgb, var(--surface, #fff) 88%, #f6c177);
+  border: 2px solid rgba(96, 165, 250, 0.55);
+  background: linear-gradient(160deg, rgba(51, 65, 85, 0.95), rgba(30, 41, 59, 0.98));
+  color: #f8fafc;
   font-weight: 800;
   font-size: 1.1rem;
   cursor: pointer;
-  color: inherit;
 }
 
 .monta-frase-help-btn.is-open {
-  background: color-mix(in srgb, #f6c177 55%, #fff);
+  border-color: rgba(56, 189, 248, 0.9);
+  background: rgba(14, 165, 233, 0.35);
 }
 
 .monta-frase-help {
   margin: 0;
-  padding: 0.65rem 0.85rem;
+  padding: 0.7rem 0.9rem;
   border-radius: 0.85rem;
-  background: color-mix(in srgb, #f6c177 22%, var(--surface, #fff));
+  border: 1px solid rgba(96, 165, 250, 0.35);
+  background: rgba(15, 23, 42, 0.65);
+  color: var(--text);
   font-size: 0.95rem;
 }
 
 .monta-frase-answer {
   list-style: none;
   margin: 0;
-  padding: 0.85rem;
-  min-height: 4.5rem;
+  padding: 0.9rem;
+  min-height: 4.75rem;
   display: flex;
   flex-wrap: wrap;
   gap: 0.45rem;
   align-content: flex-start;
   border-radius: 1rem;
-  border: 2px dashed color-mix(in srgb, var(--ink, #1a1a1a) 28%, transparent);
-  background: color-mix(in srgb, var(--surface, #fff) 94%, #ffe0b2);
+  border: 2px dashed rgba(148, 163, 184, 0.55);
+  background: rgba(15, 23, 42, 0.45);
 }
 
 .monta-frase-answer.is-ok {
   border-style: solid;
-  border-color: #2e7d32;
-  background: color-mix(in srgb, #81c784 28%, var(--surface, #fff));
+  border-color: rgba(52, 211, 153, 0.9);
+  background: rgba(16, 185, 129, 0.28);
 }
 
 .monta-frase-answer.is-bad {
   border-style: solid;
-  border-color: #c0392b;
-  background: color-mix(in srgb, #e74c3c 16%, var(--surface, #fff));
+  border-color: rgba(239, 68, 68, 0.95);
+  background: rgba(185, 28, 28, 0.3);
 }
 
 .monta-frase-answer__empty {
   margin: 0;
-  opacity: 0.55;
+  color: var(--text-muted);
   font-weight: 600;
 }
 
 .monta-frase-reveal {
   margin: 0;
   font-weight: 700;
-  color: #1a7a3c;
+  color: var(--ok);
 }
 
 .monta-frase-pool {
@@ -106,15 +113,15 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 2.55rem;
-  padding: 0.35rem 0.85rem;
+  min-height: 2.6rem;
+  padding: 0.4rem 0.9rem;
   border-radius: 0.85rem;
-  border: 2px solid color-mix(in srgb, var(--ink, #1a1a1a) 22%, transparent);
-  background: color-mix(in srgb, #90caf9 42%, var(--surface, #fff));
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  background: linear-gradient(160deg, rgba(51, 65, 85, 0.98), rgba(30, 41, 59, 0.98));
+  color: #f8fafc;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 1.02rem;
   cursor: pointer;
-  color: inherit;
 }
 
 .monta-frase-chip:disabled {
@@ -122,7 +129,9 @@
 }
 
 .monta-frase-chip--picked {
-  background: color-mix(in srgb, #fff59d 55%, var(--surface, #fff));
+  border-color: rgba(96, 165, 250, 0.75);
+  background: rgba(37, 99, 235, 0.4);
+  color: #eff6ff;
 }
 
 @media (prefers-reduced-motion: reduce) {

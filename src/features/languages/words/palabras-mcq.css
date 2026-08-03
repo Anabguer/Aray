@@ -31,15 +31,16 @@
   width: 2rem;
   height: 2rem;
   border-radius: 999px;
-  border: 2px solid color-mix(in srgb, var(--ink, #1a1a1a) 30%, transparent);
-  background: color-mix(in srgb, var(--surface, #fff) 88%, #ce93d8);
+  border: 2px solid rgba(96, 165, 250, 0.55);
+  background: linear-gradient(160deg, rgba(51, 65, 85, 0.95), rgba(30, 41, 59, 0.98));
+  color: #f8fafc;
   font-weight: 800;
   cursor: pointer;
-  color: inherit;
 }
 
 .palabras-help-btn.is-open {
-  background: color-mix(in srgb, #ce93d8 45%, #fff);
+  border-color: rgba(56, 189, 248, 0.9);
+  background: rgba(14, 165, 233, 0.35);
 }
 
 .palabras-match {
@@ -67,41 +68,43 @@
   min-height: 2.65rem;
   padding: 0.4rem 0.65rem;
   border-radius: 0.85rem;
-  border: 2px solid color-mix(in srgb, var(--ink, #1a1a1a) 22%, transparent);
-  background: color-mix(in srgb, #ffe082 40%, var(--surface, #fff));
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  background: linear-gradient(160deg, rgba(51, 65, 85, 0.98), rgba(30, 41, 59, 0.98));
+  color: #f8fafc;
   font-weight: 700;
   font-size: 0.98rem;
   cursor: pointer;
-  color: inherit;
 }
 
 .palabras-match__chip--right {
-  background: color-mix(in srgb, #90caf9 38%, var(--surface, #fff));
+  background: linear-gradient(160deg, rgba(30, 58, 95, 0.98), rgba(15, 40, 70, 0.98));
 }
 
 .palabras-match__chip.is-selected {
-  border-color: #e67e22;
-  background: color-mix(in srgb, #e67e22 28%, #ffe082);
+  border-color: rgba(251, 191, 36, 0.95);
+  background: linear-gradient(160deg, rgba(245, 158, 11, 0.55), rgba(180, 83, 9, 0.65));
+  color: #fff7ed;
 }
 
 .palabras-match__chip.is-target:not(:disabled) {
-  border-color: #2a9d8f;
+  border-color: rgba(52, 211, 153, 0.75);
 }
 
 .palabras-match__chip.is-done {
   opacity: 0.55;
-  background: color-mix(in srgb, #81c784 35%, var(--surface, #fff));
+  border-color: rgba(52, 211, 153, 0.55);
+  background: rgba(16, 185, 129, 0.28);
   cursor: default;
 }
 
 .palabras-match__chip.is-wrong {
-  border-color: #c0392b;
-  background: color-mix(in srgb, #e74c3c 18%, var(--surface, #fff));
+  border-color: rgba(239, 68, 68, 0.95);
+  background: rgba(185, 28, 28, 0.35);
 }
 
 .palabras-match__hint {
   margin: 0;
   font-size: 0.9rem;
-  opacity: 0.8;
+  color: var(--text-muted);
   text-align: center;
 }
