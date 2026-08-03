@@ -55,6 +55,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 47: números (emparejar dígito ↔ palabra EN). |
 | 2026-08-03 | Ejercicio 48: ordenar palabras → oración (fichas, sin escribir). |
 | 2026-08-03 | Ejercicio 49: Where is the flower? (on/under/next to). |
+| 2026-08-03 | Ejercicio 50: There was/were (MCQ + pista Positive). |
 
 ## Material en inbox
 
@@ -108,6 +109,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/47-numbers-write.png` | Numbers: dígito ↔ palabra EN (match) | Catalogado |
 | `refs/48-order-sentences.png` | Ordenar palabras → oración (fichas) | Catalogado |
 | `refs/49-where-is-the-flower.png` | Where is the flower? on/under/next to | Catalogado |
+| `refs/50-there-was-mcq.png` | There was/were MCQ (pasado) | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -1586,6 +1588,31 @@ Capitalización / `?` los puede añadir la app al validar (German, Can…?).
 
 ---
 
+## Ejercicio 50 — There was / were (pasado)
+
+![Captura](../Ingles/_inbox/refs/50-there-was-mcq.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | App/ficha MCQ · frase + pista *(Positive)* |
+| **Bloque** | **Gramática** existencia en pasado (*There was/were / wasn't*) |
+| **Categoría propuesta** | `there-is` (amplía a pasado) |
+| **Mecánica Aray** | 3 chips MCQ · tip ayuda |
+| **Escritura libre** | No |
+| **Ayuda** | Tip: singular → There was · plural → There were · − → wasn't / weren't |
+
+### Ítem (muestra)
+
+| Frase | Opciones | Correcta |
+|-------|----------|----------|
+| ______ a big elephant at the zoo. (Positive) | There were · There was · There wasn't | **There was** |
+
+### Nota
+
+Si llegan más ítems del mismo set, ampliar banco (was/were +/−/?). Misma categoría y tip.
+
+---
+
 ## Categorías propuestas (mapa)
 
 | ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
@@ -1600,7 +1627,7 @@ Capitalización / `?` los puede añadir la app al validar (German, Can…?).
 | `stories` | Cuentos | Personajes + *wearing* + adjetivos | ej. 24–29 | drag-to-portrait, who-wearing, he/she | borrador |
 | `clothes` | Ropa | crown, boots, dress… | ~9 lemas (ej. 25–27) | picture, wearing-match, he/she | borrador |
 | `adjectives` | Adjetivos | handsome, young, old, poor, rich, clever, beautiful | 7 (ej. 28–29) | he/she + adj MCQ | borrador |
-| `there-is` | There is / are | Existencia + *How many* (+ tip) | ej. 30–35 | match, fill, Q+YN, order, picture count + **help tip** | borrador |
+| `there-is` | There is / was | Presente + pasado (+ How many) | ej. 30–35, 50 | match, fill, Q+YN, picture, **was/were MCQ** + tip | borrador |
 | `possessives` | Posesión | *'s* + *his/her* (+ tip) | ej. 36, 39 | MCQ, his/her Where + **help tip** | borrador |
 | `prepositions` | Preposiciones | *on/in/under/next to* + Where… | ej. 37–38, 49 | picture prep chips + tip · escena compartida 37–38 | borrador |
 | `transport` | Transporte | *go by…* / *walk* + Do you…? | ej. 41–42 | drag-to-image, YN · **1 tira compartida** | borrador |
