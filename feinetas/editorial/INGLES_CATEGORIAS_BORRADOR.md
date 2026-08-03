@@ -45,6 +45,7 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | 2026-08-03 | Ejercicio 35: How many + imagen (There are / aren't). |
 | 2026-08-03 | Ejercicio 36: possessive 's + his/her (elige forma). |
 | 2026-08-03 | Ejercicio 37: on/in/under + Where is/are. |
+| 2026-08-03 | Ejercicios 38–39: is/are + his/her (misma escena que 37). |
 
 ## Material en inbox
 
@@ -87,6 +88,8 @@ Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/
 | `refs/35-how-many-picture.png` | How many + imagen → There are / aren't | Catalogado |
 | `refs/36-possessive-s-choose.png` | Possessive 's + his/her (elige forma) | Catalogado |
 | `refs/37-prepositions-place.png` | on/in/under + Where is/are (habitación) | Catalogado |
+| `refs/38-where-is-are.png` | Where is/are + ropa (mismo lote 37) | Catalogado |
+| `refs/39-his-her-where.png` | his/her + Where is/are (mismo lote 37) | Catalogado |
 | `01.pdf`, `1.pdf` … `8.pdf` | Lotes PDF en disco | Pendiente lectura |
 
 ---
@@ -1225,6 +1228,60 @@ El ítem 2 es trampa deliberada (pregunta *cats*, imagen *fish*) → fuerza *The
 
 wardrobe, bed, table, dress, jumper, tracksuit, trousers, shoes.
 
+### Asset compartido
+
+La escena de habitación de este ejercicio **se reutiliza** en los ej. 38–39 (misma ficha / misma ilustración). En Aray: **un solo asset** de habitación + varias rondas encima.
+
+---
+
+## Ejercicio 38 — Where is / are (fill)
+
+![Captura](../Ingles/_inbox/refs/38-where-is-are.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | «2 Complete the questions with *is* or *are*.» |
+| **Bloque** | **Gramática** *is/are* + posesión + ropa |
+| **Categoría propuesta** | `prepositions` (+ puente `possessives` / `clothes`) |
+| **Mecánica Aray** | Fill *is* / *are* según singular·plural |
+| **Escena** | **Misma que ej. 37** (no regenerar ilustración) |
+| **Ayuda** | Tip: is + singular · are + plural (jeans, shoes, trousers → are) |
+
+### Ítems (+ clave)
+
+| # | Pregunta | Forma |
+|---|----------|-------|
+| 1 | Where ______ Angel's jeans? | are |
+| 2 | Where ______ Guille's jumper? | is |
+| 3 | Where ______ Raquel's shoes? | are |
+| 4 | Where ______ Carolina's tracksuit? | is |
+| 5 | Where ______ Roberto's trousers? | are |
+
+---
+
+## Ejercicio 39 — his / her (Where…)
+
+![Captura](../Ingles/_inbox/refs/39-his-her-where.png)
+
+| Campo | Valor |
+|--------|--------|
+| **Fuente** | «3 Complete the sentences with *his* or *her*.» |
+| **Bloque** | **Gramática** *his/her* + Where is/are + ropa |
+| **Categoría propuesta** | `possessives` (+ puente `prepositions` / `clothes`) |
+| **Mecánica Aray** | Circle/chips *his* / *her* según nombre (♂/♀) |
+| **Escena** | **Misma que ej. 37** |
+| **Ayuda** | Tip: he→his · she→her |
+
+### Ítems (+ clave)
+
+| # | Prompt | Correcta |
+|---|--------|----------|
+| 1 | Where are his / her socks? (Carmen) | her *(ejemplo)* |
+| 2 | Where is his / her t-shirt? (Jaime) | his |
+| 3 | Where is his / her dress? (Alica) | her |
+| 4 | Where is his / her skirt? (Cristina) | her |
+| 5 | Where are his / her jeans? (Luis) | his |
+
 ---
 
 ## Categorías propuestas (mapa)
@@ -1242,8 +1299,8 @@ wardrobe, bed, table, dress, jumper, tracksuit, trousers, shoes.
 | `clothes` | Ropa | crown, boots, dress… | ~9 lemas (ej. 25–27) | picture, wearing-match, he/she | borrador |
 | `adjectives` | Adjetivos | handsome, young, old, poor, rich, clever, beautiful | 7 (ej. 28–29) | he/she + adj MCQ | borrador |
 | `there-is` | There is / are | Existencia + *How many* (+ tip) | ej. 30–35 | match, fill, Q+YN, order, picture count + **help tip** | borrador |
-| `possessives` | Posesión | *'s* + *his/her* (+ tip) | ej. 36 | 2-option MCQ + **help tip** | borrador |
-| `prepositions` | Preposiciones | *on/in/under* + Where is/are | ej. 37 | picture circle prep + **help tip** | borrador |
+| `possessives` | Posesión | *'s* + *his/her* (+ tip) | ej. 36, 39 | MCQ, his/her Where + **help tip** | borrador |
+| `prepositions` | Preposiciones | *on/in/under* + Where is/are | ej. 37–38 | picture prep, is/are fill + **help tip** · **1 escena compartida** | borrador |
 
 ## Cómo añadir un lote
 
