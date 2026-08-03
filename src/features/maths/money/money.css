@@ -298,6 +298,36 @@
 .side-run__detail:has(.money-scatter) {
   font-size: inherit;
   line-height: normal;
+  width: 100%;
+}
+
+/* Evitar que el overflow del console recorte billetes/monedas ladeados */
+.learn-lab__console:has(.money-scatter) {
+  overflow: visible;
+}
+
+.money-scatter {
+  width: 100%;
+  padding-inline: 0.25rem;
+}
+
+.money-scatter__row {
+  gap: 0.55rem 0.65rem;
+  padding: 0.55rem 0.25rem 0.75rem;
+}
+
+.money-scatter .money-piece--bill {
+  width: clamp(5rem, 18vw, 6.2rem);
+  height: clamp(2.6rem, 9.5vw, 3.2rem);
+}
+
+.money-scatter .money-piece--coin {
+  width: clamp(2.9rem, 12vw, 3.5rem);
+  height: clamp(2.9rem, 12vw, 3.5rem);
+}
+
+.money-scatter .money-piece--coin .money-piece__value {
+  font-size: clamp(0.7rem, 2.6vw, 0.88rem);
 }
 
 .money-build-detail {
