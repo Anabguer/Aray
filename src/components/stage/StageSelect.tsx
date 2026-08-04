@@ -151,15 +151,19 @@ export function StageSlot({
 
   if (to) {
     return (
-      <Link to={to} className={classes} aria-label={label} role="listitem">
-        {body}
-      </Link>
+      <div role="listitem" className="stage-slot-wrap">
+        <Link to={to} className={classes} aria-label={label}>
+          {body}
+        </Link>
+      </div>
     )
   }
 
   return (
-    <button type="button" className={classes} onClick={onClick} aria-label={label}>
-      {body}
-    </button>
+    <div role="listitem" className="stage-slot-wrap">
+      <button type="button" className={classes} onClick={onClick} aria-label={label}>
+        {body}
+      </button>
+    </div>
   )
 }

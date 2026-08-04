@@ -153,6 +153,10 @@
     0 0 24px color-mix(in srgb, var(--mode-accent) 26%, transparent);
 }
 
+.stage-slot-wrap {
+  display: contents;
+}
+
 .stage-slot__tag {
   position: absolute;
   top: 0.55rem;
