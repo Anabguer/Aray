@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
+import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom'
 import { ScrollToTop } from '@/components/ScrollToTop'
 import { AccessScreen } from '@/features/access/AccessScreen'
 import { AuthGate } from '@/features/access/AuthGate'
@@ -174,12 +174,14 @@ export default function App() {
           path="/missions/languages/formar-palabras/summary"
           element={<FormarPalabrasSummaryScreen />}
         />
-        <Route path="/missions/english" element={<EnglishHubScreen />} />
-        <Route path="/missions/english/pack/:packId/summary" element={<EnglishSummaryScreen />} />
-        <Route path="/missions/english/pack/:packId/match" element={<EnglishMatchPlayScreen />} />
-        <Route path="/missions/english/pack/:packId/:mode" element={<EnglishPlayScreen />} />
-        <Route path="/missions/english/pack/:packId" element={<EnglishModeSelectScreen />} />
-        <Route path="/missions/english/:stationId" element={<EnglishStationScreen />} />
+        <Route path="/missions/english" element={<Outlet />}>
+          <Route index element={<EnglishHubScreen />} />
+          <Route path="pack/:packId/summary" element={<EnglishSummaryScreen />} />
+          <Route path="pack/:packId/match" element={<EnglishMatchPlayScreen />} />
+          <Route path="pack/:packId/:mode" element={<EnglishPlayScreen />} />
+          <Route path="pack/:packId" element={<EnglishModeSelectScreen />} />
+          <Route path=":stationId" element={<EnglishStationScreen />} />
+        </Route>
         <Route path="/missions/:subjectId" element={<SubjectPreviewScreen />} />
         <Route path="/collection" element={<CollectionScreen />} />
         <Route path="*" element={<Navigate to="/" replace />} />

@@ -55,12 +55,15 @@ function PlayMark() {
 export function WorldStationNode({
   station,
   guideTip,
+  onOpen,
 }: {
   station: Station
   guideTip?: string
+  onOpen?: (stationId: string) => void
 }) {
   const active = station.status === 'recommended' || station.status === 'available'
-  const playable = Boolean(station.href) && station.status !== 'coming-soon'
+  const playable =
+    (Boolean(station.href) || Boolean(onOpen)) && station.status !== 'coming-soon'
   const showGuide = Boolean(guideTip) && station.status === 'recommended'
 
   const inner = (
@@ -148,6 +151,19 @@ export function WorldStationNode({
     .join(' ')
 
   const aria = `${station.title}. ${statusLabel[station.status]}`
+
+  if (playable && onOpen) {
+    return (
+      <button
+        type="button"
+        className={className}
+        aria-label={aria}
+        onClick={() => onOpen(station.id)}
+      >
+        {inner}
+      </button>
+    )
+  }
 
   if (playable && station.href) {
     return (

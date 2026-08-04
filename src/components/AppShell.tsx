@@ -9,6 +9,7 @@ export function AppShell({
   subtitle,
   showBack = false,
   backTo = '..',
+  onBack,
   showLobbyLink,
   hideHeader = false,
 }: {
@@ -19,6 +20,8 @@ export function AppShell({
   subtitle?: string
   showBack?: boolean
   backTo?: string
+  /** Atrás por callback (p. ej. cerrar vista local sin cambiar ruta). */
+  onBack?: () => void
   /** Por defecto: oculto solo en el Lobby. */
   showLobbyLink?: boolean
   /** Pantallas sin HUD (auth / casos especiales). */
@@ -38,7 +41,8 @@ export function AppShell({
             title={resolvedTitle}
             shortTitle={shortTitle}
             subtitle={subtitle}
-            backTo={showBack && !isHome ? backTo : undefined}
+            backTo={showBack && !isHome && !onBack ? backTo : undefined}
+            onBack={showBack && !isHome ? onBack : undefined}
             showLobbyLink={lobbyLink}
           />
         ) : null}

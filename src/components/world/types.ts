@@ -47,4 +47,6 @@ export type WorldLevelMapProps = {
   /** Frase de Lumo junto a la estación activa. */
   guideTip?: string
   stations: WorldStation[]
+  /** Si está, la estación disponible se abre con callback (sin Link). */
+  onStationOpen?: (stationId: string) => void
 }

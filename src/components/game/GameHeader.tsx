@@ -16,6 +16,7 @@ export function GameHeader({
   shortTitle,
   subtitle,
   backTo,
+  onBack,
   showLobbyLink = true,
 }: {
   title: string
@@ -24,6 +25,8 @@ export function GameHeader({
   subtitle?: string
   /** Flecha atrás al nivel anterior (no confundir con LOBBY). */
   backTo?: string
+  /** Alternativa a `backTo` cuando el “atrás” es estado local (sin cambiar de ruta). */
+  onBack?: () => void
   /** En el Lobby no se muestra el acceso al Lobby. */
   showLobbyLink?: boolean
 }) {
@@ -41,7 +44,11 @@ export function GameHeader({
   return (
     <header className={`game-header${showLobbyLink ? '' : ' game-header--home'}`}>
       <div className="game-header__identity">
-        {backTo ? (
+        {onBack ? (
+          <button type="button" className="game-header__back" aria-label="Atrás" onClick={onBack}>
+            <IconChevronLeft />
+          </button>
+        ) : backTo ? (
           <Link to={backTo} className="game-header__back" aria-label="Atrás">
             <IconChevronLeft />
           </Link>

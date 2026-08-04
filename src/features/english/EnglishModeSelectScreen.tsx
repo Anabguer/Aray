@@ -11,7 +11,6 @@ import {
   ENGLISH_PACK_LABELS,
   englishPackSupportsSceneMatch,
   isEnglishHubPackId,
-  stationForEnglishPack,
 } from '@/feinetas/englishRegistry'
 import { canBuildEnglishIntruder } from '@/minigames/adapters/englishIntruder'
 import { useProgress } from '@/progress/ProgressContext'
@@ -100,13 +99,8 @@ export function EnglishModeSelectScreen() {
     if (m.mode === 'match' && !showMatch) return false
     return true
   })
-  const station = stationForEnglishPack(packId)
-  const backTo = station
-    ? `/missions/english/${station}`
-    : '/missions/english'
-
   return (
-    <AppShell title={title.toUpperCase()} shortTitle={title} showBack backTo={backTo}>
+    <AppShell title={title.toUpperCase()} shortTitle={title} showBack backTo="/missions/english">
       <StageSelect
         heroes={heroes.map((m) => (
           <StageSlot

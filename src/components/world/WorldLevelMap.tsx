@@ -42,6 +42,7 @@ export function WorldLevelMap({
   theme,
   guideTip,
   stations,
+  onStationOpen,
 }: WorldLevelMapProps) {
   const ordered = orderStations(stations)
   const stageRef = useRef<HTMLDivElement>(null)
@@ -145,6 +146,7 @@ export function WorldLevelMap({
                 <WorldStationNode
                   station={station}
                   guideTip={isFirstRecommended ? guideTip : undefined}
+                  onOpen={onStationOpen}
                 />
               </li>
             )
