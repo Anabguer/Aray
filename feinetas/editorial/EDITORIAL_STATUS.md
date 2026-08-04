@@ -1,7 +1,7 @@
 # Estado editorial Aray — fotografía de cierre
 
 **Fecha de cierre de fase:** 2026-08-02 (Ortografía / inglés v1) · **Mapa hub Inglés cerrado:** 2026-08-04  
-**Alcance:** Ortografía (congelada + JSON en juego) · Inglés v1 archivado · **mapa hub nuevo cerrado** (16 estaciones; hub app vacío hasta tandas).  
+**Alcance:** Ortografía (congelada + JSON en juego) · Inglés v1 archivado · **mapa hub:** 3 estaciones (Vocabulario / Gramática / Frases); hub app vacío hasta tandas.  
 **Uso:** retomar el proyecto sin reabrir metodología ni bancos ya cerrados.
 
 Este archivo **no es runtime**. Flujo general: [`README.md`](./README.md) · arquitectura inglés: [`INGLES_MASTER.md`](./INGLES_MASTER.md) · mapa hub: [`INGLES_CATEGORIAS_BORRADOR.md`](./INGLES_CATEGORIAS_BORRADOR.md).
@@ -47,9 +47,10 @@ Fuente: `INGLES_*.md` · JSON en `feinetas/Ingles/_archivo/` · schema [`INGLES_
 
 Fuente: fichas `_inbox/` · documento [`INGLES_CATEGORIAS_BORRADOR.md`](./INGLES_CATEGORIAS_BORRADOR.md).
 
-- **16 estaciones** cerradas (`food`, `abilities`, `routines`, `time`, `places`, `weather`, `characters`, `there-is`, `possessives`, `prepositions`, `transport`, `money`, `present-simple`, `present-continuous`, `numbers`, `phrases`).
+- **3 estaciones** (como Lengua/Mates): `vocabulary` (Vocabulario) · `grammar` (Gramática) · `phrases` (Frases).
+- Temas del catálogo = **packs internos** (food, there-is, numbers…), no cartas del mapa.
 - Hub app: **vacío** hasta implementar tandas.
-- **Primera tanda** (siguiente implementación): `food`, `abilities`, `routines`, `there-is`, `prepositions`, `numbers`.
+- **Primera tanda:** Vocabulario→`food`+`numbers` · Gramática→`there-is`+`prepositions` · Frases→`abilities`+`routines`.
 
 ---
 
@@ -139,9 +140,9 @@ Listening y Phonics siguen aplazados (Fases 5–6).
 |------|--------|
 | **JSON Ortografía** | Terminado |
 | **Integración Ortografía** | Completa |
-| **JSON Inglés** | v1 archivado (`_archivo/`) · mapa hub cerrado · JSON tandas **pendiente** |
-| **Integración Inglés** | Hub vacío a propósito · primera tanda: food / abilities / routines / there-is / prepositions / numbers |
-| **Siguiente paso lógico** | Implementar primera tanda del mapa cerrado; Body/Food MD legacy siguen en cola de auditoría aparte |
+| **JSON Inglés** | v1 archivado (`_archivo/`) · mapa hub cerrado (3 estaciones) · JSON tandas **pendiente** |
+| **Integración Inglés** | Hub vacío · primera tanda: Vocabulario/Gramática/Frases (6 packs internos) |
+| **Siguiente paso lógico** | Implementar primera tanda del mapa de 3 estaciones |
 
 ---
 
@@ -150,7 +151,7 @@ Listening y Phonics siguen aplazados (Fases 5–6).
 | Documento | Rol |
 |-----------|-----|
 | `README.md` | Flujo editorial general |
-| `INGLES_CATEGORIAS_BORRADOR.md` | **Mapa hub cerrado** (16 estaciones + primera tanda) |
+| `INGLES_CATEGORIAS_BORRADOR.md` | **Mapa hub cerrado** (3 estaciones + packs internos + primera tanda) |
 | `INGLES_JSON_SPEC.md` | Schema JSON inglés |
 | `INGLES_MASTER.md` | Arquitectura packs inglés |
 | `INGLES_COLOURS_NUMBERS.md` | Pack 1 congelado (v1 / archivo) |

@@ -1,13 +1,14 @@
-# Inglés — mapa de categorías (cerrado)
+# Inglés — mapa de hub (cerrado)
 
 Documento de referencia tras catalogar fichas en `feinetas/Ingles/_inbox/`.
-**Mapa cerrado 2026-08-04** · 16 estaciones de hub. Hub de la app sigue vacío hasta implementar tandas.
+**Mapa cerrado 2026-08-04** · **3 estaciones genéricas** (como Lengua/Mates). Hub de la app vacío hasta implementar tandas.
 
 ## Estado
 
 | Fecha | Nota |
 |-------|------|
-| 2026-08-04 | **Mapa cerrado:** 16 estaciones · fusiones · primera tanda definida. |
+| 2026-08-04 | **Mapa re-cerrado:** 3 estaciones (Vocabulario / Gramática / Frases); temas = packs internos. |
+| 2026-08-04 | Primer cierre (16 temas como estaciones) — sustituido por modelo genérico. |
 | 2026-08-03 | Hub vaciado. Bancos Colegio/Familia/Colores en `_archivo/`. Inbox preparado. |
 | 2026-08-03 | Catalogación ej. 01–50 (ver historial abajo / secciones por ejercicio). |
 
@@ -1620,34 +1621,45 @@ Si llegan más ítems del mismo set, ampliar banco (was/were +/−/?). Misma cat
 
 ---
 
-## Mapa cerrado (16 estaciones)
+## Mapa cerrado (3 estaciones · modelo Lengua/Mates)
 
-| ID pack | Título hub | Tema | Ej. catalogados | Mecánicas | Estado |
-|---------|------------|------|-----------------|-----------|--------|
-| `food` | Comida | Vocabulario food + preferencias (+ *but*) | 01–04 | meaning, translate, like-mcq, picture | cerrado |
-| `abilities` | Puedo | *can/can't* + chunks + he/she | 05–08 | drag-to-image, fill-activity, can-yn | cerrado |
-| `routines` | Rutinas | Día a día + higiene + *at* + hora | 09–11, 13–14, 16 | drag-to-image, picture, order-sentence, missing, routine+time | cerrado |
-| `time` | ¿Qué hora es? | *What time…?* + *Is it…?* Yes/No · puente mundo Horas | 12, 15–16 | clock-ui + EN phrases + yn | cerrado |
-| `places` | Lugares | campamento + paisajes | 17–21 | drag-to-image, picture, join-parts, order-sentence | cerrado |
-| `weather` | El tiempo | *It's…* + Q&A (temp/season/YN) | 22, 40 | picture, fill, match Q↔A + **help tip** | cerrado |
-| `characters` | Personajes | Quién es + *wearing* + adjetivos | 24–29 | drag-to-portrait, who-wearing, he/she + adj | cerrado |
-| `there-is` | There is / are | Presente + pasado (+ How many) | 30–35, 50 | match, fill, Q+YN, picture, was/were MCQ + tip | cerrado |
-| `possessives` | De quién es | *'s* + *his/her* (+ tip) | 36, 39 | MCQ, his/her Where + **help tip** | cerrado |
-| `prepositions` | Dónde está | *on/in/under/next to* + Where… | 37–38, 49 | picture prep chips + tip · escena compartida 37–38 | cerrado |
-| `transport` | Cómo voy | *go by…* / *walk* + Do you…? | 41–42 | drag-to-image, YN · **1 tira compartida** | cerrado |
-| `money` | Cuánto cuesta | *How much is…?* + euros | 43 | count coins → *It's N euros.* + tip | cerrado |
-| `present-simple` | Presente | +/− · Do/Does · *on* + day | 44–45 | fill verbo, montar pregunta con fichas + tip | cerrado |
-| `present-continuous` | Ahora mismo | Is/Are…? + -ing + imagen | 46 | YN short answers + tip · **set escenas** | cerrado |
-| `numbers` | Números | 1–100 en inglés | 47 | **match dígito↔palabra** (no escribir) | cerrado |
-| `phrases` | Monta la frase | can / have got / be (repaso) | 48 | **montar fichas** (no escribir) | cerrado |
+El hub muestra **bloques genéricos**, no temas tipo «Comida». Los temas del catálogo son **packs internos** (como reglas en Ortografía o tablas en Mates).
 
-### Fusiones respecto al borrador
+| ID estación | Título hub | Rol | Packs / bancos internos |
+|-------------|------------|-----|-------------------------|
+| `vocabulary` | Vocabulario | Palabra ↔ imagen / match | `food`, `places`, `numbers`, `transport`, `weather` (lemas), `characters` (ropa/quién), `money` (precios como vocab) |
+| `grammar` | Gramática | Reglas + tip muted | `there-is`, `possessives`, `prepositions`, `present-simple`, `present-continuous`, `time` (puente Horas) |
+| `phrases` | Frases | Oraciones / chunks / YN | `abilities` (*can*), `routines`, `food` (like/don't like como frase), `weather` (Q&A), `phrases` (montar), `transport` (Do you…?) |
 
-| Antes (borrador) | Ahora |
-|------------------|--------|
-| `stories` + `clothes` + `adjectives` | → `characters` (Personajes) |
-| `word-order` | → `phrases` (Monta la frase) |
-| `grammar-basics` (ej. 23) | **No es estación.** Reparte: *It's* → `weather`/`places` · *go to* → `places` · *I've got* → `phrases` · *He's/She's* → `characters` |
+### Packs de contenido (catálogo cerrado · no son cartas del hub)
+
+| ID pack | Título interno | Estación | Ej. | Mecánicas |
+|---------|----------------|----------|-----|-----------|
+| `food` | Comida | Vocabulario + Frases | 01–04 | picture, like-mcq, match |
+| `abilities` | Puedo | Frases | 05–08 | drag-to-image, can-yn |
+| `routines` | Rutinas | Frases | 09–11, 13–14, 16 | drag-to-image, order, missing |
+| `time` | Horas (EN) | Gramática | 12, 15–16 | clock + YN · puente mundo Horas |
+| `places` | Lugares | Vocabulario | 17–21 | drag-to-image, order |
+| `weather` | El tiempo | Vocabulario + Frases | 22, 40 | picture, match Q↔A + tip |
+| `characters` | Personajes | Vocabulario | 24–29 | wearing, he/she + adj |
+| `there-is` | There is / are | Gramática | 30–35, 50 | match, fill, YN, was/were + tip |
+| `possessives` | Posesión | Gramática | 36, 39 | MCQ + tip |
+| `prepositions` | Preposiciones | Gramática | 37–38, 49 | chips on/in/under/next to |
+| `transport` | Transporte | Vocabulario + Frases | 41–42 | drag-to-image, YN |
+| `money` | Dinero | Vocabulario | 43 | How much + euros |
+| `present-simple` | Presente | Gramática | 44–45 | +/−, Do/Does fichas |
+| `present-continuous` | Continuous | Gramática | 46 | YN + escenas |
+| `numbers` | Números | Vocabulario | 47 | match dígito↔palabra |
+| `phrases` | Monta la frase | Frases | 48 | montar fichas |
+
+### Fusiones / absorciones
+
+| Antes | Ahora |
+|-------|--------|
+| 16 temas como estaciones de hub | → **3 estaciones** genéricas |
+| `stories` + `clothes` + `adjectives` | → pack `characters` |
+| `word-order` | → pack `phrases` |
+| `grammar-basics` (ej. 23) | Reparte: *It's*→weather/places · *go to*→places · *I've got*→phrases · *He's/She's*→characters |
 
 ### Reglas de producto (fijas)
 
@@ -1658,23 +1670,22 @@ Si llegan más ítems del mismo set, ampliar banco (was/were +/−/?). Misma cat
 
 ## Primera tanda (implementación)
 
-Cuando se monte el hub jugable, **primera tanda = 6 packs:**
+Abrir las **3 estaciones** del hub con un poco de cada una:
 
-1. `food` — Comida  
-2. `abilities` — Puedo  
-3. `routines` — Rutinas  
-4. `there-is` — There is / are  
-5. `prepositions` — Dónde está  
-6. `numbers` — Números  
+| Estación | Packs en tanda 1 |
+|----------|------------------|
+| **Vocabulario** | `food`, `numbers` |
+| **Gramática** | `there-is`, `prepositions` |
+| **Frases** | `abilities`, `routines` |
 
-El resto de estaciones del mapa cerrado se implementan en tandas siguientes.
+Resto de packs del catálogo → tandas siguientes (misma estructura de 3 estaciones).
 
 ## Cómo ampliar tras el cierre
 
 1. Guardar fichas nuevas en `_inbox/` (capturas en `_inbox/refs/`).
-2. Extraer ítems y asignar a una estación **ya cerrada** (ampliar banco, no inventar IDs sin acuerdo).
-3. Nueva estación de hub solo con decisión explícita de producto.
-4. **Mapa cerrado** · implementar JSON/hub por tanda acordada (empezar por la primera tanda arriba).
+2. Asignar a un **pack** existente y a su **estación** (Vocabulario / Gramática / Frases).
+3. Nueva estación de hub solo con decisión explícita (hoy: solo esas 3).
+4. Implementar JSON/hub por tanda; primera tanda = tabla de arriba.
 
 ## Archivo (referencia, no runtime)
 
