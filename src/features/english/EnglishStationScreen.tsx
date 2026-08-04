@@ -115,8 +115,7 @@ export function EnglishStationScreen() {
       backTo="/missions/english"
     >
       <StageSelect
-        heroes={[]}
-        roster={packs.map((p, i) => {
+        heroes={packs.map((p, i) => {
           const id = p.pack.id
           const meta = PACK_ART[id] ?? {
             art: 'spell-correct' as ModeArtId,
@@ -131,11 +130,11 @@ export function EnglishStationScreen() {
               text={meta.text}
               className={meta.className}
               tag={String(i + 1).padStart(2, '0')}
+              featured
               to={`/missions/english/pack/${id}`}
             />
           )
         })}
-        rosterCols={2}
       />
     </AppShell>
   )

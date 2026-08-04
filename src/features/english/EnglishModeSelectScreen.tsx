@@ -135,7 +135,7 @@ export function EnglishModeSelectScreen() {
             to={`${base}/${m.mode}`}
           />
         ))}
-        rosterCols={2}
+        rosterCols={3}
       />
     </AppShell>
   )
