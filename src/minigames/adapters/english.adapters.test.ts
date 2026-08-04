@@ -44,4 +44,14 @@ describe('english adapters', () => {
       }
     }
   })
+
+  it('buildEnglishMixRound mezcla varios packs de una estación', async () => {
+    const { buildEnglishMixRound } = await import('@/minigames/adapters/englishMix')
+    const { ENGLISH_STATION_PACKS } = await import('@/feinetas/englishRegistry')
+    const packs = ENGLISH_STATION_PACKS.vocabulary
+    const qs = buildEnglishMixRound(packs, 8, 77)
+    expect(qs).toHaveLength(8)
+    const packPrefixes = new Set(qs.map((q) => q.targetKey.split(':')[0]))
+    expect(packPrefixes.size).toBeGreaterThan(1)
+  })
 })

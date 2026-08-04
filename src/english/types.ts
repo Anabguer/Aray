@@ -23,7 +23,10 @@ export type EnglishMcqQuestion = {
 }
 
 export type EnglishSessionSummary = {
-  packId: string
+  /** Pack concreto (ruta /pack/:id) o vacío si la sesión es de estación. */
+  packId?: string
+  /** Estación (vocabulario / gramática / frases). */
+  stationId?: string
   mode: EnglishPlayMode
   total: number
   correct: number
@@ -38,7 +41,7 @@ export const ENGLISH_MODE_LABELS: Record<EnglishPlayMode, string> = {
   intruder: 'Palabra intrusa',
   missing: 'Letra que falta',
   match: 'Empareja',
-  mix: 'Mezcla',
+  mix: 'Random',
   review: 'Mis fallos',
 }
 

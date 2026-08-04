@@ -1,5 +1,5 @@
 /* ARAY service worker — shell offline mínimo; no cachea JS/CSS/media. */
-const CACHE = 'aray-shell-v15'
+const CACHE = 'aray-shell-v16'
 
 function canPutInCache(request, response) {
   // Cache Storage no admite 206 Partial Content (Range en audio/vídeo).

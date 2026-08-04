@@ -94,13 +94,19 @@ export function recordEnglishHit(
 
 export function listActiveEnglishMisses(
   playerId: string | number | null | undefined,
-  packId?: string,
+  packIdOrIds?: string | readonly string[],
 ): EnglishMissEntry[] {
   const store = loadEnglishMisses(playerId)
   let entries = Object.values(store.entries)
-  if (packId) {
-    const prefix = `${packId}:`
-    entries = entries.filter((e) => e.key.startsWith(prefix))
+  if (packIdOrIds != null) {
+    const ids = typeof packIdOrIds === 'string' ? [packIdOrIds] : [...packIdOrIds]
+    if (ids.length === 1) {
+      const prefix = `${ids[0]}:`
+      entries = entries.filter((e) => e.key.startsWith(prefix))
+    } else if (ids.length > 1) {
+      const prefixes = ids.map((id) => `${id}:`)
+      entries = entries.filter((e) => prefixes.some((p) => e.key.startsWith(p)))
+    }
   }
   return entries.sort((a, b) => {
     const wa = a.misses * 10 - a.hits + a.updatedAt / 1e13
@@ -111,9 +117,9 @@ export function listActiveEnglishMisses(
 
 export function countActiveEnglishMisses(
   playerId: string | number | null | undefined,
-  packId?: string,
+  packIdOrIds?: string | readonly string[],
 ): number {
-  return listActiveEnglishMisses(playerId, packId).length
+  return listActiveEnglishMisses(playerId, packIdOrIds).length
 }
 
 export {

@@ -14,40 +14,22 @@ import { buildEnglishTranslateQuestion } from '@/minigames/adapters/englishTrans
 import { buildEnglishMixRound } from '@/minigames/adapters/englishMix'
 
 function rebuildFromMiss(
-  packId: string,
   miss: EnglishMissEntry,
   seed: number,
   used: Set<string>,
 ): EnglishMcqQuestion | null {
   const parsed = parseEnglishMissKey(miss.key)
-  if (!parsed || parsed.packId !== packId) return null
-  const entry = findEnglishCorpusEntry(parsed.packId, parsed.lemmaId)
+  if (!parsed) return null
+  const { packId } = parsed
+  const entry = findEnglishCorpusEntry(packId, parsed.lemmaId)
   if (!entry) return null
   switch (miss.mode) {
     case 'meaning':
-      return buildEnglishMeaningQuestion(
-        packId,
-        seed,
-        used,
-        'review',
-        entry,
-      )
+      return buildEnglishMeaningQuestion(packId, seed, used, 'review', entry)
     case 'translate':
-      return buildEnglishTranslateQuestion(
-        packId,
-        seed,
-        used,
-        'review',
-        entry,
-      )
+      return buildEnglishTranslateQuestion(packId, seed, used, 'review', entry)
     case 'missing':
-      return buildEnglishMissingQuestion(
-        packId,
-        seed,
-        used,
-        'review',
-        entry,
-      )
+      return buildEnglishMissingQuestion(packId, seed, used, 'review', entry)
     case 'intruder':
       // Intrusa no ancla un lema concreto como “correcta” de la misma forma;
       // regeneramos intrusa del pack (prioriza variedad de fallos).
@@ -57,32 +39,29 @@ function rebuildFromMiss(
   }
 }
 
+function normalizePackIds(packIdOrIds: string | readonly string[]): string[] {
+  return typeof packIdOrIds === 'string' ? [packIdOrIds] : [...packIdOrIds]
+}
+
 export function buildEnglishReviewRound(
-  packId: string,
+  packIdOrIds: string | readonly string[],
   count = ENGLISH_ROUND_SIZE,
   seed = Date.now(),
   preferMisses: EnglishMissEntry[] = [],
 ): EnglishMcqQuestion[] {
+  const packs = normalizePackIds(packIdOrIds)
+  const prefixes = packs.map((id) => `${id}:`)
   const used = new Set<string>()
   const out: EnglishMcqQuestion[] = []
   const packMisses = preferMisses.filter((m) =>
-    m.key.startsWith(`${packId}:`),
+    prefixes.some((p) => m.key.startsWith(p)),
   )
   for (let i = 0; i < packMisses.length && out.length < count; i += 1) {
-    const q = rebuildFromMiss(
-      packId,
-      packMisses[i]!,
-      seed + i * 4337,
-      used,
-    )
+    const q = rebuildFromMiss(packMisses[i]!, seed + i * 4337, used)
     if (q) out.push(q)
   }
   if (out.length < count) {
-    const filler = buildEnglishMixRound(
-      packId,
-      count - out.length,
-      seed + 99991,
-    )
+    const filler = buildEnglishMixRound(packs, count - out.length, seed + 99991)
     out.push(...filler)
   }
   return out.slice(0, count)

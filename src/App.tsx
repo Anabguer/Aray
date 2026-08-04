@@ -46,6 +46,7 @@ import { SpellPlayScreen } from '@/features/languages/spelling/SpellPlayScreen'
 import { SpellSummaryScreen } from '@/features/languages/spelling/SpellSummaryScreen'
 import { EnglishHubScreen } from '@/features/english/EnglishHubScreen'
 import { EnglishStationScreen } from '@/features/english/EnglishStationScreen'
+import { EnglishStationPlayScreen } from '@/features/english/EnglishStationPlayScreen'
 import { EnglishModeSelectScreen } from '@/features/english/EnglishModeSelectScreen'
 import { EnglishMatchPlayScreen } from '@/features/english/EnglishMatchPlayScreen'
 import { EnglishPlayScreen } from '@/features/english/EnglishPlayScreen'
@@ -180,6 +181,8 @@ export default function App() {
           <Route path="pack/:packId/match" element={<EnglishMatchPlayScreen />} />
           <Route path="pack/:packId/:mode" element={<EnglishPlayScreen />} />
           <Route path="pack/:packId" element={<EnglishModeSelectScreen />} />
+          <Route path=":stationId/summary" element={<EnglishSummaryScreen />} />
+          <Route path=":stationId/:mode" element={<EnglishStationPlayScreen />} />
           <Route path=":stationId" element={<EnglishStationScreen />} />
         </Route>
         <Route path="/missions/:subjectId" element={<SubjectPreviewScreen />} />

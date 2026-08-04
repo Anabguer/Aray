@@ -196,6 +196,12 @@ export function listEnglishStationPacks(
   return listEnglishHubPacks().filter((p) => ids.has(p.pack.id as EnglishPackId))
 }
 
+export function englishStationPackIds(
+  stationId: EnglishStationId,
+): readonly EnglishPackId[] {
+  return ENGLISH_STATION_PACKS[stationId]
+}
+
 export function englishPackSupportsSceneMatch(packId: string): boolean {
   return (ENGLISH_SCENE_MATCH_PACKS as readonly string[]).includes(packId)
 }

@@ -52,4 +52,12 @@ describe('english missStore', () => {
     expect(listActiveEnglishMisses(PID)[0]!.streakHits).toBe(0)
     expect(listActiveEnglishMisses(PID)[0]!.misses).toBe(2)
   })
+
+  it('filtra fallos por varios packs (estación)', () => {
+    recordEnglishMiss(PID, { key: 'ingles-food:food-apple', mode: 'meaning' })
+    recordEnglishMiss(PID, { key: 'ingles-numbers:numbers-one', mode: 'translate' })
+    recordEnglishMiss(PID, { key: 'ingles-there-is:there-is-a', mode: 'missing' })
+    expect(countActiveEnglishMisses(PID, ['ingles-food', 'ingles-numbers'])).toBe(2)
+    expect(countActiveEnglishMisses(PID, ['ingles-there-is'])).toBe(1)
+  })
 })
