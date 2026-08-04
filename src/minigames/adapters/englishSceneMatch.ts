@@ -149,7 +149,6 @@ export function buildEnglishMatchSession(
   if (pool.length < ENGLISH_MATCH_PAIRS) {
     throw new Error(`[ingles-match] Pack sin suficientes lemas: ${packId}`)
   }
-  const random = mulberry32(seed)
   const boards: EnglishMatchBoard[] = []
   for (let r = 0; r < rounds; r += 1) {
     const pick = shuffle(pool, mulberry32(seed + r * 9973)).slice(

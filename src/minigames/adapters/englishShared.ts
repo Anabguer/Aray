@@ -85,7 +85,7 @@ export function baseEnglishMcq(
   entry: EnglishCorpusEntry,
   mode: EnglishPlayMode,
   seed: number,
-  sourceMode: Exclude<EnglishPlayMode, 'mix' | 'review'>,
+  sourceMode: Exclude<EnglishPlayMode, 'mix' | 'review' | 'match'>,
 ): Pick<
   EnglishMcqQuestion,
   'kind' | 'id' | 'mode' | 'targetKey' | 'sourceMode'
