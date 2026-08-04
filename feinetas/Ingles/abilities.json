@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "pack": {
+    "id": "ingles-abilities",
+    "title": "I can",
+    "ownerBank": "INGLES_CATEGORIAS_BORRADOR.md",
+    "topicFamily": "abilities",
+    "level": "3-primaria",
+    "locale": "en-GB",
+    "revisionStatus": "approved",
+    "contentVersion": 1,
+    "sourceEditorialPhase": "ingles-hub-tanda-1",
+    "notes": "Primera tanda · Frases. Chunks can/deportes (ej. 05–08)."
+  },
+  "lemmas": [
+    { "id": "abilities-play-tennis", "lemma": "play tennis", "glossEs": "jugar al tenis", "category": "Play", "frequency": "muy_frecuente", "image": { "recommended": true, "ref": null } },
+    { "id": "abilities-play-basketball", "lemma": "play basketball", "glossEs": "jugar al baloncesto", "category": "Play", "frequency": "muy_frecuente", "image": { "recommended": true, "ref": null } },
+    { "id": "abilities-play-football", "lemma": "play football", "glossEs": "jugar al fútbol", "category": "Play", "frequency": "muy_frecuente", "image": { "recommended": true, "ref": null } },
+    { "id": "abilities-play-volleyball", "lemma": "play volleyball", "glossEs": "jugar al voleibol", "category": "Play", "frequency": "frecuente", "image": { "recommended": true, "ref": null } },
+    { "id": "abilities-play-table-tennis", "lemma": "play table tennis", "glossEs": "jugar al ping-pong", "category": "Play", "frequency": "frecuente", "image": { "recommended": true, "ref": null } },
+    { "id": "abilities-skateboard", "lemma": "skateboard", "glossEs": "hacer monopatín", "category": "Move", "frequency": "frecuente", "image": { "recommended": true, "ref": null } },
+    { "id": "abilities-ride-a-bike", "lemma": "ride a bike", "glossEs": "montar en bici", "category": "Move", "frequency": "muy_frecuente", "image": { "recommended": true, "ref": null } },
+    { "id": "abilities-rollerblade", "lemma": "rollerblade", "glossEs": "patinar en línea", "category": "Move", "frequency": "frecuente", "image": { "recommended": true, "ref": null } },
+    { "id": "abilities-go-swimming", "lemma": "go swimming", "glossEs": "ir a nadar", "category": "Go", "frequency": "muy_frecuente", "image": { "recommended": true, "ref": null } },
+    { "id": "abilities-go-running", "lemma": "go running", "glossEs": "ir a correr", "category": "Go", "frequency": "frecuente", "image": { "recommended": true, "ref": null } },
+    { "id": "abilities-go-skiing", "lemma": "go skiing", "glossEs": "esquiar", "category": "Go", "frequency": "frecuente", "image": { "recommended": true, "ref": null } },
+    { "id": "abilities-go-ice-skating", "lemma": "go ice-skating", "glossEs": "patinar sobre hielo", "category": "Go", "frequency": "poco_frecuente", "image": { "recommended": true, "ref": null } }
+  ]
+}

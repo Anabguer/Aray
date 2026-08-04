@@ -14,8 +14,8 @@ export type BlockId =
   | 'words'
   | 'spelling'
   | 'vocabulary'
-  | 'word-image'
-  | 'simple-phrases'
+  | 'grammar'
+  | 'phrases'
 
 export type ExerciseType =
   | 'learn'

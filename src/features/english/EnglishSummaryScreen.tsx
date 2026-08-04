@@ -4,6 +4,7 @@ import { ENGLISH_MODE_LABELS, useEnglishSession } from '@/english'
 import {
   ENGLISH_PACK_LABELS,
   isEnglishHubPackId,
+  stationForEnglishPack,
 } from '@/feinetas/englishRegistry'
 import { AppShell } from '@/components/AppShell'
 import { RoundSummary } from '@/components/RoundSummary'
@@ -14,7 +15,12 @@ export function EnglishSummaryScreen() {
   const navigate = useNavigate()
   const { lastSummary, setLastSummary } = useEnglishSession()
   const valid = packId != null && isEnglishHubPackId(packId)
-  const modesPath = valid ? `/missions/english/${packId}` : '/missions/english'
+  const modesPath = valid ? `/missions/english/pack/${packId}` : '/missions/english'
+  const station = valid && packId ? stationForEnglishPack(packId) : null
+  const hubPacksPath = station
+    ? `/missions/english/${station}`
+    : '/missions/english'
+
 
   useEffect(() => {
     if (!valid) {
@@ -62,8 +68,11 @@ export function EnglishSummaryScreen() {
             <Link to={modesPath} className="btn btn-ghost btn-block">
               Otros modos
             </Link>
-            <Link to="/missions/english" className="btn btn-ghost btn-block">
+            <Link to={hubPacksPath} className="btn btn-ghost btn-block">
               Otros packs
+            </Link>
+            <Link to="/missions/english" className="btn btn-ghost btn-block">
+              Estaciones
             </Link>
           </>
         }

@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 1,
+  "pack": {
+    "id": "ingles-there-is",
+    "title": "There is / are",
+    "ownerBank": "INGLES_CATEGORIAS_BORRADOR.md",
+    "topicFamily": "there-is",
+    "level": "3-primaria",
+    "locale": "en-GB",
+    "revisionStatus": "approved",
+    "contentVersion": 1,
+    "sourceEditorialPhase": "ingles-hub-tanda-1",
+    "notes": "Primera tanda · Gramática. Chunks de existencia (ej. 30–35, 50)."
+  },
+  "lemmas": [
+    {
+      "id": "there-is-theres",
+      "lemma": "There's",
+      "glossEs": "hay (1)",
+      "category": "Present",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": false,
+        "ref": null
+      },
+      "notes": "Singular; tip: There's = 1"
+    },
+    {
+      "id": "there-is-there-are",
+      "lemma": "There are",
+      "glossEs": "hay (2+)",
+      "category": "Present",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": false,
+        "ref": null
+      }
+    },
+    {
+      "id": "there-is-there-isnt",
+      "lemma": "There isn't",
+      "glossEs": "no hay (1)",
+      "category": "Present",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": false,
+        "ref": null
+      }
+    },
+    {
+      "id": "there-is-there-arent",
+      "lemma": "There aren't",
+      "glossEs": "no hay (2+)",
+      "category": "Present",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": false,
+        "ref": null
+      }
+    },
+    {
+      "id": "there-is-are-there",
+      "lemma": "Are there",
+      "glossEs": "¿hay…?",
+      "category": "Question",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": false,
+        "ref": null
+      }
+    },
+    {
+      "id": "there-is-how-many",
+      "lemma": "How many",
+      "glossEs": "¿cuántos…?",
+      "category": "Question",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": false,
+        "ref": null
+      }
+    },
+    {
+      "id": "there-is-there-was",
+      "lemma": "There was",
+      "glossEs": "había (1)",
+      "category": "Past",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": false,
+        "ref": null
+      }
+    },
+    {
+      "id": "there-is-there-were",
+      "lemma": "There were",
+      "glossEs": "había (2+)",
+      "category": "Past",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": false,
+        "ref": null
+      }
+    },
+    {
+      "id": "there-is-yes-there-are",
+      "lemma": "Yes, there are",
+      "glossEs": "sí, hay",
+      "category": "Short answers",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": false,
+        "ref": null
+      }
+    },
+    {
+      "id": "there-is-no-there-arent",
+      "lemma": "No, there aren't",
+      "glossEs": "no, no hay",
+      "category": "Short answers",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": false,
+        "ref": null
+      }
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "pack": {
+    "id": "ingles-prepositions",
+    "title": "Prepositions",
+    "ownerBank": "INGLES_CATEGORIAS_BORRADOR.md",
+    "topicFamily": "prepositions",
+    "level": "3-primaria",
+    "locale": "en-GB",
+    "revisionStatus": "approved",
+    "contentVersion": 1,
+    "sourceEditorialPhase": "ingles-hub-tanda-1",
+    "notes": "Primera tanda · Gramática. on/in/under/next to (ej. 37, 49)."
+  },
+  "lemmas": [
+    { "id": "prep-on", "lemma": "on", "glossEs": "encima de", "category": "Place", "frequency": "muy_frecuente", "image": { "recommended": true, "ref": null } },
+    { "id": "prep-in", "lemma": "in", "glossEs": "dentro de", "category": "Place", "frequency": "muy_frecuente", "image": { "recommended": true, "ref": null } },
+    { "id": "prep-under", "lemma": "under", "glossEs": "debajo de", "category": "Place", "frequency": "muy_frecuente", "image": { "recommended": true, "ref": null } },
+    { "id": "prep-next-to", "lemma": "next to", "glossEs": "al lado de", "category": "Place", "frequency": "muy_frecuente", "image": { "recommended": true, "ref": null } },
+    { "id": "prep-where-is", "lemma": "Where is", "glossEs": "¿dónde está?", "category": "Where", "frequency": "muy_frecuente", "image": { "recommended": false, "ref": null } },
+    { "id": "prep-where-are", "lemma": "Where are", "glossEs": "¿dónde están?", "category": "Where", "frequency": "muy_frecuente", "image": { "recommended": false, "ref": null } }
+  ]
+}

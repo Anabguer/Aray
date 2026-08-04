@@ -49,7 +49,7 @@ Fuente: fichas `_inbox/` · documento [`INGLES_CATEGORIAS_BORRADOR.md`](./INGLES
 
 - **3 estaciones** (como Lengua/Mates): `vocabulary` (Vocabulario) · `grammar` (Gramática) · `phrases` (Frases).
 - Temas del catálogo = **packs internos** (food, there-is, numbers…), no cartas del mapa.
-- Hub app: **vacío** hasta implementar tandas.
+- Hub app: **primera tanda jugable** (2026-08-04) — 3 estaciones + 6 packs.
 - **Primera tanda:** Vocabulario→`food`+`numbers` · Gramática→`there-is`+`prepositions` · Frases→`abilities`+`routines`.
 
 ---
@@ -140,9 +140,9 @@ Listening y Phonics siguen aplazados (Fases 5–6).
 |------|--------|
 | **JSON Ortografía** | Terminado |
 | **Integración Ortografía** | Completa |
-| **JSON Inglés** | v1 archivado (`_archivo/`) · mapa hub cerrado (3 estaciones) · JSON tandas **pendiente** |
-| **Integración Inglés** | Hub vacío · primera tanda: Vocabulario/Gramática/Frases (6 packs internos) |
-| **Siguiente paso lógico** | Implementar primera tanda del mapa de 3 estaciones |
+| **JSON Inglés** | v1 archivado · **tanda 1 en runtime** (6 packs) · schema `INGLES_JSON_SPEC` |
+| **Integración Inglés** | Hub 3 estaciones · packs bajo `/missions/english/pack/:id` |
+| **Siguiente paso lógico** | Assets AFK + mecánicas match/drag; tanda 2 de packs |
 
 ---
 

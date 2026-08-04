@@ -65,7 +65,8 @@ export function EnglishPlayScreen() {
   const seedRef = useRef(Date.now())
   const mode: EnglishPlayMode = isMode(modeParam) ? modeParam : 'mix'
   const validPack = packId != null && isEnglishHubPackId(packId)
-  const modesPath = validPack ? `/missions/english/${packId}` : '/missions/english'
+  const modesPath = validPack ? `/missions/english/pack/${packId}` : '/missions/english'
+
 
   const queue = useMemo(() => {
     if (!validPack || !packId) return []
@@ -282,11 +283,16 @@ export function EnglishPlayScreen() {
           lumoIntensity={lumo.intensity}
           prompt={question.prompt}
           detail={
-            question.display && /[_·]/.test(question.display) ? (
-              <BlankDetail display={question.display} />
-            ) : (
-              question.display
-            )
+            <>
+              {question.display && /[_·]/.test(question.display) ? (
+                <BlankDetail display={question.display} />
+              ) : (
+                question.display
+              )}
+              {question.tip ? (
+                <p className="english-play-tip">{question.tip}</p>
+              ) : null}
+            </>
           }
           fx={answerFx.fx}
           lumoBoost={answerFx.lumoBoost}

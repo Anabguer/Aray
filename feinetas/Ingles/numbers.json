@@ -1,0 +1,281 @@
+{
+  "schemaVersion": 1,
+  "pack": {
+    "id": "ingles-numbers",
+    "title": "Numbers",
+    "ownerBank": "INGLES_CATEGORIAS_BORRADOR.md",
+    "topicFamily": "numbers",
+    "level": "3-primaria",
+    "locale": "en-GB",
+    "revisionStatus": "approved",
+    "contentVersion": 1,
+    "sourceEditorialPhase": "ingles-hub-tanda-1",
+    "notes": "Primera tanda · Vocabulario. Dígito en glossEs para meaning/translate (ej. 47)."
+  },
+  "lemmas": [
+    {
+      "id": "numbers-two",
+      "lemma": "two",
+      "glossEs": "2",
+      "category": "Ones and teens",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": false,
+        "ref": null
+      }
+    },
+    {
+      "id": "numbers-four",
+      "lemma": "four",
+      "glossEs": "4",
+      "category": "Ones and teens",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": false,
+        "ref": null
+      }
+    },
+    {
+      "id": "numbers-six",
+      "lemma": "six",
+      "glossEs": "6",
+      "category": "Ones and teens",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": false,
+        "ref": null
+      }
+    },
+    {
+      "id": "numbers-twelve",
+      "lemma": "twelve",
+      "glossEs": "12",
+      "category": "Ones and teens",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": false,
+        "ref": null
+      }
+    },
+    {
+      "id": "numbers-thirteen",
+      "lemma": "thirteen",
+      "glossEs": "13",
+      "category": "Ones and teens",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": false,
+        "ref": null
+      }
+    },
+    {
+      "id": "numbers-fourteen",
+      "lemma": "fourteen",
+      "glossEs": "14",
+      "category": "Ones and teens",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": false,
+        "ref": null
+      }
+    },
+    {
+      "id": "numbers-fifteen",
+      "lemma": "fifteen",
+      "glossEs": "15",
+      "category": "Ones and teens",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": false,
+        "ref": null
+      }
+    },
+    {
+      "id": "numbers-seventeen",
+      "lemma": "seventeen",
+      "glossEs": "17",
+      "category": "Ones and teens",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": false,
+        "ref": null
+      }
+    },
+    {
+      "id": "numbers-twenty",
+      "lemma": "twenty",
+      "glossEs": "20",
+      "category": "Ones and teens",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": false,
+        "ref": null
+      }
+    },
+    {
+      "id": "numbers-twenty-one",
+      "lemma": "twenty-one",
+      "glossEs": "21",
+      "category": "Tens",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": false,
+        "ref": null
+      }
+    },
+    {
+      "id": "numbers-twenty-three",
+      "lemma": "twenty-three",
+      "glossEs": "23",
+      "category": "Tens",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": false,
+        "ref": null
+      }
+    },
+    {
+      "id": "numbers-twenty-eight",
+      "lemma": "twenty-eight",
+      "glossEs": "28",
+      "category": "Tens",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": false,
+        "ref": null
+      }
+    },
+    {
+      "id": "numbers-thirty-three",
+      "lemma": "thirty-three",
+      "glossEs": "33",
+      "category": "Tens",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": false,
+        "ref": null
+      }
+    },
+    {
+      "id": "numbers-thirty-four",
+      "lemma": "thirty-four",
+      "glossEs": "34",
+      "category": "Tens",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": false,
+        "ref": null
+      }
+    },
+    {
+      "id": "numbers-forty-nine",
+      "lemma": "forty-nine",
+      "glossEs": "49",
+      "category": "Tens",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": false,
+        "ref": null
+      }
+    },
+    {
+      "id": "numbers-fifty-two",
+      "lemma": "fifty-two",
+      "glossEs": "52",
+      "category": "Tens",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": false,
+        "ref": null
+      }
+    },
+    {
+      "id": "numbers-fifty-six",
+      "lemma": "fifty-six",
+      "glossEs": "56",
+      "category": "Tens",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": false,
+        "ref": null
+      }
+    },
+    {
+      "id": "numbers-fifty-nine",
+      "lemma": "fifty-nine",
+      "glossEs": "59",
+      "category": "Tens",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": false,
+        "ref": null
+      }
+    },
+    {
+      "id": "numbers-sixty-two",
+      "lemma": "sixty-two",
+      "glossEs": "62",
+      "category": "Tens",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": false,
+        "ref": null
+      }
+    },
+    {
+      "id": "numbers-seventy-five",
+      "lemma": "seventy-five",
+      "glossEs": "75",
+      "category": "Tens",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": false,
+        "ref": null
+      }
+    },
+    {
+      "id": "numbers-eighty",
+      "lemma": "eighty",
+      "glossEs": "80",
+      "category": "Tens",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": false,
+        "ref": null
+      }
+    },
+    {
+      "id": "numbers-eighty-three",
+      "lemma": "eighty-three",
+      "glossEs": "83",
+      "category": "Tens",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": false,
+        "ref": null
+      }
+    },
+    {
+      "id": "numbers-eighty-seven",
+      "lemma": "eighty-seven",
+      "glossEs": "87",
+      "category": "Tens",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": false,
+        "ref": null
+      }
+    },
+    {
+      "id": "numbers-one-hundred",
+      "lemma": "one hundred",
+      "glossEs": "100",
+      "category": "Tens",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": false,
+        "ref": null
+      }
+    }
+  ]
+}

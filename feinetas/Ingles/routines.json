@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "pack": {
+    "id": "ingles-routines",
+    "title": "Routines",
+    "ownerBank": "INGLES_CATEGORIAS_BORRADOR.md",
+    "topicFamily": "routines",
+    "level": "3-primaria",
+    "locale": "en-GB",
+    "revisionStatus": "approved",
+    "contentVersion": 1,
+    "sourceEditorialPhase": "ingles-hub-tanda-1",
+    "notes": "Primera tanda · Frases. Rutinas diarias (ej. 09–11, 13–14, 16)."
+  },
+  "lemmas": [
+    { "id": "routines-get-up", "lemma": "get up", "glossEs": "levantarse", "category": "Morning", "frequency": "muy_frecuente", "image": { "recommended": true, "ref": null } },
+    { "id": "routines-have-breakfast", "lemma": "have breakfast", "glossEs": "desayunar", "category": "Morning", "frequency": "muy_frecuente", "image": { "recommended": true, "ref": null } },
+    { "id": "routines-have-a-shower", "lemma": "have a shower", "glossEs": "ducharse", "category": "Morning", "frequency": "muy_frecuente", "image": { "recommended": true, "ref": null } },
+    { "id": "routines-brush-my-teeth", "lemma": "brush my teeth", "glossEs": "cepillarse los dientes", "category": "Morning", "frequency": "muy_frecuente", "image": { "recommended": true, "ref": null } },
+    { "id": "routines-get-dressed", "lemma": "get dressed", "glossEs": "vestirse", "category": "Morning", "frequency": "muy_frecuente", "image": { "recommended": true, "ref": null } },
+    { "id": "routines-go-to-school", "lemma": "go to school", "glossEs": "ir al cole", "category": "Day", "frequency": "muy_frecuente", "image": { "recommended": true, "ref": null } },
+    { "id": "routines-have-lunch", "lemma": "have lunch", "glossEs": "comer", "category": "Day", "frequency": "frecuente", "image": { "recommended": true, "ref": null } },
+    { "id": "routines-do-homework", "lemma": "do homework", "glossEs": "hacer los deberes", "category": "Day", "frequency": "frecuente", "image": { "recommended": true, "ref": null } },
+    { "id": "routines-have-dinner", "lemma": "have dinner", "glossEs": "cenar", "category": "Evening", "frequency": "frecuente", "image": { "recommended": true, "ref": null } },
+    { "id": "routines-go-to-bed", "lemma": "go to bed", "glossEs": "acostarse", "category": "Evening", "frequency": "muy_frecuente", "image": { "recommended": true, "ref": null } }
+  ]
+}

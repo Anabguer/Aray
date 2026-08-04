@@ -1,0 +1,171 @@
+{
+  "schemaVersion": 1,
+  "pack": {
+    "id": "ingles-food",
+    "title": "Food",
+    "ownerBank": "INGLES_CATEGORIAS_BORRADOR.md",
+    "topicFamily": "food",
+    "level": "3-primaria",
+    "locale": "en-GB",
+    "revisionStatus": "approved",
+    "contentVersion": 1,
+    "sourceEditorialPhase": "ingles-hub-tanda-1",
+    "notes": "Primera tanda · estación Vocabulario. Lemas de ej. 01–04."
+  },
+  "lemmas": [
+    {
+      "id": "food-rice",
+      "lemma": "rice",
+      "glossEs": "arroz",
+      "category": "Food",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "food-sausages",
+      "lemma": "sausages",
+      "glossEs": "salchichas",
+      "category": "Food",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "food-macaroni",
+      "lemma": "macaroni",
+      "glossEs": "macarrones",
+      "category": "Food",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "food-juice",
+      "lemma": "juice",
+      "glossEs": "zumo",
+      "category": "Drinks",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "food-ice-cream",
+      "lemma": "ice cream",
+      "glossEs": "helado",
+      "category": "Drinks",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "food-fish",
+      "lemma": "fish",
+      "glossEs": "pescado",
+      "category": "Food",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "food-salad",
+      "lemma": "salad",
+      "glossEs": "ensalada",
+      "category": "Food",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "food-chips",
+      "lemma": "chips",
+      "glossEs": "patatas fritas",
+      "category": "Food",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "food-cake",
+      "lemma": "cake",
+      "glossEs": "pastel",
+      "category": "Food",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "food-omelette",
+      "lemma": "omelette",
+      "glossEs": "tortilla francesa",
+      "category": "Food",
+      "frequency": "poco_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "food-milk",
+      "lemma": "milk",
+      "glossEs": "leche",
+      "category": "Drinks",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "food-hamburger",
+      "lemma": "hamburger",
+      "glossEs": "hamburguesa",
+      "category": "Food",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "food-sweetcorn",
+      "lemma": "sweetcorn",
+      "glossEs": "maíz",
+      "category": "Food",
+      "frequency": "poco_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "food-lentils",
+      "lemma": "lentils",
+      "glossEs": "lentejas",
+      "category": "Food",
+      "frequency": "poco_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    }
+  ]
+}

@@ -45,6 +45,7 @@ import { SpellModeSelectScreen } from '@/features/languages/spelling/SpellModeSe
 import { SpellPlayScreen } from '@/features/languages/spelling/SpellPlayScreen'
 import { SpellSummaryScreen } from '@/features/languages/spelling/SpellSummaryScreen'
 import { EnglishHubScreen } from '@/features/english/EnglishHubScreen'
+import { EnglishStationScreen } from '@/features/english/EnglishStationScreen'
 import { EnglishModeSelectScreen } from '@/features/english/EnglishModeSelectScreen'
 import { EnglishPlayScreen } from '@/features/english/EnglishPlayScreen'
 import { EnglishSummaryScreen } from '@/features/english/EnglishSummaryScreen'
@@ -173,9 +174,10 @@ export default function App() {
           element={<FormarPalabrasSummaryScreen />}
         />
         <Route path="/missions/english" element={<EnglishHubScreen />} />
-        <Route path="/missions/english/:packId/summary" element={<EnglishSummaryScreen />} />
-        <Route path="/missions/english/:packId" element={<EnglishModeSelectScreen />} />
-        <Route path="/missions/english/:packId/:mode" element={<EnglishPlayScreen />} />
+        <Route path="/missions/english/pack/:packId/summary" element={<EnglishSummaryScreen />} />
+        <Route path="/missions/english/pack/:packId/:mode" element={<EnglishPlayScreen />} />
+        <Route path="/missions/english/pack/:packId" element={<EnglishModeSelectScreen />} />
+        <Route path="/missions/english/:stationId" element={<EnglishStationScreen />} />
         <Route path="/missions/:subjectId" element={<SubjectPreviewScreen />} />
         <Route path="/collection" element={<CollectionScreen />} />
         <Route path="*" element={<Navigate to="/" replace />} />

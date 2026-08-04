@@ -55,7 +55,7 @@ const FREQUENCIES = new Set<EnglishFrequency>([
   'poco_frecuente',
 ])
 
-/** Categorías cerradas por pack (INGLES_JSON_SPEC §5). */
+/** Categorías cerradas por pack (INGLES_JSON_SPEC §5 + tanda 1). */
 export const ENGLISH_CATEGORIES_BY_PACK: Record<string, ReadonlySet<string>> = {
   'ingles-colours-numbers': new Set(['Colours', 'Numbers']),
   'ingles-school': new Set(['Places', 'People', 'Objects']),
@@ -64,6 +64,12 @@ export const ENGLISH_CATEGORIES_BY_PACK: Record<string, ReadonlySet<string>> = {
     'Core family',
     'Extended family',
   ]),
+  'ingles-food': new Set(['Food', 'Drinks']),
+  'ingles-numbers': new Set(['Ones and teens', 'Tens']),
+  'ingles-there-is': new Set(['Present', 'Past', 'Question', 'Short answers']),
+  'ingles-prepositions': new Set(['Place', 'Where']),
+  'ingles-abilities': new Set(['Play', 'Move', 'Go']),
+  'ingles-routines': new Set(['Morning', 'Day', 'Evening']),
 }
 
 export type EnglishPackValidationIssue = {

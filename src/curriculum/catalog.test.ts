@@ -48,9 +48,14 @@ describe('catálogo curricular', () => {
     const langBlocks = blocks.filter((b) => b.subjectId === 'languages').map((b) => b.id)
     expect(langBlocks).toEqual(['spelling', 'words', 'alphabet'])
     const futureBlocks = blocks.filter((b) => b.status === 'future')
-    expect(futureBlocks.length).toBeGreaterThan(2)
+    expect(futureBlocks.length).toBeGreaterThanOrEqual(1)
+    expect(futureBlocks.some((b) => b.id === 'problems')).toBe(true)
     expect(blocks.find((b) => b.id === 'vocabulary')?.status).toBe('active')
+    expect(blocks.find((b) => b.id === 'grammar')?.status).toBe('active')
+    expect(blocks.find((b) => b.id === 'phrases')?.status).toBe('active')
     expect(getSkill('english-vocabulary')?.blockId).toBe('vocabulary')
+    expect(getSkill('english-grammar')?.blockId).toBe('grammar')
+    expect(getSkill('english-phrases')?.blockId).toBe('phrases')
     expect(
       activities.every(
         (a) =>

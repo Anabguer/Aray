@@ -48,11 +48,18 @@ export function buildEnglishMeaningQuestion(
     glossDistractors(entry, packId, random),
     random,
   )
+  const tipByPack: Record<string, string> = {
+    'ingles-there-is':
+      "There's = 1 · There are = 2+ · There aren't any · Yes/No, there are/aren't",
+    'ingles-prepositions':
+      'on = encima · in = dentro · under = debajo · next to = al lado',
+    'ingles-numbers': 'Con guion: twenty-eight = 28',
+  }
   return {
     ...baseEnglishMcq(entry, mode, seed, 'meaning'),
     prompt: '¿Qué significa?',
     display: entry.lemma.lemma,
-    tip: 'Elige el significado en español',
+    tip: tipByPack[packId] ?? 'Elige el significado en español',
     options,
     correctIndex,
   }

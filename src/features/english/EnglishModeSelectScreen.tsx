@@ -11,6 +11,7 @@ import {
 import {
   ENGLISH_PACK_LABELS,
   isEnglishHubPackId,
+  stationForEnglishPack,
 } from '@/feinetas/englishRegistry'
 import { canBuildEnglishIntruder } from '@/minigames/adapters/englishIntruder'
 import { useProgress } from '@/progress/ProgressContext'
@@ -85,14 +86,18 @@ export function EnglishModeSelectScreen() {
   if (!valid || !packId) return null
 
   const missCount = countActiveEnglishMisses(playerId ?? 'local', packId)
-  const base = `/missions/english/${packId}`
+  const base = `/missions/english/pack/${packId}`
   const title = ENGLISH_PACK_LABELS[packId]
   const showIntruder = canBuildEnglishIntruder(packId)
   const heroes = HEROES.filter((m) => m.mode !== 'review' || missCount > 0)
   const roster = ROSTER.filter((m) => m.mode !== 'intruder' || showIntruder)
+  const station = stationForEnglishPack(packId)
+  const backTo = station
+    ? `/missions/english/${station}`
+    : '/missions/english'
 
   return (
-    <AppShell title={title.toUpperCase()} shortTitle={title} showBack backTo="/missions/english">
+    <AppShell title={title.toUpperCase()} shortTitle={title} showBack backTo={backTo}>
       <StageSelect
         heroes={heroes.map((m) => (
           <StageSlot
