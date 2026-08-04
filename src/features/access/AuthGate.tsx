@@ -56,8 +56,9 @@ export function AuthGate() {
   const isPicker = path === '/pick-profile'
   const canPlay = deviceAuthorized || role === 'adult' || role === 'child'
 
-  // RR7: sin key el Outlet a veces no remonta al cambiar de ruta (URL sí, pantalla no).
-  const outlet = <Outlet key={location.key || path} />
+  // RR7: forzar remount del Outlet al cambiar ruta (URL sí / UI no).
+  // Usar pathname (no solo location.key) para navegaciones Link entre hermanas.
+  const outlet = <Outlet key={path} />
 
   if (loading) {
     return (

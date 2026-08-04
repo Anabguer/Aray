@@ -1,5 +1,4 @@
-import { useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
 import type { ModeArtId } from '@/assets/modes'
 import { AppShell } from '@/components/AppShell'
 import { StageSelect, StageSlot } from '@/components/stage/StageSelect'
@@ -83,15 +82,12 @@ const ROSTER: EnglishPoster[] = [
 
 export function EnglishModeSelectScreen() {
   const { packId } = useParams<{ packId: string }>()
-  const navigate = useNavigate()
   const { playerId } = useProgress()
   const valid = packId != null && isEnglishHubPackId(packId)
 
-  useEffect(() => {
-    if (!valid) navigate('/missions/english', { replace: true })
-  }, [valid, navigate])
-
-  if (!valid || !packId) return null
+  if (!valid || !packId) {
+    return <Navigate to="/missions/english" replace />
+  }
 
   const missCount = countActiveEnglishMisses(playerId ?? 'local', packId)
   const base = `/missions/english/pack/${packId}`

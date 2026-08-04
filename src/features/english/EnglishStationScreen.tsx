@@ -1,5 +1,4 @@
-import { useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
 import type { ModeArtId } from '@/assets/modes'
 import { AppShell } from '@/components/AppShell'
 import { StageSelect, StageSlot } from '@/components/stage/StageSelect'
@@ -98,14 +97,11 @@ const PACK_ART: Record<string, { art: ModeArtId; className: string; text: string
 /** Lista packs de una estación (Vocabulario / Gramática / Frases). */
 export function EnglishStationScreen() {
   const { stationId } = useParams<{ stationId: string }>()
-  const navigate = useNavigate()
   const valid = stationId != null && isEnglishStationId(stationId)
 
-  useEffect(() => {
-    if (!valid) navigate('/missions/english', { replace: true })
-  }, [valid, navigate])
-
-  if (!valid || !stationId) return null
+  if (!valid || !stationId) {
+    return <Navigate to="/missions/english" replace />
+  }
 
   const sid = stationId as EnglishStationId
   const packs = listEnglishStationPacks(sid)

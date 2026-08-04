@@ -56,25 +56,15 @@ export function WorldStationNode({
   station,
   guideTip,
 }: {
-  station: WorldStation
+  station: Station
   guideTip?: string
 }) {
   const active = station.status === 'recommended' || station.status === 'available'
   const playable = Boolean(station.href) && station.status !== 'coming-soon'
   const showGuide = Boolean(guideTip) && station.status === 'recommended'
 
-  return (
-    <article
-      className={[
-        'map-station',
-        `map-station--${station.status}`,
-        `map-station--mark-${station.mark}`,
-        active ? 'map-station--active' : '',
-      ]
-        .filter(Boolean)
-        .join(' ')}
-      aria-label={`${station.title}. ${statusLabel[station.status]}`}
-    >
+  const inner = (
+    <>
       <span className="map-station__port" aria-hidden="true" />
       <span className="map-station__halo" aria-hidden="true" />
 
@@ -125,11 +115,11 @@ export function WorldStationNode({
             </div>
           </div>
 
-          {playable && station.href ? (
-            <Link to={station.href} className="map-station__cta">
+          {playable ? (
+            <span className="map-station__cta" aria-hidden="true">
               <PlayMark />
               <span>{station.ctaLabel ?? 'ENTRAR'}</span>
-            </Link>
+            </span>
           ) : null}
         </div>
 
@@ -144,6 +134,34 @@ export function WorldStationNode({
           </>
         ) : null}
       </div>
+    </>
+  )
+
+  const className = [
+    'map-station',
+    `map-station--${station.status}`,
+    `map-station--mark-${station.mark}`,
+    active ? 'map-station--active' : '',
+    playable ? 'map-station--link' : '',
+  ]
+    .filter(Boolean)
+    .join(' ')
+
+  const aria = `${station.title}. ${statusLabel[station.status]}`
+
+  if (playable && station.href) {
+    return (
+      <Link to={station.href} className={className} aria-label={aria}>
+        {inner}
+      </Link>
+    )
+  }
+
+  return (
+    <article className={className} aria-label={aria}>
+      {inner}
     </article>
   )
 }
+
+type Station = WorldStation

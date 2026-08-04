@@ -51,7 +51,7 @@ createRoot(document.getElementById('root')!).render(
 )
 
 if ('serviceWorker' in navigator) {
-  const swUrl = `${import.meta.env.BASE_URL}sw.js?v=11`
+  const swUrl = `${import.meta.env.BASE_URL}sw.js?v=12`
   window.addEventListener('load', () => {
     void navigator.serviceWorker.register(swUrl).catch(() => {
       /* SW opcional: no bloquea el juego */
