@@ -1,13 +1,20 @@
-# Inglés — borrador de categorías
+# Inglés — mapa de categorías (cerrado)
 
-Documento vivo: se rellena al clasificar lo que llega a `feinetas/Ingles/_inbox/`.
-**No define aún packs jugables** en la app (hub vacío a propósito).
+Documento de referencia tras catalogar fichas en `feinetas/Ingles/_inbox/`.
+**Mapa cerrado 2026-08-04** · 16 estaciones de hub. Hub de la app sigue vacío hasta implementar tandas.
 
 ## Estado
 
 | Fecha | Nota |
 |-------|------|
+| 2026-08-04 | **Mapa cerrado:** 16 estaciones · fusiones · primera tanda definida. |
 | 2026-08-03 | Hub vaciado. Bancos Colegio/Familia/Colores en `_archivo/`. Inbox preparado. |
+| 2026-08-03 | Catalogación ej. 01–50 (ver historial abajo / secciones por ejercicio). |
+
+### Historial de catalogación (resumen)
+
+| Fecha | Nota |
+|-------|------|
 | 2026-08-03 | Primera ficha catalogada: like / don't like + food. |
 | 2026-08-03 | Ejercicio 02: write like/don't like (caras + comida). |
 | 2026-08-03 | Ejercicio 03: circle food (imagen → palabra). |
@@ -1613,36 +1620,61 @@ Si llegan más ítems del mismo set, ampliar banco (was/were +/−/?). Misma cat
 
 ---
 
-## Categorías propuestas (mapa)
+## Mapa cerrado (16 estaciones)
 
-| ID tentativo | Título ES | Tema | Ítems | Mecánicas sugeridas | Estado |
-|--------------|-----------|------|-------|---------------------|--------|
-| `food` | Comida | Vocabulario food + preferencias (+ *but*) | ~14 lemas (ej. 01–04) | meaning, translate, like-mcq, picture | borrador |
-| `abilities` | Puedo / deportes | *can/can't* + chunks + he/she | ~12 actividades (ej. 05–08) | drag-to-image, fill-activity, can-yn | borrador |
-| `routines` | Rutinas | Día a día + higiene + *at* + hora | ~15 chunks (ej. 09–11, 13–14, 16) | drag-to-image, picture, order-sentence, missing, routine+time | borrador |
-| `time` | ¿Qué hora es? | *What time…?* + *Is it…?* Yes/No | ej. 12, 15–16 | clock-ui + EN phrases + yn | borrador |
-| `places` | Lugares | campamento + paisajes | ~12 lemas (ej. 17–21) | drag-to-image, picture, join-parts, order-sentence | borrador |
-| `weather` | Tiempo (clima) | *It's…* + Q&A (temp/season/YN) | ej. 22, 40 | picture, fill, match Q↔A + **help tip** | borrador |
-| `grammar-basics` | Formas | It's / go to / I've got / He's·She's | ej. 23, 26–29 | 2-option MCQ | borrador |
-| `stories` | Cuentos | Personajes + *wearing* + adjetivos | ej. 24–29 | drag-to-portrait, who-wearing, he/she | borrador |
-| `clothes` | Ropa | crown, boots, dress… | ~9 lemas (ej. 25–27) | picture, wearing-match, he/she | borrador |
-| `adjectives` | Adjetivos | handsome, young, old, poor, rich, clever, beautiful | 7 (ej. 28–29) | he/she + adj MCQ | borrador |
-| `there-is` | There is / was | Presente + pasado (+ How many) | ej. 30–35, 50 | match, fill, Q+YN, picture, **was/were MCQ** + tip | borrador |
-| `possessives` | Posesión | *'s* + *his/her* (+ tip) | ej. 36, 39 | MCQ, his/her Where + **help tip** | borrador |
-| `prepositions` | Preposiciones | *on/in/under/next to* + Where… | ej. 37–38, 49 | picture prep chips + tip · escena compartida 37–38 | borrador |
-| `transport` | Transporte | *go by…* / *walk* + Do you…? | ej. 41–42 | drag-to-image, YN · **1 tira compartida** | borrador |
-| `money` | Dinero / precios | *How much is…?* + euros | ej. 43 | count coins → *It's N euros.* + tip | borrador |
-| `present-simple` | Presente simple | +/− · Do/Does · *on* + day | ej. 44–45 | fill verbo, **montar pregunta con fichas** (no escribir) + tip | borrador |
-| `present-continuous` | Present continuous | Is/Are…? + -ing + imagen | ej. 46 | YN short answers + tip · **set escenas** | borrador |
-| `numbers` | Números | 1–100 en inglés | ej. 47 | **match dígito↔palabra** (no escribir) | borrador |
-| `word-order` | Ordena la frase | can / have got / be (repaso) | ej. 48 | **montar fichas** (no escribir) | borrador |
+| ID pack | Título hub | Tema | Ej. catalogados | Mecánicas | Estado |
+|---------|------------|------|-----------------|-----------|--------|
+| `food` | Comida | Vocabulario food + preferencias (+ *but*) | 01–04 | meaning, translate, like-mcq, picture | cerrado |
+| `abilities` | Puedo | *can/can't* + chunks + he/she | 05–08 | drag-to-image, fill-activity, can-yn | cerrado |
+| `routines` | Rutinas | Día a día + higiene + *at* + hora | 09–11, 13–14, 16 | drag-to-image, picture, order-sentence, missing, routine+time | cerrado |
+| `time` | ¿Qué hora es? | *What time…?* + *Is it…?* Yes/No · puente mundo Horas | 12, 15–16 | clock-ui + EN phrases + yn | cerrado |
+| `places` | Lugares | campamento + paisajes | 17–21 | drag-to-image, picture, join-parts, order-sentence | cerrado |
+| `weather` | El tiempo | *It's…* + Q&A (temp/season/YN) | 22, 40 | picture, fill, match Q↔A + **help tip** | cerrado |
+| `characters` | Personajes | Quién es + *wearing* + adjetivos | 24–29 | drag-to-portrait, who-wearing, he/she + adj | cerrado |
+| `there-is` | There is / are | Presente + pasado (+ How many) | 30–35, 50 | match, fill, Q+YN, picture, was/were MCQ + tip | cerrado |
+| `possessives` | De quién es | *'s* + *his/her* (+ tip) | 36, 39 | MCQ, his/her Where + **help tip** | cerrado |
+| `prepositions` | Dónde está | *on/in/under/next to* + Where… | 37–38, 49 | picture prep chips + tip · escena compartida 37–38 | cerrado |
+| `transport` | Cómo voy | *go by…* / *walk* + Do you…? | 41–42 | drag-to-image, YN · **1 tira compartida** | cerrado |
+| `money` | Cuánto cuesta | *How much is…?* + euros | 43 | count coins → *It's N euros.* + tip | cerrado |
+| `present-simple` | Presente | +/− · Do/Does · *on* + day | 44–45 | fill verbo, montar pregunta con fichas + tip | cerrado |
+| `present-continuous` | Ahora mismo | Is/Are…? + -ing + imagen | 46 | YN short answers + tip · **set escenas** | cerrado |
+| `numbers` | Números | 1–100 en inglés | 47 | **match dígito↔palabra** (no escribir) | cerrado |
+| `phrases` | Monta la frase | can / have got / be (repaso) | 48 | **montar fichas** (no escribir) | cerrado |
 
-## Cómo añadir un lote
+### Fusiones respecto al borrador
 
-1. Guardar fichas en `_inbox/` (capturas en `_inbox/refs/`).
-2. Extraer ítems (palabra EN, glosa ES, notas).
-3. Asignar **categoría propuesta** (fila nueva o ampliación).
-4. No implementar hub/JSON hasta acuerdo explícito.
+| Antes (borrador) | Ahora |
+|------------------|--------|
+| `stories` + `clothes` + `adjectives` | → `characters` (Personajes) |
+| `word-order` | → `phrases` (Monta la frase) |
+| `grammar-basics` (ej. 23) | **No es estación.** Reparte: *It's* → `weather`/`places` · *go to* → `places` · *I've got* → `phrases` · *He's/She's* → `characters` |
+
+### Reglas de producto (fijas)
+
+- Sin escritura libre → match, chips, montar fichas, drag-to-image.
+- Tip muted tipo Lengua donde haya caja de ayuda.
+- Assets compartidos: habitación 37–39 · transporte 41–42 · continuous 46.
+- Estilo Aray (no clipart del cuaderno).
+
+## Primera tanda (implementación)
+
+Cuando se monte el hub jugable, **primera tanda = 6 packs:**
+
+1. `food` — Comida  
+2. `abilities` — Puedo  
+3. `routines` — Rutinas  
+4. `there-is` — There is / are  
+5. `prepositions` — Dónde está  
+6. `numbers` — Números  
+
+El resto de estaciones del mapa cerrado se implementan en tandas siguientes.
+
+## Cómo ampliar tras el cierre
+
+1. Guardar fichas nuevas en `_inbox/` (capturas en `_inbox/refs/`).
+2. Extraer ítems y asignar a una estación **ya cerrada** (ampliar banco, no inventar IDs sin acuerdo).
+3. Nueva estación de hub solo con decisión explícita de producto.
+4. **Mapa cerrado** · implementar JSON/hub por tanda acordada (empezar por la primera tanda arriba).
 
 ## Archivo (referencia, no runtime)
 

@@ -1,10 +1,10 @@
 # Estado editorial Aray — fotografía de cierre
 
-**Fecha de cierre de fase:** 2026-08-02  
-**Alcance:** Ortografía (congelada + JSON en juego) · Inglés (3 bancos + JSON en juego).  
+**Fecha de cierre de fase:** 2026-08-02 (Ortografía / inglés v1) · **Mapa hub Inglés cerrado:** 2026-08-04  
+**Alcance:** Ortografía (congelada + JSON en juego) · Inglés v1 archivado · **mapa hub nuevo cerrado** (16 estaciones; hub app vacío hasta tandas).  
 **Uso:** retomar el proyecto sin reabrir metodología ni bancos ya cerrados.
 
-Este archivo **no es runtime**. Flujo general: [`README.md`](./README.md) · arquitectura inglés: [`INGLES_MASTER.md`](./INGLES_MASTER.md).
+Este archivo **no es runtime**. Flujo general: [`README.md`](./README.md) · arquitectura inglés: [`INGLES_MASTER.md`](./INGLES_MASTER.md) · mapa hub: [`INGLES_CATEGORIAS_BORRADOR.md`](./INGLES_CATEGORIAS_BORRADOR.md).
 
 ---
 
@@ -32,14 +32,24 @@ Complemento congelado (frases, no contado arriba como banco de lemas): `FRASES_C
 
 ## Inglés
 
-Fuente editorial: `INGLES_*.md` → JSON en `feinetas/Ingles/` · schema [`INGLES_JSON_SPEC.md`](./INGLES_JSON_SPEC.md).
+### Packs v1 (archivados, no runtime)
+
+Fuente: `INGLES_*.md` · JSON en `feinetas/Ingles/_archivo/` · schema [`INGLES_JSON_SPEC.md`](./INGLES_JSON_SPEC.md).
 
 | Banco | Archivo | Pack JSON | Registros |
 |-------|---------|-----------|-----------|
 | Colours & Numbers | `INGLES_COLOURS_NUMBERS.md` | `colours-numbers.json` | 30 |
 | School | `INGLES_SCHOOL.md` | `school.json` | 26 |
 | Family | `INGLES_FAMILY.md` | `family.json` | 18 |
-| **Total Inglés** | | | **74** |
+| **Total Inglés v1** | | | **74** |
+
+### Mapa hub (cerrado 2026-08-04)
+
+Fuente: fichas `_inbox/` · documento [`INGLES_CATEGORIAS_BORRADOR.md`](./INGLES_CATEGORIAS_BORRADOR.md).
+
+- **16 estaciones** cerradas (`food`, `abilities`, `routines`, `time`, `places`, `weather`, `characters`, `there-is`, `possessives`, `prepositions`, `transport`, `money`, `present-simple`, `present-continuous`, `numbers`, `phrases`).
+- Hub app: **vacío** hasta implementar tandas.
+- **Primera tanda** (siguiente implementación): `food`, `abilities`, `routines`, `there-is`, `prepositions`, `numbers`.
 
 ---
 
@@ -129,9 +139,9 @@ Listening y Phonics siguen aplazados (Fases 5–6).
 |------|--------|
 | **JSON Ortografía** | Terminado |
 | **Integración Ortografía** | Completa |
-| **JSON Inglés** | Terminado (3 packs, schema `INGLES_JSON_SPEC.md`) |
-| **Integración Inglés** | Completa v1 · hub de repaso 3.º: **Colegio + Familia** (Colours & Numbers en banco, aparcado en UI) |
-| **Siguiente paso lógico** | Auditoría / congelación de Food; luego Actions (máx. 2 packs a la vez) |
+| **JSON Inglés** | v1 archivado (`_archivo/`) · mapa hub cerrado · JSON tandas **pendiente** |
+| **Integración Inglés** | Hub vacío a propósito · primera tanda: food / abilities / routines / there-is / prepositions / numbers |
+| **Siguiente paso lógico** | Implementar primera tanda del mapa cerrado; Body/Food MD legacy siguen en cola de auditoría aparte |
 
 ---
 
@@ -140,9 +150,10 @@ Listening y Phonics siguen aplazados (Fases 5–6).
 | Documento | Rol |
 |-----------|-----|
 | `README.md` | Flujo editorial general |
+| `INGLES_CATEGORIAS_BORRADOR.md` | **Mapa hub cerrado** (16 estaciones + primera tanda) |
 | `INGLES_JSON_SPEC.md` | Schema JSON inglés |
 | `INGLES_MASTER.md` | Arquitectura packs inglés |
-| `INGLES_COLOURS_NUMBERS.md` | Pack 1 congelado |
-| `INGLES_SCHOOL.md` | Pack 2 congelado |
-| `INGLES_FAMILY.md` | Pack 3 congelado |
+| `INGLES_COLOURS_NUMBERS.md` | Pack 1 congelado (v1 / archivo) |
+| `INGLES_SCHOOL.md` | Pack 2 congelado (v1 / archivo) |
+| `INGLES_FAMILY.md` | Pack 3 congelado (v1 / archivo) |
 | `ERRORES_REALES_*.md` | Bancos ortografía congelados |
