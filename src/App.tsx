@@ -61,7 +61,7 @@ export default function App() {
   return (
     <>
       <ScrollToTop />
-      <Routes location={location} key={location.pathname}>
+      <Routes location={location}>
       <Route path="/dev/lumo" element={<LumoGallery />} />
       <Route path="/dev/ortografia-rr" element={<OrtografiaRrPilotScreen />} />
       <Route element={<AuthGate />}>

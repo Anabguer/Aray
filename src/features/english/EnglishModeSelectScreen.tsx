@@ -1,4 +1,4 @@
-import { Navigate, useParams } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import type { ModeArtId } from '@/assets/modes'
 import { AppShell } from '@/components/AppShell'
 import { StageSelect, StageSlot } from '@/components/stage/StageSelect'
@@ -79,18 +79,19 @@ const ROSTER: EnglishPoster[] = [
   },
 ]
 
-export function EnglishModeSelectScreen() {
-  const { packId } = useParams<{ packId: string }>()
+/** UI de modos; usable por ruta o embebida en el hub (sin cambio de ruta). */
+export function EnglishModeSelectView({
+  packId,
+  onBack,
+}: {
+  packId: string
+  onBack?: () => void
+}) {
+  const navigate = useNavigate()
   const { playerId } = useProgress()
-  const valid = packId != null && isEnglishHubPackId(packId)
-
-  if (!valid || !packId) {
-    return <Navigate to="/missions/english" replace />
-  }
-
   const missCount = countActiveEnglishMisses(playerId ?? 'local', packId)
   const base = `/missions/english/pack/${packId}`
-  const title = ENGLISH_PACK_LABELS[packId]
+  const title = ENGLISH_PACK_LABELS[packId] ?? packId
   const showIntruder = canBuildEnglishIntruder(packId)
   const showMatch = englishPackSupportsSceneMatch(packId)
   const heroes = HEROES.filter((m) => m.mode !== 'review' || missCount > 0)
@@ -99,8 +100,15 @@ export function EnglishModeSelectScreen() {
     if (m.mode === 'match' && !showMatch) return false
     return true
   })
+
   return (
-    <AppShell title={title.toUpperCase()} shortTitle={title} showBack backTo="/missions/english">
+    <AppShell
+      title={title.toUpperCase()}
+      shortTitle={title}
+      showBack
+      onBack={onBack}
+      backTo={onBack ? undefined : '/missions/english'}
+    >
       <StageSelect
         heroes={heroes.map((m) => (
           <StageSlot
@@ -115,7 +123,7 @@ export function EnglishModeSelectScreen() {
             className={m.className}
             tag={m.tag}
             featured
-            to={`${base}/${m.mode}`}
+            onClick={() => navigate(`${base}/${m.mode}`)}
           />
         ))}
         roster={roster.map((m) => (
@@ -126,11 +134,22 @@ export function EnglishModeSelectScreen() {
             text={m.text}
             className={m.className}
             tag={m.tag}
-            to={`${base}/${m.mode}`}
+            onClick={() => navigate(`${base}/${m.mode}`)}
           />
         ))}
         rosterCols={3}
       />
     </AppShell>
   )
+}
+
+export function EnglishModeSelectScreen() {
+  const { packId } = useParams<{ packId: string }>()
+  const valid = packId != null && isEnglishHubPackId(packId)
+
+  if (!valid || !packId) {
+    return <Navigate to="/missions/english" replace />
+  }
+
+  return <EnglishModeSelectView packId={packId} />
 }

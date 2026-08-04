@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { AppShell } from '@/components/AppShell'
 import { StageSelect, StageSlot } from '@/components/stage/StageSelect'
@@ -6,6 +5,7 @@ import { WorldLevelMap } from '@/components/world/WorldLevelMap'
 import type { MapSlot, WorldStation, WorldZoneMark } from '@/components/world/types'
 import { blocksForSubject, getSubject } from '@/curriculum'
 import type { ModeArtId } from '@/assets/modes'
+import { EnglishModeSelectView } from '@/features/english/EnglishModeSelectScreen'
 import {
   ENGLISH_PACK_LABELS,
   ENGLISH_STATION_BLURBS,
@@ -119,15 +119,23 @@ const PACK_ART: Record<string, { art: ModeArtId; className: string; text: string
 
 /**
  * Hub de Inglés: 3 estaciones.
- * Abrir estación = estado local (sin cambiar de ruta) para evitar
- * el bug “URL cambia y la pantalla no” en /missions/english/*.
- * Los packs navegan a /missions/english/pack/:id.
+ * Estación y pack = estado local (sin cambiar de ruta) para evitar
+ * el bug “URL cambia y la pantalla no”. Solo el modo de juego navega.
  */
 export function EnglishHubScreen() {
-  const navigate = useNavigate()
   const english = getSubject('english')
   const englishBlocks = blocksForSubject('english')
   const [openStation, setOpenStation] = useState<EnglishStationId | null>(null)
+  const [openPack, setOpenPack] = useState<string | null>(null)
+
+  if (openPack) {
+    return (
+      <EnglishModeSelectView
+        packId={openPack}
+        onBack={() => setOpenPack(null)}
+      />
+    )
+  }
 
   if (openStation) {
     const packs = listEnglishStationPacks(openStation)
@@ -159,7 +167,7 @@ export function EnglishHubScreen() {
                 text={meta.text}
                 className={meta.className}
                 tag={String(i + 1).padStart(2, '0')}
-                onClick={() => navigate(`/missions/english/pack/${id}`)}
+                onClick={() => setOpenPack(id)}
               />
             )
           })}
