@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "pack": {
+    "id": "ingles-present-continuous",
+    "title": "Present continuous",
+    "ownerBank": "INGLES_CATEGORIAS_BORRADOR.md",
+    "topicFamily": "present-continuous",
+    "level": "3-primaria",
+    "locale": "en-GB",
+    "revisionStatus": "approved",
+    "contentVersion": 1,
+    "sourceEditorialPhase": "ingles-hub-tanda-2",
+    "notes": "Gramática. Ej. 46."
+  },
+  "lemmas": [
+    {
+      "id": "present-continuous-painting",
+      "lemma": "painting",
+      "glossEs": "pintando",
+      "category": "Actions",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "present-continuous-reading",
+      "lemma": "reading",
+      "glossEs": "leyendo",
+      "category": "Actions",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "present-continuous-watching-tv",
+      "lemma": "watching TV",
+      "glossEs": "viendo la tele",
+      "category": "Actions",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "present-continuous-listening-to-music",
+      "lemma": "listening to music",
+      "glossEs": "escuchando música",
+      "category": "Actions",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "present-continuous-roller-skating",
+      "lemma": "roller skating",
+      "glossEs": "patinando",
+      "category": "Actions",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "present-continuous-is-she",
+      "lemma": "Is she",
+      "glossEs": "¿está ella…?",
+      "category": "Question",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "present-continuous-are-they",
+      "lemma": "Are they",
+      "glossEs": "¿están ellos…?",
+      "category": "Question",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "present-continuous-am-i",
+      "lemma": "Am I",
+      "glossEs": "¿estoy…?",
+      "category": "Question",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "present-continuous-yes-she-is",
+      "lemma": "Yes, she is",
+      "glossEs": "sí, lo está",
+      "category": "Short",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "present-continuous-no-he-isn-t",
+      "lemma": "No, he isn't",
+      "glossEs": "no, no lo está",
+      "category": "Short",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "present-continuous-yes-they-are",
+      "lemma": "Yes, they are",
+      "glossEs": "sí, lo están",
+      "category": "Short",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "present-continuous-no-i-m-not",
+      "lemma": "No, I'm not",
+      "glossEs": "no, no lo estoy",
+      "category": "Short",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    }
+  ]
+}

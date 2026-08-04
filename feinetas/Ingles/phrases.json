@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "pack": {
+    "id": "ingles-phrases",
+    "title": "Phrases",
+    "ownerBank": "INGLES_CATEGORIAS_BORRADOR.md",
+    "topicFamily": "phrases",
+    "level": "3-primaria",
+    "locale": "en-GB",
+    "revisionStatus": "approved",
+    "contentVersion": 1,
+    "sourceEditorialPhase": "ingles-hub-tanda-2",
+    "notes": "Frases. Ej. 04, 23, 48."
+  },
+  "lemmas": [
+    {
+      "id": "phrases-i-can-t-speak-german",
+      "lemma": "I can't speak German",
+      "glossEs": "no sé hablar alemán",
+      "category": "Can",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "phrases-you-have-got-a-book",
+      "lemma": "You have got a book",
+      "glossEs": "tienes un libro",
+      "category": "Have got",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "phrases-can-you-play-piano",
+      "lemma": "Can you play piano",
+      "glossEs": "¿sabes tocar el piano?",
+      "category": "Can",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "phrases-she-can-sing-well",
+      "lemma": "She can sing well",
+      "glossEs": "ella canta bien",
+      "category": "Can",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "phrases-she-is-my-friend",
+      "lemma": "She is my friend",
+      "glossEs": "ella es mi amiga",
+      "category": "Be",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "phrases-i-like",
+      "lemma": "I like",
+      "glossEs": "me gusta",
+      "category": "Like",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "phrases-i-don-t-like",
+      "lemma": "I don't like",
+      "glossEs": "no me gusta",
+      "category": "Like",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "phrases-i-ve-got",
+      "lemma": "I've got",
+      "glossEs": "tengo",
+      "category": "Have got",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "phrases-but",
+      "lemma": "but",
+      "glossEs": "pero",
+      "category": "Link",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "phrases-well",
+      "lemma": "well",
+      "glossEs": "bien",
+      "category": "Link",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    }
+  ]
+}

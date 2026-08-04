@@ -70,6 +70,16 @@ export const ENGLISH_CATEGORIES_BY_PACK: Record<string, ReadonlySet<string>> = {
   'ingles-prepositions': new Set(['Place', 'Where']),
   'ingles-abilities': new Set(['Play', 'Move', 'Go']),
   'ingles-routines': new Set(['Morning', 'Day', 'Evening']),
+  'ingles-places': new Set(['Camp', 'Landscape', 'Settlement']),
+  'ingles-weather': new Set(['Weather', 'Season']),
+  'ingles-characters': new Set(['People', 'Clothes', 'Adjectives']),
+  'ingles-possessives': new Set(['Possessive s', 'Adj', 'Things']),
+  'ingles-transport': new Set(['Vehicle', 'Manner', 'Phrase']),
+  'ingles-money': new Set(['Currency', 'Things', 'Phrase']),
+  'ingles-present-simple': new Set(['Verbs', 'Aux', 'Time']),
+  'ingles-present-continuous': new Set(['Actions', 'Question', 'Short']),
+  'ingles-phrases': new Set(['Can', 'Have got', 'Be', 'Like', 'Link']),
+  'ingles-time': new Set(['Clock', 'Question', 'Short', 'Phrase', 'Part']),
 }
 
 export type EnglishPackValidationIssue = {

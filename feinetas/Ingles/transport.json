@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "pack": {
+    "id": "ingles-transport",
+    "title": "Transport",
+    "ownerBank": "INGLES_CATEGORIAS_BORRADOR.md",
+    "topicFamily": "transport",
+    "level": "3-primaria",
+    "locale": "en-GB",
+    "revisionStatus": "approved",
+    "contentVersion": 1,
+    "sourceEditorialPhase": "ingles-hub-tanda-2",
+    "notes": "Vocabulario + frases. Ej. 41–42."
+  },
+  "lemmas": [
+    {
+      "id": "transport-train",
+      "lemma": "train",
+      "glossEs": "tren",
+      "category": "Vehicle",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "transport-bike",
+      "lemma": "bike",
+      "glossEs": "bici",
+      "category": "Vehicle",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "transport-car",
+      "lemma": "car",
+      "glossEs": "coche",
+      "category": "Vehicle",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "transport-bus",
+      "lemma": "bus",
+      "glossEs": "autobús",
+      "category": "Vehicle",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "transport-underground",
+      "lemma": "underground",
+      "glossEs": "metro",
+      "category": "Vehicle",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "transport-walk",
+      "lemma": "walk",
+      "glossEs": "andar",
+      "category": "Manner",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "transport-by-train",
+      "lemma": "by train",
+      "glossEs": "en tren",
+      "category": "Phrase",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "transport-by-bike",
+      "lemma": "by bike",
+      "glossEs": "en bici",
+      "category": "Phrase",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "transport-by-car",
+      "lemma": "by car",
+      "glossEs": "en coche",
+      "category": "Phrase",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "transport-by-bus",
+      "lemma": "by bus",
+      "glossEs": "en autobús",
+      "category": "Phrase",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    }
+  ]
+}

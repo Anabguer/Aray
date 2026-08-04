@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "pack": {
+    "id": "ingles-time",
+    "title": "Time",
+    "ownerBank": "INGLES_CATEGORIAS_BORRADOR.md",
+    "topicFamily": "time",
+    "level": "3-primaria",
+    "locale": "en-GB",
+    "revisionStatus": "approved",
+    "contentVersion": 1,
+    "sourceEditorialPhase": "ingles-hub-tanda-2",
+    "notes": "Gramática · puente Horas. Ej. 12, 15–16."
+  },
+  "lemmas": [
+    {
+      "id": "time-o-clock",
+      "lemma": "o'clock",
+      "glossEs": "en punto",
+      "category": "Clock",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "time-half-past",
+      "lemma": "half past",
+      "glossEs": "y media",
+      "category": "Clock",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "time-what-time-is-it",
+      "lemma": "What time is it",
+      "glossEs": "¿qué hora es?",
+      "category": "Question",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "time-is-it",
+      "lemma": "Is it",
+      "glossEs": "¿son las…?",
+      "category": "Question",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "time-yes-it-is",
+      "lemma": "Yes, it is",
+      "glossEs": "sí",
+      "category": "Short",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "time-no-it-isn-t",
+      "lemma": "No, it isn't",
+      "glossEs": "no",
+      "category": "Short",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "time-at-eight-o-clock",
+      "lemma": "at eight o'clock",
+      "glossEs": "a las ocho",
+      "category": "Phrase",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "time-at-half-past-seven",
+      "lemma": "at half past seven",
+      "glossEs": "a las siete y media",
+      "category": "Phrase",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "time-morning",
+      "lemma": "morning",
+      "glossEs": "mañana",
+      "category": "Part",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "time-afternoon",
+      "lemma": "afternoon",
+      "glossEs": "tarde",
+      "category": "Part",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "time-evening",
+      "lemma": "evening",
+      "glossEs": "noche",
+      "category": "Part",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "time-today",
+      "lemma": "today",
+      "glossEs": "hoy",
+      "category": "Part",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    }
+  ]
+}

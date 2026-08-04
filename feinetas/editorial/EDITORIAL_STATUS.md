@@ -49,8 +49,9 @@ Fuente: fichas `_inbox/` · documento [`INGLES_CATEGORIAS_BORRADOR.md`](./INGLES
 
 - **3 estaciones** (como Lengua/Mates): `vocabulary` (Vocabulario) · `grammar` (Gramática) · `phrases` (Frases).
 - Temas del catálogo = **packs internos** (food, there-is, numbers…), no cartas del mapa.
-- Hub app: **primera tanda jugable** (2026-08-04) — 3 estaciones + 6 packs.
-- **Primera tanda:** Vocabulario→`food`+`numbers` · Gramática→`there-is`+`prepositions` · Frases→`abilities`+`routines`.
+- Hub app: **tandas 1–2 jugables** (16 packs · Empareja en Puedo/Rutinas/Transporte/Lugares).
+- **Tanda 1:** food, numbers, there-is, prepositions, abilities, routines.
+- **Tanda 2:** places, weather, characters, transport, money, possessives, present-simple, present-continuous, time, phrases.
 
 ---
 

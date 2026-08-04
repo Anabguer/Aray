@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "pack": {
+    "id": "ingles-present-simple",
+    "title": "Present simple",
+    "ownerBank": "INGLES_CATEGORIAS_BORRADOR.md",
+    "topicFamily": "present-simple",
+    "level": "3-primaria",
+    "locale": "en-GB",
+    "revisionStatus": "approved",
+    "contentVersion": 1,
+    "sourceEditorialPhase": "ingles-hub-tanda-2",
+    "notes": "Gramática. Ej. 44–45."
+  },
+  "lemmas": [
+    {
+      "id": "present-simple-brush",
+      "lemma": "brush",
+      "glossEs": "cepillar",
+      "category": "Verbs",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "present-simple-do-verb",
+      "lemma": "do",
+      "glossEs": "hacer",
+      "category": "Verbs",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "present-simple-eat",
+      "lemma": "eat",
+      "glossEs": "comer",
+      "category": "Verbs",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "present-simple-play",
+      "lemma": "play",
+      "glossEs": "jugar",
+      "category": "Verbs",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "present-simple-swim",
+      "lemma": "swim",
+      "glossEs": "nadar",
+      "category": "Verbs",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "present-simple-aux-do",
+      "lemma": "Do",
+      "glossEs": "¿…? (tú/ellos)",
+      "category": "Aux",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "present-simple-does",
+      "lemma": "Does",
+      "glossEs": "¿…? (él/ella)",
+      "category": "Aux",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "present-simple-don-t",
+      "lemma": "don't",
+      "glossEs": "no (yo/tú/ellos)",
+      "category": "Aux",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "present-simple-doesn-t",
+      "lemma": "doesn't",
+      "glossEs": "no (él/ella)",
+      "category": "Aux",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "present-simple-on-mondays",
+      "lemma": "on Mondays",
+      "glossEs": "los lunes",
+      "category": "Time",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "present-simple-on-fridays",
+      "lemma": "on Fridays",
+      "glossEs": "los viernes",
+      "category": "Time",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "present-simple-on-sundays",
+      "lemma": "on Sundays",
+      "glossEs": "los domingos",
+      "category": "Time",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    }
+  ]
+}

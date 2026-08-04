@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "pack": {
+    "id": "ingles-weather",
+    "title": "Weather",
+    "ownerBank": "INGLES_CATEGORIAS_BORRADOR.md",
+    "topicFamily": "weather",
+    "level": "3-primaria",
+    "locale": "en-GB",
+    "revisionStatus": "approved",
+    "contentVersion": 1,
+    "sourceEditorialPhase": "ingles-hub-tanda-2",
+    "notes": "Vocabulario + frases. Ej. 22, 40."
+  },
+  "lemmas": [
+    {
+      "id": "weather-hot",
+      "lemma": "hot",
+      "glossEs": "caluroso",
+      "category": "Weather",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "weather-cold",
+      "lemma": "cold",
+      "glossEs": "frío",
+      "category": "Weather",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "weather-sunny",
+      "lemma": "sunny",
+      "glossEs": "soleado",
+      "category": "Weather",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "weather-raining",
+      "lemma": "raining",
+      "glossEs": "lloviendo",
+      "category": "Weather",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "weather-snowing",
+      "lemma": "snowing",
+      "glossEs": "nevando",
+      "category": "Weather",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "weather-cloudy",
+      "lemma": "cloudy",
+      "glossEs": "nublado",
+      "category": "Weather",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "weather-foggy",
+      "lemma": "foggy",
+      "glossEs": "con niebla",
+      "category": "Weather",
+      "frequency": "poco_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "weather-summer",
+      "lemma": "summer",
+      "glossEs": "verano",
+      "category": "Season",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "weather-winter",
+      "lemma": "winter",
+      "glossEs": "invierno",
+      "category": "Season",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "weather-spring",
+      "lemma": "spring",
+      "glossEs": "primavera",
+      "category": "Season",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "weather-autumn",
+      "lemma": "autumn",
+      "glossEs": "otoño",
+      "category": "Season",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    }
+  ]
+}

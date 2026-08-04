@@ -10,6 +10,7 @@ import {
 } from '@/english'
 import {
   ENGLISH_PACK_LABELS,
+  englishPackSupportsSceneMatch,
   isEnglishHubPackId,
   stationForEnglishPack,
 } from '@/feinetas/englishRegistry'
@@ -43,6 +44,13 @@ const HEROES: EnglishPoster[] = [
 ]
 
 const ROSTER: EnglishPoster[] = [
+  {
+    mode: 'match',
+    art: 'empareja',
+    className: 'mode-poster--match',
+    text: 'Une la frase con la escena',
+    tag: '00',
+  },
   {
     mode: 'meaning',
     art: 'spell-correct',
@@ -89,8 +97,13 @@ export function EnglishModeSelectScreen() {
   const base = `/missions/english/pack/${packId}`
   const title = ENGLISH_PACK_LABELS[packId]
   const showIntruder = canBuildEnglishIntruder(packId)
+  const showMatch = englishPackSupportsSceneMatch(packId)
   const heroes = HEROES.filter((m) => m.mode !== 'review' || missCount > 0)
-  const roster = ROSTER.filter((m) => m.mode !== 'intruder' || showIntruder)
+  const roster = ROSTER.filter((m) => {
+    if (m.mode === 'intruder' && !showIntruder) return false
+    if (m.mode === 'match' && !showMatch) return false
+    return true
+  })
   const station = stationForEnglishPack(packId)
   const backTo = station
     ? `/missions/english/${station}`

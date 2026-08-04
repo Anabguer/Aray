@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "pack": {
+    "id": "ingles-possessives",
+    "title": "Possessives",
+    "ownerBank": "INGLES_CATEGORIAS_BORRADOR.md",
+    "topicFamily": "possessives",
+    "level": "3-primaria",
+    "locale": "en-GB",
+    "revisionStatus": "approved",
+    "contentVersion": 1,
+    "sourceEditorialPhase": "ingles-hub-tanda-2",
+    "notes": "Gramática posesión. Ej. 36, 39."
+  },
+  "lemmas": [
+    {
+      "id": "possessives-jose-s",
+      "lemma": "Jose's",
+      "glossEs": "de Jose",
+      "category": "Possessive s",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "possessives-rebecca-s",
+      "lemma": "Rebecca's",
+      "glossEs": "de Rebecca",
+      "category": "Possessive s",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "possessives-david-s",
+      "lemma": "David's",
+      "glossEs": "de David",
+      "category": "Possessive s",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "possessives-sarah-s",
+      "lemma": "Sarah's",
+      "glossEs": "de Sarah",
+      "category": "Possessive s",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "possessives-his",
+      "lemma": "his",
+      "glossEs": "su (de él)",
+      "category": "Adj",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "possessives-her",
+      "lemma": "her",
+      "glossEs": "su (de ella)",
+      "category": "Adj",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "possessives-my",
+      "lemma": "my",
+      "glossEs": "mi",
+      "category": "Adj",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "possessives-your",
+      "lemma": "your",
+      "glossEs": "tu",
+      "category": "Adj",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "possessives-shirt",
+      "lemma": "shirt",
+      "glossEs": "camisa",
+      "category": "Things",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "possessives-jumper",
+      "lemma": "jumper",
+      "glossEs": "jersey",
+      "category": "Things",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "possessives-bag",
+      "lemma": "bag",
+      "glossEs": "bolsa",
+      "category": "Things",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "possessives-skirt",
+      "lemma": "skirt",
+      "glossEs": "falda",
+      "category": "Things",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    }
+  ]
+}

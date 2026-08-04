@@ -3,6 +3,7 @@ export type EnglishPlayMode =
   | 'translate'
   | 'intruder'
   | 'missing'
+  | 'match'
   | 'mix'
   | 'review'
 
@@ -18,7 +19,7 @@ export type EnglishMcqQuestion = {
   /** packId:lemmaId */
   targetKey: string
   /** Modo concreto que generó la pregunta (útil en mix/review). */
-  sourceMode: Exclude<EnglishPlayMode, 'mix' | 'review'>
+  sourceMode: Exclude<EnglishPlayMode, 'mix' | 'review' | 'match'>
 }
 
 export type EnglishSessionSummary = {
@@ -36,11 +37,12 @@ export const ENGLISH_MODE_LABELS: Record<EnglishPlayMode, string> = {
   translate: '¿Cómo se dice?',
   intruder: 'Palabra intrusa',
   missing: 'Letra que falta',
+  match: 'Empareja',
   mix: 'Mezcla',
   review: 'Mis fallos',
 }
 
 export const ENGLISH_PLAYABLE_MODES: Exclude<
   EnglishPlayMode,
-  'mix' | 'review'
+  'mix' | 'review' | 'match'
 >[] = ['meaning', 'translate', 'intruder', 'missing']

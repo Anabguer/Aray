@@ -1,6 +1,6 @@
 /**
  * Registro estable de packs de lemas de inglés (INGLES_JSON_SPEC).
- * Primera tanda hub: 6 packs bajo 3 estaciones (Vocabulario / Gramática / Frases).
+ * Hub: 3 estaciones · tandas 1–2.
  */
 
 import type { EnglishLemmaPack } from '@/feinetas/englishLemmaPack'
@@ -11,19 +11,38 @@ import thereIs from '@feinetas/Ingles/there-is.json'
 import prepositions from '@feinetas/Ingles/prepositions.json'
 import abilities from '@feinetas/Ingles/abilities.json'
 import routines from '@feinetas/Ingles/routines.json'
+import places from '@feinetas/Ingles/places.json'
+import weather from '@feinetas/Ingles/weather.json'
+import characters from '@feinetas/Ingles/characters.json'
+import possessives from '@feinetas/Ingles/possessives.json'
+import transport from '@feinetas/Ingles/transport.json'
+import money from '@feinetas/Ingles/money.json'
+import presentSimple from '@feinetas/Ingles/present-simple.json'
+import presentContinuous from '@feinetas/Ingles/present-continuous.json'
+import phrases from '@feinetas/Ingles/phrases.json'
+import time from '@feinetas/Ingles/time.json'
 
 export const ENGLISH_PACK_IDS = [
   'ingles-food',
   'ingles-numbers',
+  'ingles-places',
+  'ingles-weather',
+  'ingles-characters',
+  'ingles-transport',
+  'ingles-money',
   'ingles-there-is',
   'ingles-prepositions',
+  'ingles-possessives',
+  'ingles-present-simple',
+  'ingles-present-continuous',
+  'ingles-time',
   'ingles-abilities',
   'ingles-routines',
+  'ingles-phrases',
 ] as const
 
 export type EnglishPackId = (typeof ENGLISH_PACK_IDS)[number]
 
-/** Packs visibles en el hub (primera tanda). */
 export const ENGLISH_HUB_PACK_IDS: readonly EnglishPackId[] = ENGLISH_PACK_IDS
 
 export type EnglishHubPackId = EnglishPackId
@@ -31,10 +50,20 @@ export type EnglishHubPackId = EnglishPackId
 export const ENGLISH_PACK_LABELS: Record<string, string> = {
   'ingles-food': 'Comida',
   'ingles-numbers': 'Números',
+  'ingles-places': 'Lugares',
+  'ingles-weather': 'El tiempo',
+  'ingles-characters': 'Personajes',
+  'ingles-transport': 'Cómo voy',
+  'ingles-money': 'Dinero',
   'ingles-there-is': 'There is / are',
   'ingles-prepositions': 'Preposiciones',
+  'ingles-possessives': 'De quién es',
+  'ingles-present-simple': 'Presente',
+  'ingles-present-continuous': 'Ahora mismo',
+  'ingles-time': '¿Qué hora es?',
   'ingles-abilities': 'Puedo',
   'ingles-routines': 'Rutinas',
+  'ingles-phrases': 'Monta la frase',
   'ingles-colours-numbers': 'Colores y números',
   'ingles-school': 'Colegio',
   'ingles-family': 'Familia',
@@ -55,28 +84,61 @@ export const ENGLISH_STATION_LABELS: Record<EnglishStationId, string> = {
 }
 
 export const ENGLISH_STATION_BLURBS: Record<EnglishStationId, string> = {
-  vocabulary: 'Palabras y números',
+  vocabulary: 'Palabras, lugares y más',
   grammar: 'Reglas con ayuda',
   phrases: 'Oraciones y chunks',
 }
 
-/** Packs de la primera tanda por estación. */
+/** Packs por estación (tandas 1–2). */
 export const ENGLISH_STATION_PACKS: Record<
   EnglishStationId,
   readonly EnglishPackId[]
 > = {
-  vocabulary: ['ingles-food', 'ingles-numbers'],
-  grammar: ['ingles-there-is', 'ingles-prepositions'],
-  phrases: ['ingles-abilities', 'ingles-routines'],
+  vocabulary: [
+    'ingles-food',
+    'ingles-numbers',
+    'ingles-places',
+    'ingles-weather',
+    'ingles-characters',
+    'ingles-transport',
+    'ingles-money',
+  ],
+  grammar: [
+    'ingles-there-is',
+    'ingles-prepositions',
+    'ingles-possessives',
+    'ingles-present-simple',
+    'ingles-present-continuous',
+    'ingles-time',
+  ],
+  phrases: ['ingles-abilities', 'ingles-routines', 'ingles-phrases'],
 }
+
+/** Packs con modo Empareja (frase/chunk ↔ escena visual). */
+export const ENGLISH_SCENE_MATCH_PACKS: readonly EnglishPackId[] = [
+  'ingles-abilities',
+  'ingles-routines',
+  'ingles-transport',
+  'ingles-places',
+]
 
 const RAW_PACKS: unknown[] = [
   food,
   numbers,
+  places,
+  weather,
+  characters,
+  transport,
+  money,
   thereIs,
   prepositions,
+  possessives,
+  presentSimple,
+  presentContinuous,
+  time,
   abilities,
   routines,
+  phrases,
 ]
 
 function loadValidatedPacks(): EnglishLemmaPack[] {
@@ -93,7 +155,6 @@ export function listEnglishPacks(): EnglishLemmaPack[] {
   return cached
 }
 
-/** Packs ofrecidos en Misiones → Inglés. */
 export function listEnglishHubPacks(): EnglishLemmaPack[] {
   const hub = new Set<string>(ENGLISH_HUB_PACK_IDS)
   return listEnglishPacks().filter((p) => hub.has(p.pack.id))
@@ -133,4 +194,8 @@ export function listEnglishStationPacks(
 ): EnglishLemmaPack[] {
   const ids = new Set(ENGLISH_STATION_PACKS[stationId])
   return listEnglishHubPacks().filter((p) => ids.has(p.pack.id as EnglishPackId))
+}
+
+export function englishPackSupportsSceneMatch(packId: string): boolean {
+  return (ENGLISH_SCENE_MATCH_PACKS as readonly string[]).includes(packId)
 }

@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "pack": {
+    "id": "ingles-places",
+    "title": "Places",
+    "ownerBank": "INGLES_CATEGORIAS_BORRADOR.md",
+    "topicFamily": "places",
+    "level": "3-primaria",
+    "locale": "en-GB",
+    "revisionStatus": "approved",
+    "contentVersion": 1,
+    "sourceEditorialPhase": "ingles-hub-tanda-2",
+    "notes": "Vocabulario. Ej. 17–21."
+  },
+  "lemmas": [
+    {
+      "id": "places-park",
+      "lemma": "park",
+      "glossEs": "parque",
+      "category": "Camp",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "places-mountains",
+      "lemma": "mountains",
+      "glossEs": "montañas",
+      "category": "Camp",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "places-beach",
+      "lemma": "beach",
+      "glossEs": "playa",
+      "category": "Camp",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "places-country",
+      "lemma": "country",
+      "glossEs": "campo",
+      "category": "Camp",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "places-lake",
+      "lemma": "lake",
+      "glossEs": "lago",
+      "category": "Camp",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "places-swimming-pool",
+      "lemma": "swimming pool",
+      "glossEs": "piscina",
+      "category": "Camp",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "places-river",
+      "lemma": "river",
+      "glossEs": "río",
+      "category": "Landscape",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "places-valley",
+      "lemma": "valley",
+      "glossEs": "valle",
+      "category": "Landscape",
+      "frequency": "poco_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "places-sea",
+      "lemma": "sea",
+      "glossEs": "mar",
+      "category": "Landscape",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "places-forest",
+      "lemma": "forest",
+      "glossEs": "bosque",
+      "category": "Landscape",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "places-town",
+      "lemma": "town",
+      "glossEs": "pueblo",
+      "category": "Settlement",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "places-village",
+      "lemma": "village",
+      "glossEs": "aldea",
+      "category": "Settlement",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    }
+  ]
+}

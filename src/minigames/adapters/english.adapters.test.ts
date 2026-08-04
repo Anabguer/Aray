@@ -13,10 +13,10 @@ const MODES: EnglishPlayMode[] = [
 ]
 
 describe('english adapters', () => {
-  it('runtime con packs de primera tanda', () => {
-    expect(ENGLISH_PACK_IDS).toHaveLength(6)
+  it('runtime con packs de tandas 1–2', () => {
+    expect(ENGLISH_PACK_IDS).toHaveLength(16)
     expect(canBuildEnglishIntruder('ingles-food')).toBe(true)
-    expect(canBuildEnglishIntruder('ingles-there-is')).toBe(true)
+    expect(canBuildEnglishIntruder('ingles-places')).toBe(true)
   })
 
   it('buildRound(english-*) exige packId', () => {

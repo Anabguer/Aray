@@ -43,6 +43,18 @@ import wordsPlural from './words-plural.png'
 import wordsQuienHaceQue from './words-quien-hace-que.png'
 import wordsSinonimos from './words-sinonimos.png'
 import wordsSinonimosAntonimos from './words-sinonimos-antonimos.png'
+import englishFood from './english-food.png'
+import englishNumbers from './english-numbers.png'
+import englishPlaces from './english-places.png'
+import englishWeather from './english-weather.png'
+import englishCharacters from './english-characters.png'
+import englishTransport from './english-transport.png'
+import englishThereIs from './english-there-is.png'
+import englishPrepositions from './english-prepositions.png'
+import englishAbilities from './english-abilities.png'
+import englishRoutines from './english-routines.png'
+import englishMoney from './english-money.png'
+import englishPossessives from './english-possessives.png'
 
 export type ModeArtId =
   | 'aprende'
@@ -91,6 +103,18 @@ export type ModeArtId =
   | 'words-monta-frase'
   | 'words-quien-hace-que'
   | 'words-comun-propio'
+  | 'english-food'
+  | 'english-numbers'
+  | 'english-places'
+  | 'english-weather'
+  | 'english-characters'
+  | 'english-transport'
+  | 'english-there-is'
+  | 'english-prepositions'
+  | 'english-abilities'
+  | 'english-routines'
+  | 'english-money'
+  | 'english-possessives'
 
 /** Arte 3D gamer por modo (cuadrado, object-fit cover). */
 export const modeArt: Record<ModeArtId, string> = {
@@ -140,6 +164,18 @@ export const modeArt: Record<ModeArtId, string> = {
   'words-monta-frase': wordsMontaFrase,
   'words-quien-hace-que': wordsQuienHaceQue,
   'words-comun-propio': wordsComunPropio,
+  'english-food': englishFood,
+  'english-numbers': englishNumbers,
+  'english-places': englishPlaces,
+  'english-weather': englishWeather,
+  'english-characters': englishCharacters,
+  'english-transport': englishTransport,
+  'english-there-is': englishThereIs,
+  'english-prepositions': englishPrepositions,
+  'english-abilities': englishAbilities,
+  'english-routines': englishRoutines,
+  'english-money': englishMoney,
+  'english-possessives': englishPossessives,
 }
 
 export function modeArtUrl(id: ModeArtId): string {

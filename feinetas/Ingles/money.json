@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "pack": {
+    "id": "ingles-money",
+    "title": "Money",
+    "ownerBank": "INGLES_CATEGORIAS_BORRADOR.md",
+    "topicFamily": "money",
+    "level": "3-primaria",
+    "locale": "en-GB",
+    "revisionStatus": "approved",
+    "contentVersion": 1,
+    "sourceEditorialPhase": "ingles-hub-tanda-2",
+    "notes": "Vocabulario precios. Ej. 43."
+  },
+  "lemmas": [
+    {
+      "id": "money-euro",
+      "lemma": "euro",
+      "glossEs": "euro",
+      "category": "Currency",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "money-coin",
+      "lemma": "coin",
+      "glossEs": "moneda",
+      "category": "Currency",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "money-note",
+      "lemma": "note",
+      "glossEs": "billete",
+      "category": "Currency",
+      "frequency": "poco_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "money-ticket",
+      "lemma": "ticket",
+      "glossEs": "entrada",
+      "category": "Things",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "money-pen",
+      "lemma": "pen",
+      "glossEs": "boli",
+      "category": "Things",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "money-ball",
+      "lemma": "ball",
+      "glossEs": "pelota",
+      "category": "Things",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "money-book",
+      "lemma": "book",
+      "glossEs": "libro",
+      "category": "Things",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "money-how-much",
+      "lemma": "How much",
+      "glossEs": "¿cuánto cuesta?",
+      "category": "Phrase",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "money-it-s-2-euros",
+      "lemma": "It's 2 euros",
+      "glossEs": "cuesta 2 euros",
+      "category": "Phrase",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "money-it-s-5-euros",
+      "lemma": "It's 5 euros",
+      "glossEs": "cuesta 5 euros",
+      "category": "Phrase",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    }
+  ]
+}

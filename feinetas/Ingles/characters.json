@@ -1,0 +1,237 @@
+{
+  "schemaVersion": 1,
+  "pack": {
+    "id": "ingles-characters",
+    "title": "Characters",
+    "ownerBank": "INGLES_CATEGORIAS_BORRADOR.md",
+    "topicFamily": "characters",
+    "level": "3-primaria",
+    "locale": "en-GB",
+    "revisionStatus": "approved",
+    "contentVersion": 1,
+    "sourceEditorialPhase": "ingles-hub-tanda-2",
+    "notes": "Personajes + ropa + adj. Ej. 24–29."
+  },
+  "lemmas": [
+    {
+      "id": "characters-king",
+      "lemma": "King",
+      "glossEs": "rey",
+      "category": "People",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "characters-queen",
+      "lemma": "Queen",
+      "glossEs": "reina",
+      "category": "People",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "characters-princess",
+      "lemma": "Princess",
+      "glossEs": "princesa",
+      "category": "People",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "characters-father",
+      "lemma": "Father",
+      "glossEs": "padre",
+      "category": "People",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "characters-crown",
+      "lemma": "crown",
+      "glossEs": "corona",
+      "category": "Clothes",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "characters-boots",
+      "lemma": "boots",
+      "glossEs": "botas",
+      "category": "Clothes",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "characters-dress",
+      "lemma": "dress",
+      "glossEs": "vestido",
+      "category": "Clothes",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "characters-socks",
+      "lemma": "socks",
+      "glossEs": "calcetines",
+      "category": "Clothes",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "characters-shoes",
+      "lemma": "shoes",
+      "glossEs": "zapatos",
+      "category": "Clothes",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "characters-coat",
+      "lemma": "coat",
+      "glossEs": "abrigo",
+      "category": "Clothes",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "characters-hat",
+      "lemma": "hat",
+      "glossEs": "sombrero",
+      "category": "Clothes",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "characters-t-shirt",
+      "lemma": "T-shirt",
+      "glossEs": "camiseta",
+      "category": "Clothes",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "characters-jeans",
+      "lemma": "jeans",
+      "glossEs": "vaqueros",
+      "category": "Clothes",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "characters-handsome",
+      "lemma": "handsome",
+      "glossEs": "guapo",
+      "category": "Adjectives",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "characters-beautiful",
+      "lemma": "beautiful",
+      "glossEs": "bonita",
+      "category": "Adjectives",
+      "frequency": "muy_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "characters-young",
+      "lemma": "young",
+      "glossEs": "joven",
+      "category": "Adjectives",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "characters-old",
+      "lemma": "old",
+      "glossEs": "viejo",
+      "category": "Adjectives",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "characters-rich",
+      "lemma": "rich",
+      "glossEs": "rico",
+      "category": "Adjectives",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "characters-poor",
+      "lemma": "poor",
+      "glossEs": "pobre",
+      "category": "Adjectives",
+      "frequency": "frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    },
+    {
+      "id": "characters-clever",
+      "lemma": "clever",
+      "glossEs": "listo",
+      "category": "Adjectives",
+      "frequency": "poco_frecuente",
+      "image": {
+        "recommended": true,
+        "ref": null
+      }
+    }
+  ]
+}

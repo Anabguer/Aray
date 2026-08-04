@@ -1670,16 +1670,16 @@ El hub muestra **bloques genéricos**, no temas tipo «Comida». Los temas del c
 
 ## Primera tanda (implementación)
 
-**Estado: jugable en app** (2026-08-04). Rutas: hub → estación → pack → modos MCQ.
+**Estado: jugable** · tandas 1–2 en runtime (16 packs).
 
-| Estación | Packs en tanda 1 |
-|----------|------------------|
-| **Vocabulario** | `ingles-food`, `ingles-numbers` |
-| **Gramática** | `ingles-there-is`, `ingles-prepositions` |
-| **Frases** | `ingles-abilities`, `ingles-routines` |
+| Estación | Packs |
+|----------|-------|
+| **Vocabulario** | food, numbers, places, weather, characters, transport, money |
+| **Gramática** | there-is, prepositions, possessives, present-simple, present-continuous, time |
+| **Frases** | abilities, routines, phrases |
 
-JSON: `feinetas/Ingles/{food,numbers,there-is,prepositions,abilities,routines}.json`  
-Resto de packs del catálogo → tandas siguientes (misma estructura de 3 estaciones).
+**Empareja** (frase ↔ escena): abilities, routines, transport, places.  
+Portadas AFK: `src/assets/modes/english-*.png`
 
 ## Cómo ampliar tras el cierre
 

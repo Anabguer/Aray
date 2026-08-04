@@ -21,8 +21,8 @@ describe('english smoke recorrido', () => {
     expect(eng?.worldPath).toBe('/missions/english')
   })
 
-  it('hub con 6 packs de primera tanda', () => {
-    expect(ENGLISH_HUB_PACK_IDS).toHaveLength(6)
+  it('hub con 16 packs (tandas 1–2)', () => {
+    expect(ENGLISH_HUB_PACK_IDS).toHaveLength(16)
   })
 
   it('minijuegos english-* activos con packs', () => {
@@ -30,7 +30,7 @@ describe('english smoke recorrido', () => {
       const id = englishMinigameId(mode)
       expect(getMinigame(id).mechanicId).toBe('english-lemma-mcq')
       expect(getMinigame(id).status).toBe('active')
-      expect(getMinigame(id).packIds).toHaveLength(6)
+      expect(getMinigame(id).packIds).toHaveLength(16)
     }
   })
 
