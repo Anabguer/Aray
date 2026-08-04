@@ -19,6 +19,7 @@ import { useProgress } from '@/progress/ProgressContext'
 import { newId } from '@/progress/repository'
 import { soundEngine } from '@/sound/soundEngine'
 import { MicroCelebrateBanner, useMicroCelebrate } from '@/run/microCelebrateUi'
+import { launchTablesRandomMission } from '@/math/launchRandomMission'
 
 type LearnPhase = 'ask' | 'hint' | 'reveal' | 'done'
 type FxKind = 'bubble' | 'stamp' | 'near' | 'band'
@@ -104,7 +105,16 @@ function prefersReducedMotion(): boolean {
 
 export function LearnScreen() {
   const navigate = useNavigate()
-  const { selection, consumeMissionOfDay } = usePlaySession()
+  const {
+    selection,
+    consumeMissionOfDay,
+    fromRandom,
+    setSelection,
+    setActiveMode,
+    setPendingQueue,
+    setLastResult,
+    setFromRandom,
+  } = usePlaySession()
   const { progress, applySession } = useProgress()
   const tables = selection.mix ? [...MIX_TABLES] : selection.tables.length ? selection.tables : [7]
   const lumo = useLumoController('thinking')
@@ -396,7 +406,28 @@ export function LearnScreen() {
                   : 'Buen calentamiento. ¡A por la siguiente!'}
             </p>
             <div className="learn-lab__done-actions">
-              <button type="button" className="btn btn-primary btn-block" onClick={restartRun}>
+              {fromRandom ? (
+                <button
+                  type="button"
+                  className="btn btn-primary btn-block"
+                  onClick={() => {
+                    launchTablesRandomMission(navigate, progress, {
+                      setSelection,
+                      setActiveMode,
+                      setPendingQueue,
+                      setLastResult,
+                      setFromRandom,
+                    })
+                  }}
+                >
+                  OTRO RANDOM
+                </button>
+              ) : null}
+              <button
+                type="button"
+                className={`btn btn-block${fromRandom ? ' btn-secondary' : ' btn-primary'}`}
+                onClick={restartRun}
+              >
                 OTRA VEZ
               </button>
               <Link to="/missions/mates" className="btn btn-ghost btn-block">

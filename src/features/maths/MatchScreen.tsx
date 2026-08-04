@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { AppShell } from '@/components/AppShell'
 import { RoundSummary } from '@/components/RoundSummary'
 import { StreakBadge } from '@/feedback/AnswerFx'
@@ -27,6 +27,7 @@ import {
 } from '@/math/match'
 import type { SessionAnswer, SessionResult } from '@/math/types'
 import { usePlaySession } from '@/progress/PlayContext'
+import { launchTablesRandomMission } from '@/math/launchRandomMission'
 import { useProgress } from '@/progress/ProgressContext'
 import { newId } from '@/progress/repository'
 import { MicroCelebrateBanner, useMicroCelebrate } from '@/run/microCelebrateUi'
@@ -42,8 +43,18 @@ const WRONG_LOCK_MS = 420
 const POP_ANIM_MS = 480
 
 export function MatchScreen() {
+  const navigate = useNavigate()
   const { progress, applySession } = useProgress()
-  const { selection, setLastResult, setActiveMode, consumeMissionOfDay } = usePlaySession()
+  const {
+    selection,
+    setLastResult,
+    setActiveMode,
+    setPendingQueue,
+    setSelection,
+    setFromRandom,
+    fromRandom,
+    consumeMissionOfDay,
+  } = usePlaySession()
   const table = selection.tables[0] ?? 7
   const lumo = useLumoController('thinking')
   const sessionIdRef = useRef(newId('match'))
@@ -349,7 +360,28 @@ export function MatchScreen() {
             ]}
             actions={
               <>
-                <button type="button" className="btn btn-primary btn-block" onClick={replay}>
+                {fromRandom ? (
+                  <button
+                    type="button"
+                    className="btn btn-primary btn-block"
+                    onClick={() => {
+                      launchTablesRandomMission(navigate, progress, {
+                        setSelection,
+                        setActiveMode,
+                        setPendingQueue,
+                        setLastResult,
+                        setFromRandom,
+                      })
+                    }}
+                  >
+                    OTRO RANDOM
+                  </button>
+                ) : null}
+                <button
+                  type="button"
+                  className={`btn btn-block${fromRandom ? ' btn-secondary' : ' btn-primary'}`}
+                  onClick={replay}
+                >
                   JUGAR OTRA VEZ
                 </button>
                 <Link to="/missions/mates/tables/modes" className="btn btn-secondary btn-block">

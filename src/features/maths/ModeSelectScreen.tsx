@@ -3,7 +3,8 @@ import type { ModeArtId } from '@/assets/modes'
 import { AppShell } from '@/components/AppShell'
 import { IconReview } from '@/components/Icons'
 import { StageSelect, StageSlot } from '@/components/stage/StageSelect'
-import { hasSavedMisses, pickRandomMission } from '@/math/randomMission'
+import { hasSavedMisses } from '@/math/randomMission'
+import { launchTablesRandomMission } from '@/math/launchRandomMission'
 import { buildMissesQueue, buildTrainQueue } from '@/math/selector'
 import { tableStatus } from '@/math/tableMastery'
 import { usePlaySession, type TablesSelection } from '@/progress/PlayContext'
@@ -36,8 +37,14 @@ type Poster = {
 export function ModeSelectScreen() {
   const navigate = useNavigate()
   const { progress } = useProgress()
-  const { selection, setSelection, setPendingQueue, setActiveMode, setLastResult } =
-    usePlaySession()
+  const {
+    selection,
+    setSelection,
+    setPendingQueue,
+    setActiveMode,
+    setLastResult,
+    setFromRandom,
+  } = usePlaySession()
 
   const subtitle = selectionSubtitle(selection)
   const canPracticeMisses = hasSavedMisses(progress)
@@ -53,6 +60,7 @@ export function ModeSelectScreen() {
         : ''
 
   function startTrain() {
+    setFromRandom(false)
     setLastResult(null)
     setActiveMode('train')
     setPendingQueue(buildTrainQueue(selection.tables, progress))
@@ -61,6 +69,7 @@ export function ModeSelectScreen() {
 
   function startMisses() {
     if (!canPracticeMisses) return
+    setFromRandom(false)
     setLastResult(null)
     const { queue, usedFallbackMix } = buildMissesQueue(progress)
     setActiveMode(usedFallbackMix ? 'train' : 'misses')
@@ -71,36 +80,13 @@ export function ModeSelectScreen() {
   }
 
   function startRandom() {
-    const mission = pickRandomMission(progress)
-    if (!mission) return
-    setLastResult(null)
-    if (mission.kind === 'misses') {
-      startMisses()
-      return
-    }
-    if (mission.kind === 'match') {
-      setSelection({ tables: [mission.table], mix: false })
-      setActiveMode('match')
-      navigate('/missions/mates/tables/match')
-      return
-    }
-    if (mission.kind === 'learn') {
-      setSelection({ tables: mission.tables, mix: mission.mix })
-      setActiveMode('learn')
-      navigate('/missions/mates/tables/learn')
-      return
-    }
-    if (mission.kind === 'challenge') {
-      setSelection({ tables: mission.tables, mix: mission.mix })
-      setActiveMode('challenge')
-      setPendingQueue(null)
-      navigate('/missions/mates/tables/challenge')
-      return
-    }
-    setSelection({ tables: mission.tables, mix: mission.mix })
-    setActiveMode('train')
-    setPendingQueue(buildTrainQueue(mission.tables, progress))
-    navigate('/missions/mates/tables/train')
+    launchTablesRandomMission(navigate, progress, {
+      setSelection,
+      setActiveMode,
+      setPendingQueue,
+      setLastResult,
+      setFromRandom,
+    })
   }
 
   const heroes: Poster[] = [

@@ -29,6 +29,9 @@ interface PlayContextValue {
   setLastResult: (result: SessionResult | null) => void
   activeMode: PlayMode | null
   setActiveMode: (mode: PlayMode | null) => void
+  /** La sesión actual salió del botón Random (para ofrecer «Otro random» al acabar). */
+  fromRandom: boolean
+  setFromRandom: (value: boolean) => void
   missionOfDay: MissionOfDayState | null
   setMissionOfDay: (mission: MissionOfDayState | null) => void
   consumeMissionOfDay: () => MissionOfDayState | null
@@ -67,6 +70,7 @@ export function PlayProvider({ children }: { children: ReactNode }) {
   const [pendingQueue, setPendingQueue] = useState<QuestionCard[] | null>(null)
   const [lastResult, setLastResult] = useState<SessionResult | null>(null)
   const [activeMode, setActiveMode] = useState<PlayMode | null>(null)
+  const [fromRandom, setFromRandom] = useState(false)
   const [missionOfDay, setMissionOfDayState] = useState<MissionOfDayState | null>(() =>
     typeof sessionStorage !== 'undefined' ? loadMissionOfDay() : null,
   )
@@ -106,6 +110,8 @@ export function PlayProvider({ children }: { children: ReactNode }) {
       setLastResult,
       activeMode,
       setActiveMode,
+      fromRandom,
+      setFromRandom,
       missionOfDay,
       setMissionOfDay,
       consumeMissionOfDay,
@@ -116,6 +122,7 @@ export function PlayProvider({ children }: { children: ReactNode }) {
       pendingQueue,
       lastResult,
       activeMode,
+      fromRandom,
       missionOfDay,
       setMissionOfDay,
       consumeMissionOfDay,

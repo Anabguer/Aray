@@ -83,6 +83,8 @@ describe('copy infantil (mates UX1)', () => {
 
     expect(learn).toContain('¡TERMINADO!')
     expect(learn).toContain('OTRA VEZ')
+    expect(learn).toContain('OTRO RANDOM')
+    expect(learn).toContain('fromRandom')
     expect(learn).not.toContain('RUN COMPLETA')
     expect(learn).not.toContain('OTRA RUN')
 

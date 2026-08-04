@@ -8,6 +8,7 @@ import { challengeModeConfig } from '@/config/playConfig'
 import { lumoMessages } from '@/config/lumoMessages'
 import { newRecordMessage, noMissesMessage } from '@/config/messages'
 import { energyCopy, rewardGoalConfig } from '@/config/rewardGoal'
+import { launchTablesRandomMission } from '@/math/launchRandomMission'
 import { formatFact } from '@/math/tables'
 import { buildMissesQueue, buildTrainQueue } from '@/math/selector'
 import { useAuth } from '@/auth/AuthContext'
@@ -23,8 +24,16 @@ export function SessionSummaryScreen() {
     openCrate,
     collectCrate,
   } = useProgress()
-  const { lastResult, selection, setPendingQueue, setActiveMode, setLastResult, setSelection } =
-    usePlaySession()
+  const {
+    lastResult,
+    selection,
+    setPendingQueue,
+    setActiveMode,
+    setLastResult,
+    setSelection,
+    fromRandom,
+    setFromRandom,
+  } = usePlaySession()
   const { tutorDisplayName } = useAuth()
   const tutorName = tutorDisplayName?.trim() || 'un adulto'
   const [crateNote, setCrateNote] = useState<string | null>(null)
@@ -194,7 +203,28 @@ export function SessionSummaryScreen() {
         }
         actions={
           <>
-            <button type="button" className="btn btn-primary btn-block" onClick={repeat}>
+            {fromRandom ? (
+              <button
+                type="button"
+                className="btn btn-primary btn-block"
+                onClick={() => {
+                  launchTablesRandomMission(navigate, progress, {
+                    setSelection,
+                    setActiveMode,
+                    setPendingQueue,
+                    setLastResult,
+                    setFromRandom,
+                  })
+                }}
+              >
+                Otro random
+              </button>
+            ) : null}
+            <button
+              type="button"
+              className={`btn btn-block${fromRandom ? ' btn-secondary' : ' btn-primary'}`}
+              onClick={repeat}
+            >
               Repetir
             </button>
             <button type="button" className="btn btn-secondary btn-block" onClick={practiceMisses}>
