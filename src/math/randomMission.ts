@@ -5,12 +5,14 @@ export type RandomMission =
   | { kind: 'train'; tables: number[]; mix: boolean; label: string }
   | { kind: 'misses'; label: string }
   | { kind: 'match'; table: number; label: string }
+  | { kind: 'learn'; tables: number[]; mix: boolean; label: string }
+  | { kind: 'challenge'; tables: number[]; mix: boolean; label: string }
 
 function hasSavedMisses(progress: ProgressState): boolean {
   return Object.values(progress.facts).some((f) => f.wrong > 0)
 }
 
-/** Actividades terminadas disponibles para Misión random. */
+/** Actividades disponibles para Random (incluye Aprende / Reto / Empareja). */
 export function listRandomMissions(progress: ProgressState): RandomMission[] {
   const missions: RandomMission[] = []
 
@@ -21,6 +23,23 @@ export function listRandomMissions(progress: ProgressState): RandomMission[] {
       mix: false,
       label: `Entrena tabla del ${table}`,
     })
+    missions.push({
+      kind: 'learn',
+      tables: [table],
+      mix: false,
+      label: `Aprende tabla del ${table}`,
+    })
+    missions.push({
+      kind: 'challenge',
+      tables: [table],
+      mix: false,
+      label: `Reto tabla del ${table}`,
+    })
+    missions.push({
+      kind: 'match',
+      table,
+      label: `Empareja tabla del ${table}`,
+    })
   }
 
   missions.push({
@@ -29,17 +48,21 @@ export function listRandomMissions(progress: ProgressState): RandomMission[] {
     mix: true,
     label: 'Entrena mezcla',
   })
+  missions.push({
+    kind: 'learn',
+    tables: [...MIX_TABLES],
+    mix: true,
+    label: 'Aprende mezcla',
+  })
+  missions.push({
+    kind: 'challenge',
+    tables: [...MIX_TABLES],
+    mix: true,
+    label: 'Reto mezcla',
+  })
 
   if (hasSavedMisses(progress)) {
     missions.push({ kind: 'misses', label: 'Practicar mis fallos' })
-  }
-
-  for (const table of PLAYABLE_TABLES) {
-    missions.push({
-      kind: 'match',
-      table,
-      label: `Empareja tabla del ${table}`,
-    })
   }
 
   return missions

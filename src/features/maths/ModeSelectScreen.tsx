@@ -3,7 +3,6 @@ import type { ModeArtId } from '@/assets/modes'
 import { AppShell } from '@/components/AppShell'
 import { IconReview } from '@/components/Icons'
 import { StageSelect, StageSlot } from '@/components/stage/StageSelect'
-import { challengeModeConfig } from '@/config/playConfig'
 import { hasSavedMisses, pickRandomMission } from '@/math/randomMission'
 import { buildMissesQueue, buildTrainQueue } from '@/math/selector'
 import { tableStatus } from '@/math/tableMastery'
@@ -29,17 +28,18 @@ type Poster = {
   text: string
   className: string
   tag: string
-  to?: string
+  locked?: boolean
   onClick?: () => void
 }
 
+/** Orden: Mis fallos → Random → Entrena. Aprende/Reto/Empareja van en Random. */
 export function ModeSelectScreen() {
   const navigate = useNavigate()
   const { progress } = useProgress()
-  const { selection, setSelection, setPendingQueue, setActiveMode, setLastResult } = usePlaySession()
+  const { selection, setSelection, setPendingQueue, setActiveMode, setLastResult } =
+    usePlaySession()
 
   const subtitle = selectionSubtitle(selection)
-
   const canPracticeMisses = hasSavedMisses(progress)
   const reviewTables = selection.tables.filter((n) => {
     const t = progress.tables[String(n)]
@@ -59,28 +59,15 @@ export function ModeSelectScreen() {
     navigate('/missions/mates/tables/train')
   }
 
-  function startChallenge() {
-    setLastResult(null)
-    setActiveMode('challenge')
-    setPendingQueue(null)
-    navigate('/missions/mates/tables/challenge')
-  }
-
-  function startMatch() {
-    const table = selection.tables[0] ?? 7
-    setSelection({ tables: [table], mix: false })
-    setLastResult(null)
-    setActiveMode('match')
-    navigate('/missions/mates/tables/match')
-  }
-
   function startMisses() {
     if (!canPracticeMisses) return
     setLastResult(null)
     const { queue, usedFallbackMix } = buildMissesQueue(progress)
     setActiveMode(usedFallbackMix ? 'train' : 'misses')
     setPendingQueue(queue)
-    navigate('/missions/mates/tables/train', { state: { fallbackMix: usedFallbackMix } })
+    navigate('/missions/mates/tables/train', {
+      state: { fallbackMix: usedFallbackMix },
+    })
   }
 
   function startRandom() {
@@ -97,6 +84,19 @@ export function ModeSelectScreen() {
       navigate('/missions/mates/tables/match')
       return
     }
+    if (mission.kind === 'learn') {
+      setSelection({ tables: mission.tables, mix: mission.mix })
+      setActiveMode('learn')
+      navigate('/missions/mates/tables/learn')
+      return
+    }
+    if (mission.kind === 'challenge') {
+      setSelection({ tables: mission.tables, mix: mission.mix })
+      setActiveMode('challenge')
+      setPendingQueue(null)
+      navigate('/missions/mates/tables/challenge')
+      return
+    }
     setSelection({ tables: mission.tables, mix: mission.mix })
     setActiveMode('train')
     setPendingQueue(buildTrainQueue(mission.tables, progress))
@@ -105,65 +105,34 @@ export function ModeSelectScreen() {
 
   const heroes: Poster[] = [
     {
+      id: 'misses',
+      art: 'mis-fallos',
+      title: 'MIS FALLOS',
+      text: canPracticeMisses
+        ? 'Refuerza lo difícil'
+        : 'Aún no hay fallos · juega y se irán guardando',
+      className: 'mode-poster--misses',
+      tag: 'REPASO',
+      locked: !canPracticeMisses,
+      onClick: canPracticeMisses ? startMisses : undefined,
+    },
+    {
+      id: 'random',
+      art: 'sorpresa',
+      title: 'RANDOM',
+      text: 'Aprende, reto o empareja · Lumo elige',
+      className: 'mode-poster--random',
+      tag: 'DESTACADO',
+      onClick: startRandom,
+    },
+    {
       id: 'train',
       art: 'entrena',
       title: 'ENTRENA',
       text: '10 preguntas · Gana energía',
       className: 'mode-poster--train',
-      tag: 'DESTACADO',
+      tag: 'ENTRENA',
       onClick: startTrain,
-    },
-    {
-      id: 'challenge',
-      art: 'reto-rapido',
-      title: 'RETO RÁPIDO',
-      text: `${challengeModeConfig.durationSec} segundos · XP extra`,
-      className: 'mode-poster--challenge',
-      tag: 'RÁPIDO',
-      onClick: startChallenge,
-    },
-  ]
-
-  const roster: Poster[] = [
-    {
-      id: 'learn',
-      art: 'aprende',
-      title: 'APRENDE',
-      text: 'Mira, toca y descubre',
-      className: 'mode-poster--learn',
-      tag: '01',
-      to: '/missions/mates/tables/learn',
-    },
-    {
-      id: 'match',
-      art: 'empareja',
-      title: 'EMPAREJA',
-      text: 'Encuentra las parejas',
-      className: 'mode-poster--match',
-      tag: '02',
-      onClick: startMatch,
-    },
-    ...(canPracticeMisses
-      ? [
-          {
-            id: 'misses',
-            art: 'mis-fallos' as ModeArtId,
-            title: 'MIS FALLOS',
-            text: 'Refuerza lo difícil',
-            className: 'mode-poster--misses',
-            tag: '03',
-            onClick: startMisses,
-          },
-        ]
-      : []),
-    {
-      id: 'random',
-      art: 'sorpresa',
-      title: 'RANDOM',
-      text: 'Lumo elige por ti',
-      className: 'mode-poster--random',
-      tag: canPracticeMisses ? '04' : '03',
-      onClick: startRandom,
     },
   ]
 
@@ -190,23 +159,11 @@ export function ModeSelectScreen() {
             className={m.className}
             tag={m.tag}
             featured
-            to={m.to}
+            locked={m.locked}
             onClick={m.onClick}
           />
         ))}
-        roster={roster.map((m) => (
-          <StageSlot
-            key={m.id}
-            art={m.art}
-            title={m.title}
-            text={m.text}
-            className={m.className}
-            tag={m.tag}
-            to={m.to}
-            onClick={m.onClick}
-          />
-        ))}
-        rosterCols={roster.length >= 4 ? 4 : roster.length === 3 ? 3 : 2}
+        heroesCols={3}
       />
     </AppShell>
   )

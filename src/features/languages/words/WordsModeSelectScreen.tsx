@@ -1,38 +1,51 @@
+import { useNavigate } from 'react-router-dom'
 import { AppShell } from '@/components/AppShell'
 import { StageSelect, StageSlot } from '@/components/stage/StageSelect'
 import {
   activeWordsExercises,
   wordsExerciseHref,
-  type WordsExercise,
 } from '@/features/languages/words/exercises'
 
-function slotFor(exercise: WordsExercise) {
-  return (
-    <StageSlot
-      key={exercise.id}
-      art={exercise.art}
-      title={exercise.title.toUpperCase()}
-      text={exercise.text}
-      className={exercise.className}
-      tag={exercise.tag}
-      featured={Boolean(exercise.featured)}
-      to={wordsExerciseHref(exercise)}
-    />
-  )
-}
-
+/**
+ * Solo Mis fallos + Random.
+ * Random elige un ejercicio activo al azar.
+ * Mis fallos: aún sin store de lemas; card bloqueada hasta que exista.
+ */
 export function WordsModeSelectScreen() {
+  const navigate = useNavigate()
   const active = activeWordsExercises()
-  const heroes = active.filter((e) => e.featured)
-  const roster = active.filter((e) => !e.featured)
+
+  function startRandom() {
+    if (active.length === 0) return
+    const exercise = active[Math.floor(Math.random() * active.length)]!
+    navigate(wordsExerciseHref(exercise))
+  }
 
   return (
     <AppShell title="PALABRAS" shortTitle="Palabras" showBack backTo="/missions/languages">
       <StageSelect
-        heroes={heroes.map(slotFor)}
-        heroesCols={heroes.length >= 3 ? 3 : 2}
-        roster={roster.length > 0 ? roster.map(slotFor) : undefined}
-        rosterCols={roster.length >= 4 ? 3 : 3}
+        heroes={[
+          <StageSlot
+            key="misses"
+            art="mis-fallos"
+            title="MIS FALLOS"
+            text="Pronto: los fallos de cada ejercicio se guardarán aquí"
+            className="mode-poster--misses"
+            tag="REPASO"
+            featured
+            locked
+          />,
+          <StageSlot
+            key="random"
+            art="sorpresa"
+            title="RANDOM"
+            text="Formar, clasificar, montar frase… Lumo elige"
+            className="mode-poster--random"
+            tag="DESTACADO"
+            featured
+            onClick={startRandom}
+          />,
+        ]}
       />
     </AppShell>
   )

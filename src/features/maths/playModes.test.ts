@@ -65,6 +65,8 @@ describe('Tablas jugables y misión random', () => {
     const list = listRandomMissions(progress)
     expect(list.some((m) => m.kind === 'misses')).toBe(true)
     expect(list.some((m) => m.kind === 'match')).toBe(true)
+    expect(list.some((m) => m.kind === 'learn')).toBe(true)
+    expect(list.some((m) => m.kind === 'challenge')).toBe(true)
     expect(pickRandomMission(progress, () => 0)?.kind).toBeDefined()
   })
 })
