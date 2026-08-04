@@ -29,7 +29,7 @@ const WORLD_META: Record<
   english: {
     imageSrc: mundoIngles,
     className: 'mode-poster--train',
-    text: 'Vocabulario, gramática y frases',
+    text: 'Próximamente',
     tag: '01',
   },
   medi: {

@@ -13,19 +13,20 @@ const PLAYABLE: EnglishPlayMode[] = [
   'mix',
 ]
 
-describe('english smoke recorrido', () => {
-  it('mundo Inglés accesible en Misiones', () => {
+describe('english smoke (mundo aparcado)', () => {
+  it('mundo Inglés visible pero no jugable (próximamente)', () => {
     const worlds = visibleWorlds(createInitialProgress())
     const eng = worlds.find((w) => w.id === 'english')
-    expect(eng?.hasPlayable).toBe(true)
+    expect(eng?.hasPlayable).toBe(false)
+    expect(eng?.status).toBe('future')
     expect(eng?.worldPath).toBe('/missions/english')
   })
 
-  it('hub con 16 packs (tandas 1–2)', () => {
+  it('packs hub siguen en disco (contenido catalogado)', () => {
     expect(ENGLISH_HUB_PACK_IDS).toHaveLength(16)
   })
 
-  it('minijuegos english-* activos con packs', () => {
+  it('minijuegos english-* siguen registrados para cuando se reabra', () => {
     for (const mode of PLAYABLE) {
       const id = englishMinigameId(mode)
       expect(getMinigame(id).mechanicId).toBe('english-lemma-mcq')

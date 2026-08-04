@@ -50,12 +50,19 @@ describe('catálogo curricular', () => {
     const futureBlocks = blocks.filter((b) => b.status === 'future')
     expect(futureBlocks.length).toBeGreaterThanOrEqual(1)
     expect(futureBlocks.some((b) => b.id === 'problems')).toBe(true)
-    expect(blocks.find((b) => b.id === 'vocabulary')?.status).toBe('active')
-    expect(blocks.find((b) => b.id === 'grammar')?.status).toBe('active')
-    expect(blocks.find((b) => b.id === 'phrases')?.status).toBe('active')
+    expect(blocks.find((b) => b.id === 'vocabulary')?.status).toBe('future')
+    expect(blocks.find((b) => b.id === 'grammar')?.status).toBe('future')
+    expect(blocks.find((b) => b.id === 'phrases')?.status).toBe('future')
+    expect(subjects.find((s) => s.id === 'english')?.status).toBe('future')
     expect(getSkill('english-vocabulary')?.blockId).toBe('vocabulary')
     expect(getSkill('english-grammar')?.blockId).toBe('grammar')
     expect(getSkill('english-phrases')?.blockId).toBe('phrases')
+    expect(getSkill('english-vocabulary')?.status).toBe('future')
+    expect(
+      activities
+        .filter((a) => a.id.startsWith('english-'))
+        .every((a) => a.status === 'future'),
+    ).toBe(true)
     expect(
       activities.every(
         (a) =>

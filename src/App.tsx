@@ -1,4 +1,4 @@
-import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { ScrollToTop } from '@/components/ScrollToTop'
 import { AccessScreen } from '@/features/access/AccessScreen'
 import { AuthGate } from '@/features/access/AuthGate'
@@ -44,13 +44,6 @@ import { WordsModeSelectScreen } from '@/features/languages/words/WordsModeSelec
 import { SpellModeSelectScreen } from '@/features/languages/spelling/SpellModeSelectScreen'
 import { SpellPlayScreen } from '@/features/languages/spelling/SpellPlayScreen'
 import { SpellSummaryScreen } from '@/features/languages/spelling/SpellSummaryScreen'
-import { EnglishHubScreen } from '@/features/english/EnglishHubScreen'
-import { EnglishStationScreen } from '@/features/english/EnglishStationScreen'
-import { EnglishStationPlayScreen } from '@/features/english/EnglishStationPlayScreen'
-import { EnglishModeSelectScreen } from '@/features/english/EnglishModeSelectScreen'
-import { EnglishMatchPlayScreen } from '@/features/english/EnglishMatchPlayScreen'
-import { EnglishPlayScreen } from '@/features/english/EnglishPlayScreen'
-import { EnglishSummaryScreen } from '@/features/english/EnglishSummaryScreen'
 import { MissionsScreen } from '@/features/missions/MissionsScreen'
 import { SubjectPreviewScreen } from '@/features/missions/SubjectPreviewScreen'
 import { LumoGallery } from '@/lumo/LumoGallery'
@@ -175,16 +168,7 @@ export default function App() {
           path="/missions/languages/formar-palabras/summary"
           element={<FormarPalabrasSummaryScreen />}
         />
-        <Route path="/missions/english" element={<Outlet />}>
-          <Route index element={<EnglishHubScreen />} />
-          <Route path="pack/:packId/summary" element={<EnglishSummaryScreen />} />
-          <Route path="pack/:packId/match" element={<EnglishMatchPlayScreen />} />
-          <Route path="pack/:packId/:mode" element={<EnglishPlayScreen />} />
-          <Route path="pack/:packId" element={<EnglishModeSelectScreen />} />
-          <Route path=":stationId/summary" element={<EnglishSummaryScreen />} />
-          <Route path=":stationId/:mode" element={<EnglishStationPlayScreen />} />
-          <Route path=":stationId" element={<EnglishStationScreen />} />
-        </Route>
+        <Route path="/missions/english/*" element={<Navigate to="/missions" replace />} />
         <Route path="/missions/:subjectId" element={<SubjectPreviewScreen />} />
         <Route path="/collection" element={<CollectionScreen />} />
         <Route path="*" element={<Navigate to="/" replace />} />

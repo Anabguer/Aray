@@ -141,9 +141,9 @@ Listening y Phonics siguen aplazados (Fases 5–6).
 |------|--------|
 | **JSON Ortografía** | Terminado |
 | **Integración Ortografía** | Completa |
-| **JSON Inglés** | v1 archivado · **tanda 1 en runtime** (6 packs) · schema `INGLES_JSON_SPEC` |
-| **Integración Inglés** | Hub 3 estaciones · packs bajo `/missions/english/pack/:id` |
-| **Siguiente paso lógico** | Assets AFK + mecánicas match/drag; tanda 2 de packs |
+| **JSON Inglés** | v1 archivado · packs JSON en disco (no runtime) · schema `INGLES_JSON_SPEC` |
+| **Integración Inglés** | **Próximamente** (mundo bloqueado en Mis Mundos) · hub cancelado hasta rehacer con fichas reales |
+| **Siguiente paso lógico** | Reabrir Inglés montando mecánicas de las fichas `_inbox/`, no MCQ genérico |
 
 ---
 

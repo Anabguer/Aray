@@ -69,7 +69,7 @@ export const subjects: SubjectDefinition[] = [
     description: 'Vocabulario y frases útiles',
     legacyHubId: 'angles',
     worldPath: '/missions/english',
-    status: 'active',
+    status: 'future',
     sortOrder: 30,
   },
 ]
@@ -145,7 +145,7 @@ export const blocks: BlockDefinition[] = [
     subjectId: 'english',
     title: 'Vocabulario',
     description: 'Palabras y números',
-    status: 'active',
+    status: 'future',
     sortOrder: 10,
   },
   {
@@ -153,7 +153,7 @@ export const blocks: BlockDefinition[] = [
     subjectId: 'english',
     title: 'Gramática',
     description: 'Reglas con ayuda',
-    status: 'active',
+    status: 'future',
     sortOrder: 20,
   },
   {
@@ -161,7 +161,7 @@ export const blocks: BlockDefinition[] = [
     subjectId: 'english',
     title: 'Frases',
     description: 'Oraciones y chunks',
-    status: 'active',
+    status: 'future',
     sortOrder: 30,
   },
 ]
@@ -256,7 +256,7 @@ export const skills: SkillDefinition[] = [
     progressKey: 'english-vocabulary',
     progressKind: 'generic',
     recommendedCourses: ['primary-3', 'primary-4'],
-    status: 'active',
+    status: 'future',
     sortOrder: 10,
   },
   {
@@ -267,7 +267,7 @@ export const skills: SkillDefinition[] = [
     progressKey: 'english-grammar',
     progressKind: 'generic',
     recommendedCourses: ['primary-3', 'primary-4'],
-    status: 'active',
+    status: 'future',
     sortOrder: 20,
   },
   {
@@ -278,7 +278,7 @@ export const skills: SkillDefinition[] = [
     progressKey: 'english-phrases',
     progressKind: 'generic',
     recommendedCourses: ['primary-3', 'primary-4'],
-    status: 'active',
+    status: 'future',
     sortOrder: 30,
   },
 ]
@@ -508,7 +508,7 @@ export const activities: ActivityDefinition[] = [
     skillId: 'english-vocabulary',
     exerciseType: 'multiple-choice',
     difficulty: 'basic',
-    status: 'active',
+    status: 'future',
     sortOrder: 545,
     rewards: defaultRewards,
     config: {
@@ -524,7 +524,7 @@ export const activities: ActivityDefinition[] = [
     skillId: 'english-grammar',
     exerciseType: 'multiple-choice',
     difficulty: 'basic',
-    status: 'active',
+    status: 'future',
     sortOrder: 546,
     rewards: defaultRewards,
     config: {
@@ -540,7 +540,7 @@ export const activities: ActivityDefinition[] = [
     skillId: 'english-phrases',
     exerciseType: 'multiple-choice',
     difficulty: 'basic',
-    status: 'active',
+    status: 'future',
     sortOrder: 547,
     rewards: defaultRewards,
     config: {

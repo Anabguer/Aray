@@ -7,6 +7,7 @@ Documento de referencia tras catalogar fichas en `feinetas/Ingles/_inbox/`.
 
 | Fecha | Nota |
 |-------|------|
+| 2026-08-04 | **Hub jugable cancelado** → mundo Inglés = Próximamente (catálogo/fichas se mantienen). |
 | 2026-08-04 | **Mapa re-cerrado:** 3 estaciones (Vocabulario / Gramática / Frases); temas = packs internos. |
 | 2026-08-04 | Primer cierre (16 temas como estaciones) — sustituido por modelo genérico. |
 | 2026-08-03 | Hub vaciado. Bancos Colegio/Familia/Colores en `_archivo/`. Inbox preparado. |
