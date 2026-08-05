@@ -93,6 +93,22 @@ final class AuthService
         return (bool) $stmt->fetchColumn();
     }
 
+    /** Cuenta familiar dueña de un perfil niño (si hay). */
+    public static function accountIdForPlayer(int $playerId): ?int
+    {
+        if ($playerId < 1) {
+            return null;
+        }
+        $pdo = Database::pdo();
+        $table = Database::table('account_players');
+        $stmt = $pdo->prepare(
+            "SELECT account_id FROM {$table} WHERE player_id = :p ORDER BY account_id ASC LIMIT 1"
+        );
+        $stmt->execute([':p' => $playerId]);
+        $id = $stmt->fetchColumn();
+        return $id === false ? null : (int) $id;
+    }
+
     public static function playersForAccount(int $accountId): array
     {
         $pdo = Database::pdo();

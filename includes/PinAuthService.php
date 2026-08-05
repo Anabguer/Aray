@@ -64,7 +64,7 @@ final class PinAuthService
         ];
     }
 
-    /** Cuenta cuyo PIN se puede comprobar: sesión adulta o cookie de dispositivo. */
+    /** Cuenta cuyo PIN se puede comprobar: sesión adulta, cookie de dispositivo o niño activo. */
     private static function resolveTargetAccount(): ?array
     {
         Session::start();
@@ -80,6 +80,17 @@ final class PinAuthService
             $acc = AuthService::findAccountById($fromDevice);
             if (is_array($acc) && (int) $acc['is_active'] === 1) {
                 return $acc;
+            }
+        }
+
+        // Vista niño: el PIN es el de la familia dueña del perfil.
+        if (Session::role() === 'child' && Session::playerId() !== null) {
+            $accountId = AuthService::accountIdForPlayer(Session::playerId());
+            if ($accountId !== null) {
+                $acc = AuthService::findAccountById($accountId);
+                if (is_array($acc) && (int) $acc['is_active'] === 1) {
+                    return $acc;
+                }
             }
         }
 
