@@ -1,5 +1,6 @@
 import { describe, expect, it, beforeEach } from 'vitest'
 import { missionEnergyConfig } from '@/config/rewardGoal'
+import { DAILY_TASKS } from '@/daily/dailyTasks'
 import {
   computeSkillEnergyGrant,
   energyForMissionAttempt,
@@ -20,9 +21,11 @@ describe('missionEnergy', () => {
     localStorage.clear()
   })
 
-  it('las 5 skills de misión suman 100 de energía', () => {
+  it('las skills de misión suman 100 de energía (Lengua repartida)', () => {
     const snap = loadDailyMissionSnapshot(null, today())
     expect(remainingMissionEnergyBudget(snap)).toBe(100)
+    expect(DAILY_TASKS.find((t) => t.key === 'spelling')?.target).toBe(2)
+    expect(DAILY_TASKS.find((t) => t.key === 'words')?.target).toBe(2)
   })
 
   it('no otorga más allá de los slots de la skill', () => {
@@ -30,7 +33,7 @@ describe('missionEnergy', () => {
     saveDailyMissionSnapshot(
       {
         date: d,
-        progress: { tables: 0, calc: 4, spelling: 0, clocks: 0, money: 0 },
+        progress: { tables: 0, calc: 4, spelling: 0, words: 0, clocks: 0, money: 0 },
         challengeDone: false,
       },
       null,
@@ -45,7 +48,7 @@ describe('missionEnergy', () => {
     saveDailyMissionSnapshot(
       {
         date: d,
-        progress: { tables: 6, calc: 5, spelling: 4, clocks: 2, money: 1 },
+        progress: { tables: 6, calc: 5, spelling: 2, words: 2, clocks: 2, money: 1 },
         challengeDone: true,
       },
       null,
@@ -58,17 +61,18 @@ describe('missionEnergy', () => {
     const d = today()
     const a = {
       date: d,
-      progress: { tables: 2, calc: 0, spelling: 4, clocks: 0, money: 0 },
+      progress: { tables: 2, calc: 0, spelling: 2, words: 0, clocks: 0, money: 0 },
       challengeDone: false,
     }
     const b = {
       date: d,
-      progress: { tables: 6, calc: 1, spelling: 1, clocks: 0, money: 0 },
+      progress: { tables: 6, calc: 1, spelling: 1, words: 2, clocks: 0, money: 0 },
       challengeDone: true,
     }
     const m = mergeDailyMissionSnapshots(a, b, d)
     expect(m.progress.tables).toBe(6)
-    expect(m.progress.spelling).toBe(4)
+    expect(m.progress.spelling).toBe(2)
+    expect(m.progress.words).toBe(2)
     expect(m.progress.calc).toBe(1)
     expect(m.challengeDone).toBe(true)
   })
@@ -77,12 +81,12 @@ describe('missionEnergy', () => {
     const d = today()
     const incomplete = {
       date: d,
-      progress: { tables: 6, calc: 5, spelling: 4, clocks: 2, money: 0 },
+      progress: { tables: 6, calc: 5, spelling: 2, words: 2, clocks: 2, money: 0 },
       challengeDone: false,
     }
     const complete = {
       date: d,
-      progress: { tables: 6, calc: 5, spelling: 4, clocks: 2, money: 1 },
+      progress: { tables: 6, calc: 5, spelling: 2, words: 2, clocks: 2, money: 1 },
       challengeDone: true,
     }
     expect(isDailyMissionComplete(incomplete)).toBe(false)

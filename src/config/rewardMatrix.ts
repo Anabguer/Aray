@@ -13,6 +13,7 @@ export type RewardActivityId =
   | 'calc'
   | 'money'
   | 'spelling'
+  | 'words'
   | 'english'
   | 'clocks-learn'
   | 'clocks-train'
@@ -73,7 +74,12 @@ export const rewardMatrix: Record<RewardActivityId, ActivityRewardSpec> = {
     grantsEnergy: true,
     sessionEnergy: sideActivityEnergy.spelling,
   },
-  /** XP de práctica; no usa cupos de misión diaria (no contamina Ortografía). */
+  words: {
+    xpPerCorrect: rewardRules.xpPerCorrect,
+    grantsEnergy: true,
+    sessionEnergy: sideActivityEnergy.words,
+  },
+  /** XP de práctica; no usa cupos de misión diaria. */
   english: {
     xpPerCorrect: rewardRules.xpPerCorrect,
     grantsEnergy: false,

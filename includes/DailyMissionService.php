@@ -7,13 +7,14 @@ declare(strict_types=1);
  */
 final class DailyMissionService
 {
-    private const SKILLS = ['tables', 'calc', 'spelling', 'clocks', 'money'];
+    private const SKILLS = ['tables', 'calc', 'spelling', 'words', 'clocks', 'money'];
 
     /** Caps alineados con DAILY_TASKS del frontend. */
     private const CAPS = [
         'tables' => 6,
         'calc' => 5,
-        'spelling' => 4,
+        'spelling' => 2,
+        'words' => 2,
         'clocks' => 2,
         'money' => 1,
     ];
@@ -64,13 +65,14 @@ final class DailyMissionService
 
         $pdo->prepare(
             "INSERT INTO {$table}
-             (player_id, mission_date, tables_units, calc_units, spelling_units, clocks_units, money_units, challenge_done, updated_at)
+             (player_id, mission_date, tables_units, calc_units, spelling_units, words_units, clocks_units, money_units, challenge_done, updated_at)
              VALUES
-             (:p, :d, :t, :c, :s, :cl, :m, :ch, :u)
+             (:p, :d, :t, :c, :s, :w, :cl, :m, :ch, :u)
              ON DUPLICATE KEY UPDATE
                tables_units = GREATEST(tables_units, VALUES(tables_units)),
                calc_units = GREATEST(calc_units, VALUES(calc_units)),
                spelling_units = GREATEST(spelling_units, VALUES(spelling_units)),
+               words_units = GREATEST(words_units, VALUES(words_units)),
                clocks_units = GREATEST(clocks_units, VALUES(clocks_units)),
                money_units = GREATEST(money_units, VALUES(money_units)),
                challenge_done = GREATEST(challenge_done, VALUES(challenge_done)),
@@ -81,6 +83,7 @@ final class DailyMissionService
             ':t' => $merged['tables'],
             ':c' => $merged['calc'],
             ':s' => $merged['spelling'],
+            ':w' => $merged['words'],
             ':cl' => $merged['clocks'],
             ':m' => $merged['money'],
             ':ch' => $challengeDone ? 1 : 0,
@@ -123,6 +126,8 @@ final class DailyMissionService
                 return 'calc_units';
             case 'spelling':
                 return 'spelling_units';
+            case 'words':
+                return 'words_units';
             case 'clocks':
                 return 'clocks_units';
             case 'money':

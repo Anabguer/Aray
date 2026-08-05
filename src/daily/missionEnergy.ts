@@ -9,7 +9,7 @@ export type DailyMissionSnapshot = {
 }
 
 function emptyProgress(): Record<DailySkillKey, number> {
-  return { tables: 0, calc: 0, spelling: 0, clocks: 0, money: 0 }
+  return { tables: 0, calc: 0, spelling: 0, words: 0, clocks: 0, money: 0 }
 }
 
 export function emptyDailyMissionSnapshot(
@@ -200,7 +200,7 @@ export function remainingMissionEnergyBudget(snapshot: DailyMissionSnapshot): nu
   return sum
 }
 
-/** True si las 5 skills de la misión diaria están al cupo. */
+/** True si todas las skills de la misión diaria están al cupo. */
 export function isDailyMissionComplete(snapshot: DailyMissionSnapshot): boolean {
   return DAILY_TASKS.every((t) => (snapshot.progress[t.key] ?? 0) >= t.target)
 }

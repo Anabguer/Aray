@@ -1,11 +1,15 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AppShell } from '@/components/AppShell'
+import { useDailyMission } from '@/daily/DailyMissionContext'
+import { grantWordsMissionReward } from '@/features/languages/words/wordsMissionReward'
 import {
   buildMontaFraseRound,
   isOrderCorrect,
   MONTA_FRASE_ROUND_SIZE,
 } from '@/minigames/adapters/palabrasMontaFrase'
+import { usePlaySession } from '@/progress/PlayContext'
+import { useProgress } from '@/progress/ProgressContext'
 import { soundEngine } from '@/sound/soundEngine'
 import './monta-frase.css'
 
@@ -14,7 +18,11 @@ const SUMMARY_PATH = '/missions/languages/words/monta-frase/summary'
 
 export function MontaFrasePlayScreen() {
   const navigate = useNavigate()
+  const { grantActivityEnergy, playerId } = useProgress()
+  const { recordProgress } = useDailyMission()
+  const { consumeMissionOfDay } = usePlaySession()
   const seedRef = useRef(Date.now())
+  const startedAtRef = useRef(Date.now())
   const openedRef = useRef(false)
   const correctRef = useRef(0)
 
@@ -52,6 +60,16 @@ export function MontaFrasePlayScreen() {
 
   const finish = useCallback(
     (finalCorrect: number) => {
+      grantWordsMissionReward({
+        correct: finalCorrect,
+        total: queue.length,
+        modeLabel: 'monta-frase',
+        playerId,
+        startedAtMs: startedAtRef.current,
+        recordProgress,
+        grantActivityEnergy,
+        consumeMissionOfDay,
+      })
       navigate(SUMMARY_PATH, {
         replace: true,
         state: {
@@ -61,7 +79,14 @@ export function MontaFrasePlayScreen() {
         },
       })
     },
-    [navigate, queue.length],
+    [
+      consumeMissionOfDay,
+      grantActivityEnergy,
+      navigate,
+      playerId,
+      queue.length,
+      recordProgress,
+    ],
   )
 
   const goNext = useCallback(

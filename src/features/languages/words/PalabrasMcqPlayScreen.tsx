@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { AppShell } from '@/components/AppShell'
+import { useDailyMission } from '@/daily/DailyMissionContext'
+import { grantWordsMissionReward } from '@/features/languages/words/wordsMissionReward'
 import { useLumoController } from '@/lumo/useLumoController'
 import {
   buildPalabrasMcqRound,
@@ -15,6 +17,8 @@ import {
   rightLabelFor,
   type PalabrasMatchBoard,
 } from '@/minigames/adapters/palabrasMatch'
+import { usePlaySession } from '@/progress/PlayContext'
+import { useProgress } from '@/progress/ProgressContext'
 import { SideRunShell, prefersReducedMotion, useAnswerFx } from '@/run'
 import { soundEngine } from '@/sound/soundEngine'
 import './palabras-mcq.css'
@@ -24,6 +28,9 @@ const WORDS_PATH = '/missions/languages/words'
 export function PalabrasMcqPlayScreen() {
   const { productId: rawId } = useParams<{ productId: string }>()
   const navigate = useNavigate()
+  const { grantActivityEnergy, playerId } = useProgress()
+  const { recordProgress } = useDailyMission()
+  const { consumeMissionOfDay } = usePlaySession()
   const productId: PalabrasMcqProductId | null = isPalabrasMcqProductId(rawId ?? '')
     ? (rawId as PalabrasMcqProductId)
     : null
@@ -31,6 +38,7 @@ export function PalabrasMcqPlayScreen() {
   const lumo = useLumoController('thinking')
   const answerFx = useAnswerFx()
   const seedRef = useRef(Date.now())
+  const startedAtRef = useRef(Date.now())
   const finishedRef = useRef(false)
   const correctRef = useRef(0)
   const streakRef = useRef(0)
@@ -75,11 +83,22 @@ export function PalabrasMcqPlayScreen() {
     finishedRef.current = true
     const correct = correctRef.current
     const early = Boolean(opts?.early)
+    const total = early ? Math.max(correct, index) : PALABRAS_MCQ_ROUND_SIZE
+    grantWordsMissionReward({
+      correct,
+      total,
+      modeLabel: productId.slice(0, 16),
+      playerId,
+      startedAtMs: startedAtRef.current,
+      recordProgress,
+      grantActivityEnergy,
+      consumeMissionOfDay,
+    })
     navigate(`/missions/languages/words/${productId}/summary`, {
       replace: true,
       state: {
         correct,
-        total: early ? Math.max(correct, index) : PALABRAS_MCQ_ROUND_SIZE,
+        total,
         title: label,
         productId,
       },

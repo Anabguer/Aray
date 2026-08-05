@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { AppShell } from '@/components/AppShell'
+import { useDailyMission } from '@/daily/DailyMissionContext'
+import { grantWordsMissionReward } from '@/features/languages/words/wordsMissionReward'
 import {
   buildVariosSession,
   isVariosProductId,
@@ -8,6 +10,8 @@ import {
   VARIOS_ROUNDS,
   type VariosProductId,
 } from '@/minigames/adapters/palabrasVarios'
+import { usePlaySession } from '@/progress/PlayContext'
+import { useProgress } from '@/progress/ProgressContext'
 import { soundEngine } from '@/sound/soundEngine'
 import './varios.css'
 
@@ -29,9 +33,13 @@ export function VariosPlayScreen() {
   const { productId: rawParam } = useParams<{ productId?: string }>()
   const { pathname } = useLocation()
   const navigate = useNavigate()
+  const { grantActivityEnergy, playerId } = useProgress()
+  const { recordProgress } = useDailyMission()
+  const { consumeMissionOfDay } = usePlaySession()
   const productId = resolveVariosProductId(rawParam, pathname)
 
   const seedRef = useRef(Date.now())
+  const startedAtRef = useRef(Date.now())
   const openedRef = useRef(false)
   const correctRef = useRef(0)
 
@@ -70,6 +78,16 @@ export function VariosPlayScreen() {
 
   const finish = useCallback(() => {
     if (!productId) return
+    grantWordsMissionReward({
+      correct: correctRef.current,
+      total: session.length,
+      modeLabel: productId.slice(0, 16),
+      playerId,
+      startedAtMs: startedAtRef.current,
+      recordProgress,
+      grantActivityEnergy,
+      consumeMissionOfDay,
+    })
     navigate(`/missions/languages/words/${productId}/summary`, {
       replace: true,
       state: {
@@ -79,7 +97,16 @@ export function VariosPlayScreen() {
         productId,
       },
     })
-  }, [label, navigate, productId, session.length])
+  }, [
+    consumeMissionOfDay,
+    grantActivityEnergy,
+    label,
+    navigate,
+    playerId,
+    productId,
+    recordProgress,
+    session.length,
+  ])
 
   const goNext = useCallback(() => {
     const next = roundIndex + 1

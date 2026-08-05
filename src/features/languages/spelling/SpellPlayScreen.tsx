@@ -135,7 +135,7 @@ export function SpellPlayScreen() {
       bestStreak: bestRef.current,
     })
     if (correct > 0) {
-      const units = Math.min(4, correct)
+      const units = Math.min(2, correct)
       const full = energyForMissionAttempt('spelling', units, playerId)
       const energy = early ? sideRunEnergyForProgress(full, correct, SPELL_ROUND_SIZE) : full
       const playSeconds = Math.max(1, Math.round((Date.now() - startedAtRef.current) / 1000))

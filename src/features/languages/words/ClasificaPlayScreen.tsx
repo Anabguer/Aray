@@ -1,12 +1,16 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AppShell } from '@/components/AppShell'
+import { useDailyMission } from '@/daily/DailyMissionContext'
+import { grantWordsMissionReward } from '@/features/languages/words/wordsMissionReward'
 import {
   buildClasificaSession,
   CLASIFICA_ROUNDS,
   type ClasificaChip,
   type ClasificaRound,
 } from '@/minigames/adapters/palabrasClasifica'
+import { usePlaySession } from '@/progress/PlayContext'
+import { useProgress } from '@/progress/ProgressContext'
 import { soundEngine } from '@/sound/soundEngine'
 import './clasifica.css'
 
@@ -17,7 +21,11 @@ type Placement = Record<string, string | null> // chipId → binId
 
 export function ClasificaPlayScreen() {
   const navigate = useNavigate()
+  const { grantActivityEnergy, playerId } = useProgress()
+  const { recordProgress } = useDailyMission()
+  const { consumeMissionOfDay } = usePlaySession()
   const seedRef = useRef(Date.now())
+  const startedAtRef = useRef(Date.now())
   const openedRef = useRef(false)
   const correctRef = useRef(0)
   const totalChipsRef = useRef(0)
@@ -59,6 +67,16 @@ export function ClasificaPlayScreen() {
   }, [])
 
   const finish = useCallback(() => {
+    grantWordsMissionReward({
+      correct: correctRef.current,
+      total: totalChipsRef.current,
+      modeLabel: 'clasifica',
+      playerId,
+      startedAtMs: startedAtRef.current,
+      recordProgress,
+      grantActivityEnergy,
+      consumeMissionOfDay,
+    })
     navigate(SUMMARY_PATH, {
       replace: true,
       state: {
@@ -67,7 +85,7 @@ export function ClasificaPlayScreen() {
         title: 'Clasifica',
       },
     })
-  }, [navigate])
+  }, [consumeMissionOfDay, grantActivityEnergy, navigate, playerId, recordProgress])
 
   const goNextRound = useCallback(() => {
     const next = roundIndex + 1

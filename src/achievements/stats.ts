@@ -4,6 +4,7 @@ export type FeatureStatKey =
   | 'clocks'
   | 'money'
   | 'spelling'
+  | 'words'
   | 'alphabet'
   | 'english'
 
@@ -40,6 +41,7 @@ const FEATURES: FeatureStatKey[] = [
   'clocks',
   'money',
   'spelling',
+  'words',
   'alphabet',
   'english',
 ]

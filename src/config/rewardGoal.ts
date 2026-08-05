@@ -28,13 +28,14 @@ export const rewardGoalConfig = {
 
 /**
  * Energía por unidad de misión del día + Reto del día (card aleatoria del lobby).
- * 6×5 + 5×5 + 4×5 + 2×5 + 1×5 + 10 (reto) = 100.
+ * 6×5 + 5×5 + 2×5 + 2×5 + 2×5 + 1×5 + 10 (reto) = 100.
  */
 export const missionEnergyConfig = {
   perUnit: {
     tables: 5,
     calc: 5,
     spelling: 5,
+    words: 5,
     clocks: 5,
     money: 5,
   },
@@ -114,7 +115,8 @@ export const matchSessionMeta = {
  */
 export const sideActivityEnergy = {
   calc: missionEnergyConfig.perUnit.calc * 5,
-  spelling: missionEnergyConfig.perUnit.spelling * 4,
+  spelling: missionEnergyConfig.perUnit.spelling * 2,
+  words: missionEnergyConfig.perUnit.words * 2,
   money: missionEnergyConfig.perUnit.money * 1,
   clocks: missionEnergyConfig.perUnit.clocks * 2,
   challengeDaily: missionEnergyConfig.challengeDaily,

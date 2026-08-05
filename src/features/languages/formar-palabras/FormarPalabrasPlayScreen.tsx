@@ -1,7 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { AppShell } from '@/components/AppShell'
+import { useDailyMission } from '@/daily/DailyMissionContext'
+import { grantWordsMissionReward } from '@/features/languages/words/wordsMissionReward'
 import { buildFormarPalabrasRound, type FormarPalabrasRoundItem } from '@/feinetas'
+import { usePlaySession } from '@/progress/PlayContext'
+import { useProgress } from '@/progress/ProgressContext'
 import { soundEngine } from '@/sound/soundEngine'
 import {
   derivedPool,
@@ -24,7 +28,11 @@ type BoardState = {
 
 export function FormarPalabrasPlayScreen() {
   const navigate = useNavigate()
+  const { grantActivityEnergy, playerId } = useProgress()
+  const { recordProgress } = useDailyMission()
+  const { consumeMissionOfDay } = usePlaySession()
   const seedRef = useRef(Date.now())
+  const startedAtRef = useRef(Date.now())
   const correctRef = useRef(0)
   const openedRef = useRef(false)
   const boardRef = useRef<BoardState | null>(null)
@@ -108,6 +116,16 @@ export function FormarPalabrasPlayScreen() {
 
   const finishRound = useCallback(
     (finalCorrect: number) => {
+      grantWordsMissionReward({
+        correct: finalCorrect,
+        total: round.items.length,
+        modeLabel: 'formar',
+        playerId,
+        startedAtMs: startedAtRef.current,
+        recordProgress,
+        grantActivityEnergy,
+        consumeMissionOfDay,
+      })
       navigate(SUMMARY_PATH, {
         replace: true,
         state: {
@@ -117,7 +135,15 @@ export function FormarPalabrasPlayScreen() {
         },
       })
     },
-    [meta.nombre, navigate, round.items.length],
+    [
+      consumeMissionOfDay,
+      grantActivityEnergy,
+      meta.nombre,
+      navigate,
+      playerId,
+      recordProgress,
+      round.items.length,
+    ],
   )
 
   const goNext = useCallback(
