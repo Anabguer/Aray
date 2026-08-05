@@ -19,6 +19,7 @@ import {
   formatFriendlyWhen,
   formatMadridDate,
   formatPlayDuration,
+  shiftMadridYmd,
   todayMadridYmd,
 } from '@/features/adult/format'
 import '@/features/adult/adult-panel.css'
@@ -127,7 +128,7 @@ function alphabetKpi(
     return {
       tone: needs >= 2 ? 'bad' : 'warn',
       status: needs === 1 ? '1 modo flojo' : `${needs} modos flojos`,
-      detail: `${rounds} rondas jugadas`,
+      detail: `ABC · ${rounds} rondas`,
     }
   }
   return {
@@ -135,15 +136,22 @@ function alphabetKpi(
     status: dominated > 0 ? 'Va bien' : 'En progreso',
     detail:
       dominated > 0
-        ? `${dominated} modo${dominated === 1 ? '' : 's'} domado${dominated === 1 ? '' : 's'}`
-        : `${rounds} rondas jugadas`,
+        ? `ABC · ${dominated} modo${dominated === 1 ? '' : 's'} domado${dominated === 1 ? '' : 's'}`
+        : `ABC · ${rounds} rondas`,
   }
 }
 
 function readStoredSection(): PanelSection {
   try {
     const v = sessionStorage.getItem(SECTION_STORAGE_KEY)
-    if (v === 'activities' || v === 'tables' || v === 'report' || v === 'course') return v
+    if (
+      v === 'activities' ||
+      v === 'tables' ||
+      v === 'abc' ||
+      v === 'report' ||
+      v === 'course'
+    )
+      return v
   } catch {
     /* ignore */
   }
@@ -183,6 +191,8 @@ export function AdultPanel() {
   const [overview, setOverview] = useState<AdultOverview | null>(null)
   const [activityDays, setActivityDays] = useState<ActivityDay[]>([])
   const [weekPlaySeconds, setWeekPlaySeconds] = useState(0)
+  const [chartRange, setChartRange] = useState<'7d' | '30d'>('7d')
+  const [chartDays, setChartDays] = useState<ActivityDay[]>([])
   const [range, setRange] = useState<ActivityRange>('7d')
   const [customFrom, setCustomFrom] = useState('')
   const [customTo, setCustomTo] = useState('')
@@ -244,15 +254,39 @@ export function AdultPanel() {
     [playerId, range, customFrom, customTo],
   )
 
+  const sumPlayedSeconds = (days: ActivityDay[]) =>
+    days.reduce(
+      (acc, d) =>
+        acc + ((d.sessionsCount > 0 || d.activitiesCount > 0 ? d.playSeconds : 0) || 0),
+      0,
+    )
+
+  const loadChartDays = useCallback(
+    async (pid: number | null, activityRange: '7d' | '30d') => {
+      if (pid == null) return []
+      const data = await apiGet<{ days: ActivityDay[] }>(
+        `/adult/activity.php?${new URLSearchParams({
+          playerId: String(pid),
+          range: activityRange,
+        }).toString()}`,
+      )
+      const days = Array.isArray(data.days) ? data.days : []
+      setChartDays(days)
+      return days
+    },
+    [],
+  )
+
+  const chartRangeRef = useRef(chartRange)
+  chartRangeRef.current = chartRange
+
   const refreshAll = useCallback(async () => {
     setLoading(true)
     setError(null)
     try {
       const pid = await loadOverview()
-      const days = await loadActivity(pid)
-      if (range === '7d' && days) {
-        setWeekPlaySeconds(days.reduce((acc, d) => acc + (d.playSeconds || 0), 0))
-      } else if (pid != null) {
+      await loadActivity(pid)
+      if (pid != null) {
         const week = await apiGet<{ days: ActivityDay[] }>(
           `/adult/activity.php?${new URLSearchParams({
             playerId: String(pid),
@@ -260,7 +294,10 @@ export function AdultPanel() {
           }).toString()}`,
         )
         const weekDays = Array.isArray(week.days) ? week.days : []
-        setWeekPlaySeconds(weekDays.reduce((acc, d) => acc + (d.playSeconds || 0), 0))
+        setWeekPlaySeconds(sumPlayedSeconds(weekDays))
+        const want = chartRangeRef.current
+        if (want === '7d') setChartDays(weekDays)
+        else await loadChartDays(pid, want)
       }
     } catch (err) {
       const msg = err instanceof ApiError ? err.message : 'No se pudo cargar el panel.'
@@ -272,11 +309,21 @@ export function AdultPanel() {
     } finally {
       setLoading(false)
     }
-  }, [loadOverview, loadActivity, range, refreshMe])
+  }, [loadOverview, loadActivity, loadChartDays, refreshMe])
 
   useEffect(() => {
     void refreshAll()
   }, [refreshAll])
+
+  const chartBootRef = useRef(true)
+  useEffect(() => {
+    if (chartBootRef.current) {
+      chartBootRef.current = false
+      return
+    }
+    if (playerId == null) return
+    void loadChartDays(playerId, chartRange).catch(() => undefined)
+  }, [chartRange, playerId, loadChartDays])
 
   useEffect(() => {
     try {
@@ -599,6 +646,12 @@ export function AdultPanel() {
               />
             </div>
 
+            <PlayTimeChart
+              range={chartRange}
+              days={chartDays}
+              onRangeChange={setChartRange}
+            />
+
             {needsReview.length > 0 ? (
               <aside className="adult-need" aria-label="Aviso de refuerzo">
                 <div className="adult-need__body">
@@ -756,8 +809,8 @@ export function AdultPanel() {
               onToggle={() => toggleSection('abc')}
               hubIcon="castellano"
               tone="lengua"
-              title="Progreso ABC"
-              description="Modos del abecedario, si conviene repasar y letras que más cuestan."
+              title="Lengua · bloque ABC"
+              description="Progreso del abecedario (parte de Lengua)."
               summary={
                 overview.education.alphabet && overview.education.alphabet.roundsPlayed > 0
                   ? `${overview.education.alphabet.roundsPlayed} rondas · ${overview.education.alphabet.dominatedModes} modos domados`
@@ -989,6 +1042,92 @@ function SummaryCard({
   )
 }
 
+/** Barras de tiempo jugado (solo días con partida/actividad). */
+function PlayTimeChart({
+  range,
+  days,
+  onRangeChange,
+}: {
+  range: '7d' | '30d'
+  days: ActivityDay[]
+  onRangeChange: (r: '7d' | '30d') => void
+}) {
+  const bars = useMemo(() => {
+    const n = range === '7d' ? 7 : 30
+    const today = todayMadridYmd()
+    const byDate = new Map(days.map((d) => [d.activityDate, d]))
+    const out: Array<{ date: string; label: string; seconds: number }> = []
+    for (let i = n - 1; i >= 0; i -= 1) {
+      const date = shiftMadridYmd(today, -i)
+      const day = byDate.get(date)
+      const played = Boolean(day && (day.sessionsCount > 0 || day.activitiesCount > 0))
+      const seconds = played ? Math.max(0, day!.playSeconds || 0) : 0
+      const short = new Intl.DateTimeFormat('es-ES', {
+        timeZone: 'Europe/Madrid',
+        weekday: range === '7d' ? 'short' : undefined,
+        day: 'numeric',
+        month: range === '30d' ? 'numeric' : undefined,
+      }).format(new Date(`${date}T12:00:00`))
+      out.push({ date, label: short.replace(/\.$/, ''), seconds })
+    }
+    return out
+  }, [days, range])
+
+  const maxSec = Math.max(1, ...bars.map((b) => b.seconds))
+
+  return (
+    <div className="adult-play-chart" aria-label="Tiempo jugado por día">
+      <div className="adult-play-chart__head">
+        <h3 className="adult-play-chart__title">Tiempo por día</h3>
+        <div className="adult-range" role="group" aria-label="Rango del gráfico">
+          {(
+            [
+              ['7d', '7 días'],
+              ['30d', '30 días'],
+            ] as const
+          ).map(([id, label]) => (
+            <button
+              key={id}
+              type="button"
+              className={`adult-range__btn${range === id ? ' is-active' : ''}`}
+              onClick={() => onRangeChange(id)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div
+        className={`adult-play-chart__bars${range === '30d' ? ' adult-play-chart__bars--dense' : ''}`}
+        role="img"
+        aria-label={`Tiempo de juego de los últimos ${range === '7d' ? 7 : 30} días`}
+      >
+        {bars.map((b) => {
+          const pct = Math.round((b.seconds / maxSec) * 100)
+          return (
+            <div
+              key={b.date}
+              className="adult-play-chart__col"
+              title={`${b.date}: ${formatPlayDuration(b.seconds)}`}
+            >
+              <div className="adult-play-chart__track">
+                <div
+                  className={`adult-play-chart__bar${b.seconds > 0 ? ' is-active' : ''}`}
+                  style={{ height: `${b.seconds > 0 ? Math.max(8, pct) : 0}%` }}
+                />
+              </div>
+              <span className="adult-play-chart__label">{b.label}</span>
+              <span className="adult-play-chart__value">
+                {b.seconds > 0 ? formatPlayDuration(b.seconds) : '—'}
+              </span>
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
 function SubjectKpiStrip({
   maths,
   tables,
@@ -1038,21 +1177,11 @@ function SubjectKpiStrip({
       key: 'lengua',
       section: 'abc',
       hubIcon: 'castellano',
-      title: 'Lengua · ABC',
+      title: 'Lengua',
       tone: alphabet.tone,
       status: alphabet.status,
       detail: alphabet.detail,
       accent: 'lengua',
-    },
-    {
-      key: 'ingles',
-      section: 'report',
-      hubIcon: 'ingles',
-      title: 'Inglés',
-      tone: 'neutral',
-      status: 'Sin datos',
-      detail: 'Aún sin actividad',
-      accent: 'informe',
     },
     {
       key: 'acts',
@@ -1444,7 +1573,9 @@ function ActivitiesPanel({
             }}
           >
             <option value="all">Todas</option>
-            {subjects.map((s) => (
+            {subjects
+              .filter((s) => s.status !== 'future')
+              .map((s) => (
               <option key={s.id} value={s.id}>
                 {s.title}
               </option>
@@ -1824,7 +1955,6 @@ function ReportPanel({
             <option value="all">Todas</option>
             <option value="maths">Matemáticas</option>
             <option value="languages">Lenguas</option>
-            <option value="english">Inglés</option>
           </select>
         </label>
         <div className="adult-field">

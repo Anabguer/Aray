@@ -23,8 +23,10 @@ final class AdultDashboardService
             Http::error(404, 'progress_missing', 'Progreso no encontrado.');
         }
 
+        // Día jugado = hubo partida/actividad, no solo heartbeat con la pestaña abierta.
         $cstmt = $pdo->prepare(
-            "SELECT COUNT(*) FROM {$daily} WHERE player_id = :p AND (sessions_count > 0 OR play_seconds > 0)"
+            "SELECT COUNT(*) FROM {$daily}
+             WHERE player_id = :p AND (sessions_count > 0 OR activities_count > 0)"
         );
         $cstmt->execute([':p' => $playerId]);
         $daysPlayed = (int) $cstmt->fetchColumn();
@@ -440,9 +442,23 @@ final class AdultDashboardService
         return (int) round(100 * $correct / $total);
     }
 
-    /** Si daily_activity no tiene tiempo (heartbeats antiguos), estima desde partidas guardadas. */
+    /**
+     * Tiempo total: suma play_seconds solo en días con partida/actividad.
+     * Si no hay filas con tiempo real, estima desde partidas guardadas (legacy).
+     */
     private static function resolvePlaySecondsTotal(int $playerId, int $fromDaily): int
     {
+        $pdo = Database::pdo();
+        $daily = Database::table('daily_activity');
+        $stmt = $pdo->prepare(
+            "SELECT COALESCE(SUM(play_seconds), 0) FROM {$daily}
+             WHERE player_id = :p AND (sessions_count > 0 OR activities_count > 0)"
+        );
+        $stmt->execute([':p' => $playerId]);
+        $fromPlayedDays = (int) $stmt->fetchColumn();
+        if ($fromPlayedDays > 0) {
+            return $fromPlayedDays;
+        }
         if ($fromDaily > 0) {
             return $fromDaily;
         }

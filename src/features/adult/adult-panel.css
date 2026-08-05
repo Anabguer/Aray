@@ -290,6 +290,106 @@
   gap: 0.7rem;
 }
 
+.adult-play-chart {
+  display: grid;
+  gap: 0.65rem;
+  padding: 0.85rem 0.9rem 0.95rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  background: rgba(7, 18, 36, 0.45);
+}
+
+.adult-play-chart__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.adult-play-chart__title {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: rgba(226, 232, 240, 0.95);
+}
+
+.adult-play-chart__bars {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.45rem;
+  align-items: end;
+  min-height: 8.5rem;
+}
+
+.adult-play-chart__bars--dense {
+  grid-template-columns: repeat(15, minmax(0, 1fr));
+  gap: 0.2rem;
+  overflow-x: auto;
+  padding-bottom: 0.15rem;
+}
+
+@media (min-width: 720px) {
+  .adult-play-chart__bars--dense {
+    grid-template-columns: repeat(30, minmax(0, 1fr));
+  }
+}
+
+.adult-play-chart__col {
+  display: grid;
+  grid-template-rows: 1fr auto auto;
+  gap: 0.2rem;
+  min-width: 0;
+  height: 8.2rem;
+}
+
+.adult-play-chart__track {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-height: 0;
+  height: 100%;
+  border-radius: 0.35rem;
+  background: rgba(148, 163, 184, 0.08);
+}
+
+.adult-play-chart__bar {
+  width: 70%;
+  max-width: 1.35rem;
+  border-radius: 0.35rem 0.35rem 0.15rem 0.15rem;
+  background: linear-gradient(180deg, #67e8f9, #38bdf8 55%, #0284c7);
+  transition: height 180ms ease;
+}
+
+.adult-play-chart__bar.is-active {
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
+}
+
+.adult-play-chart__label,
+.adult-play-chart__value {
+  display: block;
+  text-align: center;
+  line-height: 1.15;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.adult-play-chart__label {
+  font-size: 0.62rem;
+  color: rgba(148, 163, 184, 0.95);
+  text-transform: capitalize;
+}
+
+.adult-play-chart__value {
+  font-size: 0.58rem;
+  color: rgba(186, 230, 253, 0.9);
+}
+
+.adult-play-chart__bars--dense .adult-play-chart__value {
+  display: none;
+}
+
 .adult-kpi {
   padding: 1.1rem 1.15rem 1.2rem;
   border-radius: var(--radius-lg);

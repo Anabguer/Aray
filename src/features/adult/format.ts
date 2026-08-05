@@ -93,3 +93,11 @@ export function todayMadridYmd(): string {
     day: '2-digit',
   }).format(new Date())
 }
+
+/** Desplaza una fecha YMD (calendario Madrid) N días. */
+export function shiftMadridYmd(ymd: string, deltaDays: number): string {
+  const base = new Date(`${ymd}T12:00:00`)
+  if (Number.isNaN(base.getTime())) return ymd
+  base.setDate(base.getDate() + deltaDays)
+  return madridDateParts(base)
+}
