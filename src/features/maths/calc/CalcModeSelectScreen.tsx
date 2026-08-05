@@ -1,7 +1,7 @@
 import type { ModeArtId } from '@/assets/modes'
 import { AppShell } from '@/components/AppShell'
 import { StageSelect, StageSlot } from '@/components/stage/StageSelect'
-import { CALC_DURATION_SEC, CALC_MODE_LABELS } from '@/calc'
+import { CALC_MODE_LABELS, CALC_ROUND_SIZE } from '@/calc'
 import { countActiveMathsMisses } from '@/math/missStore'
 import { useProgress } from '@/progress/ProgressContext'
 import './calc.css'
@@ -34,7 +34,7 @@ export function CalcModeSelectScreen() {
       mode: 'mix',
       art: 'calc-mix',
       className: 'mode-poster--random',
-      text: `${CALC_DURATION_SEC}s · suma, resta y más mezclados`,
+      text: `${CALC_ROUND_SIZE} preguntas · suma, resta y más mezclados`,
       tag: 'DESTACADO',
     },
   ]
@@ -42,7 +42,7 @@ export function CalcModeSelectScreen() {
   return (
     <AppShell title="CÁLCULO" shortTitle="Cálculo" showBack backTo="/missions/mates">
       <StageSelect
-        note={`Piensa rápido · ${CALC_DURATION_SEC} segundos · solo botones`}
+        note={`${CALC_ROUND_SIZE} preguntas · sin reloj · solo botones`}
         heroes={heroes.map((m) => (
           <StageSlot
             key={m.mode}

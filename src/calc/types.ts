@@ -79,14 +79,14 @@ export interface CalcSessionSummary {
   durationSec: number
 }
 
-/** Duración de partida (pensar rápido). */
-export const CALC_DURATION_SEC = 45
+/** Preguntas por ronda (sin cronómetro). */
+export const CALC_ROUND_SIZE = 12
 
 export type CalcPlayModeOrMisses = CalcPlayMode | 'misses'
 
 export const CALC_MODE_LABELS: Record<CalcPlayModeOrMisses, string> = {
-  add: 'Suma rápida',
-  sub: 'Resta rápida',
+  add: 'Sumas',
+  sub: 'Restas',
   missing: '¿Qué falta?',
   doubles: 'Dobles',
   halves: 'Mitades',

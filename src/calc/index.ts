@@ -6,7 +6,7 @@ export type {
   CalcDifficulty,
 } from '@/calc/types'
 export {
-  CALC_DURATION_SEC,
+  CALC_ROUND_SIZE,
   CALC_MODE_LABELS,
 } from '@/calc/types'
 export {

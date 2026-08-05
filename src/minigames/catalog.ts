@@ -77,7 +77,7 @@ function calcPresentation(mode: CalcPlayMode | 'misses'): MathsPresentation {
   if (mode === 'order') return 'order'
   if (mode === 'compare') return 'compare'
   if (mode === 'truefalse') return 'truefalse'
-  return 'timer'
+  return 'mcq'
 }
 
 function calcMinigame(mode: CalcPlayMode | 'misses'): MinigameDefinition {

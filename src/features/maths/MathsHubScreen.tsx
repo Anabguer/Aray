@@ -29,7 +29,7 @@ const MATH_SLOTS: Record<string, MapSlot> = {
 
 const MATH_SHORT_DESC: Record<string, string> = {
   'multiplication-tables': 'Tablas del 2 al 9',
-  calculation: 'Piensa rápido',
+  calculation: 'Agilidad mental',
   money: 'Euros, cambio y monedas',
   'clocks-hours': 'Leer la hora',
   problems: 'Situaciones con números',

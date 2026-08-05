@@ -34,7 +34,7 @@ export function CalcSummaryScreen() {
     <AppShell title="RESUMEN" shortTitle="Resumen" showBack backTo="/missions/mates/calc">
       <RoundSummary
         title={hot ? '¡Rayo mental!' : 'Buen calentamiento'}
-        meta={`${CALC_MODE_LABELS[summary.mode]} · ${summary.durationSec}s`}
+        meta={`${CALC_MODE_LABELS[summary.mode]} · ${summary.correct}/${summary.total}`}
         lumoState={hot ? 'celebration' : 'correct'}
         celebrate={hot}
         stats={[

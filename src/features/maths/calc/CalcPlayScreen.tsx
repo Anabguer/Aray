@@ -2,8 +2,8 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import {
   buildCalcQueue,
-  CALC_DURATION_SEC,
   CALC_MODE_LABELS,
+  CALC_ROUND_SIZE,
   isOrderCorrect,
   useCalcSession,
   type CalcPlayMode,
@@ -28,7 +28,6 @@ import {
   recordMathsMiss,
 } from '@/math/missStore'
 
-const QUEUE_SIZE = 40
 const MODES_PATH = '/missions/mates/calc'
 
 function isPlayMode(value: string | undefined): value is CalcPlayMode | 'misses' {
@@ -64,11 +63,10 @@ export function CalcPlayScreen() {
     if (isMisses) {
       return listActiveMathsMisses(playerId ?? 'local', 'calc').map(rebuildCalcFromMiss)
     }
-    return buildCalcQueue(mode, QUEUE_SIZE, seedRef.current)
+    return buildCalcQueue(mode, CALC_ROUND_SIZE, seedRef.current)
   }, [mode, isMisses, playerId])
 
   const [index, setIndex] = useState(0)
-  const [remainingMs, setRemainingMs] = useState(CALC_DURATION_SEC * 1000)
   const [locked, setLocked] = useState(false)
   const [correctCount, setCorrectCount] = useState(0)
   const [streak, setStreak] = useState(0)
@@ -87,6 +85,7 @@ export function CalcPlayScreen() {
 
   const question = queue[index] as CalcQuestion | undefined
   const pid = playerId ?? 'local'
+  const roundTotal = isMisses ? Math.max(1, queue.length) : CALC_ROUND_SIZE
 
   function trackHit() {
     if (!question) return
@@ -97,15 +96,19 @@ export function CalcPlayScreen() {
     if (!question) return
     recordMathsMiss(pid, buildCalcMissPayload(question))
   }
-  function finish() {
+
+  function finish(early = false) {
     if (finishedRef.current) return
     finishedRef.current = true
+    const total = early
+      ? Math.max(attemptsRef.current, index)
+      : Math.max(attemptsRef.current, roundTotal)
     setLastSummary({
       mode,
-      total: attemptsRef.current,
+      total,
       correct: correctRef.current,
       bestStreak: bestStreakRef.current,
-      durationSec: CALC_DURATION_SEC,
+      durationSec: Math.max(1, Math.round((Date.now() - startedAtRef.current) / 1000)),
     })
     if (correctRef.current > 0) {
       const units = Math.min(5, correctRef.current)
@@ -148,25 +151,6 @@ export function CalcPlayScreen() {
     soundEngine.unlock()
     soundEngine.play('activity-open')
   }, [mode, setLastMode])
-
-  useEffect(() => {
-    if (finishedRef.current) return
-    const started = performance.now()
-    const total = CALC_DURATION_SEC * 1000
-    let raf = 0
-    const tick = () => {
-      const left = Math.max(0, total - (performance.now() - started))
-      setRemainingMs(left)
-      if (left <= 0) {
-        finish()
-        return
-      }
-      raf = window.requestAnimationFrame(tick)
-    }
-    raf = window.requestAnimationFrame(tick)
-    return () => window.cancelAnimationFrame(raf)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mode])
 
   useEffect(() => {
     setPicked([])
@@ -247,7 +231,6 @@ export function CalcPlayScreen() {
 
   if (!question) return null
 
-  const sec = Math.ceil(remainingMs / 1000)
   const hasProgress = correctCount > 0 || attemptsRef.current > 0 || index > 0
 
   return (
@@ -260,10 +243,9 @@ export function CalcPlayScreen() {
       <SideRunShell
         title={CALC_MODE_LABELS[mode].toUpperCase()}
         current={index + 1}
-        total={isMisses ? Math.max(1, queue.length) : QUEUE_SIZE}
+        total={roundTotal}
         hits={correctCount}
         streak={streak}
-        countLabel={<span className={sec <= 10 ? 'calc-play__timer is-low' : 'calc-play__timer'}>{sec}s</span>}
         note={
           <>
             {correctCount} aciertos · racha {streak}
@@ -293,7 +275,7 @@ export function CalcPlayScreen() {
         onExitRequest={() => (hasProgress ? setExitOpen(true) : navigate(MODES_PATH))}
         onConfirmExit={() => {
           setExitOpen(false)
-          finish()
+          finish(true)
         }}
         onCancelExit={() => setExitOpen(false)}
         enterKey={enterKey}
