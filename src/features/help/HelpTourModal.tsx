@@ -111,9 +111,9 @@ function HelpVisual({ kind }: { kind: (typeof HELP_TOUR_STEPS)[number]['visual']
   if (kind === 'modes') {
     return (
       <div className="help-visual help-visual--modes" aria-hidden="true">
-        <div className="help-visual__mode help-visual__mode--miss">Mis fallos</div>
         <div className="help-visual__mode help-visual__mode--rand">Random</div>
-        <div className="help-visual__mode help-visual__mode--train">Entrena</div>
+        <div className="help-visual__mode help-visual__mode--miss">Mis fallos</div>
+        <div className="help-visual__mode help-visual__mode--train">+ retos abajo</div>
       </div>
     )
   }

@@ -2,14 +2,14 @@ import { useNavigate } from 'react-router-dom'
 import { AppShell } from '@/components/AppShell'
 import { StageSelect, StageSlot } from '@/components/stage/StageSelect'
 import {
+  WORDS_EXERCISES,
   activeWordsExercises,
   wordsExerciseHref,
 } from '@/features/languages/words/exercises'
 
 /**
- * Solo Mis fallos + Random.
- * Random elige un ejercicio activo al azar.
- * Mis fallos: aún sin store de lemas; card bloqueada hasta que exista.
+ * Arriba: Random + Mis fallos.
+ * Abajo: todos los ejercicios (lo que Random elige al azar).
  */
 export function WordsModeSelectScreen() {
   const navigate = useNavigate()
@@ -26,16 +26,6 @@ export function WordsModeSelectScreen() {
       <StageSelect
         heroes={[
           <StageSlot
-            key="misses"
-            art="mis-fallos"
-            title="MIS FALLOS"
-            text="Pronto: los fallos de cada ejercicio se guardarán aquí"
-            className="mode-poster--misses"
-            tag="REPASO"
-            featured
-            locked
-          />,
-          <StageSlot
             key="random"
             art="sorpresa"
             title="RANDOM"
@@ -45,7 +35,32 @@ export function WordsModeSelectScreen() {
             featured
             onClick={startRandom}
           />,
+          <StageSlot
+            key="misses"
+            art="mis-fallos"
+            title="MIS FALLOS"
+            text="Pronto: los fallos de cada ejercicio se guardarán aquí"
+            className="mode-poster--misses"
+            tag="REPASO"
+            featured
+            locked
+          />,
         ]}
+        roster={WORDS_EXERCISES.map((exercise) => (
+          <StageSlot
+            key={exercise.id}
+            art={exercise.art}
+            title={exercise.title.toUpperCase()}
+            text={exercise.text}
+            className={exercise.className}
+            tag={exercise.tag}
+            locked={exercise.status !== 'active'}
+            to={
+              exercise.status === 'active' ? wordsExerciseHref(exercise) : undefined
+            }
+          />
+        ))}
+        rosterCols={3}
       />
     </AppShell>
   )

@@ -3,6 +3,7 @@ import type { ModeArtId } from '@/assets/modes'
 import { AppShell } from '@/components/AppShell'
 import { IconReview } from '@/components/Icons'
 import { StageSelect, StageSlot } from '@/components/stage/StageSelect'
+import { challengeModeConfig } from '@/config/playConfig'
 import { hasSavedMisses } from '@/math/randomMission'
 import { launchTablesRandomMission } from '@/math/launchRandomMission'
 import { buildMissesQueue, buildTrainQueue } from '@/math/selector'
@@ -30,10 +31,11 @@ type Poster = {
   className: string
   tag: string
   locked?: boolean
+  to?: string
   onClick?: () => void
 }
 
-/** Orden: Mis fallos → Random → Entrena. Aprende/Reto/Empareja van en Random. */
+/** Arriba: Random + Mis fallos. Abajo: retos clasificados (lo que Random puede sacar). */
 export function ModeSelectScreen() {
   const navigate = useNavigate()
   const { progress } = useProgress()
@@ -67,6 +69,23 @@ export function ModeSelectScreen() {
     navigate('/missions/mates/tables/train')
   }
 
+  function startChallenge() {
+    setFromRandom(false)
+    setLastResult(null)
+    setActiveMode('challenge')
+    setPendingQueue(null)
+    navigate('/missions/mates/tables/challenge')
+  }
+
+  function startMatch() {
+    const table = selection.tables[0] ?? 7
+    setFromRandom(false)
+    setSelection({ tables: [table], mix: false })
+    setLastResult(null)
+    setActiveMode('match')
+    navigate('/missions/mates/tables/match')
+  }
+
   function startMisses() {
     if (!canPracticeMisses) return
     setFromRandom(false)
@@ -91,6 +110,15 @@ export function ModeSelectScreen() {
 
   const heroes: Poster[] = [
     {
+      id: 'random',
+      art: 'sorpresa',
+      title: 'RANDOM',
+      text: 'Aprende, reto o empareja · Lumo elige',
+      className: 'mode-poster--random',
+      tag: 'DESTACADO',
+      onClick: startRandom,
+    },
+    {
       id: 'misses',
       art: 'mis-fallos',
       title: 'MIS FALLOS',
@@ -102,14 +130,17 @@ export function ModeSelectScreen() {
       locked: !canPracticeMisses,
       onClick: canPracticeMisses ? startMisses : undefined,
     },
+  ]
+
+  const roster: Poster[] = [
     {
-      id: 'random',
-      art: 'sorpresa',
-      title: 'RANDOM',
-      text: 'Aprende, reto o empareja · Lumo elige',
-      className: 'mode-poster--random',
-      tag: 'DESTACADO',
-      onClick: startRandom,
+      id: 'learn',
+      art: 'aprende',
+      title: 'APRENDE',
+      text: 'Mira, toca y descubre',
+      className: 'mode-poster--learn',
+      tag: '01',
+      to: '/missions/mates/tables/learn',
     },
     {
       id: 'train',
@@ -117,14 +148,33 @@ export function ModeSelectScreen() {
       title: 'ENTRENA',
       text: '10 preguntas · Gana energía',
       className: 'mode-poster--train',
-      tag: 'ENTRENA',
+      tag: '02',
       onClick: startTrain,
+    },
+    {
+      id: 'challenge',
+      art: 'reto-rapido',
+      title: 'RETO RÁPIDO',
+      text: `${challengeModeConfig.durationSec} segundos · XP extra`,
+      className: 'mode-poster--challenge',
+      tag: '03',
+      onClick: startChallenge,
+    },
+    {
+      id: 'match',
+      art: 'empareja',
+      title: 'EMPAREJA',
+      text: 'Encuentra las parejas',
+      className: 'mode-poster--match',
+      tag: '04',
+      onClick: startMatch,
     },
   ]
 
   return (
     <AppShell title="Elige tu modo" shortTitle="MODO" showBack backTo="/missions/mates/tables">
       <StageSelect
+        ariaLabel="Elige tu modo"
         note={
           <>
             <span>{subtitle}</span>
@@ -146,10 +196,22 @@ export function ModeSelectScreen() {
             tag={m.tag}
             featured
             locked={m.locked}
+            to={m.to}
             onClick={m.onClick}
           />
         ))}
-        heroesCols={3}
+        roster={roster.map((m) => (
+          <StageSlot
+            key={m.id}
+            art={m.art}
+            title={m.title}
+            text={m.text}
+            className={m.className}
+            tag={m.tag}
+            to={m.to}
+            onClick={m.onClick}
+          />
+        ))}
       />
     </AppShell>
   )

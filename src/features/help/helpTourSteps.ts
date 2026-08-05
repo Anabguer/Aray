@@ -68,10 +68,10 @@ export const HELP_TOUR_STEPS: HelpTourStep[] = [
   {
     id: 'practice',
     title: 'Mis fallos y Random',
-    lead: 'En casi todos los ejercicios verás dos atajos para practicar mejor.',
+    lead: 'Arriba: Random y Mis fallos. Debajo, con una raya «Retos», la cuadrícula de modos.',
     bullets: [
-      'Random: elige una mezcla al azar (ideal para el día a día).',
-      'Mis fallos: repasa lo que más se te atraganta si has fallado.',
+      'Random: Lumo elige entre los retos de abajo (ideal para el día a día).',
+      'Mis fallos: repasa lo difícil. Si prefieres uno concreto (Formar, Empareja…), tócalo abajo.',
     ],
     visual: 'modes',
     icon: 'tablas',
