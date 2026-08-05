@@ -118,7 +118,7 @@ export function RegisterScreen() {
     <div className="access-page">
       <div className="access-page__card access-page__card--wide">
         <BrandLogo variant="compact" className="access-page__logo access-page__logo--sm" />
-        <h1 className="access-page__title">Crear familia</h1>
+        <h1 className="access-page__title">Crear usuario</h1>
         <p className="access-page__lead">
           {step === 1
             ? 'Datos del tutor: con ellos entrarás y verás el panel familiar.'

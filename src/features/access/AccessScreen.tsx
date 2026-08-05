@@ -94,7 +94,7 @@ export function AccessScreen() {
         <p className="access-page__footer">
           ¿Primera vez?{' '}
           <Link to="/register" className="access-page__link">
-            Crear familia
+            Crear usuario
           </Link>
         </p>
       </div>
