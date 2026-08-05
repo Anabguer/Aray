@@ -106,6 +106,163 @@
   font-weight: 700;
 }
 
+.help-visual__mini-mission {
+  padding: 0.4rem 0.45rem;
+  border-radius: 0.45rem;
+  border: 1px dashed rgba(56, 189, 248, 0.35);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: rgba(186, 230, 253, 0.95);
+  text-align: center;
+}
+
+.help-visual__farm-btn {
+  display: grid;
+  place-items: center;
+  padding: 0.45rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #042f2e;
+  background: linear-gradient(90deg, #67e8f9, #38bdf8);
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.35);
+}
+
+.help-visual__farm-btn--lg {
+  font-size: 0.88rem;
+  padding: 0.65rem 0.85rem;
+}
+
+.help-visual--daily-card {
+  padding: 0.55rem;
+  place-items: stretch;
+}
+
+.help-visual__dm {
+  border-radius: 0.75rem;
+  border: 2px solid rgba(56, 189, 248, 0.42);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(14, 165, 233, 0.26),
+      rgba(139, 92, 246, 0.2),
+      rgba(11, 31, 58, 0.96)
+    );
+  padding: 0.55rem 0.5rem 0.65rem;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.help-visual__dm-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0 0.15rem;
+}
+
+.help-visual__dm-title {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(125, 211, 252, 0.95);
+}
+
+.help-visual__dm-count {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: rgba(226, 232, 240, 0.9);
+}
+
+.help-visual__dm-bubbles {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.35rem 0.25rem;
+}
+
+.help-visual__dm-bubble {
+  display: grid;
+  justify-items: center;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.help-visual__dm-orb {
+  width: 2.15rem;
+  height: 2.15rem;
+  border-radius: 999px;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  background: rgba(7, 18, 36, 0.55);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(14, 165, 233, 0.22);
+}
+
+.help-visual__dm-orb img {
+  width: 1.55rem;
+  height: 1.55rem;
+  object-fit: contain;
+}
+
+.help-visual__dm-label {
+  font-size: 0.55rem;
+  font-weight: 700;
+  color: rgba(226, 232, 240, 0.92);
+  text-align: center;
+  line-height: 1.1;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.help-visual__dm-frac {
+  font-size: 0.58rem;
+  font-weight: 800;
+  color: rgba(125, 211, 252, 0.95);
+}
+
+.help-visual--worlds-flow {
+  gap: 0.55rem;
+  place-items: stretch;
+  padding: 0.65rem;
+}
+
+.help-visual__farm-card {
+  display: grid;
+  gap: 0.35rem;
+  justify-items: center;
+  text-align: center;
+}
+
+.help-visual__farm-eyebrow {
+  margin: 0;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(148, 163, 184, 0.95);
+}
+
+.help-visual__farm-arrow {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: rgba(186, 230, 253, 0.9);
+}
+
+.help-visual__worlds-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.4rem;
+}
+
 .help-visual__bubbles {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

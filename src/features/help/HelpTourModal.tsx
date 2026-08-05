@@ -1,6 +1,8 @@
 import { useEffect, useId, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { ArayHubIcon } from '@/components/ArayHubIcon'
+import { dailySkillIcons } from '@/assets/daily'
+import { DAILY_TASKS } from '@/daily/dailyTasks'
 import { HELP_TOUR_STEPS } from '@/features/help/helpTourSteps'
 import '@/features/help/helpTour.css'
 
@@ -14,44 +16,68 @@ function HelpVisual({ kind }: { kind: (typeof HELP_TOUR_STEPS)[number]['visual']
     return (
       <div className="help-visual help-visual--lobby" aria-hidden="true">
         <div className="help-visual__phone">
-          <div className="help-visual__bar">AFK Academy</div>
+          <div className="help-visual__bar">Lobby</div>
           <div className="help-visual__hero">Premio · energía</div>
-          <div className="help-visual__row">
-            <span>Misión</span>
-            <span>Mundos</span>
-          </div>
+          <div className="help-visual__mini-mission">Misión diaria · burbujas</div>
+          <div className="help-visual__farm-btn">Farmear energía</div>
         </div>
       </div>
     )
   }
   if (kind === 'daily') {
     return (
-      <div className="help-visual help-visual--daily" aria-hidden="true">
-        <div className="help-visual__bubbles">
-          {['Tablas', 'Cálculo', 'Orto', 'Palabras', 'Reloj', '€'].map((label) => (
-            <div key={label} className="help-visual__bubble">
-              <span className="help-visual__orb" />
-              <span>{label}</span>
-            </div>
-          ))}
+      <div className="help-visual help-visual--daily-card" aria-hidden="true">
+        <div className="help-visual__dm">
+          <div className="help-visual__dm-top">
+            <span className="help-visual__dm-title">Misión diaria</span>
+            <span className="help-visual__dm-count">0/{DAILY_TASKS.length}</span>
+          </div>
+          <ul className="help-visual__dm-bubbles">
+            {DAILY_TASKS.map((t) => (
+              <li key={t.key} className="help-visual__dm-bubble">
+                <span className="help-visual__dm-orb">
+                  <img
+                    src={dailySkillIcons[t.key]}
+                    alt=""
+                    width={40}
+                    height={40}
+                    draggable={false}
+                  />
+                </span>
+                <span className="help-visual__dm-label">{t.label}</span>
+                <span className="help-visual__dm-frac">
+                  0/{t.target}
+                </span>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     )
   }
   if (kind === 'worlds') {
     return (
-      <div className="help-visual help-visual--worlds" aria-hidden="true">
-        <div className="help-visual__zone help-visual__zone--mates">
-          <ArayHubIcon id="matematicas" className="help-visual__zone-icon" />
-          <span>Mates</span>
+      <div className="help-visual help-visual--worlds-flow" aria-hidden="true">
+        <div className="help-visual__farm-card">
+          <p className="help-visual__farm-eyebrow">En el lobby</p>
+          <div className="help-visual__farm-btn help-visual__farm-btn--lg">
+            Farmear energía
+          </div>
+          <p className="help-visual__farm-arrow">te lleva a Mis mundos</p>
         </div>
-        <div className="help-visual__zone help-visual__zone--lang">
-          <ArayHubIcon id="castellano" className="help-visual__zone-icon" />
-          <span>Lengua</span>
-        </div>
-        <div className="help-visual__zone help-visual__zone--soon">
-          <ArayHubIcon id="ingles" className="help-visual__zone-icon" />
-          <span>Pronto</span>
+        <div className="help-visual__worlds-row">
+          <div className="help-visual__zone help-visual__zone--mates">
+            <ArayHubIcon id="matematicas" className="help-visual__zone-icon" />
+            <span>Mates</span>
+          </div>
+          <div className="help-visual__zone help-visual__zone--lang">
+            <ArayHubIcon id="castellano" className="help-visual__zone-icon" />
+            <span>Lengua</span>
+          </div>
+          <div className="help-visual__zone help-visual__zone--soon">
+            <ArayHubIcon id="ingles" className="help-visual__zone-icon" />
+            <span>Pronto</span>
+          </div>
         </div>
       </div>
     )
@@ -69,7 +95,13 @@ function HelpVisual({ kind }: { kind: (typeof HELP_TOUR_STEPS)[number]['visual']
     return (
       <div className="help-visual help-visual--lock" aria-hidden="true">
         <div className="help-visual__lock-card">
-          <svg className="help-visual__lock-svg" viewBox="0 0 24 24" width="48" height="48" fill="none">
+          <svg
+            className="help-visual__lock-svg"
+            viewBox="0 0 24 24"
+            width="48"
+            height="48"
+            fill="none"
+          >
             <path
               d="M8 10V8a4 4 0 0 1 8 0v2"
               stroke="currentColor"
@@ -89,7 +121,10 @@ function HelpVisual({ kind }: { kind: (typeof HELP_TOUR_STEPS)[number]['visual']
           </svg>
           <p className="help-visual__pin-label">PIN familiar</p>
           <div className="help-visual__pin-dots">
-            <span /><span /><span /><span />
+            <span />
+            <span />
+            <span />
+            <span />
           </div>
         </div>
       </div>
@@ -118,7 +153,9 @@ export function HelpTourModal({ open, onClose }: Props) {
     if (!open) return
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
-      if (e.key === 'ArrowRight') setIndex((i) => Math.min(HELP_TOUR_STEPS.length - 1, i + 1))
+      if (e.key === 'ArrowRight') {
+        setIndex((i) => Math.min(HELP_TOUR_STEPS.length - 1, i + 1))
+      }
       if (e.key === 'ArrowLeft') setIndex((i) => Math.max(0, i - 1))
     }
     window.addEventListener('keydown', onKey)
@@ -129,6 +166,7 @@ export function HelpTourModal({ open, onClose }: Props) {
 
   const step = HELP_TOUR_STEPS[index]!
   const isLast = index >= HELP_TOUR_STEPS.length - 1
+  const showBadge = step.visual !== 'daily' && step.visual !== 'worlds'
 
   return createPortal(
     <div className="help-tour" role="presentation" onClick={onClose}>
@@ -149,7 +187,9 @@ export function HelpTourModal({ open, onClose }: Props) {
         </button>
 
         <div className="help-tour__visual-wrap">
-          <ArayHubIcon id={step.icon} className="help-tour__badge" />
+          {showBadge ? (
+            <ArayHubIcon id={step.icon} className="help-tour__badge" />
+          ) : null}
           <HelpVisual kind={step.visual} />
         </div>
 
@@ -168,7 +208,10 @@ export function HelpTourModal({ open, onClose }: Props) {
 
         <div className="help-tour__dots" aria-hidden="true">
           {HELP_TOUR_STEPS.map((s, i) => (
-            <span key={s.id} className={`help-tour__dot${i === index ? ' is-on' : ''}`} />
+            <span
+              key={s.id}
+              className={`help-tour__dot${i === index ? ' is-on' : ''}`}
+            />
           ))}
         </div>
 
@@ -189,7 +232,9 @@ export function HelpTourModal({ open, onClose }: Props) {
             <button
               type="button"
               className="btn btn-primary"
-              onClick={() => setIndex((i) => Math.min(HELP_TOUR_STEPS.length - 1, i + 1))}
+              onClick={() =>
+                setIndex((i) => Math.min(HELP_TOUR_STEPS.length - 1, i + 1))
+              }
             >
               Siguiente
             </button>

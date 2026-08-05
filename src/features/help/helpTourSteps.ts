@@ -32,11 +32,11 @@ export const HELP_TOUR_STEPS: HelpTourStep[] = [
   },
   {
     id: 'daily',
-    title: 'Misión del día',
-    lead: 'Cada día hay cupos cortos: tablas, cálculo, ortografía, palabras, relojes y dinero.',
+    title: 'Misión diaria',
+    lead: 'En el lobby verás esta tarjeta con burbujas. Son los cupos cortos del día.',
     bullets: [
-      'Completa las burbujas del lobby para llenar la misión.',
-      'Al terminar todo el cupo del día, hay un reto extra de energía.',
+      'Tablas, cálculo, ortografía, palabras, relojes y dinero.',
+      'Toca una burbuja para ir a ese ejercicio. Al completarlas todas hay un reto extra.',
     ],
     visual: 'daily',
     icon: 'misiones',
@@ -44,10 +44,10 @@ export const HELP_TOUR_STEPS: HelpTourStep[] = [
   {
     id: 'worlds',
     title: 'Mundos y ejercicios',
-    lead: 'Entra en Matemáticas o Lengua. Dentro eliges el tipo: Formar, ortografía, tablas…',
+    lead: 'Para elegir asignatura, en el lobby pulsa el botón «Farmear energía».',
     bullets: [
-      'Cada asignatura tiene su mapa de estaciones.',
-      'Inglés está “Próximamente”: de momento no se juega.',
+      'Te lleva a Mis mundos: Matemáticas o Lengua (y más adelante Inglés).',
+      'Dentro eliges el tipo: tablas, ortografía, Formar palabras…',
     ],
     visual: 'worlds',
     icon: 'matematicas',
