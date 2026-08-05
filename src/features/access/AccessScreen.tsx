@@ -53,10 +53,6 @@ export function AccessScreen() {
       <div className="access-page__card">
         <BrandLogo variant="hero" className="access-page__logo" />
         <h1 className="access-page__title">AFK Academy</h1>
-        <p className="access-page__lead">
-          En un dispositivo nuevo hay que entrar una vez con la cuenta familiar. Luego Aray puede
-          jugar sin volver a poner la contraseña.
-        </p>
 
         <form className="access-form" onSubmit={(e) => void onSubmit(e)}>
           <label className="access-form__label">

@@ -134,7 +134,7 @@ describe('ARAY navigation shell', () => {
 
   it('redirige /adult al acceso sin sesión adulta', () => {
     renderAt('/adult', { role: null, deviceAuthorized: false })
-    expect(screen.getByText(/dispositivo nuevo|cuenta familiar/i)).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /afk academy/i })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /crear familia/i })).toBeInTheDocument()
     expect(screen.queryByText(/panel familiar/i)).not.toBeInTheDocument()
   })
