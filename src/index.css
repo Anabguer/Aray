@@ -7791,6 +7791,11 @@ a {
   filter: drop-shadow(0 0 4px rgba(103, 232, 249, 0.35));
 }
 
+.lobby-ctrl--help .lobby-ctrl__mark {
+  font-size: 1.2rem;
+  letter-spacing: 0;
+}
+
 .lobby-help--toolbar {
   position: relative;
   width: auto;

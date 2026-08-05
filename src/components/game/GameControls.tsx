@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react'
 import { MuteToggle } from '@/components/quiz/QuizWidgets'
 import { SoundSettingsModal } from '@/components/SoundSettingsModal'
 import { AdultPinModal } from '@/features/access/AdultPinModal'
+import { HelpTourModal } from '@/features/help/HelpTourModal'
+import { consumeHelpTourPending } from '@/features/help/helpTourPending'
 import { soundEngine } from '@/sound/soundEngine'
 
-/** Controles circulares del HUD: sonido y acceso adulto. */
+/** Controles circulares del HUD: sonido, ayuda y acceso adulto. */
 export function GameControls({
   className,
   toolbarLabel = 'Controles del juego',
@@ -14,9 +16,14 @@ export function GameControls({
 }) {
   const [adultPinOpen, setAdultPinOpen] = useState(false)
   const [soundOpen, setSoundOpen] = useState(false)
+  const [helpOpen, setHelpOpen] = useState(false)
   const [prefs, setPrefs] = useState(() => soundEngine.getPrefs())
 
   useEffect(() => soundEngine.subscribePrefs(setPrefs), [])
+
+  useEffect(() => {
+    if (consumeHelpTourPending()) setHelpOpen(true)
+  }, [])
 
   // Icono “mute” solo si efectos y música están apagados
   const fullyMuted = !prefs.sfxEnabled && !prefs.musicEnabled
@@ -38,6 +45,18 @@ export function GameControls({
             setSoundOpen(true)
           }}
         />
+
+        <button
+          type="button"
+          className="lobby-ctrl lobby-ctrl--help"
+          aria-label="Cómo se juega"
+          title="Ayuda"
+          onClick={() => setHelpOpen(true)}
+        >
+          <span className="lobby-ctrl__mark" aria-hidden="true">
+            ?
+          </span>
+        </button>
 
         <button
           type="button"
@@ -88,6 +107,7 @@ export function GameControls({
       </div>
 
       <SoundSettingsModal open={soundOpen} onClose={() => setSoundOpen(false)} />
+      <HelpTourModal open={helpOpen} onClose={() => setHelpOpen(false)} />
       <AdultPinModal open={adultPinOpen} onClose={() => setAdultPinOpen(false)} />
     </>
   )

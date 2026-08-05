@@ -29,6 +29,7 @@ import type {
   RewardCycle,
   TableMasteryItem,
 } from '@/features/adult/types'
+import { HelpTourModal } from '@/features/help/HelpTourModal'
 import {
   activities,
   changeCourse,
@@ -220,6 +221,7 @@ export function AdultPanel() {
   const [statsExpanded, setStatsExpanded] = useState(false)
   const [prizeHistoryOpen, setPrizeHistoryOpen] = useState(false)
   const [pendingListOpen, setPendingListOpen] = useState(false)
+  const [helpOpen, setHelpOpen] = useState(false)
 
   const sectionRefs = useRef<Partial<Record<NonNullable<PanelSection>, HTMLElement | null>>>({})
 
@@ -510,6 +512,13 @@ export function AdultPanel() {
           <button
             type="button"
             className="btn btn-ghost"
+            onClick={() => setHelpOpen(true)}
+          >
+            Ayuda
+          </button>
+          <button
+            type="button"
+            className="btn btn-ghost"
             onClick={() => {
               void (async () => {
                 try {
@@ -533,6 +542,8 @@ export function AdultPanel() {
           </button>
         </div>
       </header>
+
+      <HelpTourModal open={helpOpen} onClose={() => setHelpOpen(false)} />
 
       {error && !/sesión adulta|sesión infantil|unauthorized/i.test(error) ? (
         <p className="adult-panel__error" role="alert">

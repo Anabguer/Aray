@@ -5,6 +5,7 @@ import { useAuth, type RegisterChildInput } from '@/auth/AuthContext'
 import { BrandLogo } from '@/components/BrandLogo'
 import { PhotoPickField } from '@/components/PhotoPickField'
 import { useProgress } from '@/progress/ProgressContext'
+import { setHelpTourPending } from '@/features/help/helpTourPending'
 import './access.css'
 
 type KidDraft = RegisterChildInput & { file: File | null; key: string }
@@ -92,6 +93,7 @@ export function RegisterScreen() {
       }
 
       if (players.length > 1) {
+        setHelpTourPending(true)
         await refreshFromServer()
         navigate('/pick-profile', { replace: true })
         return
@@ -99,6 +101,7 @@ export function RegisterScreen() {
       if (players[0]?.slug) {
         await enterAsChild(players[0].slug)
       }
+      setHelpTourPending(true)
       await refreshFromServer()
       navigate('/', { replace: true })
     } catch (err) {
