@@ -267,6 +267,34 @@ final class AuthService
         return $devices;
     }
 
+    /**
+     * Cierra vínculo de este navegador: revoca la cookie ARAYDEVICE y la borra.
+     * Usado en «Cerrar sesión» para poder entrar con otra familia en el mismo PC.
+     */
+    public static function forgetCurrentDevice(): void
+    {
+        $raw = self::readDeviceCookie();
+        self::clearDeviceCookie();
+        if ($raw === null || $raw === '') {
+            return;
+        }
+        try {
+            $pdo = Database::pdo();
+            $table = Database::table('authorized_devices');
+            $hash = hash('sha256', $raw);
+            $pdo->prepare(
+                "UPDATE {$table}
+                 SET revoked_at = COALESCE(revoked_at, :at)
+                 WHERE token_hash = :h AND revoked_at IS NULL"
+            )->execute([
+                ':at' => MadridTime::utcNowString(),
+                ':h' => $hash,
+            ]);
+        } catch (Throwable $e) {
+            // Cookie ya borrada; fallar BD no debe impedir el logout.
+        }
+    }
+
     public static function revokeDevice(int $accountId, int $playerId, int $deviceId): void
     {
         if (!self::accountOwnsPlayer($accountId, $playerId)) {

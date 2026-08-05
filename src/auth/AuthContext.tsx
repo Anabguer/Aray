@@ -301,17 +301,19 @@ export function AuthProvider({
     } catch {
       /* sesión ya inválida */
     }
+    // Limpia también el vínculo de dispositivo (el API borra la cookie).
     setRole(null)
     setAccount(null)
     setPlayer(null)
     setPlayers([])
+    setFamilyPlayers([])
+    setDeviceAuthorized(false)
+    setTutorDisplayName(null)
     syncCsrfState()
     try {
       await refreshMe()
     } catch {
-      setFamilyPlayers([])
-      setDeviceAuthorized(false)
-      setTutorDisplayName(null)
+      /* estado local ya en «sin sesión» */
     }
   }, [refreshMe, syncCsrfState])
 

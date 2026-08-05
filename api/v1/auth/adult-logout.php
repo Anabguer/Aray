@@ -8,6 +8,10 @@ Http::allowMethods(['POST']);
 Session::start();
 $body = Http::jsonRequest();
 Csrf::requireValid(Csrf::fromRequest($body));
+
+// Olvidar dispositivo: si no, AuthGate sigue con cookie y no deja llegar a /access.
+AuthService::forgetCurrentDevice();
+
 Session::destroy();
 Session::start();
 Http::ok(['csrf' => Csrf::token()]);

@@ -429,7 +429,7 @@ export function AdultPanel() {
 
   async function onLogout() {
     await logout()
-    navigate('/', { replace: true })
+    navigate('/access', { replace: true })
   }
 
   function openDeliver(c: RewardCycle) {
