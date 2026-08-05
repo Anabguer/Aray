@@ -63,6 +63,7 @@ export function createEmptyStats(): ProgressStats {
       clocks: emptyFeature(),
       money: emptyFeature(),
       spelling: emptyFeature(),
+      words: emptyFeature(),
       alphabet: emptyFeature(),
       english: emptyFeature(),
     },
