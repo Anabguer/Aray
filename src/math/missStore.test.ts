@@ -135,7 +135,7 @@ describe('reconstrucción exacta', () => {
   it('clocks ES y CA', () => {
     for (const lang of ['es', 'ca'] as const) {
       clearMathsMisses(PID)
-      const q = buildMcqQuestion(lang, 101 + lang.length, undefined, true)
+      const q = buildMcqQuestion(lang, 101 + lang.length, undefined, false)
       recordMathsMiss(PID, buildClockMissPayload(q, lang))
       const entry = listActiveMathsMisses(PID, 'clocks')[0]!
       const rebuilt = rebuildClockFromMiss(entry)

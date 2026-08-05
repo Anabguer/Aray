@@ -61,18 +61,41 @@ export function canMakeExact(targetCents: number, denoms: readonly CoinEuro[]): 
   return dp[targetCents] === 1
 }
 
+/** Céntimos pedagógicos 3.º: enteros o 5/10/15/20/50 (nunca 17, 13, 24…). */
+export const MONEY_PEDAGOGIC_CENTS = [0, 5, 10, 15, 20, 50] as const
+
+function isPedagogicCents(cents: number): boolean {
+  const c = ((cents % 100) + 100) % 100
+  return (MONEY_PEDAGOGIC_CENTS as readonly number[]).includes(c)
+}
+
 function uniqueEuroOptions(correctCents: number, rand: () => number): string[] {
   const set = new Set<number>([correctCents])
-  const deltas = [10, 20, 50, 100, 200, -10, -20, -50, 5, 1, 2]
+  // Deltas que suelen conservar céntimos tipicos (p. ej. 20 − 15 → 5).
+  const deltas = [100, 200, 500, 1000, -100, -200, -500, 50, -50, 20, -20, 10, -10, 5, -5]
   for (const d of deltas) {
     const v = correctCents + d
-    if (v >= 0) set.add(v)
+    if (v >= 0 && isPedagogicCents(v)) set.add(v)
     if (set.size >= 8) break
   }
-  while (set.size < 4) set.add(correctCents + randInt(rand, 1, 12) * 10)
+  let guard = 0
+  while (set.size < 4 && guard < 40) {
+    guard += 1
+    const v = correctCents + randInt(rand, 1, 15) * 100
+    if (v >= 0 && isPedagogicCents(v)) set.add(v)
+  }
+  guard = 0
+  while (set.size < 4 && guard < 40) {
+    guard += 1
+    const euroShift = randInt(rand, 1, 8) * 100
+    const c = MONEY_PEDAGOGIC_CENTS[randInt(rand, 0, MONEY_PEDAGOGIC_CENTS.length - 1)]!
+    const v = Math.max(0, Math.floor(correctCents / 100) * 100 + euroShift + c)
+    set.add(v)
+  }
   const labels = new Set<string>()
   const vals: number[] = []
   for (const v of shuffle([...set], rand)) {
+    if (!isPedagogicCents(v) && v !== correctCents) continue
     const label = formatEuro(v)
     if (labels.has(label)) continue
     labels.add(label)
@@ -80,36 +103,37 @@ function uniqueEuroOptions(correctCents: number, rand: () => number): string[] {
     if (vals.length >= 4) break
   }
   while (vals.length < 4) {
-    const v = correctCents + (vals.length + 1) * 10
+    const v = correctCents + (vals.length + 1) * 100
     const label = formatEuro(v)
     if (!labels.has(label)) {
       labels.add(label)
       vals.push(v)
-    } else {
-      vals.push(correctCents + vals.length * 7 + 3)
     }
   }
   if (!vals.includes(correctCents)) vals[0] = correctCents
   const options = vals.slice(0, 4).map(formatEuro)
-  // Garantizar etiqueta correcta única.
   const correctLabel = formatEuro(correctCents)
   if (!options.includes(correctLabel)) options[0] = correctLabel
   return options
 }
 
-/** Precio 12–80 € con céntimos “realistas” de 3.º. */
-function randomPriceCents(rand: () => number): number {
-  const euros = randInt(rand, 12, 80)
-  const dirty = rand()
+/** Precio redondo 3.º: euros tipicos (10–50). Cambio/falta: enteros o ,50. */
+function randomPriceCents(rand: () => number, forCashChange = false): number {
+  const euroChoices = [10, 15, 20, 25, 30, 35, 40, 45, 50]
+  const euros = euroChoices[randInt(rand, 0, euroChoices.length - 1)]!
+  if (forCashChange) {
+    // Pago 20/50/100 € → el cambio solo queda tipico si el precio es entero o ,50.
+    return euros * 100 + (rand() < 0.8 ? 0 : 50)
+  }
   const cents =
-    dirty < 0.35
-      ? randInt(rand, 0, 9) * 10
-      : dirty < 0.55
-        ? [5, 15, 25, 35, 45, 55, 65, 75, 85, 95][randInt(rand, 0, 9)]!
-        : dirty < 0.75
-          ? randInt(rand, 1, 99)
-          : 0
+    rand() < 0.7
+      ? 0
+      : MONEY_PEDAGOGIC_CENTS[randInt(rand, 1, MONEY_PEDAGOGIC_CENTS.length - 1)]!
   return euros * 100 + cents
+}
+
+function randomHaveCents(rand: () => number): number {
+  return rand() < 0.8 ? 0 : 50
 }
 
 const ALL_COINS: CoinEuro[] = [200, 100, 50, 20, 10, 5, 2, 1]
@@ -129,7 +153,7 @@ function greedyCoins(targetCents: number): CoinEuro[] {
 
 function buildChange(seed: number, mode: MoneyPlayMode): MoneyMcqQuestion {
   const rand = mulberry32(seed)
-  const price = randomPriceCents(rand)
+  const price = randomPriceCents(rand, true)
   const payOptions = [20, 50, 100]
     .map((e) => e * 100)
     .filter((p) => p > price)
@@ -150,11 +174,17 @@ function buildChange(seed: number, mode: MoneyPlayMode): MoneyMcqQuestion {
 
 function buildShortfall(seed: number, mode: MoneyPlayMode): MoneyMcqQuestion {
   const rand = mulberry32(seed)
-  const price = randomPriceCents(rand)
-  const haveEuros = randInt(rand, 5, Math.max(6, Math.floor(price / 100) - 1))
-  const haveCents = rand() < 0.5 ? randInt(rand, 0, 99) : 0
-  const have = haveEuros * 100 + haveCents
-  const need = Math.max(1, price - have)
+  const price = randomPriceCents(rand, true)
+  const priceEuros = Math.floor(price / 100)
+  let haveEuros = randInt(rand, 5, Math.max(5, priceEuros - 1))
+  let haveCents = randomHaveCents(rand)
+  let have = haveEuros * 100 + haveCents
+  if (have >= price) {
+    haveEuros = Math.max(1, priceEuros - randInt(rand, 1, 5))
+    haveCents = 0
+    have = haveEuros * 100
+  }
+  const need = Math.max(5, price - have)
   const options = uniqueEuroOptions(need, rand)
   return {
     kind: 'mcq',
@@ -174,9 +204,12 @@ function buildShortfall(seed: number, mode: MoneyPlayMode): MoneyMcqQuestion {
  */
 function buildBuild(seed: number, mode: MoneyPlayMode): MoneyBuildQuestion {
   const rand = mulberry32(seed)
-  const euros = randInt(rand, 3, 25)
-  const centsChoices = [0, 5, 10, 20, 25, 50, 75, 80, 1, 2, 15, 35, 45]
-  const cents = centsChoices[randInt(rand, 0, centsChoices.length - 1)]!
+  const euros = randInt(rand, 3, 20)
+  // Solo céntimos tipicos (0/5/10/15/20/50); sesgo a euros enteros.
+  const cents =
+    rand() < 0.65
+      ? 0
+      : MONEY_PEDAGOGIC_CENTS[randInt(rand, 0, MONEY_PEDAGOGIC_CENTS.length - 1)]!
   const target = euros * 100 + cents
 
   const solution = greedyCoins(target)
@@ -253,9 +286,10 @@ function buildSpare(seed: number, mode: MoneyPlayMode): MoneyMcqQuestion {
 function buildSum(seed: number, mode: MoneyPlayMode): MoneyMcqQuestion {
   const rand = mulberry32(seed)
   const bill = [500, 1000, 2000, 5000][Math.floor(rand() * 4)]!
+  // Monedas tipicas; evitar 1–2 cts sueltos que ensucian el total.
   const c1 = [100, 200, 50, 20][Math.floor(rand() * 4)] as CoinEuro
-  const c2 = [20, 10, 5, 2, 1, 50][Math.floor(rand() * 6)] as CoinEuro
-  const c3 = rand() < 0.5 ? ([1, 2, 5, 10][Math.floor(rand() * 4)] as CoinEuro) : 0
+  const c2 = [50, 20, 10, 5][Math.floor(rand() * 4)] as CoinEuro
+  const c3 = rand() < 0.4 ? ([20, 10, 5][Math.floor(rand() * 3)] as CoinEuro) : 0
   const total = bill + c1 + c2 + c3
   const options = uniqueEuroOptions(total, rand)
   const detailParts = [`Billete ${formatEuro(bill)}`, COIN_LABEL[c1], COIN_LABEL[c2]]

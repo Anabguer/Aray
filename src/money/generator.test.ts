@@ -12,14 +12,24 @@ const MODES: MoneyPlayMode[] = ['change', 'build', 'spare', 'sum', 'shortfall', 
 const SEEDS = 300
 
 describe('money generator 3.º', () => {
-  it('change usa precios >= 12 €', () => {
-    for (let i = 0; i < 30; i += 1) {
+  it('change usa precios redondos (10–50 €) sin céntimos irregulares', () => {
+    for (let i = 0; i < 80; i += 1) {
       const q = buildMoneyQuestion('change', 1000 + i)
       expect(q.kind).toBe('mcq')
       if (q.kind !== 'mcq') continue
-      const m = /Cuesta (\d+)/.exec(q.detail ?? '')
+      const m = /Cuesta (\d+)(?:,(\d{2}))?/.exec(q.detail ?? '')
       expect(m).toBeTruthy()
-      expect(Number(m![1])).toBeGreaterThanOrEqual(12)
+      const euros = Number(m![1])
+      const cents = m![2] ? Number(m![2]) : 0
+      expect(euros).toBeGreaterThanOrEqual(10)
+      expect(euros).toBeLessThanOrEqual(50)
+      expect([0, 50]).toContain(cents)
+      for (const opt of q.options) {
+        const om = /(\d+)(?:,(\d{2}))?/.exec(opt)
+        expect(om).toBeTruthy()
+        const oc = om![2] ? Number(om![2]) : 0
+        expect([0, 5, 10, 15, 20, 50]).toContain(oc)
+      }
     }
   })
 
@@ -31,11 +41,12 @@ describe('money generator 3.º', () => {
     expect(q.options).toHaveLength(4)
   })
 
-  it('build siempre es construible (muchas semillas)', () => {
+  it('build usa céntimos tipicos y es construible', () => {
     for (let i = 0; i < SEEDS; i += 1) {
       const q = buildMoneyQuestion('build', 10_000 + i * 13)
       expect(q.kind).toBe('build')
       if (q.kind !== 'build') continue
+      expect([0, 5, 10, 15, 20, 50]).toContain(q.targetCents % 100)
       expect(canMakeExact(q.targetCents, q.coins)).toBe(true)
       expect(q.coins.length).toBeGreaterThanOrEqual(3)
       expect(q.prompt).toContain(formatEuro(q.targetCents))
@@ -66,7 +77,7 @@ describe('money generator 3.º', () => {
   it('formatEuro usa dos decimales o euros enteros', () => {
     expect(formatEuro(350)).toBe('3,50 €')
     expect(formatEuro(500)).toBe('5 €')
-    expect(formatEuro(1376)).toBe('13,76 €')
+    expect(formatEuro(1515)).toBe('15,15 €')
   })
 
   it('sum y spare incluyen piezas visuales', () => {

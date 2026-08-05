@@ -116,7 +116,7 @@ export function buildMcqQuestion(
   lang: ClockLang,
   seed = Date.now(),
   fixed?: ClockTime,
-  fine = true,
+  fine = false,
 ): ClockMcqQuestion {
   const rand = mulberry32(seed)
   const time = fixed ?? randomClockTime(rand, fine)
@@ -212,27 +212,20 @@ export function buildTrainQueue(
   count = 10,
   seed = Date.now(),
 ): ClockMcqQuestion[] {
-  const rand = mulberry32(seed)
   const seen = new Set<string>()
   const queue: ClockMcqQuestion[] = []
   let n = 0
+  // Solo lectura analógica con minutos ×5. Sin conversión 24 h ni minutos finos.
   while (queue.length < count && n < count * 10) {
     n += 1
-    if (rand() < 0.3) {
-      const q = buildConvert24Question(seed + n * 4243)
-      if (seen.has(q.id)) continue
-      seen.add(q.id)
-      queue.push(q)
-      continue
-    }
-    const q = buildMcqQuestion(lang, seed + n * 9973, undefined, true)
+    const q = buildMcqQuestion(lang, seed + n * 9973, undefined, false)
     const key = `${q.time.hour}:${q.time.minute}`
     if (seen.has(key)) continue
     seen.add(key)
     queue.push(q)
   }
   while (queue.length < count) {
-    queue.push(buildMcqQuestion(lang, seed + queue.length * 1331, undefined, true))
+    queue.push(buildMcqQuestion(lang, seed + queue.length * 1331, undefined, false))
   }
   return queue
 }

@@ -33,8 +33,8 @@ Documento de consulta permanente. Objetivo: calibrar la dificultad de la app al 
 | **Pares que suman** | 10 y **100** | Ampliado + relaciones entre operaciones |
 | **Multiplicación** | Introducción / construcción | Construcción + **automatización** de tablas; modelo rectangular |
 | **División** | — / inicio | Presente en currículum (reparto, relación inversa). **En Aray: aún no** (decisión de producto) |
-| **Dinero** | Monedas/billetes básicos (1–50 €), valor y equivalencia | **Euros y céntimos**, cambio, ingresos/gastos/ahorro |
-| **Tiempo / reloj** | Unidades de tiempo; inicio | Reloj analógico (3 agujas) y digital; **12 h ↔ 24 h**; duración > 1 día (calendario) |
+| **Dinero** | Monedas/billetes básicos (1–50 €), valor y equivalencia | **Euros y céntimos tipicos** (0/5/10/15/20/50), cambio sencillo |
+| **Tiempo / reloj** | Unidades de tiempo; inicio | Reloj analógico y digital; **minutos de 5 en 5** (sin 24 h en juego Aray) |
 
 ---
 
@@ -58,12 +58,12 @@ Documento de consulta permanente. Objetivo: calibrar la dificultad de la app al 
 - División: en el temario sí; en producto **aplazar** hasta que el adulto lo active.
 
 ### Dinero
-- Equivalencias euro ↔ céntimos.
-- Calcular precios, cambio, sumar monedas/billetes en situaciones de compra.
+- Equivalencias euro ↔ céntimos tipicos (0/5/10/15/20/50); sin importes irregulares (17, 24…).
+- Calcular precios redondos, cambio y sumar monedas/billetes (p. ej. 20 € − 15 €).
 
 ### Relojes
-- Leer hora en analógico y digital.
-- Conversión 12 h / 24 h.
+- Leer hora en analógico y digital con **minutos de 5 en 5** (8:05 sí; 8:03 no).
+- Sin conversión 12 h / 24 h en el juego (queda fuera del nivel actual).
 - Duraciones cortas (minutos/horas) y referencias de calendario.
 
 ### Otros (fuera de lo montado hoy, pero en temario 3r–4t)
@@ -155,8 +155,8 @@ Reglas de uso frecuente: **r/rr, b/v, h muda, g/j, mb/mp, ll/y o -illo/-illa, c/
 - [x] Subir `src/calc/generator.ts` a rangos de ciclo medio (+ pulido: casi solo completar a 100; más 3–4 cifras).
 - [x] Tests de suelo: sumas ≥20, orden/compare ≥100, near10/100.
 - [x] **Ortografía:** distractores solo errores de regla (perro→pero; sin rrr/perroo); contextos limpios; regla **tilde** (~60 lemas).
-- [x] **Dinero:** precios 12–80 €, céntimos 1/2/5, modo **¿Cuánto te falta?**.
-- [x] **Relojes:** minutos finos en Entrena + equivalencia **12↔24 h**.
+- [x] **Dinero:** precios redondos 10–50 €, céntimos tipicos 0/5/10/15/20/50, modo **¿Cuánto te falta?**.
+- [x] **Relojes:** minutos ×5 en Entrena/Match; **sin** 12↔24 h en cola (builder convert24 reservado).
 - [x] **ABC → Ordenar (diccionario):** hub/catálogo/copy; ortografía como zona principal.
 
 ### Pendiente (fuera de esta tanda)
