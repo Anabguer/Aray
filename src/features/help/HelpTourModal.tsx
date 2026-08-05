@@ -19,6 +19,8 @@ function HelpVisual({ kind }: { kind: (typeof HELP_TOUR_STEPS)[number]['visual']
           <div className="help-visual__bar">Lobby</div>
           <div className="help-visual__hero">Premio · energía</div>
           <div className="help-visual__mini-mission">Misión diaria · burbujas</div>
+          <div className="help-visual__mini-mission">Reto del día · JUGAR</div>
+          <div className="help-visual__mini-mission">Logros</div>
           <div className="help-visual__farm-btn">Farmear energía</div>
         </div>
       </div>
@@ -55,6 +57,30 @@ function HelpVisual({ kind }: { kind: (typeof HELP_TOUR_STEPS)[number]['visual']
       </div>
     )
   }
+  if (kind === 'challenge') {
+    return (
+      <div className="help-visual help-visual--challenge" aria-hidden="true">
+        <article className="help-visual__reto">
+          <img
+            className="help-visual__reto-art"
+            src={dailySkillIcons.tables}
+            alt=""
+            width={72}
+            height={72}
+            draggable={false}
+          />
+          <div className="help-visual__reto-body">
+            <p className="help-visual__reto-eyebrow">Reto del día</p>
+            <p className="help-visual__reto-title">Ejercicio del día</p>
+            <p className="help-visual__reto-meta">+10 energía · una vez</p>
+          </div>
+          <div className="help-visual__reto-cta">
+            <span aria-hidden="true">▶</span> JUGAR
+          </div>
+        </article>
+      </div>
+    )
+  }
   if (kind === 'worlds') {
     return (
       <div className="help-visual help-visual--worlds-flow" aria-hidden="true">
@@ -88,6 +114,24 @@ function HelpVisual({ kind }: { kind: (typeof HELP_TOUR_STEPS)[number]['visual']
         <div className="help-visual__mode help-visual__mode--miss">Mis fallos</div>
         <div className="help-visual__mode help-visual__mode--rand">Random</div>
         <div className="help-visual__mode help-visual__mode--train">Entrena</div>
+      </div>
+    )
+  }
+  if (kind === 'achievements') {
+    return (
+      <div className="help-visual help-visual--achievements" aria-hidden="true">
+        <div className="help-visual__logros-card">
+          <ArayHubIcon id="coleccion" className="help-visual__logros-icon" />
+          <div className="help-visual__logros-copy">
+            <p className="help-visual__logros-title">Logros</p>
+            <p className="help-visual__logros-desc">Insignias, rachas y premios</p>
+          </div>
+        </div>
+        <ul className="help-visual__logros-badges">
+          <li className="is-on">1ª misión</li>
+          <li className="is-on">Racha</li>
+          <li>Tabla ×2</li>
+        </ul>
       </div>
     )
   }
@@ -166,7 +210,11 @@ export function HelpTourModal({ open, onClose }: Props) {
 
   const step = HELP_TOUR_STEPS[index]!
   const isLast = index >= HELP_TOUR_STEPS.length - 1
-  const showBadge = step.visual !== 'daily' && step.visual !== 'worlds'
+  const showBadge =
+    step.visual !== 'daily' &&
+    step.visual !== 'worlds' &&
+    step.visual !== 'challenge' &&
+    step.visual !== 'achievements'
 
   return createPortal(
     <div className="help-tour" role="presentation" onClick={onClose}>

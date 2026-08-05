@@ -3,8 +3,10 @@ import type { HubIconId } from '@/assets/icons/hub'
 export type HelpTourStepId =
   | 'welcome'
   | 'daily'
+  | 'challenge'
   | 'worlds'
   | 'practice'
+  | 'achievements'
   | 'tutor'
   | 'energy'
 
@@ -13,7 +15,7 @@ export type HelpTourStep = {
   title: string
   lead: string
   bullets: string[]
-  visual: 'lobby' | 'daily' | 'worlds' | 'modes' | 'lock' | 'energy'
+  visual: 'lobby' | 'daily' | 'challenge' | 'worlds' | 'modes' | 'achievements' | 'lock' | 'energy'
   icon: HubIconId
 }
 
@@ -36,10 +38,21 @@ export const HELP_TOUR_STEPS: HelpTourStep[] = [
     lead: 'En el lobby verás esta tarjeta con burbujas. Son los cupos cortos del día.',
     bullets: [
       'Tablas, cálculo, ortografía, palabras, relojes y dinero.',
-      'Toca una burbuja para ir a ese ejercicio. Al completarlas todas hay un reto extra.',
+      'Toca una burbuja para ir a ese ejercicio y llenar el cupo.',
     ],
     visual: 'daily',
     icon: 'misiones',
+  },
+  {
+    id: 'challenge',
+    title: 'Reto del día',
+    lead: 'Debajo de las burbujas está la tarjeta «Reto del día» con el botón JUGAR.',
+    bullets: [
+      'Cada día propone un ejercicio distinto (según lo que más te cueste).',
+      'Completarlo suma +10 de energía (una sola vez al día).',
+    ],
+    visual: 'challenge',
+    icon: 'tablas',
   },
   {
     id: 'worlds',
@@ -64,6 +77,17 @@ export const HELP_TOUR_STEPS: HelpTourStep[] = [
     icon: 'tablas',
   },
   {
+    id: 'achievements',
+    title: 'Logros',
+    lead: 'En el lobby, la tarjeta «Logros» abre tu colección de insignias.',
+    bullets: [
+      'Se desbloquean al jugar: rachas, misiones, tablas, etc.',
+      'Cuando hay uno nuevo, entra y reclama la recompensa.',
+    ],
+    visual: 'achievements',
+    icon: 'coleccion',
+  },
+  {
     id: 'tutor',
     title: 'Candado del tutor',
     lead: 'Los adultos abren el panel familiar con el PIN de 4 dígitos.',
@@ -79,7 +103,7 @@ export const HELP_TOUR_STEPS: HelpTourStep[] = [
     title: 'Energía y premio',
     lead: 'Jugar bien suma energía del día. Al llegar a la meta, toca entregar el premio.',
     bullets: [
-      'Hay un tope diario de energía (para no agotar el día).',
+      'La misión diaria y el Reto del día llenan la barra (tope diario).',
       'El tutor marca el premio como entregado en el panel del candado.',
     ],
     visual: 'energy',
