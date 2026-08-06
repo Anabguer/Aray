@@ -1,5 +1,5 @@
-import langCa from './clock-lang-ca.jpg'
-import langEs from './clock-lang-es.jpg'
+import langCa from './clock-lang-ca.png'
+import langEs from './clock-lang-es.png'
 
 export type ClockLangArtId = 'es' | 'ca'
 
