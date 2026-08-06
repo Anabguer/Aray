@@ -83,12 +83,15 @@
   flex-direction: column;
   align-items: center;
   gap: 0.28rem;
+  width: 100%;
   min-width: 0;
   padding: 0.35rem 0.15rem 0.4rem;
   border-radius: 1rem;
   border: 1px solid rgba(56, 189, 248, 0.2);
   background: rgba(7, 18, 36, 0.42);
   color: inherit;
+  font: inherit;
+  cursor: pointer;
   text-decoration: none;
   text-align: center;
   transition:
